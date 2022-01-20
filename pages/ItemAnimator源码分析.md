@@ -1,8 +1,6 @@
-- ```  
-  yAnimator animation = view.animate();
-         
-   mRemoveAnimations.add(holder); 
-  ```
+- # 相关文章
+	- https://www.jianshu.com/p/007fe1bdf437
+	-
 	-
 -
 -
