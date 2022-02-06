@@ -7,17 +7,16 @@
 	- 1、接口泛型
 		- 接口泛型 <T> 定义到接口名字后边
 			- ```
-			        public interface Plate<T>{
-			            public void set(T t);
-			        }
+			  public interface Plate<T>{
+			         public void set(T t);
+			  }
 			  ```
 		-
 	- 2、类泛型
 		- 类中的泛型<T>定义在类名后
 		- ```
 		  public class AiPlate<T> implements Plate<T>{
-		  
-		  private List<T> items = 
+		  	private List<T> items = new ArrayList<T>(10);
 		  }
 		  ```
 		-
