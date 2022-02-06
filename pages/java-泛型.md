@@ -8,10 +8,15 @@
 		- 接口泛型 <T> 定义到接口名字后边
 			- ```
 			        public interface Plate<T>{
-			            public void set()
+			            public void set(T t);
 			        }
 			  ```
 		-
 	- 2、类泛型
+		- 类中的泛型<T>定义在类名后
+		- ```
+		  
+		  ```
+	-
 	- 3、方法泛型
 -
