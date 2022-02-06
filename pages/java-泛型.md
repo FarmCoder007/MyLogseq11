@@ -15,8 +15,12 @@
 	- 2、类泛型
 		- 类中的泛型<T>定义在类名后
 		- ```
+		  public class AiPlate<T> implements Plate<T>{
 		  
+		  private List<T> items = 
+		  }
 		  ```
+		-
 	-
 	- 3、方法泛型
 -
