@@ -6,10 +6,11 @@
 - # 二、泛型的类型
 	- 1、接口泛型
 		- 接口泛型 <T> 定义到接口名字后边
-		- ```
-		  java
-		  
-		  ```
+			- ```
+			        public interface Plate<T>{
+			            public void set()
+			        }
+			  ```
 		-
 	- 2、类泛型
 	- 3、方法泛型
