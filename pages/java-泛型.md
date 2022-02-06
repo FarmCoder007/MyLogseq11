@@ -23,7 +23,9 @@
 	- 3、方法泛型
 		- 方法泛型定义在 可见修饰符之后，返回值之前
 		- ```
-		  
+		  public <T> AIPlate<T> getAiPlate(){
+		         return new AIPlate<T>();
+		  }
 		  ```
 		-
 -
