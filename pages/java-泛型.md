@@ -5,6 +5,7 @@
 	-
 - # 二、泛型的类型
 	- 1、接口泛型
+	  collapsed:: true
 		- 接口泛型 <T> 定义到接口名字后边
 			- ```
 			  public interface Plate<T>{
@@ -13,6 +14,7 @@
 			  ```
 		-
 	- 2、类泛型
+	  collapsed:: true
 		- 类中的泛型<T>定义在类名后
 		- ```
 		  public class AiPlate<T> implements Plate<T>{
@@ -21,6 +23,7 @@
 		  ```
 		-
 	- 3、方法泛型
+	  collapsed:: true
 		- 方法泛型定义在 可见修饰符之后，返回值之前
 		- ```
 		  public <T> AIPlate<T> getAiPlate(){
