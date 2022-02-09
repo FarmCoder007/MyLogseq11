@@ -56,10 +56,12 @@
 			  }
 			  
 			  类型擦除后的class文件： 
-			  public interface Plate <T>{
-			      void set(T t);
-			      T get();
+			  public interface Plate{
+			      void set(Object t);
+			      Object get();
 			  }
+			  
+			  
 			  ```
 	-
 	-
