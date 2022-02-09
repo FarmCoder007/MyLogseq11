@@ -70,7 +70,7 @@
 			       public java.lang.String toString(){    }
 			  }
 			  
-			  4、擦除后的 T  为 Comparable   但是implements Plate 类型擦除
+			  4、擦除后的 T  为 Comparable   但是implements Plate 如2里(类型擦除后的胃Object) 但是这里擦除后  set get方法 为Comparable
 			  public class AIPlate  implements  Plate{
 			       private java.util.List<Comparable> items;
 			       public AIPlate(){  }
