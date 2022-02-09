@@ -70,12 +70,12 @@
 			       public java.lang.String toString(){    }
 			  }
 			  
-			  擦除后的
+			  擦除后的 T  为 Comparable   但是实现
 			  public class AIPlate  implements  Plate{
-			       private java.util.List<T> items;
+			       private java.util.List<Comparable> items;
 			       public AIPlate(){  }
 			       public void set(Comparable t) {   }
-			       public T get() {   }
+			       public Comparable get() {   }
 			       public java.lang.String toString(){    }
 			  }
 			  ```
