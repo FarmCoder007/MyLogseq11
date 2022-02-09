@@ -51,8 +51,14 @@
 			- ```
 			  java 文件：
 			  public interface Plate <T>{
-			     void
+			      void set(T t);
+			      T get();
+			  }
 			  
+			  类型擦除后的class文件： 
+			  public interface Plate <T>{
+			      void set(T t);
+			      T get();
 			  }
 			  ```
 	-
