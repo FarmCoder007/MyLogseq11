@@ -40,4 +40,9 @@
 	- Plate<Banana> 中的“Banana”称为实际类型参数
 	- “Plate<T>”整个称为泛型类型
 	- “Plate<Banana>” 整个称为参数化的类型ParameterizedType
+- # 五、泛型的类型擦除
+	- ## 什么是类型擦除？
+		- 在java
+	-
+	-
 -
