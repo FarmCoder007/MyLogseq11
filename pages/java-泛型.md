@@ -116,7 +116,7 @@
 		- 2、擦除类型变量，并替换为限定类型
 			- 如果泛型类型的类型变量没有限定(就是这样的<T>),则用Object作为原始类型
 			- 如果有限定(<T extends XClass>) 则用XClass 作为原始类型
-			- 如果
+			- 如果有多个限定(<T extends XClass1&XClass2>) 则使用第一个边界XClass1作为
 		-
 	-
 -
