@@ -1,6 +1,7 @@
 - ## 一、通过AS查看class字节码文件
-	- 1、ASM plugin
+	- 插件1、ASM plugin
 	- 2、Show Bytecode With Jclasslib
-		- 2.1在AS左侧目录选中指定的java类
+		- 2.1、在AS左侧目录选中指定的java类
+		- 2.2、在顶部工具栏View-> Show Bytecode With Jclasslib
 	-
 -
