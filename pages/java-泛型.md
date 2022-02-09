@@ -47,8 +47,11 @@
 		- 1. 检测类型  ‘T' 有没有做限制 (比如 'T extends Fruit')
 			- 如果没有做限制 定义的’T‘ (假如声明成’Banana‘) 会被擦除成Object
 			- 如果有限制比如 'T extends Fruit'  声明的实际类型为 ’Banana‘，则会被擦除成限制的类型 ’Fruit‘
-		- 2. 类型擦除后class文件中还会生成Bridge 方法 (否则)
-			-
+		- 2. 类型擦除后class文件中还会生成Bridge 方法 (否则 直接擦除类型为Object等，那限制的接口有未实现的方法会报错)
+			- ```
+			  class
+			  public
+			  ```
 	-
 	-
 -
