@@ -3,7 +3,6 @@
 	- 1. 代码更健壮，约束指定的类型，在编译期可以避免类转换异常
 	- 2. 代码简洁 (不需要强转)
 	- 3. 代码更灵活，复用
-	-
 - # 二、泛型的类型
 	- 1、接口泛型
 	  collapsed:: true
@@ -40,5 +39,5 @@
 	- Plate<T>中的“T” 称为类型参数
 	- Plate<Banana> 中的“Banana”称为实际类型参数
 	- “Plate<T>”整个称为泛型类型
-	- “Plate<Banana>” 整个称为参数化的类型Parameterized
+	- “Plate<Banana>” 整个称为参数化的类型ParameterizedType
 -
