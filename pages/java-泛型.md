@@ -49,19 +49,19 @@
 			- 如果有限制比如 'T extends Fruit'  声明的实际类型为 ’Banana‘，则会被擦除成限制的类型 ’Fruit‘
 		- 2. 类型擦除后class文件中还会生成Bridge 方法 (否则 直接擦除类型为Object等，那限制的接口有未实现的方法会报错)
 			- ```
-			  java 文件：
+			  1、java 文件：
 			  public interface Plate <T>{
 			      void set(T t);
 			      T get();
 			  }
 			  
-			  类型擦除后的class文件： 
+			  2、类型擦除后的class文件： 
 			  public interface Plate{
 			      void set(Object t);
 			      Object get();
 			  }
 			  
-			  Plate子类 AIPlate  
+			  3、Plate子类 AIPlate  
 			  public class AIPlate <T extends java.lang.Comparable<T>> implements  Plate<T>{
 			       private java.util.List<T> items;
 			       public AIPlate(){  }
@@ -70,7 +70,7 @@
 			       public java.lang.String toString(){    }
 			  }
 			  
-			  擦除后的 T  为 Comparable   但是实现
+			  4、擦除后的 T  为 Comparable   但是implements Plate 类型擦除
 			  public class AIPlate  implements  Plate{
 			       private java.util.List<Comparable> items;
 			       public AIPlate(){  }
