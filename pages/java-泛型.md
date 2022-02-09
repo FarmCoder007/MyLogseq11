@@ -157,5 +157,14 @@
 		- D、泛型类型中的方法冲突
 			- 因为擦除后两个equals 方法变成一样的了
 			- ```
+			  @Override
+			  public boolean equals(T t){
+			       return super.equals(t);
+			  }
+			  
+			  @Override
+			  public boolean equals(Object obj){
+			       return super.equals(obj);
+			  }
 			  ```
 -
