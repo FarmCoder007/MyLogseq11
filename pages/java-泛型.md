@@ -130,6 +130,8 @@
 			  ```
 		- B、不能使用instanceof 运算符
 			- 因为擦除后，ArrayList<String> 只剩下原始类型，泛型信息String不存在了，所以没法使用instanceof
+				- ```
+				  ```
 			-
 		-
 -
