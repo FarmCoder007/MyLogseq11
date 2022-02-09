@@ -62,7 +62,7 @@
 			  }
 			  
 			  Plate子类 AIPlate
-			  
+			  public class AIPlate <T extends java.lang.Comparable<T>>
 			  
 			  ```
 	-
