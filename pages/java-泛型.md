@@ -42,7 +42,7 @@
 	- “Plate<Banana>” 整个称为参数化的类型ParameterizedType
 - # 五、泛型的类型擦除
 	- ## 什么是类型擦除？
-		- 在java
+		- 泛型T定义在java文件中比如T定义了Banana，编译成class字节码后的
 	-
 	-
 -
