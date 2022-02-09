@@ -142,6 +142,17 @@
 		- C、泛型在静态方法和静态类中的问题
 			- 因为泛型类中的泛型参数的实例化是在定义泛型类型对象(比如ArrayList<Integer>) 的时候指定的，而静态成员是不需要使用对象来调用的，所有对象都没创建，如何确定这个泛型参数是什么
 			- ```
+			  class Test2<T> {
+			       // 报错，因为泛型参数是要创建对象时确定
+			       public static T one;
+			       public static T test(T t){}
+			  
+			  
+			       // 静态的 泛型方法是可以的
+			       public static <Q> Q test1(Q t) {
+			           return t
+			       }
+			  }
 			  ```
-		-
+		- D、泛型类型中的方法冲突
 -
