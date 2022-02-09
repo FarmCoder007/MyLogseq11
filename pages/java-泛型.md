@@ -89,15 +89,20 @@
 			       
 			       
 			       // 桥方法 兼容AIPlate里未实现object类型的set  get方法
+			       @Override
 			       public synthetic bridge get(){
 			       
 			       }
+			       @Override
 			       public synthetic bridge set(Object t){
 			          // 调用上边的set方法
 			          set((Comparable)t)
 			       }
 			  }
 			  ```
+			- 桥方法的作用？
+				- 1、
+			-
 	-
 	-
 -
