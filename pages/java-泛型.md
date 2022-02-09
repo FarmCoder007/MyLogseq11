@@ -167,4 +167,6 @@
 			       return super.equals(obj);
 			  }
 			  ```
+		- E、没办法创建泛型的实例
+		-
 -
