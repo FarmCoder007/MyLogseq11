@@ -70,14 +70,14 @@
 			       public java.lang.String toString(){    }
 			  }
 			  
-			  public class AIPlate <T extends java.lang.Comparable<T>> implements  Plate<T>{
+			  擦除后的
+			  public class AIPlate  implements  Plate{
 			       private java.util.List<T> items;
 			       public AIPlate(){  }
 			       public void set(Comparable t) {   }
 			       public T get() {   }
 			       public java.lang.String toString(){    }
 			  }
-			  
 			  ```
 	-
 	-
