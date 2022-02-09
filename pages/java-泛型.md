@@ -123,5 +123,9 @@
 		- 泛型类型变量不能使用基本数据类型
 			- 比如没有ArrayList<int>,只有ArrayList<Integer>,当类型擦除后，ArrayList的原始类中的类型变量(T)替换成Object，但Object类型不能存放int值
 			- ```
+			  // 报错 因为擦除后变成了Object，而Object是没法存放int类型的
+			  ArrayList<int> ints = new ArrayList<>();  
+			  // 正确的
+			  ArrayList<Integer> ints = new ArrayList<>();  
 			  ```
 -
