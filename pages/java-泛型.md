@@ -79,7 +79,9 @@
 			       public java.lang.String toString(){    }
 			  }
 			  
-			  5、所以
+			  5、所以就需要生成桥接方法
+			  
+			  
 			  ```
 	-
 	-
