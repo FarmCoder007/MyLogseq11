@@ -42,7 +42,7 @@
 	- “Plate<Banana>” 整个称为参数化的类型ParameterizedType
 - # 五、泛型的类型擦除
 	- ## 什么是类型擦除？
-		- 泛型 ‘T’ 定义在 java 文件中比如 ‘T’ 定义为 ‘Banana’ ，编译成class字节码后
-	-
+		- 泛型 ‘T’ 定义在 java 文件中比如 ‘T’ 定义为 ‘Banana’ 实际类型，编译成class字节码后，之前声明的实际类型 ‘Banana’ 被擦除
+	- ## 类型擦除具体做了哪些事情
 	-
 -
