@@ -80,7 +80,43 @@
 			  }
 			  
 			  5、所以就需要生成桥接方法
+			  public class AIPlate  implements  Plate{
+			       private java.util.List<Comparable> items;
+			       public AIPlate(){  }
+			       public void set(Comparable t) {   }
+			       public Comparable get() {   }
+			       public java.lang.String toString(){    }
+			       
+			       
+			       // 桥方法 兼容AIPlate里未实现object类型的set  get方法
+			       public synthetic bridge get(){
+			       
+			       }
+			       public synthetic bridge set(Object t){
+			          set((Com)t)
+			       }
+			       
+			       
+			  }
 			  
+			  blic class AIPlate  implements  Plate{
+			       private java.util.List<Comparable> items;
+			       public AIPlate(){  }
+			       public void set(Comparable t) {   }
+			       public Comparable get() {   }
+			       public java.lang.String toString(){    }
+			       
+			       
+			       // 桥方法 兼容AIPlate里未实现object类型的set  get方法
+			       public synthetic bridge get(){
+			       
+			       }
+			       public synthetic bridge set(Object t){
+			          set((Com)t)
+			       }
+			       
+			       
+			  }
 			  
 			  ```
 	-
