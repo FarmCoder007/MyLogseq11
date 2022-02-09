@@ -65,8 +65,9 @@
 			  public class AIPlate <T extends java.lang.Comparable<T>> implements  Plate<T>{
 			       private java.util.List<T> items;
 			       public AIPlate(){  }
-			       public void set()
-			  
+			       public void set(Comparable t) {   }
+			       public T get() {   }
+			       public java.lang.String toString(){    }
 			  }
 			  
 			  ```
