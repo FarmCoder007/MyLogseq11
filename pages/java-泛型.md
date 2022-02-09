@@ -134,10 +134,8 @@
 				  ArrayList<String> strings = new ArrayList<>();
 				  // 使用ArrayList<?> 可以
 				  if(strings instanceof ArrayList<?>) {} 
-				  
-				  
-				  
-				  
+				  // 因为擦除ArrayList<String> 后String 丢失了
+				  if(strings instanceof ArrayList<String>)
 				  ```
 			-
 		-
