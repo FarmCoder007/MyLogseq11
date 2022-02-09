@@ -39,5 +39,6 @@
 	- ## 例子：
 	- Plate<T>中的“T” 称为类型参数
 	- Plate<Banana> 中的“Banana”称为实际类型参数
-	- “Plate”
+	- “Plate<T>”整个称为泛型类型
+	- “Plate<Banana>” 整个称为参数化的类型Parameterized
 -
