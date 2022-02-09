@@ -129,6 +129,7 @@
 			  ArrayList<Integer> ints = new ArrayList<>();  
 			  ```
 		- B、不能使用instanceof 运算符
+		  collapsed:: true
 			- 因为擦除后，ArrayList<String> 只剩下原始类型，泛型信息String不存在了，所以没法使用instanceof
 				- ```
 				  ArrayList<String> strings = new ArrayList<>();
@@ -137,6 +138,8 @@
 				  // 因为擦除ArrayList<String> 后String 丢失了
 				  if(strings instanceof ArrayList<String>)
 				  ```
+			-
+		- C、泛型在静态方法和静态类中的问题
 			-
 		-
 -
