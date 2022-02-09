@@ -60,7 +60,9 @@
 			      void set(Object t);
 			      Object get();
 			  }
-			  Plate
+			  
+			  Plate子类 AIPlate
+			  
 			  
 			  ```
 	-
