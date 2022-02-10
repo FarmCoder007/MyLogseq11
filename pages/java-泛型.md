@@ -200,6 +200,7 @@
 - # 七、协变，逆变
 	- ## 7-1、数组是协变
 		- ```
+		   // 苹果的父类
 		   Apple[] apples = new Apple[10];
 		   Fruit[] fruits = new Fruit[10];
 		  ```
