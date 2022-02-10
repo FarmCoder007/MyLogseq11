@@ -207,6 +207,7 @@
 		- 重点1：但是List  和 类 是不变的，Apple extends Fruit   List<Fruit>  并不是 List<Apple> 的父类，他们没关系
 		- 重点2：Apple extends Fruit    Plate<Fruit>   也不是  Plate<Apple>的父类   没关系，除非是类具有继承关系
 		- 重点3：
+		- ![n_v24613e07e7a57490fb9b0f9d7d5ae1120.png](../assets/n_v24613e07e7a57490fb9b0f9d7d5ae1120_1644482987235_0.png)
 		- ```
 		  ```
 - # 七、协变，逆变
