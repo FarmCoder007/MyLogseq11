@@ -205,7 +205,8 @@
 	- ## 6-4、协变和不变中的面试题
 		- 数组是协变的，跟随继承关系，A 是 B 的父类  那A[]  是 B[]的父类
 		- 但是List  和 类 是不变的，Apple extends Fruit   List<Fruit>  并不是 List<Apple> 的父类，他们没关系
-		- Plat
+		- Apple extends Fruit    Plate<Fruit>   也不是  Plate<Apple>的父类   没关系，除非是类具有继承关系
+		-
 - # 七、协变，逆变
 	- ## 7-1、数组是协变
 		- ```
