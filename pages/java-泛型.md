@@ -228,4 +228,16 @@
 - # 八、通配符  ？
 	- ## 背景： 由于六中的面试题得知，List 和 类是不变的，数组才是协变的，那么怎么让Plate<Apple>  变成 Plate<Fruit>盘子，类没协变非继承关系，不能强转，所以可以借助通配符
 	- ```
+	  // 将盛放苹果的盘子  变成 盛放水果的盘子
+	  public Plate<? extends Fruit> getSnack(Plate<Apple> applePlate){
+	        
+	  
+	  
+	  
+	  }
+	  
+	  
+	  
+	  
+	  
 	  ```
