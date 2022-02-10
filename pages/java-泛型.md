@@ -242,7 +242,23 @@
 			- ![上界通配符.png](../assets/上界通配符_1644484964095_0.png)
 		- ### 缺点：生产者只能取，不能存
 			- ```
-			  public Plate<? extends Fruit> get
+			  // 使用上界通配符 存数据时
+			  public Plate<? extends Fruit> getSnack(Plate<Apple> applePlate){  
+			        Plate<? extends Fruit> fruitPlate = applePlate;
+			        // 使用上界通配符是能将  苹果盘子 转成 水果盘子
+			        // 但是不能存放任何元素
+			        fruitPlate.set(new Apple()); // 报错
+			        fruitPlate.set(new Banana()); // 报错
+			        
+			        // 放null 还是可以的
+			        fruitPlate.set(null);
+			        return fruitPlate;
+			  }
+			  
+			  // 取数据时，只能取出 Fruit 上界类型 不能取出具体类型
+			  Fruit fruit = fruitPlate.get();
+			  
+			  // Banana banana  = fruitPlate.get();// 取不出来
 			  
 			  
 			  
