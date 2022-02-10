@@ -20,15 +20,20 @@
 		  }
 		  ```
 		-
-	- 3、方法泛型
+	- 3、泛型方法
 		- 方法泛型定义在 可见修饰符之后，返回值之前
 		- ```
 		  public <T> AIPlate<T> getAiPlate(){
 		         return new AIPlate<T>();
 		  }
+		  
+		  
+		  public interface Plate<T>{
+		         // 这种就是泛型接口里的普通方法
+		         public void set(T t);
+		  }
 		  ```
 		-
-	- 4、方法泛型
 - # 三、什么是泛型
 	- JAVA泛型(generics)是JDK5中引入的一种`参数化类型` 特性
 - # 四、什么是参数化类型特性？
