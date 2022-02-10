@@ -182,6 +182,7 @@
 			       list.add(elem);
 			  }
 			  ```
-		- F、java里没有
+		- F、java里没有泛型数组
+		-
 		-
 -
