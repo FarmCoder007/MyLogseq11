@@ -187,16 +187,15 @@
 			- 因为数组是 “协变”，擦除后就没法满足数组协变的原则
 			- ```
 			  
-			  
-			  
 			  public static <T> void scene0(Class<T> tClass){
 			      T[] arr = new T[10]; // 不允许
 			      
 			      Apple[] apples = new Apple[10];
 			      Fruit[] fruits = new Fruit[10];
-			  
-			  
 			  }
+			  
+			  // 因为数组是协变的，就是Apple[] 的父类是 Fruit[]，如果数组可以使用泛型，那么泛型擦除时，都变成Object类型了
+			  // 两个数组 List<Apple>[] List<Fruit>[] 泛型擦除后就都是List<Object>[],则不满足数组的协变，所以不允许泛型数组存在
 			  ```
 		-
 		-
