@@ -279,6 +279,15 @@
 		- ### 限定范围：
 			- ![下界.png](../assets/下界_1644488998236_0.png)
 		- ```
+		  由上图所示  Fruit exdents Food 
+		  <? super Fruit> 限定了下界，存放Fruit及以上的基类 
+		  Plate<? super Fruit> lowerfruitPlate = new AIPlate<Food>();
+		  lowerfruitPlate.set(new Apple());
+		  lowerfruitPlate.set(new Banana());
+		  // 不能存 Food  lowerfruitPlate.set(new Food());
+		  
+		  // 取出来 泛型信息丢失了，只能用Object存放
+		  Object newFruit2 = lowerfruitPlate.get();
 		  ```
 		- ### 缺点：
 			-
