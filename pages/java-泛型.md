@@ -170,7 +170,18 @@
 		- E、没办法创建泛型的实例
 			- 因为类型不确定
 			- ```
+			  // 报错 因为无法创建一个不确定类型参数的实例，编译时报错
+			  public static <E> void append(List<E> list){
+			       E elem = new E(); 
+			       list.add(elem);
+			  }
+			  
+			  // 但是可以通过反射创建一个参数化类型的实例
+			  public static <E> void append(List<E> list，Class<E> cls) throws Exception{
+			       E elem = cls.newInstance(); //ok 
+			       list.add(elem);
+			  }
 			  ```
-		-
+		- F、java里没有
 		-
 -
