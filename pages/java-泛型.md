@@ -264,15 +264,15 @@
 			  ```
 			- 不能存的解决方案：【通过反射是可以的，但是破坏了泛型的安全类型检查，如果只是自己使用偶尔可用】
 				- ```
-				  
-				  
-				  try{
-				  	Method set = 	
-				  
-				  
+				  public Plate<? extends Fruit> getSnack(Plate<Apple> applePlate){  
+				        Plate<? extends Fruit> fruitPlate = applePlate;
+				        try{
+				        	Method set = fruitPlate.getClass().getMethod("set",Object.class);
+				          set.invoke(fruitPlate,new Banana());
+				          set.invoke(fruitPlate,new Apple());
+				        } catch (Exception e){}
+				        return fruitPlate;
 				  }
-				  
-				  
 				  
 				  ```
 		-
