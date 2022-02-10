@@ -242,11 +242,12 @@
 			- ![上界通配符.png](../assets/上界通配符_1644484964095_0.png)
 		- ### 缺点：生产者只能取，不能存
 			- ```
+			  // 将苹果盘子 转为 水果盘子  
 			  // 使用上界通配符 存数据时
 			  public Plate<? extends Fruit> getSnack(Plate<Apple> applePlate){  
 			        Plate<? extends Fruit> fruitPlate = applePlate;
 			        // 使用上界通配符是能将  苹果盘子 转成 水果盘子
-			        // 但是不能存放任何元素
+			        // 但是不能存放任何元素 
 			        fruitPlate.set(new Apple()); // 报错
 			        fruitPlate.set(new Banana()); // 报错
 			        
@@ -260,9 +261,8 @@
 			  
 			  // Banana banana  = fruitPlate.get();// 取不出来
 			  
-			  
-			  
 			  ```
+			- 不能存的解决方案：【通过反射是可以的，但是破坏了泛型的安全类型检查，如果只是自己使用】
 		-
 		-
 	- ## 8-3、下界通配符<? super T>:
