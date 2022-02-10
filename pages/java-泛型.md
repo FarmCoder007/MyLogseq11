@@ -206,8 +206,8 @@
 		- 数组是协变的，跟随继承关系，A 是 B 的父类  那A[]  是 B[]的父类
 		- 重点1：但是List  和 类 是不变的，Apple extends Fruit   List<Fruit>  并不是 List<Apple> 的父类，他们没关系
 		- 重点2：Apple extends Fruit    Plate<Fruit>   也不是  Plate<Apple>的父类   没关系，除非是类具有继承关系
-		- 重点3：ColorPlate 继承 BigPlate      BigPlate 继承 AIPlate     AIPlate  继承 Plate 那么以下继承关系成立
-		- Plate<Apple> 是 AIPlate<Apple> 的父类       AIPlate<Apple> 是BigPlate<Apple>的父类  BigPlate<Apple> 是ColorPlate<String,Apple>的父类
+		- 重点3：ColorPlate 继承 BigPlate      BigPlate 继承 AIPlate     AIPlate  继承 Plate 那么以下继承关系成立：Plate<Apple> 是 AIPlate<Apple> 的父类       AIPlate<Apple> 是BigPlate<Apple>的父类  BigPlate<Apple> 是ColorPlate<String,Apple>的父类
+		-
 		- ![n_v24613e07e7a57490fb9b0f9d7d5ae1120.png](../assets/n_v24613e07e7a57490fb9b0f9d7d5ae1120_1644482987235_0.png)
 		- ```
 		  ```
