@@ -123,6 +123,7 @@
 		- 3、在必要时插入类型转换以保持类型安全
 		- 4、生成桥方法以在扩展时保持多态性
 	- ## 6-3、使用泛型以及泛型擦除带来的影响(副作用)
+	  collapsed:: true
 		- A、泛型类型变量不能使用基本数据类型
 			- 比如没有ArrayList<int>,只有ArrayList<Integer>,当类型擦除后，ArrayList的原始类中的类型变量(T)替换成Object，但Object类型不能存放int值
 			- ```
