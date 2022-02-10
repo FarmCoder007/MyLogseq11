@@ -5,7 +5,6 @@
 	- 3. 代码更灵活，复用
 - # 二、泛型的类型
 	- 1、接口泛型
-	  collapsed:: true
 		- 接口泛型 <T> 定义到接口名字后边
 			- ```
 			  public interface Plate<T>{
