@@ -13,7 +13,6 @@
 			  ```
 		-
 	- 2、类泛型
-	  collapsed:: true
 		- 类中的泛型<T>定义在类名后
 		- ```
 		  public class AiPlate<T> implements Plate<T>{
@@ -22,7 +21,6 @@
 		  ```
 		-
 	- 3、方法泛型
-	  collapsed:: true
 		- 方法泛型定义在 可见修饰符之后，返回值之前
 		- ```
 		  public <T> AIPlate<T> getAiPlate(){
@@ -30,6 +28,7 @@
 		  }
 		  ```
 		-
+	- 4、方法泛型
 - # 三、什么是泛型
 	- JAVA泛型(generics)是JDK5中引入的一种`参数化类型` 特性
 - # 四、什么是参数化类型特性？
