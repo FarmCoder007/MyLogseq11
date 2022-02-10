@@ -186,6 +186,9 @@
 		- F、java里没有泛型数组
 			- 因为数组是 “协变”，擦除后就没法满足数组协变的原则
 			- ```
+			  
+			  
+			  
 			  public static <T> void scene0(Class<T> tClass){
 			      T[] arr = new T[10]; // 不允许
 			      
