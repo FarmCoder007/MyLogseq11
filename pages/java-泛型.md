@@ -314,6 +314,7 @@
 		- 通配符让泛型的转型，更灵活
 	-
 - # 九、系列文章
-	- ## [泛型一 泛型类型的创建](https://blog.csdn.net/xuwb123xuwb/article/details/115520243)
+	- ## [泛型一、泛型类型的创建](https://blog.csdn.net/xuwb123xuwb/article/details/115520243)
+	- ## [泛型二、泛型类型实例化的上界与下界](https://blog.csdn.net/xuwb123xuwb/article/details/115528458)
 	-
 -
