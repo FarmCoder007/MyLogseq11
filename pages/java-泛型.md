@@ -293,7 +293,7 @@
 			-
 		-
 		-
-	- ## 8-4、无限定的通配符 Plate<?> 其实就是 Plate<? extends Objec>
+	- ## 8-4、无限定的通配符 Plate<?> 其实就是 Plate<? extends Object>
 		- 无限定的通配符，没有extends 和 super，只是一个？
 		- 作用：只做类型检查
 	-
