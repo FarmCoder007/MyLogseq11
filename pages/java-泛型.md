@@ -226,6 +226,7 @@
 		  ```
 	-
 - # 八、通配符  ？
+  collapsed:: true
 	- ## 8-1背景： 由于六中的面试题得知，List 和 类是不变的，数组才是协变的，那么怎么让Plate<Apple>  变成 Plate<Fruit>盘子，类没协变非继承关系，不能强转，所以可以借助通配符
 		- ```
 		  public Plate<? extends Fruit> getSnack(Plate<Apple> applePlate){
@@ -312,3 +313,6 @@
 	- ## 8-7、 ？(通配符)和泛型有什么关系
 		- 通配符让泛型的转型，更灵活
 	-
+- # 九、系列文章
+	-
+-
