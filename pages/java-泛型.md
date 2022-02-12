@@ -320,5 +320,6 @@
 	- ## [泛型四、泛型的本质及使用场景](https://blog.csdn.net/xuwb123xuwb/article/details/115544416)
 	- ## [泛型五、T 、＜＞ 、?、 extends、 super 使用场景总结](https://blog.csdn.net/xuwb123xuwb/article/details/115548625)
 	- ## [泛型六、泛型中的 重复 和 嵌套](https://blog.csdn.net/xuwb123xuwb/article/details/115549662)
-	- ## [泛型七、泛型中的类型擦除]()
+	- ## [泛型七、泛型中的类型擦除](https://blog.csdn.net/xuwb123xuwb/article/details/115550699)
+	- ## [泛型八、Kotlin的泛型]()
 -
