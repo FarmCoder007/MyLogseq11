@@ -301,8 +301,8 @@
 		-
 	-
 	- ## 8-6、通配符PECS (Producer extends  Consumer super)原则
-		- ### 如果只从集合中获取类型T，使用<? extends T> 通配符，即Producer extends  生产者取
-		- ### 如果只需要将类型T存放集合中，使用<？super T>通配符，消费者存
+		- ### 如果只从集合中获取类型T，使用<? extends T> 通配符，即Producer extends  从生产者取
+		- ### 如果只需要将类型T存放集合中，使用<？super T>通配符，往消费者存
 		- ### 如果既要存，又要取，则不使用任何通配符
 		-
 		- ### 为何要用PECS原则 ？
