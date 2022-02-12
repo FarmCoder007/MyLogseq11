@@ -289,7 +289,7 @@
 		  // 取出来 泛型信息丢失了，只能用Object存放
 		  Object newFruit2 = lowerfruitPlate.get();
 		  ```
-		- ### 缺点：
+		- ### 缺点：只能存，不能取
 			-
 		-
 		-
