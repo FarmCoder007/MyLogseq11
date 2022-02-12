@@ -316,5 +316,6 @@
 - # 九、系列文章
 	- ## [泛型一、泛型类型的创建](https://blog.csdn.net/xuwb123xuwb/article/details/115520243)
 	- ## [泛型二、泛型类型实例化的上界与下界](https://blog.csdn.net/xuwb123xuwb/article/details/115528458)
+	- ## [泛型三、泛型方法 和 类型推断](https://blog.csdn.net/xuwb123xuwb/article/details/115533636)
 	-
 -
