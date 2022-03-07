@@ -1,5 +1,5 @@
 - # 一、[动画实现](https://www.cnblogs.com/guanxinjing/p/13528962.html)
-- 2个重叠的viewPager,实现联动
+- # 二、两个重叠的viewPager,实现联动引导页
 collapsed:: true
 	- xml:
 		- ```
@@ -58,4 +58,6 @@ collapsed:: true
 	  }
 	  
 	  ```
--
+- # 三、切换动画，淡入淡出
+	- ```
+	  ```
