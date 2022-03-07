@@ -9,7 +9,9 @@
 	- [[ViewPager2]]
 	- 自定义view
 		- 一、从xml布局文件映射到自定义View的方法
-			-
+			- 法一、
+				-
+			- 法二、
 		-
 - JAVA
 	- [[java-泛型]]
