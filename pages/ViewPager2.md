@@ -59,5 +59,38 @@ collapsed:: true
 	  
 	  ```
 - # 三、切换动画，淡入淡出
+collapsed:: true
 	- ```
+	  
+	  bgBanner.setPageTransformer(NGGuidePageTransformer())
+	  class NGGuidePageTransformer : BasePageTransformer() {
+	          override fun transformPage(view: View, position: Float) {
+	              val pageWidth = view.width //得到view宽
+	              if (position < -1) { // [-Infinity,-1)
+	                  // This page is way off-screen to the left. 出了左边屏幕
+	                  view.alpha = 0f
+	              } else if (position <= 1) { // [-1,1]
+	                  if (position < 0) {
+	                      //消失的页面
+	                      view.translationX = -pageWidth * position //阻止消失页面的滑动
+	                  } else {
+	                      //出现的页面
+	                      view.translationX = pageWidth.toFloat() //直接设置出现的页面到底
+	                      view.translationX = -pageWidth * position //阻止出现页面的滑动
+	                  }
+	                  // Fade the page relative to its size.
+	                  val alphaFactor = Math.max(MIN_ALPHA, 1 - Math.abs(position))
+	                  //透明度改变Log
+	                  view.alpha = alphaFactor
+	              } else { // (1,+Infinity]
+	                  // This page is way off-screen to the right.    出了右边屏幕
+	                  view.alpha = 0f
+	              }
+	          }
+	  
+	          companion object {
+	              private const val MIN_ALPHA = 0.0f //最小透明度
+	          }
+	      }
 	  ```
+- # 四、控制切换page的
