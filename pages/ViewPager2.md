@@ -1,5 +1,6 @@
-- [动画实现](https://www.cnblogs.com/guanxinjing/p/13528962.html)
+- # 一、[动画实现](https://www.cnblogs.com/guanxinjing/p/13528962.html)
 - 2个重叠的viewPager,实现联动
+collapsed:: true
 	- xml:
 		- ```
 		  <com.wuba.a3dbanner.LinkBannerLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -26,17 +27,19 @@
 	-
 	- LinkBannerLayout:
 	- ```
-	  
+	  /**
+	   *  描述:联动布局，将每一个触摸事件分发给所有的子控件。
+	   */
 	  public class LinkBannerLayout extends FrameLayout {
-	      public BGAGuideLinkageLayout(Context context) {
+	      public LinkBannerLayout(Context context) {
 	          super(context);
 	      }
 	  
-	      public BGAGuideLinkageLayout(Context context, AttributeSet attrs) {
+	      public LinkBannerLayout(Context context, AttributeSet attrs) {
 	          super(context, attrs);
 	      }
 	  
-	      public BGAGuideLinkageLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+	      public LinkBannerLayout(Context context, AttributeSet attrs, int defStyleAttr) {
 	          super(context, attrs, defStyleAttr);
 	      }
 	  
