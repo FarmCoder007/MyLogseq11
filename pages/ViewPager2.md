@@ -94,6 +94,7 @@ collapsed:: true
 	      }
 	  ```
 - # 四、控制切换page的速度
+collapsed:: true
 	- ## viewPager
 		- ### 1、自定义BannerScroller 调整设置调用setCurrentItem(int item, boolean smoothScroll)方法时，page切换的时间长度
 collapsed:: true
@@ -191,7 +192,35 @@ collapsed:: true
 				  ```
 				-
 			- kotlin:
+collapsed:: true
 				- ```
+				  fun ViewPager2.setCurrentItem(
+				          item: Int,
+				          duration: Long,
+				          interpolator: TimeInterpolator = AccelerateDecelerateInterpolator(),
+				          pagePxWidth: Int = width // 使用viewpager2.getWidth()获取
+				      ) {
+				          val pxToDrag: Int = pagePxWidth * (item - currentItem)
+				          val animator = ValueAnimator.ofInt(0, pxToDrag)
+				          var previousValue = 0
+				          animator.addUpdateListener { valueAnimator ->
+				              val currentValue = valueAnimator.animatedValue as Int
+				              val currentPxToDrag = (currentValue - previousValue).toFloat()
+				              fakeDragBy(-currentPxToDrag)
+				              previousValue = currentValue
+				          }
+				          animator.addListener(object : Animator.AnimatorListener {
+				              override fun onAnimationStart(animation: Animator?) { beginFakeDrag() }
+				              override fun onAnimationEnd(animation: Animator?) { endFakeDrag() }
+				              override fun onAnimationCancel(animation: Animator?) { }
+				              override fun onAnimationRepeat(animation: Animator?) { }
+				          })
+				          animator.interpolator = interpolator
+				          animator.duration = duration
+				          animator.start()
+				      }
+				      
+				      使用：直接用viewpager2 实例调
 				  ```
 		-
 		-
