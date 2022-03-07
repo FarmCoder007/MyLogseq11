@@ -15,16 +15,8 @@
 		          android:layout_width="match_parent"
 		          android:layout_height="match_parent"
 		          />
-		  
-		      <com.youth.banner.indicator.RectangleIndicator
-		          android:id="@+id/indicator"
-		          android:layout_width="wrap_content"
-		          android:layout_height="20dp"
-		          android:layout_margin="10dp"
-		          android:layout_gravity="bottom"
-		          />
 		      <androidx.viewpager2.widget.ViewPager2
-		          android:id="@+id/banner"
+		          android:id="@+id/banner_fg"
 		          android:layout_width="match_parent"
 		          android:layout_height="match_parent"
 		          />
@@ -32,6 +24,35 @@
 		  </com.wuba.a3dbanner.LinkBannerLayout>
 		  ```
 	-
+	- LinkBannerLayout:
 	- ```
+	  
+	  public class LinkBannerLayout extends FrameLayout {
+	      public BGAGuideLinkageLayout(Context context) {
+	          super(context);
+	      }
+	  
+	      public BGAGuideLinkageLayout(Context context, AttributeSet attrs) {
+	          super(context, attrs);
+	      }
+	  
+	      public BGAGuideLinkageLayout(Context context, AttributeSet attrs, int defStyleAttr) {
+	          super(context, attrs, defStyleAttr);
+	      }
+	  
+	      @Override
+	      public boolean dispatchTouchEvent(MotionEvent ev) {
+	          for (int i = 0; i < getChildCount(); i++) {
+	              View child = getChildAt(i);
+	              try {
+	                  child.dispatchTouchEvent(ev);
+	              } catch (Exception e) {
+	                  e.printStackTrace();
+	              }
+	          }
+	          return true;
+	      }
+	  }
+	  
 	  ```
 -
