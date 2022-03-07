@@ -117,7 +117,8 @@ collapsed:: true
 			      }
 			  }
 			  ```
-		- ### 2、反射设置 scroller
+		- ### 2、自定义viewPager ,扩展方法反射设置 scroller
+collapsed:: true
 			- ```
 			  public void setPageChangeDuration(int duration) {
 			          try {
