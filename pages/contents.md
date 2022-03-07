@@ -7,6 +7,8 @@
 			- [[ItemAnimator源码分析]]
 		-
 	- [[ViewPager2]]
+	- 自定义view
+		-
 - JAVA
 	- [[java-泛型]]
 - AS插件
