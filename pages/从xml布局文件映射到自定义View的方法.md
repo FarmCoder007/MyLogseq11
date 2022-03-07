@@ -49,7 +49,7 @@ collapsed:: true
 		      }
 		  }
 		  ```
-- 法二、
+- 法二、onFinishInflate 里初始化
 	- custom.xml
 collapsed:: true
 		-
@@ -76,4 +76,35 @@ collapsed:: true
 		-
 	- Custom.java
 		- ```
+		  import android.content.Context;
+		  import android.graphics.Color;
+		  import android.util.AttributeSet;
+		  import android.widget.LinearLayout;
+		  import android.widget.TextView;
+		  
+		  public class Custom1 extends LinearLayout {
+		      Custom1 custom1;
+		      TextView textView;
+		  
+		  
+		      public Custom1(Context context) {
+		          super(context);
+		      }
+		  
+		      public Custom1(Context context, AttributeSet attrs) {
+		          super(context, attrs);
+		      }
+		  
+		      @Override
+		      protected void onFinishInflate() {
+		          super.onFinishInflate();
+		          initViews();
+		      }
+		  
+		      private void initViews() {
+		          textView = findViewById(R.id.text1);
+		          textView.setTextColor(Color.RED);
+		      }
+		  }
+		  
 		  ```
