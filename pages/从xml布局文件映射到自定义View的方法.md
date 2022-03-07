@@ -1,7 +1,21 @@
 - 法一、
 	- layout.xml
 		- ```
+		  <?xml version="1.0" encoding="utf-8"?>
+		  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+		      android:id="@+id/custom2"
+		      android:layout_width="match_parent"
+		      android:layout_height="wrap_content">
+		  
+		      <TextView
+		          android:id="@+id/text2"
+		          android:layout_width="wrap_content"
+		          android:layout_height="wrap_content"
+		          android:text="This is Text2" />
+		  </LinearLayout>
+		  
 		  ```
 		-
-	-
+	- ```
+	  ```
 - 法二、
