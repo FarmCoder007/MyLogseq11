@@ -1,5 +1,8 @@
 - 法一、
+collapsed:: true
+	-
 	- layout.xml
+collapsed:: true
 		- ```
 		  <?xml version="1.0" encoding="utf-8"?>
 		  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -16,8 +19,8 @@
 		  
 		  ```
 		-
-	-
 	- Custom.java
+collapsed:: true
 		- ```
 		  import android.content.Context;
 		  import android.graphics.Color;
@@ -42,7 +45,7 @@
 		      }
 		  
 		      private void initView(Context context) {
-		          custom2 = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.custom2, this);
+		          custom2 = (LinearLayout) LayoutInflater.from(context).inflate(R.layout.layout, this);
 		          text2 = custom2.findViewById(R.id.text2);
 		          text2.setTextColor(Color.BLUE);
 		      }
