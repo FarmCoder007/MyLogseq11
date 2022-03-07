@@ -96,25 +96,38 @@ collapsed:: true
 - # 四、控制切换page的速度
 	- ## viewPager
 		- ### 1、自定义BannerScroller 调整设置调用setCurrentItem(int item, boolean smoothScroll)方法时，page切换的时间长度
-		- ```
-		  public class BannerScroller extends Scroller {
-		      private int mDuration = 1000;
-		  
-		      public BGABannerScroller(Context context, int duration) {
-		          super(context);
-		          mDuration = duration;
-		      }
-		  
-		      @Override
-		      public void startScroll(int startX, int startY, int dx, int dy) {
-		          super.startScroll(startX, startY, dx, dy, mDuration);
-		      }
-		  
-		      @Override
-		      public void startScroll(int startX, int startY, int dx, int dy, int duration) {
-		          super.startScroll(startX, startY, dx, dy, mDuration);
-		      }
-		  }
-		  ```
-		- ### 2、反射设置
+collapsed:: true
+			- ```
+			  public class BannerScroller extends Scroller {
+			      private int mDuration = 1000;
+			  
+			      public BGABannerScroller(Context context, int duration) {
+			          super(context);
+			          mDuration = duration;
+			      }
+			  
+			      @Override
+			      public void startScroll(int startX, int startY, int dx, int dy) {
+			          super.startScroll(startX, startY, dx, dy, mDuration);
+			      }
+			  
+			      @Override
+			      public void startScroll(int startX, int startY, int dx, int dy, int duration) {
+			          super.startScroll(startX, startY, dx, dy, mDuration);
+			      }
+			  }
+			  ```
+		- ### 2、反射设置 scroller
+			- ```
+			  public void setPageChangeDuration(int duration) {
+			          try {
+			              Field scrollerField = ViewPager.class.getDeclaredField("mScroller");
+			              scrollerField.setAccessible(true);
+			              scrollerField.set(this, new BGABannerScroller(getContext(), duration));
+			          } catch (Exception e) {
+			              e.printStackTrace();
+			          }
+			      }
+			  ```
+		-
 	- ## viewPager2
