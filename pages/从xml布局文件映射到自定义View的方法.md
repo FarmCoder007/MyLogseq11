@@ -51,5 +51,29 @@ collapsed:: true
 		  ```
 - 法二、
 	- custom.xml
+collapsed:: true
+		-
+		- ```
+		  <?xml version="1.0" encoding="utf-8"?>
+		  <com.demo.Custom xmlns:android="http://schemas.android.com/apk/res/android"
+		      android:id="@+id/custom1"
+		      android:layout_width="match_parent"
+		      android:layout_height="wrap_content"
+		      android:orientation="vertical">
+		  
+		      <TextView
+		          android:id="@+id/text1"
+		          android:layout_width="wrap_content"
+		          android:layout_height="wrap_content"
+		          android:text="This is Text 1" />
+		  
+		  </com.demo.Custom1>
+		  
+		  ```
+		-
+		-
+		-
+		-
+	- Custom.java
 		- ```
 		  ```
