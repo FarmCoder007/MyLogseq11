@@ -133,7 +133,6 @@ collapsed:: true
 	- ## viewPager2
 		- ### 1、不能通过反射获取”mscroller“
 			- java:
-collapsed:: true
 				- ```
 				  public class MyPagerHelper {
 				      /**
