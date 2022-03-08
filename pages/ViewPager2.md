@@ -94,6 +94,7 @@ collapsed:: true
 	      }
 	  ```
 - # 四、控制切换page的速度
+collapsed:: true
 	- ## viewPager
 		- ### 1、自定义BannerScroller 调整设置调用setCurrentItem(int item, boolean smoothScroll)方法时，page切换的时间长度
 collapsed:: true
@@ -224,9 +225,12 @@ collapsed:: true
 		-
 	-
 - # 五、禁止滑动,去除滑动动画
+collapsed:: true
 	- 1、ViewPager2禁止滑动
 	  调用setUserInputEnabled方法，设置是否可以手动滑动
 	- 2、ViewPager2去除滑动效果
 		- viewPager2.setCurrentItem(position,false)
 	-
 	-
+- # 六、开源库
+	- [
