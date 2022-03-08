@@ -225,4 +225,6 @@ collapsed:: true
 		-
 		-
 	-
-- # 五、
+- # 五、禁止滑动,去除滑动动画
+	- ViewPager2禁止滑动
+	  调用setUserInputEnabled方法，设置是否滑动
