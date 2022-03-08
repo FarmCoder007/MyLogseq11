@@ -233,4 +233,5 @@ collapsed:: true
 	-
 	-
 - # 六、开源库
-	- [
+	- [banner](https://github.com/youth5201314/banner)
+	- [viewPager上下联动](https://www.jianshu.com/p/a9518ec62640)
