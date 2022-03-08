@@ -94,7 +94,6 @@ collapsed:: true
 	      }
 	  ```
 - # 四、控制切换page的速度
-collapsed:: true
 	- ## viewPager
 		- ### 1、自定义BannerScroller 调整设置调用setCurrentItem(int item, boolean smoothScroll)方法时，page切换的时间长度
 collapsed:: true
