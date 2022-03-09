@@ -12,6 +12,8 @@ collapsed:: true
 collapsed:: true
 		- 一、[[从xml布局文件映射到自定义View的方法]]
 		-
+	- 序列化
+		- [[Parcelable与Serializable对比]]
 - JAVA
 	- [[java-泛型]]
 - AS插件
