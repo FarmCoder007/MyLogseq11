@@ -4,5 +4,6 @@
 	- [预布局和 ItemAnimator 解析](https://juejin.cn/post/6908256535005102094)
 	- [RecyclerView 动画原理 | 换个姿势看源码（pre-layout）](https://juejin.cn/post/6890288761783975950#comment)
 -
-- [优秀动画库](https://github.com/DingMouRen/LayoutManagerGroup)
+- [优秀动画库仿拖拽和抖音](https://github.com/DingMouRen/LayoutManagerGroup)
+-
 -
