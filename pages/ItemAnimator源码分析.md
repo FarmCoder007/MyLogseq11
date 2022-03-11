@@ -1,7 +1,7 @@
 - # 相关文章
 	- https://www.jianshu.com/p/007fe1bdf437
 	- [预布局和 ItemAnimator 解析](https://juejin.cn/post/6908256535005102094)
-	-
+	- [RecyclerView 动画原理 | 换个姿势看源码（pre-layout）](https://juejin.cn/post/6890288761783975950#comment)
 -
 -
 -
