@@ -16,7 +16,6 @@
 	- 序列化
 		- [[Parcelable与Serializable对比]]
 - JAVA
-  collapsed:: true
 	- [[java-泛型]]
 - Kotlin
 	- [[基本语法]]
