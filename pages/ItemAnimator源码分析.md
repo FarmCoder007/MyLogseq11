@@ -1,7 +1,8 @@
 - # 相关文章
+	- [RecyclerView 是如何实现炫酷的Item动画的？](https://mp.weixin.qq.com/s/FwagFxrnLrzPkYFEOqBXRw)
 	- https://www.jianshu.com/p/007fe1bdf437
 	- [预布局和 ItemAnimator 解析](https://juejin.cn/post/6908256535005102094)
 	- [RecyclerView 动画原理 | 换个姿势看源码（pre-layout）](https://juejin.cn/post/6890288761783975950#comment)
-- [RecyclerView 是如何实现炫酷的Item动画的？](https://mp.weixin.qq.com/s/FwagFxrnLrzPkYFEOqBXRw)
 -
+- [优秀动画库](https://github.com/DingMouRen/LayoutManagerGroup)
 -
