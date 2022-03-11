@@ -5,5 +5,6 @@
 	- [RecyclerView 动画原理 | 换个姿势看源码（pre-layout）](https://juejin.cn/post/6890288761783975950#comment)
 -
 - [优秀动画库仿拖拽和抖音](https://github.com/DingMouRen/LayoutManagerGroup)
-- [仿左右拖拽](https://blog.csdn.net/c10WTiybQ1Ye3/article/details/78098674)
+- [仿左右拖拽](https://www.jianshu.com/p/7977006d2d6a)
+-
 -
