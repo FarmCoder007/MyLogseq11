@@ -1,6 +1,6 @@
 - # 相关文章
 	- https://www.jianshu.com/p/007fe1bdf437
-	- [[]]
+	- [预布局和 ItemAnimator 解析](https://juejin.cn/post/6908256535005102094)
 	-
 -
 -
