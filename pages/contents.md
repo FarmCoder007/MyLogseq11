@@ -2,7 +2,6 @@
   collapsed:: true
 	-
 - Android
-  collapsed:: true
 	- RecyclerView
 		- 动画
 			- [[ItemAnimator源码分析]]
