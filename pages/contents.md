@@ -35,4 +35,7 @@
 	- 查找
 - 数据结构
 - 开源库整理
-	- []()
+  collapsed:: true
+	- [动效开源库整理博主](https://juejin.cn/user/1204720443862887/posts)
+	-
+	-
