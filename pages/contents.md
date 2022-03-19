@@ -2,6 +2,7 @@
   collapsed:: true
 	-
 - Android
+  collapsed:: true
 	- RecyclerView
 		- 动画
 			- [[ItemAnimator源码分析]]
@@ -36,4 +37,9 @@
   collapsed:: true
 	- [动效开源库整理博主](https://juejin.cn/user/1204720443862887/posts)
 	-
+	-
+- 生活
+	- 理财
+		- 股票
+		- 基金
 	-
