@@ -15,7 +15,6 @@
 	- 序列化
 		- [[Parcelable与Serializable对比]]
 - JAVA
-  collapsed:: true
 	- [[java-泛型]]
 	- 集合
 		- [[List]]
