@@ -1,2 +1,4 @@
 - [list对象复制](https://blog.csdn.net/qq_40542534/article/details/112566277)
+- LinkList [实现方式可视为队列]
+	-
 -
