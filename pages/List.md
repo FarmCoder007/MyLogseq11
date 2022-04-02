@@ -2,7 +2,10 @@
 - LinkList [实现方式可视为队列]
 	- Queue中 add/offer[添加]，element/peek[取元素]，remove/poll[删除]区别
 		- add/offer[添加]
+			- add       增加一个元索     如果队列已满，则抛出一个IIIegaISlabEepeplian异常
+			- offer     添加一个元素并返回true        如果队列已满，则返回false [容错]
 		- element/peek[取元素]
+		-
 		- remove/poll[删除]
 	-
 -
