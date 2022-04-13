@@ -4,6 +4,7 @@
 - Android
   collapsed:: true
 	- RecyclerView
+	  collapsed:: true
 		- 动画
 			- [[ItemAnimator源码分析]]
 		- [[优化]]
@@ -15,15 +16,19 @@
 	- 序列化
 		- [[Parcelable与Serializable对比]]
 - JAVA
+  collapsed:: true
 	- [[java-泛型]]
 	- 集合
 		- [[List]]
 		-
 - Kotlin
+  collapsed:: true
 	- [[基本语法]]
 - AS插件
   collapsed:: true
 	- 常用插件- [[AS插件]]
+- AS工程配置问题
+	-
 - 算法
   collapsed:: true
 	- 排序
