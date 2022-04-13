@@ -3,6 +3,7 @@
 	      sourceSets {
 	          main {
 	              manifest.srcFile 'AndroidManifest.xml'
+	              // src里存放java   kotlin里放 kotlin代码
 	              java.srcDirs = ['src', 'kotlin']
 	              resources.srcDirs = ['src']
 	              aidl.srcDirs = ['src']
