@@ -1,1 +1,1 @@
-- no python interpreter configured for the project 配置问题()
+- [no python interpreter configured for the project 配置问题](https://blog.csdn.net/DongChengRong/article/details/80511184)
