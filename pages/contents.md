@@ -2,6 +2,7 @@
   collapsed:: true
 	-
 - Android
+  collapsed:: true
 	- RecyclerView
 	  collapsed:: true
 		- 动画
@@ -70,5 +71,5 @@
 	- [[python教程文档]]
 	- [[文件内容操作]]
 	-
--
+- Gradle
 -
