@@ -1,0 +1,2 @@
+- [python基础教程](https://www.runoob.com/python/python-variable-types.html)
+-
