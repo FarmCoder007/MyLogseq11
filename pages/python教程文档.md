@@ -1,2 +1,2 @@
 - [python基础教程](https://www.runoob.com/python/python-variable-types.html)
--
+- [Python技术教程](https://www.yuanrenxue.com/python/python-boolean.html)
