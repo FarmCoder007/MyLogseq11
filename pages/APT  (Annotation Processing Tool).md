@@ -1,3 +1,3 @@
 - # 一、简介
-	-
+	- APT 是一个编译期的注解处理工具 (Annotation Processing Tool)。一些主流的三方库，如 ButterKnife、EventBus 等都用到了这个技术来生成代码。
 -
