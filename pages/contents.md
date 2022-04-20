@@ -30,7 +30,7 @@
 - AS工程配置问题
 	- [[同一个module同时使用Java和Kotlin]]
 	- [[AS配置Python环境]]
-	-
+	- [[AS新建工程时，修改模板]]
 - 算法
   collapsed:: true
 	- 排序
