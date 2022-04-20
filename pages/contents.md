@@ -13,7 +13,9 @@
 		- 一、[[从xml布局文件映射到自定义View的方法]]
 		-
 	- 序列化
+	  collapsed:: true
 		- [[Parcelable与Serializable对比]]
+	- [[APT  (Annotation Processing Tool)]]
 - JAVA
   collapsed:: true
 	- [[java-泛型]]
