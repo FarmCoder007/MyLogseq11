@@ -27,7 +27,6 @@
 - AS插件
 	- 常用插件- [[AS插件]]
 - AS工程配置问题
-  collapsed:: true
 	- [[同一个module同时使用Java和Kotlin]]
 	- [[AS配置Python环境]]
 	- [[AS新建工程时，修改模板]]
