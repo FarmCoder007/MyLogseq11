@@ -1,1 +1,2 @@
 - [修改工程模板](https://www.jianshu.com/p/dedc22354ec8)
+- [神奇的Android Studio Template](https://mp.weixin.qq.com/s?__biz=MzAxMTI4MTkwNQ==&mid=2650820341&idx=1&sn=fa0b3094e1970989ffdff05c878ba53d&scene=21#wechat_redirect)
