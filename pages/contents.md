@@ -2,7 +2,6 @@
   collapsed:: true
 	-
 - Android
-  collapsed:: true
 	- RecyclerView
 	  collapsed:: true
 		- 动画
@@ -74,4 +73,5 @@
 	-
 - Gradle
 - Mac
+  collapsed:: true
 	- [charles关闭后不能上网](https://blog.csdn.net/minmin_bufucisheng/article/details/89025601)
