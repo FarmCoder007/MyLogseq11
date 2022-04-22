@@ -27,7 +27,6 @@
   collapsed:: true
 	- [[基本语法]]
 - AS插件
-  collapsed:: true
 	- 常用插件- [[AS插件]]
 - AS工程配置问题
   collapsed:: true
