@@ -27,6 +27,7 @@
   collapsed:: true
 	- [[基本语法]]
 - AS插件
+  collapsed:: true
 	- 常用插件- [[AS插件]]
 - AS工程配置问题
   collapsed:: true
@@ -47,6 +48,7 @@
 	-
 	-
 - 生活
+  collapsed:: true
 	- 理财
 	  collapsed:: true
 		- 股票
@@ -71,4 +73,5 @@
 	- [[文件内容操作]]
 	-
 - Gradle
--
+- Mac
+	- [charles关闭后不能上网](https://blog.csdn.net/minmin_bufucisheng/article/details/89025601)
