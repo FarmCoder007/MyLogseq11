@@ -30,6 +30,8 @@
 			      id 'kotlin-kapt'
 			  }
 			  ```
-		- 2、添加
+		- 2、添加auto-service 的依赖时 使用 kapt 代替 annotationProcessor
+			- ```
+			  ```
 	-
 -
