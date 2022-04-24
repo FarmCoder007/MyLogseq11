@@ -7,5 +7,6 @@
 	- [kotlinpoet 中文api](https://enzowyf.github.io/kotlinpoet.html)
 	- [kotlinpoet 源api](https://square.github.io/kotlinpoet/)
 - # 三、配置kotlin gradle 插件
-	- 要使用kotlin写的 注解处理器，则需要在
+	- ## 要使用kotlin写的 注解处理器，则需要在依赖processer的 app moudle中添加kotlin插件支持
+		- 1.
 -
