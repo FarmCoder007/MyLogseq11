@@ -8,5 +8,5 @@
 	- [kotlinpoet 源api](https://square.github.io/kotlinpoet/)
 - # 三、配置kotlin gradle 插件
 	- ## 要使用kotlin写的 注解处理器，则需要在依赖processer的 app moudle中添加kotlin插件支持
-		- 1.
+		- 1.在
 -
