@@ -11,13 +11,14 @@
 		- 1.在根目录的 build.gralde添加 kotlin 插件配置
 		  collapsed:: true
 			- ![image.png](../assets/image_1650791323647_0.png)
-		- collapsed:: true
-		  2. 在app build.gradle 中 添加 插件
-		  3.
+		- 2.在app build.gradle 中 添加 插件
+		  collapsed:: true
 			- plugins {
 			      id 'kotlin-android'
 			      id 'kotlin-kapt'
 			      id 'com.android.application'
 			  }
+		- 3.使用
+			-
 	-
 -
