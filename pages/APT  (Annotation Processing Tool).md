@@ -21,6 +21,7 @@
 			  }
 		- 3.使用
 			- ![image.png](../assets/image_1650791553233_0.png)
-	-
+	- ## 2、kotlin 写的processor怎么被AutoService 识别
+		- 1、在processor 注解处理lib的 build.gradle 中添加 kotlin-kapt的支持
 	-
 -
