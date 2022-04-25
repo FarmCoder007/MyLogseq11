@@ -6,7 +6,7 @@
 	- [javapoet api](https://square.github.io/javapoet/1.x/javapoet/)
 	- [kotlinpoet 中文api](https://enzowyf.github.io/kotlinpoet.html)
 	- [kotlinpoet 源api](https://square.github.io/kotlinpoet/)
-	- [](https://blog.csdn.net/u014454538/article/details/122531293)
+	- [APT api具体详解，包括获取方法的入参](https://blog.csdn.net/u014454538/article/details/122531293)
 - # 三、配置kotlin gradle 插件
 	- ## 1、要使用kotlin写的 注解处理器，则需要在依赖processer的 app moudle中添加kotlin插件支持
 	  collapsed:: true
