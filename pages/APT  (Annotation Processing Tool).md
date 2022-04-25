@@ -90,6 +90,19 @@
 		  ```
 	- ## 4、根据注解作用的类名，拿到对应的class作为返回值
 		- ```
+		   /**
+		     *  定义获取实例的方法 通用 getXXXService
+		     */
+		  val getInstanceFunSpec = FunSpec.builder("get" + classStr.replace("I", ""))
+		  	// 方法参数：contextParameterSpec
+		  	.addParameter(contextParameterSpec)
+		  	// 方法体
+		  	.addStatement("return \"haha\"")
+		  	// 方法返回值：ele.asType().asTypeName() 获取 注解 对应的类名
+		  	.returns(ele.asType().asTypeName().copy(nullable = true)).build()
+		      
+		      
+		      ele 为上述的类节点
 		  ```
 	-
 -
