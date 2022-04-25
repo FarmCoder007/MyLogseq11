@@ -84,9 +84,12 @@
 		  for (param: VariableElement in method.parameters) {
 		     // 获取参数名和参数类型
 		     var typeMirror: TypeMirror = param.asType()
-		                              println("VariableElement: 方法名字" + method.simpleName + "--参数类型：" + typeMirror.getKind() + " " + param.getSimpleName() + ", ElementKind: " + param.getKind()+
-		                                      "--constantValue"+param.constantValue+"----enclosedElements:"+param.enclosedElements.toString()+"---type:"+typeMirror.asTypeName())
-		  
+		     var typeName = typeMirror.asTypeName() // 入参的class全包名
+		     param.getSimpleName() // 参数的名字
 		  }
 		  ```
+	- ## 4、根据注解作用的类名，拿到对应的class作为返回值
+		- ```
+		  ```
+	-
 -
