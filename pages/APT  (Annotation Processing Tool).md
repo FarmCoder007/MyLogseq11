@@ -68,7 +68,12 @@
 		   for (ele: Element in setElement) {
 		   	 val packageStr: String = ele.enclosingElement.toString()
 		       val classStr: String = ele.simpleName.toString()
-		       
+		        // ele 为类节点的子元素 可能是成员变量 可能是方法等
+		       for (enclosedElement: Element in ele.enclosedElements) {
+		           if(enclosedElement.kind == ElementKind.METHOD){
+		           
+		           }
+		       }
 		   }
 		  ```
 	- ## 3、拿到方法 取方法参数，包括入参的class
