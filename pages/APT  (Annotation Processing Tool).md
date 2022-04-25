@@ -62,6 +62,13 @@
 		  ```
 	- ## 2、从注解类中获取方法
 		- ```
+		   
+		   val setElement = it.getElementsAnnotatedWith(AutoGenerationAnnotation::class.java)
+		   // 遍历取到的类
+		   for (ele: Element in setElement) {
+		   
+		   
+		   }
 		  ```
 	- ## 3、拿到方法 取方法参数，包括入参的class
 -
