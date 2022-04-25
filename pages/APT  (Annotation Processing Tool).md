@@ -66,8 +66,9 @@
 		   val setElement = it.getElementsAnnotatedWith(AutoGenerationAnnotation::class.java)
 		   // 遍历取到的类
 		   for (ele: Element in setElement) {
-		   
-		   
+		   	 val packageStr: String = ele.enclosingElement.toString()
+		       val classStr: String = ele.simpleName.toString()
+		       
 		   }
 		  ```
 	- ## 3、拿到方法 取方法参数，包括入参的class
