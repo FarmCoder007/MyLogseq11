@@ -53,6 +53,12 @@
 	- ## 3、
 - # 四、apt通过javapoet 和 kotlinpoet编写代码
 	- ## 1、process方法中获取指定带有指定注解的元素(如果注解作用在class即class，如果是method则获取的是method的元素)
-		-
+		- ```
+		   // 处理指定注解类的地方
+		   val setElement = it.getElementsAnnotatedWith(AutoGenerationAnnotation::class.java)
+		   if (setElement.isEmpty()) {
+		        return false
+		   }
+		  ```
 	-
 -
