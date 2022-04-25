@@ -23,7 +23,9 @@
 		- 3.使用
 			- ![image.png](../assets/image_1650791553233_0.png)
 	- ## 2、kotlin 写的processor怎么被AutoService 识别
+	  collapsed:: true
 		- 1、在processor 注解处理lib的 build.gradle 中添加 kotlin-kapt的支持
+		  collapsed:: true
 			- ```
 			  plugins {
 			      id 'java-library'
@@ -32,6 +34,7 @@
 			  }
 			  ```
 		- 2、添加auto-service 的依赖时 使用 kapt 代替 annotationProcessor
+		  collapsed:: true
 			- ```
 			  dependencies {
 			      implementation project(path: ':annotation-lib')
@@ -48,4 +51,4 @@
 			  }
 			  ```
 	- ## 3、
--
+- # 四、apt通过javapoet
