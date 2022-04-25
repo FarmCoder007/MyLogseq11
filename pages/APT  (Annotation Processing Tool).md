@@ -71,10 +71,22 @@
 		        // ele 为类节点的子元素 可能是成员变量 可能是方法等
 		       for (enclosedElement: Element in ele.enclosedElements) {
 		           if(enclosedElement.kind == ElementKind.METHOD){
-		           
+		                var method: ExecutableElement = enclosedElement as ExecutableElement
+		                println("enclosedElement 拿到的方法：" + method.simpleName)
 		           }
 		       }
 		   }
 		  ```
 	- ## 3、拿到方法 取方法参数，包括入参的class
+		- ```
+		  var method: ExecutableElement = enclosedElement as ExecutableElement
+		  println("enclosedElement 拿到的方法：" + method.simpleName)
+		  for (param: VariableElement in method.parameters) {
+		     // 获取参数名和参数类型
+		     var typeMirror: TypeMirror = param.asType()
+		                              println("VariableElement: 方法名字" + method.simpleName + "--参数类型：" + typeMirror.getKind() + " " + param.getSimpleName() + ", ElementKind: " + param.getKind()+
+		                                      "--constantValue"+param.constantValue+"----enclosedElements:"+param.enclosedElements.toString()+"---type:"+typeMirror.asTypeName())
+		  
+		  }
+		  ```
 -
