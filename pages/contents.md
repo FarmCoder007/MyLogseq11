@@ -1,5 +1,3 @@
-filters:: {}
-
 - 工作
   collapsed:: true
 	-
