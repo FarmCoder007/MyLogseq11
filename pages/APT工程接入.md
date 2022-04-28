@@ -3,7 +3,7 @@
 		- File -> New Module -> Java library
 		- ### 1-1、新建注解-@interface 注解类需要用这个来标识
 			- ```
-			  @Retention(RetentionPolicy.CLASS) //表示编译时的注解
+			  @Retention(RetentionPolicy.CLASS) //表示编译时的注解 build时编译出代码
 			  @Target(ElementType.TYPE) //表示作用在变量上
 			  public @interface AutoGenerationAnnotation {
 			      // 注解参数
