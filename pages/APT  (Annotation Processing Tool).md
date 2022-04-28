@@ -5,6 +5,8 @@
 	- 借助  [AutoService](https://www.jianshu.com/p/14669ded4b8b) 自动处理Processor + javapoet 自动生成java源文件
 	- [javapoet api](https://square.github.io/javapoet/1.x/javapoet/)
 	- [javapoetgithub](https://github.com/square/javapoet)
+	- [自定义注解生成代码（一） —— javaPoetAPI详解](https://blog.csdn.net/bencheng06/article/details/103220774)
+	-
 	-
 	- [kotlinpoet 中文api](https://enzowyf.github.io/kotlinpoet.html)
 	- [kotlinpoet 源api](https://square.github.io/kotlinpoet/)
