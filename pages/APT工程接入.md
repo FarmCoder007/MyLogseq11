@@ -1,3 +1,5 @@
 - # 一、工程创建
-	- 1、创建Annotation
+	- 1、创建annotation模块-一定是java library
+		- File -> New Module -> Java library
+	-
 -
