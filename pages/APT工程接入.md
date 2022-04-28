@@ -47,13 +47,17 @@
 			      // 依赖注解库
 			      implementation project(path: ':annotation-lib')
 			      //auto-service是Google开源的一个库，可以方便快捷的帮助我们进行组件化开发，避免手动写
-			      // 
+			      // AutoService会自动在build/classes输入目录下生成文件META-INF/services/javax.annotation.processing.Processor,省的手动配置
 			      implementation 'com.google.auto.service:auto-service:1.0-rc6'
-			      // kotlin写的 注解处理器 用 kapt
+			      
+			      
+			      // kotlin写的 注解处理器processor 用 kapt才能被识别
 			      kapt'com.google.auto.service:auto-service:1.0-rc6'
-			      // java 写的用
+			      // java 写的processor 用annotationProcessor 才能被auto-service识别
 			  //    annotationProcessor 'com.google.auto.service:auto-service:1.0-rc6'
-			      // 引入javapoet【apt生成java文件时需添加】
+			     
+			     
+			     // 引入javapoet【apt生成java文件时需添加】
 			      implementation "com.squareup:javapoet:1.11.1"
 			      // 引入 kotlinpoet 【apt生成 kt文件时需要添加】
 			      implementation "com.squareup:kotlinpoet:1.11.0"
