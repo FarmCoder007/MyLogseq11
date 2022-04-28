@@ -7,6 +7,8 @@
 	- [javapoetgithub](https://github.com/square/javapoet)
 	- [自定义注解生成代码（一） —— javaPoetAPI详解](https://blog.csdn.net/bencheng06/article/details/103220774)
 	- [（译）JavaPoet 官方教程](https://juejin.cn/post/6844904022600597517)
+	- [JavaPoet的使用指南](https://juejin.cn/post/6844903695621029895)
+	-
 	-
 	- [kotlinpoet 中文api](https://enzowyf.github.io/kotlinpoet.html)
 	- [kotlinpoet 源api](https://square.github.io/kotlinpoet/)
