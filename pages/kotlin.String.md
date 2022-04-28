@@ -22,5 +22,5 @@ title:: kotlin.String
 	      var str = abc.lowercase(Locale.getDefault())
 	      
 	      // 首字母转小写
-	      
+	      var str =  abc.replaceFirstChar { if (it.isLowerCase()) it.lowercase(Locale.getDefault() else it.toString() }
 	  ```
