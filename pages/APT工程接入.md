@@ -1,5 +1,6 @@
 - # 一、工程创建
 	- ## 1、创建annotation模块->一定是java library[存放注解]
+	  collapsed:: true
 		- File -> New Module -> Java library
 		- ### 1-1、新建注解-@interface 注解类需要用这个来标识
 			- ```
@@ -28,6 +29,7 @@
 			  }
 			  ```
 	- ## 2、创建processor模块->一定是java library[解析处理注解]
+	  collapsed:: true
 		- ### 2-1、注解模块gradle依赖配置
 			- ```
 			  plugins {
@@ -63,7 +65,4 @@
 			      implementation "com.squareup:kotlinpoet:1.11.0"
 			  }
 			  ```
-		-
-	-
-	-
 -
