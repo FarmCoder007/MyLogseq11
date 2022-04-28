@@ -47,6 +47,7 @@
 			      // 依赖注解库
 			      implementation project(path: ':annotation-lib')
 			      //auto-service是Google开源的一个库，可以方便快捷的帮助我们进行组件化开发，避免手动写
+			      // 
 			      implementation 'com.google.auto.service:auto-service:1.0-rc6'
 			      // kotlin写的 注解处理器 用 kapt
 			      kapt'com.google.auto.service:auto-service:1.0-rc6'
