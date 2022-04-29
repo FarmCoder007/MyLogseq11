@@ -73,5 +73,5 @@
 			- ![image.png](../assets/image_1651200523108_0.png)
 			- ![image.png](../assets/image_1651200565155_0.png)
 		-
-	- ## 3、发布到maven时 需要将processor 中的annotation
+	- ## 3、发布到maven时 需要将processor 中的annotation依赖改成远程的
 -
