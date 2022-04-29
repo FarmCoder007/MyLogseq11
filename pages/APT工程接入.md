@@ -29,6 +29,7 @@
 			  }
 			  ```
 	- ## 2、创建processor模块->一定是java library[解析处理注解]
+	  collapsed:: true
 		- ### 2-1、注解模块gradle依赖配置
 		  collapsed:: true
 			-
@@ -72,4 +73,5 @@
 			- ![image.png](../assets/image_1651200523108_0.png)
 			- ![image.png](../assets/image_1651200565155_0.png)
 		-
+	- ## 3、发布到maven时 需要将processor 中的annotation
 -
