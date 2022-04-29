@@ -29,8 +29,9 @@
 			  }
 			  ```
 	- ## 2、创建processor模块->一定是java library[解析处理注解]
-	  collapsed:: true
 		- ### 2-1、注解模块gradle依赖配置
+		  collapsed:: true
+			-
 			- ```
 			  plugins {
 			      // 作为java library 新建时自动添加
@@ -65,4 +66,7 @@
 			      implementation "com.squareup:kotlinpoet:1.11.0"
 			  }
 			  ```
+			-
+			-
+		- ### 2-2、若kotlinpoet 或
 -
