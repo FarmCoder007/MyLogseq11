@@ -68,5 +68,8 @@
 			  ```
 			-
 			-
-		- ### 2-2、若kotlinpoet 或
+		- ### 2-2、若kotlinpoet 或 javapoet依赖不到的话，打开Project Structure
+			- ![image.png](../assets/image_1651200523108_0.png)
+			-
+		-
 -
