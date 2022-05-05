@@ -6,8 +6,13 @@
 			  @Retention(RetentionPolicy.CLASS) //表示编译时的注解 build时编译出代码
 			  @Target(ElementType.TYPE) //表示作用在变量上
 			  public @interface AutoGenerationAnnotation {
-			      // 注解参数
+			      // 注解参数，必要参数
 			      String routerPath();
+			       /**
+			       *
+			       * 生成指定包装类 包名加类名,带有 default，使用时 该参数为非必要参数
+			       */
+			      String wrapperClass() default "";
 			  }
 			  ```
 		- ### 1-2、使用注解
