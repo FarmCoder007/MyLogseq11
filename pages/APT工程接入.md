@@ -1,6 +1,5 @@
 - # 一、工程创建
 	- ## 1、创建annotation模块->一定是java library[存放注解]
-	  collapsed:: true
 		- File -> New Module -> Java library
 		- ### 1-1、新建注解-@interface 注解类需要用这个来标识
 			- ```
