@@ -79,5 +79,12 @@
 			- ![image.png](../assets/image_1651200565155_0.png)
 		-
 	- ## 3、发布到maven时 需要将processor 中的annotation依赖改成远程的
-	- ## 4、
+	- ## 4、抛出方法异常
+		- ```
+		  // 抛出方法异常
+		                      val listTypeMirror =  method.thrownTypes
+		                      for (throwType:TypeMirror in listTypeMirror){
+		                          otherFunSpec.throws(throwType.asTypeName())
+		                      }
+		  ```
 -
