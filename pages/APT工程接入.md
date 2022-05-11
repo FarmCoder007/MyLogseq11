@@ -1,5 +1,6 @@
 - # 一、工程创建
 	- ## 1、创建annotation模块->一定是java library[存放注解]
+	  collapsed:: true
 		- File -> New Module -> Java library
 		- ### 1-1、新建注解-@interface 注解类需要用这个来标识
 			- ```
@@ -78,4 +79,5 @@
 			- ![image.png](../assets/image_1651200565155_0.png)
 		-
 	- ## 3、发布到maven时 需要将processor 中的annotation依赖改成远程的
+	- ## 4、
 -
