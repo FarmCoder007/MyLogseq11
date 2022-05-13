@@ -1,5 +1,5 @@
 - 工作
-	- 专利
+	- [[专利]]
 - Android
   collapsed:: true
 	- RecyclerView
