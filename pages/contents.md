@@ -2,6 +2,7 @@
   collapsed:: true
 	-
 - Android
+  collapsed:: true
 	- RecyclerView
 	  collapsed:: true
 		- 动画
