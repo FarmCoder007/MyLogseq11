@@ -30,6 +30,7 @@
   collapsed:: true
 	- 常用插件- [[AS插件]]
 - AS工程配置问题
+  collapsed:: true
 	- [[同一个module同时使用Java和Kotlin]]
 	- [[AS配置Python环境]]
 	- [[AS新建工程时，修改模板]]
@@ -47,7 +48,6 @@
 	-
 	-
 - 生活
-  collapsed:: true
 	- 理财
 	  collapsed:: true
 		- 股票
@@ -67,6 +67,7 @@
 	- [[家庭保险]]
 		-
 - Python
+  collapsed:: true
 	- [[python教程文档]]
 	- [[文件内容操作]]
 	-
