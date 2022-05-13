@@ -1,6 +1,5 @@
 - 工作
-  collapsed:: true
-	-
+	- 专利
 - Android
   collapsed:: true
 	- RecyclerView
@@ -48,6 +47,7 @@
 	-
 	-
 - 生活
+  collapsed:: true
 	- 理财
 	  collapsed:: true
 		- 股票
