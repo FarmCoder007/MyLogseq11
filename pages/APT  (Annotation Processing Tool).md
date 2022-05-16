@@ -59,6 +59,7 @@
 			  ```
 	- ## 3、
 - # 四、apt通过javapoet 和 kotlinpoet编写代码
+  collapsed:: true
 	- ## 1、process方法中获取指定带有指定注解的元素(如果注解作用在class即class，如果是method则获取的是method的元素)
 		- ```
 		   // 处理指定注解类的地方
@@ -111,6 +112,9 @@
 		      
 		      ele 为上述的类节点
 		  ```
+	-
+- # 五、常见问题
+	- A failure occurred while executing org.jetbrains.kotlin.gradle.internal.KaptExecution
 	-
 -
 - [[Contents]]
