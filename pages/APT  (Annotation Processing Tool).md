@@ -115,6 +115,8 @@
 	-
 - # 五、常见问题
 	- A failure occurred while executing org.jetbrains.kotlin.gradle.internal.KaptExecution
+		- 从jdk1.8改成11
+		- ![image.png](../assets/image_1652695001957_0.png)
 	-
 -
 - [[Contents]]
