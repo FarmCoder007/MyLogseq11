@@ -131,5 +131,43 @@
 				-
 				-
 			- 2、LogisticsCenter，将自动生成的路由信息加载到内存map中，手动把加的字段也导入
+			  collapsed:: true
+				- ```
+				      private fun importFormMeta(routePacket: RoutePacket, routeMeta: RouteMeta) {
+				          routePacket.targetClass = routeMeta.targetClass
+				          routePacket.setRouteType(routeMeta.getRouteType())
+				          //postcard.setRawType(routeMeta.rawType)
+				          routePacket.extraFlags = routeMeta.extraFlags
+				          routePacket.addFlags(routeMeta.extraFlags)
+				          routePacket.targetMethodName = routeMeta.targetMethodName
+				          routePacket.setSingleton(routeMeta.isSingleton)
+				          when (routeMeta.routeType) {
+				              RouteType.FRAGMENT, RouteType.CUSTOMIZATION -> routePacket.isGreenChannel = true
+				              else -> routePacket.isGreenChannel = false
+				          }
+				      }
+				  ```
+			- 3、Warehouse 全局缓存
+				- ```
+				  class Warehouse {
+				      // Cache route and metas
+				      volatile static Map<String, Class<? extends IRouteGroup>> groupsIndex = new UniqueKeyHashMap<>();
+				      volatile static Map<String, RouteMeta> routes = new UniqueKeyHashMap<>();
+				  
+				      static Map<Class, Object> serviceInstance = new UniqueKeyHashMap<>();
+				      // 所有已注解定义的拦截器
+				      static Map<String, InterceptorMeta> allInterceptors = new UniqueKeyLinkedHashMap<>("More than one interceptors use same priority [%s]");
+				      // 白名单中拦截器，按优先级存放
+				      static List<InterceptorMeta> whiteInterceptors = new ArrayList<>();
+				  
+				      static void clear() {
+				          routes.clear();
+				          groupsIndex.clear();
+				          whiteInterceptors.clear();
+				          allInterceptors.clear();
+				          serviceInstance.clear();
+				      }
+				  }
+				  ```
 		-
 	-
