@@ -19,7 +19,7 @@
 		  ```
 	- 方案：
 		- 1、Annotation模块
-			- 1、Route 注解类添加可选参数 boolean singleton() default false; 是否使用单例
-			- 2、RouteMeta注解信息类，
+			- 1、Route ：注解类添加可选参数 boolean singleton() default false; 是否使用单例
+			- 2、RouteMeta：注解信息类
 		-
 	-
