@@ -20,7 +20,8 @@
 	- 方案：
 		- 1、Annotation模块
 			- 1、Route ：注解类添加可选参数 boolean singleton() default false; 是否使用单例
-			- 2、RouteMeta：注解信息类，
+			- 2、RouteMeta：注解信息类，写入生成组文件
+			  collapsed:: true
 				- RouteProcessor 处理Route注释时，在生成组信息时，将Route中的singleton信息获取到，写入自动生成的组信息中，
 				- ```
 				         generatedGroup方法:          
@@ -41,5 +42,6 @@
 				                  );
 				  ```
 				- 注：此时的addStatement中的占位符 只支持特定的几个详细见CodeBlock 头部注解
+			- 3、自动生成的组文件：
 		-
 	-
