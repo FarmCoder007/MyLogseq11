@@ -47,4 +47,32 @@
 			  ```
 		- 3、demo模块
 			- 1、服务接口
+				- ```
+				  public interface HelloService {
+				      void sayHello(String name);
+				  }
+				  ```
+			- 2、接口实现类，希望依赖注入获取的是单例，使用注解singleton
+			  collapsed:: true
+				- ```
+				  @Route(value = "/yourservicegroupname/hello",singleton = true)
+				  public class HelloServiceImpl implements HelloService {
+				      Context mContext;
+				  
+				      @Override
+				      public void sayHello(String name) {
+				          Toast.makeText(mContext, "Hello " + name, Toast.LENGTH_SHORT).show();
+				      }
+				  
+				      /**
+				       * Do your init work in this method, it well be call when processor has been load.
+				       *
+				       * @param context ctx
+				       */
+				      public void init(Context context) {
+				          mContext = context;
+				          Log.e("testService", HelloService.class.getName() + " has init.");
+				      }
+				  }
+				  ```
 	-
