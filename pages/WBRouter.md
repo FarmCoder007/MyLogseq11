@@ -89,6 +89,32 @@
 				  }
 				  ```
 		- 4、core模块，处理依赖注入逻辑
-			- 1、WBRouterCore，当调用navigation时，自定义类添加实例缓存
+			- 1、WBRouterCore，当调用navigation时，获取group中的路由信息，在自定义类型RouteType.CUSTOMIZATION 添加实例缓存支持
+				- ```
+				  RouteType.CUSTOMIZATION -> {
+				                  //自定义路由类型
+				                  val metaClass: Class<*> = routePacket.targetClass
+				                  try {
+				                      return if(routePacket.isSingleton){
+				                          // 使用单例先从缓存取
+				                          var instance = Warehouse.serviceInstance[metaClass]
+				                          if(instance == null){
+				                              instance = getInstance(metaClass,routePacket,context)
+				                              Warehouse.serviceInstance[metaClass] = instance
+				                          }
+				                          instance
+				                      } else {
+				                          // 不使用单例，每次创建对象
+				                          getInstance(metaClass,routePacket,context)
+				                      }
+				                  } catch (ex: Exception) {
+				                      sendError(ex)
+				                  }
+				                  return null
+				              }
+				              
+				              
+				  ```
+			-
 		-
 	-
