@@ -23,6 +23,23 @@
 			- 2、RouteMeta：注解信息类
 				- RouteProcessor 处理Route注释时，在生成组信息时，将Route中的singleton信息获取到，写入自动生成的组信息中，
 				- ```
+				         generatedGroup方法:          
+				                   /*
+				                   * atlas.put("/app/single_map_page", RouteMeta.build(RouteType.ACTIVITY, SinglePageMapActivity.class, "app", "/app/single_map_page", new java.util.HashMap<String, Integer>(){{put("extras", 3); put("params", 11); }}, -1, -2147483648));
+				                   */
+				                  loadIntoMethodBuilder.addStatement("atlas.put($S, $T.build($T.$L, $T.class, $S, $S, " + (StringUtils.isEmpty(mapBody) ? null : ("new java.util.HashMap<String, Integer>(){{" + mapBody + "}}")) + ", $S, $L,$L))",
+				                          routeMeta.getPath(),//路由路径
+				                          ClassName.get(RouteMeta.class),//RouteMeta
+				                          ClassName.get(RouteType.class),//RouteType
+				                          routeMeta.getRouteType(),//type
+				                          className,//target className ,such as MainActivity.class
+				                          routeMeta.getGroup(),//route group
+				                          routeMeta.getPath(),//route path
+				                          routeMeta.getTargetMethodName(),
+				                          routeMeta.getExtraFlags(),//extension parameters
+				                          routeMeta.isSingleton()// 是否要生成单例
+				                  );
 				  ```
+				- 注：此时的
 		-
 	-
