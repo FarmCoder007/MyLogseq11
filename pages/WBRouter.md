@@ -20,6 +20,7 @@
 		  ```
 	- 方案：
 		- 1、Annotation模块
+		  collapsed:: true
 			- 1、Route ：注解类添加可选参数 boolean singleton() default false; 是否使用单例
 			- 2、RouteMeta：注解信息类，写入生成组文件
 				- RouteProcessor 处理Route注释时，在生成组信息时，将Route中的singleton信息获取到，写入自动生成的组信息中，详见Process模块
@@ -76,6 +77,7 @@
 				  }
 				  ```
 			- 3、build中自动生成的组文件：是processor编译时自动生成的
+			  collapsed:: true
 				- ```
 				  public class WBRouter$$Group$$sample$$yourservicegroupname implements IRouteGroup {
 				    @Override
