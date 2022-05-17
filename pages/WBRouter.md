@@ -24,7 +24,6 @@
 			- 2、RouteMeta：注解信息类，写入生成组文件
 				- RouteProcessor 处理Route注释时，在生成组信息时，将Route中的singleton信息获取到，写入自动生成的组信息中，详见Process模块
 				- 注：此时的addStatement中的占位符 只支持特定的几个详细见CodeBlock 头部注解
-			- 3、自动生成的组文件：
 		- 2、Process模块：解析注解，将信息写入生成的group文件
 		  collapsed:: true
 			- ```
@@ -47,6 +46,7 @@
 			  ```
 		- 3、demo模块
 			- 1、服务接口
+			  collapsed:: true
 				- ```
 				  public interface HelloService {
 				      void sayHello(String name);
@@ -73,6 +73,16 @@
 				          mContext = context;
 				          Log.e("testService", HelloService.class.getName() + " has init.");
 				      }
+				  }
+				  ```
+			- 3、build中自动生成的组文件：是processor编译时自动生成的
+				- ```
+				  public class WBRouter$$Group$$sample$$yourservicegroupname implements IRouteGroup {
+				    @Override
+				    public void loadInto(Map<String, RouteMeta> atlas) {
+				      atlas.put("/yourservicegroupname/hello", RouteMeta.build(RouteType.CUSTOMIZATION, HelloServiceImpl.class, "yourservicegroupname", "/yourservicegroupname/hello", null, null, 0,true));
+				      atlas.put("/yourservicegroupname/hel", RouteMeta.build(RouteType.CUSTOMIZATION, com.wuba.wbrouter.sample.router.HelloServiceImpl.class, "yourservicegroupname", "/yourservicegroupname/hel", null, null, 0,true));
+				    }
 				  }
 				  ```
 	-
