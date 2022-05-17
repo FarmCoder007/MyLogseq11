@@ -89,6 +89,6 @@
 				  }
 				  ```
 		- 4、core模块，处理依赖注入逻辑
-			- 1、
+			- 1、WBRouterCore，当调用navigation时，自定义类添加实例缓存
 		-
 	-
