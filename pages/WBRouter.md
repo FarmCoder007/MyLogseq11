@@ -90,6 +90,8 @@
 				  ```
 		- 4、core模块，处理依赖注入逻辑
 			- 1、WBRouterCore，当调用navigation时，获取group中的路由信息，在自定义类型RouteType.CUSTOMIZATION 添加实例缓存支持
+			  collapsed:: true
+				-
 				- ```
 				  RouteType.CUSTOMIZATION -> {
 				                  //自定义路由类型
@@ -114,7 +116,20 @@
 				              }
 				              
 				              
+				     // 获取实例         
+				     private fun getInstance(metaClass: Class<*>,routePacket: RoutePacket,context: Context?):Any?{
+				          val instance = metaClass.getConstructor().newInstance()
+				          routePacket.targetMethodName?.let {
+				              val method = metaClass.getMethod(routePacket.targetMethodName, Context::class.java, RoutePacket::class.java);
+				              method.invoke(instance, context, routePacket)
+				          }
+				          return instance
+				      }
 				  ```
-			-
+				-
+				-
+				-
+				-
+			- 2、
 		-
 	-
