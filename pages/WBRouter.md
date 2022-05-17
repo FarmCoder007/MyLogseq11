@@ -89,6 +89,7 @@
 				  }
 				  ```
 		- 4、core模块，处理依赖注入逻辑
+		  collapsed:: true
 			- 1、WBRouterCore，当调用navigation时，获取group中的路由信息，在自定义类型RouteType.CUSTOMIZATION 添加实例缓存支持
 			  collapsed:: true
 				-
