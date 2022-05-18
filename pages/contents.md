@@ -48,7 +48,6 @@
 	-
 	-
 - 生活
-  collapsed:: true
 	- 理财
 	  collapsed:: true
 		- 股票
@@ -66,6 +65,7 @@
 			- [[退休以后 65以后]]
 			- [[父母]]
 	- [[家庭保险]]
+	  collapsed:: true
 		-
 - Python
   collapsed:: true
