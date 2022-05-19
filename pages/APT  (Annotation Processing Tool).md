@@ -121,5 +121,6 @@
 		- ![image.png](../assets/image_1652695001957_0.png)
 	-
 - # 六、调试process
-	-
+	- task中 右键选择debug这个task,即可
+	- ![image.png](../assets/image_1652933357263_0.png)
 - [[Contents]]
