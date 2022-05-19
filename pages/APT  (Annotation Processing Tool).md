@@ -2,6 +2,7 @@
 	- APT(Annotation Processing Tool) 是一个编译期的注解处理工具, 它对源代码文件进行检测找出其中的 Annotation，使用 Annotation 进行额外的处理。
 	  Annotation 处理器在处理 Annotation 时可以根据源文件中的 Annotation 生成额外的源文件和其它的文件 (文件具体内容由 Annotation 处理器的编写者决定),APT 还会编译生成的源文件和原来的源文件，将它们一起生成 class 文件。一些主流的三方库，如 ButterKnife、EventBus 等都用到了这个技术来生成代码。
 - # 二、使用
+  collapsed:: true
 	- 借助  [AutoService](https://www.jianshu.com/p/14669ded4b8b) 自动处理Processor + javapoet 自动生成java源文件
 	- [javapoet api](https://square.github.io/javapoet/1.x/javapoet/)
 	- [javapoetgithub](https://github.com/square/javapoet)
@@ -114,9 +115,11 @@
 		  ```
 	-
 - # 五、常见问题
+  collapsed:: true
 	- A failure occurred while executing org.jetbrains.kotlin.gradle.internal.KaptExecution
 		- 从jdk1.8改成11
 		- ![image.png](../assets/image_1652695001957_0.png)
 	-
--
+- # 六、调试process
+	-
 - [[Contents]]
