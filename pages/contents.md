@@ -2,6 +2,7 @@
 	- [[专利]]
 	- [[WBRouter]]
 - Android
+  collapsed:: true
 	- RecyclerView
 	  collapsed:: true
 		- 动画
@@ -24,7 +25,6 @@
 		- [[List]]
 		-
 - Kotlin
-  collapsed:: true
 	- [[基本语法]]
 - AS插件
   collapsed:: true
