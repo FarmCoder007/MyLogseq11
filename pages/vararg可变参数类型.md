@@ -14,4 +14,11 @@
   }
   ```
 - ```
+  //输出了[Ljava.lang.Object;@a09ee92（类的对象名称）
+  [Ljava.lang.Object;@a09ee92
+  // 带*输出了值
+  AAA BBB CCC DDD
+  
+  Process finished with exit code 0
   ```
+-
