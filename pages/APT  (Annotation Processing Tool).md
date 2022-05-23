@@ -2,22 +2,20 @@
 	- APT(Annotation Processing Tool) 是一个编译期的注解处理工具, 它对源代码文件进行检测找出其中的 Annotation，使用 Annotation 进行额外的处理。
 	  Annotation 处理器在处理 Annotation 时可以根据源文件中的 Annotation 生成额外的源文件和其它的文件 (文件具体内容由 Annotation 处理器的编写者决定),APT 还会编译生成的源文件和原来的源文件，将它们一起生成 class 文件。一些主流的三方库，如 ButterKnife、EventBus 等都用到了这个技术来生成代码。
 - # 二、使用
-	- javapoet 生成java类
+	- ## javapoet 生成java类
 		- 借助  [AutoService](https://www.jianshu.com/p/14669ded4b8b) 自动处理Processor + javapoet 自动生成java源文件
 		- [javapoet api](https://square.github.io/javapoet/1.x/javapoet/)
 		- [javapoetgithub](https://github.com/square/javapoet)
 		- [自定义注解生成代码（一） —— javaPoetAPI详解](https://blog.csdn.net/bencheng06/article/details/103220774)
 		- [（译）JavaPoet 官方教程](https://juejin.cn/post/6844904022600597517)
 		- [JavaPoet的使用指南](https://juejin.cn/post/6844903695621029895)
-	-
+		-
 	- [自定义APT基础之：Element](https://blog.csdn.net/wengliuhu/article/details/113917457)
-	-
-	- kotlinpoet生成kotlin类
+	- ## kotlinpoet生成kotlin类
+		- [使用kotlinpoet生成kotlin代码数据类型不正确的问题](https://www.jianshu.com/p/f41d21850cb4)
 		- [kotlinpoet 中文api](https://enzowyf.github.io/kotlinpoet.html)
 		- [kotlinpoet 源api](https://square.github.io/kotlinpoet/)
 		- [APT api具体详解，包括获取方法的入参](https://blog.csdn.net/u014454538/article/details/122531293)
-	-
-	- [使用kotlinpoet生成kotlin代码数据类型不正确的问题](https://www.jianshu.com/p/f41d21850cb4)
 	- [[Annotation Processor中判断Java或kotlin类]]
 	- ## [[APT工程接入]]
 - # 三、配置kotlin gradle 插件
