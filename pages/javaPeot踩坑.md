@@ -3,5 +3,8 @@
 		- ```
 		  methodBuilder.addStatement("$T substitute = ($T)target", 类的ClassName);
 		  ```
-	- kotlin代码写的Process $会被
+	- kotlin代码写的Process $会被kt认为变量引用，需要转义符\$T调用
+		- ```
+		  .addStatement("Object object = \$T.navigation(context, \"${autoGenerationAnnotationImpl.routerPath}\")",WBRouterClassNameJAVA)
+		  ```
 -
