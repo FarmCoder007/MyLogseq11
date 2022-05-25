@@ -130,6 +130,8 @@
 	- ![image.png](../assets/image_1652933357263_0.png)
 - # 七、示例
 	- kotlin写的processor生成Kotlin文件
+	  collapsed:: true
+		-
 		- ```
 		  package com.wuba.compiler
 		  
@@ -396,5 +398,9 @@
 		      }
 		  }
 		  ```
+		-
+		-
+		-
+	- 生成java文件
 -
 - [[Contents]]
