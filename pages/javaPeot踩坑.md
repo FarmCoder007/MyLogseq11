@@ -7,4 +7,4 @@
 		- ```
 		  .addStatement("Object object = \$T.navigation(context, \"${autoGenerationAnnotationImpl.routerPath}\")",WBRouterClassNameJAVA)
 		  ```
--
+- 2、解析kotlin写的
