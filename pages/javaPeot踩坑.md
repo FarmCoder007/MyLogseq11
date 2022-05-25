@@ -7,4 +7,5 @@
 		- ```
 		  .addStatement("Object object = \$T.navigation(context, \"${autoGenerationAnnotationImpl.routerPath}\")",WBRouterClassNameJAVA)
 		  ```
-- 2、解析kotlin写的
+- 2、可变参数的位置必须在方法参数的最后一位。
+	- java写的api：没问题，因为
