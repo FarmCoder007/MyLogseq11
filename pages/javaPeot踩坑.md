@@ -8,4 +8,5 @@
 		  .addStatement("Object object = \$T.navigation(context, \"${autoGenerationAnnotationImpl.routerPath}\")",WBRouterClassNameJAVA)
 		  ```
 - 2、可变参数的位置必须在方法参数的最后一位。
-	- java写的api：没问题，因为
+	- java写的api：没问题，因为java强制校验可变参数必须在最后一位，apt能正常解析
+	- kotlin写的api:不强制校验这个问题，导致写到非最后一位，apt通过javac
