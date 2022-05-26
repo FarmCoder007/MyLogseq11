@@ -174,7 +174,16 @@
 		      
 		      ele 为上述的类节点
 		  ```
-	- ## 5、通过javaPeot 添加的类注释
+	- ## 5、通过javaPeot 添加的类注释格式问题
+		- 实例一：
+			- ```
+			  val javaClassBuilder = TypeSpec.classBuilder(finalClassOrFileName)
+			                      .addModifiers(Modifier.PUBLIC)
+			                      .addJavadoc("@author MetaX-Auto on "+SimpleDateFormat("yyyy/M/dd hh:mm:ss").format(Date())+"\n")
+			                      .addField(FieldSpec.builder(TypeName.get(ele.asType()),strLowercaseClassName).addModifiers(Modifier.PRIVATE,Modifier.STATIC).build())
+			                      .addMethod(getInstanceJavaMethodSpec)
+			  ```
+			- 生成的注释
 - # 五、常见问题
   collapsed:: true
 	- A failure occurred while executing org.jetbrains.kotlin.gradle.internal.KaptExecution
