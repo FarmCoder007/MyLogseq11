@@ -184,12 +184,18 @@
 			                      .addMethod(getInstanceJavaMethodSpec)
 			  ```
 			- 生成的注释
-			  collapsed:: true
 				- ```
 				  /**
 				   * @author MetaX-Auto on 2022/5/26 07:54:32*/
 				  ```
 			- 解决：加上“\n”换行即可
+				- ```
+				   val javaClassBuilder = TypeSpec.classBuilder(finalClassOrFileName)
+				                      .addModifiers(Modifier.PUBLIC)
+				                      .addJavadoc("@author MetaX-Auto on "+SimpleDateFormat("yyyy/M/dd hh:mm:ss").format(Date())+"\n")
+				                      .addField(FieldSpec.builder(TypeName.get(ele.asType()),strLowercaseClassName).addModifiers(Modifier.PRIVATE,Modifier.STATIC).build())
+				                      .addMethod(getInstanceJavaMethodSpec)
+				  ```
 - # 五、常见问题
   collapsed:: true
 	- A failure occurred while executing org.jetbrains.kotlin.gradle.internal.KaptExecution
