@@ -1,4 +1,5 @@
 - 工作
+  collapsed:: true
 	- [[专利]]
 	- [[WBRouter]]
 - Android
@@ -24,6 +25,7 @@
 		- [[List]]
 		-
 - Kotlin
+  collapsed:: true
 	- [[基本语法]]
 - AS插件
   collapsed:: true
@@ -68,7 +70,6 @@
 	  collapsed:: true
 		-
 - Python
-  collapsed:: true
 	- [[python教程文档]]
 	- [[文件内容操作]]
 	-
