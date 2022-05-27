@@ -175,6 +175,7 @@
 		      ele 为上述的类节点
 		  ```
 	- ## 5、通过javaPeot 添加的类注释格式问题addJavadoc
+	  collapsed:: true
 		- 实例一：
 			- ```
 			  val javaClassBuilder = TypeSpec.classBuilder(finalClassOrFileName)
@@ -196,6 +197,9 @@
 				                      .addField(FieldSpec.builder(TypeName.get(ele.asType()),strLowercaseClassName).addModifiers(Modifier.PRIVATE,Modifier.STATIC).build())
 				                      .addMethod(getInstanceJavaMethodSpec)
 				  ```
+	- ## 6、构建注解参数
+		- ```
+		  ```
 - # 五、常见问题
   collapsed:: true
 	- A failure occurred while executing org.jetbrains.kotlin.gradle.internal.KaptExecution
