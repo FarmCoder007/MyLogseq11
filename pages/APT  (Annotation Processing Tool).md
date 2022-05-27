@@ -197,8 +197,10 @@
 				                      .addField(FieldSpec.builder(TypeName.get(ele.asType()),strLowercaseClassName).addModifiers(Modifier.PRIVATE,Modifier.STATIC).build())
 				                      .addMethod(getInstanceJavaMethodSpec)
 				  ```
-	- ## 6、构建注解参数
+	- ## 6、构建注解参数AnnotationSpec.builder.addMember
 		- ```
+		  val deprecatedTypeName = ClassName.get("java.lang","Deprecated")
+		  val annn = AnnotationSpec.builder(deprecatedTypeName).addMember("message","").build()
 		  ```
 - # 五、常见问题
   collapsed:: true
