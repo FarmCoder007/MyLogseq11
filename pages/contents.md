@@ -1,5 +1,4 @@
 - 工作
-  collapsed:: true
 	- [[专利]]
 	- [[WBRouter]]
 - Android
