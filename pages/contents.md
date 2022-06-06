@@ -3,7 +3,6 @@
 	- [[专利]]
 	- [[WBRouter]]
 - Android
-  collapsed:: true
 	- RecyclerView
 	  collapsed:: true
 		- 动画
@@ -19,6 +18,7 @@
 		- [[Parcelable与Serializable对比]]
 	- [[APT  (Annotation Processing Tool)]]
 	- [[动画]]
+	- [[组件化]]
 - JAVA
   collapsed:: true
 	- [[java-泛型]]
