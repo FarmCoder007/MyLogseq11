@@ -1,7 +1,9 @@
 - 工作
+  collapsed:: true
 	- [[专利]]
 	- [[WBRouter]]
 - Android
+  collapsed:: true
 	- RecyclerView
 	  collapsed:: true
 		- 动画
@@ -48,9 +50,7 @@
 	-
 	-
 - 生活
-  collapsed:: true
 	- 理财
-	  collapsed:: true
 		- 股票
 			- [[步骤]]
 			- [[估值法]]
@@ -66,9 +66,9 @@
 			- [[退休以后 65以后]]
 			- [[父母]]
 	- [[家庭保险]]
-	  collapsed:: true
 		-
 - Python
+  collapsed:: true
 	- [[python教程文档]]
 	- [[文件内容操作]]
 	-
