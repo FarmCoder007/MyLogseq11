@@ -208,7 +208,12 @@
 		  val annn = AnnotationSpec.builder(deprecatedTypeName).addMember("message","").build()
 		  ```
 	- ## 7、Javapeot自定义泛型类型ParameterizedTypeName
-		-
+		- ```
+		  示例：
+		  
+		  
+		  
+		  ```
 	-
 - # 五、常见问题
   collapsed:: true
