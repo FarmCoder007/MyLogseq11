@@ -209,7 +209,10 @@
 		  ```
 	- ## 7、Javapeot自定义泛型类型ParameterizedTypeName
 		- ```
-		  示例：
+		  示例：public static List<PublicApi> stopLocation(Context context) 
+		     val string = ClassName.get("com.metax.test", "PublicApi")
+		  val list = ClassName.get("java.util", "List")
+		              val mainType = ParameterizedTypeName.get(list, string)
 		  
 		  
 		  
