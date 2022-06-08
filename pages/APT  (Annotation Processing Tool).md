@@ -202,10 +202,13 @@
 				                      .addMethod(getInstanceJavaMethodSpec)
 				  ```
 	- ## 6、构建注解参数AnnotationSpec.builder.addMember
+	  collapsed:: true
 		- ```
 		  val deprecatedTypeName = ClassName.get("java.lang","Deprecated")
 		  val annn = AnnotationSpec.builder(deprecatedTypeName).addMember("message","").build()
 		  ```
+	- ## 7、Javapeot自定义泛型类型ParameterizedTypeName
+	-
 - # 五、常见问题
   collapsed:: true
 	- A failure occurred while executing org.jetbrains.kotlin.gradle.internal.KaptExecution
