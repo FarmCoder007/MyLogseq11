@@ -123,6 +123,7 @@
 	- ## 3、
 - # 四、apt通过javapoet 和 kotlinpoet编写代码
 	- ## 1、process方法中获取指定带有指定注解的元素(如果注解作用在class即class，如果是method则获取的是method的元素)
+	  collapsed:: true
 		- ```
 		   // 处理指定注解类的地方
 		   val setElement = it.getElementsAnnotatedWith(AutoGenerationAnnotation::class.java)
@@ -131,6 +132,7 @@
 		   }
 		  ```
 	- ## 2、从注解类中获取方法
+	  collapsed:: true
 		- ```
 		   
 		   val setElement = it.getElementsAnnotatedWith(AutoGenerationAnnotation::class.java)
@@ -148,6 +150,7 @@
 		   }
 		  ```
 	- ## 3、拿到方法 取方法参数，包括入参的class
+	  collapsed:: true
 		- ```
 		  var method: ExecutableElement = enclosedElement as ExecutableElement
 		  println("enclosedElement 拿到的方法：" + method.simpleName)
@@ -159,6 +162,7 @@
 		  }
 		  ```
 	- ## 4、根据注解作用的类名，拿到对应的class作为返回值
+	  collapsed:: true
 		- ```
 		   /**
 		     *  定义获取实例的方法 通用 getXXXService
