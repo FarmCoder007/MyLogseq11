@@ -20,6 +20,7 @@
 	- [[APT  (Annotation Processing Tool)]]
 	- [[动画]]
 	- [[组件化]]
+	-
 - JAVA
   collapsed:: true
 	- [[java-泛型]]
@@ -33,10 +34,10 @@
   collapsed:: true
 	- 常用插件- [[AS插件]]
 - AS工程配置问题
-  collapsed:: true
 	- [[同一个module同时使用Java和Kotlin]]
 	- [[AS配置Python环境]]
 	- [[AS新建工程时，修改模板]]
+	- [[编译报错集]]
 - 算法
   collapsed:: true
 	- 排序
@@ -51,6 +52,7 @@
 	-
 	-
 - 生活
+  collapsed:: true
 	- 理财
 	  collapsed:: true
 		- 股票
