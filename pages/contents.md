@@ -34,6 +34,7 @@
   collapsed:: true
 	- 常用插件- [[AS插件]]
 - AS工程配置问题
+  collapsed:: true
 	- [[同一个module同时使用Java和Kotlin]]
 	- [[AS配置Python环境]]
 	- [[AS新建工程时，修改模板]]
@@ -79,6 +80,7 @@
 	- [[文件内容操作]]
 	-
 - Gradle
+	-
 - Mac
   collapsed:: true
 	- [charles关闭后不能上网](https://blog.csdn.net/minmin_bufucisheng/article/details/89025601)
