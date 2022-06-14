@@ -217,7 +217,11 @@
 		  ```
 	- ## 8、使用apt执行build task时，看AS locate run中出现2次
 		- ```
+		  > Task :demo-api:kaptDebugKotlin
+		  ....
+		  > Task :demo-api:kaptReleaseKotlin
 		  ```
+		-
 - # 五、常见问题
   collapsed:: true
 	- A failure occurred while executing org.jetbrains.kotlin.gradle.internal.KaptExecution
