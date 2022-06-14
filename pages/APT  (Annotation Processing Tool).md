@@ -215,7 +215,9 @@
 		  val list = ClassName.get("java.util", "List")
 		  val mainTypeName = ParameterizedTypeName.get(list, string)
 		  ```
-	- ## 8、
+	- ## 8、使用apt执行build task时，看AS locate run中出现2次
+		- ```
+		  ```
 - # 五、常见问题
   collapsed:: true
 	- A failure occurred while executing org.jetbrains.kotlin.gradle.internal.KaptExecution
