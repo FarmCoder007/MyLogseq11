@@ -208,13 +208,14 @@
 		  val annn = AnnotationSpec.builder(deprecatedTypeName).addMember("message","").build()
 		  ```
 	- ## 7、Javapeot自定义泛型类型ParameterizedTypeName
+	  collapsed:: true
 		- ```
 		  示例：public static List<PublicApi> stopLocation(Context context) 
 		  val publicApi = ClassName.get("com.metax.test", "PublicApi")
 		  val list = ClassName.get("java.util", "List")
 		  val mainTypeName = ParameterizedTypeName.get(list, string)
 		  ```
-	-
+	- ## 8、
 - # 五、常见问题
   collapsed:: true
 	- A failure occurred while executing org.jetbrains.kotlin.gradle.internal.KaptExecution
