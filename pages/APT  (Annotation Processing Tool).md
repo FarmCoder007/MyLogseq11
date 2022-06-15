@@ -215,7 +215,7 @@
 		  val list = ClassName.get("java.util", "List")
 		  val mainTypeName = ParameterizedTypeName.get(list, string)
 		  ```
-	- ## 8、使用apt执行build task时，看AS locate run中出现2次
+	- ## 8、
 		- ```
 		  > Task :demo-api:kaptDebugKotlin
 		  ....
