@@ -215,11 +215,8 @@
 		  val list = ClassName.get("java.util", "List")
 		  val mainTypeName = ParameterizedTypeName.get(list, string)
 		  ```
-	- ## 8、
+	- ## 8、process返回值类型含义
 		- ```
-		  > Task :demo-api:kaptDebugKotlin
-		  ....
-		  > Task :demo-api:kaptReleaseKotlin
 		  ```
 		-
 - # 五、常见问题
