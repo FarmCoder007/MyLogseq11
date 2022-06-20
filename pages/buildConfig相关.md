@@ -1,2 +1,2 @@
 - https://blog.csdn.net/qq_26810645/article/details/107751449
-- []
+- [多 module 构建报错：Type BuildConfig is defined multiple times](https://blog.csdn.net/yzwfeng/article/details/123555671)
