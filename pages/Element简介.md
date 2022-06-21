@@ -2,5 +2,6 @@
 	- getQualifiedName()：获取完整的包名
 - TypeElement：类元素
 - ExecutableElement：方法元素
+	- getTypeParameters，可以获取形参,获取
 - VariableElement：变量元素
 -
