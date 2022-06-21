@@ -1,0 +1,3 @@
+- PackageElement：包元素
+	- getQualifiedName()：获取完整的包名
+-
