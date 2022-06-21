@@ -1,7 +1,9 @@
 - PackageElement：包元素
-	- getQualifiedName()：获取完整的包名
+	- 1、getQualifiedName()：获取完整的包名
 - TypeElement：类元素
 - ExecutableElement：方法元素
-	- getTypeParameters，可以获取形参,获取
+	- 1、getTypeParameters，可以获取形参,获取接口参数类型和参数名
+	- 2、getReturnType()：获取返回值类型
+	- 3、getParameters()：获取参数元素；
 - VariableElement：变量元素
 -
