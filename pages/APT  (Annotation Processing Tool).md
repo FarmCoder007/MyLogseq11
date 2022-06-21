@@ -208,7 +208,6 @@
 		  val annn = AnnotationSpec.builder(deprecatedTypeName).addMember("message","").build()
 		  ```
 	- ## 7、Javapeot自定义泛型类型ParameterizedTypeName
-	  collapsed:: true
 		- ```
 		  示例：public static List<PublicApi> stopLocation(Context context) 
 		  val publicApi = ClassName.get("com.metax.test", "PublicApi")
