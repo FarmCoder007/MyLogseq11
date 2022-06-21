@@ -204,7 +204,6 @@
 				                      .addMethod(getInstanceJavaMethodSpec)
 				  ```
 	- ## 6、构建注解参数AnnotationSpec.builder.addMember
-	  collapsed:: true
 		- ```
 		  val deprecatedTypeName = ClassName.get("java.lang","Deprecated")
 		  val annn = AnnotationSpec.builder(deprecatedTypeName).addMember("message","").build()
