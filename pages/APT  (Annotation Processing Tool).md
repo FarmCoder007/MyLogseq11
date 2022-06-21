@@ -80,7 +80,7 @@
 		- [自定义APT基础之：Element](https://blog.csdn.net/wengliuhu/article/details/113917457)
 		- [[Annotation Processor中判断Java或kotlin类]]
 		- [[Element]]
-		-
+		- [[javapoet中占位符]]
 	- ## [[APT工程接入]]
 - # 三、配置kotlin gradle 插件
   collapsed:: true
