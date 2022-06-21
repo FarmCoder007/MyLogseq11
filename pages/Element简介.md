@@ -2,8 +2,9 @@
 	- 1、getQualifiedName()：获取完整的包名
 - TypeElement：类元素
 - ExecutableElement：方法元素
-	- 1、getTypeParameters，可以获取形参,获取接口参数类型和参数名
+	- 1、getTypeParameters，获取形参，用于泛型
 	- 2、getReturnType()：获取返回值类型
-	- 3、getParameters()：获取参数元素；
+	- 3、getParameters()：获取参数元素，包括接口参数类型和参数名
+	- 4、getThrownTypes()：获取抛出的异常 元素
 - VariableElement：变量元素
 -
