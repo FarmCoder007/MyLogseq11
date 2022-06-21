@@ -1,3 +1,6 @@
 - PackageElement：包元素
 	- getQualifiedName()：获取完整的包名
+- TypeElement：类元素
+- ExecutableElement：方法元素
+- VariableElement：变量元素
 -
