@@ -219,7 +219,6 @@
 	  collapsed:: true
 		- 处理来自上一轮的类型元素上的一组注释类型，并返回这些注释类型是否由此处理器声明。如果返回true，则声明注释类型，并且不会要求后续处理器处理它们；如果返回false，则注释类型是无人认领的，可能会要求后续处理器对其进行处理。处理器可能总是返回相同的布尔值，也可能会根据所选标准改变结果。
 	- ## 9、方法获取注解与添加注解类
-	  collapsed:: true
 		- ```
 		      private fun addDeprecatedAnnotation(method: ExecutableElement,otherJavaMethodBuilder:MethodSpec.Builder){
 		          for(annotationMirror:AnnotationMirror in method.annotationMirrors){
