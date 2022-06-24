@@ -227,7 +227,7 @@
 		          }
 		      }
 		  ```
-	- ## 10、
+	- ## 10、AbstractProcessor注解处理器会执行多次，Task :demo-api:kaptDebugKotlin  和:demo-api:kaptDebugKotlin
 	-
 - # 五、常见问题
 	- A failure occurred while executing org.jetbrains.kotlin.gradle.internal.KaptExecution
