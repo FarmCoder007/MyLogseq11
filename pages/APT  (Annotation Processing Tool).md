@@ -227,7 +227,12 @@
 		          }
 		      }
 		  ```
-	- ## 10、AbstractProcessor注解处理器会执行多次，Task :demo-api:kaptDebugKotlin  和:demo-api:kaptDebugKotlin
+	- ## 10、AbstractProcessor注解处理器会执行多次，Task :demo-api:kaptDebugKotlin  和:demo-api:kaptReleaseKotlin
+		- 如果手动生成追加的代码 无法再次过滤，则 取巧方法：只处理debug
+		- ```
+		  isKaptDebugKotlinTask = options["kapt.kotlin.generated"]?.endsWith("debug") == true
+		  ```
+		-
 	-
 - # 五、常见问题
 	- A failure occurred while executing org.jetbrains.kotlin.gradle.internal.KaptExecution
