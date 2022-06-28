@@ -3,7 +3,6 @@
 	- [[专利]]
 	- [[WBRouter]]
 - Android
-  collapsed:: true
 	- RecyclerView
 	  collapsed:: true
 		- 动画
@@ -20,7 +19,7 @@
 	- [[APT  (Annotation Processing Tool)]]
 	- [[动画]]
 	- [[组件化]]
-	-
+	- [[AST抽象语法树]]
 - JAVA
   collapsed:: true
 	- [[java-泛型]]
@@ -80,6 +79,7 @@
 	- [[文件内容操作]]
 	-
 - Gradle
+  collapsed:: true
 	- [[buildConfig相关]]
 	- [[gradle/apt调试]]
 - Mac
