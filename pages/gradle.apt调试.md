@@ -3,4 +3,6 @@
 	- 1、Run-> Edit Configuration
 	  collapsed:: true
 		- ![image.png](../assets/image_1656397646365_0.png)
-	- 2、
+	- 2、新建
+	  collapsed:: true
+		- ![image.png](../assets/image_1656398038260_0.png){:height 454, :width 655}
