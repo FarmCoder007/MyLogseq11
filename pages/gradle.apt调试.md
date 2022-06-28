@@ -11,7 +11,9 @@
 	  collapsed:: true
 		- ![image.png](../assets/image_1656398713483_0.png){:height 447, :width 655}
 	- 4、修改task
+	  collapsed:: true
 		- ![image.png](../assets/image_1656398867425_0.png)
+		- 将 suspend = n改为y
 		- ![image.png](../assets/image_1656398948444_0.png)
 	-
 -
