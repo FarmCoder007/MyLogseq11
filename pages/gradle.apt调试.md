@@ -1,3 +1,4 @@
 - 方法一：借助buildSrc
 - 方法二：启动远程调用
+	- Run-> Edit Configuration
 	-
