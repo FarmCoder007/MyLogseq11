@@ -15,5 +15,6 @@
 		- ![image.png](../assets/image_1656398867425_0.png)
 		- 将 suspend = n改为y
 		- ![image.png](../assets/image_1656398948444_0.png)
-	-
+	- 5、会生成如下配置，点击运行
+		- ![image.png](../assets/image_1656399077747_0.png){:height 555, :width 655}
 -
