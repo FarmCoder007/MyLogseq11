@@ -15,6 +15,8 @@
 		- ![image.png](../assets/image_1656398867425_0.png)
 		- 将 suspend = n改为y
 		- ![image.png](../assets/image_1656398948444_0.png)
-	- 5、会生成如下配置，点击运行
+	- 5、会生成如下配置，点击运行，会被挂起等待调试
+	  collapsed:: true
 		- ![image.png](../assets/image_1656399077747_0.png){:height 555, :width 655}
+	- 6、然后我们选择apt-debug，在点击右侧的debug按钮，就可以开始调试了。
 -

@@ -249,7 +249,7 @@
 		- task中 右键选择debug这个task,即可
 			- ![image.png](../assets/image_1652933357263_0.png)
 		-
-	- ## 6-2、
+	- ## 6-2、[[gradle/apt调试]]
 - # 七、示例
 	- kotlin写的processor生成Kotlin文件
 	  collapsed:: true
