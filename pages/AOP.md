@@ -1,4 +1,4 @@
 - ## 一、什么是AOP
-- ss
+	- AOP：Aspect Oriented Programming的缩写，意为面向切面编程，通过预编译方式和运行期间动态代理实现程序功能的统一维护的一种技术。
 -
 - ![image.png](../assets/image_1656503023536_0.png){:height 198, :width 685}
