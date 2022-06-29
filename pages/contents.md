@@ -3,7 +3,6 @@
 	- [[专利]]
 	- [[WBRouter]]
 - Android
-  collapsed:: true
 	- RecyclerView
 	  collapsed:: true
 		- 动画
@@ -21,6 +20,7 @@
 	- [[动画]]
 	- [[组件化]]
 	- [[AST抽象语法树]]
+	- [[AOP]]
 - JAVA
   collapsed:: true
 	- [[java-泛型]]
