@@ -13,8 +13,7 @@
 	- 6、AOP侧重动态，动词，行为，调用，算法，载体是时间；
 - ## 三、Android 常用的AOP技术
 	- APT/KAPT注解处理器
-	-
-		- AspectJ是一个面向切面编程的框架。AspectJ是对java的扩展，而且是完全兼容java的,AspectJ定义了AOP语法，它有一个专门的编译器用来生成遵守Java字节编码规范的Class文件。AspectJ还支持原生的Java，只需要加上AspectJ提供的注解即可。在Android开发中，一般就用它提供的注解和一些简单的语法就可以实现绝大部分功能上的需求了。
+	- [[AspectJ框架]]
 	- Javasist
 	- ASM(字节码修改工具)
 	- 对比
