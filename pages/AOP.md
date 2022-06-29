@@ -4,5 +4,7 @@
 - ## 二、AOP的特点
 	- s
 - ## 三、Android 常用的AOP技术
--
+	- APT/KAPT注解处理器
+	- AspectJ框架
+	- javasist
 - ![image.png](../assets/image_1656503023536_0.png){:height 198, :width 685}
