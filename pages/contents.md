@@ -16,7 +16,6 @@
 	- 序列化
 	  collapsed:: true
 		- [[Parcelable与Serializable对比]]
-	- [[APT  (Annotation Processing Tool)]]
 	- [[动画]]
 	- [[组件化]]
 	- [[AST抽象语法树]]

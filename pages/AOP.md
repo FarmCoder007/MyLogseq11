@@ -12,7 +12,7 @@
 	- 5、OOP侧重静态，名词，状态，组织，数据，载体是空间；
 	- 6、AOP侧重动态，动词，行为，调用，算法，载体是时间；
 - ## 三、Android 常用的AOP技术
-	- APT/KAPT注解处理器
+	- [[APT  (Annotation Processing Tool)]]APT/KAPT注解处理器
 	- [[AspectJ框架]]
 	- Javasist
 	- ASM(字节码修改工具)
