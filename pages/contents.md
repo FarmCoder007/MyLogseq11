@@ -27,8 +27,8 @@
 		- [[List]]
 		-
 - Kotlin
-  collapsed:: true
 	- [[基本语法]]
+	- [[注意事项]]
 - AS插件
   collapsed:: true
 	- 常用插件- [[AS插件]]
