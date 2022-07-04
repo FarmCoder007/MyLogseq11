@@ -3,6 +3,7 @@
 	- [[专利]]
 	- [[WBRouter]]
 - Android
+  collapsed:: true
 	- RecyclerView
 	  collapsed:: true
 		- 动画
@@ -78,7 +79,6 @@
 	- [[文件内容操作]]
 	-
 - Gradle
-  collapsed:: true
 	- [[buildConfig相关]]
 	- [[gradle/apt调试]]
 - Mac
