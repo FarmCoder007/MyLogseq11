@@ -1,0 +1,3 @@
+- ![Gradle & Gradle 新件：.jpg](../assets/Gradle_&_Gradle_新件：_1656903956243_0.jpg)
+- gradle 插件负责 Android 个性化的打包工具，比如 aapt, dexbuilder, apkbuilder, jarsigner 等。而 gradle 则是负责整个工程化大的流程
+-
