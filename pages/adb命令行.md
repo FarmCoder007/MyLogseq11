@@ -1,0 +1,5 @@
+- 1、查看当前activity
+	- adb shell dumpsys activity top | grep ACTIVITY
+	- adb shell dumpsys activity activities
+- 2、clear app 清除缓存
+	- adb shell pm clear com.wuba
