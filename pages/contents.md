@@ -3,6 +3,7 @@
 	- [[专利]]
 	- [[WBRouter]]
 - Android
+  collapsed:: true
 	- RecyclerView
 	  collapsed:: true
 		- 动画
@@ -27,6 +28,7 @@
 		- [[List]]
 		-
 - Kotlin
+  collapsed:: true
 	- [[基本语法]]
 	- [[注意事项]]
 - AS插件
@@ -52,6 +54,7 @@
 	-
 	-
 - 生活
+  collapsed:: true
 	- 理财
 	  collapsed:: true
 		- 股票
@@ -78,9 +81,12 @@
 	- [[文件内容操作]]
 	-
 - Gradle
+  collapsed:: true
 	- [[buildConfig相关]]
 	- [[gradle/apt调试]]
 	- [[配置相关]]
 - Mac
   collapsed:: true
 	- [charles关闭后不能上网](https://blog.csdn.net/minmin_bufucisheng/article/details/89025601)
+- adb
+	-
