@@ -76,10 +76,10 @@
 		-
 	- [[开销总结]]
 - Python
-  collapsed:: true
 	- [[python教程文档]]
 	- [[文件内容操作]]
-	-
+	- 开发工具
+-
 - Gradle
   collapsed:: true
 	- [[buildConfig相关]]
