@@ -78,7 +78,7 @@
 - Python
 	- [[python教程文档]]
 	- [[文件内容操作]]
-	- 开发工具
+	- [[开发工具]]
 -
 - Gradle
   collapsed:: true
