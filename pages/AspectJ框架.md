@@ -3,5 +3,6 @@
 - ## 二、处理时机
 -
 -
-- 参考文献：https://blog.csdn.net/ldxlz224/article/details/105274575
--
+- 参考文献：
+	- https://blog.csdn.net/ldxlz224/article/details/105274575
+	- [动态生成代码：AOP 之 AspectJ 在 Android 的应用！](https://blog.csdn.net/plokmju88/article/details/119583286)
