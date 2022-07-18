@@ -20,6 +20,6 @@
 		  export PATH="$HOME/.yarn/bin:$HOME/.config/yarn/global/node_modules/.bin:$PATH"
 		  ```
 - 3、提示需要安装Node.js：Yarn requires Node.js 4.0 or higher to be installed.
-	- [Nodejs](https://nodejs.org/en/)
+	- [Nodejs下载地址](https://nodejs.org/en/)
 	-
 -
