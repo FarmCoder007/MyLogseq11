@@ -21,6 +21,6 @@
 		  ```
 - 3、提示需要安装Node.js：Yarn requires Node.js 4.0 or higher to be installed.
 	- [Nodejs下载地址](https://nodejs.org/en/)
-	- 注意：下载稳定版，否则执行yarn报如下错误：
+	- 注意：下载稳定版，否则执行yarn报如下错误：opensslErrorStack: [ ‘error:03000086:digital envelope routines::initialization error‘
 		- ![image.png](../assets/image_1658145577624_0.png)
 -
