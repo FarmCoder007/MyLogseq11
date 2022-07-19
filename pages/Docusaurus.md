@@ -93,7 +93,12 @@
 			  今天过得怎么样？
 			  ```
 		- 2、同样地，新页面会被创建在 http://localhost:3000/helloMarkdown 处。Markdown 不如 React 页面灵活，因为它总是会用主题布局。
-	-
+	- ## 路由
+		- 如果你熟悉 Jekyll 和 Next 等静态网站生成器，你就会了解这种路由方式。 在 /src/pages/ 目录下所创建的任何 JavaScript 文件都会自动转换为网页，网站结构与 /src/pages/ 的目录结构一致。 举个例子：
+		- 存放位置  -》
+		- /src/pages/index.js → [baseUrl]
+		- /src/pages/foo.js → [baseUrl]/foo
+		-
 - 参考文献
 	- [使用 Docusaurus 搭建个人网站项目](https://blog.csdn.net/weixin_47872288/article/details/124887877)
 -
