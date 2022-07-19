@@ -76,4 +76,39 @@ title:: docusaurus.config.js
 					        ],
 					  ```
 			- footer：控制底边栏
+				- ```
+				  footer: {
+				        style: 'dark',// 样式 light白色背景/ dark黑色背景
+				        links: [ // 链接
+				          {
+				            title: 'Docs', // 标题
+				            items: [ // 底下的导航
+				              {
+				                label: '58App',// 导航站点名字
+				                to: 'https://igit.58corp.com/wuxian-doc/58app/blob/master/README-zh.md',
+				              },
+				            ],
+				          },
+				          {
+				            title: 'Community',
+				            items: [
+				              {
+				                label: '58App',
+				                href: 'https://igit.58corp.com/wuxian-doc/58app/blob/master/README-zh.md',
+				              }
+				            ],
+				          },
+				          {
+				            title: 'More',
+				            items: [
+				              {
+				                label: '58App',
+				                to: 'https://igit.58corp.com/wuxian-doc/58app/blob/master/README-zh.md',
+				              }
+				            ],
+				          },
+				        ],
+				        copyright: `Copyright © ${new Date().getFullYear()} 用户价值增长部-基础技术部-大前端技术部 提供技术支持`, // 版权
+				      },
+				  ```
 -
