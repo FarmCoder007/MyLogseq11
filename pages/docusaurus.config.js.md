@@ -47,11 +47,14 @@ title:: docusaurus.config.js
 				- title: 导航上站点名称
 				- logo
 					- ```
+					  logo: { // 导航logo
+					          alt: '文档平台 Logo',// 站点 logo 文字替换
+					          src: 'img/logo.svg',// 站点logo 连接
+					        },
 					  ```
-					- alt: 'Taro logo',      //  站点 logo 文字替换
-					- src: 'img/logo.svg',  //   站点 logo  链接
 				- items
 					- ```
+					  
 					  ```
 			- footer:
 -
