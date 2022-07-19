@@ -47,3 +47,6 @@
 		-
 - ## 页面开发
 	- 入口函数
+		- ```
+		  export default function 标记
+		  ```
