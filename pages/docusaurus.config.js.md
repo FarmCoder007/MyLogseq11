@@ -41,8 +41,11 @@ title:: docusaurus.config.js
 		- githubHost
 		  collapsed:: true
 			- GitHub 服务器的主机名。如果你使用的是 GitHub 企业版，则会用到此参数
-		- themeConfig对象可以定义网站主题：
+		- themeConfig对象可以定义网站主题分以下三部分：
 			- colorMode:
-			- navbar:
+			- navbar控制顶部导航栏，分三部分
+				- title: 导航上站点名称
+				- logo:
+				- items
 			- footer:
 -
