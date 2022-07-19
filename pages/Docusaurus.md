@@ -35,7 +35,10 @@
 		  2022-01-20-onepage.md
 		  ```
 	- 文件第一段配置
-		- ```
+		- ```id:welcome
+		  title:Welcome
+		  author:xu
+		  suthor
 		  ```
 		- ---
 		-
