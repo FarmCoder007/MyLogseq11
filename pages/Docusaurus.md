@@ -51,7 +51,8 @@
 		- ```
 		  export default function 标记
 		  ```
-		- 在
+	- 创建Docusaurus页面
+		-
 - 参考文献
 	- [使用 Docusaurus 搭建个人网站项目](https://blog.csdn.net/weixin_47872288/article/details/124887877)
 -
