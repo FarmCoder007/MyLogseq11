@@ -45,7 +45,13 @@ title:: docusaurus.config.js
 			- colorMode:
 			- navbar控制顶部导航栏，分三部分
 				- title: 导航上站点名称
-				- logo:
+				- logo
+					- ```
+					  ```
+					- alt: 'Taro logo',      //  站点 logo 文字替换
+					- src: 'img/logo.svg',  //   站点 logo  链接
 				- items
+					- ```
+					  ```
 			- footer:
 -
