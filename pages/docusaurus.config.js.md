@@ -15,6 +15,7 @@ title:: docusaurus.config.js
 		- url：string类型，定义网站域名
 		- favicon：string类型，图标文件的url
 	- 可选字段：
+	  collapsed:: true
 		- noIndex：true：会在页面添加，阻止搜索引擎搜索你的网站
 			- ```
 			  <meta name="robots" content="noindex, nofollow">
@@ -53,7 +54,6 @@ title:: docusaurus.config.js
 					        },
 					  ```
 				- items
-				  collapsed:: true
 					- ```js
 					  items: [
 					          {
