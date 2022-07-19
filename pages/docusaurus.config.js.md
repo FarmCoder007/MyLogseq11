@@ -27,4 +27,5 @@ title:: docusaurus.config.js
 		- projectName：GitHub 源码仓库的名称
 		- githubHost：GitHub 服务器的主机名。如果你使用的是 GitHub 企业版，则会用到此参数
 		- themeConfig对象可以定义网站主题：
+			- colorMode
 -
