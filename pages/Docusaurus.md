@@ -80,7 +80,20 @@
 		- 2、保存后，开发服务器会自动刷新，呈现更改。 现在打开 http://localhost:3000/helloReact  你就能看到刚刚创建的新页面了
 	- 5-3、添加 Markdown 页面
 		- 1、创建文件 /src/pages/helloMarkdown.md：
-		- 2、
+		  collapsed:: true
+			- ```
+			  ---
+			  title: 我的问候页面标题
+			  description: 我的问候页面描述
+			  hide_table_of_contents: true
+			  ---
+			  
+			  # 你好
+			  
+			  今天过得怎么样？
+			  ```
+		- 2、同样地，新页面会被创建在 http://localhost:3000/helloMarkdown 处。Markdown 不如 React 页面灵活，因为它总是会用主题布局。
+	-
 - 参考文献
 	- [使用 Docusaurus 搭建个人网站项目](https://blog.csdn.net/weixin_47872288/article/details/124887877)
 -
