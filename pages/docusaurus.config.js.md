@@ -46,15 +46,32 @@ title:: docusaurus.config.js
 			- navbar控制顶部导航栏，分三部分
 				- title: 导航上站点名称
 				- logo
-					- ```
+					- ```js
 					  logo: { // 导航logo
 					          alt: '文档平台 Logo',// 站点 logo 文字替换
 					          src: 'img/logo.svg',// 站点logo 连接
 					        },
 					  ```
 				- items
-					- ```
-					  
+					- ```js
+					  items: [
+					          {
+					            to: 'docs/',                // 点击后跳转的链接，站内跳转用 to ,站外用 href
+					            activeBasePath: 'docs',     // 根据它显示当前高亮
+					            label: '文档',               // 显示的名称
+					            position: 'left',           // 显示在导航的 左边 还是 右边
+					          },
+					          {
+					            to: 'blog', 
+					            label: '博客', 
+					            position: 'left'
+					          },
+					          {
+					            href: 'https://github.com/facebook/docusaurus',
+					            label: 'GitHub',
+					            position: 'right',
+					          },
+					        ],
 					  ```
 			- footer:
 -
