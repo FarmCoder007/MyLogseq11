@@ -19,9 +19,7 @@ title:: docusaurus.config.js
 			- ```
 			  <meta name="robots" content="noindex, nofollow">
 			  ```
-		- onBrokenLinks
-		  collapsed:: true
-			- 网站上线了，docusaurus build模式下，就会检测链接是否失效，失效就会抛出错误，错误的等级可以定制：'ignore' | 'log' | 'warn' | 'error' | 'throw'
+		- onBrokenLinks：网站上线了，docusaurus build模式下，就会检测链接是否失效，失效就会抛出错误，错误的等级可以定制：'ignore' | 'log' | 'warn' | 'error' | 'throw'
 		- onBrokenMarkdownLinks
 		  collapsed:: true
 			- 会打印一个警告，让您知道已损坏的markdown链接，错误等级可以定制：'ignore' | 'log' | 'warn' | 'error' | 'throw'
