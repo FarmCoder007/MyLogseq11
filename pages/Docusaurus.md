@@ -100,7 +100,11 @@
 				- /src/pages/foo.js → [baseUrl]/foo
 				- /src/pages/foo/test.js → [baseUrl]/foo/test
 				- /src/pages/foo/index.js → [baseUrl]/foo/
-		-
+		- 在这个基于组件的开发时代，我们鼓励你把样式、标记、行为都放在一个组件中。 每个页面都是组件。如果你需要使用样式自定义页面设计，我们推荐你把样式和页面组件共同放在独立的目录下。 举个例子，如果你要创建「支持」页面，你可以在下面两种方式中选择一种：
+			- A、新建一个 /src/pages/support.js 文件
+				- 访问：[baseUrl]/foo
+			- B、新建 /src/pages/support/ 目录及 /src/pages/support/index.js 文件
+				- 访问：
 - 参考文献
 	- [使用 Docusaurus 搭建个人网站项目](https://blog.csdn.net/weixin_47872288/article/details/124887877)
 -
