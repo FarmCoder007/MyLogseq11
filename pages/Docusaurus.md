@@ -20,12 +20,12 @@
   ├── docusaurus.config.js             // 配置文件目录
   ├── node_modules
   ├── package.json
-  ├── sidebars.js      // 文档侧边栏配置文件
-  ├── src              // 页面或自定义的 React 组件目录
-  │   ├── css          // 存放全局自定义样式
-  │   └── pages
-  │       └── index.js  // 首页文件
-  ├── static                           // 静态文件目录
+  ├── sidebars.js                      // 文档侧边栏配置文件
+  ├── src                              // 页面或自定义的 React 组件目录
+  │   ├── css                          // 存放全局自定义样式
+  │   └── pages                        // 存放页面信息和react组件。  
+  │       └── index.js                 // 首页文件
+  ├── static                           // 静态文件目录，图片、字体等资源
   └── yarn.lock
   
   ```
