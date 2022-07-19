@@ -22,7 +22,7 @@
   ├── package.json
   ├── sidebars.js      // 文档侧边栏配置文件
   ├── src              // 页面或自定义的 React 组件目录
-  │   ├── css
+  │   ├── css          // 存放全局自定义样式
   │   └── pages
   │       └── index.js  // 首页文件
   ├── static                           // 静态文件目录
