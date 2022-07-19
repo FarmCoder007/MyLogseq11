@@ -52,32 +52,33 @@
 		  export default function 标记
 		  ```
 	- 创建Docusaurus页面
-		- 创建文件 /src/pages/helloReact.js：
-		- ```
-		  import React from 'react';
-		  import Layout from '@theme/Layout';
-		  
-		  export default function Hello() {
-		    return (
-		      <Layout title="Hello" description="Hello React Page">
-		        <div
-		          style={{
-		            display: 'flex',
-		            justifyContent: 'center',
-		            alignItems: 'center',
-		            height: '50vh',
-		            fontSize: '20px',
-		          }}>
-		          <p>
-		            修改 <code>pages/helloReact.js</code>，然后保存，页面会重载。
-		          </p>
-		        </div>
-		      </Layout>
-		    );
-		  }
-		  ```
-		- 保存后，开发服务器会自动刷新，呈现更改。 现在打开 http://localhost:3000/helloReact，你就能看到刚刚创建的新页面了
-		-
+		- 1、创建文件 /src/pages/helloReact.js：
+		  collapsed:: true
+			- ```
+			  import React from 'react';
+			  import Layout from '@theme/Layout';
+			  
+			  export default function Hello() {
+			    return (
+			      <Layout title="Hello" description="Hello React Page">
+			        <div
+			          style={{
+			            display: 'flex',
+			            justifyContent: 'center',
+			            alignItems: 'center',
+			            height: '50vh',
+			            fontSize: '20px',
+			          }}>
+			          <p>
+			            修改 <code>pages/helloReact.js</code>，然后保存，页面会重载。
+			          </p>
+			        </div>
+			      </Layout>
+			    );
+			  }
+			  ```
+		- 2、保存后，开发服务器会自动刷新，呈现更改。 现在打开 http://localhost:3000/helloReact  你就能看到刚刚创建的新页面了
+		- 3、
 - 参考文献
 	- [使用 Docusaurus 搭建个人网站项目](https://blog.csdn.net/weixin_47872288/article/details/124887877)
 -
