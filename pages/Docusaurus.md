@@ -19,7 +19,7 @@
   │   └── mdx.md                       // 支持 mdx 哦
   ├── docusaurus.config.js             // 项目的全局配置信息、插件的配置
   ├── node_modules
-  ├── package.json                     // node.js的工程配置文件
+  ├── package.json                     // node.js的工程配置文件（帮助你生成并部署网站的脚本）
   ├── sidebars.js                      // 配置文档页面侧边栏，只有文档页面才有，用于自定义文档的目录结构
   ├── src                              // 页面或自定义的 React 组件目录
   │   ├── css                          // 存放全局自定义样式
