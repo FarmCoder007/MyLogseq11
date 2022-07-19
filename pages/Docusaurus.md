@@ -104,7 +104,9 @@
 			- A、新建一个 /src/pages/support.js 文件
 				- 访问：[baseUrl]/foo
 			- B、新建 /src/pages/support/ 目录及 /src/pages/support/index.js 文件
-				- 访问：
+				- 访问：[baseUrl]/support/
+				- 好处：
+					- 这样你可以把和页面相关的文件都放在这个文件夹里。 比如说仅用于「支持」页面的 CSS 模块文件 (styles.module.css)。
 - 参考文献
 	- [使用 Docusaurus 搭建个人网站项目](https://blog.csdn.net/weixin_47872288/article/details/124887877)
 -
