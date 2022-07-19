@@ -47,11 +47,11 @@
 		-
 		-
 - ## 五、[页面开发](https://docusaurus.io/zh-CN/docs/creating-pages)
-	- 入口函数
+	- 5-1、入口函数
 		- ```
 		  export default function 标记
 		  ```
-	- 创建Docusaurus页面
+	- 5-2、创建Docusaurus页面
 		- 1、创建文件 /src/pages/helloReact.js：
 		  collapsed:: true
 			- ```
@@ -78,7 +78,9 @@
 			  }
 			  ```
 		- 2、保存后，开发服务器会自动刷新，呈现更改。 现在打开 http://localhost:3000/helloReact  你就能看到刚刚创建的新页面了
-		- 3、
+	- 5-3、添加 Markdown 页面
+		- 1、创建文件 /src/pages/helloMarkdown.md：
+		- 2、
 - 参考文献
 	- [使用 Docusaurus 搭建个人网站项目](https://blog.csdn.net/weixin_47872288/article/details/124887877)
 -
