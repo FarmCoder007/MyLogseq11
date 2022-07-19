@@ -35,10 +35,14 @@
 		  2022-01-20-onepage.md
 		  ```
 	- 文件第一段配置
-		- ```id:welcome
-		  title:Welcome
-		  author:xu
-		  suthor
+		- ```
+		  id:welcome      // 访问这个博客的url
+		  title:Welcome   // 标题
+		  author:xu       // 作者
+		  author_title:就是作者的简短自我介绍
+		  author_image_url:头像
+		  tags:博客标签是个数组形式
 		  ```
-		- ---
 		-
+		-
+-
