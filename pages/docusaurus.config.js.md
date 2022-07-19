@@ -43,9 +43,10 @@ title:: docusaurus.config.js
 			- GitHub 服务器的主机名。如果你使用的是 GitHub 企业版，则会用到此参数
 		- themeConfig对象可以定义网站主题分以下三部分：
 			- colorMode:
-			- navbar控制顶部导航栏，分三部分
+			- navbar：控制顶部导航栏，分三部分
 				- title: 导航上站点名称
 				- logo
+				  collapsed:: true
 					- ```js
 					  logo: { // 导航logo
 					          alt: '文档平台 Logo',// 站点 logo 文字替换
@@ -53,6 +54,7 @@ title:: docusaurus.config.js
 					        },
 					  ```
 				- items
+				  collapsed:: true
 					- ```js
 					  items: [
 					          {
@@ -73,5 +75,5 @@ title:: docusaurus.config.js
 					          },
 					        ],
 					  ```
-			- footer:
+			- footer：
 -
