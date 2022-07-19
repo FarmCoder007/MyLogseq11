@@ -29,7 +29,8 @@
 	  └── yarn.lock
 	  
 	  ```
-- ## 博客编写
+- ## 四、博客编写
+  collapsed:: true
 	- 写博客就是在blog里边创建一个markdown文件，标题开始部分是一个日期格式，Docusaurus 会自动把这个日期解析成咱们这个博客的发表日期，后边跟着这个文件的名字例如文件名：
 		- ```
 		  2022-01-20-onepage.md
@@ -45,7 +46,7 @@
 		  ```
 		-
 		-
-- ## 页面开发
+- ## 五、[页面开发](https://docusaurus.io/zh-CN/docs/creating-pages)
 	- 入口函数
 		- ```
 		  export default function 标记
