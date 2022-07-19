@@ -24,7 +24,7 @@
   ├── src              // 页面或自定义的 React 组件目录
   │   ├── css
   │   └── pages
-  │       └── 
+  │       └── index.js  // 
   ├── static                           // 静态文件目录
   └── yarn.lock
   
