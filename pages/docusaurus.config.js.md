@@ -15,12 +15,10 @@ title:: docusaurus.config.js
 		- url：string类型，定义网站域名
 		- favicon：string类型，图标文件的url
 	- 可选字段：
-		- noIndex: 
-		  collapsed:: true
+		- noIndex：true：会在页面添加，阻止搜索引擎搜索你的网站
 			- ```
 			  <meta name="robots" content="noindex, nofollow">
 			  ```
-			- true：会在页面添加，阻止搜索引擎搜索你的网站
 		- onBrokenLinks
 		  collapsed:: true
 			- 网站上线了，docusaurus build模式下，就会检测链接是否失效，失效就会抛出错误，错误的等级可以定制：'ignore' | 'log' | 'warn' | 'error' | 'throw'
@@ -45,7 +43,8 @@ title:: docusaurus.config.js
 		- themeConfig对象可以定义网站主题分以下三部分：
 			- colorMode:
 			- navbar：控制顶部导航栏，分三部分
-				-
+			  collapsed:: true
+				- ![image.png](../assets/image_1658217194422_0.png)
 				- title: 导航上站点名称
 				- logo
 				  collapsed:: true
@@ -116,4 +115,5 @@ title:: docusaurus.config.js
 				        copyright: `Copyright © ${new Date().getFullYear()} 用户价值增长部-基础技术部-大前端技术部 提供技术支持`, // 版权
 				      },
 				  ```
+		- presets
 -
