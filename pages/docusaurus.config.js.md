@@ -75,5 +75,5 @@ title:: docusaurus.config.js
 					          },
 					        ],
 					  ```
-			- footer：
+			- footer：控制底边栏
 -
