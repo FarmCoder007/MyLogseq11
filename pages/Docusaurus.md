@@ -17,7 +17,7 @@
   │   ├── doc1.md
   │   ├── doc3.md
   │   └── mdx.md                       // 支持 mdx 哦
-  ├── docusaurus.config.js             // 配置文件目录
+  ├── docusaurus.config.js             // 项目的全局配置信息、插件的配置
   ├── node_modules
   ├── package.json
   ├── sidebars.js                      // 文档侧边栏配置文件
