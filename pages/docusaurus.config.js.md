@@ -8,6 +8,7 @@ title:: docusaurus.config.js
 		- 4 自定义配置
 - # 二、配置含义
 	- 必须字段：
+	  collapsed:: true
 		- title：string类型，定义网站的标题
 		- baseUrl：string类型，定义站点的根路径，没有路径的 URL就设置baseUrl: '/',
 		              /metro/ 是 /metro/baseUrl 的 baseUrl
@@ -44,6 +45,7 @@ title:: docusaurus.config.js
 		- themeConfig对象可以定义网站主题分以下三部分：
 			- colorMode:
 			- navbar：控制顶部导航栏，分三部分
+				-
 				- title: 导航上站点名称
 				- logo
 				  collapsed:: true
@@ -76,6 +78,9 @@ title:: docusaurus.config.js
 					        ],
 					  ```
 			- footer：控制底边栏
+			  collapsed:: true
+				- 样式
+					- ![image.png](../assets/image_1658217161565_0.png)
 				- ```
 				  footer: {
 				        style: 'dark',// 样式 light白色背景/ dark黑色背景
