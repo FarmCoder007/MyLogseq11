@@ -129,4 +129,15 @@
 			  ```
 	- ### 可变参数类型...
 		- ```js
+		  function avg(...args) {
+		    var sum = 0;
+		    for (let value of args) {
+		      sum += value;
+		    }
+		    return sum / args.length;
+		  }
+		  
+		  // 调用
+		  avg(2, 3, 4, 5); // 3.5
+		  
 		  ```
