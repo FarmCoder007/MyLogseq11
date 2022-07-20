@@ -41,12 +41,12 @@
 		  // myVarVariable 在这里 *能* 被引用
 		  ```
 	- JavaScript 与其他语言的（如 Java）的重要区别是在 JavaScript 中语句块（blocks）是没有作用域的，只有函数有作用域。因此如果在一个复合语句中（如 if 控制结构中）使用 var 声明一个变量，那么它的作用域是整个函数（复合语句在函数中）。 但是从 ECMAScript Edition 6 开始将有所不同的， let 和 const 关键字允许你创建块作用域的变量。
-- # 二、对象
+- # 二、对象(类似java中的hashMap)
 	- JavaScript 中的对象，Object，可以简单理解成“名称 - 值”对（而不是键值对：现在，ES 2015 的映射表（Map），比对象更接近键值对），不难联想 JavaScript 中的对象与下面这些概念类似：
 		- Python 中的字典（Dictionary）
-		  Perl 和 Ruby 中的散列/哈希（Hash）
-		  C/C++ 中的散列表（Hash table）
-		  Java 中的散列映射表（HashMap）
-		  PHP 中的关联数组（Associative array）
-	- 简介：
+		- Perl 和 Ruby 中的散列/哈希（Hash）
+		- C/C++ 中的散列表（Hash table）
+		- Java 中的散列映射表（HashMap）
+		- PHP 中的关联数组（Associative array）
+	-
 		-
