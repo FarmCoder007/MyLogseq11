@@ -56,4 +56,19 @@
 		  var obj = {}; // 对象字面量（object literal）”法 也是json的核心语法
 		  ```
 		- ```js
+		  var obj = {
+		      name: "Carrot",
+		      _for: "Max",//'for' 是保留字之一，使用'_for'代替
+		      details: {
+		          color: "orange",
+		          size: 12
+		      }
+		  }
+		  
 		  ```
+			- 对象的属性可以通过链式（chain）表示方法进行访问：
+			- ```js
+			  obj.details.color; // orange
+			  obj["details"]["size"]; // 12
+			  
+			  ```
