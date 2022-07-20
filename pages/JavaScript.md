@@ -83,4 +83,16 @@
 		  // 我们创建了一个新的 Person，名称是 "You"
 		  // ("You" 是第一个参数，24 是第二个参数..)
 		  
+		  完成创建后，对象属性可以通过如下两种方式进行赋值和访问：
+		  
+		  // 点表示法 (dot notation)
+		  obj.name = 'Simon';
+		  var name = obj.name;
+		  
+		  // 括号表示法 (bracket notation)
+		  obj['name'] = 'Simon';
+		  var name = obj['name'];
+		  // can use a variable to define a key
+		  var user = prompt('what is your key?')
+		  obj[user] = prompt('what is its value?')
 		  ```
