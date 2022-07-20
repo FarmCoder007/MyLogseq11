@@ -86,6 +86,7 @@
 	- [[常见的文档生成工具]]
 	- [[常见命令]]
 	- [[React]]
+	- [[JavaScript]]
 - Gradle
   collapsed:: true
 	- [[buildConfig相关]]
