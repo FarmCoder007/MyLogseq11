@@ -53,6 +53,7 @@
 		- ```js
 		  var obj = new Object();
 		  或者
-		  var obj = {};
+		  var obj = {}; // 对象字面量（object literal）”法 也是json的核心语法
 		  ```
--
+		- ```js
+		  ```
