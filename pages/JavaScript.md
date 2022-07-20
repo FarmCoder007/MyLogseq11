@@ -99,6 +99,7 @@
 		  obj[user] = prompt('what is its value?')
 		  ```
 - # 三、函数
+  collapsed:: true
 	- 学习 JavaScript 最重要的就是要理解对象和函数两个部分。最简单的函数就像下面这个这么简单：
 	  collapsed:: true
 		- 例子1：
