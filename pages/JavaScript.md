@@ -48,5 +48,11 @@
 		- C/C++ 中的散列表（Hash table）
 		- Java 中的散列映射表（HashMap）
 		- PHP 中的关联数组（Associative array）
-	-
-		-
+	- “名称”部分是一个 JavaScript 字符串，“值”部分可以是任何 JavaScript 的数据类型——包括对象。这使用户可以根据具体需求，创建出相当复杂的数据结构。
+	- ## 创建对象
+		- ```js
+		  var obj = new Object();
+		  或者
+		  var obj = {};
+		  ```
+-
