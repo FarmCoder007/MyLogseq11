@@ -29,4 +29,12 @@
 		  ```
 		- 一个使用  var 声明变量的语句块的例子：
 		- ```js
+		  // myVarVariable 在这里 *能* 被引用
+		  
+		  for (var myVarVariable = 0; myVarVariable < 5; myVarVariable++) {
+		    // myVarVariable 整个函数中都能被引用
+		  }
+		  
+		  // myVarVariable 在这里 *能* 被引用
 		  ```
+	- JavaScript 与其他语言的（如 Java）的重要区别是在 JavaScript 中语句块（blocks）是没有作用域的，只有函数有作用域。因此如果在一个复合语句中（如 if 控制结构中）使用 var 声明一个变量，那么它的作用域是整个函数（复合语句在函数中）。 但是从 ECMAScript Edition 6 开始将有所不同的， let 和 const 关键字允许你创建块作用域的变量。
