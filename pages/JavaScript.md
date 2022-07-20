@@ -70,5 +70,5 @@
 			- ```js
 			  obj.details.color; // orange
 			  obj["details"]["size"]; // 12
-			  
 			  ```
+	- ## 定义对象
