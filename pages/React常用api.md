@@ -13,6 +13,9 @@
 	          path: '/docs/路由SDK/README'
 	      }]
 	  // 遍历
+	   {FeatureList.map((props, idx) => (
+	                          <Feature key={idx} {...props} />
+	                      ))}
 	  
 	  ```
 -
