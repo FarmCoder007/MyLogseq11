@@ -6,7 +6,10 @@
 - [React进阶React全部api解读](https://blog.csdn.net/weixin_43484007/article/details/124391509)
 -
 - # 三、JSX语法
-	-
+	- 这个有趣的标签语法既不是字符串也不是 HTML。
+	- ```js
+	  const element = <h1>Hello, world!</h1>;
+	  ```
 - # 四、[[React常用api]]
 	-
 		-
