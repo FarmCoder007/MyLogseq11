@@ -15,9 +15,8 @@
 	      }]
 	  // 遍历
 	  // JSX语法 中 需用{}包裹js代码 
-	   {FeatureList.map((item, idx) => (
-	                          <Feature key={idx} {...props} />
-	                      ))}
+	   {FeatureList.map(   (item, idx) => ( <Feature key={idx} {...props} /> )
+	                                 )}
 	  
 	  ```
 -
