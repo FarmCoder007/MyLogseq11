@@ -100,10 +100,15 @@
 		  ```
 - # 三、函数
 	- 学习 JavaScript 最重要的就是要理解对象和函数两个部分。最简单的函数就像下面这个这么简单：
-		- ```js
-		  function add(x, y) {
-		      var total = x + y;
-		      return total;
-		  }
-		  ```
--
+		- 例子1：
+		  collapsed:: true
+			- ```js
+			  function add(x, y) {
+			      var total = x + y;
+			      return total;
+			  }
+			  ```
+			- 这个例子包括你需要了解的关于基本函数的所有部分。一个 JavaScript 函数可以包含 0 个或多个已命名的变量。函数体中的表达式数量也没有限制。你可以声明函数自己的局部变量。return 语句在返回一个值并结束函数。如果没有使用 return 语句，或者一个没有值的 return 语句，JavaScript 会返回 undefined。
+		- 例子2：
+		-
+		- 已命名的参数更像是一个指示而没有其他作用。如果调用函数时没有提供足够的参数，缺少的参数会被 undefined 替代。
