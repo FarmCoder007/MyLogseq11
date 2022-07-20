@@ -1,4 +1,5 @@
 - ## map遍历
+	- 数组.map((对象，下标) =>(处理代码)）
 	- ```js
 	  // 定义常量数组
 	  const FeatureList = [
@@ -13,7 +14,8 @@
 	          path: '/docs/路由SDK/README'
 	      }]
 	  // 遍历
-	   {FeatureList.map((props, idx) => (
+	  // JSX语法 中 需用{}包裹js代码 
+	   {FeatureList.map((item, idx) => (
 	                          <Feature key={idx} {...props} />
 	                      ))}
 	  
