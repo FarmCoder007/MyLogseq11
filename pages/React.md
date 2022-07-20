@@ -1,6 +1,7 @@
 - # 一、简介
 	- React 是用于创建页面的 UI 库
+	- 官方推荐使用 一种JSX语法,类似xml
 - # 二、api
 - [React进阶React全部api解读](https://blog.csdn.net/weixin_43484007/article/details/124391509)
 -
-- # 三、JSX
+- # 三、JSX语法
