@@ -71,4 +71,16 @@
 			  obj.details.color; // orange
 			  obj["details"]["size"]; // 12
 			  ```
-	- ## 定义对象
+	- ## 定义对象原型(也就是定义java中的类)
+		- ```js
+		  function Person(name, age) {
+		    this.name = name;
+		    this.age = age;
+		  }
+		  
+		  // 定义一个对象
+		  var You = new Person('You', 24);
+		  // 我们创建了一个新的 Person，名称是 "You"
+		  // ("You" 是第一个参数，24 是第二个参数..)
+		  
+		  ```
