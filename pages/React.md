@@ -20,7 +20,6 @@
 - # 六、事件
 	- ## onChange事件
 		- ### 6-1、将 onChange 处理程序添加到输入
-		  collapsed:: true
 			- ```js
 			  import React from 'react';
 			  
