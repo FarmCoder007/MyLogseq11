@@ -6,8 +6,7 @@
 - # 二、api
 - [React进阶React全部api解读](https://blog.csdn.net/weixin_43484007/article/details/124391509)
 -
-- # 三、JSX语法
-  collapsed:: true
+- # 三、JSX(JSX 是 Javascript XML 的缩写)语法
 	- ## 简介
 		- ```js
 		  const element = <h1>Hello, world!</h1>;
