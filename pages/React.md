@@ -19,7 +19,8 @@
 	- 组件允许你将 UI 拆分为独立可复用的代码片段，并对每个片段进行独立构思。本指南旨在介绍组件的相关理念
 - # 六、事件
 	- ## onChange事件
-		- ### 将 onChange 处理程序添加到输入
+		- ### 6-1、将 onChange 处理程序添加到输入
+		  collapsed:: true
 			- ```js
 			  import React from 'react';
 			  
@@ -41,3 +42,5 @@
 			- onChange 事件处理程序返回一个Synthetic Event对象，其中包含有用的元数据，例如目标输入的 id、名称和当前值。
 			- 我们可以通过访问e.target.value来访问 handleChange 内部的目标输入值。因此，要记录输入字段的名称，我们可以记录e.target.name。
 			- 上面的例子是一个功能组件。如果您使用的是 Class 组件，则必须将 onChange 事件处理程序绑定到this 的上下文。要了解有关功能组件和基于类的组件之间差异的更多信息，[请查看本指南。](https://upmostly.com/tutorials/react-functional-vs-class-components)
+		- ### 6-2、在 React 组件中使用 onChange 将输入值保存在状态内部
+-
