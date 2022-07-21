@@ -43,5 +43,6 @@
 			- 我们可以通过访问e.target.value来访问 handleChange 内部的目标输入值。因此，要记录输入字段的名称，我们可以记录e.target.name。
 			- 上面的例子是一个功能组件。如果您使用的是 Class 组件，则必须将 onChange 事件处理程序绑定到this 的上下文。要了解有关功能组件和基于类的组件之间差异的更多信息，[请查看本指南。](https://upmostly.com/tutorials/react-functional-vs-class-components)
 		- ### 6-2、在 React 组件中使用 onChange 将输入值保存在状态内部
-			- 我们今天将探讨的最后一个示例是如何将输入的当前值存储在状态值中。我们将使用 React 提供给我们的 [useState] (https://upmostly.com/tutorials/simplifying-react-state-and-the-usestate-hook) 钩子。您可以在此处了解有关 useState 挂钩的更多信息。
+			- 我们今天将探讨的最后一个示例是如何将输入的当前值存储在状态值中。我们将使用 React 提供给我们的 [useState](https://upmostly.com/tutorials/simplifying-react-state-and-the-usestate-hook) 钩子。您可以在此处了解有关 useState 挂钩的更多信息。
+			- 这对于跟踪当前输入字段值并在 UI 上显示它们非常有用。
 			-
