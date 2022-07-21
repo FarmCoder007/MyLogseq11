@@ -21,5 +21,21 @@
 	- ## onChange事件
 		- ### 将 onChange 处理程序添加到输入
 			- ```js
+			  import React from 'react';
+			  
+			  function App() {
+			  
+			    // 
+			    function handleChange(event) {
+			      console.log(event.target.value);
+			    }
+			    
+			    // 将onChange事件 传递到handleChange 函数中
+			    return (
+			      <input name="firstName" onChange={handleChange} />
+			    );
+			  }
+			  
+			  export default App;
 			  ```
 -
