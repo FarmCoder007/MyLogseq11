@@ -45,4 +45,17 @@
 		- ### 6-2、在 React 组件中使用 onChange 将输入值保存在状态内部
 			- 我们今天将探讨的最后一个示例是如何将输入的当前值存储在状态值中。我们将使用 React 提供给我们的 [useState](https://upmostly.com/tutorials/simplifying-react-state-and-the-usestate-hook) 钩子。您可以在此处了解有关 useState 挂钩的更多信息。
 			- 这对于跟踪当前输入字段值并在 UI 上显示它们非常有用。
+			- ```js
+			  import React from 'react';
+			  
+			  function App() {
+			    const [firstName, setFirstName] = useState('');
+			    
+			    return (
+			      <input value={firstName}   name="firstName" onChange={e => setFirstName(e.target.value)} />
+			    );
+			  }
+			  
+			  export default App;
+			  ```
 			-
