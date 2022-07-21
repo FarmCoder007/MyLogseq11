@@ -38,4 +38,6 @@
 			  
 			  export default App;
 			  ```
--
+			- onChange 事件处理程序返回一个Synthetic Event对象，其中包含有用的元数据，例如目标输入的 id、名称和当前值。
+			- 我们可以通过访问e.target.value来访问 handleChange 内部的目标输入值。因此，要记录输入字段的名称，我们可以记录e.target.name。
+			- 上面的例子是一个功能组件。如果您使用的是 Class 组件，则必须将 onChange 事件处理程序绑定到this 的上下文。要了解有关功能组件和基于类的组件之间差异的更多信息，请查看本指南。
