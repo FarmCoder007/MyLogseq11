@@ -7,3 +7,5 @@
 	  if sys.version[0] != '3':
 	      raise Exception("Please run with python3")
 	  ```
+- [[Flask之什么是路由、设置路由的两种方法、路由参数的详解]]
+-
