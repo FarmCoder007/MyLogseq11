@@ -18,6 +18,7 @@
 - # 五、组件 & Props
 	- 组件允许你将 UI 拆分为独立可复用的代码片段，并对每个片段进行独立构思。本指南旨在介绍组件的相关理念
 - # 六、事件
+  collapsed:: true
 	- ## onChange事件
 		- ### 6-1、将 onChange 处理程序添加到输入
 			- ```js
@@ -58,3 +59,5 @@
 			  export default App;
 			  ```
 			- 所以基本上，我们在这里所做的是将setFirstName设置器函数附加到 onChange 事件处理程序，该处理程序将e.target.value下的输入值传递给我们，然后将其设置为设置输入值的firstName并继续循环
+- # 七、[[Demo]]
+-
