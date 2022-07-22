@@ -14,6 +14,9 @@
 		          }
 		      }
 		  
+		      /**
+		       *
+		       */
 		      getValue(event) {
 		          this.setState({
 		              inputOneVersion: event.target.value
@@ -27,16 +30,6 @@
 		                  <p>输入值变化:{this.state.inputOneVersion}</p>
 		              </div>
 		          )
-		      }
-		  
-		      /**
-		       *  选择器变化
-		       * @param event
-		       */
-		      selectOptionChange(event) {
-		          this.setState({
-		              select: event.target.value
-		          });
 		      }
 		  }
 		  
