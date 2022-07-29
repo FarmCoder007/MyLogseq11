@@ -23,7 +23,6 @@
 	- [[AOP]]
 	- [[启动流程]]
 - JAVA
-  collapsed:: true
 	- [[java-泛型]]
 	- 集合
 		- [[List]]
