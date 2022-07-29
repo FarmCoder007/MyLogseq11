@@ -14,4 +14,6 @@
 	-
 	-
 - [list for 循环报错 ConcurrentModificationException](https://blog.csdn.net/J_bean/article/details/114899014)
+	- 解决：
+		- [ConcurrentLinkedQueue](https://blog.csdn.net/z69183787/article/details/81064982)
 -
