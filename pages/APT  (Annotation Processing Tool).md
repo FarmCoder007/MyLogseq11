@@ -237,6 +237,34 @@
 		-
 	- ## 11、匿名内部类anonymousClassBuilder 配合 $L引用到代码中
 		- ```kotlin
+		  // 效果
+		  ILocationService customService = ProxyUtils.callProxy(mService, new IMethodProxy() {
+		              @Nullable
+		              @Override
+		              public Object call(@Nullable Object who, @Nullable Method method, @Nullable Object... args) throws Throwable {
+		                  if (method == null) {
+		                      return null;
+		                  }
+		                  // TODO: 2022/7/27 遍历方法，调用BaseProxy相应的接口方法
+		                  if (method.getName().equals("startLocation")) {
+		                      if (args == null) {
+		                          return null;
+		                      }
+		                      startLocation((Context) args[0], (LocationCallback) args[1]);
+		                  }
+		                  if (method.getName().equals("stopLocation")) {
+		                      if (args == null) {
+		                          return null;
+		                      }
+		                      stopLocation((Context) args[0]);
+		                  }
+		                  return null;
+		              }
+		          });
+		  
+		  
+		  
+		  
 		  ```
 	- ## 12、javapoet生成可变参数，最后一位参数类型需要是数组否则报错
 	  collapsed:: true
