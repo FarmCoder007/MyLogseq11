@@ -3,7 +3,6 @@
 	- [[专利]]
 	- [[WBRouter]]
 - Android
-  collapsed:: true
 	- RecyclerView
 	  collapsed:: true
 		- 动画
@@ -23,6 +22,7 @@
 	- [[AOP]]
 	- [[启动流程]]
 - JAVA
+  collapsed:: true
 	- [[java-泛型]]
 	- 集合
 		- [[List]]
@@ -76,10 +76,12 @@
 		-
 	- [[开销总结]]
 - Python
+  collapsed:: true
 	- [[python教程文档]]
 	- [[文件内容操作]]
 	- [[开发工具]]
 - 前端
+  collapsed:: true
 	- [[yarn环境配置]]
 	- [[常见的文档生成工具]]
 	- [[常见命令]]
@@ -96,6 +98,7 @@
 	- [charles关闭后不能上网](https://blog.csdn.net/minmin_bufucisheng/article/details/89025601)
 	- [[环境变量命令]]
 - adb
+  collapsed:: true
 	- [[adb命令行]]
 - shell
 	- [[shell命令]]
