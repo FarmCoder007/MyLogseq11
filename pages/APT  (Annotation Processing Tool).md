@@ -263,7 +263,13 @@
 		          });
 		  
 		  // 代码：
+		   val iMethodProxyClass = TypeSpec.anonymousClassBuilder("")
+		              .addSuperinterface(ClassName.get("com.metax.tools","IMethodProxy"))
+		              .addMethod(iMethodProxyCallMethodBuilder.addStatement("return null").build())
 		  
+		  
+		   proxyRegisterMethodBuilder.addStatement("\$T customService = \$T.callProxy(${className.decapitalize(Locale.ROOT)},\$L)",
+		              interfaceElement.asType(),ClassName.get("com.metax.tools","ProxyUtils"),iMethodProxyClass.build())
 		  
 		  
 		  ```
