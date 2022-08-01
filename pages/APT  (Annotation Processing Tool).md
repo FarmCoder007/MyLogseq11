@@ -236,15 +236,23 @@
 		  ```
 		-
 	- ## 11、匿名内部类anonymousClassBuilder 配合 $L引用到代码中
-	  collapsed:: true
 		- ```kotlin
 		  ```
--
 	- ## 12、javapoet生成可变参数，最后一位参数类型需要是数组否则报错
+	  collapsed:: true
 		- 报错：last parameter of varargs method call must be an array
 		- 解决：
 			- ```kotlin
+			  // 声明数组
+			  val objectArray: TypeName = ArrayTypeName.of(objectClassName)
+			  // 添加参数
+			  MethodSpec.methodBuilder("call")
+			              .addParameter(ParameterSpec.builder(objectArray,"args")
+			                  .addAnnotation(nullableSpec).build())
+			              .varargs()
+			  
 			  ```
+	-
 - # 五、常见问题
 	- A failure occurred while executing org.jetbrains.kotlin.gradle.internal.KaptExecution
 	  collapsed:: true
