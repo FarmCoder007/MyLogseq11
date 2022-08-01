@@ -236,7 +236,7 @@
 		  isKaptDebugKotlinTask = options["kapt.kotlin.generated"]?.endsWith("debug") == true
 		  ```
 		-
-	-
+	- ## 11、匿名内部类anonymousClassBuilder 配合 $L引用到代码中
 - # 五、常见问题
 	- A failure occurred while executing org.jetbrains.kotlin.gradle.internal.KaptExecution
 	  collapsed:: true
