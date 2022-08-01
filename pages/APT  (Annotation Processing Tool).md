@@ -240,7 +240,11 @@
 		- ```kotlin
 		  ```
 -
-	- ## 12、javapoet生成可变参数，
+	- ## 12、javapoet生成可变参数，最后一位参数类型需要是数组否则报错
+		- 报错：last parameter of varargs method call must be an array
+		- 解决：
+			- ```kotlin
+			  ```
 - # 五、常见问题
 	- A failure occurred while executing org.jetbrains.kotlin.gradle.internal.KaptExecution
 	  collapsed:: true
