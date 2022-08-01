@@ -4,10 +4,12 @@
 	- 例子：
 		- ```java
 		  addStatement("data.$N()",toString)
-		  
+		  // 即调用data中的方法
+		  data.toString();
 		    
 		  ```
 - $S
+	- $S 在JavaPoet中就和 String.format 中 %s 一样,字符串的模板,将指定的字符串替换到$S的地方
 - $T
 	- $T 在JavaPoet代指的是TypeName，该模板主要将Class抽象出来，用传入的TypeName指向的Class来代替
 	- 例子：
