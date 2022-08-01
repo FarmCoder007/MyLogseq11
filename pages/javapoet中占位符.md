@@ -9,7 +9,11 @@
 		    
 		  ```
 - $S
-	- $S 在JavaPoet中就和 String.format 中 %s 一样,字符串的模板,将指定的字符串替换到$S的地方
+	- \$S 在JavaPoet中就和 String.format 中 %s 一样,字符串的模板,将指定的字符串替换到$S的地方
+	- 例子：
+		- ```java
+		  .addStatement("super.$S(savedInstanceState)","onCreate")
+		  ```
 - $T
 	- $T 在JavaPoet代指的是TypeName，该模板主要将Class抽象出来，用传入的TypeName指向的Class来代替
 	- 例子：
