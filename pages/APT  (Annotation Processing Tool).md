@@ -236,8 +236,11 @@
 		  ```
 		-
 	- ## 11、匿名内部类anonymousClassBuilder 配合 $L引用到代码中
+	  collapsed:: true
 		- ```kotlin
 		  ```
+-
+	- ## 12、javapoet生成可变参数，
 - # 五、常见问题
 	- A failure occurred while executing org.jetbrains.kotlin.gradle.internal.KaptExecution
 	  collapsed:: true
