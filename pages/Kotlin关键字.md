@@ -68,4 +68,9 @@
 				  ```
 				- java中的中断循环，break 和 continue (终断本次循序)关键字
 			- kotlin循环与中断：
-				- ``````
+				- ```kotlin
+				  forEachIndexed { index, i -> }
+				  forEach {it -> }
+				  ```
+				- return@forEachIndexed 和 return@forEach 代替java中循环的continue
+			-
