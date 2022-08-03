@@ -58,5 +58,5 @@
 		  }
 		  ```
 - ## 二、return
-	- <p style="[color:blue)](color:#009100)">return@forEachIndexed 和 return@forEach 代替java中循环的continue</p>
+	- <p style="color:#009100">return@forEachIndexed 和 return@forEach 代替java中循环的continue</p>
 -
