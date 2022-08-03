@@ -14,36 +14,40 @@
 		  ```
 	- ## 2、用于伴生对象声明
 		- ```kotlin
-		  class Test {
-		      companion object{
+		  class CompanionOuter {
+		      companion object CompanionInner {
 		          fun companionPrint() {
 		              println("companionPrint")
 		          }
 		      }
 		  }
+		  
 		  ```
-		- 伴生对象对应的java代码
-		- ```java
-		  public final class CompanionOuter {
-		     @NotNull
-		     public static final CompanionOuter.CompanionInner CompanionInner = new CompanionOuter.CompanionInner((DefaultConstructorMarker)null);
-		  
-		     public static final class CompanionInner {
-		        public final void companionPrint() {
-		           String var1 = "companionPrint";
-		           System.out.println(var1);
-		        }
-		  
-		        private CompanionInner() {
-		        }
-		  
-		         // $FF: synthetic method**
-		     public CompanionInner(DefaultConstructorMarker $constructor_marker) {
-		           this();
-		        }
-		     }
-		  }
-		  ```
+		- 伴生对象对应的java代码:
+		  collapsed:: true
+			- ```java
+			  public final class CompanionOuter {
+			     @NotNull
+			     public static final CompanionOuter.CompanionInner CompanionInner = new CompanionOuter.CompanionInner((DefaultConstructorMarker)null);
+			  
+			     public static final class CompanionInner {
+			        public final void companionPrint() {
+			           String var1 = "companionPrint";
+			           System.out.println(var1);
+			        }
+			  
+			        private CompanionInner() {
+			        }
+			  
+			         // $FF: synthetic method**
+			     public CompanionInner(DefaultConstructorMarker $constructor_marker) {
+			           this();
+			        }
+			     }
+			  }
+			  ```
+		- 原理：
+			-
 	- ## 3、用于单例类声明
 - ## 二、return
 -
