@@ -60,9 +60,12 @@
 - ## 二、return
 	- ## 1、return@forEachIndexed 和 return@forEach 代替java中循环的continue
 		- 背景：
-			- ```java
-			  for (int i = 0; i < list.size(); i++) {}
-			  for (int item : list) {}
-			  ```
-			- java中的中断循环，break 和 continue 关键字
-			-
+			- java循环与中断：
+			  collapsed:: true
+				- ```java
+				  for (int i = 0; i < list.size(); i++) {}
+				  for (int item : list) {}
+				  ```
+				- java中的中断循环，break 和 continue (终断本次循序)关键字
+			- kotlin循环与中断：
+				- ``````
