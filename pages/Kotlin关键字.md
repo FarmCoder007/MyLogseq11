@@ -1,4 +1,5 @@
 - ## 一、object
+  collapsed:: true
 	- ## 1、用于匿名内部类声明
 		- ```kotlin
 		  //  Proxy 创建代理类的方法
@@ -47,7 +48,14 @@
 			  }
 			  ```
 		- 原理：
-			-
+			- 伴生对象在java代码中会对应生成一个静态内部类，在外部类中会生成该静态内部类的静态对象，对该伴生对象的调用实际是通过这个静态对象实现的
 	- ## 3、用于单例类声明
+		- ```kotlin
+		  object TestSingleton {
+		      fun objDeclarationPrint() {
+		          println("objDeclarationPrint")
+		      }
+		  }
+		  ```
 - ## 二、return
--
+	-
