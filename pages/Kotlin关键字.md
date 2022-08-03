@@ -72,6 +72,24 @@
 			  forEach {it -> }
 			  ```
 			- return@forEachIndexed 和 return@forEach 代替java中循环的continue
-			- kotlin中代替java 中 break
+			- return 代替java 中 break
 				- break 方式一：使用 return，好处是简单，坏处是大多数时候我们只是想要结束循环，而非结束整个函数
+				  id:: 62ea443e-781e-4891-86e7-39b10bfc827b
+				- break 方式二：嵌套一层 Lambda 表达式，循环中使用 return@标签的方式实现非局部返回到外层表达式来模拟 break 的效果
+					- ```kotlin
+					  private fun testFun() {
+					      run out@{
+					          (1..4).forEach forEach@{
+					              if (it % 2 == 0){
+					                  Log.e("hzf","it==${it} 我是偶数")
+					                  return@out
+					              }
+					              Log.e("hzf","it==${it} 我是奇数")
+					          }
+					          Log.e("hzf","我是 run 里面")
+					      }
+					      Log.e("hzf","我是最外面")
+					  }
+					  
+					  ```
 		-
