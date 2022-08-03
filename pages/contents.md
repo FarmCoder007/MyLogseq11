@@ -23,11 +23,12 @@
 	- [[AOP]]
 	- [[启动流程]]
 - JAVA
-  collapsed:: true
 	- [[java-泛型]]
 	- 集合
+	  collapsed:: true
 		- [[List]]
 		-
+	- [[设计模式]]
 - Kotlin
   collapsed:: true
 	- [[基本语法]]
@@ -102,5 +103,6 @@
   collapsed:: true
 	- [[adb命令行]]
 - shell
+  collapsed:: true
 	- [[shell命令]]
 -
