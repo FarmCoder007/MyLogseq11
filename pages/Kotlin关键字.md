@@ -58,5 +58,5 @@
 		  }
 		  ```
 - ## 二、return
-	- 情景1、<p style="color:red">红色字体</p><p style="关键词:值">输入文字</p>
+	- <p style="color:red">红色字体</p>
 -
