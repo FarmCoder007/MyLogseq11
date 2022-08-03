@@ -23,6 +23,7 @@
 	- [[AOP]]
 	- [[启动流程]]
 - JAVA
+  collapsed:: true
 	- [[java-泛型]]
 	- 集合
 	  collapsed:: true
@@ -30,7 +31,6 @@
 		-
 	- [[设计模式]]
 - Kotlin
-  collapsed:: true
 	- [[基本语法]]
 	- [[注意事项]]
 - AS插件
