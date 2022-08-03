@@ -59,19 +59,19 @@
 		  ```
 - ## 二、return
 	- ## 1、return@forEachIndexed 和 return@forEach 代替java中循环的continue
-		- 背景：
-			- java循环与中断：
-			  collapsed:: true
-				- ```java
-				  for (int i = 0; i < list.size(); i++) {}
-				  for (int item : list) {}
-				  ```
-				- java中的中断循环，break 和 continue (终断本次循序)关键字
-			- kotlin循环与中断：
-				- ```kotlin
-				  forEachIndexed { index, i -> }
-				  forEach {it -> }
-				  ```
-				- return@forEachIndexed 和 return@forEach 代替java中循环的continue
-			-
-				- break
+		- java循环与中断：
+		  collapsed:: true
+			- ```java
+			  for (int i = 0; i < list.size(); i++) {}
+			  for (int item : list) {}
+			  ```
+			- java中的中断循环，break 和 continue (终断本次循序)关键字
+		- kotlin循环与中断：
+			- ```kotlin
+			  forEachIndexed { index, i -> }
+			  forEach {it -> }
+			  ```
+			- return@forEachIndexed 和 return@forEach 代替java中循环的continue
+			- kotlin中代替java 中 break
+				- break 方式一：使用 return，好处是简单，坏处是大多数时候我们只是想要结束循环，而非结束整个函数
+		-
