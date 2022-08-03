@@ -12,9 +12,17 @@
 		                      }
 		                  })
 		  ```
-	- ## 2、用于半生对象声明
+	- ## 2、用于伴生对象声明
 		- ```kotlin
+		  class Test {
+		      companion object{
+		          fun companionPrint() {
+		              println("companionPrint")
+		          }
+		      }
+		  }
 		  ```
+		-
 	- ## 3、用于单例类声明
 - ## 二、return
 -
