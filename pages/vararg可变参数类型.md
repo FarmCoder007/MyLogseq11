@@ -25,7 +25,7 @@
 - 查询原因
 	- 通过查看kotlin转换的java源码来看看问题到底出在哪儿
 	  Android Studio -> Tools -> Kotlin -> Show Kotlin Bytecode
-	- ```
+	- ```java
 	  public final class VarargDemoKt {
 	     public static final void main(@NotNull String[] args) {
 	        Intrinsics.checkParameterIsNotNull(args, "args");
