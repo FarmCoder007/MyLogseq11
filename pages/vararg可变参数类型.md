@@ -1,6 +1,6 @@
 - 调用含有可变参数类型的方法时，需要传*
 - 例子：
-	- ```
+	- ```kotlin
 	  fun main(args: Array<String>) {
 	      invokMsg("AAA", "BBB", "CCC", "DDD")
 	  }
@@ -14,7 +14,7 @@
 	      println(msg.joinToString(" "))
 	  }
 	  ```
-	- ```
+	- ```kotlin
 	  //输出了[Ljava.lang.Object;@a09ee92（类的对象名称）
 	  [Ljava.lang.Object;@a09ee92
 	  // 带*输出了值
