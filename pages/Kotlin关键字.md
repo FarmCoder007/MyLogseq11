@@ -59,4 +59,10 @@
 		  ```
 - ## 二、return
 	- ## 1、return@forEachIndexed 和 return@forEach 代替java中循环的continue
-		- java中的中断循环
+		- 背景：
+			- ```java
+			  for (int i = 0; i < list.size(); i++) {}
+			  for (int item : list) {}
+			  ```
+			- java中的中断循环，break 和 continue 关键字
+			-
