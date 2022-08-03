@@ -67,6 +67,7 @@
 			  ```
 			- java中的中断循环，break 和 continue (终断本次循序)关键字
 		- kotlin循环与中断：
+		  collapsed:: true
 			- ```kotlin
 			  forEachIndexed { index, i -> }
 			  forEach {it -> }
@@ -92,4 +93,4 @@
 					  }
 					  
 					  ```
-		-
+		- [参考资料](https://blog.csdn.net/Nicholas1hzf/article/details/123621523)
