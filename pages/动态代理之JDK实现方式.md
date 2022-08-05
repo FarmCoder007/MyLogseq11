@@ -8,5 +8,5 @@
 	- 通过方法匹配代理方法(InvocationHandler中的invoke)
 - ## 三、动态代理的作用
 	- 1、方法插入代码：通过 接口中的 invoke 方法进行业务的调用和增强等处理，InvocationHandler是一个拦截器类
-	- 2、api实现类的
+	- 2、api实现类的差异化，用代理类新实现替换旧实现
 -
