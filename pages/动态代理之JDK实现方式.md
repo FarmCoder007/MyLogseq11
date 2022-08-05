@@ -1,2 +1,3 @@
-- //通过InvocationHandler 接口中的 invoke 方法进行业务的调用和增强等处理，InvocationHandler是一个拦截器类
+- 动态代理，三要素：被代理的接口、接口实现类、通过方法匹配代理InvocationHandler中
+- //通过 接口中的 invoke 方法进行业务的调用和增强等处理，InvocationHandler是一个拦截器类
 -
