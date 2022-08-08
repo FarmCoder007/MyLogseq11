@@ -19,8 +19,8 @@
 		  public interface InvocationHandler {
 		     /**
 		      * Object proxy: 动态代理对象,即调用该方法的代理实例
-		      * Method method：对应于在代理实例上调用的接口方法的方法实例
-		      * Object[] args：
+		      * Method method：表示最终要执行的方法，method.invoke 用于执行被代理的方法，也就是真正的目标方法（对应于在代理实例上调用的接口方法的方法实例）
+		      * Object[] args：这个参数就是向目标方法传递的参数。
 		      * 返回值Object：
 		      */
 		      public Object invoke(Object proxy, Method method, Object[] args)
