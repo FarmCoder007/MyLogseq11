@@ -13,4 +13,6 @@
 	- ![image.png](../assets/image_1659671333414_0.png)
 	- RD无法直接访问 “目标接口实现类对象”，通过创建 “代理类对象”，调用invoke来访问目标对象的方法
 	- 在 JDK 动态代理中，实现了 InvocationHandler 的类可以看作是 代理类
+- ## 五、相关类
+	- ### 5-1、InvocationHandler
 -
