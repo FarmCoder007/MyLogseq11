@@ -17,7 +17,11 @@
 	- ### 5-1、InvocationHandler接口 (实现该接口作为代理类)
 		- ```java
 		  public interface InvocationHandler {
-		    
+		     /**
+		      * Object proxy: 
+		      */
+		      public Object invoke(Object proxy, Method method, Object[] args)
+		          throws Throwable;
 		  }
 		  ```
 	- ### 5-2、
