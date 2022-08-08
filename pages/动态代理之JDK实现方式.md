@@ -28,6 +28,7 @@
 		          throws Throwable;
 		  }
 		  ```
+		- 将方法调用分派到的该调度器，也就是调方法的时候，会调度到该接口的invoke方
 	- ### 5-2、Proxy.newProxyInstance(创建代理类对象)
 		- ```java
 		   /**
@@ -35,8 +36,8 @@
 		    *  ClassLoader loader:用于定义代理类的类加载器 一般使用原实现类类加载器 objImpl.javaClass.classLoader 
 		    *  Class<?>[] interfaces:代理类要实现的接口列表  [可以获取原实现类的 所有父接口传入]
 		    *  
-		    *   InvocationHandler h
-		    * 
+		    *  InvocationHandler h：将方法调用分派到的该调度器，也就是调方法的时候，会调度到该接口的invoke方法
+		    *  
 		    */
 		  public static Object newProxyInstance(ClassLoader loader,
 		                                            Class<?>[] interfaces,
