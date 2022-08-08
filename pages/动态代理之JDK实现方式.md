@@ -14,6 +14,7 @@
 	- RD无法直接访问 “目标接口实现类对象”，通过创建 “代理类对象”，调用invoke来访问目标对象的方法
 	- 在 JDK 动态代理中，实现了 InvocationHandler 的类可以看作是 代理类
 - ## 五、相关类
+  collapsed:: true
 	- ### 5-1、InvocationHandler接口 (实现该接口作为代理类)
 		- ```java
 		  public interface InvocationHandler {
@@ -41,6 +42,7 @@
 		    *  
 		    *  InvocationHandler h：将方法调用分派到的该调度器，也就是调方法的时候，会调度到该接口的invoke方法
 		    *  
+		    *  返回值：返回指定接口的代理类实例
 		    */
 		  public static Object newProxyInstance(ClassLoader loader,
 		                                            Class<?>[] interfaces,
@@ -48,4 +50,6 @@
 		     
 		   }
 		  ```
+- ## 六、封装使用
+	- 一般
 -
