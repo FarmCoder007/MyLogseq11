@@ -27,5 +27,5 @@
 		          throws Throwable;
 		  }
 		  ```
-	- ### 5-2、
+	- ### 5-2、Proxy.newProxyInstance(创建代理类对象)
 -
