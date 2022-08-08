@@ -21,6 +21,7 @@
 		      * Object proxy: 动态代理对象,即调用该方法的代理实例
 		      * Method method：表示最终要执行的方法，method.invoke 用于执行被代理的方法，也就是真正的目标方法（对应于在代理实例上调用的接口方法的方法实例）
 		      * Object[] args：这个参数就是向目标方法传递的参数。
+		      *
 		      * 返回值Object：即代理方法的返回值，如果接口方法的声明返回类型是基元类型，则该方法返回的值必须是相应基元包装类的实例
 		      */
 		      public Object invoke(Object proxy, Method method, Object[] args)
@@ -28,4 +29,15 @@
 		  }
 		  ```
 	- ### 5-2、Proxy.newProxyInstance(创建代理类对象)
+		- ```java
+		   /**
+		    *  ClassLoader loader:
+		    *  
+		    */
+		  public static Object newProxyInstance(ClassLoader loader,
+		                                            Class<?>[] interfaces,
+		                                            InvocationHandler h){
+		     
+		   }
+		  ```
 -
