@@ -18,7 +18,10 @@
 		- ```java
 		  public interface InvocationHandler {
 		     /**
-		      * Object proxy: 动态代理对象
+		      * Object proxy: 动态代理对象,即调用该方法的代理实例
+		      * Method method：
+		      * Object[] args：
+		      * 返回值Object：
 		      */
 		      public Object invoke(Object proxy, Method method, Object[] args)
 		          throws Throwable;
