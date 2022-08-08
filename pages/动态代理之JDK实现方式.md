@@ -31,7 +31,7 @@
 	- ### 5-2、Proxy.newProxyInstance(创建代理类对象)
 		- ```java
 		   /**
-		    *  ClassLoader loader:
+		    *  ClassLoader loader:用于定义代理类的类加载器 一般使用
 		    *  
 		    */
 		  public static Object newProxyInstance(ClassLoader loader,
