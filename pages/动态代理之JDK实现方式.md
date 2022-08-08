@@ -31,8 +31,7 @@
 		- InvocationHandler接口对象是传入到Proxy.newProxyInstance的代理调度器，newProxyInstance获取到代理对象执行代理方法时，会分派到的该调度器的invoke方法
 			- 调用newProxyInstance
 				- 1、可以传入InvocationHandler实现类对象，重写invoke方法，
-				- 2、传入InvocationHandler的匿名内部类，新建与InvocationHandler同api的自定义接口，在InvocationHandler的匿名内部类对象的invoke方法中，调用自定义的同名方法
-				- ``````
+				- 2、传入InvocationHandler的匿名内部类，新建与InvocationHandler同api的自定义接口，在InvocationHandler的匿名内部类对象的invoke方法中，调用自定义的同名方法->见包装实现
 	- ### 5-2、Proxy.newProxyInstance(创建代理类对象)
 		- ```java
 		   /**
