@@ -19,7 +19,7 @@
 		  public interface InvocationHandler {
 		     /**
 		      * Object proxy: 动态代理对象,即调用该方法的代理实例
-		      * Method method：
+		      * Method method：对应于在代理实例上调用的接口方法的方法实例
 		      * Object[] args：
 		      * 返回值Object：
 		      */
