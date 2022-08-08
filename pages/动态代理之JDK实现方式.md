@@ -28,7 +28,7 @@
 		          throws Throwable;
 		  }
 		  ```
-		- InvocationHandler接口对象是传入到Proxy.newProxyInstance的代理调度器，newProxyInstance获取到代理对象执行代理方法时，将方法调用分派到的该调度器，也就是调方法的时候，会调度到该接口的invoke方
+		- InvocationHandler接口对象是传入到Proxy.newProxyInstance的代理调度器，newProxyInstance获取到代理对象执行代理方法时，会分派到的该调度器的invoke方
 	- ### 5-2、Proxy.newProxyInstance(创建代理类对象)
 		- ```java
 		   /**
