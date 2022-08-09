@@ -481,13 +481,13 @@
 		  
 		          // If the proxy class defined by the given loader implementing
 		          // the given interfaces exists, this will simply return the cached copy;
-		          // otherwise, it will create the proxy class via the ProxyClassFactory
-		        //然后会直接从 proxyClassCache 中根据 loader 和 interfaces 获取代理对象实例。
-		        //如果能够根据 loader 和 interfaces 找到代理对象，将会返回缓存中的对象副本；
-		        //否则，它将通过 ProxyClassFactory 创建代理类。
-		        
-		        // proxyClassCache 是如何进行缓存的，只需要知道它的缓存时机就可以了：即在类加载的时候进行缓存。
+		          // otherwise, it will create the proxy class via the ProxyClassFactory 
 		          return proxyClassCache.get(loader, interfaces);
 		      }
 		  ```
+		- 然后会直接从 proxyClassCache 中根据 loader 和 interfaces 获取代理对象实例。
+		- 如果能够根据 loader 和 interfaces 找到代理对象，将会返回缓存中的对象副本；
+		- 否则，它将通过 ProxyClassFactory 创建代理类。
+		- proxyClassCache 是如何进行缓存的，
+			- 只需要知道它的缓存时机就可以了：即在类加载的时候进行缓存。
 		-
