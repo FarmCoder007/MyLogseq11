@@ -503,13 +503,16 @@
 			- 只需要知道它的缓存时机就可以了：即在类加载的时候进行缓存。
 	- ## ProxyClassFactory 创建代理类工厂
 		- ```java
-		     private static final class ProxyClassFactory
+		  
+		  //一个工厂函数，在给定类加载器和接口数组的情况下生成、定义和返回代理类。
+		  private static final class ProxyClassFactory
 		          implements BiFunction<ClassLoader, Class<?>[], Class<?>>
 		      {
-		          // prefix for all proxy class names
+		          // 所有代理类名的前缀
 		          private static final String proxyClassNamePrefix = "$Proxy";
 		  
-		          // next number to use for generation of unique proxy class names
+		          // 下一个用于生成唯一代理类名的数字
+		          //这个属性表明 ProxyClassFactory 的后缀是使用 AtomicLong 生成的数字
 		          private static final AtomicLong nextUniqueNumber = new AtomicLong();
 		  
 		          @Override
