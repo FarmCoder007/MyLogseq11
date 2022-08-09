@@ -583,7 +583,7 @@
 		              {
 		                  // Android-changed: Generate the proxy directly instead of calling
 		                  // through to ProxyGenerator.
-		                  // 1、
+		                  // 1、收集字段和方法信息
 		                  List<Method> methods = getMethods(interfaces);
 		                  Collections.sort(methods, ORDER_BY_SIGNATURE_AND_SUBTYPE);
 		                  validateReturnTypes(methods);
@@ -593,11 +593,11 @@
 		                  Class<?>[][] exceptionsArray = exceptions.toArray(new Class<?>[exceptions.size()][]);
 		  
 		                  /*
-		                   * Choose a name for the proxy class to generate.
+		                   * 选择要生成的代理类的名称。
 		                   */
 		                  long num = nextUniqueNumber.getAndIncrement();
 		                  String proxyName = proxyPkg + proxyClassNamePrefix + num;
-		  
+		                  
 		                  return generateProxy(proxyName, interfaces, loader, methodsArray,
 		                                       exceptionsArray);
 		              }
