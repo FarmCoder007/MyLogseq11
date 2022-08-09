@@ -472,6 +472,7 @@
 		- newProxyInstsance 方法最重要的几个环节就是获得代理类、获得构造器，然后构造新实例
 			- 获得构造器，然后构造新实例主要是反射
 	- ## getProxyClass0() 获取代理类分析：
+	  collapsed:: true
 		- ```java
 		  
 		      /**
@@ -500,4 +501,5 @@
 		- 否则，它将通过 ProxyClassFactory 创建代理类。初始化的时候传入了ProxyClassFactory代理类创建工厂
 		- proxyClassCache 是如何进行缓存的，
 			- 只需要知道它的缓存时机就可以了：即在类加载的时候进行缓存。
-		-
+	- ## ProxyClassFactory 创建代理类工厂
+		- ``````
