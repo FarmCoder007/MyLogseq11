@@ -409,7 +409,7 @@
 		          throws IllegalArgumentException
 		      {
 		          Objects.requireNonNull(h);
-		  
+		          // 1、克隆接口   
 		          final Class<?>[] intfs = interfaces.clone();
 		          // Android-removed: SecurityManager calls
 		          /*
@@ -420,7 +420,7 @@
 		          */
 		  
 		          /*
-		           * Look up or generate the designated proxy class.
+		           * 查找或生成指定的代理类
 		           */
 		          Class<?> cl = getProxyClass0(loader, intfs);
 		  
@@ -466,5 +466,5 @@
 		          }
 		      }
 		  ```
-		- 1、克隆接口
+		-
 		- 2、
