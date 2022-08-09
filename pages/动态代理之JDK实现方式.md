@@ -397,6 +397,7 @@
 	- 1、JavaDoc 告诉我们，InvocationHandler 是一个接口，实现这个接口的类就表示该类是一个代理实现类，也就是代理类
 	- 2、动态代理的优势在于能够很方便的对代理类中方法进行集中处理，而不用修改每个被代理的方法。因为所有被代理的方法（真正执行的方法）都是通过在 InvocationHandler 中的 invoke 方法调用的。所以我们只需要对 invoke 方法进行集中处理
 	- ## Proxy.newInstance 方法分析
+	  collapsed:: true
 		- ```java
 		  /**
 		   * @params loader 原实现类的类加载器
@@ -490,12 +491,13 @@
 		          // If the proxy class defined by the given loader implementing
 		          // the given interfaces exists, this will simply return the cached copy;
 		          // otherwise, it will create the proxy class via the ProxyClassFactory 
-		          return proxyClassCache.get(loader, interfaces);
+		          // 缓存代理类的proxyClassCache   
+		        return proxyClassCache.get(loader, interfaces);
 		      }
 		  ```
 		- 然后会直接从 proxyClassCache 中根据 loader 和 interfaces 获取代理对象实例。
 		- 如果能够根据 loader 和 interfaces 找到代理对象，将会返回缓存中的对象副本；
-		- 否则，它将通过 ProxyClassFactory 创建代理类。
+		- 否则，它将通过 ProxyClassFactory 创建代理类。初始化的时候传入了ProxyClassFactory代理类创建工厂
 		- proxyClassCache 是如何进行缓存的，
 			- 只需要知道它的缓存时机就可以了：即在类加载的时候进行缓存。
 		-
