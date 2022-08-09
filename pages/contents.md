@@ -3,7 +3,7 @@
 	- [[专利]]
 	- [[WBRouter]]
 - Android
-  collapsed:: true
+	- 系统架构
 	- RecyclerView
 	  collapsed:: true
 		- 动画
