@@ -472,5 +472,16 @@
 			- 获得构造器，然后构造新实例主要是反射
 	- 获取代理类分析：
 		- ```java
+		      private static Class<?> getProxyClass0(ClassLoader loader,
+		                                             Class<?>... interfaces) {
+		          if (interfaces.length > 65535) {
+		              throw new IllegalArgumentException("interface limit exceeded");
+		          }
+		  
+		          // If the proxy class defined by the given loader implementing
+		          // the given interfaces exists, this will simply return the cached copy;
+		          // otherwise, it will create the proxy class via the ProxyClassFactory
+		          return proxyClassCache.get(loader, interfaces);
+		      }
 		  ```
 		-
