@@ -1,15 +1,19 @@
 - ## 一、什么是动态代理
+  collapsed:: true
 	- 首先，动态代理是代理模式的一种实现方式，代理模式除了动态代理还有 静态代理，只不过静态代理能够在编译时期确定类的执行对象，而动态代理只有在运行时才能够确定执行对象是谁。代理可以看作是对最终调用目标的一个封装，我们能够通过操作代理对象来调用目标类，这样就可以实现调用者和目标对象的解耦合。
 	- 动态代理的应用场景有很多，最常见的就是 AOP 的实现、RPC 远程调用、Java 注解对象获取、日志框架、全局性异常处理、事务处理等。
 	- 动态代理的实现有很多，但是 JDK 动态代理是很重要的一种
 - ## 二、实现动态代理需要具备的因素
+  collapsed:: true
 	- 被代理的接口
 	- 接口实现类
 	- 通过方法匹配代理方法(InvocationHandler中的invoke)
 - ## 三、动态代理的作用
+  collapsed:: true
 	- 1、方法插入代码：通过 接口中的 invoke 方法进行业务的调用和增强等处理，InvocationHandler是一个拦截器类
 	- 2、api实现类的差异化，用代理类新实现替换旧实现
 - ## 四、动态代理执行过程
+  collapsed:: true
 	- ![image.png](../assets/image_1659671333414_0.png)
 	- RD无法直接访问 “目标接口实现类对象”，通过创建 “代理类对象”，调用invoke来访问目标对象的方法
 	- 在 JDK 动态代理中，实现了 InvocationHandler 的类可以看作是 代理类
@@ -51,6 +55,7 @@
 		   }
 		  ```
 - ## 六、封装使用
+  collapsed:: true
 	- 一般组件化在api库定义 `api接口`，实现库定义接口 `实现类impl`。对外暴露的api会用 `接口包装类` 获取接口 `实现类` 去调用api，而不是直接去拿`实现类`去调用，后期底层换api，或者实现类，对外暴露的`接口包装类`的api不会变，上层业务也不需要改变。
 	- 动态代理也可以在接口包装类中，拿到代理对象，替换原实现类对象，这样对外暴露的接口包装类，用的实际上是代理类
 	- 接口api:
@@ -316,6 +321,7 @@
 		  }
 		  ```
 	- 通用代理调度接口，代替直接使用InvocationHandler，统一管理 调用代理方法异常try
+	  collapsed:: true
 		- ```kotlin
 		  interface IMethodProxy {
 		      @Throws(Throwable::class)
@@ -323,6 +329,7 @@
 		  }
 		  ```
 	- 通用代理注册接口
+	  collapsed:: true
 		- ```kotlin
 		  interface IMetaXBaseProxy {
 		      /**
@@ -334,7 +341,58 @@
 		  }
 		  ```
 	- 创建代理类方法
+	  collapsed:: true
 		- ```kotlin
+		  object ProxyUtils {
+		  
+		  //     lambda形式
+		  
+		  //    @JvmStatic
+		  //    fun <T> callProxy(obj: Any? , methodProxy: IMethodProxy): T? {
+		  //        obj?.let {
+		  //            val proxyInterfaces = MethodParameterUtils.getAllInterface(it.javaClass)
+		  //            return Proxy.newProxyInstance(
+		  //                    it.javaClass.classLoader , proxyInterfaces , InvocationHandler { proxy , method , args ->
+		  //                try {
+		  //                    return@InvocationHandler methodProxy.call(it , method , *args)
+		  //                } catch (throwable: Throwable) {
+		  //                    return@InvocationHandler null
+		  //                }
+		  //            }) as T
+		  //        }
+		  //        return null
+		  //    }
+		  
+		      /**
+		       * 参数1： 传入原实现类
+		       * 参数2：代理方法接口 整体做异常捕获
+		       *
+		       * 返回值：返回创建的代理类实例
+		       */
+		      @JvmStatic
+		      fun <T> callProxy(obj: Any? , methodProxy: IMethodProxy): T? {
+		          obj?.let {
+		              val proxyInterfaces = MethodParameterUtils.getAllInterface(it.javaClass)
+		              /**
+		               *  参数1：原实现类的 类加载器
+		               *  参数2：原实现类的所有实现接口
+		               *  参数3：InvocationHandler 子类对象，借助
+		               *  返回值：创建的代理实例
+		               */
+		              return Proxy.newProxyInstance(it.javaClass.classLoader , proxyInterfaces , object :InvocationHandler{
+		                      override fun invoke(proxy: Any?, method: Method?, args: Array<out Any>?): Any? {
+		                          // 对包装的代理方法的调用，做整体的异常捕获
+		                          return try {
+		                              methodProxy.call(it , method , args)
+		                          } catch (throwable: Throwable) {
+		                              null
+		                          }
+		                      }
+		                  }) as T
+		          }
+		          return null
+		      }
+		  }
 		  ```
 - ## 七、动态代理原理(反射)
 	-
