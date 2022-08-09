@@ -401,7 +401,8 @@
 		  /**
 		   * @params loader 原实现类的类加载器
 		   * @params interfaces 原实现类的实现的所有接口
-		   * @params h 
+		   * @params h InvocationHandler 对象
+		   * 返回一个代理对象
 		   */
 		  public static Object newProxyInstance(ClassLoader loader, Class<?>[] interfaces,
 		                                            InvocationHandler h)
@@ -465,3 +466,5 @@
 		          }
 		      }
 		  ```
+		- 1、克隆接口
+		- 2、
