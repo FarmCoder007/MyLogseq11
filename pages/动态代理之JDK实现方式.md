@@ -515,6 +515,7 @@
 		          //这个属性表明 ProxyClassFactory 的后缀是使用 AtomicLong 生成的数字
 		          private static final AtomicLong nextUniqueNumber = new AtomicLong();
 		  
+		          // 这个 apply 方法是一个根据接口和类加载器进行代理实例创建的工厂方法，下面是这段代码的核心。
 		          @Override
 		          public Class<?> apply(ClassLoader loader, Class<?>[] interfaces) {
 		  
