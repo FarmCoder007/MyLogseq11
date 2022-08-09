@@ -472,6 +472,14 @@
 			- 获得构造器，然后构造新实例主要是反射
 	- getProxyClass0() 获取代理类分析：
 		- ```java
+		  
+		      /**
+		       * a cache of proxy classes
+		       */
+		      private static final WeakCache<ClassLoader, Class<?>[], Class<?>>
+		          proxyClassCache = new WeakCache<>(new KeyFactory(), new ProxyClassFactory());
+		  ```
+		- ```java
 		      private static Class<?> getProxyClass0(ClassLoader loader,
 		                                             Class<?>... interfaces) {
 		         // 原实现类实现接口的数量   接口数量是否大于 65535  
