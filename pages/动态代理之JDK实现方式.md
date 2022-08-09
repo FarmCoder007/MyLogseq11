@@ -474,7 +474,8 @@
 		- ```java
 		      private static Class<?> getProxyClass0(ClassLoader loader,
 		                                             Class<?>... interfaces) {
-		          if (interfaces.length > 65535) {
+		         // 原实现类实现接口的数量   接口数量是否大于 65535  
+		         if (interfaces.length > 65535) {
 		              throw new IllegalArgumentException("interface limit exceeded");
 		          }
 		  
