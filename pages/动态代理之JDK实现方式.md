@@ -420,7 +420,7 @@
 		          */
 		  
 		          /*
-		           * 查找或生成指定的代理类
+		           * 2、查找或生成指定的代理类
 		           */
 		          Class<?> cl = getProxyClass0(loader, intfs);
 		  
