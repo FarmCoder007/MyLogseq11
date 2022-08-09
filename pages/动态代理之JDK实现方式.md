@@ -420,7 +420,7 @@
 		          */
 		  
 		          /*
-		           * 2、查找或生成指定的代理类
+		           * 2、查找或生成指定的代理类class
 		           */
 		          Class<?> cl = getProxyClass0(loader, intfs);
 		  
@@ -434,9 +434,10 @@
 		                  checkNewProxyPermission(Reflection.getCallerClass(), cl);
 		              }
 		              */
-		  
+		              // 3、 获取代理class的 构造器
 		              final Constructor<?> cons = cl.getConstructor(constructorParams);
 		              final InvocationHandler ih = h;
+		              // 4、判断访问权限不是public  则 
 		              if (!Modifier.isPublic(cl.getModifiers())) {
 		                  // BEGIN Android-removed: Excluded AccessController.doPrivileged call.
 		                  /*
