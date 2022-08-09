@@ -502,6 +502,7 @@
 		- proxyClassCache 是如何进行缓存的，
 			- 只需要知道它的缓存时机就可以了：即在类加载的时候进行缓存。
 	- ## ProxyClassFactory 创建代理类工厂
+	  collapsed:: true
 		- ```java
 		  
 		  //一个工厂函数，在给定类加载器和接口数组的情况下生成、定义和返回代理类。
@@ -596,11 +597,14 @@
 		                   * 选择要生成的代理类的名称。
 		                   */
 		                  long num = nextUniqueNumber.getAndIncrement();
+		                  // 生成代理类的名称  包名Proxy0 这样
 		                  String proxyName = proxyPkg + proxyClassNamePrefix + num;
-		                  
+		                  // native c++生成代理类
 		                  return generateProxy(proxyName, interfaces, loader, methodsArray,
 		                                       exceptionsArray);
 		              }
 		          }
 		      }
 		  ```
+	- ## 总结：
+	- JDK 为我们的生成了一个叫 $Proxy0 的代理类，这个类文件放在内存中的，我们在创建代理对象时，就是通过反射获得这个类的构造方法，然后创建的代理实例。
