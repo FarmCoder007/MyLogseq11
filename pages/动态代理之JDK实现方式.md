@@ -502,4 +502,19 @@
 		- proxyClassCache 是如何进行缓存的，
 			- 只需要知道它的缓存时机就可以了：即在类加载的时候进行缓存。
 	- ## ProxyClassFactory 创建代理类工厂
-		- ``````
+		- ```java
+		     private static final class ProxyClassFactory
+		          implements BiFunction<ClassLoader, Class<?>[], Class<?>>
+		      {
+		          // prefix for all proxy class names
+		          private static final String proxyClassNamePrefix = "$Proxy";
+		  
+		          // next number to use for generation of unique proxy class names
+		          private static final AtomicLong nextUniqueNumber = new AtomicLong();
+		  
+		          @Override
+		          public Class<?> apply(ClassLoader loader, Class<?>[] interfaces) {
+		  
+		          }
+		      }
+		  ```
