@@ -437,7 +437,7 @@
 		              // 3、 获取代理class的 构造器
 		              final Constructor<?> cons = cl.getConstructor(constructorParams);
 		              final InvocationHandler ih = h;
-		              // 4、判断访问权限不是public  则 
+		              // 4、判断访问权限不是public  访问权限设置可访问
 		              if (!Modifier.isPublic(cl.getModifiers())) {
 		                  // BEGIN Android-removed: Excluded AccessController.doPrivileged call.
 		                  /*
@@ -452,6 +452,7 @@
 		                  cons.setAccessible(true);
 		                  // END Android-removed: Excluded AccessController.doPrivileged call.
 		              }
+		              // 5、构造器创建实例
 		              return cons.newInstance(new Object[]{h});
 		          } catch (IllegalAccessException|InstantiationException e) {
 		              throw new InternalError(e.toString(), e);
