@@ -397,4 +397,67 @@
 	- 1、JavaDoc 告诉我们，InvocationHandler 是一个接口，实现这个接口的类就表示该类是一个代理实现类，也就是代理类
 	- 2、动态代理的优势在于能够很方便的对代理类中方法进行集中处理，而不用修改每个被代理的方法。因为所有被代理的方法（真正执行的方法）都是通过在 InvocationHandler 中的 invoke 方法调用的。所以我们只需要对 invoke 方法进行集中处理
 	- ## Proxy.newInstance 方法分析
-	-
+		- ```java
+		  public static Object newProxyInstance(ClassLoader loader,
+		                                            Class<?>[] interfaces,
+		                                            InvocationHandler h)
+		          throws IllegalArgumentException
+		      {
+		          Objects.requireNonNull(h);
+		  
+		          final Class<?>[] intfs = interfaces.clone();
+		          // Android-removed: SecurityManager calls
+		          /*
+		          final SecurityManager sm = System.getSecurityManager();
+		          if (sm != null) {
+		              checkProxyAccess(Reflection.getCallerClass(), loader, intfs);
+		          }
+		          */
+		  
+		          /*
+		           * Look up or generate the designated proxy class.
+		           */
+		          Class<?> cl = getProxyClass0(loader, intfs);
+		  
+		          /*
+		           * Invoke its constructor with the designated invocation handler.
+		           */
+		          try {
+		              // Android-removed: SecurityManager / permission checks.
+		              /*
+		              if (sm != null) {
+		                  checkNewProxyPermission(Reflection.getCallerClass(), cl);
+		              }
+		              */
+		  
+		              final Constructor<?> cons = cl.getConstructor(constructorParams);
+		              final InvocationHandler ih = h;
+		              if (!Modifier.isPublic(cl.getModifiers())) {
+		                  // BEGIN Android-removed: Excluded AccessController.doPrivileged call.
+		                  /*
+		                  AccessController.doPrivileged(new PrivilegedAction<Void>() {
+		                      public Void run() {
+		                          cons.setAccessible(true);
+		                          return null;
+		                      }
+		                  });
+		                  */
+		  
+		                  cons.setAccessible(true);
+		                  // END Android-removed: Excluded AccessController.doPrivileged call.
+		              }
+		              return cons.newInstance(new Object[]{h});
+		          } catch (IllegalAccessException|InstantiationException e) {
+		              throw new InternalError(e.toString(), e);
+		          } catch (InvocationTargetException e) {
+		              Throwable t = e.getCause();
+		              if (t instanceof RuntimeException) {
+		                  throw (RuntimeException) t;
+		              } else {
+		                  throw new InternalError(t.toString(), t);
+		              }
+		          } catch (NoSuchMethodException e) {
+		              throw new InternalError(e.toString(), e);
+		          }
+		      }
+		  ```
