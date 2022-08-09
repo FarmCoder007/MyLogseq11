@@ -13,9 +13,8 @@
 	- 1、方法插入代码：通过 接口中的 invoke 方法进行业务的调用和增强等处理，InvocationHandler是一个拦截器类
 	- 2、api实现类的差异化，用代理类新实现替换旧实现
 - ## 四、动态代理执行过程
-  collapsed:: true
 	- ![image.png](../assets/image_1659671333414_0.png)
-	- RD无法直接访问 “目标接口实现类对象”，通过创建 “代理类对象”，调用invoke来访问目标对象的方法
+	- RD无法直接创建 “目标接口代理实现类对象”，通过创建Proxy “代理类对象”，调用invoke来访问目标对象的方法
 	- 在 JDK 动态代理中，实现了 InvocationHandler 的类可以看作是 代理类
 - ## 五、相关类
   collapsed:: true
