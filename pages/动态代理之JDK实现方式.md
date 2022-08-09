@@ -238,11 +238,104 @@
 		  
 		  ```
 	- 代理管理类
+	  collapsed:: true
+		- ```kotlin
+		  /**
+		   * Metax组件自定义api代理管理类
+		   */
+		  object MetaXCustomManager {
+		  
+		      /**
+		       *  存储注册的<接口实现类路由地址，自定义代理类>
+		       */
+		      private val mApiMap = ConcurrentHashMap<String, Class<IMetaXBaseProxy>>()
+		  
+		      /**
+		       * 提前把自定义代理类添加到map中
+		       *
+		       * 注册自定义的代理类，只传入class，用到的时候才会实例化，一般提前注册
+		       */
+		      @JvmStatic
+		      fun <T : IMetaXBaseProxy> add(routePath: String, clazz: Class<T>): MetaXCustomManager {
+		          if (mApiMap.contains(routePath)) {
+		              throw IllegalArgumentException("route path:$routePath is already exist")
+		          }
+		          mApiMap[routePath] = clazz as Class<IMetaXBaseProxy>
+		          return this
+		      }
+		  
+		      /**
+		       * 初始化代理类，调用register方法
+		       */
+		      @JvmStatic
+		      fun getProxy(context: Context, routePath: String, service: Any): Any? {
+		          //判断是否有自定义的代理
+		          val clazz = mApiMap[routePath]
+		          if (clazz == null) {
+		              Log.e("MetaXApiCustomManager", "initProxy: $routePath doesn't exist")
+		              return null
+		          }
+		          return try {
+		              // 调用自定义代理类构造  创建CustomNetService 实例
+		              clazz.getConstructor().newInstance().apply {
+		                  // 调用CustomNetService 中的register方法
+		                  register(context, service)
+		              }
+		          } catch (e: Exception) {
+		              Log.e("MetaXApiCustomManager", "initProxy: ", e)
+		              null
+		          }
+		      }
+		  
+		      /**
+		       * 是否有自定义的代理类
+		       */
+		      @JvmStatic
+		      fun hasCustomProxy(routePath: String): Boolean {
+		          return mApiMap.containsKey(routePath)
+		      }
+		  
+		  
+		      /**
+		       * 移除自定义的代理类
+		       */
+		      @JvmStatic
+		      fun remove(routePath: String) {
+		          if (hasCustomProxy(routePath)) {
+		              mApiMap.remove(routePath)
+		          }
+		      }
+		  
+		      /**
+		       * 清除所有代理类
+		       */
+		      @JvmStatic
+		      fun clear() {
+		          mApiMap.clear()
+		      }
+		  }
+		  ```
+	- 通用代理调度接口，代替直接使用InvocationHandler，统一管理 调用代理方法异常try
+		- ```kotlin
+		  interface IMethodProxy {
+		      @Throws(Throwable::class)
+		      fun call(who: Any?, method: Method?, vararg args: Any?): Any?
+		  }
+		  ```
+	- 通用代理注册接口
+		- ```kotlin
+		  interface IMetaXBaseProxy {
+		      /**
+		       * 注册代理接口对象
+		       * @param context
+		       * @param service 原实现类
+		       */
+		      fun register(context: Context, service: Any): Any?
+		  }
+		  ```
+	- 创建代理类方法
 		- ```kotlin
 		  ```
-	- 通用代理调度接口，代替直接使用InvocationHandler，统一管理
-	- 通用代理注册接口
-	- 创建代理类方法
 - ## 七、动态代理原理(反射)
 	-
 -
