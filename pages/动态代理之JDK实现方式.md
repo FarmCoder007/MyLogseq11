@@ -90,10 +90,156 @@
 		  }
 		  ```
 	- apt生成api接口包装类
+	  collapsed:: true
 		- ```java
+		  /**
+		   * APT 自动生成的工具类
+		   * @author MetaX-Auto on 2022/08/04 19:23:00
+		   */
+		  public class NetWorkUtils {
+		    private static INetService netService;
+		  
+		    private static boolean isInitProxy;
+		  
+		    public static synchronized INetService getNetService(Context context) {
+		      if (netService != null) {
+		        checkProxy(context);
+		        return netService;
+		      }
+		      Object object = ARouter.getInstance().build("/demo1/netService").navigation();
+		      if (object instanceof INetService) {
+		        netService = (INetService) object;
+		        checkProxy(context);
+		      }
+		      return netService;
+		    }
+		  
+		    private static void checkProxy(Context context) {
+		      if(MetaXCustomManager.hasCustomProxy("/demo1/netService") && !isInitProxy) {
+		        // 拿到代理类对象  替换工具类实例
+		        Object netServiceProxy = MetaXCustomManager.getProxy(context,"/demo1/netService",netService);
+		        if (netServiceProxy != null) {
+		          netService = (INetService) netServiceProxy;
+		          isInitProxy = true;
+		        }
+		      }
+		    }
+		  
+		    public static void doGet(Context context) {
+		      INetService netService = getNetService(context);
+		      if (netService != null) {
+		        netService.doGet();
+		      }
+		    }
+		  
+		    public static void doPost(Context context) {
+		      INetService netService = getNetService(context);
+		      if (netService != null) {
+		        netService.doPost();
+		      }
+		    }
+		  
+		    public static void uploadFile(Context context) {
+		      INetService netService = getNetService(context);
+		      if (netService != null) {
+		        netService.uploadFile();
+		      }
+		    }
+		  }
+		  
 		  ```
 	- apt生成代理基类
+	  collapsed:: true
+		- ```java
+		  /**
+		   * APT 生成的代理基类，内部注册方法获取代理类实例
+		   * 若要修改代理类实现，则继承该基类，重新 想要修改的方法
+		   * @author MetaX-Auto on 2022/08/04 19:23:00
+		   */
+		  public class NetServiceBaseProxy implements INetService, IMetaXBaseProxy {
+		    /**
+		     *  原实现类对象
+		     */
+		    private INetService netService;
+		  
+		    public NetServiceBaseProxy() {
+		    }
+		  
+		    /**
+		     *  不重写该方法，则调用的还是原实现类对象的方法
+		     */
+		    @Override
+		    public void doGet() {
+		      if (netService != null) {
+		        netService.doGet();
+		      }
+		    }
+		  
+		    @Override
+		    public void doPost() {
+		      if (netService != null) {
+		        netService.doPost();
+		      }
+		    }
+		  
+		    @Override
+		    public void uploadFile() {
+		      if (netService != null) {
+		        netService.uploadFile();
+		      }
+		    }
+		  
+		    /**
+		     * 注册代理类
+		     * @param context
+		     * @param service 原实现类对象
+		     * @return 返回代理类对象
+		     */
+		    @Override
+		    public final Object register(@NonNull Context context, @NonNull Object service) {
+		      // 原实现类对象
+		      netService = (INetService)service;
+		      /**
+		       *  返回代理类对象
+		       */
+		      return ProxyUtils.callProxy(netService,new IMethodProxy() {
+		        /**
+		         *  调用代理方法时候  会调用此方法做分发
+		         * @param who 代理类对象
+		         * @param method 代理方法名
+		         * @param args 对应方法参数
+		         * @return 返回调用方法的返回值
+		         * @throws Throwable 抛出异常
+		         */
+		        @Nullable
+		        @Override
+		        public Object call(@Nullable Object who, @Nullable Method method, @Nullable Object... args)
+		            throws Throwable {
+		          if(method == null) {
+		            return null;
+		          }
+		          /**
+		           * 当调用的doGet方法时，调用
+		           */
+		          if (method.getName().equals("doGet")) {
+		            doGet();
+		          }
+		          if (method.getName().equals("doPost")) {
+		            doPost();
+		          }
+		          if (method.getName().equals("uploadFile")) {
+		            uploadFile();
+		          }
+		          return null;
+		        }
+		      });
+		    }
+		  }
+		  
+		  ```
 	- 代理管理类
+		- ```kotlin
+		  ```
 	- 通用代理调度接口，代替直接使用InvocationHandler，统一管理
 	- 通用代理注册接口
 	- 创建代理类方法
