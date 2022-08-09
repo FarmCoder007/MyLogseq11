@@ -398,6 +398,11 @@
 	- 2、动态代理的优势在于能够很方便的对代理类中方法进行集中处理，而不用修改每个被代理的方法。因为所有被代理的方法（真正执行的方法）都是通过在 InvocationHandler 中的 invoke 方法调用的。所以我们只需要对 invoke 方法进行集中处理
 	- ## Proxy.newInstance 方法分析
 		- ```java
+		  /**
+		   * @params loader 原实现类的类加载器
+		   * @params interfaces 原实现类的实现的所有接口
+		   * @params h 
+		   */
 		  public static Object newProxyInstance(ClassLoader loader, Class<?>[] interfaces,
 		                                            InvocationHandler h)
 		          throws IllegalArgumentException
