@@ -6,3 +6,9 @@
 - ## 3、Linux内核启动
 	- 当内核启动时，设置缓存、被保护存储器、计划列表、加载驱动。当内核完成系统设置时，它首先在系统文件中寻找init.rc文件，并启动init进程。
 - ## 4、init进程启动
+	- 初始化和启动属性服务，并且启动Zygote进程。
+- ## 5、Zygote进程启动
+	- 创建Java虚拟机并为Java虚拟机注册JNI方法，创建服务器端Socket，启动SystemServer进程。
+- ## 6、SystemServer进程启动
+	- 启动Binder线程池和SystemServiceManager，并且启动各种系统服务。
+- ## 7、Launcher启动
