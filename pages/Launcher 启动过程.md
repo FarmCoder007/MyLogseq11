@@ -6,4 +6,4 @@
 - # 二、启动过程
 	- SystemServer 进程在启动的过程中会启动 PackageManagerService, PackageManagerService 启动后会将系统中的应用程序安装完成。在此前已经启动的 AMS 会将 Launcher 启动起来。
 	- ![image.png](../assets/image_1660122022737_0.png)
-	- 启动 Launcher的入口为AMS的
+	- 启动 Launcher的入口为AMS的systemReady方法
