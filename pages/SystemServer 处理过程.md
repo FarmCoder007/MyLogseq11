@@ -6,4 +6,4 @@
 	- 1、在Zygotelnit. java 的startSystemServer 方法中启动了 SystemServer ，
 	- 2、handleSystemServerProcess 方法来启动 SystemServer 进程。
 - # 三、部分系统服务及其作用
--
+	- ![image.png](../assets/image_1660121188436_0.png)
