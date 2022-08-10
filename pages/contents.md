@@ -12,6 +12,8 @@
 		- [[SystemServer 处理过程]]
 		- [[Launcher （系统桌面）启动过程]]
 	- 应用程序进程启动过程
+		- [[应用程序进程启动过程]]
+		- [[Binder 线程池启动过程]]
 		-
 	- RecyclerView
 	  collapsed:: true
