@@ -12,3 +12,4 @@
 - ## 6、SystemServer进程启动
 	- 启动Binder线程池和SystemServiceManager，并且启动各种系统服务。
 - ## 7、Launcher启动
+	- 被SystemServer进程启动的AMS会启动Launcher，Launcher启动后会将已安装应用的快捷图标显示到界面上。
