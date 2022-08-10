@@ -3,5 +3,6 @@
 	- 通俗来讲 Launcher 就是 Android 系统的桌面，它的作用主要有以下两点：
 	  (1 ）作为 Android 系统的启动器，用于启动app应用程序
 	  (2 ）作为 Android 系统的桌面，用于显示和管理应用程序的快捷图标或者其他桌面组件。
--
+- # 二、启动过程
+	- SystemServer 进程在启动的过程中会启动 PackageManagerService, PackageManagerService 启动后会将系统中的应用程序安装完成。在此前已经启动的 AMS 会将 Launcher 启动起来。
 -
