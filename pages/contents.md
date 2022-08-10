@@ -3,7 +3,8 @@
 	- [[专利]]
 	- [[WBRouter]]
 - Android
-	- [[系统源码]]
+	- [[系统架构]]
+	- Android系统启动流程
 	- RecyclerView
 	  collapsed:: true
 		- 动画
