@@ -1,2 +1,4 @@
 - # 一、简介
-	- SystemServer 进程主要用于创建系统服务，我们熟知的 AMS WMS PMS 都是由它来创建的，
+	- SystemServer 进程主要用于创建系统服务，我们熟知的 AMS WMS PMS 都是由它来创建的，#
+- # 二、Zygote 如何处理SystemServer 进程的
+	-
