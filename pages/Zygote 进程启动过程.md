@@ -9,5 +9,7 @@
 - # 三、启动过程时序图
 	- init 启动 Zygote 时主要是调用叩 main.cpp main 的函数中的AppRuntime start 方陆来启动 Zygote 进程的，我们就先从 app_ main .cpp main 数开始分析，Zygote 程启动过程的时序图
 	- ![image.png](../assets/image_1660119534006_0.png){:height 587, :width 746}
-- # 四、
--
+- # 四、职责
+	- 创建一个 Server 端的 Socket
+	- 预加载类和资掘。
+	-
