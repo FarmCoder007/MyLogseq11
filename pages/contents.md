@@ -63,7 +63,6 @@
 	-
 	-
 - 生活
-  collapsed:: true
 	- 理财
 	  collapsed:: true
 		- 股票
