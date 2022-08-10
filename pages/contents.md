@@ -9,7 +9,7 @@
 		- [[init进程启动过程]]
 		- [[Zygote 进程启动过程]]
 		- [[SystemServer 处理过程]]
-		- [[Launcher 启动过程]]
+		- [[Launcher （系统桌面）启动过程]]
 	- RecyclerView
 	  collapsed:: true
 		- 动画

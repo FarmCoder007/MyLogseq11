@@ -8,6 +8,5 @@
 	- SystemServer 进程在启动的过程中会启动 PackageManagerService, PackageManagerService 启动后会将系统中的应用程序安装完成。在此前已经启动的 AMS 会将 Launcher 启动起来。
 	- ![image.png](../assets/image_1660122022737_0.png)
 	- 启动 Launcher的入口为AMS的systemReady方法
-- # 三、
-	- Launcher 是用工作区的形式来显示系统安装 应用程序的快捷图标的，每个工作区都是用来描述一个抽象桌面的，它由n屏幕组成， 每个屏幕又分n个单元格，每个
-	  元格用 显示 个应用程 的快捷图标。
+- # 三、显示桌面图标
+	- Launcher 是用工作区的形式来显示系统安装 应用程序的快捷图标的，每个工作区都是用来描述一个抽象桌面的，它由n屏幕组成， 每个屏幕又分n个单元格，每个单元格用来显示一个应用程序的快捷图标。
