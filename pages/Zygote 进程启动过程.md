@@ -10,6 +10,10 @@
 	- init 启动 Zygote 时主要是调用叩 main.cpp main 的函数中的AppRuntime start 方陆来启动 Zygote 进程的，我们就先从 app_ main .cpp main 数开始分析，Zygote 程启动过程的时序图
 	- ![image.png](../assets/image_1660119534006_0.png){:height 587, :width 746}
 - # 四、职责
+	- 创建 AppRuntime 并调用其 start 方挂，启动 Zygote 进程。
+	- 创建 Java 虚拟机并为 Java 虚拟机注册 JNI 方法
+	- 通过刑 周用 Zygotelnit的main 函数进入 Zygote的Java 框架层。
+	-
 	- 创建一个 Server 端的 Socket
 	- 预加载类和资掘。
 	- 启动 SystemServer 进程。
