@@ -1,4 +1,5 @@
 - # 一、简介
 	- SystemServer 进程主要用于创建系统服务，我们熟知的 AMS WMS PMS 都是由它来创建的，#
 - # 二、Zygote 如何处理SystemServer 进程的
-	-
+	- ![image.png](../assets/image_1660120698552_0.png){:height 601, :width 746}
+	- 在Zygotelnit. java 的startSystemServ 方怯中 动了 SystemS rver ，
