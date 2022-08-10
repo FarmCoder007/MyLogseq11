@@ -12,9 +12,6 @@
 - # 四、职责
 	- 创建 AppRuntime 并调用其 start 方挂，启动 Zygote 进程。
 	- 创建 Java 虚拟机并为 Java 虚拟机注册 JNI 方法
-	- 通过刑 周用 Zygotelnit的main 函数进入 Zygote的Java 框架层。
-	-
-	- 创建一个 Server 端的 Socket
-	- 预加载类和资掘。
+	- 通过JNI调用 Zygotelnit的main 函数进入 Zygote的Java 框架层。
+	- 通过 registerZygoteSocket 方怯创建服务器端 Socket ，并通过 runSelectLoop 方怯等待AMS 的请求来创建新的应用程序进程。
 	- 启动 SystemServer 进程。
-	- 等待 AMS 请求创建新的应用程序进程。
