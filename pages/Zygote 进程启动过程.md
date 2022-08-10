@@ -6,4 +6,5 @@
 		- init.zygote32_64.rc：表示既支持 32 位程序也支持 64 位程序，
 		- init.zygote64.rc
 		- init.zygote64_32.rc
--
+- # 三、启动过程时序图
+	- ![image.png](../assets/image_1660119534006_0.png){:height 587, :width 746}
