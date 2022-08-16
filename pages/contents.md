@@ -27,6 +27,7 @@
 		- 一、[[从xml布局文件映射到自定义View的方法]]
 		-
 	- UI布局
+		- [clipChildren](http://www.cncsto.com/article/58643)
 	- 序列化
 	  collapsed:: true
 		- [[Parcelable与Serializable对比]]
