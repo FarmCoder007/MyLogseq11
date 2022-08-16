@@ -37,6 +37,7 @@
 	- [[AOP]]
 	- [[启动流程]]
 - JAVA
+  collapsed:: true
 	- [[java-泛型]]
 	- 集合
 	  collapsed:: true
@@ -71,6 +72,7 @@
 	-
 	-
 - 生活
+  collapsed:: true
 	- 理财
 	  collapsed:: true
 		- 股票
