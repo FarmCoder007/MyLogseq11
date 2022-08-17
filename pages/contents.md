@@ -23,6 +23,7 @@
 		- [[优化]]
 	- [[ViewPager2]]
 	- 自定义view
+	  collapsed:: true
 		- 一、[[从xml布局文件映射到自定义View的方法]]
 		-
 	- UI布局
