@@ -1,2 +1,3 @@
 - View -> Tool Windows -> Commit
+- 显示出Commit Toll，即可看到Local Changes
 -
