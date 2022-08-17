@@ -1,3 +1,5 @@
 - View -> Tool Windows -> Commit
 - 显示出Commit Toll，即可看到Local Changes
+	- ![image.png](../assets/image_1660726139707_0.png)
+	- ![image.png](../assets/image_1660726155402_0.png)
 -
