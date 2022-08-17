@@ -3,7 +3,6 @@
 	- [[专利]]
 	- [[WBRouter]]
 - Android
-  collapsed:: true
 	- [[系统架构]]
 	- Android系统启动
 	  collapsed:: true
@@ -51,6 +50,7 @@
 	- [[注意事项]]
 	- [[Kotlin关键字]]
 - AndroidStudio
+  collapsed:: true
 	- AS插件
 	  collapsed:: true
 		- 常用插件- [[AS插件]]
