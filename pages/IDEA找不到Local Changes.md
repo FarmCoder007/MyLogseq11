@@ -1,0 +1,2 @@
+- View -> Tool Windows -> Commit
+-

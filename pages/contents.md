@@ -60,6 +60,7 @@
 		- [[AS配置Python环境]]
 		- [[AS新建工程时，修改模板]]
 		- [[编译报错集]]
+	- [[IDEA找不到Local Changes]]
 - 算法
   collapsed:: true
 	- 排序
