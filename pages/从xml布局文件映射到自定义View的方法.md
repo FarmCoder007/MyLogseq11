@@ -1,6 +1,6 @@
 - 法一、
 	- layout.xml
-collapsed:: true
+	  collapsed:: true
 		- ```
 		  <?xml version="1.0" encoding="utf-8"?>
 		  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -18,7 +18,7 @@ collapsed:: true
 		  ```
 		-
 	- Custom.java
-collapsed:: true
+	  collapsed:: true
 		- ```
 		  import android.content.Context;
 		  import android.graphics.Color;
@@ -51,7 +51,7 @@ collapsed:: true
 		  ```
 - 法二、onFinishInflate 里初始化
 	- custom.xml
-collapsed:: true
+	  collapsed:: true
 		-
 		- ```
 		  <?xml version="1.0" encoding="utf-8"?>
