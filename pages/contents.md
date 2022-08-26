@@ -3,6 +3,7 @@
 	- [[WBRouter]]
 	- [[职级评审]]
 - Android
+  collapsed:: true
 	- [[系统架构]]
 	- Android系统启动
 	  collapsed:: true
@@ -110,7 +111,6 @@
 	- [[React]]
 	- [[JavaScript]]
 - Gradle
-  collapsed:: true
 	- [[buildConfig相关]]
 	- [[gradle/apt调试]]
 	- [[配置相关]]

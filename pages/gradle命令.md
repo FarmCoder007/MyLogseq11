@@ -1,2 +1,3 @@
 - 输出依赖树到指定地方
 	- ../gradlew -q dependencies --configuration wubaReleaseRuntimeClasspath > depends.txt
+-
