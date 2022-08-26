@@ -3,7 +3,6 @@
 	- [[WBRouter]]
 	- [[职级评审]]
 - Android
-  collapsed:: true
 	- [[系统架构]]
 	- Android系统启动
 	  collapsed:: true
@@ -18,7 +17,6 @@
 		- [[Binder 线程池启动过程]]
 		- [[消息循环创建过程]]
 	- RecyclerView
-	  collapsed:: true
 		- 动画
 			- [[ItemAnimator源码分析]]
 		- [[优化]]
