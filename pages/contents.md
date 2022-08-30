@@ -1,9 +1,9 @@
 - 工作
+  collapsed:: true
 	- [[专利]]
 	- [[WBRouter]]
 	- [[职级评审]]
 - Android
-  collapsed:: true
 	- [[系统架构]]
 	- Android系统启动
 	  collapsed:: true
@@ -18,6 +18,7 @@
 		- [[Binder 线程池启动过程]]
 		- [[消息循环创建过程]]
 	- RecyclerView
+	  collapsed:: true
 		- 动画
 			- [[ItemAnimator源码分析]]
 		- [[优化]]
@@ -39,7 +40,6 @@
 	- [[启动流程]]
 	- [[Android版本适配]]
 - JAVA
-  collapsed:: true
 	- [[java-泛型]]
 	- 集合
 	  collapsed:: true
