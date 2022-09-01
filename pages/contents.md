@@ -4,6 +4,7 @@
 	- [[职级评审]]
 	- [[PPT]]
 - Android
+  collapsed:: true
 	- [[系统架构]]
 	- Android系统启动
 		- [[Android 系统启动流程]]
@@ -47,7 +48,6 @@
 		-
 	- [[设计模式]]
 - Kotlin
-  collapsed:: true
 	- [[基本语法]]
 	- [[注意事项]]
 	- [[Kotlin关键字]]
