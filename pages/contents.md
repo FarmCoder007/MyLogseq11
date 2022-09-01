@@ -11,6 +11,7 @@
 		- [[Zygote 进程启动过程]]
 		- [[SystemServer 处理过程]]
 		- [[Launcher （系统桌面）启动过程]]
+		- [[启动流程整合]]
 	- 应用程序进程启动过程
 	  collapsed:: true
 		- [[应用程序进程启动过程]]
