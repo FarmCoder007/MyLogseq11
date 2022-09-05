@@ -6,6 +6,7 @@
 - Android
 	- [[系统架构]]
 	- Android系统启动
+	  collapsed:: true
 		- [[Android 系统启动流程]]
 		- [[init进程启动过程]]
 		- [[Zygote 进程启动过程]]
@@ -39,6 +40,7 @@
 	- [[AOP]]
 	- [[启动流程]]
 	- [[Android版本适配]]
+	- [[Android开发架构]]
 - JAVA
 	- [[java-泛型]]
 	- 集合
