@@ -4,7 +4,6 @@
 	- [[职级评审]]
 	- [[PPT]]
 - Android
-  collapsed:: true
 	- [[系统架构]]
 	- Android系统启动
 		- [[Android 系统启动流程]]
