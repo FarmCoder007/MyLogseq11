@@ -1,0 +1,5 @@
+- MVC
+- MVP
+- MVVM
+- MVI
+-
