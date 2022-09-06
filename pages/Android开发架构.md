@@ -34,6 +34,8 @@
 	- ![image.png](../assets/image_1662434225858_0.png){:height 439, :width 746}
 	- ## 1、简介
 		- MVP的升级版本，VM是ViewModel的缩写，VM可以理解为View的数据模型和Presenter的合体，ViewModel和View之间的交互通过data binding完成。
-	- ## 2、
+		- ViewModel（VM）：ViewModel就是包含View的一些数据属性和操作，关键点就是使用databinding，View的变化会直接影响ViewModel，ViewModel的变化或者内容也会直接体现在View上。
+	- ## 2、优点：
+		- Data Binding可以实现双向的交互，使得视图和控制层之间的耦合程度进一步降低，分离更为彻底，同时减轻了Activity的压力
 - # MVI
 -
