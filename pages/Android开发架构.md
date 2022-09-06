@@ -1,5 +1,5 @@
 - # MVC
-	-
+	- ![image.png](../assets/image_1662434079490_0.png)
 	- ## 1、简介
 		- MVC是模型(model)－视图(view)－控制器(controller)的缩写
 		- 用一种业务逻辑、数据、界面显示分离的方法组织代码。
@@ -17,6 +17,15 @@
 	  1：随着界面及其逻辑的复杂度不断提升，Activity类的职责不断增加，以致变得庞大臃肿。
 	  2：视图和控制器间过于紧密的联系，妨碍了各自的重用。
 - # MVP
+	- ![image.png](../assets/image_1662434111516_0.png){:height 435, :width 746}
+	- ## 1、
+	- MVP是模型(model)－视图(view)－协调者(presenter)的缩写。
+	- 模型层（M）：负责存储，检索以及操纵数据。
+	  视图层（V）：负责绘制UI，与用户进行交互（在Android中体现为Activity）
+	  协调者（P）：作为View与Model交互的中间纽带，处理与用户交互的负责逻辑。
+	- ————————————————
+	  版权声明：本文为CSDN博主「东咸」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+	  原文链接：https://blog.csdn.net/a734474820/article/details/125560992
 - # MVVM
 - # MVI
 -
