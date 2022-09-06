@@ -18,14 +18,18 @@
 	  2：视图和控制器间过于紧密的联系，妨碍了各自的重用。
 - # MVP
 	- ![image.png](../assets/image_1662434111516_0.png){:height 435, :width 746}
-	- ## 1、
-	- MVP是模型(model)－视图(view)－协调者(presenter)的缩写。
-	- 模型层（M）：负责存储，检索以及操纵数据。
-	  视图层（V）：负责绘制UI，与用户进行交互（在Android中体现为Activity）
-	  协调者（P）：作为View与Model交互的中间纽带，处理与用户交互的负责逻辑。
-	- ————————————————
-	  版权声明：本文为CSDN博主「东咸」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
-	  原文链接：https://blog.csdn.net/a734474820/article/details/125560992
+	- ## 1、MVP是模型(model)－视图(view)－协调者(presenter)的缩写。
+		- 模型层（M）：负责存储，检索以及操纵数据。
+		  视图层（V）：负责绘制UI，与用户进行交互（在Android中体现为Activity）
+		  协调者（P）：作为View与Model交互的中间纽带，处理与用户交互的负责逻辑。
+	- ## 2、优点
+		- MVP的优点：
+		  1）复杂的逻辑处理放在presenter进行处理，减少了activity的臃肿。
+		  2）M层与V层完全分离，修改V层不会影响M层，降低了耦合性。
+		  3）可以将一个Presenter用于多个视图，而不需要改变Presenter的逻辑。
+		  3）P层与V层的交互是通过接口来进行的，便于单元测试。
+	- ## 3、缺点
+		- 由于对视图的渲染放在了Presenter中，所以视图和Presenter的交互会过于频繁，视图需要改变，一般presenter也需要跟着改变。
 - # MVVM
 - # MVI
 -
