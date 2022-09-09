@@ -72,7 +72,6 @@
 		  }
 		  ```
 	- 原实现类：
-	  collapsed:: true
 		- ```java
 		  /**
 		   *  实现类
@@ -93,7 +92,6 @@
 		  }
 		  ```
 	- apt生成api接口包装类
-	  collapsed:: true
 		- ```java
 		  /**
 		   * APT 自动生成的工具类
@@ -152,7 +150,6 @@
 		  
 		  ```
 	- apt生成代理基类
-	  collapsed:: true
 		- ```java
 		  /**
 		   * APT 生成的代理基类，内部注册方法获取代理类实例
@@ -241,7 +238,6 @@
 		  
 		  ```
 	- 代理管理类
-	  collapsed:: true
 		- ```kotlin
 		  /**
 		   * Metax组件自定义api代理管理类
@@ -319,7 +315,6 @@
 		  }
 		  ```
 	- 通用代理调度接口，代替直接使用InvocationHandler，统一管理 调用代理方法异常try
-	  collapsed:: true
 		- ```kotlin
 		  interface IMethodProxy {
 		      @Throws(Throwable::class)
@@ -327,7 +322,6 @@
 		  }
 		  ```
 	- 通用代理注册接口
-	  collapsed:: true
 		- ```kotlin
 		  interface IMetaXBaseProxy {
 		      /**
@@ -339,7 +333,6 @@
 		  }
 		  ```
 	- 创建代理类方法
-	  collapsed:: true
 		- ```kotlin
 		  object ProxyUtils {
 		  
