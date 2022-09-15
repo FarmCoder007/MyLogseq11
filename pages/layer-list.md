@@ -5,4 +5,7 @@
 		- right、end
 		- top
 		- bottom
-		-
+		- width
+		- height
+		- drawable
+- # 二、item子元素
