@@ -12,6 +12,6 @@
 - # 二、item子元素bitmap
 	- gravity
 		- center_vertical：将对象放置在其容器的垂直中心，而不更改其大小
-		-
+		- fill_vertical:如果需要，增大对象的垂直尺寸，使其完全填充其容器。
 		- 组合：android:gravity="left|right|top|bottom"  相当于 fill
 -
