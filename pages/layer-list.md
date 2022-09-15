@@ -1,12 +1,12 @@
 - ## 一、Item：每一个item为一个图层 类似Framlayout
 	- ## API
 		- id
-		- left、start：整个图层
-		- right、end
+		- left、start：整个图层，左侧的偏移量。相当于marginleft
+		- right、end：整个图层，右侧的偏移量。相当于marginleft
 		- top
 		- bottom
-		- width:图层宽度，只能设置整型
-		- height：图片高度，设置的话只能设置整型。不设置为屏幕
+		- width:图层宽度，只能设置整型。默认屏幕宽度
+		- height：图片高度，设置的话只能设置整型。默认屏幕高度
 		- drawable
 		- gravity
 - # 二、item子元素bitmap
