@@ -1,7 +1,7 @@
-- ## 一、Item：每一个item为一个图层
+- ## 一、Item：每一个item为一个图层 类似Framlayout
 	- ## API
 		- id
-		- left、start：
+		- left、start：整个图层
 		- right、end
 		- top
 		- bottom
