@@ -13,4 +13,5 @@
 	- gravity
 		- center_vertical：将对象放置在其容器的垂直中心，而不更改其大小
 		-
+		- 组合：android:gravity="left|right|top|bottom"  相当于 fill
 -
