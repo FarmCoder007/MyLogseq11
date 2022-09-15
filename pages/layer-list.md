@@ -11,4 +11,5 @@
 		- gravity
 - # 二、item子元素bitmap
 	- gravity
+		- 将对象放置在其容器的垂直中心，而不更改其大小
 -
