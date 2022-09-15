@@ -2,8 +2,8 @@
 	- ## API
 		- id
 		- left、start：整个图层，左侧的偏移量。相当于marginleft
-		- right、end：整个图层，右侧的偏移量。相当于marginleft
-		- top
+		- right、end：整个图层，右侧的偏移量。相当于marginright
+		- top:整个图层，顶侧的偏移量。相当于marginright
 		- bottom
 		- width:图层宽度，只能设置整型。默认屏幕宽度
 		- height：图片高度，设置的话只能设置整型。默认屏幕高度
