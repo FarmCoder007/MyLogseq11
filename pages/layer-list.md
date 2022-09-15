@@ -5,8 +5,8 @@
 		- right、end
 		- top
 		- bottom
-		- width
-		- height
+		- width:图层宽度，只能设置整型
+		- height：图片高度，设置的话只能设置整型。不设置为屏幕
 		- drawable
 		- gravity
 - # 二、item子元素bitmap
