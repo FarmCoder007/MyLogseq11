@@ -1,11 +1,14 @@
-- ## 一、Item
+- ## 一、Item：每一个item为一个图层
 	- ## API
 		- id
-		- left、start
+		- left、start：
 		- right、end
 		- top
 		- bottom
 		- width
 		- height
 		- drawable
-- # 二、item子元素
+		- gravity
+- # 二、item子元素bitmap
+	- gravity
+-
