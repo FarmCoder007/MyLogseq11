@@ -29,8 +29,8 @@
 		- 一、[[从xml布局文件映射到自定义View的方法]]
 		-
 	- UI布局
-	  collapsed:: true
 		- [clipChildren](http://www.cncsto.com/article/58643)
+		- [[layer-list]]
 	- 序列化
 	  collapsed:: true
 		- [[Parcelable与Serializable对比]]
@@ -112,6 +112,7 @@
 	- [[React]]
 	- [[JavaScript]]
 - Gradle
+  collapsed:: true
 	- [[buildConfig相关]]
 	- [[gradle/apt调试]]
 	- [[配置相关]]
