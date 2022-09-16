@@ -15,4 +15,4 @@
 		- fill_vertical:如果需要，增大对象的垂直尺寸，使其完全填充其容器。
 		- 组合：android:gravity="left|right|top|bottom"  相当于 fill
 - [资料](https://www.jianshu.com/p/7f21ba123993)
--
+- [android开屏页单张图片设置的收评秒开引起的图片变形问题](https://blog.51cto.com/u_15249199/2846257)
