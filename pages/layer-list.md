@@ -1,6 +1,6 @@
 - ## 一、Item：每一个item为一个图层 类似Framlayout
 	- ## API
-		- id
+		- id:资源 ID。此可绘制对象的唯一资源 ID
 		- left、start：整个图层，左侧的偏移量。相当于marginleft
 		- right、end：整个图层，右侧的偏移量。相当于marginright
 		- top:整个图层，顶侧的偏移量。相当于margintop
