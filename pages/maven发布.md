@@ -1,5 +1,6 @@
 - [发布aar包到maven仓库](https://blog.csdn.net/wangsen927/article/details/120720932)
 - 发布脚本：
+  collapsed:: true
 	- ```
 	  
 	  import org.gradle.api.publish.internal.DefaultPublishingExtension
@@ -111,4 +112,15 @@
 	      MavenArtifact artifact = new FileBasedMavenArtifact(new File(artifactPath))
 	      artifactSet.add(artifact)
 	  }
+	  ```
+- gradle.properties
+	- ```
+	  # 发布aar的版本号
+	  publish_version=3.10.2
+	  GROUP_ID =mis-mobile
+	  ARTIFACT_ID = pay58sdk
+	  MAVEN_USERNAME = wuxiandeploy
+	  MAVEN_PASSWORD = wuxiandeploy
+	  isDebug = false
+	  needPom = true
 	  ```
