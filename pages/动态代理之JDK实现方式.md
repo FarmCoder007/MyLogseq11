@@ -4,7 +4,6 @@
 	- 动态代理的应用场景有很多，最常见的就是 AOP 的实现、RPC 远程调用、Java 注解对象获取、日志框架、全局性异常处理、事务处理等。
 	- 动态代理的实现有很多，但是 JDK 动态代理是很重要的一种
 - ## 二、实现动态代理需要具备的因素
-  collapsed:: true
 	- 被代理的接口
 	- 接口实现类
 	- 通过方法匹配代理方法(InvocationHandler中的invoke)
@@ -13,7 +12,6 @@
 	- 1、方法插入代码：通过 接口中的 invoke 方法进行业务的调用和增强等处理，InvocationHandler是一个拦截器类
 	- 2、api实现类的差异化，用代理类新实现替换旧实现
 - ## 四、动态代理执行过程
-  collapsed:: true
 	- ![image.png](../assets/image_1659671333414_0.png)
 	- RD无法直接创建 “目标接口代理实现类对象”，通过创建Proxy.newInstance创建 “代理类对象”，调用invoke来访问目标对象的方法
 	- 在 JDK 动态代理中，实现了 InvocationHandler 的类可以看作是 代理类
