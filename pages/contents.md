@@ -125,6 +125,5 @@
 - adb
 	- [[adb命令行]]
 - shell
-  collapsed:: true
 	- [[shell命令]]
 -
