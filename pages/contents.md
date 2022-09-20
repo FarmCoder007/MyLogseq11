@@ -113,7 +113,6 @@
 	- [[React]]
 	- [[JavaScript]]
 - Gradle
-  collapsed:: true
 	- [[buildConfig相关]]
 	- [[gradle/apt调试]]
 	- [[配置相关]]
