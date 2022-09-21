@@ -1,0 +1,447 @@
+2022-09-21 14:38:29.953 1546-1963/? W/ActivityManager: Service starting has been prevented by iaware or trustsbase sInfo ServiceInfo{6e99506 com.huawei.petalpay.aidl.PetalPayService}
+2022-09-21 14:38:29.954 11367-11367/com.wuba E/ShadowServiceManager: BinderHook: ActivityManagerMethods, currentProcess=com.wuba, method=bindIsolatedService cost=1 start service=ServiceInfo{4e56f90 com.huawei.petalpay.aidl.PetalPayService} in process=com.huawei.wallet by intent=Intent { act=com.huawei.petalpay.aidl.IPetalPayService pkg=com.huawei.wallet cmp=com.huawei.wallet/com.huawei.petalpay.aidl.PetalPayService }
+    java.lang.Throwable
+        at com.coofee.componentmonitor.ActivityManagerMethods.resolveServiceIntent(ActivityManagerMethods.java:102)
+        at com.coofee.componentmonitor.IActivityManagerInterceptor.invoke(IActivityManagerInterceptor.java:27)
+        at android.shadow.ShadowServiceInvocationHandler.invoke(ShadowServiceInvocationHandler.java:112)
+        at java.lang.reflect.Proxy.invoke(Proxy.java:1006)
+        at $Proxy2.bindIsolatedService(Unknown Source)
+        at android.app.ContextImpl.bindServiceCommon(ContextImpl.java:1863)
+        at android.app.ContextImpl.bindService(ContextImpl.java:1778)
+        at android.content.ContextWrapper.bindService(ContextWrapper.java:705)
+        at com.huawei.petalpaysdk.pay.PayService.bindService(PayService.java:185)
+        at com.huawei.petalpaysdk.pay.PayService.initPay(PayService.java:158)
+        at com.huawei.petalpaysdk.api.PayApiImpl.<init>(PayApiImpl.java:73)
+        at com.huawei.petalpaysdk.api.Pay.initPay(Pay.java:23)
+        at com.pay58.sdk.pay.huawei.Huawei.huawei(Huawei.java:74)
+        at com.pay58.sdk.logic.pay.PayPresenter.huawei(PayPresenter.java:780)
+        at com.pay58.sdk.logic.pay.PayPresenter.onUIThreadSuccess(PayPresenter.java:511)
+        at com.pay58.sdk.net.callback.IRequestUICallBack$UIHandler.handleMessage(IRequestUICallBack.java:79)
+        at android.os.Handler.dispatchMessage(Handler.java:110)
+        at android.os.Looper.loop(Looper.java:219)
+        at android.app.ActivityThread.main(ActivityThread.java:8668)
+        at java.lang.reflect.Method.invoke(Native Method)
+        at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:513)
+        at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1109)
+2022-09-21 14:38:29.954 11367-11367/com.wuba I/petalpay_sdk: PayService    bindService bindResult false
+2022-09-21 14:38:29.955 11367-14750/com.wuba I/petalpay_sdk: PayApiImpl    start pay
+2022-09-21 14:38:29.955 11367-14750/com.wuba I/petalpay_sdk: PayApiImpl    startTaskActivity currentThread name Thread-236
+2022-09-21 14:38:29.960 1546-2846/? I/ActivityTaskManager: START u0 {hwFlg=0x10 cmp=com.wuba/com.huawei.petalpaysdk.pay.PayTaskActivity (has extras)} from uid 11000
+2022-09-21 14:38:29.961 1546-2846/? I/ActivityTaskManager: ActivityRecord info: ActivityInfo{66ca87c com.huawei.petalpaysdk.pay.PayTaskActivity}
+2022-09-21 14:38:29.961 1546-2846/? D/ActivityTaskManager: TaskLaunchParamsModifier:task=null activity=ActivityRecord{6d46744 u0 com.wuba/com.huawei.petalpaysdk.pay.PayTaskActivity t-1} display-from-source=0 display-id=0 display-windowing-mode=1
+2022-09-21 14:38:29.962 1546-2846/? D/ActivityTaskManager: TaskLaunchParamsModifier:task=null activity=ActivityRecord{6d46744 u0 com.wuba/com.huawei.petalpaysdk.pay.PayTaskActivity t-1} display-from-source=0 display-id=0 display-windowing-mode=1 activity-options-fullscreen=Rect(0, 0 - 0, 0) non-freeform-display maximized-bounds
+2022-09-21 14:38:29.963 1546-2846/? I/WindowManager: addWindowToken: displayid:0 binder:Token{6e38c4f ActivityRecord{6d46744 u0 com.wuba/com.huawei.petalpaysdk.pay.PayTaskActivity t7945}} token:AppWindowToken{6cf97c9 token=Token{6e38c4f ActivityRecord{6d46744 u0 com.wuba/com.huawei.petalpaysdk.pay.PayTaskActivity t7945}}}
+2022-09-21 14:38:29.964 1546-2846/? V/ActivityTaskManager: addAppToken: AppWindowToken{6cf97c9 token=Token{6e38c4f ActivityRecord{6d46744 u0 com.wuba/com.huawei.petalpaysdk.pay.PayTaskActivity t7945}}} task={taskId=7945 appTokens=[AppWindowToken{6535679 token=Token{68d82a9 ActivityRecord{6dc1d83 u0 com.wuba/.home.activity.HomeActivity t7945}}}, AppWindowToken{6ba27c9 token=Token{696d677 ActivityRecord{69cb009 u0 com.wuba/.activity.more.MoreMainActivity t7945}}}, AppWindowToken{6ba26e9 token=Token{6d4d845 ActivityRecord{65f8105 u0 com.wuba/.rn.RNActivity t7945}}}, AppWindowToken{69f2d91 token=Token{681b980 ActivityRecord{6cb86c6 u0 com.wuba/.hybrid.CommonWebActivity t7945}}}, AppWindowToken{6a790b1 token=Token{60ce6e0 ActivityRecord{6cb8687 u0 com.wuba/com.pay58.sdk.logic.pay.PayActivity t7945}}}] mdr=false} at 2147483647
+2022-09-21 14:38:29.965 1546-2846/? I/ActivityTaskManager: setAppStartingWindow: token=Token{6e38c4f ActivityRecord{6d46744 u0 com.wuba/com.huawei.petalpaysdk.pay.PayTaskActivity t7945}} pkg=com.wuba transferFrom=null newTask=false taskSwitch=false processRunning=true allowTaskSnapshot=true activityCreated=false LowRamTaskSnapshots=false
+2022-09-21 14:38:29.983 1546-1963/? I/ActivityTaskManager: Making visible and scheduling visibility: ActivityRecord{6d46744 u0 com.wuba/com.huawei.petalpaysdk.pay.PayTaskActivity t7945}
+2022-09-21 14:38:29.991 1546-1963/? I/WindowManager: Check opening app=AppWindowToken{6cf97c9 token=Token{6e38c4f ActivityRecord{6d46744 u0 com.wuba/com.huawei.petalpaysdk.pay.PayTaskActivity t7945}}}: allDrawn=false startingDisplayed=false startingMoved=false isRelaunching()=false startingWindow=null
+2022-09-21 14:38:29.995 11367-11367/com.wuba D/LAUNCH_LOG.ActivityLifecycle: 『 main  』  com.huawei.petalpaysdk.pay.PayTaskActivity@a3fadf9 onActivityCreated
+2022-09-21 14:38:29.997 11367-11367/com.wuba D/LocationBar: 『 main  』  onActivityCreated; com.huawei.petalpaysdk.pay.PayTaskActivity@a3fadf9
+2022-09-21 14:38:30.001 11367-11367/com.wuba D/tracker_log: {"t":"l","m":"t","c":"LogHook","f":"log()","msg":"com.huawei.petalpaysdk.pay.PayTaskActivity >> onActivityCreated(),\n bundle:  thirdPayType:null;order:{\"payload\":\"支付名称\",\"sign\":\"WVsht4R23MzRj1oeaKqCl8W9RJuoaQnPGI0JTr+P00O2MhSAndDoeYdqrJs3YE4yRy8Xpak2VJOmFOL+K8OdPSBquPNsSutCcpck4K\/+v00zYK29HYUi2MGVE5MwF2GDKiQZJ2JetTtFmz3voJxumPr3qGNwNQyzDlUDbuSHBr3UEmWtwTveTIdNxThRHirNiABULVGWGhDZQ\/oyqk+TQOCb3ZxTFFLtKVRj134xe8JhjxPfjbcTQLvvihr21VQ6nl+iD8xymtORwhBKjXdhrZ7xCySD\/9dyqVNpMQ1O9UbOkXA+xN6PPfXmBVjIgFrSqtHrtorLDLf9hZJrMlNIUA==\",\"signType\":\"SHA256WithRSA\/PSS\",\"callbackUrl\":\"https:\/\/payment161sandbox.58v5.cn\/huaweipaynotify\",\"mercOrder\":{\"totalAmount\":1,\"tradeSummary\":\"支付名称\",\"currency\":\"CNY\",\"mercOrderNo\":\"229939747072520754\",\"goodsInfo\":{\"bizType\":\"100001\",\"goodsSum\":1,\"goodsListCnt\":1,\"goodsDetail\":[{\"goodsShortName\":\"支付名称\",\"goodsPrice\":1,\"goodsNum\":1}]},\"mercNo\":\"101004100086\"},\"allocationType\":\"NO_ALLOCATION\",\"authId\":\"1012073928715272192\"};observerKey:1663742309955_977;sceneType:COLLECTION;\n header:  {apkbus=, coordinateType=0, official=true, Accept-Encoding=gzip,deflate, ua=EVR-AL00, dirname=bj, jumpinfo=, productorid=1, jumpextra={\"spm\":\"\",\"utm_source\":\"\"}, osv=10, 58clientid=437aa1380924f055d3a22d320dd5ed5a, brand=HUAWEI, apn=WIFI, deny=3.0, firstopentime=1663742148099, netType=wifi, rnsoerror=0, version=12.0.0, push=0, homemodel=normal, currentcid=, buildtime=, wbuversion=12.0.0, xxwxtoken=oDhKrcJxofw3AvikuCo6pZlcSXlSAIpEFqCXVJikeRLuk4UDIm5ZumI9QOanVbHnIUkTMCF_WRelq9zPsivO9s9bfcYmi3dUDBajK4PBSlQwMg9rKB4CmNLNq_fljcECG2tTuhqyTrwWvRhnC9J-biPlrIFOnG7g-eD-Ojgtq5OX5zX_JZ_6fasX07rKJIZb1JncOpBJVnEWSbVLiITTXEF0XXt8JnZu8dzXwwAhIsvDJsZ4SVJzHpYhoaULGzVJCEjINSSUiHA39P4CQrRNhw==, cid=1, townlocalid=110105026000, scale=1, guestImei=guest8d7259c38e354754a4656e88816c3005, platform=android, openudid=guest8d7259c38e354754a4656e88816c3005, sh=2172, osarch=arm64-v8a, webua=Mozilla\/5.0 (Linux; U; Android 10; EVR-AL00 Build\/HUAWEIEVR-AL00; wv) AppleWebKit\/534.30 (KHTML, like Gecko) Version\/4.0 Chrome\/55.0.2883.91 Mobile Safari\/534.30, bundle=com.wuba, totalsize=108.9, xxaqrid=f3faed1747, xxwxtokenp=2$acTt-5bzgTuLl5zHGpOgdd-RYfBWnUTTfyW9uJeFgis5lBMNOMXwfzsUbvJFGB4Xlpqj6dHO6mtq2Jaq-PlF2KBdeBMoMMFORMobCLfIMbspVUqvkzAkrag8gdAlMsd29QQEm1DDDKC7Xjt2zKzkmGmVXLg-ECEiAPyfqtEfvCHQpVeBfDkZ8p9MPl36Yd5rGf-KcdZWkr-I64Q6d-bNXXSSgaR7odDZ4sepBVZzJAYz8GQ5mmEWH24qm3mcpaJkPPYgMR3FN2xjv8F9smudGtLNCx01uDUEpl6bfo8GH8hj3W_7fvzSG6iX7bt2riZPQ0fDlU4rXaoZB323lzse4A==, product=58app, sw=1080, os=android, vlocalid=, r=2172_1080, 58ua=58app, clinkid=ca37a72526ca4c4ebe0cc9b1ac98b1af, maptype=2}apkbus:coordinateType:0official:trueAccept-Encoding:gzip,deflateua:EVR-AL00dirname:bjjumpinfo:productorid:1jumpextra:{\"spm\":\"\",\"utm_source\":\"\"}osv:1058clientid:437aa1380924f055d3a22d320dd5ed5abrand:HUAWEIapn:WIFIdeny:3.0firstopentime:1663742148099netType:wifirnsoerror:0version:12.0.0push:0homemodel:normalcurrentcid:buildtime:wbuversion:12.0.0xxwxtoken:oDhKrcJxofw3AvikuCo6pZlcSXlSAIpEFqCXVJikeRLuk4UDIm5ZumI9QOanVbHnIUkTMCF_WRelq9zPsivO9s9bfcYmi3dUDBajK4PBSlQwMg9rKB4CmNLNq_fljcECG2tTuhqyTrwWvRhnC9J-biPlrIFOnG7g-eD-Ojgtq5OX5zX_JZ_6fasX07rKJIZb1JncOpBJVnEWSbVLiITTXEF0XXt8JnZu8dzXwwAhIsvDJsZ4SVJzHpYhoaULGzVJCEjINSSUiHA39P4CQrRNhw==cid:1townlocalid:110105026000scale:1guestImei:guest8d7259c38e354754a4656e88816c3005platform:androidopenudid:guest8d7259c38e354754a4656e88816c3005sh:2172osarch:arm64-v8awebua:Mozilla\/5.0 (Linux; U; Android 10; EVR-AL00 Build\/HUAWEIEVR-AL00; wv) AppleWebKit\/534.30 (KHTML, like Gecko) Version\/4.0 Chrome\/55.0.2883.91 Mobile Safari\/534.30bundle:com.wubatotalsize:108.9xxaqrid:f3faed1747xxwxtokenp:2$acTt-5bzgTuLl5zHGpOgdd-RYfBWnUTTfyW9uJeFgis5lBMNOMXwfzsUbvJFGB4Xlpqj6dHO6mtq2Jaq-PlF2KBdeBMoMMFORMobCLfIMbspVUqvkzAkrag8gdAlMsd29QQEm1DDDKC7Xjt2zKzkmGmVXLg-ECEiAPyfqtEfvCHQpVeBfDkZ8p9MPl36Yd5rGf-KcdZWkr-I64Q6d-bNXXSSgaR7odDZ4sepBVZzJAYz8GQ5mmEWH24qm3mcpaJkPPYgMR3FN2xjv8F9smudGtLNCx01uDUEpl6bfo8GH8hj3W_7fvzSG6iX7bt2ri
+2022-09-21 14:38:30.003 11367-11367/com.wuba D/CrashReport: >>> com.huawei.petalpaysdk.pay.PayTaskActivity onCreated <<<
+2022-09-21 14:38:30.006 11367-11367/com.wuba I/petalpay_sdk: PayTaskActivity    onCreate
+2022-09-21 14:38:30.006 11367-11367/com.wuba I/petalpay_sdk: PayTaskActivity    getRequireLevel sceneType is COLLECTION
+2022-09-21 14:38:30.007 11367-11367/com.wuba I/petalpay_sdk: PayManager    require-version-2 | apk-version-8
+2022-09-21 14:38:30.007 11367-11367/com.wuba I/petalpay_sdk: PayTaskActivity    handleBusiness sceneType is COLLECTION
+2022-09-21 14:38:30.007 11367-11367/com.wuba I/petalpay_sdk: PayTaskActivity    handleBusiness startPay
+2022-09-21 14:38:30.007 11367-11367/com.wuba I/petalpay_sdk: PayService    handlePay sceneType is COLLECTION
+2022-09-21 14:38:30.008 11367-14756/com.wuba I/petalpay_sdk: PayService    need to connect and bind
+2022-09-21 14:38:30.008 11367-11367/com.wuba D/ActivityThread: add activity client record, r= ActivityRecord{dc430b5 token=android.os.BinderProxy@26b77f2 {com.wuba/com.huawei.petalpaysdk.pay.PayTaskActivity}} token= android.os.BinderProxy@26b77f2
+2022-09-21 14:38:30.009 11367-11367/com.wuba D/LAUNCH_LOG.ActivityLifecycle: 『 main  』  com.huawei.petalpaysdk.pay.PayTaskActivity@a3fadf9 onActivityStarted
+2022-09-21 14:38:30.009 1546-3558/? W/ActivityManager: Service starting has been prevented by iaware or trustsbase sInfo ServiceInfo{665351c com.huawei.petalpay.aidl.PetalPayService}
+2022-09-21 14:38:30.009 11367-11367/com.wuba D/ForegroundHelper: 『 main  』  Page:com.huawei.petalpaysdk.pay.PayTaskActivity start,current page count:2
+2022-09-21 14:38:30.010 11367-11367/com.wuba D/LocationBar: 『 main  』  onActivityStarted; com.huawei.petalpaysdk.pay.PayTaskActivity@a3fadf9
+2022-09-21 14:38:30.011 11367-11367/com.wuba D/tracker_log: {"t":"l","m":"t","c":"LogHook","f":"log()","msg":"com.huawei.petalpaysdk.pay.PayTaskActivity >> onActivityStarted"}
+2022-09-21 14:38:30.011 11367-11367/com.wuba D/CrashReport: >>> com.huawei.petalpaysdk.pay.PayTaskActivity onStart <<<
+2022-09-21 14:38:30.013 11367-11367/com.wuba D/LAUNCH_LOG.ActivityLifecycle: 『 main  』  com.huawei.petalpaysdk.pay.PayTaskActivity@a3fadf9 onActivityResumed
+2022-09-21 14:38:30.014 11367-11367/com.wuba E/LiveFloatLifecycleCallback: 『 main  』  onActivityResumed ---> currentActivity::com.huawei.petalpaysdk.pay.PayTaskActivity@a3fadf9
+2022-09-21 14:38:30.014 11367-11367/com.wuba D/LocationBar: 『 main  』  onActivityResumed; com.huawei.petalpaysdk.pay.PayTaskActivity@a3fadf9
+2022-09-21 14:38:30.014 11367-11367/com.wuba D/tracker_log: {"t":"l","m":"t","c":"LogHook","f":"log()","msg":"com.huawei.petalpaysdk.pay.PayTaskActivity >> onActivityResumed"}
+2022-09-21 14:38:30.015 11367-11367/com.wuba I/zpAnalysis: 『 main  』  PageRenderDurationData : 页面[PayTaskActivity]渲染时长:	14毫秒;;	页面全路径:com.huawei.petalpaysdk.pay.PayTaskActivity
+2022-09-21 14:38:30.015 11367-11367/com.wuba D/CrashReport: >>> com.huawei.petalpaysdk.pay.PayTaskActivity onResumed <<<
+2022-09-21 14:38:30.015 11367-14756/com.wuba E/ShadowServiceManager: BinderHook: ActivityManagerMethods, currentProcess=com.wuba, method=bindIsolatedService cost=6 start service=ServiceInfo{45e134a com.huawei.petalpay.aidl.PetalPayService} in process=com.huawei.wallet by intent=Intent { act=com.huawei.petalpay.aidl.IPetalPayService pkg=com.huawei.wallet cmp=com.huawei.wallet/com.huawei.petalpay.aidl.PetalPayService }
+    java.lang.Throwable
+        at com.coofee.componentmonitor.ActivityManagerMethods.resolveServiceIntent(ActivityManagerMethods.java:102)
+        at com.coofee.componentmonitor.IActivityManagerInterceptor.invoke(IActivityManagerInterceptor.java:27)
+        at android.shadow.ShadowServiceInvocationHandler.invoke(ShadowServiceInvocationHandler.java:112)
+        at java.lang.reflect.Proxy.invoke(Proxy.java:1006)
+        at $Proxy2.bindIsolatedService(Unknown Source)
+        at android.app.ContextImpl.bindServiceCommon(ContextImpl.java:1863)
+        at android.app.ContextImpl.bindService(ContextImpl.java:1778)
+        at android.content.ContextWrapper.bindService(ContextWrapper.java:705)
+        at com.huawei.petalpaysdk.pay.PayService.bindService(PayService.java:185)
+        at com.huawei.petalpaysdk.pay.PayService.access$500(PayService.java:49)
+        at com.huawei.petalpaysdk.pay.PayService$2.run(PayService.java:264)
+        at java.lang.Thread.run(Thread.java:929)
+2022-09-21 14:38:30.016 11367-14756/com.wuba I/petalpay_sdk: PayService    bindService bindResult false
+2022-09-21 14:38:30.016 11367-14756/com.wuba I/petalpay_sdk: PayService    context instance is application
+2022-09-21 14:38:30.016 11367-11367/com.wuba I/petalpay_sdk: PayTaskActivity    onResume->
+2022-09-21 14:38:30.022 1546-2846/? I/WindowManager: addWindow: Window{6702eb1 u0 com.wuba/com.huawei.petalpaysdk.pay.PayTaskActivity} client:android.os.BinderProxy@6cd3339 currentDisplayId:0 requestDisplayId:0 token:Token{6e38c4f ActivityRecord{6d46744 u0 com.wuba/com.huawei.petalpaysdk.pay.PayTaskActivity t7945}}
+2022-09-21 14:38:30.023 1546-9848/? I/ActivityTaskManager: START u0 {act=com.huawei.petalpay.action.EMPTYACTIVITY flg=0x10000000 hwFlg=0x10 pkg=com.huawei.wallet cmp=com.huawei.wallet/com.huawei.petalpay.checkout.pay.EmptyActivity} from uid 11000
+2022-09-21 14:38:30.024 1546-9848/? E/ActivityTaskManager: START {act=com.huawei.petalpay.action.EMPTYACTIVITY flg=0x10000000 hwFlg=0x10 pkg=com.huawei.wallet cmp=com.huawei.wallet/com.huawei.petalpay.checkout.pay.EmptyActivity} result: 102
+2022-09-21 14:38:30.025 8636-2788/? I/CAWARENESS_30414_AppUsageManager: onEvent, packageName=com.wuba, activityName=com.huawei.petalpaysdk.pay.PayTaskActivity, moduleName=, uid=11000
+2022-09-21 14:38:30.026 1546-1809/? I/HwAudioServiceEx: ComponentInfo : className = com.huawei.petalpaysdk.pay.PayTaskActivity, flag = onResume, isHomeActivity = , isTop = true
+2022-09-21 14:38:30.026 3314-20963/? I/Hicom_Monitor: mActivityNotifierEx, className = com.huawei.petalpaysdk.pay.PayTaskActivity, uid = 11000
+2022-09-21 14:38:30.026 3314-3423/? D/DollieActivityManagerAdapter: [Resumed] bg:false pid:11367 uid:11000 ComponentInfo{com.wuba/com.huawei.petalpaysdk.pay.PayTaskActivity}
+2022-09-21 14:38:30.026 3314-3423/? E/DollieAdapterService: notifyActivityState pkg:com.wuba/com.huawei.petalpaysdk.pay.PayTaskActivity state:2 fg:true mUid:11000
+2022-09-21 14:38:30.028 11367-14756/com.wuba E/ShadowServiceManager: BinderHook: ActivityManagerMethods, currentProcess=com.wuba, method=startActivity cost=8 start activity=ActivityInfo{16b0769 com.huawei.petalpay.checkout.pay.EmptyActivity} in process=com.huawei.wallet by intent=Intent { act=com.huawei.petalpay.action.EMPTYACTIVITY flg=0x10000000 pkg=com.huawei.wallet }
+    java.lang.Throwable
+        at com.coofee.componentmonitor.ActivityManagerMethods.resolveActivityIntent(ActivityManagerMethods.java:88)
+        at com.coofee.componentmonitor.IActivityTaskManagerInterceptor.invoke(IActivityTaskManagerInterceptor.java:22)
+        at android.shadow.ShadowServiceInvocationHandler.invoke(ShadowServiceInvocationHandler.java:112)
+        at java.lang.reflect.Proxy.invoke(Proxy.java:1006)
+        at $Proxy3.startActivity(Unknown Source)
+        at android.app.Instrumentation.execStartActivity(Instrumentation.java:1738)
+        at android.app.ContextImpl.startActivity(ContextImpl.java:1049)
+        at android.app.ContextImpl.startActivity(ContextImpl.java:1005)
+        at android.content.ContextWrapper.startActivity(ContextWrapper.java:383)
+        at com.huawei.petalpaysdk.pay.PayService.startWalletEmpty(PayService.java:243)
+        at com.huawei.petalpaysdk.pay.PayService.access$600(PayService.java:49)
+        at com.huawei.petalpaysdk.pay.PayService$2.run(PayService.java:265)
+        at java.lang.Thread.run(Thread.java:929)
+2022-09-21 14:38:30.028 11367-14756/com.wuba I/petalpay_sdk: PayService    find service page
+2022-09-21 14:38:30.038 1546-2846/? I/WindowManager: Check opening app=AppWindowToken{6cf97c9 token=Token{6e38c4f ActivityRecord{6d46744 u0 com.wuba/com.huawei.petalpaysdk.pay.PayTaskActivity t7945}}}: allDrawn=false startingDisplayed=false startingMoved=false isRelaunching()=false startingWindow=null
+2022-09-21 14:38:30.039 1546-2846/? I/WindowManager: Changing focus from null to Window{6702eb1 u0 com.wuba/com.huawei.petalpaysdk.pay.PayTaskActivity} displayId=0 Callers=com.android.server.wm.RootWindowContainer.updateFocusedWindowLocked:6666860 com.android.server.wm.WindowManagerService.updateFocusedWindowLocked:6666336 com.android.server.wm.WindowManagerService.relayoutWindow:6268452 com.android.server.wm.Session.relayout:6273148
+2022-09-21 14:38:30.040 1546-2846/? V/HwPhoneWindowManager: updateSystemUiColorLw window=Window{6702eb1 u0 com.wuba/com.huawei.petalpaysdk.pay.PayTaskActivity},EmuiStyle=0,StatusBarColor=0x0,NavigationBarColor=0xfffcfcfc, mForceNotchStatusBar=false
+2022-09-21 14:38:30.041 1546-1797/? D/StatusBarManagerService: win:Window{6702eb1 u0 com.wuba/com.huawei.petalpaysdk.pay.PayTaskActivity}mIsColorEnable:falselight:true
+2022-09-21 14:38:30.041 1546-1797/? I/StatusBarDisable: setFlags what=0 which=1 pkg=Window{6702eb1 u0 com.wuba/com.huawei.petalpaysdk.pay.PayTaskActivity}
+2022-09-21 14:38:30.051 1546-1800/? I/WindowManager: Check opening app=AppWindowToken{6cf97c9 token=Token{6e38c4f ActivityRecord{6d46744 u0 com.wuba/com.huawei.petalpaysdk.pay.PayTaskActivity t7945}}}: allDrawn=true startingDisplayed=false startingMoved=false isRelaunching()=false startingWindow=null
+2022-09-21 14:38:30.051 1546-1800/? D/HwWindowManagerServiceEx: is app exit to launcher info: transit = 24, app = AppWindowToken{6cf97c9 token=Token{6e38c4f ActivityRecord{6d46744 u0 com.wuba/com.huawei.petalpaysdk.pay.PayTaskActivity t7945}}}, window = Window{6702eb1 u0 com.wuba/com.huawei.petalpaysdk.pay.PayTaskActivity}, mClosingApps = {}, topOpeningApp = AppWindowToken{6cf97c9 token=Token{6e38c4f ActivityRecord{6d46744 u0 com.wuba/com.huawei.petalpaysdk.pay.PayTaskActivity t7945}}}, mExitIconBitmap = null, mExitIconHeight = -1, mExitIconWidth = -1
+2022-09-21 14:38:30.052 1546-1800/? V/WindowManager: commitVisibility: AppWindowToken{6cf97c9 token=Token{6e38c4f ActivityRecord{6d46744 u0 com.wuba/com.huawei.petalpaysdk.pay.PayTaskActivity t7945}}}: hidden=false hiddenRequested=false
+2022-09-21 14:38:30.052 1546-1800/? I/WindowManager: Animation done in AppWindowToken{6cf97c9 token=Token{6e38c4f ActivityRecord{6d46744 u0 com.wuba/com.huawei.petalpaysdk.pay.PayTaskActivity t7945}}} isHidden:false hiddenRequested:false
+2022-09-21 14:38:30.052 1546-1800/? I/WindowManager: dispatchResized : win = Window{6702eb1 u0 com.wuba/com.huawei.petalpaysdk.pay.PayTaskActivity} drawState = HAS_DRAWN
+2022-09-21 14:38:30.069 1546-9848/? V/ActivityTaskManager: Activity idle: Token{6e38c4f ActivityRecord{6d46744 u0 com.wuba/com.huawei.petalpaysdk.pay.PayTaskActivity t7945}}
+2022-09-21 14:38:30.254 11367-11583/com.wuba D/WMDAUtil: WMDAManager:页面事件: action_i_d: "16637423102531WW"
+    cate_id: ""
+    event_type: 0
+    id: ""
+    location <
+      area: "1"
+      gps_area: ""
+      lat: ""
+      lng: ""
+    >
+    page <
+      add: ""
+      app_page: "com.huawei.petalpaysdk.pay.PayTaskActivity"
+      domain: "com.wuba"
+      extra <
+        key: ""
+        value: ""
+      >
+      extra <
+        key: ""
+        value: ""
+      >
+      extra <
+        key: ""
+        value: ""
+      >
+      extra <
+        key: ""
+        value: ""
+      >
+      extra <
+        key: ""
+        value: ""
+      >
+      extra <
+        key: ""
+        value: ""
+      >
+      extra <
+        key: ""
+        value: ""
+      >
+      extra <
+        key: ""
+        value: ""
+      >
+      extra <
+        key: ""
+        value: ""
+      >
+      page_id: "1663742309996oQWZo"
+      page_type: ""
+      path: ""
+      query: ""
+      refer: ""
+      title: "58\u540c\u57ce"
+    >
+    session: "1663742147144-npPbyRIb-5k5N-z70z"
+    timestamp: 1663742310253
+2022-09-21 14:38:30.254 11367-11583/com.wuba D/WMDA-LOG: 『 Wmda.EventManagerThread  』  页面事件: action_i_d: "16637423102531WW"
+    cate_id: ""
+    event_type: 0
+    id: ""
+    location <
+      area: "1"
+      gps_area: ""
+      lat: ""
+      lng: ""
+    >
+    page <
+      add: ""
+      app_page: "com.huawei.petalpaysdk.pay.PayTaskActivity"
+      domain: "com.wuba"
+      extra <
+        key: ""
+        value: ""
+      >
+      extra <
+        key: ""
+        value: ""
+      >
+      extra <
+        key: ""
+        value: ""
+      >
+      extra <
+        key: ""
+        value: ""
+      >
+      extra <
+        key: ""
+        value: ""
+      >
+      extra <
+        key: ""
+        value: ""
+      >
+      extra <
+        key: ""
+        value: ""
+      >
+      extra <
+        key: ""
+        value: ""
+      >
+      extra <
+        key: ""
+        value: ""
+      >
+      page_id: "1663742309996oQWZo"
+      page_type: ""
+      path: ""
+      query: ""
+      refer: ""
+      title: "58\u540c\u57ce"
+    >
+    session: "1663742147144-npPbyRIb-5k5N-z70z"
+    timestamp: 1663742310253
+
+2022-09-21 14:38:31.028 11367-14756/com.wuba E/petalpay_sdk: PayService    get binder failed
+2022-09-21 14:38:31.029 11367-11367/com.wuba I/petalpay_sdk: PayTaskActivity    performPay
+2022-09-21 14:38:31.029 11367-11367/com.wuba E/petalpay_sdk: PayTaskActivity    PayState failed
+2022-09-21 14:38:31.029 11367-11367/com.wuba I/petalpay_sdk: PayTaskActivity    retryCount 5
+2022-09-21 14:38:31.029 11367-11367/com.wuba I/petalpay_sdk: PayTaskActivity    handleBusiness sceneType is COLLECTION
+2022-09-21 14:38:31.029 11367-11367/com.wuba I/petalpay_sdk: PayTaskActivity    handleBusiness startPay
+2022-09-21 14:38:31.029 11367-11367/com.wuba I/petalpay_sdk: PayService    handlePay sceneType is COLLECTION
+2022-09-21 14:38:31.029 11367-14764/com.wuba I/petalpay_sdk: PayService    need to connect and bind
+2022-09-21 14:38:31.030 1546-9848/? W/ActivityManager: Service starting has been prevented by iaware or trustsbase sInfo ServiceInfo{69a622a com.huawei.petalpay.aidl.PetalPayService}
+2022-09-21 14:38:31.031 11367-14764/com.wuba E/ShadowServiceManager: BinderHook: ActivityManagerMethods, currentProcess=com.wuba, method=bindIsolatedService cost=1 start service=ServiceInfo{78bda23 com.huawei.petalpay.aidl.PetalPayService} in process=com.huawei.wallet by intent=Intent { act=com.huawei.petalpay.aidl.IPetalPayService pkg=com.huawei.wallet cmp=com.huawei.wallet/com.huawei.petalpay.aidl.PetalPayService }
+    java.lang.Throwable
+        at com.coofee.componentmonitor.ActivityManagerMethods.resolveServiceIntent(ActivityManagerMethods.java:102)
+        at com.coofee.componentmonitor.IActivityManagerInterceptor.invoke(IActivityManagerInterceptor.java:27)
+        at android.shadow.ShadowServiceInvocationHandler.invoke(ShadowServiceInvocationHandler.java:112)
+        at java.lang.reflect.Proxy.invoke(Proxy.java:1006)
+        at $Proxy2.bindIsolatedService(Unknown Source)
+        at android.app.ContextImpl.bindServiceCommon(ContextImpl.java:1863)
+        at android.app.ContextImpl.bindService(ContextImpl.java:1778)
+        at android.content.ContextWrapper.bindService(ContextWrapper.java:705)
+        at com.huawei.petalpaysdk.pay.PayService.bindService(PayService.java:185)
+        at com.huawei.petalpaysdk.pay.PayService.access$500(PayService.java:49)
+        at com.huawei.petalpaysdk.pay.PayService$2.run(PayService.java:264)
+        at java.lang.Thread.run(Thread.java:929)
+2022-09-21 14:38:31.031 11367-14764/com.wuba I/petalpay_sdk: PayService    bindService bindResult false
+2022-09-21 14:38:31.031 11367-14764/com.wuba I/petalpay_sdk: PayService    context instance is application
+2022-09-21 14:38:31.034 1546-9848/? I/ActivityTaskManager: START u0 {act=com.huawei.petalpay.action.EMPTYACTIVITY flg=0x10000000 hwFlg=0x10 pkg=com.huawei.wallet cmp=com.huawei.wallet/com.huawei.petalpay.checkout.pay.EmptyActivity} from uid 11000
+2022-09-21 14:38:31.034 1546-9848/? E/ActivityTaskManager: START {act=com.huawei.petalpay.action.EMPTYACTIVITY flg=0x10000000 hwFlg=0x10 pkg=com.huawei.wallet cmp=com.huawei.wallet/com.huawei.petalpay.checkout.pay.EmptyActivity} result: 102
+2022-09-21 14:38:31.036 11367-14764/com.wuba E/ShadowServiceManager: BinderHook: ActivityManagerMethods, currentProcess=com.wuba, method=startActivity cost=3 start activity=ActivityInfo{d979cd9 com.huawei.petalpay.checkout.pay.EmptyActivity} in process=com.huawei.wallet by intent=Intent { act=com.huawei.petalpay.action.EMPTYACTIVITY flg=0x10000000 pkg=com.huawei.wallet }
+    java.lang.Throwable
+        at com.coofee.componentmonitor.ActivityManagerMethods.resolveActivityIntent(ActivityManagerMethods.java:88)
+        at com.coofee.componentmonitor.IActivityTaskManagerInterceptor.invoke(IActivityTaskManagerInterceptor.java:22)
+        at android.shadow.ShadowServiceInvocationHandler.invoke(ShadowServiceInvocationHandler.java:112)
+        at java.lang.reflect.Proxy.invoke(Proxy.java:1006)
+        at $Proxy3.startActivity(Unknown Source)
+        at android.app.Instrumentation.execStartActivity(Instrumentation.java:1738)
+        at android.app.ContextImpl.startActivity(ContextImpl.java:1049)
+        at android.app.ContextImpl.startActivity(ContextImpl.java:1005)
+        at android.content.ContextWrapper.startActivity(ContextWrapper.java:383)
+        at com.huawei.petalpaysdk.pay.PayService.startWalletEmpty(PayService.java:243)
+        at com.huawei.petalpaysdk.pay.PayService.access$600(PayService.java:49)
+        at com.huawei.petalpaysdk.pay.PayService$2.run(PayService.java:265)
+        at java.lang.Thread.run(Thread.java:929)
+2022-09-21 14:38:31.036 11367-14764/com.wuba I/petalpay_sdk: PayService    find service page
+2022-09-21 14:38:32.036 11367-14764/com.wuba E/petalpay_sdk: PayService    get binder failed
+2022-09-21 14:38:32.036 11367-11367/com.wuba I/petalpay_sdk: PayTaskActivity    performPay
+2022-09-21 14:38:32.036 11367-11367/com.wuba E/petalpay_sdk: PayTaskActivity    PayState failed
+2022-09-21 14:38:32.036 11367-11367/com.wuba I/petalpay_sdk: PayTaskActivity    retryCount 4
+2022-09-21 14:38:32.036 11367-11367/com.wuba I/petalpay_sdk: PayTaskActivity    handleBusiness sceneType is COLLECTION
+2022-09-21 14:38:32.036 11367-11367/com.wuba I/petalpay_sdk: PayTaskActivity    handleBusiness startPay
+2022-09-21 14:38:32.036 11367-11367/com.wuba I/petalpay_sdk: PayService    handlePay sceneType is COLLECTION
+2022-09-21 14:38:32.037 11367-14768/com.wuba I/petalpay_sdk: PayService    need to connect and bind
+2022-09-21 14:38:32.037 1546-1963/? W/ActivityManager: Service starting has been prevented by iaware or trustsbase sInfo ServiceInfo{6e995c1 com.huawei.petalpay.aidl.PetalPayService}
+2022-09-21 14:38:32.041 11367-14768/com.wuba E/ShadowServiceManager: BinderHook: ActivityManagerMethods, currentProcess=com.wuba, method=bindIsolatedService cost=3 start service=ServiceInfo{5a694c com.huawei.petalpay.aidl.PetalPayService} in process=com.huawei.wallet by intent=Intent { act=com.huawei.petalpay.aidl.IPetalPayService pkg=com.huawei.wallet cmp=com.huawei.wallet/com.huawei.petalpay.aidl.PetalPayService }
+    java.lang.Throwable
+        at com.coofee.componentmonitor.ActivityManagerMethods.resolveServiceIntent(ActivityManagerMethods.java:102)
+        at com.coofee.componentmonitor.IActivityManagerInterceptor.invoke(IActivityManagerInterceptor.java:27)
+        at android.shadow.ShadowServiceInvocationHandler.invoke(ShadowServiceInvocationHandler.java:112)
+        at java.lang.reflect.Proxy.invoke(Proxy.java:1006)
+        at $Proxy2.bindIsolatedService(Unknown Source)
+        at android.app.ContextImpl.bindServiceCommon(ContextImpl.java:1863)
+        at android.app.ContextImpl.bindService(ContextImpl.java:1778)
+        at android.content.ContextWrapper.bindService(ContextWrapper.java:705)
+        at com.huawei.petalpaysdk.pay.PayService.bindService(PayService.java:185)
+        at com.huawei.petalpaysdk.pay.PayService.access$500(PayService.java:49)
+        at com.huawei.petalpaysdk.pay.PayService$2.run(PayService.java:264)
+        at java.lang.Thread.run(Thread.java:929)
+2022-09-21 14:38:32.041 11367-14768/com.wuba I/petalpay_sdk: PayService    bindService bindResult false
+2022-09-21 14:38:32.041 11367-14768/com.wuba I/petalpay_sdk: PayService    context instance is application
+2022-09-21 14:38:32.044 1546-9848/? I/ActivityTaskManager: START u0 {act=com.huawei.petalpay.action.EMPTYACTIVITY flg=0x10000000 hwFlg=0x10 pkg=com.huawei.wallet cmp=com.huawei.wallet/com.huawei.petalpay.checkout.pay.EmptyActivity} from uid 11000
+2022-09-21 14:38:32.045 1546-9848/? E/ActivityTaskManager: START {act=com.huawei.petalpay.action.EMPTYACTIVITY flg=0x10000000 hwFlg=0x10 pkg=com.huawei.wallet cmp=com.huawei.wallet/com.huawei.petalpay.checkout.pay.EmptyActivity} result: 102
+2022-09-21 14:38:32.047 11367-14768/com.wuba E/ShadowServiceManager: BinderHook: ActivityManagerMethods, currentProcess=com.wuba, method=startActivity cost=3 start activity=ActivityInfo{660feaa com.huawei.petalpay.checkout.pay.EmptyActivity} in process=com.huawei.wallet by intent=Intent { act=com.huawei.petalpay.action.EMPTYACTIVITY flg=0x10000000 pkg=com.huawei.wallet }
+    java.lang.Throwable
+        at com.coofee.componentmonitor.ActivityManagerMethods.resolveActivityIntent(ActivityManagerMethods.java:88)
+        at com.coofee.componentmonitor.IActivityTaskManagerInterceptor.invoke(IActivityTaskManagerInterceptor.java:22)
+        at android.shadow.ShadowServiceInvocationHandler.invoke(ShadowServiceInvocationHandler.java:112)
+        at java.lang.reflect.Proxy.invoke(Proxy.java:1006)
+        at $Proxy3.startActivity(Unknown Source)
+        at android.app.Instrumentation.execStartActivity(Instrumentation.java:1738)
+        at android.app.ContextImpl.startActivity(ContextImpl.java:1049)
+        at android.app.ContextImpl.startActivity(ContextImpl.java:1005)
+        at android.content.ContextWrapper.startActivity(ContextWrapper.java:383)
+        at com.huawei.petalpaysdk.pay.PayService.startWalletEmpty(PayService.java:243)
+        at com.huawei.petalpaysdk.pay.PayService.access$600(PayService.java:49)
+        at com.huawei.petalpaysdk.pay.PayService$2.run(PayService.java:265)
+        at java.lang.Thread.run(Thread.java:929)
+2022-09-21 14:38:32.047 11367-14768/com.wuba I/petalpay_sdk: PayService    find service page
+2022-09-21 14:38:33.047 11367-14768/com.wuba E/petalpay_sdk: PayService    get binder failed
+2022-09-21 14:38:33.047 11367-11367/com.wuba I/petalpay_sdk: PayTaskActivity    performPay
+2022-09-21 14:38:33.047 11367-11367/com.wuba E/petalpay_sdk: PayTaskActivity    PayState failed
+2022-09-21 14:38:33.047 11367-11367/com.wuba I/petalpay_sdk: PayTaskActivity    retryCount 3
+2022-09-21 14:38:33.047 11367-11367/com.wuba I/petalpay_sdk: PayTaskActivity    handleBusiness sceneType is COLLECTION
+2022-09-21 14:38:33.047 11367-11367/com.wuba I/petalpay_sdk: PayTaskActivity    handleBusiness startPay
+2022-09-21 14:38:33.047 11367-11367/com.wuba I/petalpay_sdk: PayService    handlePay sceneType is COLLECTION
+2022-09-21 14:38:33.048 11367-14775/com.wuba I/petalpay_sdk: PayService    need to connect and bind
+2022-09-21 14:38:33.048 1546-9850/? W/ActivityManager: Service starting has been prevented by iaware or trustsbase sInfo ServiceInfo{6bbaf5e com.huawei.petalpay.aidl.PetalPayService}
+2022-09-21 14:38:33.049 11367-14775/com.wuba E/ShadowServiceManager: BinderHook: ActivityManagerMethods, currentProcess=com.wuba, method=bindIsolatedService cost=1 start service=ServiceInfo{1511577 com.huawei.petalpay.aidl.PetalPayService} in process=com.huawei.wallet by intent=Intent { act=com.huawei.petalpay.aidl.IPetalPayService pkg=com.huawei.wallet cmp=com.huawei.wallet/com.huawei.petalpay.aidl.PetalPayService }
+    java.lang.Throwable
+        at com.coofee.componentmonitor.ActivityManagerMethods.resolveServiceIntent(ActivityManagerMethods.java:102)
+        at com.coofee.componentmonitor.IActivityManagerInterceptor.invoke(IActivityManagerInterceptor.java:27)
+        at android.shadow.ShadowServiceInvocationHandler.invoke(ShadowServiceInvocationHandler.java:112)
+        at java.lang.reflect.Proxy.invoke(Proxy.java:1006)
+        at $Proxy2.bindIsolatedService(Unknown Source)
+        at android.app.ContextImpl.bindServiceCommon(ContextImpl.java:1863)
+        at android.app.ContextImpl.bindService(ContextImpl.java:1778)
+        at android.content.ContextWrapper.bindService(ContextWrapper.java:705)
+        at com.huawei.petalpaysdk.pay.PayService.bindService(PayService.java:185)
+        at com.huawei.petalpaysdk.pay.PayService.access$500(PayService.java:49)
+        at com.huawei.petalpaysdk.pay.PayService$2.run(PayService.java:264)
+        at java.lang.Thread.run(Thread.java:929)
+2022-09-21 14:38:33.049 11367-14775/com.wuba I/petalpay_sdk: PayService    bindService bindResult false
+2022-09-21 14:38:33.049 11367-14775/com.wuba I/petalpay_sdk: PayService    context instance is application
+2022-09-21 14:38:33.052 1546-9850/? I/ActivityTaskManager: START u0 {act=com.huawei.petalpay.action.EMPTYACTIVITY flg=0x10000000 hwFlg=0x10 pkg=com.huawei.wallet cmp=com.huawei.wallet/com.huawei.petalpay.checkout.pay.EmptyActivity} from uid 11000
+2022-09-21 14:38:33.053 1546-9850/? E/ActivityTaskManager: START {act=com.huawei.petalpay.action.EMPTYACTIVITY flg=0x10000000 hwFlg=0x10 pkg=com.huawei.wallet cmp=com.huawei.wallet/com.huawei.petalpay.checkout.pay.EmptyActivity} result: 102
+2022-09-21 14:38:33.054 11367-14775/com.wuba E/ShadowServiceManager: BinderHook: ActivityManagerMethods, currentProcess=com.wuba, method=startActivity cost=2 start activity=ActivityInfo{8557a4d com.huawei.petalpay.checkout.pay.EmptyActivity} in process=com.huawei.wallet by intent=Intent { act=com.huawei.petalpay.action.EMPTYACTIVITY flg=0x10000000 pkg=com.huawei.wallet }
+    java.lang.Throwable
+        at com.coofee.componentmonitor.ActivityManagerMethods.resolveActivityIntent(ActivityManagerMethods.java:88)
+        at com.coofee.componentmonitor.IActivityTaskManagerInterceptor.invoke(IActivityTaskManagerInterceptor.java:22)
+        at android.shadow.ShadowServiceInvocationHandler.invoke(ShadowServiceInvocationHandler.java:112)
+        at java.lang.reflect.Proxy.invoke(Proxy.java:1006)
+        at $Proxy3.startActivity(Unknown Source)
+        at android.app.Instrumentation.execStartActivity(Instrumentation.java:1738)
+        at android.app.ContextImpl.startActivity(ContextImpl.java:1049)
+        at android.app.ContextImpl.startActivity(ContextImpl.java:1005)
+        at android.content.ContextWrapper.startActivity(ContextWrapper.java:383)
+        at com.huawei.petalpaysdk.pay.PayService.startWalletEmpty(PayService.java:243)
+        at com.huawei.petalpaysdk.pay.PayService.access$600(PayService.java:49)
+        at com.huawei.petalpaysdk.pay.PayService$2.run(PayService.java:265)
+        at java.lang.Thread.run(Thread.java:929)
+2022-09-21 14:38:33.054 11367-14775/com.wuba I/petalpay_sdk: PayService    find service page
+2022-09-21 14:38:34.055 11367-14775/com.wuba E/petalpay_sdk: PayService    get binder failed
+2022-09-21 14:38:34.055 11367-11367/com.wuba I/petalpay_sdk: PayTaskActivity    performPay
+2022-09-21 14:38:34.055 11367-11367/com.wuba E/petalpay_sdk: PayTaskActivity    PayState failed
+2022-09-21 14:38:34.055 11367-11367/com.wuba I/petalpay_sdk: PayTaskActivity    retryCount 2
+2022-09-21 14:38:34.055 11367-11367/com.wuba I/petalpay_sdk: PayTaskActivity    handleBusiness sceneType is COLLECTION
+2022-09-21 14:38:34.055 11367-11367/com.wuba I/petalpay_sdk: PayTaskActivity    handleBusiness startPay
+2022-09-21 14:38:34.055 11367-11367/com.wuba I/petalpay_sdk: PayService    handlePay sceneType is COLLECTION
+2022-09-21 14:38:34.055 11367-14797/com.wuba I/petalpay_sdk: PayService    need to connect and bind
+2022-09-21 14:38:34.056 1546-1963/? W/ActivityManager: Service starting has been prevented by iaware or trustsbase sInfo ServiceInfo{6e995c1 com.huawei.petalpay.aidl.PetalPayService}
+2022-09-21 14:38:34.057 11367-14797/com.wuba E/ShadowServiceManager: BinderHook: ActivityManagerMethods, currentProcess=com.wuba, method=bindIsolatedService cost=1 start service=ServiceInfo{9379213 com.huawei.petalpay.aidl.PetalPayService} in process=com.huawei.wallet by intent=Intent { act=com.huawei.petalpay.aidl.IPetalPayService pkg=com.huawei.wallet cmp=com.huawei.wallet/com.huawei.petalpay.aidl.PetalPayService }
+    java.lang.Throwable
+        at com.coofee.componentmonitor.ActivityManagerMethods.resolveServiceIntent(ActivityManagerMethods.java:102)
+        at com.coofee.componentmonitor.IActivityManagerInterceptor.invoke(IActivityManagerInterceptor.java:27)
+        at android.shadow.ShadowServiceInvocationHandler.invoke(ShadowServiceInvocationHandler.java:112)
+        at java.lang.reflect.Proxy.invoke(Proxy.java:1006)
+        at $Proxy2.bindIsolatedService(Unknown Source)
+        at android.app.ContextImpl.bindServiceCommon(ContextImpl.java:1863)
+        at android.app.ContextImpl.bindService(ContextImpl.java:1778)
+        at android.content.ContextWrapper.bindService(ContextWrapper.java:705)
+        at com.huawei.petalpaysdk.pay.PayService.bindService(PayService.java:185)
+        at com.huawei.petalpaysdk.pay.PayService.access$500(PayService.java:49)
+        at com.huawei.petalpaysdk.pay.PayService$2.run(PayService.java:264)
+        at java.lang.Thread.run(Thread.java:929)
+2022-09-21 14:38:34.057 11367-14797/com.wuba I/petalpay_sdk: PayService    bindService bindResult false
+2022-09-21 14:38:34.057 11367-14797/com.wuba I/petalpay_sdk: PayService    context instance is application
+2022-09-21 14:38:34.059 1546-2846/? I/ActivityTaskManager: START u0 {act=com.huawei.petalpay.action.EMPTYACTIVITY flg=0x10000000 hwFlg=0x10 pkg=com.huawei.wallet cmp=com.huawei.wallet/com.huawei.petalpay.checkout.pay.EmptyActivity} from uid 11000
+2022-09-21 14:38:34.060 1546-2846/? E/ActivityTaskManager: START {act=com.huawei.petalpay.action.EMPTYACTIVITY flg=0x10000000 hwFlg=0x10 pkg=com.huawei.wallet cmp=com.huawei.wallet/com.huawei.petalpay.checkout.pay.EmptyActivity} result: 102
+2022-09-21 14:38:34.065 11367-14797/com.wuba E/ShadowServiceManager: BinderHook: ActivityManagerMethods, currentProcess=com.wuba, method=startActivity cost=6 start activity=ActivityInfo{f8c6e49 com.huawei.petalpay.checkout.pay.EmptyActivity} in process=com.huawei.wallet by intent=Intent { act=com.huawei.petalpay.action.EMPTYACTIVITY flg=0x10000000 pkg=com.huawei.wallet }
+    java.lang.Throwable
+        at com.coofee.componentmonitor.ActivityManagerMethods.resolveActivityIntent(ActivityManagerMethods.java:88)
+        at com.coofee.componentmonitor.IActivityTaskManagerInterceptor.invoke(IActivityTaskManagerInterceptor.java:22)
+        at android.shadow.ShadowServiceInvocationHandler.invoke(ShadowServiceInvocationHandler.java:112)
+        at java.lang.reflect.Proxy.invoke(Proxy.java:1006)
+        at $Proxy3.startActivity(Unknown Source)
+        at android.app.Instrumentation.execStartActivity(Instrumentation.java:1738)
+        at android.app.ContextImpl.startActivity(ContextImpl.java:1049)
+        at android.app.ContextImpl.startActivity(ContextImpl.java:1005)
+        at android.content.ContextWrapper.startActivity(ContextWrapper.java:383)
+        at com.huawei.petalpaysdk.pay.PayService.startWalletEmpty(PayService.java:243)
+        at com.huawei.petalpaysdk.pay.PayService.access$600(PayService.java:49)
+        at com.huawei.petalpaysdk.pay.PayService$2.run(PayService.java:265)
+        at java.lang.Thread.run(Thread.java:929)
+2022-09-21 14:38:34.065 11367-14797/com.wuba I/petalpay_sdk: PayService    find service page
+2022-09-21 14:38:35.065 11367-14797/com.wuba E/petalpay_sdk: PayService    get binder failed
+2022-09-21 14:38:35.065 11367-11367/com.wuba I/petalpay_sdk: PayTaskActivity    performPay
+2022-09-21 14:38:35.065 11367-11367/com.wuba E/petalpay_sdk: PayTaskActivity    PayState failed
+2022-09-21 14:38:35.065 11367-11367/com.wuba I/petalpay_sdk: PayTaskActivity    retryCount 1
+2022-09-21 14:38:35.065 11367-11367/com.wuba I/petalpay_sdk: PayTaskActivity    handleBusiness sceneType is COLLECTION
+2022-09-21 14:38:35.065 11367-11367/com.wuba I/petalpay_sdk: PayTaskActivity    handleBusiness startPay
+2022-09-21 14:38:35.065 11367-11367/com.wuba I/petalpay_sdk: PayService    handlePay sceneType is COLLECTION
+2022-09-21 14:38:35.066 11367-14803/com.wuba I/petalpay_sdk: PayService    need to connect and bind
+2022-09-21 14:38:35.067 1546-1963/? W/ActivityManager: Service starting has been prevented by iaware or trustsbase sInfo ServiceInfo{6e99435 com.huawei.petalpay.aidl.PetalPayService}
+2022-09-21 14:38:35.067 11367-14803/com.wuba E/ShadowServiceManager: BinderHook: ActivityManagerMethods, currentProcess=com.wuba, method=bindIsolatedService cost=1 start service=ServiceInfo{e3c8e26 com.huawei.petalpay.aidl.PetalPayService} in process=com.huawei.wallet by intent=Intent { act=com.huawei.petalpay.aidl.IPetalPayService pkg=com.huawei.wallet cmp=com.huawei.wallet/com.huawei.petalpay.aidl.PetalPayService }
+    java.lang.Throwable
+        at com.coofee.componentmonitor.ActivityManagerMethods.resolveServiceIntent(ActivityManagerMethods.java:102)
+        at com.coofee.componentmonitor.IActivityManagerInterceptor.invoke(IActivityManagerInterceptor.java:27)
+        at android.shadow.ShadowServiceInvocationHandler.invoke(ShadowServiceInvocationHandler.java:112)
+        at java.lang.reflect.Proxy.invoke(Proxy.java:1006)
+        at $Proxy2.bindIsolatedService(Unknown Source)
+        at android.app.ContextImpl.bindServiceCommon(ContextImpl.java:1863)
+        at android.app.ContextImpl.bindService(ContextImpl.java:1778)
+        at android.content.ContextWrapper.bindService(ContextWrapper.java:705)
+        at com.huawei.petalpaysdk.pay.PayService.bindService(PayService.java:185)
+        at com.huawei.petalpaysdk.pay.PayService.access$500(PayService.java:49)
+        at com.huawei.petalpaysdk.pay.PayService$2.run(PayService.java:264)
+        at java.lang.Thread.run(Thread.java:929)
+2022-09-21 14:38:35.067 11367-14803/com.wuba I/petalpay_sdk: PayService    bindService bindResult false
+2022-09-21 14:38:35.067 11367-14803/com.wuba I/petalpay_sdk: PayService    context instance is application
+2022-09-21 14:38:35.069 1546-1963/? I/ActivityTaskManager: START u0 {act=com.huawei.petalpay.action.EMPTYACTIVITY flg=0x10000000 hwFlg=0x10 pkg=com.huawei.wallet cmp=com.huawei.wallet/com.huawei.petalpay.checkout.pay.EmptyActivity} from uid 11000
+2022-09-21 14:38:35.070 1546-1963/? E/ActivityTaskManager: START {act=com.huawei.petalpay.action.EMPTYACTIVITY flg=0x10000000 hwFlg=0x10 pkg=com.huawei.wallet cmp=com.huawei.wallet/com.huawei.petalpay.checkout.pay.EmptyActivity} result: 102
+2022-09-21 14:38:35.071 11367-14803/com.wuba E/ShadowServiceManager: BinderHook: ActivityManagerMethods, currentProcess=com.wuba, method=startActivity cost=3 start activity=ActivityInfo{8414014 com.huawei.petalpay.checkout.pay.EmptyActivity} in process=com.huawei.wallet by intent=Intent { act=com.huawei.petalpay.action.EMPTYACTIVITY flg=0x10000000 pkg=com.huawei.wallet }
+    java.lang.Throwable
+        at com.coofee.componentmonitor.ActivityManagerMethods.resolveActivityIntent(ActivityManagerMethods.java:88)
+        at com.coofee.componentmonitor.IActivityTaskManagerInterceptor.invoke(IActivityTaskManagerInterceptor.java:22)
+        at android.shadow.ShadowServiceInvocationHandler.invoke(ShadowServiceInvocationHandler.java:112)
+        at java.lang.reflect.Proxy.invoke(Proxy.java:1006)
+        at $Proxy3.startActivity(Unknown Source)
+        at android.app.Instrumentation.execStartActivity(Instrumentation.java:1738)
+        at android.app.ContextImpl.startActivity(ContextImpl.java:1049)
+        at android.app.ContextImpl.startActivity(ContextImpl.java:1005)
+        at android.content.ContextWrapper.startActivity(ContextWrapper.java:383)
+        at com.huawei.petalpaysdk.pay.PayService.startWalletEmpty(PayService.java:243)
+        at com.huawei.petalpaysdk.pay.PayService.access$600(PayService.java:49)
+        at com.huawei.petalpaysdk.pay.PayService$2.run(PayService.java:265)
+        at java.lang.Thread.run(Thread.java:929)
+2022-09-21 14:38:35.071 11367-14803/com.wuba I/petalpay_sdk: PayService    find service page
