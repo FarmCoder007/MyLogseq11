@@ -19,10 +19,10 @@
 		- [[Binder 线程池启动过程]]
 		- [[消息循环创建过程]]
 	- RecyclerView
-	  collapsed:: true
 		- 动画
 			- [[ItemAnimator源码分析]]
 		- [[优化]]
+		- [[相关知识]]
 	- [[ViewPager2]]
 	- 自定义view
 	  collapsed:: true
