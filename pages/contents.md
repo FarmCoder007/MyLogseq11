@@ -19,7 +19,9 @@
 		- [[Binder 线程池启动过程]]
 		- [[消息循环创建过程]]
 	- RecyclerView
+	  collapsed:: true
 		- 动画
+		  collapsed:: true
 			- [[ItemAnimator源码分析]]
 		- [[优化]]
 		- [[相关知识]]
