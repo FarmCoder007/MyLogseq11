@@ -275,6 +275,7 @@
 			  
 			  ```
 	- ## 2-7、闭包groovy.lang.Closure
+	  collapsed:: true
 		- 介绍：
 		  collapsed:: true
 			- 闭包是Groovy中非常重要的一个数据类型，是由大括号括起来的一段可执行的代码，可以接受参数也可以有返回值。
