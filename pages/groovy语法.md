@@ -353,5 +353,41 @@
 				  }
 				  
 				  ```
-				-
+				- ```groovy
+				  //map遍历操作
+				  def mapEach(closureTemp){
+				  	def map = ["君哥","it235.com","Gradle":"Groovy"]
+				  	map.each {
+				  		closureTemp(it.key,it.value)
+				  	}
+				  }
+				  
+				  //调用mapEach方法，mapEach的参数就是闭包
+				  mapEach { 
+				  	k,v ->
+				      	// 闭包不只一个参数的时候，需要把参数一一列出
+				  		println "$k-$v"
+				  }
+				  
+				  
+				  ```
+				- ```groovy
+				  // 方法 listEach 只有一个参数，用于接收一个闭包参数
+				  def listEach(closureTemp){
+				  	def nameList = ["君哥","it235.com","Groovy","Java","Kotlin"]
+				  	nameList.each {
+				  		closureTemp(it)
+				  	}
+				  }
+				  
+				  // listEach 的参数是闭包
+				  listEach {
+				      // 闭包只有一个参数的时候，默认就是 it
+				      println it
+				  }
+				  
+				  ```
+				- 代码块可作为参数传递**：代码块就是闭包，通俗来说就是**一段被大括号包裹起来的代码
+				- ```groovy
+				  ```
 -
