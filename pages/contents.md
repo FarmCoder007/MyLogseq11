@@ -126,6 +126,7 @@
 	- [[gradle命令]]
 	- [[maven发布]]
 	- [[groovy语法]]
+	- [[Gradle-Project]]
 - Mac
   collapsed:: true
 	- [charles关闭后不能上网](https://blog.csdn.net/minmin_bufucisheng/article/details/89025601)
@@ -137,5 +138,6 @@
   collapsed:: true
 	- [[shell命令]]
 - 跨平台
+  collapsed:: true
 	- Hybrid-Action
 	- RN-Modules
