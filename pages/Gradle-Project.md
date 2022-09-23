@@ -8,4 +8,4 @@
 	- 一个完整的project由以下几个对象组成（实际上只由属性和方法组成）
 	  collapsed:: true
 		- ![image.png](../assets/image_1663923991768_0.png){:height 477, :width 634}
--
+- # 二、属性使用
