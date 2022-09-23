@@ -227,6 +227,7 @@
 		  
 		  ```
 	- ## 2-6、集合
+	  collapsed:: true
 		- List
 		  collapsed:: true
 			- 对于 List 来说，Groovy 提供下标索引的方式进行访问，值得注意的是，除了普通的下标索引，还有负下标索引和范围索引的方式
@@ -273,3 +274,7 @@
 			  }
 			  
 			  ```
+	- ## 2-7、闭包groovy.lang.Closure
+		- 闭包是Groovy中非常重要的一个数据类型，是由大括号括起来的一段可执行的代码，可以接受参数也可以有返回值。
+		- 闭包语义{ [closureParameters -> ] statements }
+		-
