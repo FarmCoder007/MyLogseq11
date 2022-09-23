@@ -1,2 +1,2 @@
 - # 一、简介
-	- Groovy是一种基于JVM
+	- Groovy是一种基于JVM的动态语言，语法和java相似，最终也是要编译.class在JVM上运行。
