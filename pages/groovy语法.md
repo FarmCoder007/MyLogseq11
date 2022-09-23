@@ -324,5 +324,33 @@
 		- 执行闭包
 			- 行闭包对象有两种，一是直接用括号+参数，二是调用call方法
 			- 闭包对象(参数)
-			-
+			- 闭包对象.call(参数)
+			- ```groovy
+			  simpleClosure()
+			  simpleClosure.call()
+			  
+			  itClosure("默认1个参数的闭包")
+			  itClosure.call("默认1个参数的闭包")
+			  
+			  def resultA = paramClosure("hello" , "world")
+			  def resultB = paramClosure.call("hello" , "world")
+			  
+			  ```
+			- 复杂一点的调用
+			- ```groovy
+			  //闭包体作为参数传入，操作单个属性
+			  def simpleCall(closure){
+			  	def value = "Hello Groovy"
+			      closure(value)
+			  }
+			  
+			  //作为参数传入
+			  simpleCall({print it})
+			  
+			  //去掉()的简写
+			  simpleCall{
+			      print it
+			  }
+			  
+			  ```
 -
