@@ -2,6 +2,7 @@
 	- Groovy是一种基于JVM的动态语言，语法和java相似，最终也是要编译.class在JVM上运行。
 - # 二、语法
 	- ## 2-1、标识符
+	  collapsed:: true
 		- def 是 Groovy 用来定义标识符的关键字
 		- ```groovy
 		  // 定义一个字符串变量 domain 它的值为 it235
@@ -39,6 +40,7 @@
 		  
 		  ```
 	- ## 2-3、方法
+	  collapsed:: true
 		- 括号可省略： 调用方法的时候，可以省略括号，如 #2
 		  collapsed:: true
 			- ```groovy
@@ -189,6 +191,41 @@
 			  
 			  ```
 	- ## 2-5、JavaBean
+	  collapsed:: true
 		- Groovy会为类中每个没有可见性修饰符的字段生成getter/setter方法，我们访问这个字段其实是调用它的getter/setter方法。
 		- 同时只要写了 getter/setter 方法，也一样可以作为属性进行访问。
 		- 对于没有定义的属性，如果只写了 getter 方法，那不可以修改该属性的值，如例子中的 age 属性
+		- ```groovy
+		  class Person{
+		      def name
+		      private def country
+		    
+		      def setNation(nation){
+		          this.country = nation
+		      }
+		      def getNation(){
+		          return country
+		      }
+		  	public int getAge(){24}
+		      
+		      public String getInfo(){
+		  		"$country-$name-$age"
+		  	}
+		  }
+		  
+		  def person = new Person()
+		  //访问属性
+		  person.name = '君哥'
+		  println person.name
+		  
+		  //像字段一样访问这个以get/set开头的方法
+		  person.nation = "china"
+		  println person.nation
+		  
+		  //访问的是info的get方法
+		  println person.info
+		  
+		  ```
+	- ## 2-6、集合
+		- 对于 List 来说，Groovy 提供下标索引的方式进行访问，值得注意的是，除了普通的下标索引，还有负下标索引和范围索引的方式
+		-
