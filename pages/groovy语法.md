@@ -40,31 +40,45 @@
 		  ```
 	- ## 2-3、方法
 		- 括号可省略： 调用方法的时候，可以省略括号，如 #2
-		- ```groovy
-		  def methodTest(){
-		      buildString("Nicholas","hzf") // #1
-		      buildString "Nicholas","hzf" // #2
-		  }
-		  
-		  def buildString(String a, String b){
-		  	println "$a-$b"
-		  }
-		  
-		  ```
+		  collapsed:: true
+			- ```groovy
+			  def methodTest(){
+			      buildString("Nicholas","hzf") // #1
+			      buildString "Nicholas","hzf" // #2
+			  }
+			  
+			  def buildString(String a, String b){
+			  	println "$a-$b"
+			  }
+			  
+			  ```
 		- return 可不写： 方法中没有写 return 语句，则方法执行过程中的最后一句代码的值作为返回值
-		- ```groovy
-		  def methodTest(){
-		      def result = chooseSmallNum 1,10
-		      println result
-		  }
-		  
-		  def chooseSmallNum(int a, int b){
-		  	if (a <= b) {
-		  		a
-		  	}else {
-		  		b
-		  	}
-		  }
-		  
-		  ```
-		-
+		  collapsed:: true
+			- ```groovy
+			  def methodTest(){
+			      def result = chooseSmallNum 1,10
+			      println result
+			  }
+			  
+			  def chooseSmallNum(int a, int b){
+			  	if (a <= b) {
+			  		a
+			  	}else {
+			  		b
+			  	}
+			  }
+			  
+			  ```
+		- Groovy支持动态类型推导，使用def来定义变量和方法时可以不指定变量的类型和方法的返回值类型，同时定义方法时参数可以不指定类型
+		  collapsed:: true
+			- ```groovy
+			  def num1 = 1
+			  def num2 = 2
+			  def result = add(num1, num2)
+			  
+			  def add(a, b){
+			      return a + b
+			  }
+			  
+			  ```
+	- ## 2-4运算符与逻辑控制
