@@ -9,3 +9,19 @@
 	  collapsed:: true
 		- ![image.png](../assets/image_1663923991768_0.png){:height 477, :width 634}
 - # 二、属性使用
+	- 我们可以在build.gradle文件中任意使用gradle提供的属性或方法，如下：
+	- ```groovy
+	  //输出当前项目名称
+	  println(project.name)
+	  
+	  //一般在当前build.gradle中使用时，默认会省略project
+	  println(name)
+	  
+	  //输出project中名字为name的属性
+	  println(project.property("name"))
+	  
+	  //指定默认执行的task，即./gradlew不指定task时会执行该task
+	  defaultTasks('yourTask')
+	  
+	  ```
+-
