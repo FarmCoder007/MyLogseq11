@@ -389,5 +389,22 @@
 				  ```
 				- 代码块可作为参数传递**：代码块就是闭包，通俗来说就是**一段被大括号包裹起来的代码
 				- ```groovy
+				  // Closure 定义闭包
+				  def doSomething(String a, String b, Closure method){
+				  	method.call(a,b)
+				  }
+				  
+				  //方式1：初始写法，比较繁琐
+				  doSomething("君哥","it235.com",{a,b -> println "$a-$b"})
+				  
+				  //方式2：Groovy 规定如果方法的最后一个参数是闭包，可以放到方法后面
+				  doSomething("君哥","it235.com"){ a,b ->
+				      println "$a-$b"
+				  }
+				  //方式3：括号可以省略，最常见的写法
+				  doSomething "君哥","it235.com",{ a,b ->
+				      println "$a-$b"
+				  }
+				  
 				  ```
 -
