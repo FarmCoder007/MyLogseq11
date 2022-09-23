@@ -89,5 +89,59 @@
 			  逻辑运算符
 			  位运算符
 			  赋值运算符
-		- ###f else  swi
-			- i
+		- ### if else  switch
+		  collapsed:: true
+			- ```groovy
+			  // if条件语句
+			  def age = 28
+			  if (age >= 30) {
+			      println("${age}岁，不小了，该找女票了")
+			  } else {
+			      println("还小呢，继续玩,才${age}岁")
+			  }
+			  
+			  //if-else-if
+			  def age = 28
+			  if (age >= 30) {
+			      println("${age}岁，不小了，该找女票了")
+			  } else if (age < 28 && age > 22) {
+			      println("还小呢，继续玩,才${age}岁")
+			  }else {
+			      println("${age}尴尬的年纪")
+			  }
+			  
+			  //swtich switch支持集合、支持闭包、支持正则
+			  
+			  def x = 1.23
+			  def result = ""
+			  switch ( x ) {
+			      case "foo":
+			          result = "found foo"
+			          // lets fall through
+			      case "bar":
+			          result += "bar"
+			      case [4, 5, 6, 'inList']:
+			          result = "list"
+			          break
+			      case 12..30:
+			          result = "range"
+			          break
+			      case Integer:
+			          result = "integer"
+			          break
+			      case Number:
+			          result = "number"
+			          break
+			      case ~/fo*/: // toString() representation of x matches the pattern?
+			          result = "foo regex"
+			          break
+			      case { it < 0 }: // or { x < 0 }
+			          result = "negative"
+			          break
+			      default:
+			          result = "default"
+			  }
+			  
+			  ```
+		-
+-
