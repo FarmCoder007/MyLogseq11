@@ -4,3 +4,4 @@
 		- 给整个构建创建一个Settings实例，一个Settings实例就是一个settings.gradle文件
 		- 针对Settings实例的配置，按配置层次扫描并解析配置在settings.gradle中的project。（其中settings中最为重要的属性是include）
 		- 针对Settings实例的配置，按配置层次扫描并解析配置在settings.gradle中的project。（其中settings中最为重要的属性是include）
+-
