@@ -107,7 +107,7 @@
 		- ![image.png](../assets/image_1663926699086_0.png){:height 281, :width 716}
 		-
 		- ### 常用方法示例：
-			- buildscript{}：配置当前gradle脚本自身需要使用的构建信息或依赖
+			- 1、buildscript{}：配置当前gradle脚本自身需要使用的构建信息或依赖
 			  collapsed:: true
 				- 假设要执行一项指令./gradlew buildImage，构建docker镜像，而Gradle官方自身没有，则需要依赖到maven库下载或需要调用第三方插件，虽然这里是调用的task，但是task背后所依赖的插件是需要提前定义在buildscript中的，我们需要在buildscript{}中指定docker的依赖即可。
 				- ```groovy
@@ -133,4 +133,13 @@
 				  }
 				  
 				  ```
-			-
+			- 2、configurations{}：配置使用声明的依赖项用于特定目的（听君一席话，如听一席话）
+				- 我们看个案例，下面的implementation和testRuntime就是Gradle帮我们提供的configuration，configurations{} 记录着项目中各个分组（implementation ，runtime）的依赖信息。
+				- ```groovy
+				  dependencies {
+				      implementation "org.springframework.boot:spring-boot-starter-web"
+				      testRuntime "junit:junit:4.13"
+				  }
+				  
+				  ```
+-
