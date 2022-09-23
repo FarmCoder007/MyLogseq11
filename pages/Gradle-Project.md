@@ -26,6 +26,7 @@
 		  
 		  ```
 	- ## 属性定义：
+	  collapsed:: true
 		- ### 1、内置属性可以直接赋值，无需声明
 		  collapsed:: true
 			- ```groovy
@@ -90,4 +91,9 @@
 			- Project 中 Tasks 。可以使用 Task 的名称作为属性名称来访问task。此范围的属性是只读的。
 			- ext的属性和约定属性从项目的父级继承，递归到根项目。此范围的属性是只读的。
 		- ### 6、常用的project属性
+		  collapsed:: true
+			- ![image.png](../assets/image_1663925060278_0.png)
 			-
+		-
+- # 三、方法
+	-
