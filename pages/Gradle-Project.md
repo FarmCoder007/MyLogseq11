@@ -27,11 +27,26 @@
 		  ```
 	- ## 属性定义：
 		- ### 1、内置属性可以直接赋值，无需声明
+		  collapsed:: true
 			- ```groovy
 			  group = 'com.it235'
 			  version = '1.0.0'
 			  
 			  ```
 		- ### 2、自定义属性可以使用groovy语法，也可以与java语法结合
+		  collapsed:: true
 			- ```groovy
+			  //groovy定义属性
+			  def pname = "projectName:" + project.name
+			  
+			  //java类型接收
+			  String pname = "projectName:" + project.name
+			  
 			  ```
+		- ### 3、使用ext名命空间来扩展属性，定义后可以在project、task、subproject中读取和更新
+			- ```
+			  ext.prop1 = "it235"
+			  ext.prop2 = "君哥聊编程"
+			  
+			  ```
+-
