@@ -87,4 +87,7 @@
 			- Project 的ext属性 ( extra ) 。每个 Project 都会维护一个额外属性的映射，它可以包含任意的名称 -> 值对。定义后，此作用域的属性是可读写的。比如：project.ext.prop1 = 'it235' 。
 			- 通过插件被添加到 Project 中的扩展属性 ( extensions ) 。每个扩展名都可以作为只读属性使用，其名称与扩展名相同。比如：project.android.compileSdkVersion 。
 			- 通过插件添加到 Project 中的约定属性 ( convention ) 。插件可以通过 Project 的 Convention 对象向 Project 中添加属性和方法。此范围的属性的可读可写性取决于约束对象。
+			- Project 中 Tasks 。可以使用 Task 的名称作为属性名称来访问task。此范围的属性是只读的。
+			- ext的属性和约定属性从项目的父级继承，递归到根项目。此范围的属性是只读的。
+		- ### 6、常用的project属性
 			-
