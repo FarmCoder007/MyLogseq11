@@ -1,4 +1,5 @@
 - 工作
+  collapsed:: true
 	- [[专利]]
 	- [[WBRouter]]
 	- [[职级评审]]
@@ -45,6 +46,7 @@
 	- [[Android版本适配]]
 	- [[Android开发架构]]
 - JAVA
+  collapsed:: true
 	- [[java-泛型]]
 	- 集合
 	  collapsed:: true
@@ -52,6 +54,7 @@
 		-
 	- [[设计模式]]
 - Kotlin
+  collapsed:: true
 	- [[基本语法]]
 	- [[注意事项]]
 	- [[Kotlin关键字]]
@@ -125,7 +128,9 @@
 	- [charles关闭后不能上网](https://blog.csdn.net/minmin_bufucisheng/article/details/89025601)
 	- [[环境变量命令]]
 - adb
+  collapsed:: true
 	- [[adb命令行]]
 - shell
+  collapsed:: true
 	- [[shell命令]]
 -
