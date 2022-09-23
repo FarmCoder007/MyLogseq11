@@ -108,5 +108,29 @@
 		-
 		- ### 常用方法示例：
 			- buildscript{}：配置当前gradle脚本自身需要使用的构建信息或依赖
+			  collapsed:: true
 				- 假设要执行一项指令./gradlew buildImage，构建docker镜像，而Gradle官方自身没有，则需要依赖到maven库下载或需要调用第三方插件，虽然这里是调用的task，但是task背后所依赖的插件是需要提前定义在buildscript中的，我们需要在buildscript{}中指定docker的依赖即可。
-				-
+				- ```groovy
+				  apply plugin: 'idea'
+				  apply plugin: 'java'
+				  apply plugin: "maven"
+				  apply plugin: "war"
+				  apply plugin: "com.bmuschko.docker-remote-api"
+				  apply plugin: "org.springframework.boot"
+				  
+				  buildscript {
+				      repositories {
+				          mavenLocal()
+				          maven {
+				              url "https://maven.aliyun.com/repository/public"
+				          }
+				  		mavenCentral()
+				      }
+				      dependencies {
+				          classpath "com.bmuschko:gradle-docker-plugin:3.3.4"
+				          classpath "org.springframework.boot:spring-boot-gradle-plugin:2.6.5"
+				      }
+				  }
+				  
+				  ```
+			-
