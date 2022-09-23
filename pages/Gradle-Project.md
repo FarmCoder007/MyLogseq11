@@ -100,4 +100,8 @@
 		- Project 对象自身
 		- build.gradle 脚本文件
 		- 通过插件添加到 Project 中的扩展 ( extensions ) 。每个扩展都可以当做参数是闭包或 Action 的方法。
+		- 插件添加到项目中的约定方法 ( convention ) 。插件可以通过项目的 Convention 对象向项目中添加属性和方法。
+		- 项目中的 Tasks 。每个 Task 都会添加一个方法，方法名是任务名，参数是单个闭包或者 Action 。该方法使用提供的闭包为相关任务调用 Task.configure( groovy.lang.Closure ) 方法。
+	- ## 2、常用的Project方法
+		- ![image.png](../assets/image_1663926685739_0.png)
 		-
