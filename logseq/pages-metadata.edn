@@ -1,4 +1,7 @@
-[{:block/name "30-40岁",
+[{:block/name "2",
+  :block/created-at 1663921795972,
+  :block/updated-at 1663921795972}
+ {:block/name "30-40岁",
   :block/created-at 1647672948491,
   :block/updated-at 1647688111498}
  {:block/name "40-退休65",
@@ -114,7 +117,7 @@
   :block/updated-at 1652252536294}
  {:block/name "aspectj框架",
   :block/created-at 1656504368239,
-  :block/updated-at 1660727621137}
+  :block/updated-at 1663828626421}
  {:block/name "ast抽象语法树",
   :block/created-at 1656399311079,
   :block/updated-at 1656399329311}
@@ -229,7 +232,7 @@
   :block/updated-at 1656903916021}
  {:block/name "contents",
   :block/created-at 1642582346702,
-  :block/updated-at 1663667371666}
+  :block/updated-at 1663923365756}
  {:block/name "docusaurus",
   :block/created-at 1658196114603,
   :block/updated-at 1658230867193}
@@ -320,15 +323,27 @@
  {:block/name "gradle",
   :block/created-at 1656397000508,
   :block/updated-at 1656397000508}
+ {:block/name "gradle-project",
+  :block/created-at 1663923365756,
+  :block/updated-at 1663927363170}
  {:block/name "gradle/apt调试",
   :block/created-at 1656397000507,
   :block/updated-at 1656399127288}
+ {:block/name "gradlewendang",
+  :block/created-at 1663918495455,
+  :block/updated-at 1663918495455}
  {:block/name "gradle命令",
   :block/created-at 1657506149648,
   :block/updated-at 1657506174287}
  {:block/name "gradle和gradle插件区别",
   :block/created-at 1656903947589,
   :block/updated-at 1656903974286}
+ {:block/name "gradle文档",
+  :block/created-at 1663918504166,
+  :block/updated-at 1663921236779}
+ {:block/name "groovy语法",
+  :block/created-at 1663919635821,
+  :block/updated-at 1663923086129}
  {:block/name "idea找不到local changes",
   :block/created-at 1660725966624,
   :block/updated-at 1660726155944}
@@ -821,6 +836,9 @@
  {:block/name "sep 22nd, 2022",
   :block/created-at 1663776001988,
   :block/updated-at 1663776001988}
+ {:block/name "sep 23rd, 2022",
+  :block/created-at 1663862904832,
+  :block/updated-at 1663862904832}
  {:block/name "sep 2nd, 2022",
   :block/created-at 1662048019171,
   :block/updated-at 1662048019171}
@@ -965,6 +983,9 @@
  {:block/name "环境配置",
   :block/created-at 1658136484005,
   :block/updated-at 1658137338962}
+ {:block/name "相关知识",
+  :block/created-at 1663832320345,
+  :block/updated-at 1663832343717}
  {:block/name "系统架构",
   :block/created-at 1660046213392,
   :block/updated-at 1660046322975}
@@ -982,7 +1003,7 @@
   :block/updated-at 1663774882426}
  {:block/name "设计模式",
   :block/created-at 1659493309480,
-  :block/updated-at 1662711638220}
+  :block/updated-at 1663835993148}
  {:block/name "试讲稿",
   :block/created-at 1663759491225,
   :block/updated-at 1663815256211}
