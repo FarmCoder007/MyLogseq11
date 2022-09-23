@@ -44,9 +44,40 @@
 			  
 			  ```
 		- ### 3、使用ext名命空间来扩展属性，定义后可以在project、task、subproject中读取和更新
-			- ```
+		  collapsed:: true
+			- ```groovy
 			  ext.prop1 = "it235"
 			  ext.prop2 = "君哥聊编程"
 			  
 			  ```
--
+		- ### 4、使用案例
+		  collapsed:: true
+			- ```groovy
+			  //REPOSITORY_HOME 和 REPOSITORY_URL
+			  apply plugin: 'maven'
+			  ext {
+			    REPOSITORY_HOME = 'http://maven.aliyun.com'
+			    REPOSITORY_URL =  REPOSITORY_HOME + "/nexus/content/groups/public"
+			  }
+			  repositories {
+			      // 使用 mavenCentral()时，将远程的仓库替换为自己搭建的仓库
+			      maven { 
+			          url REPOSITORY_URL 
+			      }
+			  }
+			  
+			  uploadArchives {
+			      repositories {
+			          mavenDeployer {
+			              snapshotRepository(url: REPOSITORY_HOME + "/nexus/content/repositories/snapshots/") {
+			                  authentication(userName: 'xxx', password: 'xxx')
+			              }
+			              repository(url: REPOSITORY_HOME + "/nexus/content/repositories/releases/") {
+			                  authentication(userName: 'xxx', password: 'xxx')
+			              }
+			          }
+			      }
+			  }
+			  
+			  
+			  ```
