@@ -337,20 +337,21 @@
 			  
 			  ```
 			- 复杂一点的调用
-			- ```groovy
-			  //闭包体作为参数传入，操作单个属性
-			  def simpleCall(closure){
-			  	def value = "Hello Groovy"
-			      closure(value)
-			  }
-			  
-			  //作为参数传入
-			  simpleCall({print it})
-			  
-			  //去掉()的简写
-			  simpleCall{
-			      print it
-			  }
-			  
-			  ```
+				- ```groovy
+				  //闭包体作为参数传入，操作单个属性
+				  def simpleCall(closure){
+				  	def value = "Hello Groovy"
+				      closure(value)
+				  }
+				  
+				  //作为参数传入
+				  simpleCall({print it})
+				  
+				  //去掉()的简写
+				  simpleCall{
+				      print it
+				  }
+				  
+				  ```
+				-
 -
