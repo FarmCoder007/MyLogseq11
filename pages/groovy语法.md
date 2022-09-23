@@ -51,4 +51,20 @@
 		  }
 		  
 		  ```
-	-
+		- return 可不写： 方法中没有写 return 语句，则方法执行过程中的最后一句代码的值作为返回值
+		- ```groovy
+		  def methodTest(){
+		      def result = chooseSmallNum 1,10
+		      println result
+		  }
+		  
+		  def chooseSmallNum(int a, int b){
+		  	if (a <= b) {
+		  		a
+		  	}else {
+		  		b
+		  	}
+		  }
+		  
+		  ```
+		-
