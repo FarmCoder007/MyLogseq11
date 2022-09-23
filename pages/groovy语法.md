@@ -301,4 +301,28 @@
 			  
 			  ```
 		- groovy.lang.Closure API
-		-
+		  collapsed:: true
+			- 每个定义的闭包是一个Closure对象，所以我们可以把一个闭包赋值给一个变量
+			- ```groovy
+			  //接收简单类型的闭包对象
+			  def simpleClosure = {
+			      println "Hello Gradle"
+			  }
+			  
+			  //接收带一个参数的闭包对象
+			  def itClosure = {
+			      it -> println it
+			  }
+			  
+			  //接收带多个参数的闭包对象，且包含返回值
+			  def paramClosure = {
+			      k,v -> println "$k-$v"
+			      return "hello closure"
+			  }
+			  
+			  ```
+		- 执行闭包
+			- 行闭包对象有两种，一是直接用括号+参数，二是调用call方法
+			- 闭包对象(参数)
+			-
+-
