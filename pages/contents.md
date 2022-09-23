@@ -125,6 +125,7 @@
 	- [[配置相关]]
 	- [[gradle命令]]
 	- [[maven发布]]
+	- [[groovy语法]]
 - Mac
   collapsed:: true
 	- [charles关闭后不能上网](https://blog.csdn.net/minmin_bufucisheng/article/details/89025601)
