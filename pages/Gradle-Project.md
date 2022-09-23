@@ -1,0 +1,3 @@
+- # 一、简介
+	- 在gradle中，每一个build.gradle文件对应一个Project实例，我们在build.gradle中编写的内容，就相当于Project实例的属性或方法。
+-
