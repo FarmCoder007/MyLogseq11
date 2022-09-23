@@ -227,5 +227,49 @@
 		  
 		  ```
 	- ## 2-6、集合
-		- 对于 List 来说，Groovy 提供下标索引的方式进行访问，值得注意的是，除了普通的下标索引，还有负下标索引和范围索引的方式
-		-
+		- List
+		  collapsed:: true
+			- 对于 List 来说，Groovy 提供下标索引的方式进行访问，值得注意的是，除了普通的下标索引，还有负下标索引和范围索引的方式
+			- ```groovy
+			  def listTest{
+			  	def nameList = ["it235","君哥","Groovy","Java","Kotlin","js","Gradle"]
+			  	println nameList[0] // 正数第一个
+			  	println nameList[1] // 正数第二个
+			  	println nameList[-2] // 倒数第二个
+			  	println nameList[-1] // 倒数第一个
+			  	println nameList[0..2] // 正数第一个到第三个
+			  	println nameList[-1..1] // 倒数第一个到正数第二个，倒着打印
+			  }
+			  
+			  ```
+		- Map
+		  collapsed:: true
+			- Map在gradle中用得非常多，如：plugins中、dependencies中，map所有key默认都是string类型的。
+			- ```groovy
+			  //空Map声明
+			  def mapNull = [:];
+			  println mapNull.size();//0
+			  
+			  def map = [
+			          iPhone : 'iWebOS',
+			          Android: '2.3.3',
+			          Nokia  : 'Symbian',
+			          Windows: 'WM8'
+			  ]
+			  
+			  println map instanceof HashMap
+			  
+			  if(map.containsKey('Windows')){
+			      println(map.Windows) 
+			      println(map['Windows'])
+			      println map.get("Windows","default value")
+			  }
+			  
+			  // Print the values
+			  map.each{ k, v -> println "${k}:${v}" }
+			  
+			  for ( e in map ) {
+			      print "key:${e.key},value:${e.value}"
+			  }
+			  
+			  ```
