@@ -275,6 +275,30 @@
 			  
 			  ```
 	- ## 2-7、闭包groovy.lang.Closure
-		- 闭包是Groovy中非常重要的一个数据类型，是由大括号括起来的一段可执行的代码，可以接受参数也可以有返回值。
-		- 闭包语义{ [closureParameters -> ] statements }
+		- 介绍：
+		  collapsed:: true
+			- 闭包是Groovy中非常重要的一个数据类型，是由大括号括起来的一段可执行的代码，可以接受参数也可以有返回值。
+			- 闭包语义{ [closureParameters -> ] statements }
+				- 其中[closureParameters->]代表参数列表，多参数用逗号分割，用->隔开参数与内容，没有参数可以不写->
+			- ```groovy
+			  //一段简单的输出代码块
+			  {println "Hello Gradle"}
+			  
+			  //闭包只有一个参数的时候，默认就是 it，无需申明
+			  {println it}
+			  
+			  //即使申明了it也不影响程序
+			  {it -> println it}
+			  
+			  //将上述申明的it换成name，程序依然能读取到
+			  {name -> println name}
+			  
+			  //多个参数且指定参数类型的闭包
+			  {String a ,int b -> println "key:$a ,value:$b"}
+			  
+			  //多个参数未指定类型的闭包
+			  {k,v -> println "$k-$v"}
+			  
+			  ```
+		- groovy.lang.Closure API
 		-
