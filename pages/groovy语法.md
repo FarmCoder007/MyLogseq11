@@ -82,6 +82,7 @@
 			  
 			  ```
 	- ## 2-4、运算符与逻辑控制
+	  collapsed:: true
 		- ### 运算符
 		  collapsed:: true
 			- 算术运算符
@@ -143,5 +144,48 @@
 			  }
 			  
 			  ```
-		-
--
+		- ### 循环
+		  collapsed:: true
+			- ```groovy
+			  //0 1 2 3 4
+			  for(i = 0; i < 5; i++){
+			      print i + ' '
+			  }
+			  
+			  //0 1 2 3 4 5
+			  for(i in 0..5){
+			      print i + ' '
+			  }
+			  //0 1 2 3 4
+			  for(i in 0..<5){
+			      print i + ' '
+			  }
+			  
+			  //0 1 2 3 4 
+			  5.times{
+			      print it + ' '
+			  }
+			  
+			  //5 6 7 8 9 10 
+			  5.upto(10){
+			      print it + ' '
+			  }
+			  
+			  //5 4 3 2
+			  5.downto(2){
+			      print it + ' '
+			  }
+			  
+			  //5 8 11 14
+			  5.step(17,3){
+			      print it + ' '
+			  }
+			  
+			  //5 3 1 -1 -3
+			  5.step(-4,-2){
+			      print it + ' '
+			  }
+			  
+			  
+			  ```
+	-
