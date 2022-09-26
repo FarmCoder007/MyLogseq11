@@ -119,6 +119,7 @@
 	- [[React]]
 	- [[JavaScript]]
 - Gradle
+  collapsed:: true
 	- [[Gradle文档]]
 	- [[buildConfig相关]]
 	- [[gradle/apt调试]]
@@ -138,6 +139,5 @@
   collapsed:: true
 	- [[shell命令]]
 - 跨平台
-  collapsed:: true
 	- Hybrid-Action
-	- RN-Modules
+	- [[RN-Modules]]
