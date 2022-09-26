@@ -1,1 +1,2 @@
 - # 一、RN向Android 通信-注册Module
+- # 二、Android 向 RN通信-消息机制emit事件
