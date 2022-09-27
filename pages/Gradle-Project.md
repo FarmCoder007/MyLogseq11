@@ -132,7 +132,7 @@
 				  }
 				  
 				  ```
-			- 2、configurations{}：配置使用声明的依赖项用于特定目的（听君一席话，如听一席话）
+			- 2、configurations{}[implementation、testRuntime等]：配置使用声明的依赖项用于特定目的
 				- 我们看个案例，下面的implementation和testRuntime就是Gradle帮我们提供的configuration，configurations{} 记录着项目中各个分组（implementation ，runtime）的依赖信息。
 				- ```groovy
 				  dependencies {
@@ -142,3 +142,4 @@
 				  
 				  ```
 				- ![image.png](../assets/image_1664279554943_0.png)
+				- 简单一句话概括configurations{}的作用：将本项目需要的相关依赖资源进行分组，A组你可以提供在运行时使用，B组你提供在测试运行时使用，C组编译时使用
