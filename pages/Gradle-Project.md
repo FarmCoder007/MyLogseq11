@@ -26,7 +26,6 @@
 		  
 		  ```
 	- ## 属性定义：
-	  collapsed:: true
 		- ### 1、内置属性可以直接赋值，无需声明
 		  collapsed:: true
 			- ```groovy
@@ -142,4 +141,4 @@
 				  }
 				  
 				  ```
-				- ![image.png](../assets/image_1663927362439_0.png){:height 294, :width 656}
+				-
