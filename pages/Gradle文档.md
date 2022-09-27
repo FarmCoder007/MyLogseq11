@@ -10,7 +10,7 @@
 	- ### 2、配置阶段：解析各个project下的build.gradle文件
 		- 解析所有的projects对象中的task，构建好所有的task拓扑图
 	- ### 3、执行阶段：执行具体的的task及其依赖task
-- # 三、Gradle
+- # 三、[[Gradle-任务task]]
 -
 - # 四、Gradle发布
 -
