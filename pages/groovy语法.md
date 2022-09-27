@@ -408,4 +408,4 @@
 				  }
 				  
 				  ```
-- [更多语法详见]()
+- [更多语法详见](https://www.it235.com/%E5%AE%9E%E7%94%A8%E5%B7%A5%E5%85%B7/Gradle/gradle.html#%E5%B7%A5%E7%A8%8B%E5%8C%96%E4%B9%8Bproject)
