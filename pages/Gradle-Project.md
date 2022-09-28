@@ -1,4 +1,5 @@
 - # 一、简介
+  collapsed:: true
 	- 在gradle中，每一个build.gradle文件对应一个Project实例，我们在build.gradle中编写的内容，就相当于Project实例的属性或方法。
 	- 构建初始化期间，Gradle实例化的步骤如下
 	  collapsed:: true
@@ -96,6 +97,7 @@
 			-
 		-
 - # 三、方法
+  collapsed:: true
 	- ## 1、方法作用域
 	  collapsed:: true
 		- Project 对象自身
