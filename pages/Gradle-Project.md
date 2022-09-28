@@ -134,4 +134,5 @@
 				  
 				  ```
 			- 2、[[gradle-project-configurations依赖配置]]
-			-
+			- 3、repositories{}：仓库配置
+				-

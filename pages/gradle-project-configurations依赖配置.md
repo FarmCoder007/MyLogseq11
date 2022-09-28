@@ -33,7 +33,9 @@
 	  collapsed:: true
 		- ![image.png](../assets/image_1664350733733_0.png)
 - ## 四、自定义configurations
+  collapsed:: true
 	- ```groovy
+	  // 依赖配置
 	  configurations {
 	      //声明一个具备加载测试依赖的configuration
 	      smokeTest.extendsFrom testImplementation
