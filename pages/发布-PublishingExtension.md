@@ -41,6 +41,7 @@
 	  ```
 - # 一、简介PublishingExtension发布扩展
 - # 二、2个容器
-	- publications：配置此项目的发布。
-	- repositories：配置要发布到的可能存储库的容器。
+	- ## publications：配置此项目的发布。
+		-
+	- ## repositories：配置要发布到的可能存储库的容器。
 -
