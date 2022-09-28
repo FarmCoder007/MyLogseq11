@@ -66,7 +66,7 @@
 			  }
 			  
 			  publishing {
-			   
+			      // 发布仓库配置
 			      repositories {
 			          maven {
 			              //忽略https
