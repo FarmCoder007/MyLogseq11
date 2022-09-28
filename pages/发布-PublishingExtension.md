@@ -59,5 +59,29 @@
 	- ## repositories：配置要发布到的可能存储库的容器。
 		- ### void repositories(Action<? super RepositoryHandler> configure)
 			- ```groovy
+			  plugins {
+			      ...
+			      id 'maven-publish'
+			  	...
+			  }
+			  
+			  publishing {
+			   
+			      repositories {
+			          maven {
+			              //忽略https
+			              allowInsecureProtocol true
+			              name = 'ues'
+			              def releasesRepoUrl = "http://192.168.35.xx:8081/nexus/content/repositories/releases/"
+			              def snapshotsRepoUrl = "http://192.168.35.xx:8081/nexus/content/repositories/snapshots/"
+			              url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
+			              credentials {
+			                  username 'admin'
+			                  password 'admin123'
+			              }
+			          }
+			      }
+			  }
+			  
 			  ```
 -
