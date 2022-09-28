@@ -135,7 +135,38 @@
 				  ```
 			- 2、[[gradle-project-configurations依赖配置]]
 			- 3、repositories{}：仓库配置
+			  collapsed:: true
 				- 通过 repositories{} 可以配置maven，ivy，local仓库。这样子，在dependencies{}声明的依赖就可以通过repositories{}中指定的仓库查询到具体的JAR资源。
 				- ```groovy
+				  repositories {
+				  	mavenLocal()
+				  	mavenCentral()
+				  	maven {
+				  		// Name is optional. If not set url property is used
+				  		name = 'Main Maven repository'
+				  		url = 'https://maven.aliyun.com/repository/central'
+				  	}
+				  
+				  	//有权限控制的仓库
+				  	maven() {
+				  		credentials {
+				  			username = 'username'
+				  			password = 'password'
+				  		}
+				  		url = 'https://maven.aliyun.com/repository/central'
+				  	}
+				  
+				  	//本地仓库
+				  	repositories {
+				  		flatDir(dir: '../lib', name: 'libs directory')
+				  		flatDir {
+				  			dirs '../project-files', '/volumes/shared-libs'
+				  			name = 'All dependency directories'
+				  		}
+				  	}
+				  }
+				  
 				  ```
+				-
+			- 4、dependencies{}：依赖
 				-
