@@ -134,7 +134,7 @@
 				  
 				  ```
 			- 2、[[gradle-project-configurations配置]]
-				- 一共有无数个分组，因为configuration支持继承进行扩展，子配置会集成所有父配置的依赖，testImplementation extends implementation ，如下图
+				-
 					- ![image.png](../assets/image_1664350614965_0.png)
 					- 那implementation、testImplementation是谁帮我们提供的呢？当然是java的插件啦，插件声明如下
 					- ```groovy
@@ -150,3 +150,4 @@
 					- 下图是java插件提供的测试相关的configuration
 					- ![image.png](../assets/image_1664350733733_0.png)
 					- 关于扩展功能，还允许我们开发者自定义 ,自定义configurations
+			-

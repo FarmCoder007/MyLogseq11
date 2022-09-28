@@ -10,6 +10,8 @@
 		  }
 		  ```
 		- ![image.png](../assets/image_1664279554943_0.png)
+- ## 三、介绍
+	- 一共有无数个分组，因为configuration支持继承进行扩展，子配置会集成所有父配置的依赖，testImplementation extends implementation ，如下图
 - ## 三、自定义configurations
 -
 -
