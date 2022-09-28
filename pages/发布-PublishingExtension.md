@@ -44,6 +44,20 @@
 	- ## publications：配置此项目的发布。
 		- ### 方法细节：void publications(Action<? super PublicationContainer> configure)
 		- ```groovy
+		  plugins { 
+		      id 'maven-publish' 
+		  } 
+		  
+		  publishing { 
+		    publications { 
+		      // myPublicationName发布名字
+		      myPublicationName(MavenPublication) { // 在此处配置发布
+		      } 
+		    } 
+		  }
 		  ```
 	- ## repositories：配置要发布到的可能存储库的容器。
+		- ### void repositories(Action<? super RepositoryHandler> configure)
+			- ```groovy
+			  ```
 -
