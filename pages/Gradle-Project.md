@@ -97,6 +97,7 @@
 		-
 - # 三、方法
 	- ## 1、方法作用域
+	  collapsed:: true
 		- Project 对象自身
 		- build.gradle 脚本文件
 		- 通过插件添加到 Project 中的扩展 ( extensions ) 。每个扩展都可以当做参数是闭包或 Action 的方法。

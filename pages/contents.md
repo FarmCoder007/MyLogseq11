@@ -125,7 +125,6 @@
 	- [[配置相关]]
 	- [[gradle命令]]
 	- [[maven发布]]
-	- [[Gradle-Project]]
 	-
 - Mac
   collapsed:: true
