@@ -46,7 +46,20 @@
 	  artifactId - Project.getName()
 	  version - Project.getVersion()
 	  重写默认标识值是很容易︰ 只需配置MavenPublication时指定groupId、 artifactId或version的属性。
-	-
+	- ## 自定义发布标识
+		- ```groovy
+		  publishing {
+		          publications {
+		              maven(MavenPublication) {
+		                  groupId 'org.gradle.sample'
+		                  artifactId 'project1-sample'
+		                  version '1.1'
+		  
+		                  from components.java
+		              }
+		          }
+		      }
+		  ```
 - # 三、2个容器
   collapsed:: true
 	- ## publications：配置此项目的发布。
