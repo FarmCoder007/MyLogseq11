@@ -11,6 +11,7 @@
 	  
 	  ```
 - # 二、改变源代码目录和资源目录
+  collapsed:: true
 	- ## 更改目录srcDirs
 	  collapsed:: true
 		- // 这样，gradle就只在src/java下搜源代码，而不是在src/main/java下
@@ -38,6 +39,7 @@
 		  // 此时，gradle就会同时在src/main/java和thirdParty/src/main/java两个目录下都进行源代码搜索
 		  ```
 	- ## 排除目录 exclude
+	  collapsed:: true
 		- 执行build之后，你在jar或war包的classes中不会见到排除掉的目录
 		- ```groovy
 		  sourceSets {
@@ -64,3 +66,20 @@
 		  			
 		  
 		  ```
+	- ## 指定源码输出目录
+	  collapsed:: true
+		- ```groovy
+		  sourceSets {
+		  	main {
+		          //指定main的源码输出位置
+		  		output.resourcesDir = output.classesDir = 'WebContent/WEB-INF/classes/'
+		          //源码目录
+		  		java.srcDir('src')
+		          //资源文件目录
+		  		resources.srcDir('src')
+		  	}
+		  }
+		  
+		  ```
+- # 三、使用场景
+	-
