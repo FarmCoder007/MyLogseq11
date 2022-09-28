@@ -137,9 +137,5 @@
 				-
 					-
 					-
-					- ```groovy
-					  ```
-					- 下图是java插件提供的测试相关的configuration
-					- ![image.png](../assets/image_1664350733733_0.png)
 					- 关于扩展功能，还允许我们开发者自定义 ,自定义configurations
 			-
