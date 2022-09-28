@@ -103,6 +103,37 @@
 			  
 			  ```
 		- ### 2、为他们创建一个新的sourceSets
-		- ### 3、
+		- ### 3、将所需的依赖项添加到该sourcesSets配置中
+		- ### 4、为该源集配置编译和运行时类路径
+		  collapsed:: true
+			- ```groovy
+			  configurations {
+			      //intTestImplementation 扩展至implementation，说明它具备生产源码的各项依赖
+			  	intTestImplementation.extendsFrom implementation
+			  	intTestRuntimeOnly.extendsFrom runtimeOnly
+			      
+			      //如果集成测试需要单元测试的依赖可以采用如下做法
+			      //intTestImplementation.extendsFrom testImplementation
+			  }
+			  
+			  dependencies {
+			  	implementation 'org.springframework.boot:spring-boot-starter-web'
+			  	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+			  	
+			      intTestImplementation 'org.springframework.boot:spring-boot-starter-test'
+			      
+			  }
+			  
+			  sourceSets {
+			      //这里因为我们的intTest目录与闭包命名一致，所以不使用srcDir添加也能自动识别
+			  	intTest {
+			          //将正式项目的源码编译和运行时路径给到intTest，记住是+=，而不是覆盖
+			          compileClasspath += sourceSets.main.output
+			          runtimeClasspath += sourceSets.main.output
+			  	}
+			  }
+			  
+			  ```
+		- ### 5、创建一个任务来运行集成测试
 -
 -
