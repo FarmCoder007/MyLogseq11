@@ -1,4 +1,4 @@
-- # 方式一：publishing
+- # 方式一：“maven-publish” 插件
 	- publishing{}：deploy当前项目到仓库
 	- ```groovy
 	  plugins {
