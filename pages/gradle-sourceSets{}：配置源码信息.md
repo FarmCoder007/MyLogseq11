@@ -37,5 +37,30 @@
 		  }
 		  // 此时，gradle就会同时在src/main/java和thirdParty/src/main/java两个目录下都进行源代码搜索
 		  ```
-	- ## 排除目录
-		- ``````
+	- ## 排除目录 exclude
+		- 执行build之后，你在jar或war包的classes中不会见到排除掉的目录
+		- ```groovy
+		  sourceSets {
+		  	main{
+		  		java {
+		  			exclude 'com/it235/first/ct/**'
+		  		}
+		  		resources {
+		  			exclude 'cert/**'
+		  		}
+		  	}
+		  }
+		  
+		  我的目录结构
+		  first-gradle
+		      src
+		  		main
+		  			java
+		  				com.xxx
+		  			resources
+		  				cert
+		  					test.cert
+		  				application.properties
+		  			
+		  
+		  ```
