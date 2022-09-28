@@ -1,2 +1,3 @@
 - ## 一、简介
 	- artifacts的意思是产品、产物，可以理解为一个可以交付的jar或者war。artifacts主要的用途：定义好产物构建规则，然后结合archives或publishing发布到私服或中央仓库
+	-
