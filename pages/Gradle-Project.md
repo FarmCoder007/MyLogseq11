@@ -134,6 +134,7 @@
 				  
 				  ```
 			- 2、configurations{}[implementation、testRuntime等]：配置使用声明的依赖项用于特定目的
+			  collapsed:: true
 				- 我们看个案例，下面的implementation和testRuntime就是Gradle帮我们提供的configuration，configurations{} 记录着项目中各个分组（implementation ，runtime）的依赖信息。
 				- ```groovy
 				  dependencies {
