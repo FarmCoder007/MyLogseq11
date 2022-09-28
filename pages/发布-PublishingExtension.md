@@ -122,3 +122,29 @@
 	  ```
 - # 五、发布多个模块
 	- 有时候从你的 Gradle 构建中发布多个模块会很有用，而不是创建一个单独的 Gradle 子项目。一个例子是为您的library 分别发布一个单独的 API 和它的实现的 jar。使用 Gradle 的话很简单︰
+	- ```groovy
+	  task apiJar(type: Jar) {
+	          baseName "publishing-api"
+	          from sourceSets.main.output
+	          exclude '**/impl/**'
+	      }
+	  
+	      publishing {
+	          publications {
+	              impl(MavenPublication) {
+	                  groupId 'org.gradle.sample.impl'
+	                  artifactId 'project2-impl'
+	                  version '2.3'
+	  
+	                  from components.java
+	              }
+	              api(MavenPublication) {
+	                  groupId 'org.gradle.sample'
+	                  artifactId 'project2-api'
+	                  version '2'
+	  
+	                  artifact apiJar
+	              }
+	          }
+	      }
+	  ```
