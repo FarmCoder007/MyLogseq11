@@ -34,7 +34,7 @@
 	              url = version.endsWith('SNAPSHOT') ? snapshotsRepoUrl : releasesRepoUrl
 	              credentials {
 	                  username 'admin'
-	               password 'admin123'
+	                  password 'admin123'
 	              }
 	          }
 	      }
