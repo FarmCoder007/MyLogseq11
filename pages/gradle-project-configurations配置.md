@@ -13,6 +13,7 @@
 		  ```
 		- ![image.png](../assets/image_1664279554943_0.png)
 - ## 三、configuration有多少个分组
+  collapsed:: true
 	- 一共有无数个分组，因为configuration支持继承进行扩展，子配置会集成所有父配置的依赖，testImplementation extends implementation ，如下图
 	  collapsed:: true
 		- ![image.png](../assets/image_1664350614965_0.png)
@@ -31,7 +32,8 @@
 	- 下图是java插件提供的测试相关的configuration
 	  collapsed:: true
 		- ![image.png](../assets/image_1664350733733_0.png)
-- ## 三、自定义configurations
--
+- ## 四、自定义configurations
+	- ```groovy
+	  ```
 -
 -

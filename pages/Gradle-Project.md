@@ -134,8 +134,4 @@
 				  
 				  ```
 			- 2、[[gradle-project-configurations配置]]
-				-
-					-
-					-
-					- 关于扩展功能，还允许我们开发者自定义 ,自定义configurations
 			-
