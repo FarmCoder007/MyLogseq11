@@ -1,6 +1,6 @@
 - ## 一、configurations分组
-  collapsed:: true
 	- api、implementation、testRuntime
+	- [官方依赖分组介绍](https://docs.gradle.org/current/userguide/java_plugin.html#sec:java_plugin_and_dependency_management)
 - ## 二、作用
   collapsed:: true
 	- 将本项目需要的相关依赖资源进行分组，A组你可以提供在运行时使用，B组你提供在测试运行时使用，C组编译时使用，D组xxxx？
