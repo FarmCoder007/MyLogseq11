@@ -135,14 +135,7 @@
 				  ```
 			- 2、[[gradle-project-configurations配置]]
 				- 我们看个案例，下面的implementation和testRuntime就是Gradle帮我们提供的configuration，configurations{} 记录着项目中各个分组（implementation ，runtime）的依赖信息。
-				- ```groovy
-				  dependencies {
-				      implementation "org.springframework.boot:spring-boot-starter-web"
-				      testRuntime "junit:junit:4.13"
-				  }
-				  
-				  ```
-				- ![image.png](../assets/image_1664279554943_0.png)
+				-
 				- 一共有无数个分组，因为configuration支持继承进行扩展，子配置会集成所有父配置的依赖，testImplementation extends implementation ，如下图
 					- ![image.png](../assets/image_1664350614965_0.png)
 					- 那implementation、testImplementation是谁帮我们提供的呢？当然是java的插件啦，插件声明如下
