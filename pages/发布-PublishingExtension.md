@@ -107,6 +107,7 @@
 			  
 			  ```
 - # 四、修改生成的 POM [官方](https://docs.gradle.org/current/dsl/org.gradle.api.publish.maven.MavenPom.html)
+  collapsed:: true
 	- 从项目信息生成的POM文件可能需要在发布之前进行一些调整。“maven-publish”插件提供了一个钩子以允许这一类的修改。
 	- 在这个例子中我们添加了一个用于生成的 POM 的“描述”元素。通过这个钩子，你可以修改 POM 的任何方面的内容。例如，你可以使用生产构建的实际版本号来替换依赖的版本范围。
 	- ```groovy
@@ -119,3 +120,5 @@
 	          }
 	      }
 	  ```
+- # 五、发布多个模块
+	- 有时候从你的 Gradle 构建中发布多个模块会很有用，而不是创建一个单独的 Gradle 子项目。一个例子是为您的library 分别发布一个单独的 API 和它的实现的 jar。使用 Gradle 的话很简单︰
