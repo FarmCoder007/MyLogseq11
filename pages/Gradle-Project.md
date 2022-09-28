@@ -169,4 +169,3 @@
 				  ```
 				-
 			- 4、[[gradle-project-dependencies依赖]]
-				- dependencies{}：依赖
