@@ -169,3 +169,68 @@
 				  ```
 				-
 			- 4、[[gradle-project-dependencies依赖]]
+			- 5、allprojects{}：配置此项目及其每个子项目所需要的依赖。一般在多模块项目场景下我们会把公共的部分配置在根项目的allprojects中。
+			  collapsed:: true
+				- ```groovy
+				  apply plugin: 'java'
+				  apply plugin: "maven"
+				  apply plugin: "war"
+				  apply plugin: "com.bmuschko.docker-remote-api"
+				  apply plugin: "org.springframework.boot"
+				  
+				  buildscript {
+				      repositories {
+				          mavenLocal()
+				          maven {
+				              url "https://maven.aliyun.com/repository/public"
+				          }
+				  		mavenCentral()
+				      }
+				      dependencies {
+				          classpath "com.bmuschko:gradle-docker-plugin:3.3.4"
+				          classpath "org.springframework.boot:spring-boot-gradle-plugin:2.6.5"
+				      }
+				  }
+				  
+				  allprojects {
+				      apply plugin: "idea"
+				  
+				      repositories {
+				          mavenLocal()
+				          maven {url "https://maven.aliyun.com/repository/public"}
+				          mavenCentral()
+				      }
+				  
+				      // 依赖管理器
+				      dependencyManagement {
+				          imports {
+				              mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Hoxton.SR12'
+				              mavenBom 'com.alibaba.cloud:spring-cloud-alibaba-dependencies:2.2.6.RELEASE'
+				          }
+				      }
+				  
+				      // ...各种配置...
+				      
+				      //依赖
+				      dependencies {
+				          implementation("org.springframework.boot:spring-boot-starter") {
+				              exclude module: "tomcat-embed-el"
+				          }
+				          implementation("org.springframework.boot:spring-boot-starter-web")
+				          api 'com.squareup.retrofit2:retrofit:2.4.0'
+				          //仅编译
+				          compileOnly 'org.projectlombok:lombok:1.18.16'
+				          annotationProcessor 'org.projectlombok:lombok:1.18.16'
+				          //仅测试编译
+				          testCompileOnly 'org.projectlombok:lombok:1.18.16'
+				          testAnnotationProcessor 'org.projectlombok:lombok:1.18.16'
+				  
+				         // ...依赖超级多的 jar 包，包括公司的包和三方包....
+				         implementation "xxx.xxx.xxx"
+				         ...
+				      }
+				  }
+				  
+				  ```
+			- 6、subprojects{}：子模块配置
+			- 7、
