@@ -1,0 +1,2 @@
+- # 方式一：publishing
+	- publishing{}：deploy当前项目到仓库
