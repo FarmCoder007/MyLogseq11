@@ -34,6 +34,52 @@
 		- ![image.png](../assets/image_1664350733733_0.png)
 - ## 四、自定义configurations
 	- ```groovy
+	  configurations {
+	      //声明一个具备加载测试依赖的configuration
+	      smokeTest.extendsFrom testImplementation
+	      
+	      //声明一个具备类编译和运行的configuration
+	      compileClasspath.extendsFrom(someConfiguration)
+	      runtimeClasspath.extendsFrom(someConfiguration)
+	      
+	      //全局排除log4j依赖
+	      implementation.exclude group:'org.apache.logging.log4j'
+	      implementation.exclude module:'spring-boot-starter-log4j2'
+	      
+	      //声明一个具备类运行的configuration
+	      developmentOnly
+	      runtimeClasspath {
+	          extendsFrom developmentOnly
+	      }
+	  }
+	  
+	  dependencies {
+	      testImplementation 'junit:junit:4.13'
+	      
+	      //读取根目录下的lib目录
+	      smokeTest fileTree('lib')
+	      smokeTest 'org.apache.httpcomponents:httpclient:4.5.5'
+	      
+	      //使用someConfiguration将lib模块添加到本项目依赖
+	      someConfiguration project(":lib")
+	      
+	      
+	      developmentOnly("org.springframework.boot:spring-boot-devtools")
+	  }
+	  
+	  //将文件拷贝到另外一个目录
+	  afterEvaluate{
+	      //configurations属性可以在任意一个task中读取
+	      println configurations.smokeTest.files.first()
+	  	println configurations.smokeTest.asPath
+	      
+	  	def libPath = projectDir.absolutePath + "/src/main/lib2"
+	  	copy {
+	  		from configurations.smokeTest.files.first()
+	  		into libPath
+	  	}
+	  }
+	  
 	  ```
 -
 -

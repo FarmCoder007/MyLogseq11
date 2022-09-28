@@ -133,5 +133,5 @@
 				  }
 				  
 				  ```
-			- 2、[[gradle-project-configurations配置]]
+			- 2、[[gradle-project-configurations依赖配置]]
 			-
