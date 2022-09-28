@@ -136,16 +136,8 @@
 			- 2、[[gradle-project-configurations配置]]
 				-
 					-
-					- 那implementation、testImplementation是谁帮我们提供的呢？当然是java的插件啦，插件声明如下
+					-
 					- ```groovy
-					  apply plugin: 'java'
-					  
-					  //或者如下定义
-					  
-					  plugins{
-					  	id 'java-library'
-					  }
-					  
 					  ```
 					- 下图是java插件提供的测试相关的configuration
 					- ![image.png](../assets/image_1664350733733_0.png)
