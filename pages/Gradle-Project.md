@@ -135,5 +135,7 @@
 				  ```
 			- 2、[[gradle-project-configurations依赖配置]]
 			- 3、repositories{}：仓库配置
-				-
+				- 通过 repositories{} 可以配置maven，ivy，local仓库。这样子，在dependencies{}声明的依赖就可以通过repositories{}中指定的仓库查询到具体的JAR资源。
+				- ```groovy
+				  ```
 				-
