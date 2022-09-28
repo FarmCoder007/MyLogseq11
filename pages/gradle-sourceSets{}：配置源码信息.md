@@ -171,5 +171,67 @@
 			  
 			  ```
 		- ### 7、完整的配置如下
+		  collapsed:: true
 			- ```groovy
+			  buildscript {
+			  	repositories {
+			  		mavenLocal()
+			  		maven {
+			  			url "https://maven.aliyun.com/repository/public"
+			  		}
+			  		mavenCentral()
+			  	}
+			  	dependencies {
+			  		classpath "org.springframework.boot:spring-boot-gradle-plugin:2.6.5"
+			  	}
+			  }
+			  
+			  plugins {
+			  	id 'org.springframework.boot' version '2.6.4'
+			  	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+			  	id 'java'
+			  }
+			  
+			  group = 'com.it235'
+			  version = '1.0.0'
+			  
+			  repositories {
+			  	maven { url 'https://maven.aliyun.com/repository/central' }
+			  }
+			  
+			  configurations {
+			  	intTestImplementation.extendsFrom implementation
+			  	intTestRuntimeOnly.extendsFrom runtimeOnly
+			  }
+			  
+			  dependencies {
+			  	implementation 'org.springframework.boot:spring-boot-starter-web'
+			  	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+			  
+			  	intTestImplementation 'org.springframework.boot:spring-boot-starter-test'
+			  }
+			  
+			  sourceSets {
+			  	intTest {
+			  		compileClasspath += sourceSets.test.runtimeClasspath
+			  		runtimeClasspath += sourceSets.test.runtimeClasspath
+			  	}
+			  }
+			  
+			  tasks.withType(Test) {
+			  	useJUnitPlatform()
+			  }
+			  
+			  task integrationTest(type: Test) {
+			  //tasks.register('integrationTest', Test) {
+			  	description = 'Runs integration tests.'
+			  	group = 'verification'
+			  
+			  	testClassesDirs = sourceSets.intTest.output.classesDirs
+			  	classpath = sourceSets.intTest.runtimeClasspath
+			  	shouldRunAfter test
+			  }
+			  
+			  check.dependsOn integrationTest
+			  
 			  ```
