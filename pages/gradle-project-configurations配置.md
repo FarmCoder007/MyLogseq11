@@ -1,2 +1,5 @@
-- ## 一、configurations[api、implementation、testRuntime]
+- ## 一、configurations分组
+	- api、implementation、testRuntime
+- ## 二、作用
+- ## 三、自定义configurations
 -
