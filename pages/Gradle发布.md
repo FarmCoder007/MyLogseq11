@@ -1,4 +1,6 @@
 - # 方式一：“maven-publish” 插件
+	- 简介：使用Maven格式发布的功能，是由 “maven-publish” 插件提供的。
+	-
 	- publishing{}：deploy当前项目到仓库
 	- ```groovy
 	  plugins {
