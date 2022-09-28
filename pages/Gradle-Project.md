@@ -133,7 +133,8 @@
 				  }
 				  
 				  ```
-			- 2、configurations{}[implementation、testRuntime等]：配置使用声明的依赖项用于特定目的简单一句话概括configurations{}的作用：将本项目需要的相关依赖资源进行分组，A组你可以提供在运行时使用，B组你提供在测试运行时使用，C组编译时使用，D组xxxx？
+			- 2、[[gradle-project-configurations]]
+				- configurations{}[implementation、testRuntime等]：配置使用声明的依赖项用于特定目的简单一句话概括configurations{}的作用：将本项目需要的相关依赖资源进行分组，A组你可以提供在运行时使用，B组你提供在测试运行时使用，C组编译时使用，D组xxxx？
 				- 我们看个案例，下面的implementation和testRuntime就是Gradle帮我们提供的configuration，configurations{} 记录着项目中各个分组（implementation ，runtime）的依赖信息。
 				- ```groovy
 				  dependencies {
@@ -158,4 +159,4 @@
 					  ```
 					- 下图是java插件提供的测试相关的configuration
 					- ![image.png](../assets/image_1664350733733_0.png)
-					- 关于扩展功能，还允许我们开发者自定义 ,自定义
+					- 关于扩展功能，还允许我们开发者自定义 ,自定义configurations
