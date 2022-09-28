@@ -135,7 +135,7 @@
 				  ```
 			- 2、[[gradle-project-configurations配置]]
 				-
-					- ![image.png](../assets/image_1664350614965_0.png)
+					-
 					- 那implementation、testImplementation是谁帮我们提供的呢？当然是java的插件啦，插件声明如下
 					- ```groovy
 					  apply plugin: 'java'
