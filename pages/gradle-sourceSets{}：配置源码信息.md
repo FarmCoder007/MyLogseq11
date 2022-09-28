@@ -135,5 +135,41 @@
 			  
 			  ```
 		- ### 5、创建一个任务来运行集成测试
--
--
+		  collapsed:: true
+			- ```groovy
+			  //任务类型是Test
+			  task integrationTest(type: Test) {
+			  	description = 'Runs integration tests.'
+			      //这里指定后，该任务将会在IDE右侧的verification分组里面
+			  	group = 'verification'
+			  
+			      //配置已编译的测试类的位置
+			  	testClassesDirs = sourceSets.intTest.output.classesDirs
+			      //运行我们的集成测试时使用的类路径。
+			  	classpath = sourceSets.intTest.runtimeClasspath
+			      
+			      //声明在test单元测试完成后自动执行集成测试（非必须）
+			  	shouldRunAfter test
+			      //mustRunAfter表示必须在test任务执行完成之后执行
+			  }
+			  
+			  //定义一个检查任务，让集成测试在检查任务之前运行，如果集成任务构建失败，检查任务也会失败（非必须）
+			  check.dependsOn integrationTest
+			  
+			  ```
+		- ### 6、最后注意定义test单元测试引擎
+		  collapsed:: true
+			- ```groovy
+			  tasks.withType(Test) {
+			  	useJUnitPlatform()
+			  }
+			  
+			  //以下写法不生效，暂未找到原因
+			  test {
+			      useJUnitPlatform()
+			  }
+			  
+			  ```
+		- ### 7、完整的配置如下
+			- ```groovy
+			  ```
