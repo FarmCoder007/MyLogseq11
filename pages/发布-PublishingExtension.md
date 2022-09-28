@@ -41,8 +41,13 @@
 	  
 	  ```
 - # 一、简介PublishingExtension发布扩展
-- # 生成
-- # 二、2个容器
+- # 二、生成pom标识值
+	- groupId - Project.getGroup()
+	  artifactId - Project.getName()
+	  version - Project.getVersion()
+	  重写默认标识值是很容易︰ 只需配置MavenPublication时指定groupId、 artifactId或version的属性。
+	-
+- # 三、2个容器
   collapsed:: true
 	- ## publications：配置此项目的发布。
 		- ### 方法细节：void publications(Action<? super PublicationContainer> configure)
@@ -87,4 +92,5 @@
 			  }
 			  
 			  ```
+-
 -
