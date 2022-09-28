@@ -9,6 +9,7 @@
 	  collapsed:: true
 		- ![image.png](../assets/image_1663923991768_0.png){:height 477, :width 634}
 - # 二、属性使用
+  collapsed:: true
 	- ## 我们可以在build.gradle文件中任意使用gradle提供的属性或方法，如下：
 	  collapsed:: true
 		- ```groovy
