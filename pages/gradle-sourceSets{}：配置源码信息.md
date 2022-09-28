@@ -11,9 +11,9 @@
 	  
 	  ```
 - # 二、改变源代码目录和资源目录
-	- ## 更改目录
-		- ```groovy
-		  // 这样，gradle就只在src/java下搜源代码，而不是在src/main/java下
+	- ## 更改目录srcDirs
+	  collapsed:: true
+		- // 这样，gradle就只在src/java下搜源代码，而不是在src/main/java下
 		  sourceSets {
 		      main {
 		          java {
@@ -24,9 +24,8 @@
 		          }
 		      }
 		  }
-		  
-		  ```
-	- ## 新增目录
+	- ## 新增目录 srcDir
+	  collapsed:: true
 		- ```groovy
 		  // 只是想添加额外的目录，而不想覆盖原来的目录，则像下面这样：
 		  sourceSets {
@@ -36,5 +35,7 @@
 		          }
 		      }
 		  }
-		  
+		  // 此时，gradle就会同时在src/main/java和thirdParty/src/main/java两个目录下都进行源代码搜索
 		  ```
+	- ## 排除目录
+		- ``````
