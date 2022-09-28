@@ -168,7 +168,8 @@
 				  
 				  ```
 				-
-			- 4、dependencies{}：依赖
+			- 4、[[gradle-project-dependencies依赖]]
+				- dependencies{}：依赖
 				- 它描述了configurations{}中分组依赖的第三方资源。我们可以把依赖简单的分成两大类：
 				- 4-1、gradle依赖：主要是gradle运行的时候，需要加载一些插件，如android等，此时需要配置它。
 				- 4-2、项目编译/运行依赖：编译一个项目，通常需要依赖其他项目或者JAR。
