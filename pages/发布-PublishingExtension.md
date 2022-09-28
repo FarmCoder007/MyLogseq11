@@ -46,6 +46,7 @@
 		- groupId - Project.getGroup() 组名
 		  artifactId - Project.getName() 产物名
 		  version - Project.getVersion() 发布版本
+		- Maven 限制了“groupId”和“artifactId”为有限的字符集（[A-Za-z0-9_\\-.]+）
 	- ## 自定义发布标识
 		- ```groovy
 		  publishing {
@@ -105,5 +106,6 @@
 			  }
 			  
 			  ```
--
--
+- # 四、修改生成的 POM
+	- 从项目信息生成的POM文件可能需要在发布之前进行一些调整。“maven-publish”插件提供了一个钩子以允许这一类的修改。
+	- ``````
