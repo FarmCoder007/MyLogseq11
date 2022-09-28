@@ -1,5 +1,6 @@
 - [官方文档](https://docs.gradle.org/current/dsl/org.gradle.api.publish.PublishingExtension.html)
 - 例子：
+  collapsed:: true
 	- ```groovy
 	  plugins {
 	      ...
@@ -40,7 +41,9 @@
 	  
 	  ```
 - # 一、简介PublishingExtension发布扩展
+- # 生成
 - # 二、2个容器
+  collapsed:: true
 	- ## publications：配置此项目的发布。
 		- ### 方法细节：void publications(Action<? super PublicationContainer> configure)
 		- ```groovy
