@@ -144,5 +144,5 @@
 				  ```
 				- ![image.png](../assets/image_1664279554943_0.png)
 				- 一共有无数个分组，因为configuration支持继承进行扩展，子配置会集成所有父配置的依赖，testImplementation extends implementation ，如下图
-					-
+					- ![image.png](../assets/image_1664350614965_0.png)
 				-
