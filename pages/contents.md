@@ -125,7 +125,6 @@
 	- [[配置相关]]
 	- [[gradle命令]]
 	- [[maven发布]]
-	- [[groovy语法]]
 	- [[Gradle-Project]]
 	-
 - Mac
