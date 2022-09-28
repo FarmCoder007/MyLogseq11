@@ -42,10 +42,10 @@
 	  ```
 - # 一、简介PublishingExtension发布扩展
 - # 二、生成pom标识值
-	- groupId - Project.getGroup()
-	  artifactId - Project.getName()
-	  version - Project.getVersion()
-	  重写默认标识值是很容易︰ 只需配置MavenPublication时指定groupId、 artifactId或version的属性。
+	- ## 标识值
+		- groupId - Project.getGroup() 组名
+		  artifactId - Project.getName() 产物名
+		  version - Project.getVersion() 发布版本
 	- ## 自定义发布标识
 		- ```groovy
 		  publishing {
