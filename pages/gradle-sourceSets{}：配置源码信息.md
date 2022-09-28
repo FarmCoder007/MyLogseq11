@@ -86,3 +86,23 @@
 	  collapsed:: true
 		- 原始的src/test目录我们一般存放单元测试，但是对于集成测试部分不应存放在src/test目录下，因为这些测试有它们自己的dependencies, classpaths, 以及其他的资源，所以这些测试应该是单独分开的，而不应该和单元测试混为一谈。这样会将2个测试工作进行混淆，也是架构师们不希望看到的局面，所以我们需要重新定义一个用于集成测试的代码环境。但是，集成测试和验收测试也是这个项目的一部分，因此我们也不能为集成测试或验收测试单独建立一个项目。它们也不是子项目，所以用subproject也不合适。
 	- ## 新建一个集成测试或者验收测试的SourceSets，把相关的测试资源管理起来。
+		- ### 1、在src目录下新建一个intTest作为集成测试的环境，与src/main、src/test保持一致，格式如下
+		  collapsed:: true
+			- ```groovy
+			  first-gradle
+			    src
+			      intTest  -- 存放集成测试的源码
+			  	  java
+			  	  resources
+			  	main     -- 存放应用源码
+			  	  java
+			  	  resources
+			  	test     -- 存放单元测试源码
+			  	  java
+			  	  resources
+			  
+			  ```
+		- ### 2、为他们创建一个新的sourceSets
+		- ### 3、
+-
+-
