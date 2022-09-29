@@ -8,3 +8,6 @@
 	- 5、url：此POM表示的发布的URL。
 	- ```groovy
 	  ```
+- ## 三、方法
+	- 1、ciManagement(action)：为此POM表示的发布配置CI管理。
+	- 2、contributors(action)：
