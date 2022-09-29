@@ -42,6 +42,7 @@
 	  ```
 - # 一、简介PublishingExtension发布扩展
 - # 二、生成pom标识值
+  collapsed:: true
 	- ## 标识值
 		- groupId - Project.getGroup() 组名
 		  artifactId - Project.getName() 产物名
