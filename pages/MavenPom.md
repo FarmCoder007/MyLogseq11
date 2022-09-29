@@ -14,4 +14,7 @@
 	- 3、developers(action)：配置此POM表示的发布的开发人员。
 	- 4、distributionManagement(action)：配置此POM表示的发布的分发管理。
 	- 5、issueManagement(action)：配置此POM表示的发布的问题管理。
-	- 6、
+	- 6、licenses(action)：配置此POM表示的发布的许可证。
+	- 7、mailingLists(action)：配置此POM表示的出版物的邮件列表。
+	- 8、organization(action)：配置此POM表示的发布的组织。
+	-
