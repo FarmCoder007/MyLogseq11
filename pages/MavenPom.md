@@ -10,4 +10,6 @@
 	  ```
 - ## 三、方法
 	- 1、ciManagement(action)：为此POM表示的发布配置CI管理。
-	- 2、contributors(action)：
+	- 2、contributors(action)：配置此POM表示的发布的参与者。
+	- 3、developers(action)：配置此POM表示的发布的开发人员。
+	- 4、
