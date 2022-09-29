@@ -17,4 +17,5 @@
 	- 6、licenses(action)：配置此POM表示的发布的许可证。
 	- 7、mailingLists(action)：配置此POM表示的出版物的邮件列表。
 	- 8、organization(action)：配置此POM表示的发布的组织。
-	-
+	- 9、scm(action)：为此POM表示的发布配置SCM（源代码管理）。
+	- 10、withXml(action)：根据输入数据生成POM后，允许配置POM。
