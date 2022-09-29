@@ -3,4 +3,6 @@
 - ## 二、pom相关属性
 	- 1、description：本POM所代表的出版物的描述。
 	- 2、inceptionYear：本POM所代表的出版物的起始年份。
-	- 3、
+	- 3、name：此POM表示的发布的名称。
+	- 4、packaging：此POM表示的出版物的包装。
+	- 5、url：
