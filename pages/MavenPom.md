@@ -5,4 +5,5 @@
 	- 2、inceptionYear：本POM所代表的出版物的起始年份。
 	- 3、name：此POM表示的发布的名称。
 	- 4、packaging：此POM表示的出版物的包装。
-	- 5、url：
+	- 5、url：此POM表示的发布的URL。
+	-
