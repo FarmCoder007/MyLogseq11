@@ -12,4 +12,6 @@
 	- 1、ciManagement(action)：为此POM表示的发布配置CI管理。
 	- 2、contributors(action)：配置此POM表示的发布的参与者。
 	- 3、developers(action)：配置此POM表示的发布的开发人员。
-	- 4、
+	- 4、distributionManagement(action)：配置此POM表示的发布的分发管理。
+	- 5、issueManagement(action)：配置此POM表示的发布的问题管理。
+	- 6、
