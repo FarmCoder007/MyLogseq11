@@ -6,4 +6,5 @@
 	- 3、name：此POM表示的发布的名称。
 	- 4、packaging：此POM表示的出版物的包装。
 	- 5、url：此POM表示的发布的URL。
-	-
+	- ```groovy
+	  ```
