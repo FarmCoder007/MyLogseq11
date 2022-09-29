@@ -1,3 +1,4 @@
+- [官方](https://docs.gradle.org/current/dsl/org.gradle.api.publish.maven.MavenPom.html)
 - ## 一、简介
 	- maven将项目抽象成一个模型，pom.xml为项目模型对象的描述文件。
 - ## 二、pom相关属性
