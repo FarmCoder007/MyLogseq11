@@ -1,4 +1,6 @@
 - ## 一、简介
 	- maven将项目抽象成一个模型，pom.xml为项目模型对象的描述文件。
 - ## 二、pom相关属性
-	-
+	- 1、description：本POM所代表的出版物的描述。
+	- 2、inceptionYear：本POM所代表的出版物的起始年份。
+	- 3、
