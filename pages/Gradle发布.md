@@ -131,10 +131,12 @@
 	      println "ASSEMBLE_FLAVOR : ${ASSEMBLE_FLAVOR} ,project.isDebug = ${project.isDebug}"
 	      Task publishTask = project.getTasksByName("publish",false).getAt(0)
 	      Task assembleTask = project.getTasksByName("assemble${ASSEMBLE_FLAVOR}",false).getAt(0)
+	      // aartask为上边配置打印log
 	      Task aarTask = project.getTasksByName("wubaPublish",false).getAt(0)
 	  
 	      aarTask.dependsOn assembleTask
 	      aarTask.dependsOn publishTask
+	      // 发布任务在 构建任务之后
 	      publishTask.mustRunAfter assembleTask
 	  }
 	  
