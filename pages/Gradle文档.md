@@ -15,9 +15,8 @@
 		- 解析所有的projects对象中的task，构建好所有的task拓扑图
 	- ### 3、执行阶段：执行具体的的task及其依赖task
 - # 五、[[Gradle-任务task]]
--
 - # 六、[[Gradle发布]]
-- # 七、gradle插件
+- # 七、[[Gradle插件]]
 -
 -
 -
