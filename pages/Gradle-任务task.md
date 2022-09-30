@@ -310,6 +310,7 @@
 			  
 			  ```
 - # 九、条件执行
+  collapsed:: true
 	- ## onlyIf
 		- 有时候我们需要根据build文件中的某些属性来判断是否执行特定的task，我们可以使用onlyIf ：
 		- ```groovy
@@ -349,4 +350,16 @@
 	- ## 让task超时
 		- 最后我们还可以让task超时，当超时的时候，执行task的线程将会被中断，并且task将会被标记为failed。
 		- 如果我们想继续执行，那么可以使用 --continue。
-			-
+			- 注意， 只有能够响应中断的task，timeout才有用。
+		- ```groovy
+		  task hangingTask() { 
+		      doLast { 
+		          Thread.sleep(100000)
+		      } 
+		      //设定的超时时间，需要导包
+		      timeout = Duration.ofMillis(500) 
+		  } 
+		  
+		  ```
+- # 十、task rule 规则
+	-
