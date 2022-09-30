@@ -341,3 +341,12 @@
 			  } 
 			  
 			  ```
+	- ## 我们还可以启动和禁用task：
+		- ```groovy
+		  myTask.enabled = false
+		  
+		  ```
+	- ## 让task超时
+		- 最后我们还可以让task超时，当超时的时候，执行task的线程将会被中断，并且task将会被标记为failed。
+		- 如果我们想继续执行，那么可以使用 --continue。
+			-
