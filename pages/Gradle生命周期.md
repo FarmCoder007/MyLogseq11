@@ -1,3 +1,5 @@
+- # 一、简介
+	- Gradle的核心是一种基于依赖的编程语言，任务与任务之间有一定的依赖关系，并且每个任务只会执行一次。在构建
 - # 1、初始化阶段：解析setting.gradle文件
 	- 解析整个工程中所有Project,构建所有的Project对应的project对象
 - # 2、配置阶段：解析各个project下的build.gradle文件
