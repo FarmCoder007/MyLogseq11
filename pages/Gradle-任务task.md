@@ -53,4 +53,17 @@
 		- ### 3-1-1、用于定位task：
 			- findByPath：如果没找到会返回null
 				- ```groovy
+				  task hello 
+				  println tasks.findByPath('hello').path 
+				  println tasks.findByPath(':hello').path
+				  
 				  ```
+			- getByPath：getByPath没找到的话会抛出UnknownTaskException
+				- ```groovy
+				  task hello 
+				  println tasks.getByPath('hello').path 
+				  println tasks.getByPath(':hello').path
+				  
+				  ```
+		- ### 3-1-2、直接创建任务—create
+			-
