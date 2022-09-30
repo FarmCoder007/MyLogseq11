@@ -255,8 +255,9 @@
 				  
 				  ```
 - # 七、任务的依赖
+  collapsed:: true
 	- task之间的依赖关系是通过task name来决定的。我们可以在同一个项目中做task之间的依赖：
-	- ## 示例1：
+	- ## 任务名依赖示例：
 		- ```groovy
 		  task hello { 
 		      doLast { println 'Hello www.flydean.com!' } 
@@ -267,6 +268,21 @@
 		  } 
 		  
 		  ```
-	- ## 跨项目进行task的依赖，如果是跨项目的task依赖的话，需要制定task的路径：
+	- ## 跨项目进行task的依赖，如果是跨项目的task依赖的话，需要指定task的路径：
 		- ```groovy
+		  project('project-a') { 
+		      task taskX { 
+		          // 指定路径
+		          dependsOn ':project-b:taskY' 
+		          doLast { println 'taskX' } 
+		      } 
+		  } 
+		  
+		  project('project-b') { 
+		      task taskY { 
+		      	doLast { println 'taskY' } 
+		      } 
+		  } 
+		  
 		  ```
+- #
