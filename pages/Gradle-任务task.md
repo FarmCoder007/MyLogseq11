@@ -363,6 +363,7 @@
 		  ```
 - # 十、task rule 规则
 	- ## addrule
+	  collapsed:: true
 		- ```groovy
 		  tasks.addRule("Pattern: ping<ID>") { 
 		      String taskName -> 
@@ -381,4 +382,24 @@
 		  ```
 		- 我还可以将这些rules作为依赖项引入：
 		- ```groovy
+		  task groupPing { dependsOn pingServer1, pingServer2 } 
+		  
 		  ```
+	- ## Finalizer tasks:
+		- #
+		- 和java中的finally一样，task也可以指定对应的finalize task：
+		- ```groovy
+		  task taskX { 
+		      doLast { 
+		          println 'taskX' 
+		      } 
+		  } 
+		  task taskY { 
+		      doLast { println 'taskY' } 
+		  } 
+		  taskX.finalizedBy taskY 
+		  
+		  > gradle -q taskX taskX taskY 
+		  
+		  ```
+-
