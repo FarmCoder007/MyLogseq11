@@ -117,4 +117,11 @@
 		  
 		  ```
 	- ## 方式二：buildSrc project中
-	-
+		- 您可以将插件的源代码放在以下目录中（不同语言编写用不同的目录）
+			- rootProjectDir/buildSrc/src/main/java
+			- rootProjectDir/buildSrc/src/main/groovy
+			- rootProjectDir/buildSrc/src/main/kotlin
+		-
+	- ## 方式三：独立工程中
+		- 创建一个单独的项目。该项目生成并发布一个 JAR，然后就可以在多个项目中使用该插件，其他开发者也能下载使用。我们一般会在该jar中编写或依赖一些插件，或者将几个相关的任务类捆绑到一起。
+		- #
