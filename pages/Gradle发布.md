@@ -38,6 +38,7 @@
 	              version "${project.publish_version}"
 	              pom.withXml {
 	                  if(true){
+	                      // 获取工程的依赖配置
 	                      ConfigurationContainer configuration = project.configurations
 	                      def dependenciesNode = asNode().appendNode('dependencies')
 	                      if(configuration.compile) {
@@ -75,7 +76,6 @@
 	              dependencyNode.appendNode('artifactId', dependency.name)
 	              dependencyNode.appendNode('version', dependency.version)
 	              dependencyNode.appendNode('scope', "${scope}")
-	  
 	          }
 	      }
 	  }
