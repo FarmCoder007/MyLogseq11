@@ -38,7 +38,7 @@
 	              version "${project.publish_version}"
 	              pom.withXml {
 	                  if(true){
-	                      // 获取工程的依赖配置
+	                      // 获取工程的依赖配置 将工程中的build.gradle 中的dependencies中的依赖打入pom
 	                      ConfigurationContainer configuration = project.configurations
 	                      def dependenciesNode = asNode().appendNode('dependencies')
 	                      if(configuration.compile) {
@@ -66,6 +66,30 @@
 	      }
 	  }
 	  
+	  /**
+	   pom文件
+	  * <dependencies>
+	  	<dependency>
+	  		<groupId>com.huawei</groupId>
+	  		<artifactId>petalpaycheckoutsdk</artifactId>
+	  		<version>1.0.9.001.3</version>
+	  		<scope>implementation</scope>
+	  	</dependency>
+	  	<dependency>
+	  		<groupId>com.huawei</groupId>
+	          <artifactId>petalpaycheckoutsdkaidl</artifactId>
+	          <version>1.0.9.001.3</version>
+	          <scope>implementation</scope>
+	  	</dependency>
+	  	<dependency>
+	          <groupId>com.mikesamuel</groupId>
+	          <artifactId>json-sanitizer</artifactId>
+	          <version>1.2.2</version>
+	          <scope>implementation</scope>
+	  	</dependency>
+	  </dependencies>
+	  *
+	  */
 	  def genPomXml(dependenciesNode,dependency,scope){
 	      if(dependenciesNode != null && dependency != null && scope != null){
 	          if (dependency.group != null && !'unspecified'.equals(dependency.group)&& !'58ClientProject'.equals(dependency.group)
