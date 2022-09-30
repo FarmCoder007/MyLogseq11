@@ -97,7 +97,6 @@
 			-
 		-
 - # 三、方法
-  collapsed:: true
 	- ## 1、方法作用域
 	  collapsed:: true
 		- Project 对象自身
