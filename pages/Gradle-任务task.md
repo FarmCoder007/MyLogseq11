@@ -173,4 +173,58 @@
 			  }
 			  
 			  ```
-		- ## 6-2-2、
+			- 拷贝文件例子
+			  collapsed:: true
+				- ```groovy
+				  task copyDocs(type: Copy) {
+				      from 'src/main/doc'
+				      into 'build/target/doc'
+				  }
+				  
+				  //这是个Ant filter
+				  import org.apache.tools.ant.filters.ReplaceTokens
+				  
+				  //这是一个闭包
+				  def dataContent = copySpec {
+				      from 'src/data'
+				      include '*.data'
+				  }
+				  
+				  task initConfig(type: Copy) {
+				      from('src/main/config') {
+				          include '**/*.properties'
+				          include '**/*.xml'
+				          filter(ReplaceTokens, tokens: [version: '2.3.1'])
+				      }
+				      from('src/main/config') {
+				          exclude '**/*.properties', '**/*.xml'
+				      }
+				      from('src/main/languages') {
+				          rename 'EN_US_(.*)', '$1'
+				      }
+				      into 'build/target/config'
+				      exclude '**/*.bak'
+				      includeEmptyDirs = false
+				      
+				      with dataContent
+				  }
+				  
+				  task chVer(type: Copy) {
+				      from "src/main/manifest/AndroidManifestCopy.xml"  // 复制src/main/manifest/目录下的AndroidManifest.xml
+				      into 'src/main'  // 复制到指定目标目录
+				      rename { String fileName -> //在复制时重命名文件
+				          fileName = "AndroidManifest.xml" // 重命名
+				      }
+				  
+				  }
+				  
+				  ```
+		- ## 6-2-2、创建ZIP归档文件，默认压缩文件类型为zip。
+			- ```groovy
+			  task zip(type: Zip) {
+			      from 'src/dist'
+			      into('libs') 
+			  }
+			  
+			  ```
+		-
