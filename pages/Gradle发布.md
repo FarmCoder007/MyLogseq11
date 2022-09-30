@@ -108,10 +108,12 @@
 	  
 	  //配置任务依赖，发布前先完成构建，并指定发布的aar文件
 	  afterEvaluate{
+	      // 拿到发布扩展publishing
 	      DefaultPublishingExtension publishing = project.extensions.findByName("publishing")
 	      PublicationContainer publications = publishing.publications
+	      // 获取上边配置的发布配置
 	      DefaultMavenPublication aarPublication = publications.findByName("aar")
-	  
+	      // 拿到发布要构建的aar 
 	      def aarFile = "${project.getProjectDir()}/build/outputs/aar/${project.getName()}-${ASSEMBLE_FLAVOR.toLowerCase()}.aar"
 	      changeMavenArtifact(aarPublication,aarFile)//修改要发布的aar路径
 	      addPublishAARTask()
@@ -137,7 +139,7 @@
 	  }
 	  
 	  /**
-	   * 动态改变发布文件的地址
+	   * 动态改变发布文件的地址，动态改版发布的aar路径
 	   * @param publication
 	   * @param artifactPath
 	   * @return

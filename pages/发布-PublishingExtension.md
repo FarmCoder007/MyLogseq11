@@ -63,7 +63,6 @@
 		      }
 		  ```
 - # 三、2个容器
-  collapsed:: true
 	- ## publications：配置此项目的发布。
 		- ### 方法细节：void publications(Action<? super PublicationContainer> configure)
 		- ```groovy
