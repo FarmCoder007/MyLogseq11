@@ -4,5 +4,7 @@
 	- publishing{}：deploy当前项目到仓库
 		- ```groovy
 		  ```
--
+- # 发布脚本例子：
+	- ```groovy
+	  ```
 -
