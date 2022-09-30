@@ -134,6 +134,7 @@
 - # 六、任务详细使用
 	- ![image.png](../assets/image_1664521928091_0.png)
 	- ## 6-1、带参任务
+	  collapsed:: true
 		- ``` groovy
 		  // 定义一个名字为paramTask的task，属于it235分组，并且依赖myTask1和myTask2两个task。
 		  task myTask1{
@@ -148,5 +149,18 @@
 		  ```
 		- 这些参数也可以写在task的闭包体内
 		- ```groovy
+		  task myTask1{
+		  }
+		  task myTask2{
+		  }
+		  task it235Task {
+		      group "it235"
+		      description "我自己的Task"
+		      dependsOn myTask1, myTask2
+		      doLast {
+		          println "execute it235"
+		      }
+		  }
+		  
 		  ```
 	-
