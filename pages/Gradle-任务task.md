@@ -132,6 +132,7 @@
 	  
 	  ```
 - # 六、任务详细使用
+  collapsed:: true
 	- ![image.png](../assets/image_1664521928091_0.png)
 	- ## 6-1、带参任务
 	  collapsed:: true
@@ -230,3 +231,27 @@
 		- ## 6-2-3、定义
 			- ![image.png](../assets/image_1664522549208_0.png)
 			- [更多使用](https://www.cnblogs.com/gzdaijie/p/5285160.html)
+			- 通过TaskAction指定一个任务
+				- ```groovy
+				  class GreetingTask extends DefaultTask {
+				      @Input
+				      String message = 'This is GreetingTask'
+				      // @TaskAction 表示该Task要执行的动作,即在调用该Task时，hello()方法将被执行
+				      @TaskAction
+				      def hello(){
+				          println "Hello world. $message"
+				      }
+				  }
+				  // hello使用了默认的message值
+				  task hello(type:GreetingTask)
+				  //与register相同
+				  tasks.register('hello', GreetingTask)
+				  
+				  
+				  // 重新设置了message的值
+				  task hello1(type:GreetingTask){
+				      message ="I am an java developer"
+				  }
+				  
+				  ```
+- # 七、任务的依赖
