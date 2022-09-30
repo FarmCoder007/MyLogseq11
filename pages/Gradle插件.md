@@ -97,6 +97,7 @@
 - # 四、自定义gradle插件
 	- 插件自定义包括三个步骤：建立插件工程、配置参数、发布插件与使用插件。
 	- ## 方式一：可以直接在build.gradle中编写插件，
+	  collapsed:: true
 		- 优点：当前项目能够自动编译和加载，
 		- 缺点：该插件在构建脚本之外不可见。
 		- ```groovy
@@ -117,11 +118,13 @@
 		  
 		  ```
 	- ## 方式二：buildSrc project中
+	  collapsed:: true
 		- 您可以将插件的源代码放在以下目录中（不同语言编写用不同的目录）
 			- rootProjectDir/buildSrc/src/main/java
 			- rootProjectDir/buildSrc/src/main/groovy
 			- rootProjectDir/buildSrc/src/main/kotlin
-		-
+		- Gradle 将负责编译和测试插件，并使其在构建脚本的类路径中可用。该插件对构建使用的每个构建脚本都是可见的。但是，它在构建之外是不可见的，因此您不能在定义它的构建之外重用插件。
 	- ## 方式三：独立工程中
+	  collapsed:: true
 		- 创建一个单独的项目。该项目生成并发布一个 JAR，然后就可以在多个项目中使用该插件，其他开发者也能下载使用。我们一般会在该jar中编写或依赖一些插件，或者将几个相关的任务类捆绑到一起。
 		- #
