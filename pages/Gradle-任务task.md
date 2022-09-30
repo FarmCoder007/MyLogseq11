@@ -291,6 +291,9 @@
 		- dependency表示的是一种强依赖关系，如果taskA依赖于taskB，那么执行taskA的时候一定要先执行taskB。
 		- 而ordering则是一种并不太强列的顺序关系。表示taskA需要在taskB之后执行，但是taskB不执行也可以。
 	- ## order分类
-		- ### mustRunAfter
-		- ### shouldRunAfter
+		- ### mustRunAfter：taskA.mustRunAfter(taskB)表示必须遵守的顺序关系，
+		- ### shouldRunAfter：taskA.shouldRunAfter(taskB)则不是必须的
+			- 下面两种情况下可以忽略这样的顺序关系： 第一种情况是如果shouldRunAfter引入了order循环的时候。
+			- 第二种情况是如果在并行执行的情况下，task所有的依赖关系都已经满足了，那么也会忽略这个顺序。
+-
 -
