@@ -101,6 +101,35 @@
 	  
 	  ```
 - # 五、doFirst/doLast体验
+  collapsed:: true
+	- 一个Task包含若干Action。所以，Task有doFirst和doLast两个函数，用于添加需要最先执行的Action和需要和需要最后执行的Action。Action就是一个闭包。
+	- ```groovy
+	  //在task闭包体内声明
+	  task taskDev1{
+	      //doFirst：task执行时，最开始的操作
+	      doFirst{
+	          println "first exec"
+	      }
+	      //doLast：task执行时，最后的操作
+	      doLast{
+	          println "last exec"
+	      }
+	      group "dev"
+	      println "method1"
+	  }
+	  
+	  //也可以这样写
+	  task myTask {
+	      println "config myTask"
+	  }
+	  myTask.doFirst {
+	      println "before execute myTask"
+	  }
+	  myTask.doLast {
+	      println "after execute myTask"
+	  }
+	  
+	  
+	  ```
+- # 六、任务详细使用
 	-
--
--
