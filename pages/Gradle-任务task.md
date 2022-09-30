@@ -51,6 +51,7 @@
 	  ```
 	- ## 3-1、重要的方法
 		- ### 3-1-1、用于定位task：
+		  collapsed:: true
 			- findByPath：如果没找到会返回null
 				- ```groovy
 				  task hello 
@@ -66,4 +67,15 @@
 				  
 				  ```
 		- ### 3-1-2、直接创建任务—create
-			-
+		  collapsed:: true
+			- ```groovy
+			  class CustomTask extends DefaultTask { 
+			      final String message final int number  CustomTask(String message, int number) { this.message = message this.number = number } } 
+			  
+			  
+			  ```
+		- ### 3-1-3、延迟创建任务—register
+			- register返回了一个TaskProvider，和java多线程中的callable类似，当我们调用Provider.get()获取task值的时候，才会去创建这个task。
+		- ### 3-1-4、替换任务—replace
+			- replace的作用就是创建一个新的task，并且替换掉同样名字的老的task。
+		-
