@@ -362,4 +362,23 @@
 		  
 		  ```
 - # 十、task rule 规则
-	-
+	- ## addrule
+		- ```groovy
+		  tasks.addRule("Pattern: ping<ID>") { 
+		      String taskName -> 
+		          if (taskName.startsWith("ping")) { 
+		              task(taskName) { 
+		                  doLast { println "Pinging: " + (taskName - 'ping') } 
+		              } 
+		          } 
+		  } 
+		  
+		  ```
+		- 上我们定义了一个rule，如果taskName是以ping开头的话，那么将会输出对应的内容。
+		- ```groovy
+		  > gradle -q pingServer1 Pinging: Server1 
+		  
+		  ```
+		- 我还可以将这些rules作为依赖项引入：
+		- ```groovy
+		  ```
