@@ -35,6 +35,7 @@
 	  ```
 - # 2、配置阶段：解析各个project下的build.gradle文件
 	- 当完成初始化阶段后，就会进入配置阶段，配置阶段解析所有project中的build.gradle文件获取所有的task，形成有向无环图后执行依赖关系，并且所有project中的build script部分和task的配置段会在这一阶段调用注意并不是执行具体的task代码）。
+	- ![image.png](../assets/image_1664526302684_0.png)
 - # 3、执行阶段：执行具体的的task及其依赖task
   collapsed:: true
 	- 当完成任务依赖图后, Gradle 就做好了一切准备，然后进入执行阶段。按照有向无环图中task列表的顺序，执行所有被指定的task
