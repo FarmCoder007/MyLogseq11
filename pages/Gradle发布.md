@@ -5,6 +5,7 @@
 		- ```groovy
 		  ```
 - # 发布脚本例子：
+  collapsed:: true
 	- ```groovy
 	  import org.gradle.api.publish.internal.DefaultPublishingExtension
 	  import org.gradle.api.publish.maven.internal.artifact.FileBasedMavenArtifact
@@ -106,7 +107,7 @@
 	  
 	  def ASSEMBLE_FLAVOR = Boolean.parseBoolean(project.isDebug) ? "Debug" : "Release"
 	  
-	  //配置任务依赖，发布前先完成构建，并指定发布的aar文件
+	  //执行入口、配置任务依赖，发布前先完成构建，并指定发布的aar文件
 	  afterEvaluate{
 	      // 拿到发布扩展publishing
 	      DefaultPublishingExtension publishing = project.extensions.findByName("publishing")
@@ -129,7 +130,9 @@
 	  def addPublishAARTask(){
 	      def ASSEMBLE_FLAVOR = Boolean.parseBoolean(project.isDebug)? "Debug" : "Release"
 	      println "ASSEMBLE_FLAVOR : ${ASSEMBLE_FLAVOR} ,project.isDebug = ${project.isDebug}"
+	      // 获取发布任务 
 	      Task publishTask = project.getTasksByName("publish",false).getAt(0)
+	      // 构建任务
 	      Task assembleTask = project.getTasksByName("assemble${ASSEMBLE_FLAVOR}",false).getAt(0)
 	      // aartask为上边配置打印log
 	      Task aarTask = project.getTasksByName("wubaPublish",false).getAt(0)
@@ -142,6 +145,7 @@
 	  
 	  /**
 	   * 动态改变发布文件的地址，动态改版发布的aar路径
+	   * 作用：动态改版发布的内容。
 	   * @param publication
 	   * @param artifactPath
 	   * @return
