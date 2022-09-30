@@ -1,7 +1,9 @@
 - # 一、简介
 	- 任务是gradle的最小执行单元，一个build.gradle是由一系列的task组成
 - # 二、定义task
+  collapsed:: true
 	- ## 2-1、groovy定义task闭包
+	  collapsed:: true
 		- ```groovy
 		  //直接声明
 		  task taskOne{
@@ -39,4 +41,11 @@
 		  
 		  
 		  ```
-	- ## 2-2、代码编写的插件
+	- ## 2-2、代码编写
+- # 三、TaskContainer用来管理一组task集合
+	- ```groovy
+	  public interface TaskContainer extends TaskCollection<Task>, PolymorphicDomainObjectContainer<Task>{
+	      
+	  }
+	  
+	  ```
