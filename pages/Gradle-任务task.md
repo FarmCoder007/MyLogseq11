@@ -80,5 +80,27 @@
 	- ## 3-4、替换任务—replace
 		- replace的作用就是创建一个新的task，并且替换掉同样名字的老的task。
 - # 四、给task配置group和描述
+  collapsed:: true
 	- group可以将任务分组，在AS右侧工具栏gradle的task列表中能够清晰直观的看到group
+	- ```groovy
+	  //group可以将任务分组，在右侧的task列表中能够清晰直观的看到group
+	  task taskDev1{
+	      group "dev"
+	      description "项目描述"
+	      println "method1"
+	  }
+	  task('taskDev2'){
+	      group "dev"
+	      println "method2"
+	  }
+	  
+	  task taskTest{
+	      group "test"
+	      println "method1"
+	  }
+	  
+	  ```
+- # 五、doFirst/doLast体验
 	-
+-
+-
