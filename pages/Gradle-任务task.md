@@ -310,4 +310,32 @@
 			  
 			  ```
 - # 九、条件执行
-	-
+	- ## onlyIf
+		- 或者我们可以抛出StopExecutionException异常，如果遇到这个异常，那么task后面的任务将不会被执行
+			- ```groovy
+			  task compile { 
+			      doLast { println 'We are doing the compile.' } 
+			  }
+			  
+			  compile.doFirst { 
+			      if (true) {
+			          throw new StopExecutionException()
+			      } 
+			  } 
+			  
+			  task myTask { 
+			      dependsOn('compile') 
+			      doLast { 
+			          println 'I am not affected' 
+			      }
+			  } 
+			  
+			  ```
+		- 有时候我们需要根据build文件中的某些属性来判断是否执行特定的task，我们可以使用onlyIf ：
+		- ```groovy
+		  task hello { 
+		      doLast { println 'www.flydean.com' } 
+		  } 
+		  hello.onlyIf { !project.hasProperty('skipHello') } 
+		  
+		  ```
