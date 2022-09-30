@@ -97,4 +97,24 @@
 - # 四、自定义gradle插件
 	- 插件自定义包括三个步骤：建立插件工程、配置参数、发布插件与使用插件。
 	- ## 方式一：可以直接在build.gradle中编写插件，
-	- 这样的好处是当前项目能够自动编译和加载，但该插件在构建脚本之外不可见。
+		- 优点：当前项目能够自动编译和加载，
+		- 缺点：该插件在构建脚本之外不可见。
+		- ```groovy
+		  class GreetingPlugin implements Plugin<Project> {
+		      void apply(Project project) {
+		          project.task('hello') {
+		              doLast {
+		                  println 'Hello from the GreetingPlugin'
+		              }
+		          }
+		      }
+		  }
+		  
+		  // Apply the plugin
+		  apply plugin: GreetingPlugin
+		  
+		  //使用 gradle -q hello 执行即可
+		  
+		  ```
+	- ## 方式二：buildSrc project中
+	-
