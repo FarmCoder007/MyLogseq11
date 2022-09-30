@@ -362,6 +362,7 @@
 		  
 		  ```
 - # 十、task rule 规则
+  collapsed:: true
 	- ## addrule
 	  collapsed:: true
 		- ```groovy
@@ -385,7 +386,8 @@
 		  task groupPing { dependsOn pingServer1, pingServer2 } 
 		  
 		  ```
-	- ## Finalizer tasks:
+	- ## Finalizer tasks:finalize task是一定会被执行的，即使上面的taskX中抛出了异常。
+	  collapsed:: true
 		- #
 		- 和java中的finally一样，task也可以指定对应的finalize task：
 		- ```groovy
