@@ -2,6 +2,7 @@
   collapsed:: true
 	- 插件可以封装一系列任务，例如 编译，测试，打包等
 - # 二、二进制插件：
+  collapsed:: true
 	- 我们可以通过二进制插件的ID来应用
 	- 插件 ID 是插件的全局唯一标识符或者名字
 	- ## 老版本使用
@@ -32,7 +33,52 @@
 		  
 		  ```
 	- ## plugins{} 新写法
+	  collapsed:: true
 		- ```groovy
+		  //build.gradle中的顶级语句，声明和应用放在一起
+		  plugins {
+		      //核心插件，gradle提供
+		      id 'java'
+		      id 'eclipse'
+		      id 'war'
+		      //非核心插件(社区插件)，必须通过id+version的全限定名的方式进行引用
+		      id 'com.bmuschko.docker-remote-api' version '6.7.0'
+		      //apply false 表示在父项目中声明，但是父项目不会立即加载，可以在子项目中通过ID的方式进行使用
+		      id 'com.jfrog.bintray' version '1.8.5' apply false
+		  }
+		  //注意：plugins暂时不支持第三方插件，如果要使用第三方插件请使用老的写法。同时plugins中不能随意编写其他的语句体
+		  
+		  ```
+	- ## apply false的使用场景
+	  collapsed:: true
+		- ```groovy
+		  //settings.gradle，有3个子项目
+		  include 'hello-a'
+		  include 'hello-b'
+		  include 'goodbye-c'
+		  
+		  //根项目的build.gradle
+		  plugins {
+		      //apply false 表示根项目不会解析加载，只进行定义和插件的版本管理
+		      id 'com.example.hello' version '1.0.0' apply false
+		      id 'com.example.goodbye' version '1.0.0' apply false
+		  }
+		  
+		  //hello-a/build.gradle
+		  plugins {
+		      id 'com.example.hello'
+		  }
+		  
+		  //hello-b/build.gradle
+		  plugins {
+		      id 'com.example.hello'
+		  }
+		  
+		  //goodbye-c/build.gradle
+		  plugins {
+		      id 'com.example.goodbye'
+		  }
+		  
 		  ```
 - # 三、脚本插件：如xxx.gradle,脚本模块化基础
   collapsed:: true
@@ -48,4 +94,5 @@
 		  apply from: 'https://gitee.com/xxx/xx/raw/master/it235.gradle'
 		  
 		  ```
+- # 四、自定义gradle插件
 -
