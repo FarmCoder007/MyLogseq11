@@ -163,4 +163,6 @@
 		  }
 		  
 		  ```
-	-
+	- ## 6-2、指定Type
+		- Task创建的时候可以通过 type: SomeType 指定Type，Type其实就是告诉Gradle，这个新建的Task对象会从哪个基类Task派生。比如，Gradle本身提供了一些通用的Task，最常见的有Copy 任务。Copy是Gradle中的一个类。当我们**task myTask(type:Copy)**的时候，创建的Task就是一个Copy Task。Gradle本身还提供了其他如：Delete、Sync等供我们使用。
+		-
