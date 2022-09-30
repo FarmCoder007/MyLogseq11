@@ -290,4 +290,7 @@
 	- ## ordering和dependency有什么区别。
 		- dependency表示的是一种强依赖关系，如果taskA依赖于taskB，那么执行taskA的时候一定要先执行taskB。
 		- 而ordering则是一种并不太强列的顺序关系。表示taskA需要在taskB之后执行，但是taskB不执行也可以。
-	-
+	- ## order分类
+		- ### mustRunAfter
+		- ### shouldRunAfter
+-
