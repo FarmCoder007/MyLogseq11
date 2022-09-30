@@ -88,4 +88,25 @@
 - # 3、执行阶段：执行具体的的task及其依赖task
 	- 当完成任务依赖图后, Gradle 就做好了一切准备，然后进入执行阶段。按照有向无环图中task列表的顺序，执行所有被指定的task
 	- ![image.png](../assets/image_1664527138396_0.png)
+	- ```groovy
+	  //settings.gradle
+	  gradle.taskGraph.beforeTask {
+	  	//7.3已过时,8.0中将删除
+	  }
+	  
+	  gradle.taskGraph.afterTask {
+	  	//7.3已过时,8.0中将删除
+	  }
+	  
+	  //或者如下写法
+	  gradle.addListener(new TaskActionListener() {
+	      @Override
+	      void beforeActions(Task task) {
+	      }
+	      @Override
+	      void afterActions(Task task) {
+	      }
+	  })
+	  
+	  ```
 	-
