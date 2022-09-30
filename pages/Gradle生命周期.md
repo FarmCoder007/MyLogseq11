@@ -1,0 +1,5 @@
+- # 1、初始化阶段：解析setting.gradle文件
+	- 解析整个工程中所有Project,构建所有的Project对应的project对象
+- # 2、配置阶段：解析各个project下的build.gradle文件
+	- 解析所有的projects对象中的task，构建好所有的task拓扑图
+- # 3、执行阶段：执行具体的的task及其依赖task
