@@ -2,4 +2,5 @@
 	- 1、注册配置及action-58ClientHybridLib
 		- SampleConfig
 			- actions中注册 action key 和 ctrl类
+	- 2、初始化配置及
 - ## 二、交互
