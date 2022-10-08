@@ -1,4 +1,5 @@
 - ## 一、工作
+  background-color:: #793e3e
   collapsed:: true
 	- 1、注册配置及action-58ClientHybridLib
 		- SampleConfig
@@ -7,6 +8,7 @@
 		- MigrationCompact.init 注册action
 		- HybridCtrlInjector注册action
 - ## JSBridge
+  background-color:: #793e3e
   collapsed:: true
 	- ### 简介
 	  collapsed:: true
@@ -17,7 +19,10 @@
 		- 将Native端原生接口封装成JavaScript接口
 		  将Web端JavaScript接口封装成原生接口
 - ## 二、Android 与 JS交互传值
+  background-color:: #793e3e
 	- ### Android 4.4之前只能用loadUrl来实现，并且无法执行回调：
+	  background-color:: #533e7d
+	  collapsed:: true
 		- ```java
 		  Android:
 		  webView.loadUrl("javascript:callJs('"0000"')");//需要JS function callJs函数
@@ -28,6 +33,7 @@
 		  
 		  ```
 	- ### Android 4.4之后提供了evaluateJavascript来执行JS代码，并且可以获取返回值执行回调：
+	  background-color:: #533e7d
 		-
 - ## 三、JS与Android交互
   collapsed:: true
