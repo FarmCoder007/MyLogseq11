@@ -19,6 +19,7 @@
 		  
 		  ```
 - ## 三、JS与Android交互
+  collapsed:: true
 	- ### 方式一：
 		- ```java
 		  JS:
