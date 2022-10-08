@@ -1,4 +1,5 @@
 - ## 一、工作
-	-
-	- SampleConfig
+	- 1、注册配置及action-58ClientHybridLib
+		- SampleConfig
+			- actions
 - ## 二、交互
