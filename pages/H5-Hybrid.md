@@ -34,7 +34,16 @@
 		  ```
 	- ### Android 4.4之后提供了evaluateJavascript来执行JS代码，并且可以获取返回值执行回调：
 	  background-color:: #533e7d
-		-
+	  collapsed:: true
+		- ```java
+		  String jsCode = String.format("window.showWebDialog('%s')", text);
+		  webView.evaluateJavascript(jsCode, new ValueCallback<String>() {
+		    @Override
+		    public void onReceiveValue(String value) {
+		  
+		    }
+		  });
+		  ```
 - ## 三、JS与Android交互
   collapsed:: true
 	- ### 方式一：
