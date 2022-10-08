@@ -1,6 +1,5 @@
 - ## 一、工作
   background-color:: #793e3e
-  collapsed:: true
 	- 1、注册配置及action-58ClientHybridLib
 		- SampleConfig
 			- actions中注册 action key 和 ctrl类
@@ -204,9 +203,12 @@
 		  ```
 	- 以上代码简单实现了一个demo，在Web端点击按钮，会获取Native端输入框的值，并将值以Web端弹窗展现，这样就实现了Web->Native带有回调的JSB调用，同理Native->Web也是同样的逻辑，不同的只是将callback保存在Native端罢
 - ## 五、开源的JSBridge
+  background-color:: #793e3e
+  collapsed:: true
 	- DSBridge，主要通过注入API的形式，[DSBridge for Android](https://github.com/wendux/DSBridge-Android)、DSBridge for IOS
 	  JsBridge，主要通过拦截URL Schema，JsBridge
 - ## 参考：
+  collapsed:: true
 	- [混合开发总结](https://blog.csdn.net/ware00/article/details/110805684)
 -
 -
