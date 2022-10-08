@@ -7,6 +7,6 @@
 		- MigrationCompact.init 注册action
 		- HybridCtrlInjector注册action
 - ## 二、Android 与 JS交互传值
-	-
+	- ``````
 - ## 三、JS与Android交互
 -
