@@ -69,24 +69,31 @@
 - ## 三、JS与Android交互
   background-color:: #793e3e
 	- ### 方式一：向Webview中注入JS API   addJavascriptInterface
-	  collapsed:: true
-		- ```java
-		  JS:
-		  function{
-		  window.aile.callAndroid("0000000");
-		  }
-		  
-		  Android:
-		  // 注册模块
-		  webView.addJavascriptInterface(this, "aile");
-		  
-		  /**
-		   *  定义js接口方法
-		   */
-		  @JavascriptInterface
-		  public void callAndroid(String src) {}
-		  
-		  ```
+		- 方案：
+		  collapsed:: true
+			- 这个方法会通过webView提供的接口，App将Native的相关接口注入到JS的Context（window）的对象中，一般来说这个对象内的方法名与Native相关方法名是相同的，Web端就可以直接在全局window下使用这个暴露的全局JS对象，进而调用原生端的方法。
+			- 这个过程会更加简单直观，不过有兼容性问题，大多数情况下都会使用这种方式
+		- Android实现例子1：
+		  collapsed:: true
+			- ```java
+			  JS:
+			  function{
+			  window.aile.callAndroid("0000000");
+			  }
+			  
+			  Android:
+			  // 注册模块
+			  webView.addJavascriptInterface(this, "aile");
+			  
+			  /**
+			   *  定义js接口方法
+			   */
+			  @JavascriptInterface
+			  public void callAndroid(String src) {}
+			  
+			  ```
+		- Android实现例子2：
+			-
 	- ### 方式二：拦截Webview请求的URL Schema-shouldOverrideUrlLoading
 	  collapsed:: true
 		- 方案：
