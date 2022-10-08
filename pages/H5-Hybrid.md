@@ -4,4 +4,5 @@
 			- actions中注册 action key 和 ctrl类
 	- 2、初始化配置及action-WubaHybridSDK
 		- MigrationCompact.init 注册action
+		- HybridCtrlInjector注册action
 - ## 二、交互
