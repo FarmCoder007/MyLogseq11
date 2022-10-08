@@ -17,8 +17,7 @@
 		- 将Native端原生接口封装成JavaScript接口
 		  将Web端JavaScript接口封装成原生接口
 - ## 二、Android 与 JS交互传值
-	-
-	- ### 方式一：
+	- ### Android 4.4之前只能用loadUrl来实现，并且无法执行回调：
 		- ```java
 		  Android:
 		  webView.loadUrl("javascript:callJs('"0000"')");//需要JS function callJs函数
@@ -28,6 +27,7 @@
 		  function callJs(data){}
 		  
 		  ```
+	- ### Android 4.4之后
 - ## 三、JS与Android交互
   collapsed:: true
 	- ### 方式一：
