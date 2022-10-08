@@ -129,7 +129,12 @@
 			- ![image.png](../assets/image_1665229226895_0.png)
 		- 安卓实现：提供了shouldOverrideUrlLoading方法拦截
 		- 优缺点：兼容性很好，但是由于是基于URL的方式，长度受到限制而且不太直观，数据格式有限制，而且建立请求有时间耗时。
-- ## 四、带回调的调用
+- ## 四、带回调的调用 js回调
+  background-color:: #793e3e
+	- 上面已经说到了Native、Web间双向通信的两种方法，但站在一端而言还是一个单向通信的过程 ，比如站在Web的角度：Web调用Native的方法，Native直接相关操作但无法将结果返回给Web，但实际使用中会经常需要将操作的结果返回，也就是JS回调。
+	- 解决方案：
+		- 其实基于之前的单向通信就可以实现，我们在一端调用的时候在参数中加一个callbackId标记对应的回调，对端接收到调用请求后，进行实际操作，如果带有callbackId，对端再进行一次调用，将结果、callbackId回传回来，这端根据callbackId匹配相应的回调，将结果传入执行就可以了
+		- ![image.png](../assets/image_1665229572040_0.png){:height 334, :width 716}
 - ## 参考：
 	- [混合开发总结](https://blog.csdn.net/ware00/article/details/110805684)
 -
