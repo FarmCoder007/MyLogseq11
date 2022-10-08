@@ -67,8 +67,9 @@
 		              }
 		  ```
 - ## 三、JS与Android交互
-  collapsed:: true
+  background-color:: #793e3e
 	- ### 方式一：
+	  collapsed:: true
 		- ```java
 		  JS:
 		  function{
@@ -86,7 +87,12 @@
 		  public void callAndroid(String src) {}
 		  
 		  ```
--
+	- ### 方式二：拦截Webview请求的URL Schema
+		- URL Schema是类URL的一种请求格式，格式如下：
+			- ```
+			  <protocol>://<host>/<path>?<qeury>#fragment
+			  ```
+		-
 - ## 参考：
 	- [混合开发总结](https://blog.csdn.net/ware00/article/details/110805684)
 -
