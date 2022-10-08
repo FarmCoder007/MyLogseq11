@@ -87,12 +87,18 @@
 		  public void callAndroid(String src) {}
 		  
 		  ```
-	- ### 方式二：拦截Webview请求的URL Schema
+	- ### 方式二：拦截Webview请求的URL Schema-shouldOverrideUrlLoading
 		- URL Schema是类URL的一种请求格式，格式如下：
 			- ```
 			  <protocol>://<host>/<path>?<qeury>#fragment
 			  ```
-		-
+		- 我们可以自定义JSBridge通信的URL Schema，比如：jsbridge://showToast?text=hello
+		- Native加载WebView之后，Web发送的所有请求都会经过WebView组件，所以Native可以重写WebView里的方法，从来拦截Web发起的请求，我们对请求的格式进行判断：
+		- 如果符合我们自定义的URL Schema，对URL进行解析，拿到相关操作、操作，进而调用原生Native的方法
+		  如果不符合我们自定义的URL Schema，我们直接转发，请求真正的服务
+		- ![image.png](../assets/image_1665229226895_0.png)
+		- 安卓提供了shouldOverrideUrlLoading方法拦截
+		- 优缺点：兼容性很好，但是由于是基于URL的方式，长度受到限制而且不太直观，数据格式有限制，而且建立请求有时间耗时。
 - ## 参考：
 	- [混合开发总结](https://blog.csdn.net/ware00/article/details/110805684)
 -
