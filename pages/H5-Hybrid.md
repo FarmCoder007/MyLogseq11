@@ -19,7 +19,6 @@
 		  
 		  ```
 - ## 三、JS与Android交互
-  collapsed:: true
 	- ### 方式一：
 		- ```java
 		  JS:
@@ -39,5 +38,7 @@
 		  
 		  ```
 -
-- 参考：
+- ## 参考：
+	- [混合开发总结](https://blog.csdn.net/ware00/article/details/110805684)
+-
 -
