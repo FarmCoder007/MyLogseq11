@@ -93,7 +93,26 @@
 			  
 			  ```
 		- Android实现例子2：
-			-
+			- ```java
+			  // 注入全局JS对象
+			  webView.addJavascriptInterface(new NativeBridge(this), "NativeBridge");
+			  
+			  class NativeBridge {
+			    private Context ctx;
+			    NativeBridge(Context ctx) {
+			      this.ctx = ctx;
+			    }
+			  
+			    // 增加JS调用接口
+			    @JavascriptInterface
+			    public void showNativeDialog(String text) {
+			      new AlertDialog.Builder(ctx).setMessage(text).create().show();
+			    }
+			  }
+			  
+			  // 在Web端直接调用这个方法即可：
+			  window.NativeBridge.showNativeDialog('hello');
+			  ```
 	- ### 方式二：拦截Webview请求的URL Schema-shouldOverrideUrlLoading
 	  collapsed:: true
 		- 方案：
