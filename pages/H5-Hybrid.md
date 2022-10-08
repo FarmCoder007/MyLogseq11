@@ -27,7 +27,8 @@
 		  function callJs(data){}
 		  
 		  ```
-	- ### Android 4.4之后
+	- ### Android 4.4之后提供了evaluateJavascript来执行JS代码，并且可以获取返回值执行回调：
+		-
 - ## 三、JS与Android交互
   collapsed:: true
 	- ### 方式一：
