@@ -7,12 +7,17 @@
 		- MigrationCompact.init 注册action
 		- HybridCtrlInjector注册action
 - ## JSBridge
-	- ### 简介
-	- JavaScript是运行在单独的JS Context中（Webview容器、JSCore等），与原生有运行环境的隔离，所以需要有一种机制实现Native端和Web端的双向通信，这就是JSBridge：以JavaScript引擎或Webview容器作为媒介，通过协定协议进行通信，实现Native端和Web端双向通信的一种机制。
-	- 通过JSBridge，Web端可以调用Native端的Java接口，同样Native端也可以通过JSBridge调用Web端的JavaScript接口，实现彼此的双向调用
-	- ![image.png](../assets/image_1665228399254_0.png)
-- ## 二、Android 与 JS交互传值
   collapsed:: true
+	- ### 简介
+	  collapsed:: true
+		- JavaScript是运行在单独的JS Context中（Webview容器、JSCore等），与原生有运行环境的隔离，所以需要有一种机制实现Native端和Web端的双向通信，这就是JSBridge：以JavaScript引擎或Webview容器作为媒介，通过协定协议进行通信，实现Native端和Web端双向通信的一种机制。
+		- 通过JSBridge，Web端可以调用Native端的Java接口，同样Native端也可以通过JSBridge调用Web端的JavaScript接口，实现彼此的双向调用
+		- ![image.png](../assets/image_1665228399254_0.png)
+	- ### 原理：实现JSBridge主要是两点：
+		- 将Native端原生接口封装成JavaScript接口
+		  将Web端JavaScript接口封装成原生接口
+- ## 二、Android 与 JS交互传值
+	-
 	- ### 方式一：
 		- ```java
 		  Android:
