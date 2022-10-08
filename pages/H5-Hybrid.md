@@ -44,6 +44,27 @@
 		    }
 		  });
 		  ```
+	- ### 注意事项：
+	  background-color:: #533e7d
+	  collapsed:: true
+		- ```java
+		   			/**
+		               * http://blog.csdn.net/yysunny/article/details/54895712
+		               * android4.4以及以上的webview都需要用evaluateJavascript() 调用javascript的方法。
+		               *  用loadUrl会自动进行一次urldecode，再将结果传递给javascript。
+		               *  出现json数据解析失败问题
+		               */
+		              if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+		                  if(url.startsWith("javascript")) {
+		                      mWebView.evaluateJavascript(url, null);
+		                      mPageLoadCallBack.onWebPageActionCallback(url);
+		                  } else {
+		                      mWebView.loadUrl(url);
+		                  }
+		              } else {
+		                  mWebView.loadUrl(url);
+		              }
+		  ```
 - ## 三、JS与Android交互
   collapsed:: true
 	- ### 方式一：
