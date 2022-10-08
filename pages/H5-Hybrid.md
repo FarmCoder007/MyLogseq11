@@ -1,5 +1,5 @@
 - ## 一、工作
 	- 1、注册配置及action-58ClientHybridLib
 		- SampleConfig
-			- actions
+			- actions中注册 action key 和 ctrl类
 - ## 二、交互
