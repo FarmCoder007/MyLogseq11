@@ -137,7 +137,71 @@
 		- 其实基于之前的单向通信就可以实现，我们在一端调用的时候在参数中加一个callbackId标记对应的回调，对端接收到调用请求后，进行实际操作，如果带有callbackId，对端再进行一次调用，将结果、callbackId回传回来，这端根据callbackId匹配相应的回调，将结果传入执行就可以了
 		- ![image.png](../assets/image_1665229572040_0.png){:height 334, :width 716}
 	- 举例：以Android，在Web端实现带有回调的JSB调用为例：
-		-
+	  collapsed:: true
+		- ```java
+		  // Web端代码：
+		  <body>
+		    <div>
+		      <button id="showBtn">获取Native输入，以Web弹窗展现</button>
+		    </div>
+		  </body>
+		  <script>
+		    let id = 1;
+		    // 根据id保存callback
+		    const callbackMap = {};
+		    // 使用JSSDK封装调用与Native通信的事件，避免过多的污染全局环境
+		    window.JSSDK = {
+		      // 获取Native端输入框value，带有回调
+		      getNativeEditTextValue(callback) {
+		        const callbackId = id++;
+		        callbackMap[callbackId] = callback;
+		        // 调用JSB方法，并将callbackId传入
+		        window.NativeBridge.getNativeEditTextValue(callbackId);
+		      },
+		      // 接收Native端传来的callbackId
+		      receiveMessage(callbackId, value) {
+		        if (callbackMap[callbackId]) {
+		          // 根据ID匹配callback，并执行
+		          callbackMap[callbackId](value);
+		        }
+		      }
+		    };
+		  
+		      const showBtn = document.querySelector('#showBtn');
+		    // 绑定按钮事件
+		    showBtn.addEventListener('click', e => {
+		      // 通过JSSDK调用，将回调函数传入
+		      window.JSSDK.getNativeEditTextValue(value => window.alert('Natvie输入值：' + value));
+		    });
+		  </script>
+		  // Android端代码
+		  webView.addJavascriptInterface(new NativeBridge(this), "NativeBridge");
+		  
+		  class NativeBridge {
+		    private Context ctx;
+		    NativeBridge(Context ctx) {
+		      this.ctx = ctx;
+		    }
+		  
+		    // 获取Native端输入值
+		    @JavascriptInterface
+		    public void getNativeEditTextValue(int callbackId) {
+		      MainActivity mainActivity = (MainActivity)ctx;
+		      // 获取Native端输入框的value
+		      String value = mainActivity.editText.getText().toString();
+		      // 需要注入在Web执行的JS代码
+		      String jsCode = String.format("window.JSSDK.receiveMessage(%s, '%s')", callbackId, value);
+		      // 在UI线程中执行
+		      mainActivity.runOnUiThread(new Runnable() {
+		        @Override
+		        public void run() {
+		          mainActivity.webView.evaluateJavascript(jsCode, null);
+		        }
+		      });
+		    }
+		  }
+		  ```
+	- 以上代码简单实现了一个demo，在Web端点击按钮，会获取Native端输入框的值，并将值以Web端弹窗展现，这样就实现了Web->Native带有回调的JSB调用，同理Native->Web也是同样的逻辑，不同的只是将callback保存在Native端罢
 - ## 参考：
 	- [混合开发总结](https://blog.csdn.net/ware00/article/details/110805684)
 -
