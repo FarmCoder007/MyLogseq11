@@ -7,6 +7,7 @@
 		- MigrationCompact.init 注册action
 		- HybridCtrlInjector注册action
 - ## 二、Android 与 JS交互传值
+  collapsed:: true
 	- ### 方式一：
 		- ```java
 		  Android:
@@ -18,6 +19,25 @@
 		  
 		  ```
 - ## 三、JS与Android交互
+  collapsed:: true
 	- ### 方式一：
 		- ```java
+		  JS:
+		  function{
+		  window.aile.callAndroid("0000000");
+		  }
+		  
+		  Android:
+		  // 注册模块
+		  webView.addJavascriptInterface(this, "aile");
+		  
+		  /**
+		   *  定义js接口方法
+		   */
+		  @JavascriptInterface
+		  public void callAndroid(String src) {}
+		  
 		  ```
+-
+- 参考：
+-
