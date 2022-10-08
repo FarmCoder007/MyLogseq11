@@ -68,6 +68,7 @@
 		  ```
 - ## 三、JS与Android交互
   background-color:: #793e3e
+  collapsed:: true
 	- ### 方式一：向Webview中注入JS API   addJavascriptInterface
 		- 方案：
 		  collapsed:: true
@@ -128,6 +129,7 @@
 			- ![image.png](../assets/image_1665229226895_0.png)
 		- 安卓实现：提供了shouldOverrideUrlLoading方法拦截
 		- 优缺点：兼容性很好，但是由于是基于URL的方式，长度受到限制而且不太直观，数据格式有限制，而且建立请求有时间耗时。
+- ## 四、带回调的调用
 - ## 参考：
 	- [混合开发总结](https://blog.csdn.net/ware00/article/details/110805684)
 -
