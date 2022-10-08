@@ -6,6 +6,8 @@
 	- 2、初始化配置及action-WubaHybridSDK
 		- MigrationCompact.init 注册action
 		- HybridCtrlInjector注册action
+- ## JSBridge
+	- JavaScript是运行在单独的JS Context中（Webview容器、JSCore等），与原生有运行环境的隔离，所以需要有一种机制实现Native端和Web端的双向通信，这就是JSBridge：以JavaScript引擎或Webview容器作为媒介，通过协定协议进行通信，实现Native端和Web端双向通信的一种机制。
 - ## 二、Android 与 JS交互传值
   collapsed:: true
 	- ### 方式一：
