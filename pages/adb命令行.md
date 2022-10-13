@@ -3,3 +3,4 @@
 	- adb shell dumpsys activity activities
 - 2、clear app 清除缓存
 	- adb shell pm clear com.wuba
+- 3、
