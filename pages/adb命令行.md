@@ -3,4 +3,5 @@
 	- adb shell dumpsys activity activities
 - 2、clear app 清除缓存
 	- adb shell pm clear com.wuba
-- 3、
+- 3、[adb logcat 命令](https://blog.csdn.net/zhaohuih/article/details/106905219)
+-
