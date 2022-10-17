@@ -4,4 +4,5 @@
 - 2、clear app 清除缓存
 	- adb shell pm clear com.wuba
 - 3、[adb logcat 命令](https://blog.csdn.net/zhaohuih/article/details/106905219)
-- 4、[Android获取存储和打印输出Logcat日志](https://blog.csdn.net/weixin_45265547/article/details/121676425)
+-
+- 4、

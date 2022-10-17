@@ -133,6 +133,7 @@
 	- [[环境变量命令]]
 - adb
 	- [[adb命令行]]
+	- [[代码获取logcat]]
 - shell
   collapsed:: true
 	- [[shell命令]]
