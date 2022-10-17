@@ -1,4 +1,5 @@
 - [Android获取存储和打印输出Logcat日志](https://blog.csdn.net/weixin_45265547/article/details/121676425)
+- [adb logcat相关命令](https://www.cnblogs.com/rosepotato/p/3544312.html)
 - ```java
       public static Runnable getLogInfoRunnable(ITestConsole console, String info, String level, String tag) {
           return new Runnable() {
