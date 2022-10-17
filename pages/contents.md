@@ -47,13 +47,13 @@
 	- [[Android版本适配]]
 	- [[Android开发架构]]
 - JAVA
-  collapsed:: true
 	- [[java-泛型]]
 	- 集合
 	  collapsed:: true
 		- [[List]]
 		-
 	- [[设计模式]]
+	-
 - Kotlin
   collapsed:: true
 	- [[基本语法]]
