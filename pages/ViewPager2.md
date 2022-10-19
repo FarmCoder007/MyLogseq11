@@ -59,6 +59,7 @@
 	  
 	  ```
 - # 三、切换动画，淡入淡出
+  collapsed:: true
 	- ```
 	  
 	  bgBanner.setPageTransformer(NGGuidePageTransformer())
@@ -231,6 +232,9 @@
 		- viewPager2.setCurrentItem(position,false)
 	-
 	-
-- # 六、开源库
+- # 六、层叠切换动画
+	- 原理：https://www.cnblogs.com/lzh-Linux/p/9001235.html
+	  代码：https://blog.csdn.net/Jeffray1991/article/details/116196193
+- # 开源库
 	- [banner](https://github.com/youth5201314/banner)
 	- [viewPager上下联动](https://www.jianshu.com/p/a9518ec62640)
