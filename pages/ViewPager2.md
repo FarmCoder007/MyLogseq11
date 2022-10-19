@@ -1,6 +1,6 @@
 - # 一、[动画实现](https://www.cnblogs.com/guanxinjing/p/13528962.html)
 - # 二、两个重叠的viewPager,实现联动引导页
-collapsed:: true
+  collapsed:: true
 	- xml:
 		- ```
 		  <com.wuba.a3dbanner.LinkBannerLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -59,7 +59,6 @@ collapsed:: true
 	  
 	  ```
 - # 三、切换动画，淡入淡出
-collapsed:: true
 	- ```
 	  
 	  bgBanner.setPageTransformer(NGGuidePageTransformer())
@@ -94,10 +93,10 @@ collapsed:: true
 	      }
 	  ```
 - # 四、控制切换page的速度
-collapsed:: true
+  collapsed:: true
 	- ## viewPager
 		- ### 1、自定义BannerScroller 调整设置调用setCurrentItem(int item, boolean smoothScroll)方法时，page切换的时间长度
-collapsed:: true
+		  collapsed:: true
 			- ```
 			  public class BannerScroller extends Scroller {
 			      private int mDuration = 1000;
@@ -119,7 +118,7 @@ collapsed:: true
 			  }
 			  ```
 		- ### 2、自定义viewPager ,扩展方法反射设置 scroller
-collapsed:: true
+		  collapsed:: true
 			- ```
 			  public void setPageChangeDuration(int duration) {
 			          try {
@@ -191,7 +190,7 @@ collapsed:: true
 				  ```
 				-
 			- kotlin:
-collapsed:: true
+			  collapsed:: true
 				- ```
 				  fun ViewPager2.setCurrentItem(
 				          item: Int,
@@ -225,7 +224,7 @@ collapsed:: true
 		-
 	-
 - # 五、禁止滑动,去除滑动动画
-collapsed:: true
+  collapsed:: true
 	- 1、ViewPager2禁止滑动
 	  调用setUserInputEnabled方法，设置是否可以手动滑动
 	- 2、ViewPager2去除滑动效果
