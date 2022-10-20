@@ -238,6 +238,7 @@
 	- 自己仓库里有代码
 - # 七、画廊效果
 	- https://www.jianshu.com/p/74830b692933
+	- ![image.png](../assets/image_1666232206400_0.png)
 	-
 - # 开源库
 	- [banner](https://github.com/youth5201314/banner)
