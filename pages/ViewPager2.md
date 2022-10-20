@@ -241,6 +241,8 @@
 	- ![image.png](../assets/image_1666232206400_0.png)
 	- # 关键点：
 		- ## 7-1、让前中后页同时展示出来
+			- ```
+			  ```
 			- ```xml
 			  <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
 			      android:layout_width="match_parent"
