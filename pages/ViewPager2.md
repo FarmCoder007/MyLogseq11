@@ -241,7 +241,29 @@
 	- ![image.png](../assets/image_1666232206400_0.png)
 	- # 关键点：
 		- ## 7-1、让前中后页同时展示出来
-			-
+			- ```xml
+			  <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+			      android:layout_width="match_parent"
+			      android:layout_height="match_parent"
+			      android:clipChildren="false">
+			  
+			      <com.proxy.bannertest.view.LoopViewPager
+			          android:id="@+id/myviewpager"
+			          android:layout_width="match_parent"
+			          android:layout_height="125dp"
+			          android:layout_marginHorizontal="30dp"
+			          android:clipChildren="false"/>
+			      <LinearLayout
+			          android:id="@+id/layout_dots"
+			          android:layout_width="wrap_content"
+			          android:layout_height="30dp"
+			          android:layout_alignParentBottom="true"
+			          android:layout_centerHorizontal="true"
+			          android:gravity="center"
+			          android:orientation="horizontal" />
+			  
+			  </RelativeLayout>
+			  ```
 - # 开源库
 	- [banner](https://github.com/youth5201314/banner)
 	- [viewPager上下联动](https://www.jianshu.com/p/a9518ec62640)
