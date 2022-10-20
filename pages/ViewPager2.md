@@ -271,6 +271,13 @@
 			  
 			  </RelativeLayout>
 			  ```
+		- ## 7-2、控制页面与页面之间的间距
+		  collapsed:: true
+			- ```java
+			  mViewpager?.setPageMargin(20) //设置页卡之间的距离
+			  
+			  mViewpager?.setOffscreenPageLimit(3) //设置页面缓存数量
+			  ```
 - # 开源库
 	- [banner](https://github.com/youth5201314/banner)
 	- [viewPager上下联动](https://www.jianshu.com/p/a9518ec62640)
