@@ -279,6 +279,7 @@
 			  
 			  mViewpager?.setOffscreenPageLimit(3) //设置页面缓存数量
 			  ```
+	- ## 代码 [仓库](https://github.com/FarmCoder007/GalleryBanner)
 	-
 - # 开源库
 	- [banner](https://github.com/youth5201314/banner)
