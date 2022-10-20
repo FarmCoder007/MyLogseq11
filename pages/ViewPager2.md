@@ -239,7 +239,9 @@
 - # 七、画廊效果
 	- https://www.jianshu.com/p/74830b692933
 	- ![image.png](../assets/image_1666232206400_0.png)
-	-
+	- # 关键点：
+		- ## 7-1、让前中后页同时展示出来
+			-
 - # 开源库
 	- [banner](https://github.com/youth5201314/banner)
 	- [viewPager上下联动](https://www.jianshu.com/p/a9518ec62640)
