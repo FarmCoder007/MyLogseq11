@@ -241,7 +241,12 @@
 	- ![image.png](../assets/image_1666232206400_0.png)
 	- # 关键点：
 		- ## 7-1、让前中后页同时展示出来
-			- ```
+		  collapsed:: true
+			- ```xml
+			  // 控制vp距离左右屏幕间距
+			  android:layout_marginHorizontal="30dp"
+			  // 让子page超过父view绘制
+			  android:clipChildren="false"
 			  ```
 			- ```xml
 			  <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
