@@ -5,6 +5,7 @@
 	- [[职级评审]]
 	- [[PPT]]
 - Android
+  collapsed:: true
 	- [[Android架构]]
 	- [[系统架构]]
 	- Android系统启动
@@ -86,10 +87,9 @@
 	-
 	-
 - 生活
-  collapsed:: true
 	- 理财
-	  collapsed:: true
 		- 股票
+		  collapsed:: true
 			- [[步骤]]
 			- [[估值法]]
 			- [[最终总结]]
@@ -103,6 +103,7 @@
 			- [[40-退休65]]
 			- [[退休以后 65以后]]
 			- [[父母]]
+		- [[可转债]]
 	- [[家庭保险]]
 	  collapsed:: true
 		-
