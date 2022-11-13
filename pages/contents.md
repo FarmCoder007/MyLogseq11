@@ -48,7 +48,6 @@
 	- [[Android版本适配]]
 	- [[Android开发架构]]
 - JAVA
-  collapsed:: true
 	- [[java-泛型]]
 	- 集合
 	  collapsed:: true
@@ -89,6 +88,7 @@
 - 生活
 	- 理财
 		- 股票
+		  collapsed:: true
 			- [[步骤]]
 			- [[估值法]]
 			- [[最终总结]]
