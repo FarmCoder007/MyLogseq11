@@ -821,6 +821,12 @@
  {:block/name "nov 14th, 2022",
   :block/created-at 1668355634968,
   :block/updated-at 1668355634968}
+ {:block/name "nov 15th, 2022",
+  :block/created-at 1668441931049,
+  :block/updated-at 1668441931049}
+ {:block/name "nov 16th, 2022",
+  :block/created-at 1668528247706,
+  :block/updated-at 1668528247706}
  {:block/name "nov 3rd, 2022",
   :block/created-at 1667443425352,
   :block/updated-at 1667443425352}
@@ -1081,7 +1087,7 @@
   :block/updated-at 1652880720199}
  {:block/name "卖出止盈",
   :block/created-at 1668310393042,
-  :block/updated-at 1668436870400}
+  :block/updated-at 1668487748169}
  {:block/name "发布-publishingextension",
   :block/created-at 1664357138266,
   :block/updated-at 1664422958804}
@@ -1090,10 +1096,10 @@
   :block/updated-at 1668310393042}
  {:block/name "可转债的性质",
   :block/created-at 1668310310201,
-  :block/updated-at 1668435365327}
+  :block/updated-at 1668488466023}
  {:block/name "可转债筛选",
   :block/created-at 1668310367443,
-  :block/updated-at 1668436787202}
+  :block/updated-at 1668574525626}
  {:block/name "各类排序算法比较和应用场景",
   :block/created-at 1645004208210,
   :block/updated-at 1645005038956}
@@ -1106,6 +1112,9 @@
  {:block/name "启动流程整合",
   :block/created-at 1662012319665,
   :block/updated-at 1662012374733}
+ {:block/name "回售套利",
+  :block/created-at 1668487991079,
+  :block/updated-at 1668487991079}
  {:block/name "基本语法",
   :block/created-at 1646911435937,
   :block/updated-at 1667443453194}
@@ -1114,7 +1123,7 @@
   :block/updated-at 1668262378173}
  {:block/name "套利原理",
   :block/created-at 1668310324466,
-  :block/updated-at 1668335130729}
+  :block/updated-at 1668487991079}
  {:block/name "家庭保险",
   :block/created-at 1650434255666,
   :block/updated-at 1652840913872}
@@ -1172,6 +1181,9 @@
  {:block/name "环境配置",
   :block/created-at 1658136484005,
   :block/updated-at 1658137338962}
+ {:block/name "申购配售套利",
+  :block/created-at 1668487959184,
+  :block/updated-at 1668574092483}
  {:block/name "相关知识",
   :block/created-at 1663832320345,
   :block/updated-at 1663832343717}
@@ -1199,6 +1211,9 @@
  {:block/name "试讲稿",
   :block/created-at 1663759491225,
   :block/updated-at 1663815256211}
+ {:block/name "转股套利",
+  :block/created-at 1668487973767,
+  :block/updated-at 1668574395836}
  {:block/name "退休以后 65以后",
   :block/created-at 1647685963182,
   :block/updated-at 1647686035029}
