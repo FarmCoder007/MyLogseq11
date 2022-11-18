@@ -40,7 +40,7 @@
 	  collapsed:: true
 		- [[Parcelable与Serializable对比]]
 	- [[动画]]
-	- [[组件化]]
+	- [[Metax组件化]]
 	- [[AST抽象语法树]]
 	- [[AOP]]
 	- [[启动流程]]
