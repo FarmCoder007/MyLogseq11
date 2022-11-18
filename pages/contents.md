@@ -5,7 +5,6 @@
 	- [[职级评审]]
 	- [[PPT]]
 - Android
-  collapsed:: true
 	- [[Android架构]]
 	- [[系统架构]]
 	- Android系统启动
@@ -48,6 +47,7 @@
 	- [[Android版本适配]]
 	- [[Android开发架构]]
 - JAVA
+  collapsed:: true
 	- [[java-泛型]]
 	- 集合
 	  collapsed:: true
@@ -86,6 +86,7 @@
 	-
 	-
 - 生活
+  collapsed:: true
 	- 理财
 		- 股票
 		  collapsed:: true
