@@ -290,6 +290,10 @@
 			              .varargs()
 			  
 			  ```
+	- ## 13、包名字符串 转ClassName
+		- ```
+		  ClassName.bestGuess("完整包名路径")
+		  ```
 	-
 - # 五、常见问题
 	- A failure occurred while executing org.jetbrains.kotlin.gradle.internal.KaptExecution
