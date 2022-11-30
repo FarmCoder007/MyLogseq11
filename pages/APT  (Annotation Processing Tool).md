@@ -210,6 +210,7 @@
 		  val annn = AnnotationSpec.builder(deprecatedTypeName).addMember("message","").build()
 		  ```
 	- ## 7、Javapeot自定义泛型类型ParameterizedTypeName
+	  collapsed:: true
 		- ```
 		  示例：public static List<PublicApi> stopLocation(Context context) 
 		  val publicApi = ClassName.get("com.metax.test", "PublicApi")
@@ -230,12 +231,14 @@
 		      }
 		  ```
 	- ## 10、AbstractProcessor注解处理器build时会执行多次，Task :demo-api:kaptDebugKotlin  和:demo-api:kaptReleaseKotlin
+	  collapsed:: true
 		- 如果手动生成追加的代码 无法再次过滤，则 取巧方法：只处理debug task的追加
 		- ```
 		  isKaptDebugKotlinTask = options["kapt.kotlin.generated"]?.endsWith("debug") == true
 		  ```
 		-
 	- ## 11、匿名内部类anonymousClassBuilder 配合 $L引用到代码中
+	  collapsed:: true
 		- ```kotlin
 		  // 效果
 		  ILocationService customService = ProxyUtils.callProxy(mService, new IMethodProxy() {

@@ -5,7 +5,6 @@
 	- [[职级评审]]
 	- [[PPT]]
 - Android
-  collapsed:: true
 	- [[Android架构]]
 	- [[系统架构]]
 	- Android系统启动
@@ -87,6 +86,7 @@
 	-
 	-
 - 生活
+  collapsed:: true
 	- 理财
 		- 股票
 			- [[步骤]]
