@@ -292,7 +292,10 @@
 			  ```
 	- ## 13、包名字符串 转ClassName
 		- ```
+		  // 方案1
 		  ClassName.bestGuess("完整包名路径")
+		  // 方案2
+		  ClassName.get(Class.forName("完整包名"))
 		  ```
 	-
 - # 五、常见问题
