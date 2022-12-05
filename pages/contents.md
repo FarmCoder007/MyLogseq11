@@ -5,7 +5,6 @@
 	- [[职级评审]]
 	- [[PPT]]
 - Android
-  collapsed:: true
 	- [[Android架构]]
 	- [[系统架构]]
 	- Android系统启动
@@ -47,6 +46,7 @@
 	- [[启动流程]]
 	- [[Android版本适配]]
 	- [[Android开发架构]]
+	-
 - JAVA
   collapsed:: true
 	- [[java-泛型]]
