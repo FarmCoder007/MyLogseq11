@@ -13,6 +13,7 @@
 	  }
 	  ```
 - # 二、开启覆盖率开关
+  collapsed:: true
 	- ```
 	       buildTypes {
 	           release {
@@ -28,3 +29,7 @@
 	      }
 	  
 	  ```
+-
+-
+- # 参考资料
+	- [Android 代码覆盖率如何实现]([125049195](https://blog.csdn.net/m0_71524094/article/details/125049195))
