@@ -14,4 +14,17 @@
 	  ```
 - # 二、开启覆盖率开关
 	- ```
+	       buildTypes {
+	           release {
+	               minifyEnabled false
+	               // 关闭测试覆盖率
+	               testCoverageEnabled = false 
+	               proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+	           }
+	           debug {
+	               // 打开测试覆盖率
+	               testCoverageEnabled = true
+	           }
+	      }
+	  
 	  ```
