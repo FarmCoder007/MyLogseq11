@@ -29,9 +29,8 @@
 		- [[相关知识]]
 	- [[ViewPager2]]
 	- 自定义view
-	  collapsed:: true
 		- 一、[[从xml布局文件映射到自定义View的方法]]
-		-
+		- [[APP置灰]]
 	- UI布局
 	  collapsed:: true
 		- [clipChildren](http://www.cncsto.com/article/58643)
@@ -89,6 +88,7 @@
 - 生活
   collapsed:: true
 	- 理财
+	  collapsed:: true
 		- 股票
 			- [[步骤]]
 			- [[估值法]]
