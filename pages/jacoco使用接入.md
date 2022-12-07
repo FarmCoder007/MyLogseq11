@@ -35,3 +35,4 @@
 - # 参考资料
 	- [Android 代码覆盖率如何实现]([125049195](https://blog.csdn.net/m0_71524094/article/details/125049195))
 	- [jacoco在android studio 上的配置使用](https://blog.csdn.net/u010663321/article/details/121761825)
+	- [JUnit+Robolectric+JaCoCo实现Android单元测试及覆盖率检查](https://blog.csdn.net/yugong2009/article/details/80462094)
