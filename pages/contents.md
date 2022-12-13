@@ -87,7 +87,6 @@
 	-
 	-
 - 生活
-  collapsed:: true
 	- 理财
 	  collapsed:: true
 		- 股票
@@ -108,6 +107,7 @@
 	- [[家庭保险]]
 		-
 	- [[开销总结]]
+	- [[新冠防疫]]
 - Python
   collapsed:: true
 	- [[python教程文档]]
