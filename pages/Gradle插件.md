@@ -118,7 +118,6 @@
 		  
 		  ```
 	- ## 方式二：buildSrc project中
-	  collapsed:: true
 		- 您可以将插件的源代码放在以下目录中（不同语言编写用不同的目录）
 			- rootProjectDir/buildSrc/src/main/java
 			- rootProjectDir/buildSrc/src/main/groovy
