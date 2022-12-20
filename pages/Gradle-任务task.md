@@ -374,7 +374,6 @@
 		  
 		  ```
 - # 十、task rule 规则
-  collapsed:: true
 	- ## addrule
 	  collapsed:: true
 		- ```groovy
