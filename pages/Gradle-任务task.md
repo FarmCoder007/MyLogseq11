@@ -147,6 +147,7 @@
 - # 六、任务详细使用
 	- ![image.png](../assets/image_1664521928091_0.png)
 	- ## 6-1、带参任务
+	  collapsed:: true
 		- ``` groovy
 		  // 定义一个名字为paramTask的task，属于it235分组，并且依赖myTask1和myTask2两个task。
 		  task myTask1{
@@ -322,7 +323,6 @@
 			  
 			  ```
 - # 九、条件执行
-  collapsed:: true
 	- ## onlyIf
 		- 有时候我们需要根据build文件中的某些属性来判断是否执行特定的task，我们可以使用onlyIf ：
 		- ```groovy
