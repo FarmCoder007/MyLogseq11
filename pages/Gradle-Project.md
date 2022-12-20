@@ -97,6 +97,7 @@
 			-
 		-
 - # 三、方法
+  collapsed:: true
 	- ## 1、方法作用域
 	  collapsed:: true
 		- Project 对象自身
@@ -238,3 +239,5 @@
 			- 7、[[gradle-sourceSets{}：配置源码信息]]
 			- 8、[[gradle-artifacts{}：配置需要交付的产品组件信息]]
 			-
+- # 四、Metax-project工具类
+	-
