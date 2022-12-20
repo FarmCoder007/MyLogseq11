@@ -240,4 +240,102 @@
 			- 8、[[gradle-artifacts{}：配置需要交付的产品组件信息]]
 			-
 - # 四、Metax-project工具类
-	-
+  collapsed:: true
+	- ```
+	  object AGPCompat {
+	  
+	      fun isMetaXApiLibrary(name: String?): Boolean {
+	          return name?.endsWith("-metax-api") ?: false
+	      }
+	  
+	      fun isMetaXApiLibrary(project: Project): Boolean {
+	          return isMetaXApiLibrary(PropertiesUtils.getArtifactId(project))
+	      }
+	  
+	      fun isMetaXImplLibrary(name: String?): Boolean {
+	          return name?.endsWith("-metax-lib") ?: false
+	      }
+	  
+	      fun isApiModule(project: Project): Boolean {
+	          return project.name.endsWith("-api")
+	      }
+	  
+	      fun isLibModule(project: Project): Boolean {
+	          return project.name.endsWith("-lib")
+	      }
+	  
+	      fun isApplication(project: Project): Boolean {
+	          return project.plugins.hasPlugin("com.android.application")
+	      }
+	  
+	      fun isLibrary(project: Project): Boolean {
+	          return project.plugins.hasPlugin("com.android.library")
+	      }
+	  
+	      fun isAndroidModule(project: Project): Boolean {
+	          return project.hasProperty("android")
+	      }
+	  
+	      fun isMetaXNormalMode(project: Project): Boolean {
+	          val metaXMode = PropertiesUtils.getMetaXMode(project)
+	          return TextUtils.isEmpty(metaXMode) || metaXMode == MetaXConstants.MetaXModeNormal
+	      }
+	  
+	      fun isMetaXOnlyLibMode(project: Project): Boolean {
+	          val metaXMode = PropertiesUtils.getMetaXMode(project)
+	          return metaXMode == MetaXConstants.MetaXModeOnlyLib
+	      }
+	  
+	      fun getCleanTask(project: Project): Task? {
+	          val cleanTaskName = "clean"
+	          return project.tasks.findByName(cleanTaskName)
+	      }
+	  
+	      fun getAssembleTask(project: Project, variantName: String): Task? {
+	          val assembleTaskName = "assemble${variantName.capitalize()}"
+	          return project.tasks.findByName(assembleTaskName)
+	      }
+	  
+	      fun getInstallTask(project: Project, variantName: String): Task? {
+	          val assembleTaskName = "install${variantName.capitalize()}"
+	          return project.tasks.findByName(assembleTaskName)
+	      }
+	  
+	      fun getPreBuildTask(project: Project): Task? {
+	          val assembleTaskName = "preBuild"
+	          return project.tasks.findByName(assembleTaskName)
+	      }
+	  
+	      fun getDependenciesTask(project: Project): Task? {
+	          val assembleTaskName = "dependencies"
+	          return project.tasks.findByName(assembleTaskName)
+	      }
+	  
+	      fun getBuildAarPath(project: Project, variantName: String): String {
+	          return "${project.projectDir}${File.separator}build${File.separator}outputs" +
+	                  "${File.separator}aar${File.separator}${project.name}-$variantName.aar"
+	      }
+	  
+	      fun getApiProject(project: Project): Project? {
+	          val projects = project.rootProject.allprojects
+	          var apiProject: Project? = null
+	          projects.forEach {
+	              if (isApiModule(it)) {
+	                  apiProject = it
+	              }
+	          }
+	          return apiProject
+	      }
+	  
+	      fun getLibProject(project: Project): Project? {
+	          val projects = project.rootProject.allprojects
+	          var libProject: Project? = null
+	          projects.forEach {
+	              if (isLibModule(it)) {
+	                  libProject = it
+	              }
+	          }
+	          return libProject
+	      }
+	  }
+	  ```
