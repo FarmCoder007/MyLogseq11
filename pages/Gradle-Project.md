@@ -84,6 +84,7 @@
 			  
 			  ```
 		- ### 5、属性作用域
+		  collapsed:: true
 			- 读写属性时，Project 会按照下面范围的顺序进行查找的，在某个范围找到属性后就会返回该属性。如果没有找到，会抛出异常。
 			- Project 对象自身。这个范围里的属性包含 Project 实现类中定义有 getters 和 setters 方法的所有属性。比如：project.getName() 方法就对应了 name 属性。至于这些属性的可读写性取决于它们是否定义 getters 或者 setters 方法。
 			- Project 的ext属性 ( extra ) 。每个 Project 都会维护一个额外属性的映射，它可以包含任意的名称 -> 值对。定义后，此作用域的属性是可读写的。比如：project.ext.prop1 = 'it235' 。
@@ -97,13 +98,16 @@
 			-
 		-
 - # 三、方法
+  collapsed:: true
 	- ## 1、方法作用域
+	  collapsed:: true
 		- Project 对象自身
 		- build.gradle 脚本文件
 		- 通过插件添加到 Project 中的扩展 ( extensions ) 。每个扩展都可以当做参数是闭包或 Action 的方法。
 		- 插件添加到项目中的约定方法 ( convention ) 。插件可以通过项目的 Convention 对象向项目中添加属性和方法。
 		- 项目中的 Tasks 。每个 Task 都会添加一个方法，方法名是任务名，参数是单个闭包或者 Action 。该方法使用提供的闭包为相关任务调用 Task.configure( groovy.lang.Closure ) 方法。
 	- ## 2、常用的Project方法
+	  collapsed:: true
 		- ![image.png](../assets/image_1663926685739_0.png)
 		- ![image.png](../assets/image_1663926699086_0.png){:height 281, :width 716}
 		-
@@ -337,3 +341,4 @@
 	      }
 	  }
 	  ```
+-
