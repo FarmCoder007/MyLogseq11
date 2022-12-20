@@ -79,7 +79,7 @@
 		- register返回了一个TaskProvider，和java多线程中的callable类似，当我们调用Provider.get()获取task值的时候，才会去创建这个task。
 	- ## 3-4、替换任务—replace
 		- replace的作用就是创建一个新的task，并且替换掉同样名字的老的task。
-	-
+	- ## 3-5、自定义task中获取指定的task-findByName
 - # 四、给task配置group和描述
   collapsed:: true
 	- group可以将任务分组，在AS右侧工具栏gradle的task列表中能够清晰直观的看到group
