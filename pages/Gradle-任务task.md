@@ -145,6 +145,7 @@
 	  
 	  ```
 - # 六、任务详细使用
+  collapsed:: true
 	- ![image.png](../assets/image_1664521928091_0.png)
 	- ## 6-1、带参任务
 	  collapsed:: true
