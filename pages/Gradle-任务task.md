@@ -145,6 +145,7 @@
 	  
 	  ```
 - # 六、任务详细使用
+  collapsed:: true
 	- ![image.png](../assets/image_1664521928091_0.png)
 	- ## 6-1、带参任务
 	  collapsed:: true
@@ -299,7 +300,6 @@
 		  
 		  ```
 - # 八、任务的执行顺序
-  collapsed:: true
 	- 有时候我们的task之间是有执行顺序的，我们称之为对task的排序ordering。
 	- ## ordering和dependency有什么区别。
 		- dependency表示的是一种强依赖关系，如果taskA依赖于taskB，那么执行taskA的时候一定要先执行taskB。
@@ -323,6 +323,7 @@
 			  
 			  ```
 - # 九、条件执行
+  collapsed:: true
 	- ## onlyIf
 		- 有时候我们需要根据build文件中的某些属性来判断是否执行特定的task，我们可以使用onlyIf ：
 		- ```groovy
@@ -360,6 +361,7 @@
 		  
 		  ```
 	- ## 让task超时
+	  collapsed:: true
 		- 最后我们还可以让task超时，当超时的时候，执行task的线程将会被中断，并且task将会被标记为failed。
 		- 如果我们想继续执行，那么可以使用 --continue。
 			- 注意， 只有能够响应中断的task，timeout才有用。
