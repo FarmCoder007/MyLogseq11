@@ -44,6 +44,7 @@
 	  collapsed:: true
 		-
 - # 三、TaskContainer用来管理一组task集合
+  collapsed:: true
 	- ```groovy
 	  public interface TaskContainer extends TaskCollection<Task>, PolymorphicDomainObjectContainer<Task>{
 	      
