@@ -89,7 +89,6 @@
 	-
 	-
 - 生活
-  collapsed:: true
 	- 理财
 	  collapsed:: true
 		- 股票
@@ -124,6 +123,7 @@
 	- [[React]]
 	- [[JavaScript]]
 - Gradle
+  collapsed:: true
 	- [[Gradle文档]]
 	- [[buildConfig相关]]
 	- [[gradle/apt调试]]
