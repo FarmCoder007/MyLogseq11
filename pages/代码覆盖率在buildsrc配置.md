@@ -71,7 +71,21 @@
 	      }
 	      private fun afterEvaluateInit(project: Project, android: AppExtension?) {
 	        initJacocoReportTask(project,android)
+	        // 配置jacocoReportTask 变体依赖 testdebugUnitTask  testReleaseUnitTask
+	        android?.applicationVariants?.all { variant ->
+	              if (!isIntegratedAppModule) {
+	                  try {
+	                      val testUnitTask = AGPCompat.getTestUnitTest(project, variant.name)
+	  //                    metaXUnitTest?.dependsOn(testUnitTask)
+	                      jacocoReportTask?.dependsOn(testUnitTask)
+	                      orderAssemble(project, variant)
+	                  } catch (e: Exception) {
+	                      // ignore.
+	                  }
+	              }
+	          }
 	      }
+	      
 	      
 	  }
 	  ```
