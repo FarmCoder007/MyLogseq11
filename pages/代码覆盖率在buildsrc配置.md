@@ -56,4 +56,5 @@
 	  
 	  }
 	  ```
--
+- # 方式二、在buildsrc的自定义插件里。初始化jacocoReport task
+	-
