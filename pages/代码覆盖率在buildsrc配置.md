@@ -57,4 +57,15 @@
 	  }
 	  ```
 - # 方式二、在buildsrc的自定义插件里。初始化jacocoReport task
-	-
+	- ```kotlin
+	  class MetaXAppPlugin : Plugin<Project> {
+	      private var apiProject: Project? = null
+	      private var libProject: Project? = null
+	  
+	      private var metaXUnitTest: Task? = null
+	      private var jacocoReportTask:JacocoReport?=null
+	      override fun apply(project: Project) {
+	        
+	      }
+	  }
+	  ```
