@@ -13,7 +13,6 @@
 	  }
 	  ```
 - # 二、开启覆盖率开关
-  collapsed:: true
 	- ```
 	       buildTypes {
 	           release {
