@@ -57,6 +57,7 @@
 	  }
 	  ```
 - # 方式二、在buildsrc的自定义插件里。初始化jacocoReport task
+  collapsed:: true
 	- ```kotlin
 	  class MetaXAppPlugin : Plugin<Project> {
 	      private var apiProject: Project? = null
@@ -86,6 +87,40 @@
 	          }
 	      }
 	      
-	      
+	          /**
+	       *  初始化jacoco配置
+	       */
+	      private fun initJacocoReportTask(project: Project,android: AppExtension?){
+	          android?.buildTypes?.all {
+	              it.isTestCoverageEnabled = true
+	          }
+	          val jacocoOptions:JacocoOptions? = android?.jacoco
+	          jacocoOptions?.version = "0.8.7"
+	  
+	          jacocoReportTask = project.tasks.create(
+	              "jacocoReportTask", JacocoReport::class.java
+	          )
+	          jacocoReportTask?.group = "metax"
+	          jacocoReportTask?.description = "Generate Jacoco coverage reports"
+	  
+	          val patternSet: PatternFilterable = PatternSet()
+	          patternSet.exclude("**/R\$*.class","**/*\$ViewInjector*.*","**/BuildConfig.*",
+	              "**/Manifest*.*")
+	          jacocoReportTask?.classDirectories?.setFrom(project.fileTree("../demo-sample/build/intermediates/javac/debug/classes").matching(patternSet))
+	          
+	        jacocoReportTask?.additionalSourceDirs?.setFrom("../demo-sample/src/main/java")
+	          jacocoReportTask?.sourceDirectories?.setFrom("../demo-sample/src/main/java")
+	          jacocoReportTask?.executionData?.setFrom("../demo-sample/build/jacoco/testDebugUnitTest.exec")
+	          jacocoReportTask?.reports?.html?.isEnabled = true
+	          jacocoReportTask?.reports?.xml?.isEnabled = true
+	      }
 	  }
+	  ```
+- # 三、代码方式配置gradle中
+	- ```
+	  
+	  val patternSet: PatternFilterable = PatternSet()
+	          patternSet.exclude("**/R\$*.class","**/*\$ViewInjector*.*","**/BuildConfig.*",
+	              "**/Manifest*.*")
+	          jacocoReportTask?.classDirectories?.setFrom(project.fileTree("../demo-sample/build/intermediates/javac/debug/classes").matching(patternSet))
 	  ```
