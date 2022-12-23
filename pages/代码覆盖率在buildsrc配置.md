@@ -65,7 +65,13 @@
 	      private var metaXUnitTest: Task? = null
 	      private var jacocoReportTask:JacocoReport?=null
 	      override fun apply(project: Project) {
-	        
+	            project.afterEvaluate { project ->
+	              afterEvaluateInit(project, android)
+	          }
 	      }
+	      private fun afterEvaluateInit(project: Project, android: AppExtension?) {
+	        initJacocoReportTask(project,android)
+	      }
+	      
 	  }
 	  ```
