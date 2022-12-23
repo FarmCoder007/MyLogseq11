@@ -1,1 +1,3 @@
-- 单元测试代码覆盖率jacoco
+- 单元测试代码覆盖率jacoco[[代码覆盖率]]
+- gradle已支持jacoco覆盖率配置。只需新增gradle插件如下
+-
