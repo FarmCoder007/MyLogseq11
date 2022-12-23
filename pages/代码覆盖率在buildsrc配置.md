@@ -116,9 +116,19 @@
 	      }
 	  }
 	  ```
-- # 三、代码方式配置gradle中
-	- ```
-	  
+- # 三、代码方式配置gradle中路径过滤的代码写法
+	- ```kotlin
+	   // gradle 中的写法
+	   lassDirectories.from = fileTree(
+	              dir: '../demo-sample/build/intermediates/javac/debug/classes',
+	              excludes: ['**/R.class',
+	                         '**/R$*.class',
+	                         '**/*$ViewInjector*.*',
+	                         '**/BuildConfig.*',
+	                         '**/Manifest*.*']
+	      )
+	      
+	  // buildSrc的 代码写法    
 	  val patternSet: PatternFilterable = PatternSet()
 	          patternSet.exclude("**/R\$*.class","**/*\$ViewInjector*.*","**/BuildConfig.*",
 	              "**/Manifest*.*")
