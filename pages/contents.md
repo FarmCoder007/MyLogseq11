@@ -89,6 +89,7 @@
 	-
 	-
 - 生活
+  collapsed:: true
 	- 理财
 	  collapsed:: true
 		- 股票
@@ -123,14 +124,13 @@
 	- [[React]]
 	- [[JavaScript]]
 - Gradle
-  collapsed:: true
 	- [[Gradle文档]]
 	- [[buildConfig相关]]
 	- [[gradle/apt调试]]
 	- [[配置相关]]
 	- [[gradle命令]]
 	- [[maven发布]]
-	-
+	- [[代码覆盖率在buildsrc配置]]
 - Mac
   collapsed:: true
 	- [charles关闭后不能上网](https://blog.csdn.net/minmin_bufucisheng/article/details/89025601)
