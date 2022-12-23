@@ -23,6 +23,8 @@
 	  ]
 	  
 	  // TODO testDebugUnitTest 改成变种的方式获取
+	  // type : 代表jacocoTestReport  这个task对应的类 为 JacocoReport
+	  // dependsOn： testDebugUnitTest 为 调用jacocoTestReport时在这个task
 	  task jacocoTestReport(type: JacocoReport, dependsOn: "testDebugUnitTest") {
 	      group = "Reporting"
 	      description = "Generate Jacoco coverage reports"
