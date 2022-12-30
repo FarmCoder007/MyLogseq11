@@ -49,7 +49,6 @@
 	- [[Android开发架构]]
 	- [[单元测试]]
 - JAVA
-  collapsed:: true
 	- [[java-泛型]]
 	- 集合
 	  collapsed:: true
@@ -90,6 +89,7 @@
 	-
 	-
 - 生活
+  collapsed:: true
 	- 理财
 	  collapsed:: true
 		- 股票
