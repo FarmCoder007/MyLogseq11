@@ -36,6 +36,10 @@
 		- ```
 		  java -jar jacococli.jar execinfo /Users/xuwenbin/AndroidStudioProjects/58ComponentProject2/MetaXUtils/demo-sample/build/jacoco/testDebugUnitTest.exec 
 		  ```
+- # 四、task配置
+	- groovy:
+		-
+	-
 -
 -
 - # 原理介绍
