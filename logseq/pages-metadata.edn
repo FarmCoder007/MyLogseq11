@@ -308,6 +308,9 @@
  {:block/name "dec 30th, 2022",
   :block/created-at 1672329620716,
   :block/updated-at 1672329620716}
+ {:block/name "dec 31st, 2022",
+  :block/created-at 1672417495936,
+  :block/updated-at 1672417495936}
  {:block/name "dec 3rd, 2022",
   :block/created-at 1669997848368,
   :block/updated-at 1669997848368}
@@ -491,6 +494,9 @@
  {:block/name "jan 19th, 2022",
   :block/created-at 1642550400000,
   :block/updated-at 1642584187562}
+ {:block/name "jan 1st, 2023",
+  :block/created-at 1672502585744,
+  :block/updated-at 1672502585744}
  {:block/name "jan 20th, 2022",
   :block/created-at 1642670086367,
   :block/updated-at 1642670133008}
@@ -521,6 +527,9 @@
  {:block/name "jan 29th, 2022",
   :block/created-at 1643414400000,
   :block/updated-at 1643414400000}
+ {:block/name "jan 2nd, 2023",
+  :block/created-at 1672590239335,
+  :block/updated-at 1672590239335}
  {:block/name "jan 30th, 2022",
   :block/created-at 1643500800000,
   :block/updated-at 1643500800000}
