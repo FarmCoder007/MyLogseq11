@@ -31,7 +31,7 @@
 	  
 	  ```
 - # 三、jacoco报告覆盖率为0 问题排查
-	- 借助jacococli工具，打印exec里的文件
+	- 借助jacococli工具，打印exec里的文件，jacococli.jar
 		- ```
 		  java -jar jacococli.jar execinfo /Users/xuwenbin/AndroidStudioProjects/58ComponentProject2/MetaXUtils/demo-sample/build/jacoco/testDebugUnitTest.exec 
 		  ```
