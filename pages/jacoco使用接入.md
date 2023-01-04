@@ -44,6 +44,7 @@
 		  }
 		  
 		  def setupAndroidReporting() {
+		     // 必须开启 要不然 jacoco0.7.5以上生成覆盖率为0
 		      tasks.withType(Test) {
 		          // Whether or not classes without source location should be instrumented
 		          jacoco.includeNoLocationClasses = true
