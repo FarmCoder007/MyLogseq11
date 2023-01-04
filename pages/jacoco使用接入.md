@@ -148,8 +148,9 @@
 		      }
 		  }
 		  ```
-	- 注意点因搭配
--
+	- 注意点因搭配Robolectric测试 需要开启 JacocoTaskExtension中的includeNoLocationClasses
+		- ```
+		  ```
 -
 - # 原理介绍
   collapsed:: true
