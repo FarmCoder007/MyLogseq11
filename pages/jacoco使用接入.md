@@ -176,6 +176,7 @@
 			      
 			  ```
 		- buildSrc写法：
+		  collapsed:: true
 			- ```kotlin
 			  class MetaXAppPlugin : Plugin<Project> {
 			    	 override fun apply(project: Project) {
@@ -185,8 +186,61 @@
 			       }
 			       
 			       private fun afterEvaluateInit(project: Project, android: AppExtension?) {
-			         
+			         	  android?.applicationVariants?.all { variant ->
+			              if (!isIntegratedAppModule) {
+			                  try {
+			                      val testUnitTask:DefaultTask = AGPCompat.getTestUnitTest(project, variant.name) as DefaultTask
+			                      // 必须开启
+			                      testUnitTask.apply {
+			                          (this.extensions.getByName("jacoco") as JacocoTaskExtension).apply {
+			                              this.isIncludeNoLocationClasses = true
+			                              this.excludes = mutableListOf("jdk.internal.*")
+			                          }
+			                      }
+			                      val jacocoReportTask = initJacocoReportTask(project, android, variant.name)
+			                      jacocoReportTask.dependsOn(testUnitTask)
+			                      metaXUnitTest?.dependsOn(jacocoReportTask)
+			                      orderAssemble(project, variant)
+			                  } catch (e: Exception) {
+			                      // ignore.
+			                  }
+			              }
+			          }	
 			       }
+			       private fun initJacocoReportTask(project: Project, android: AppExtension?,variantName:String) :JacocoReport{
+			          android?.buildTypes?.all {
+			              it.isTestCoverageEnabled = true
+			          }
+			          val jacocoOptions: JacocoOptions? = android?.jacoco
+			          jacocoOptions?.version = MetaXConstants.JacocoToolVersion
+			          // 依据变体创建对应task
+			          val jacocoReportTask:JacocoReport = AGPCompat.getJacocoReportTask(project,variantName)
+			          jacocoReportTask.group = MetaXConstants.GroupName
+			          jacocoReportTask.description = "Generate Jacoco coverage reports"
+			          // task基础配置 src/main/java
+			          jacocoReportTask.additionalSourceDirs?.setFrom(MetaXInfos.getJacocoCoverageSourceDirs(project))
+			          jacocoReportTask.sourceDirectories?.setFrom(MetaXInfos.getJacocoCoverageSourceDirs(project))
+			          val patternSet: PatternFilterable = PatternSet()
+			          // 过滤文件
+			          patternSet.exclude(
+			              "**/R\$*.class",
+			              "**/*\$ViewInjector*.*",
+			              "**/BuildConfig.*",
+			              "**/Manifest*.*"
+			          )
+			          val kotlinTree = project.fileTree("${project.buildDir}/tmp/kotlin-classes/$variantName")
+			          val javaTree = project.fileTree("${project.buildDir}/intermediates/javac/$variantName/classes")
+			          jacocoReportTask.classDirectories?.setFrom(
+			              project.files(javaTree,kotlinTree).asFileTree.matching(patternSet)
+			          )
+			          // 配置executionData 路径
+			          jacocoReportTask.executionData?.setFrom(MetaXInfos.getJacocoExecutionData(project,variantName))
+			          // 是否开启报告
+			          jacocoReportTask.reports.html?.isEnabled = true
+			          jacocoReportTask.reports.xml?.isEnabled = true
+			          return jacocoReportTask
+			      }
+			       
 			  }
 			  ```
 -
