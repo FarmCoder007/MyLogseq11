@@ -31,12 +31,14 @@
 	  
 	  ```
 - # 三、jacoco报告覆盖率为0 问题排查
-  collapsed:: true
 	- 借助jacococli工具，打印exec里的文件，jacococli.jar 已上传到csdn
+	  collapsed:: true
 		- ```
 		  java -jar jacococli.jar execinfo /Users/xuwenbin/AndroidStudioProjects/58ComponentProject2/MetaXUtils/demo-sample/build/jacoco/testDebugUnitTest.exec 
 		  ```
+	- 最终原因jacoco 0.75
 - # 四、task配置
+  collapsed:: true
 	- groovy写法:
 		- ```groovy
 		  project.afterEvaluate { project ->
