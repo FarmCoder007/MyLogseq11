@@ -37,7 +37,7 @@
 		  java -jar jacococli.jar execinfo /Users/xuwenbin/AndroidStudioProjects/58ComponentProject2/MetaXUtils/demo-sample/build/jacoco/testDebugUnitTest.exec 
 		  ```
 - # 四、task配置
-	- groovy:
+	- groovy写法:
 	  collapsed:: true
 		- ```groovy
 		  project.afterEvaluate { project ->
@@ -147,6 +147,9 @@
 		          }
 		      }
 		  }
+		  ```
+	- buildSrc写法：
+		- ```kotlin
 		  ```
 	- 注意点因搭配Robolectric测试 需要开启 JacocoTaskExtension中的includeNoLocationClasses
 		- ```
