@@ -38,6 +38,7 @@
 		  ```
 - # 四、task配置
 	- groovy:
+	  collapsed:: true
 		- ```groovy
 		  project.afterEvaluate { project ->
 		      setupAndroidReporting()
@@ -147,7 +148,7 @@
 		      }
 		  }
 		  ```
-	-
+	- 注意点因搭配
 -
 -
 - # 原理介绍
