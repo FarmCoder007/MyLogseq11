@@ -36,10 +36,11 @@
 		- ```
 		  java -jar jacococli.jar execinfo /Users/xuwenbin/AndroidStudioProjects/58ComponentProject2/MetaXUtils/demo-sample/build/jacoco/testDebugUnitTest.exec 
 		  ```
-	- 最终原因jacoco 0.75
+	- 最终原因jacoco 0.75以上 需要开启JacocoTaskExtension中的includeNoLocationClasses
 - # 四、task配置
   collapsed:: true
 	- groovy写法:
+	  collapsed:: true
 		- ```groovy
 		  project.afterEvaluate { project ->
 		      setupAndroidReporting()
