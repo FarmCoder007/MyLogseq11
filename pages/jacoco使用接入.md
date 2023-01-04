@@ -178,7 +178,15 @@
 		- buildSrc写法：
 			- ```kotlin
 			  class MetaXAppPlugin : Plugin<Project> {
-			    
+			    	 override fun apply(project: Project) {
+			         	 project.afterEvaluate { project ->
+			             	 afterEvaluateInit(project, android)
+			         	 }
+			       }
+			       
+			       private fun afterEvaluateInit(project: Project, android: AppExtension?) {
+			         
+			       }
 			  }
 			  ```
 -
