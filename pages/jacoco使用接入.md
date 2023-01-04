@@ -150,6 +150,25 @@
 		  ```
 	- 注意点因搭配Robolectric测试 需要开启 JacocoTaskExtension中的includeNoLocationClasses
 		- ```
+		     tasks.withType(Test) {
+		          // Whether or not classes without source location should be instrumented
+		          jacoco.includeNoLocationClasses = true
+		          jacoco.excludes = ['jdk.internal.*']
+		      }
+		      
+		      或者
+		      android {
+		        testOptions {
+		           unitTests.all {
+		               jacoco {
+		                  includeNoLocationClasses = true
+		                  excludes = ['jdk.internal.*']
+		                }
+		  
+		            }
+		         }
+		      }
+		      
 		  ```
 -
 - # 原理介绍
