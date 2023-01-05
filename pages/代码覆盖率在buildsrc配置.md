@@ -117,6 +117,7 @@
 	  }
 	  ```
 - # 三、代码方式配置gradle中路径过滤的代码写法
+  collapsed:: true
 	- ```kotlin
 	   // gradle 中的写法
 	   lassDirectories.from = fileTree(
