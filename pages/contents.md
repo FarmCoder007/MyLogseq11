@@ -125,6 +125,7 @@
 	- [[React]]
 	- [[JavaScript]]
 - Gradle
+  collapsed:: true
 	- [[Gradle文档]]
 	- [[buildConfig相关]]
 	- [[gradle/apt调试]]
@@ -137,6 +138,7 @@
 	- [charles关闭后不能上网](https://blog.csdn.net/minmin_bufucisheng/article/details/89025601)
 	- [[环境变量命令]]
 - adb
+  collapsed:: true
 	- [[adb命令行]]
 	- [[代码获取logcat]]
 - shell

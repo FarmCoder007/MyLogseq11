@@ -124,6 +124,7 @@
 			  ```
 	- ## 3、
 - # 四、apt通过javapoet 和 kotlinpoet编写代码
+  collapsed:: true
 	- ## 1、process方法中获取指定带有指定注解的元素(如果注解作用在class即class，如果是method则获取的是method的元素)
 	  collapsed:: true
 		- ```
@@ -306,7 +307,6 @@
 	-
 - # 六、调试process
 	- ## 6-1、方案一借助buildSrc
-	  collapsed:: true
 		- 新建buildSrc文件夹->
 		- task中 右键选择debug这个task,即可
 			- ![image.png](../assets/image_1652933357263_0.png)
