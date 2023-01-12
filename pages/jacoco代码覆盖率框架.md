@@ -8,6 +8,7 @@
 	- [jacoco增量覆盖率实践](https://blog.csdn.net/tushuping/article/details/112613528#comments_16279919)
 - # 原理
 	- 原理
+	  collapsed:: true
 		- 前言 ：jacoco是Java Code Coverage的缩写，是Java代码覆盖率统计的主流工具之一。关于jacoco的原理介绍的文章在网上有很多，感兴趣的同学可以去找别的博客看看，我这里不做赘述。它的作用是在安卓项目的代码覆盖率统计使用了jacoco的离线插桩方式，在测试前先对文件进行插桩，然后生成插过桩的class或jar包，测试（单元测试、UI测试或者手工测试等）插过桩的class和jar包后，会生成动态覆盖信息到文件，最后统一对覆盖信息进行处理，并生成报告。
 	- [JAVA代码覆盖率工具JaCoCo-原理篇](https://www.open-open.com/lib/view/open1472174544246.html)
 	- [JaCoCo实例解析之代码覆盖率](https://cloud.tencent.com/developer/article/2004704)
