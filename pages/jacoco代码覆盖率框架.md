@@ -1,4 +1,5 @@
 - # [官方jacoco_api](https://www.jacoco.org/jacoco/trunk/doc/api.html)
+- # []
 - # [[踩坑指南]]
 - # [[jacoco使用接入]]
 - [提升jacoco代码覆盖率的配置](https://blog.csdn.net/eisenxu991/article/details/124684922)
@@ -7,5 +8,6 @@
 	- [jacoco增量覆盖率实践](https://blog.csdn.net/tushuping/article/details/112613528#comments_16279919)
 - # 原理
 	- [JAVA代码覆盖率工具JaCoCo-原理篇](https://www.open-open.com/lib/view/open1472174544246.html)
+	- [JaCoCo实例解析之代码覆盖率](https://cloud.tencent.com/developer/article/2004704)
 - # 报告分析
 	- [jacoco代码覆盖率报告分析](https://www.jianshu.com/p/ef987f1b6f2f)
