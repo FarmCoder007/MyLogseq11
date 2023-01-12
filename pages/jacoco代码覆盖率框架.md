@@ -5,3 +5,7 @@
 - # 增量覆盖率
 	- [jacoco 增量方案使用说明书](https://blog.csdn.net/tushuping/article/details/117320809)
 	- [jacoco增量覆盖率实践](https://blog.csdn.net/tushuping/article/details/112613528#comments_16279919)
+- # 原理
+	- [JAVA代码覆盖率工具JaCoCo-原理篇](https://www.open-open.com/lib/view/open1472174544246.html)
+- # 报告分析
+	- [jacoco代码覆盖率报告分析](https://www.jianshu.com/p/ef987f1b6f2f)
