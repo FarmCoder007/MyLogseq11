@@ -6,6 +6,7 @@
 - # 增量覆盖率
 	- [jacoco 增量方案使用说明书](https://blog.csdn.net/tushuping/article/details/117320809)
 	- [jacoco增量覆盖率实践](https://blog.csdn.net/tushuping/article/details/112613528#comments_16279919)
+	- [JaCoCo增量覆盖率的基本实现原理](https://www.cnblogs.com/df888/p/16916489.html)
 - # 原理
 	- 原理
 	  collapsed:: true
