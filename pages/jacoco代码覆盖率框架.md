@@ -15,6 +15,7 @@
 	- [JAVA代码覆盖率工具JaCoCo-原理篇](https://www.open-open.com/lib/view/open1472174544246.html)
 	- [JaCoCo实例解析之代码覆盖率](https://cloud.tencent.com/developer/article/2004704)
 	- [jacoco代码覆盖率](https://miaojiang.blog.csdn.net/article/details/125653263?spm=1001.2101.3001.6650.12&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-12-125653263-blog-117673669.pc_relevant_default&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-12-125653263-blog-117673669.pc_relevant_default&utm_relevant_index=17)
+	- [Android 代码覆盖率如何实现](https://blog.csdn.net/m0_71524094/article/details/125049195)
 - # 报告分析
 	- [jacoco代码覆盖率报告分析](https://www.jianshu.com/p/ef987f1b6f2f)
 - # 多模块配置
