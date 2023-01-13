@@ -5,6 +5,7 @@
 	- [[职级评审]]
 	- [[PPT]]
 - Android
+  collapsed:: true
 	- [[Android架构]]
 	- [[系统架构]]
 	- Android系统启动
@@ -59,7 +60,6 @@
 	- [[xml解析]]
 	- [[Html解析]]
 - Kotlin
-  collapsed:: true
 	- [[基本语法]]
 	- [[注意事项]]
 	- [[Kotlin关键字]]
