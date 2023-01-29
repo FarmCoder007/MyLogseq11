@@ -114,6 +114,7 @@
 	  }
 	  ```
 - gradle.properties
+  collapsed:: true
 	- ```
 	  # 发布aar的版本号
 	  publish_version=3.10.2
@@ -123,4 +124,8 @@
 	  MAVEN_PASSWORD = wuxiandeploy
 	  isDebug = false
 	  needPom = true
+	  ```
+- # 一、gradle 发布插件“maven”和“maven-publish”的区别
+- # 二、发布插件“maven”打开源码上传
+	- ```groovy
 	  ```
