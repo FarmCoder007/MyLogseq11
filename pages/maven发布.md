@@ -127,5 +127,82 @@
 	  ```
 - # 一、gradle 发布插件“maven”和“maven-publish”的区别
 - # 二、发布插件“maven”打开源码上传
-	- ```groovy
-	  ```
+	- gradle低版本：4.10.1-all  采用maven  发布插件。
+		- ```groovy
+		  apply plugin: 'maven'
+		  
+		  task uploadSourceJar(type: Jar) {
+		      classifier = 'sources'
+		      // 指定源码文件路径
+		      if(project.hasProperty("android")){
+		          from project.android.sourceSets.main.java.sourceFiles
+		      } else {
+		          from sourceSets.main.allSource
+		      }
+		  
+		  }
+		  
+		  // 指定发包的时候，需要执行的task任务
+		  artifacts {
+		      archives uploadSourceJar
+		  }
+		  
+		  uploadArchives {
+		      configuration = configurations.archives
+		      repositories.mavenDeployer {
+		          repository(url: uri(getReleaseRepositoryUrl())) {
+		              authentication(userName: MAVEN_USER_NAME, password: MAVEN_PASSWORD)
+		          }
+		          snapshotRepository(url: uri(getSnapshotRepositoryUrl())) {
+		              authentication(userName: MAVEN_USER_NAME, password: MAVEN_PASSWORD)
+		          }
+		  
+		          pom.project {
+		              groupId MAVEN_GROUP_ID
+		              artifactId ARTIFACT_ID
+		              version MAVEN_VERSION
+		              packaging PACKAGING
+		          }
+		          pom.whenConfigured { pom ->
+		              pom.dependencies.forEach { dep ->
+		                  if (dep.getVersion() == "unspecified" && rootProject.name == dep.groupId) {
+		                      println "***** [${dep.getArtifactId()}] dependency is local module, rewrite to maven dependency *****"
+		                      dep.setGroupId(MAVEN_GROUP_ID)
+		                      dep.setVersion(MAVEN_VERSION)
+		                  }
+		              }
+		          }
+		      }
+		  }
+		  
+		  def getReleaseRepositoryUrl() {
+		      String releaseRepositoryUrl = readPropertyFromLocalProperties("MAVEN_RELEASE_PATH")
+		      if (releaseRepositoryUrl == null || releaseRepositoryUrl == '') {
+		          releaseRepositoryUrl = MAVEN_RELEASE_PATH
+		      }
+		      println("releaseRepositoryUrl = ${releaseRepositoryUrl}")
+		      return releaseRepositoryUrl
+		  }
+		  
+		  def getSnapshotRepositoryUrl() {
+		      String snapshotRepositoryUrl = readPropertyFromLocalProperties("MAVEN_SNAPSHOT_PATH")
+		      if (snapshotRepositoryUrl == null || snapshotRepositoryUrl == '') {
+		          snapshotRepositoryUrl = MAVEN_SNAPSHOT_PATH
+		      }
+		      println("snapshotRepositoryUrl = ${snapshotRepositoryUrl}")
+		      return snapshotRepositoryUrl
+		  }
+		  
+		  def readPropertyFromLocalProperties(String key) {
+		      Properties properties = new Properties()
+		      try {
+		          properties.load(rootProject.file('local.properties').newDataInputStream())
+		      } catch (Exception e) {
+		          println("load local properties failed msg:${e.message}")
+		      }
+		      return properties.getProperty(key)
+		  }
+		  
+		  ```
+	- 只增加打开源码不管用
+	-
