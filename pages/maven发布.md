@@ -114,7 +114,6 @@
 	  }
 	  ```
 - gradle.properties
-  collapsed:: true
 	- ```
 	  # 发布aar的版本号
 	  publish_version=3.10.2
@@ -126,6 +125,7 @@
 	  needPom = true
 	  ```
 - # 一、gradle 发布插件“maven”和“maven-publish”的区别
+	- [发布aar包到maven仓库](https://blog.csdn.net/wangsen927/article/details/120720932)
 - # 二、发布插件“maven”打开源码上传
 	- gradle低版本：4.10.1-all  采用maven  发布插件。
 		- 1、只增加打开源码不管用
