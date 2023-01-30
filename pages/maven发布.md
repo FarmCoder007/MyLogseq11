@@ -128,7 +128,7 @@
 	- [发布aar包到maven仓库](https://blog.csdn.net/wangsen927/article/details/120720932)
 - # 二、发布插件“maven”打开源码上传
 	- gradle低版本：4.10.1-all  采用maven  发布插件。
-		- 1、只增加打开源码不管用
+		- 1、只增加打开源码，，不能下载
 		  collapsed:: true
 			- ```groovy
 			  apply plugin: 'maven'
@@ -206,7 +206,7 @@
 			  }
 			  
 			  ```
-		- 2、升级版本6.1.1-all  也不管用
+		- 2、升级版本6.1.1-all  也不管用，不能下载
 - # 三、发布插件“maven-publish”打开源码上传
 	- ```
 	  ```
