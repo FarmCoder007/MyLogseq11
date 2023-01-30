@@ -129,7 +129,6 @@
 - # 二、发布插件“maven”打开源码上传
 	- gradle低版本：4.10.1-all  采用maven  发布插件。
 		- 1、只增加打开源码，，不能下载
-		  collapsed:: true
 			- ```groovy
 			  apply plugin: 'maven'
 			  
