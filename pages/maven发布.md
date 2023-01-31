@@ -237,8 +237,9 @@
 		- case 3、sourceSets.main.allSource
 			- 非Android module 使用 比如 java module
 		- case 4、android.sourceSets.main.kotlin.getSrcDirs()
-		- main下多路径
-		- ![image.png](../assets/image_1675147684590_0.png)
+			- main下多路径，kotlin代码和java代码分包存放
+			- ![image.png](../assets/image_1675147684590_0.png)
+			- 打印路径：[/Users/xuwenbin/AndroidStudioProjects/WubaNetWorkSDK/wubanetworklib/src/main/kotlin, /Users/xuwenbin/AndroidStudioProjects/WubaNetWorkSDK/wubanetworklib/src/main/java]
 - # 参考资料
 	- [自定义打包任务](https://blog.csdn.net/shulianghan/article/details/127307043)
 -
