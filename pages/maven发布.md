@@ -225,16 +225,19 @@
 		      }
 		  }
 		  ```
-		- android.sourceSets.main.java.sourceFiles
+		- case 1、android.sourceSets.main.java.sourceFiles
 			- 含义：打印出来为file collection   gradle筛选了.java类型的文件进行打包
 			- 不会打入kotlin代码
-		- android.sourceSets.main.java.getSrcDirs()
+		- case 2、android.sourceSets.main.java.getSrcDirs()
 			- 含义：而使用.getSrcDirs()把整个目录作为参数时，gradle不再排查文件后缀，把所有目录下所有文件都打包进来了。
 			- 打印路径为：[/Users/xuwenbin/AndroidStudioProjects/WubaHybridSDK/web/src/main/java]
 			- 注意：main.java.getSrcDirs  和 module 中配置的sourceSet不是一码事
 			  collapsed:: true
 				- ![image.png](../assets/image_1675147369701_0.png)
-		- sourceSets.main.allSource  非Android module 使用 比如 java module
+		- case 3、sourceSets.main.allSource
+			- 非Android module 使用 比如 java module
+		- case 4、android.sourceSets.main.kotlin.getSrcDirs()
+		- main下多路径
 		- ![image.png](../assets/image_1675147684590_0.png)
 - # 参考资料
 	- [自定义打包任务](https://blog.csdn.net/shulianghan/article/details/127307043)
