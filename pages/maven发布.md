@@ -129,6 +129,7 @@
 -
 - # maven发布插件源码上传
 	- # 一、发布插件“maven”打开源码上传
+	  collapsed:: true
 		- gradle低版本：4.10.1-all  采用maven  发布插件。
 			- 1、只增加打开源码，，不能下载
 			  collapsed:: true
@@ -213,6 +214,7 @@
 				- 1、看第三步路径配置规则，kotlin存储包名不同，源码路径配置不同
 				- 2、需要升级gradle 版本
 	- # 二、发布插件“maven-publish”打开源码上传
+	  collapsed:: true
 		- ```
 		  //以下代码会生成jar包源文件，如果是不开源码，请不要输入这段
 		  //aar包内包含注释
@@ -220,6 +222,13 @@
 		      classifier = 'sources'
 		      from android.sourceSets.main.java.srcDirs
 		  }
+		  
+		  publications {
+		          aar(MavenPublication) {
+		              groupId GROUP_ID
+		              artifactId EXT_ARTIFACT_ID
+		              version "${rootProject.wubarnSdkPublishVersion}"
+		              artifact(androidSourcesJar)
 		  ```
 		- ```
 		  apply plugin: 'maven-publish'
