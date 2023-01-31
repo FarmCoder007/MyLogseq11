@@ -230,8 +230,8 @@
 			- 含义：gradle筛选了.java类型的文件进行打包
 			- 注：不会打入kotlin代码
 		- case 2、android.sourceSets.main.java.getSrcDirs()
-			- 含义：而使用.getSrcDirs()把整个目录作为参数时，gradle不再排查文件后缀，把所有目录下所有文件都打包进来了。
-			- 打印路径为：[/Users/xuwenbin/AndroidStudioProjects/WubaHybridSDK/web/src/main/java]
+			- 含义：使用.getSrcDirs()把整个目录作为参数时，gradle不再排查文件后缀，把所有目录下所有文件都打包进来了。
+			- 打印路径：[/Users/xuwenbin/AndroidStudioProjects/WubaHybridSDK/web/src/main/java]
 			- 注意：main.java.getSrcDirs  和 module 中配置的sourceSet不是一码事
 			  collapsed:: true
 				- ![image.png](../assets/image_1675147369701_0.png)
