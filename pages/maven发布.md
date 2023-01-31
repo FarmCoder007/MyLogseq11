@@ -226,7 +226,11 @@
 		  }
 		  ```
 		- android.sourceSets.main.java.sourceFiles
-			- 打印出来为file collection   .java 的集合
+			- 含义：打印出来为file collection   gradle筛选了.java类型的文件进行打包
+			- 不会打入kotlin代码
+		- android.sourceSets.main.java.getSrcDirs()
+			- 含义：而使用.getSrcDirs()把整个目录作为参数时，gradle不再排查文件后缀，把所有目录下所有文件都打包进来了。
+			-
 - # 参考资料
 	- [自定义打包任务](https://blog.csdn.net/shulianghan/article/details/127307043)
 -
