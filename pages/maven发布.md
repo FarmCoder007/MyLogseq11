@@ -214,6 +214,111 @@
 				- 2、需要升级gradle 版本
 	- # 二、发布插件“maven-publish”打开源码上传
 		- ```
+		  //以下代码会生成jar包源文件，如果是不开源码，请不要输入这段
+		  //aar包内包含注释
+		  task androidSourcesJar(type: Jar) {
+		      classifier = 'sources'
+		      from android.sourceSets.main.java.srcDirs
+		  }
+		  ```
+		- ```
+		  apply plugin: 'maven-publish'
+		  
+		  task wubaPublish(group: "wuba") {
+		      //定义一个自己的发布aar的任务
+		      println "发布aar完成"
+		  }
+		  
+		  //以下代码会生成jar包源文件，如果是不开源码，请不要输入这段
+		  //aar包内包含注释
+		  task androidSourcesJar(type: Jar) {
+		      classifier = 'sources'
+		      from android.sourceSets.main.java.srcDirs
+		  }
+		  
+		  publishing {
+		      repositories {
+		          maven {
+		              url 'http://artifactory.58corp.com:8081/artifactory/android-local'
+		              credentials {
+		                  username MAVEN_USERNAME
+		                  password MAVEN_PASSWORD
+		              }
+		          }
+		      }
+		      publications {
+		          aar(MavenPublication) {
+		              groupId GROUP_ID
+		              artifactId EXT_ARTIFACT_ID
+		              version "${rootProject.wubarnSdkPublishVersion}"
+		              artifact(androidSourcesJar)
+		              artifact("${project.getProjectDir()}/build/outputs/aar/${project.getName()}-release.aar")
+		              pom.withXml {
+		                  if (true) {
+		                      ConfigurationContainer configuration = project.configurations;
+		                      def dependenciesNode = asNode().appendNode('dependencies')
+		                      if (configuration.compile) {
+		                          configuration.compile.allDependencies.each {
+		                              println "****************compile groupId=${it.group}|${it.name}|${it.version}***********"
+		                              genPomXml(dependenciesNode, it, "compile")
+		                          }
+		                      }
+		                      if (configuration.implementation) {
+		                          configuration.implementation.allDependencies.each {
+		                              println "****************implementation groupId=${it.group}|${it.name}|${it.version}***********"
+		                              genPomXml(dependenciesNode, it, "implementation")
+		                          }
+		                      }
+		                      if (configuration.api) {
+		                          configuration.api.allDependencies.each {
+		                              println "****************api groupId=${it.group}|${it.name}|${it.version}***********"
+		                              genPomXml(dependenciesNode, it, "api")
+		                          }
+		                      }
+		                  }
+		              }
+		          }
+		  
+		      }
+		  }
+		  
+		  def genPomXml(dependenciesNode, dependency, scope) {
+		      if (dependenciesNode != null && dependency != null && scope != null) {
+		          if (dependency.group != null && !'unspecified'.equals(dependency.group) && !'58ClientProject'.equals(dependency.group)
+		                  && dependency.name != null && !'unspecified'.equals(dependency.name)
+		                  && dependency.version != null && !'unspecified'.equals(dependency.version)) {
+		              def dependencyNode = dependenciesNode.appendNode('dependency')
+		              dependencyNode.appendNode('groupId', dependency.group)
+		              dependencyNode.appendNode('artifactId', dependency.name)
+		              dependencyNode.appendNode('version', dependency.version)
+		              dependencyNode.appendNode('scope', "${scope}")
+		  
+		          }
+		      }
+		  }
+		  
+		  afterEvaluate {
+		      addPublishAARTask()
+		  }
+		  
+		  
+		  /**
+		   * 配置发布aar的任务依赖
+		   * @param project
+		   * @return
+		   */
+		  def addPublishAARTask() {
+		      Task publishTask = project.getTasksByName("publish", false).getAt(0)
+		      Task assembleTask = project.getTasksByName("assembleRelease", false).getAt(0)
+		      Task aarTask = project.getTasksByName("wubaPublish", false).getAt(0)
+		  
+		      aarTask.dependsOn assembleTask
+		      aarTask.dependsOn publishTask
+		      publishTask.mustRunAfter assembleTask
+		  }
+		  
+		  
+		  
 		  ```
 	- # 三、源码上传task 路径配置规则
 	  collapsed:: true
