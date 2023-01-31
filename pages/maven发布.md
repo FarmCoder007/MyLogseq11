@@ -130,8 +130,8 @@
 - # maven发布插件源码上传
 	- # 一、发布插件“maven”打开源码上传
 		- gradle低版本：4.10.1-all  采用maven  发布插件。
-		  collapsed:: true
 			- 1、只增加打开源码，，不能下载
+			  collapsed:: true
 				- ```groovy
 				  apply plugin: 'maven'
 				  
@@ -214,6 +214,7 @@
 		- ```
 		  ```
 	- # 三、源码上传task 路径配置规则
+	  collapsed:: true
 		- ```
 		  task androidSourcesJar(type: Jar) {
 		      classifier = 'sources'
