@@ -242,7 +242,7 @@
 			- ![image.png](../assets/image_1675147684590_0.png)
 			- 打印路径：[/Users/xuwenbin/AndroidStudioProjects/WubaNetWorkSDK/wubanetworklib/src/main/kotlin, /Users/xuwenbin/AndroidStudioProjects/WubaNetWorkSDK/wubanetworklib/src/main/java]
 		- case 5、非标准路径配置，自定义配置
-			-
+			- from rootDir.getPath()+"/"+project.name+"/kotlin",rootDir.getPath()+"/"+project.name+"/src"
 			- ![image.png](../assets/image_1675149038513_0.png)
 			-
 - # 参考资料
