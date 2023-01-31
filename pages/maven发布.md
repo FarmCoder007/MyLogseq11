@@ -226,8 +226,9 @@
 		  }
 		  ```
 		- case 1、android.sourceSets.main.java.sourceFiles
-			- 含义：打印出来为file collection   gradle筛选了.java类型的文件进行打包
-			- 不会打入kotlin代码
+			- 打印路径：file collection
+			- 含义：gradle筛选了.java类型的文件进行打包
+			- 注：不会打入kotlin代码
 		- case 2、android.sourceSets.main.java.getSrcDirs()
 			- 含义：而使用.getSrcDirs()把整个目录作为参数时，gradle不再排查文件后缀，把所有目录下所有文件都打包进来了。
 			- 打印路径为：[/Users/xuwenbin/AndroidStudioProjects/WubaHybridSDK/web/src/main/java]
