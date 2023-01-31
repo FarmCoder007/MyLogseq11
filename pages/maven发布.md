@@ -235,6 +235,7 @@
 			  collapsed:: true
 				- ![image.png](../assets/image_1675147369701_0.png)
 		- sourceSets.main.allSource  非Android module 使用 比如 java module
+		- ![image.png](../assets/image_1675147684590_0.png)
 - # 参考资料
 	- [自定义打包任务](https://blog.csdn.net/shulianghan/article/details/127307043)
 -
