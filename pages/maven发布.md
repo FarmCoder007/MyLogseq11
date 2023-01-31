@@ -128,7 +128,7 @@
 	- [发布aar包到maven仓库](https://blog.csdn.net/wangsen927/article/details/120720932)
 -
 - # maven发布插件源码上传
-	- # 、发布插件“maven”打开源码上传
+	- # 一、发布插件“maven”打开源码上传
 		- gradle低版本：4.10.1-all  采用maven  发布插件。
 		  collapsed:: true
 			- 1、只增加打开源码，，不能下载
@@ -209,11 +209,22 @@
 				  
 				  ```
 			- 2、升级版本6.1.1-all  也不管用，不能下载
-	- # 三、发布插件“maven-publish”打开源码上传
+	- # 二、发布插件“maven-publish”打开源码上传
 	  collapsed:: true
 		- ```
 		  ```
--
+	- # 三、源码上传task 路径配置规则
+		- ```
+		  task androidSourcesJar(type: Jar) {
+		      classifier = 'sources'
+		      // 指定源码文件路径
+		      if(project.hasProperty("android")){
+		          from project.android.sourceSets.main.kotlin.srcDirs
+		      } else {
+		          from sourceSets.main.allSource
+		      }
+		  }
+		  ```
 -
 - # 参考资料
 	- [自定义打包任务](https://blog.csdn.net/shulianghan/article/details/127307043)
