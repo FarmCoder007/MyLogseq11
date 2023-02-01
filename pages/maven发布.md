@@ -343,6 +343,8 @@
 			- 取的为build.gradle中配置的代码资源路径android.sourceSets
 			  collapsed:: true
 				- ![image.png](../assets/image_1675241596357_0.png)
+			- afterEvaluate加生命周期函数( gradle 配置完成后执行)，因为不加的话 永远取到的是默认的路径[/Users/xuwenbin/AndroidStudioProjects/WubaHybridSDK/web/src/main/java]
+			-
 		- case 1、android.sourceSets.main.java.sourceFiles
 			- 打印路径：file collection
 			- 含义：gradle筛选了.java类型的文件进行打包
@@ -356,10 +358,6 @@
 		- case 3、sourceSets.main.allSource
 			- 非Android module 使用 比如 java module
 		-
-		- case 4、android.sourceSets.main.kotlin.getSrcDirs()
-			- main下多路径，kotlin代码和java代码分包存放
-			- ![image.png](../assets/image_1675147684590_0.png)
-			-
 		- case 5、非标准路径配置，自定义配置
 			- from rootDir.getPath()+"/"+project.name+"/kotlin",rootDir.getPath()+"/"+project.name+"/src"
 			- ![image.png](../assets/image_1675149038513_0.png)
