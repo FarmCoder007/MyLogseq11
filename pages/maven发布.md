@@ -338,7 +338,11 @@
 		      }
 		  }
 		  ```
-		-
+		- from 后路径规则解析 android.sourceSets.main.java.srcDirs
+		  id:: 63da2841-dc40-479a-b583-7b364cd71ff6
+			- 取的为build.gradle中配置的代码资源路径android.sourceSets
+			  collapsed:: true
+				- ![image.png](../assets/image_1675241596357_0.png)
 		- case 1、android.sourceSets.main.java.sourceFiles
 			- 打印路径：file collection
 			- 含义：gradle筛选了.java类型的文件进行打包
