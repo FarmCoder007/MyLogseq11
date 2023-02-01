@@ -330,15 +330,11 @@
 		  
 		  ```
 	- # 三、源码上传task 路径配置规则
-	  collapsed:: true
 		- ```
 		  task androidSourcesJar(type: Jar) {
 		      classifier = 'sources'
-		      // 指定源码文件路径
-		      if(project.hasProperty("android")){
-		          from project.android.sourceSets.main.kotlin.srcDirs
-		      } else {
-		          from sourceSets.main.allSource
+		      afterEvaluate {
+		          from android.sourceSets.main.java.srcDirs
 		      }
 		  }
 		  ```
