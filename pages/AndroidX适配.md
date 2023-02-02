@@ -14,12 +14,14 @@
 	  collapsed:: true
 		- 首先，我们希望您把当前的 Support Library 依赖升级至版本 28。如果您从早期版本的 Support Library 进行迁移，可能会在需要修改命名空间的同时遭遇 API 不兼容的问题; 而 Support Library 28 的 API 与 AndroidX 之间只有命名空间上的不同。所以我们建议，先尝试将 Support Library 升级至版本 28，处理过所有 API 变更，并且确保编译通过后，再进行下一步，这样所做的修改是最少的。
 	- ## 第二步: 开启 Jetifier
+	  collapsed:: true
 		- 接下来需要做的是开启 Jetifier。Jetifier 可以帮助您迁移第三方依赖库的依赖至 AndroidX。正如字面意思所说，Jetifier 会修改这些第三方依赖库的代码，从而使其与使用 AndroidX 的工程兼容。不过 Jetifier 不会修改您的源码和自动生成的代码，因此不用担心它会造成额外的不良影响。
 		  开启 Jetifier 十分的简单，您只需要在 gradle.properties 文件中加入 "android.useAndroidX = true" 和 "android.enableJetifier = true" 即可。"useAndroidX" 设置用于开启 AndroidX 库的自动导入，当您自动补全或导入依赖库时，会自动导入 AndroidX 库。
 		- ```
 		   # "useAndroidX" 设置用于开启 AndroidX 库的自动导入，
 		   # 当您自动补全或导入依赖库时，会自动导入 AndroidX 库
 		   "android.useAndroidX = true"
-		   # 
+		   # Jetifier 可以帮助您迁移第三方依赖库的依赖至 AndroidX
 		   "android.enableJetifier = true" 
 		  ```
+	- ##
