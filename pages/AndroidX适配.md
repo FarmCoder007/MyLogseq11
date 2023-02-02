@@ -17,7 +17,9 @@
 		- 接下来需要做的是开启 Jetifier。Jetifier 可以帮助您迁移第三方依赖库的依赖至 AndroidX。正如字面意思所说，Jetifier 会修改这些第三方依赖库的代码，从而使其与使用 AndroidX 的工程兼容。不过 Jetifier 不会修改您的源码和自动生成的代码，因此不用担心它会造成额外的不良影响。
 		  开启 Jetifier 十分的简单，您只需要在 gradle.properties 文件中加入 "android.useAndroidX = true" 和 "android.enableJetifier = true" 即可。"useAndroidX" 设置用于开启 AndroidX 库的自动导入，当您自动补全或导入依赖库时，会自动导入 AndroidX 库。
 		- ```
-		   # 
+		   # "useAndroidX" 设置用于开启 AndroidX 库的自动导入，
+		   # 当您自动补全或导入依赖库时，会自动导入 AndroidX 库
 		   "android.useAndroidX = true"
+		   # 
 		   "android.enableJetifier = true" 
 		  ```
