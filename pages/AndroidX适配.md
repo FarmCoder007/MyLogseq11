@@ -10,3 +10,5 @@
 	  我们正在努力推广 AndroidX 命名空间，未来所有新推出的组件库，例如 Jetpack Compose 和 CameraX，都将成为 AndroidX 的一员。
 - # 三、开始迁移
 	- ![image.png](../assets/image_1675323682817_0.png){:height 283, :width 746}
+	- ## 第一步: 将 Support Library 升级至 28
+		-
