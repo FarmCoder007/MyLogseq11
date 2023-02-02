@@ -91,6 +91,7 @@
 	-
 	-
 - 生活
+  collapsed:: true
 	- 理财
 		- 股票
 			- [[步骤]]
@@ -124,6 +125,7 @@
 	- [[React]]
 	- [[JavaScript]]
 - Gradle
+  collapsed:: true
 	- [[Gradle文档]]
 	- [[buildConfig相关]]
 	- [[gradle/apt调试]]
@@ -132,6 +134,7 @@
 	- [[maven发布]]
 	- [[代码覆盖率在buildsrc配置]]
 - Mac
+  collapsed:: true
 	- [charles关闭后不能上网](https://blog.csdn.net/minmin_bufucisheng/article/details/89025601)
 	- [[环境变量命令]]
 - adb
@@ -139,6 +142,7 @@
 	- [[adb命令行]]
 	- [[代码获取logcat]]
 - shell
+  collapsed:: true
 	- [[shell命令]]
 - 跨平台
   collapsed:: true
