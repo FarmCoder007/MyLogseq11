@@ -11,4 +11,7 @@
 - # 三、开始迁移
 	- ![image.png](../assets/image_1675323682817_0.png){:height 283, :width 746}
 	- ## 第一步: 将 Support Library 升级至 28
-		-
+		- 首先，我们希望您把当前的 Support Library 依赖升级至版本 28。如果您从早期版本的 Support Library 进行迁移，可能会在需要修改命名空间的同时遭遇 API 不兼容的问题; 而 Support Library 28 的 API 与 AndroidX 之间只有命名空间上的不同。所以我们建议，先尝试将 Support Library 升级至版本 28，处理过所有 API 变更，并且确保编译通过后，再进行下一步，这样所做的修改是最少的。
+		  -----------------------------------
+		  是时候迁移至 AndroidX 了！
+		  https://blog.51cto.com/phyger/5276344
