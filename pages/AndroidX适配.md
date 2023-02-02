@@ -24,4 +24,5 @@
 		   # Jetifier 可以帮助您迁移第三方依赖库的依赖至 AndroidX
 		   "android.enableJetifier = true" 
 		  ```
-	- ##
+	- ## 第三步: 检查第三方库版本的兼容性
+		-
