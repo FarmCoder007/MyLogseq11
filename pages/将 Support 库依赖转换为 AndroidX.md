@@ -1,2 +1,3 @@
 - # 方案一：使用 Android studio 自动迁移工具
+	- 我们在 Android 3.2 稳定版中加入了 "Migrate to AndroidX" 选项，方便大家迁移。您可以在 "Refactor" 菜单中找到 "Migrate to AndroidX" 选项:
 	-
