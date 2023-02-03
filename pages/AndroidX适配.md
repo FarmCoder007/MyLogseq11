@@ -36,7 +36,8 @@
 			- ![image.png](../assets/image_1675393174165_0.png)
 	- ## 第四步：[[将 Support 库依赖转换为 AndroidX]]
 - # 四、需要手动处理的情况
-	-
+	- ## 1、版本是变量设置的
+		-
 - # 参考资料
 	- [是时候迁移至 AndroidX 了！](https://blog.51cto.com/phyger/5276344)
 -
