@@ -9,6 +9,7 @@
 	  目前已经有许多我们耳熟能详的工具库已经迁移至 AndroidX，例如 Google Play 服务、Firebase、Butterknife、Mockito 2、SQL Delight，我们后面会提到如何迁移它们的依赖;
 	  我们正在努力推广 AndroidX 命名空间，未来所有新推出的组件库，例如 Jetpack Compose 和 CameraX，都将成为 AndroidX 的一员。
 - # 三、开始迁移
+  collapsed:: true
 	- ![image.png](../assets/image_1675323682817_0.png){:height 283, :width 746}
 	- ## 第一步: 将 Support Library 升级至 28
 	  collapsed:: true
@@ -34,6 +35,7 @@
 		  而如果您的工程被部分迁移，可能还会遇到类型重复的错误，这是因为工程正在尝试从 Support Library 和 AndroidX 拉取相同的代码。
 			- ![image.png](../assets/image_1675393174165_0.png)
 	- ## 第四步：[[将 Support 库依赖转换为 AndroidX]]
+- # 四、遇到的
 - # 参考资料
 	- [是时候迁移至 AndroidX 了！](https://blog.51cto.com/phyger/5276344)
 -
