@@ -33,8 +33,9 @@
 		  如果您当前使用的第三方库不兼容 AndroidX，您将会看到它依然在尝试拉取旧版本的 Support Library;
 		  而如果您的工程被部分迁移，可能还会遇到类型重复的错误，这是因为工程正在尝试从 Support Library 和 AndroidX 拉取相同的代码。
 			- ![image.png](../assets/image_1675393174165_0.png)
-	- ## 第四步：
--
+	- ## 第四步：将 Support 库依赖转换为 AndroidX
+		- ### 方案一：使用 Android studio 自动迁移工具
+		-
 - # 参考资料
 	- [是时候迁移至 AndroidX 了！](https://blog.51cto.com/phyger/5276344)
 -
