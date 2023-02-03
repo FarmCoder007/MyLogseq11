@@ -18,3 +18,4 @@
 - # 方案三：人工迁移
 	- 另一个选择，是人工进行迁移工作。在 ​ ​迁移到 AndroidX​​ 中，您能看到前文提到过的 [Support Library 与 AndroidX 的类型映射关系表](https://developer.android.google.cn/jetpack/androidx/migrate?hl=zh-cn)。如下图，有了这个映射关系表，您就可以根据具体情况进行替换:
 -
+-
