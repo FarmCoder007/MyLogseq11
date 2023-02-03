@@ -5,7 +5,9 @@
 		- ![image.png](../assets/image_1675394438826_0.png){:height 826, :width 559}
 		- 这个按钮的功能，就是迁移源码中的依赖到 AndroidX，理想情况下，它会帮您完成绝大部分工作。
 	- ## 缺点：
+	  collapsed:: true
 		- 1、不能处理xml
 		- 2、不能处理混淆文件
 - # 方案二：使用自动迁移脚本
+	- [官方bash脚本](https://github.com/smithasanehalli/androidx-migration)
 	-
