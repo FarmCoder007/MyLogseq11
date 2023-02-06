@@ -22,6 +22,6 @@
 		- 混淆
 		- gradle
 		- gradle.properties  打开Androidx
-	- 2、依赖变动，gradle依赖中。怎么处理版本号
+	- 2、依赖变动，gradle依赖中。怎么处理对应版本号。
 - # 脚本设计
 	- 1、
