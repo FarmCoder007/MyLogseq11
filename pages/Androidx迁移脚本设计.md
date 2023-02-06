@@ -21,7 +21,7 @@
 		- xml
 		- 混淆
 		- gradle
-		-
+		- gradle.properties  打开Androidx
 	-
 - # 脚本设计
 	- 1、
