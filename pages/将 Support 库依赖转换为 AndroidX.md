@@ -17,6 +17,7 @@
 		- 您可以通过短链接: ​ ​goo.gle/androidx-migration-script​​ 去到脚本源码的 GitHub 页面，在那里您也可以找到更多的社区贡献内容。
 		  脚本的工作原理并不复杂，如下所示，您需要手动做的是配置好类型映射表 "androidx-class-mapping.csv" 和工程路径地址，而脚本中真正有效的部分，就只是 grep 命令后跟着一个 sed 命令来替换工程中导入的包名:
 	- [MigrateToAndroidX](https://github.com/yuweiguocn/MigrateToAndroidX)
+		- 1、处理代码、gradle脚本、混淆、xml
 	- [[Androidx迁移脚本设计]]
 - # 方案三：人工迁移
   collapsed:: true
