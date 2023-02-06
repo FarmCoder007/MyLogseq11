@@ -23,5 +23,6 @@
 		- gradle
 		- gradle.properties  打开Androidx
 	- 2、依赖变动，gradle依赖中。怎么处理对应版本号。
+	- 3、构建脚本变动  [如果需要脚本适配gradle 6.0 的话 需要]
 - # 脚本设计
 	- 1、
