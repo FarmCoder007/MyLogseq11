@@ -1,11 +1,13 @@
 - # 方案一：使用 Android studio 自动迁移工具
+  collapsed:: true
 	- ## 使用
 	  collapsed:: true
 		- 我们在 Android 3.2 稳定版中加入了 "Migrate to AndroidX" 选项，方便大家迁移。您可以在 "Refactor" 菜单中找到 "Migrate to AndroidX" 选项:
 		- ![image.png](../assets/image_1675394438826_0.png){:height 826, :width 559}
 		- 这个按钮的功能，就是迁移源码中的依赖到 AndroidX，理想情况下，它会帮您完成绝大部分工作。
 	- ## 缺点：
-		- 2、不能处理混淆文件
+	  collapsed:: true
+		- 替换不彻底，有些会未处理
 - # 方案二：使用自动迁移脚本
 	- [官方社区bash脚本](https://github.com/smithasanehalli/androidx-migration)
 	  collapsed:: true
@@ -17,7 +19,7 @@
 		- 优点：
 			- 1、处理代码、gradle脚本、混淆、xml等适配
 		- 缺点：
-			- 未处理
+			- 未处理依赖库的版本号
 	- [[Androidx迁移脚本设计]]
 - # 方案三：人工迁移
   collapsed:: true
