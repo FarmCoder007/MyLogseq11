@@ -26,5 +26,6 @@
 	- 3、构建脚本变动  [如果需要脚本适配gradle 6.0 的话 需要]
 		- gradle-wrapper.properties  修改gradle 版本号6.0以上
 		- 根目录：build.gradle 修改AGP 插件版本号大概4.0
+		- kotlin版本号
 - # 脚本设计
 	- 1、
