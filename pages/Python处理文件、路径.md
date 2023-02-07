@@ -11,4 +11,9 @@
 	  os.path.abspath(os.path.dirname(os.getcwd()))
 	  os.path.abspath(os.path.join(os.getcwd(), ".."))
 	  ```
+- 获取上上一级目录
+	- ```
+	  os.path.abspath('../..')
+	  os.path.abspath(os.path.join(os.getcwd(), "../..")))
+	  ```
 -
