@@ -5,6 +5,7 @@
 	- [[职级评审]]
 	- [[PPT]]
 - Android
+  collapsed:: true
 	- [[Android架构]]
 	- [[系统架构]]
 	- Android系统启动
@@ -113,7 +114,6 @@
 	- [[开销总结]]
 	- [[新冠防疫]]
 - Python
-  collapsed:: true
 	- [[python教程文档]]
 	- [[文件内容操作]]
 	- [[开发工具]]
