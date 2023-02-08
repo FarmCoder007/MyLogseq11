@@ -27,4 +27,5 @@
 		  ```
 	- C:\test下面执行python getpath/path.py，这时sub_path.py里面与各种用法对应的值其实是：
 	- os.getcwd()
-		- “C:\test”，取的是起始执行目录
+		- “C:\test”，取的是起始执行目录，当前脚本的执行目录
+	-
