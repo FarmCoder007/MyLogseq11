@@ -24,12 +24,12 @@
 		      	|-migrate.py
 		  
 		  ```
-	- 在pythonProject下面执行python  MigrateToAndroidX/migrate.py，这时migrate.py获取当前路径与各种用法对应的值其实是：
-	- os.getcwd()
+	- 在pythonProject下面执行python  MigrateToAndroidX/migrate.py，这时migrate.py获取当前路径对应的值其实是：
+	- os.getcwd()：当前脚本的执行目录
 		- ```
-		  “C:\test”
+		  /Users/xuwenbin/PycharmProjects/pythonProject
+		  
 		  ```
-		- 取的是起始执行目录，当前脚本的执行目录
 	- sys.path[0]或sys.argv[0]
 		- ```
 		  
