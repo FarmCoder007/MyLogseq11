@@ -29,5 +29,10 @@
 	- os.getcwd()
 		- “C:\test”，取的是起始执行目录，当前脚本的执行目录
 	- sys.path[0]或sys.argv[0]
-		- “C:\test\getpath”，取的是被初始执行的脚本的所在目录
-	- os.path.split(os.path.realpath(__file__))[0] “C:\test\getpath\sub”，取的是file所在文件sub_path.py的所在目录
+		- ```
+		  
+		  ```
+		- 取的是被初始执行的脚本的所在目录
+	- os.path.split(os.path.realpath(__file__))[0]
+		- “C:\test\getpath\sub”，取的是file所在文件sub_path.py的所在目录
+-
