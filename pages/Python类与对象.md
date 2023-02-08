@@ -9,6 +9,14 @@
 	          self.gradle = []
 	          self.rules = []
 	  ```
+- 枚举类型
+	- ```
+	  class ChangeType(Enum):
+	      CODE = 1
+	      RES = 2
+	      GRADLE = 3
+	      RULES = 4
+	  ```
 - 二、类的实例化
 	- ```
 	  ReportModule()
