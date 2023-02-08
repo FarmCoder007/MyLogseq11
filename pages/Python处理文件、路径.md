@@ -16,4 +16,8 @@
 	  os.path.abspath('../..')
 	  os.path.abspath(os.path.join(os.getcwd(), "../..")))
 	  ```
--
+- python获取运行脚本所在的目录
+	- 目录层级：
+		- ```
+		  
+		  ```
