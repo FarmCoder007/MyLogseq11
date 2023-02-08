@@ -17,15 +17,14 @@
 	  os.path.abspath(os.path.join(os.getcwd(), "../..")))
 	  ```
 - python获取运行脚本所在的目录
-	- 目录层级：/Users/xuwenbin/PycharmProjects/pythonProject
+	- 目录层级：
 		- ```
 		  C:pythonProject
-		  |-MigrateToAndroidX
-		      |-path.py
-		      |-sub
-		          |-sub_path.py
+		  	|-MigrateToAndroidX
+		      	|-migrate.py
+		  
 		  ```
-	- C:\test下面执行python getpath/path.py，这时sub_path.py里面与各种用法对应的值其实是：
+	- 在pythonProject下面执行python  MigrateToAndroidX/migrate.py，这时migrate.py获取当前路径与各种用法对应的值其实是：
 	- os.getcwd()
 		- ```
 		  “C:\test”
