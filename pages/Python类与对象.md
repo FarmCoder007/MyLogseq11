@@ -2,6 +2,7 @@
 	- ```
 	  
 	  class ReportModule:
+	      # 构造方法
 	      def __init__(self):
 	          self.code = []
 	          self.res = []
@@ -9,4 +10,7 @@
 	          self.rules = []
 	  ```
 - 二、类的实例化
-	-
+	- ```
+	  ReportModule()
+	  ```
+-
