@@ -17,10 +17,10 @@
 	  os.path.abspath(os.path.join(os.getcwd(), "../..")))
 	  ```
 - python获取运行脚本所在的目录
-	- 目录层级：
+	- 目录层级：/Users/xuwenbin/PycharmProjects/pythonProject
 		- ```
-		  C:test
-		  |-getpath
+		  C:pythonProject
+		  |-MigrateToAndroidX
 		      |-path.py
 		      |-sub
 		          |-sub_path.py
