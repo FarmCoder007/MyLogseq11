@@ -19,5 +19,12 @@
 - python获取运行脚本所在的目录
 	- 目录层级：
 		- ```
-		  
+		  C:test
+		  |-getpath
+		      |-path.py
+		      |-sub
+		          |-sub_path.py
 		  ```
+	- C:\test下面执行python getpath/path.py，这时sub_path.py里面与各种用法对应的值其实是：
+	- os.getcwd()
+		- “C:\test”，取的是起始执行目录
