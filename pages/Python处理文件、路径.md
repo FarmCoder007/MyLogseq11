@@ -32,12 +32,12 @@
 		  ```
 	- sys.path[0]或sys.argv[0]
 		- ```
-		  
+		  MigrateToAndroidX/migrate.py
 		  ```
-		- 取的是被初始执行的脚本的所在目录
+		- 取的是被初始执行的脚本的所在目录，非完整路径
 	- os.path.split(os.path.realpath(__file__))[0]
 		- ```
-		  “C:\test\getpath\sub”
+		  /Users/xuwenbin/PycharmProjects/pythonProject/MigrateToAndroidX
 		  ```
-		- 取的是file所在文件sub_path.py的所在目录
+		- 取的是file所在文件.py的所在目录
 -
