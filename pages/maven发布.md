@@ -355,7 +355,15 @@
 			- 打印路径：[/Users/xuwenbin/AndroidStudioProjects/WubaHybridSDK/web/src/main/java]
 		- case 3、sourceSets.main.allSource
 			- 非Android module 使用 比如 java module
-	- # 四、如果库开启了混淆，
+	- # 四、如果库开启了混淆，再打开源码上传也是不能查看源码的
+		- ```groovy
+		      buildTypes {
+		          release {
+		              minifyEnabled false
+		              proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+		          }
+		      }
+		  ```
 - # 参考资料
 	- [自定义打包任务](https://blog.csdn.net/shulianghan/article/details/127307043)
 -
