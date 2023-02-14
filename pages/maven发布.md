@@ -114,6 +114,7 @@
 	  }
 	  ```
 - gradle.properties
+  collapsed:: true
 	- ```
 	  # 发布aar的版本号
 	  publish_version=3.10.2
@@ -354,6 +355,7 @@
 			- 打印路径：[/Users/xuwenbin/AndroidStudioProjects/WubaHybridSDK/web/src/main/java]
 		- case 3、sourceSets.main.allSource
 			- 非Android module 使用 比如 java module
+	- # 四、如果库开启了混淆，
 - # 参考资料
 	- [自定义打包任务](https://blog.csdn.net/shulianghan/article/details/127307043)
 -
