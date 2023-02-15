@@ -5,6 +5,7 @@
 	- [[职级评审]]
 	- [[PPT]]
 - Android
+  collapsed:: true
 	- [[Android架构]]
 	- [[系统架构]]
 	- Android系统启动
@@ -125,6 +126,7 @@
 	- [[React]]
 	- [[JavaScript]]
 - Gradle
+  collapsed:: true
 	- [[Gradle文档]]
 	- [[buildConfig相关]]
 	- [[gradle/apt调试]]
