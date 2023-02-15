@@ -1,4 +1,6 @@
 - 一、[接入](https://zblogs.top/how-to-register-openai-chatgpt-in-china/#chatgpt)
 - 二、[国外虚拟账号](https://sms-activate.org/getNumber)
-- 二、[翻墙工具]()
+	- 账号密码：
+	- 18333601689@163.com   xuwencard
+- 二、[翻墙工具](https://portal.shadowsocks.au/clientarea.php)
 -
