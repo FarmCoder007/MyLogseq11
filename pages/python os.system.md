@@ -8,6 +8,7 @@
 	- ```python
 	  url = "https://sdl.58cdn.com.cn/productor/2016/58clientBack/58clientBack/MetaX/androidx-source.html"
 	  if __name__ == "__main__":
-	  
+	  	 # 加载映射资源,,把url下载到source文件上
+	      os.system("curl " + url + " >> source.html")
 	  
 	  ```
