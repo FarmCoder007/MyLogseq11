@@ -12,4 +12,5 @@
 - [[Python处理文件、路径]]
 - [[Python类与对象]]
 - [[Python命令行插件处理参数]]
-- []
+- [[python os.system]]
+-
