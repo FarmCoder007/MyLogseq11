@@ -114,7 +114,6 @@
 	- [[开销总结]]
 	- [[新冠防疫]]
 - Python
-  collapsed:: true
 	- [[python教程文档]]
 	- [[文件内容操作]]
 	- [[开发工具]]
@@ -126,6 +125,7 @@
 	- [[React]]
 	- [[JavaScript]]
 - Gradle
+  collapsed:: true
 	- [[Gradle文档]]
 	- [[buildConfig相关]]
 	- [[gradle/apt调试]]
