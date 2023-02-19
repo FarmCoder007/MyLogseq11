@@ -5,7 +5,7 @@
 	- [[职级评审]]
 	- [[PPT]]
 - Android
-  collapsed:: true
+	- [[常用工具]]
 	- [[Android架构]]
 	- [[系统架构]]
 	- Android系统启动
@@ -114,6 +114,7 @@
 	- [[开销总结]]
 	- [[新冠防疫]]
 - Python
+  collapsed:: true
 	- [[python教程文档]]
 	- [[文件内容操作]]
 	- [[开发工具]]
@@ -149,3 +150,4 @@
 	- [[H5-Hybrid]]
 	- [[RN-Modules]]
 - [[ChatGPT]]
+-
