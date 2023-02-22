@@ -21,22 +21,26 @@
 			  ```
 		- 2、删除 .git 和 .github 文件夹（原因是igit限制了提交的邮箱后缀）
 		- 3、私域上创建git-repo项目，再提交到私域
-		  修改 Repo 的部分代码
-		  REPO_URL = os.environ.get('REPO_URL', None)
-		  if not REPO_URL:
-		   REPO_URL = 'https://gerrit.googlesource.com/git-repo'
-		  REPO_REV = os.environ.get('REPO_REV')
-		  if not REPO_REV:
-		   REPO_REV = 'stable'
-		  
-		  // 改为如下：
-		  REPO_URL = 'git@igit.58corp.com:git_mirror/git-repo.git'
-		  REPO_REV = 'master'
-		  Repo 私域安装步骤
-		  下载 Repo launcher（即repo文件）：https://igit.58corp.com/git_mirror/git-repo/-/raw/master/repo?inline=false
-		  修改 repo 的权限
-		  chmod 777 xxx/repo
-		  repo 配置环境变量
+		- 4、修改 Repo 的部分代码
+			- ```
+			  REPO_URL = os.environ.get('REPO_URL', None)
+			  if not REPO_URL:
+			     REPO_URL = 'https://gerrit.googlesource.com/git-repo'
+			  REPO_REV = os.environ.get('REPO_REV')
+			  if not REPO_REV:
+			     REPO_REV = 'stable'
+			  
+			  // 改为如下：
+			  REPO_URL = 'git@igit.58corp.com:git_mirror/git-repo.git'
+			  REPO_REV = 'master'
+			  ```
+		-
+		-
+	- Repo 私域安装步骤
+	  下载 Repo launcher（即repo文件）：https://igit.58corp.com/git_mirror/git-repo/-/raw/master/repo?inline=false
+	  修改 repo 的权限
+	  chmod 777 xxx/repo
+	  repo 配置环境变量
 	- # ~/.zshrc
 	  export PATH="xxx:$PATH"
 	  Repo开发流
