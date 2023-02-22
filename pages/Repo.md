@@ -52,17 +52,17 @@
 	- ## Repo开发流
 		- 1、初始化：repo init
 			- ```
+			  repo init -u git@igit.58corp.com:com.wuba.wuxian.android/manifest_58app.git -b release-xxx -g main,xxx,xxx
+			  
+			  -b 指定版本分支
+			  -g 指定业务线，注意：main是必须的
 			  ```
-		- repo init -u git@igit.58corp.com:com.wuba.wuxian.android/manifest_58app.git -b release-xxx -g main,xxx,xxx
-		  
-		  -b 指定版本分支
-		  -g 指定业务线，注意：main是必须的
-		  同步代码：repo sync
-		  创建本地分支：repo start f-xxx --all
-		  Android Studio 开发
+		- 2、同步代码：repo sync
+		- 3、创建本地分支：repo start f-xxx --all
+		- 4、Android Studio 开发
 		  使用之前应该配置相应的Manifest文件，如下所示：
-		  
-		  <?xml version="1.0"?>
+		- ```
+		  ```<?xml version="1.0"?>
 		  
 		  <manifest>
 		    <remote
