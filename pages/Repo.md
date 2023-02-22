@@ -10,6 +10,7 @@
 		- 2、Repo 命令的主体部分
 	- 这样设计旨在使 Repo launcher只包含最基本的init、help两个命令，主体命令可实现自动更新，这将显著改善用户的使用体验。
 	- ## 私域镜像过程：
+	  collapsed:: true
 		- 1、通过科学上网，从git-repo官网上，克隆最新代码到本地
 			- ```
 			  # git 设置代理
@@ -36,11 +37,13 @@
 			  ```
 		-
 		-
-	- Repo 私域安装步骤
-	  下载 Repo launcher（即repo文件）：https://igit.58corp.com/git_mirror/git-repo/-/raw/master/repo?inline=false
-	  修改 repo 的权限
-	  chmod 777 xxx/repo
-	  repo 配置环境变量
+	- ## Repo 私域安装步骤
+		- 1、下载 Repo launcher（即repo文件）：https://igit.58corp.com/git_mirror/git-repo/-/raw/master/repo?inline=false
+		- 2、修改 repo 的权限
+		  ```
+		  chmod 777 xxx/repo
+		  ```
+		- 3、repo 配置环境变量
 	- # ~/.zshrc
 	  export PATH="xxx:$PATH"
 	  Repo开发流
