@@ -50,6 +50,7 @@
 			  export PATH="xxx:$PATH"
 			  ```
 	- ## Repo开发流
+	  collapsed:: true
 		- 1、初始化：repo init
 			- ```
 			  repo init -u git@igit.58corp.com:com.wuba.wuxian.android/manifest_58app.git -b release-xxx -g main,xxx,xxx
@@ -60,7 +61,8 @@
 		- 2、同步代码：repo sync
 		- 3、创建本地分支：repo start f-xxx --all
 		- 4、Android Studio 开发
-			-
+		- 使用之前应该配置相应的Manifest文件，如下所示：
+		  collapsed:: true
 			- ```
 			  <?xml version="1.0"?>
 			  
@@ -138,25 +140,22 @@
 			  
 			  </manifest>
 			  ```
-			  
-			  
-			    
-			  使用场景
-			  场景1：管理58App相关的所有Git仓库
-			  58App相关的所有Git仓库，不仅仅代码仓库，还有很多的工具仓库，如doc文档、CodeTure、Python比对脚本等等
-			  
-			  统一配置到manifest之后，可带来如下好处：
-			  
-			  快速找到所有相关的仓库
-			  实现全局搜索，按 Google 内部的调研，发现平均每位工程师每天会执行 12 个代码搜索请求
-			  代码阅读笔记可实现快速共享
-			  创建一个manifest仓库，依据58App的发版方式，创建对应的版本分支，每个分支下，配置相应的default.xml文件
-			  
-			  场景2：管理各种厂商预装包的特殊要求
-			  类似Flipper一样，不用去分散的写各种python脚本，解决工具查找的问题。
-			  
-			  manifest的配置如上一样
-			  
-			  场景3：管理各种有业务差异的马甲包，如早期的58同城与58本地
-			  一体化项目之前，58本地fork了一些底层库，导致在下载相应源码库时，容易出现混淆。
-		- 使用之前应该配置相应的Manifest文件，如下所示：
+		-
+	- ## 使用场景
+	- ### 场景1：管理58App相关的所有Git仓库
+	- 58App相关的所有Git仓库，不仅仅代码仓库，还有很多的工具仓库，如doc文档、CodeTure、Python比对脚本等等
+	  
+	  统一配置到manifest之后，可带来如下好处：
+	  
+	  快速找到所有相关的仓库
+	  实现全局搜索，按 Google 内部的调研，发现平均每位工程师每天会执行 12 个代码搜索请求
+	  代码阅读笔记可实现快速共享
+	  创建一个manifest仓库，依据58App的发版方式，创建对应的版本分支，每个分支下，配置相应的default.xml文件
+	  
+	  场景2：管理各种厂商预装包的特殊要求
+	  类似Flipper一样，不用去分散的写各种python脚本，解决工具查找的问题。
+	  
+	  manifest的配置如上一样
+	  
+	  场景3：管理各种有业务差异的马甲包，如早期的58同城与58本地
+	  一体化项目之前，58本地fork了一些底层库，导致在下载相应源码库时，容易出现混淆。
