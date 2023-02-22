@@ -50,7 +50,6 @@
 			  export PATH="xxx:$PATH"
 			  ```
 	- ## Repo开发流
-	  collapsed:: true
 		- 1、初始化：repo init
 			- ```
 			  repo init -u git@igit.58corp.com:com.wuba.wuxian.android/manifest_58app.git -b release-xxx -g main,xxx,xxx
