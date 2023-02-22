@@ -1,3 +1,4 @@
+- [官方文档](https://gerrit.googlesource.com/git-repo/)
 - # 一、简介
 	- "Repo" 是一个用于管理多个 Git 仓库的工具。它是由 Google 开发的，旨在为管理 Android 平台的多个 Git 仓库提供一个更加简单和统一的工具。
 	- Repo 提供了一个名为 "manifest" 的 XML 文件，其中包含了所有需要管理的 Git 仓库的信息，包括仓库的 URL、分支、提交 ID 等。使用 Repo 工具，可以根据 manifest 文件中的配置信息自动下载、更新和同步多个 Git 仓库。
