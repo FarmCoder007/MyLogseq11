@@ -174,7 +174,6 @@
 			      
 			  ```
 		- buildSrc写法：
-		  collapsed:: true
 			- ```kotlin
 			  class MetaXAppPlugin : Plugin<Project> {
 			    	 override fun apply(project: Project) {
