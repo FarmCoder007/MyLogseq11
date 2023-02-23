@@ -1,5 +1,4 @@
 - # 一、AS已经内置了jacoco
-  collapsed:: true
 	- 只需要开启插件即可
 	- ```
 	  plugins {
@@ -14,7 +13,6 @@
 	  }
 	  ```
 - # 二、开启覆盖率开关
-  collapsed:: true
 	- ```
 	       buildTypes {
 	           release {
@@ -38,7 +36,6 @@
 	- 最终原因jacoco 0.75以上 需要开启JacocoTaskExtension中的includeNoLocationClasses
 - # 四、task配置
 	- groovy写法:
-	  collapsed:: true
 		- ```groovy
 		  project.afterEvaluate { project ->
 		      setupAndroidReporting()
