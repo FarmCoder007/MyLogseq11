@@ -16,6 +16,7 @@
 	- [jacoco代码覆盖率](https://miaojiang.blog.csdn.net/article/details/125653263?spm=1001.2101.3001.6650.12&utm_medium=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-12-125653263-blog-117673669.pc_relevant_default&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2%7Edefault%7ECTRLIST%7ERate-12-125653263-blog-117673669.pc_relevant_default&utm_relevant_index=17)
 	- [Android 代码覆盖率如何实现](https://blog.csdn.net/m0_71524094/article/details/125049195)
 	- [JaCoCo计算代码覆盖率原理在线插桩的原理](https://juejin.cn/post/6844904115953205255)
+	- [浅析jacoco Off-line instrumentation](https://blog.csdn.net/yeshennet/article/details/80234767)
 - # 报告分析
 	- [jacoco代码覆盖率报告分析](https://www.jianshu.com/p/ef987f1b6f2f)
 - # 多模块配置
