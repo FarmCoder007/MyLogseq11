@@ -24,6 +24,19 @@
 	- ## 4、@Inherited：用于指定注解是否可被继承，默认情况下注解是不可继承的。
 		- 使用场景：当我们需要将注解应用到父类上，并且希望子类自动继承该注解时，可以使用该元注解。
 	- 总的来说，元注解是用于修饰注解的注解，它们可以帮助我们更加灵活地定义注解，使得注解的作用更加精确、有效。
+- # 三、自定义注解的写法
+	- ## java写法
+		- ```java
+		  @Target(AnnotationTarget.CLASS)
+		  @Retention(AnnotationRetention.RUNTIME)
+		  annotation class UnityLogConfig(val name: String)
+		  ```
+	- ## kotlin写法
+		- ```kotlin
+		  @Target(AnnotationTarget.CLASS)
+		  @Retention(AnnotationRetention.RUNTIME)
+		  annotation class UnityLogConfig(val name: String)
+		  ```
 - # 二、使用
 	- ## javapoet 生成java类
 		- 借助  [AutoService](https://www.jianshu.com/p/14669ded4b8b) 自动处理Processor + javapoet 自动生成java源文件
