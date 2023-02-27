@@ -26,12 +26,34 @@
 	- 总的来说，元注解是用于修饰注解的注解，它们可以帮助我们更加灵活地定义注解，使得注解的作用更加精确、有效。
 - # 三、自定义注解的写法
 	- ## java写法
+	  collapsed:: true
 		- ```java
-		  @Target(AnnotationTarget.CLASS)
-		  @Retention(AnnotationRetention.RUNTIME)
-		  annotation class UnityLogConfig(val name: String)
+		  @Retention(RetentionPolicy.CLASS)
+		  @Target(ElementType.TYPE)
+		  public @interface MetaXApi {
+		      /**
+		       * 路由地址
+		       */
+		      String router();
+		  
+		      /**
+		       * 是否是单例，必需字段
+		       * <p>true: 生成的工具类会缓存接口注入的实例</p>
+		       * <p>false: 生成的工具类每次获取的接口注入实例都是新的</p>
+		       */
+		      boolean isSingleton();
+		  
+		      /**
+		       * 生成指定路径的包装类：包名加类名
+		       *
+		       * <p>eg - com.metax.demo.api.utils.TestServiceUtils</p>
+		       * <p>非必需字段，主要用于兼容旧工程工具类，不修改旧的路径和类名</p>
+		       */
+		      String utilsClassPath() default "";
+		  }
 		  ```
 	- ## kotlin写法
+	  collapsed:: true
 		- ```kotlin
 		  @Target(AnnotationTarget.CLASS)
 		  @Retention(AnnotationRetention.RUNTIME)
