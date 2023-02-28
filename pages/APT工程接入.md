@@ -80,6 +80,7 @@
 		-
 	- ## 3、发布到maven时 需要将processor 中的annotation依赖改成远程的
 	- ## 4、抛出方法异常
+	  collapsed:: true
 		- ```
 		  // 抛出方法异常
 		                      val listTypeMirror =  method.thrownTypes
