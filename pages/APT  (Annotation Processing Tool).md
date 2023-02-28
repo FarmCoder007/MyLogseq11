@@ -364,6 +364,7 @@
 		- ![image.png](../assets/image_1652695001957_0.png)
 	-
 - # 六、调试process
+  collapsed:: true
 	- ## 6-1、方案一借助buildSrc
 		- 新建buildSrc文件夹->
 		- task中 右键选择debug这个task,即可
