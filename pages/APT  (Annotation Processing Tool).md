@@ -72,7 +72,6 @@
 		- [JavaPoet使用详解](https://blog.csdn.net/io_field/article/details/89355941)
 		- [[javaPeot踩坑]]
 	- ## kotlinpoet生成kotlin类
-	  collapsed:: true
 		- [使用kotlinpoet生成kotlin代码数据类型不正确的问题](https://www.jianshu.com/p/f41d21850cb4)
 			- ```
 			  package com.wuba.compiler
