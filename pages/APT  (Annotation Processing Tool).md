@@ -73,6 +73,7 @@
 		- [[javaPeot踩坑]]
 	- ## kotlinpoet生成kotlin类
 		- [使用kotlinpoet生成kotlin代码数据类型不正确的问题](https://www.jianshu.com/p/f41d21850cb4)
+		  collapsed:: true
 			- ```
 			  package com.wuba.compiler
 			  
