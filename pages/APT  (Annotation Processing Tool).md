@@ -60,7 +60,7 @@
 		  @Retention(AnnotationRetention.RUNTIME)
 		  annotation class UnityLogConfig(val name: String)
 		  ```
-- # []
+-
 - # 二、使用
 	- ## javapoet 生成java类
 		- 借助  [AutoService](https://www.jianshu.com/p/14669ded4b8b) 自动处理Processor + javapoet 自动生成java源文件
