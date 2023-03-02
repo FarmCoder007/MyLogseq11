@@ -75,4 +75,19 @@
 	- ## 写代码
 		- 1、生成kotlin单例
 			- ```
+			    public companion object {
+			    
+			      public val instance: UnityLogSDK by lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED){
+			          UnityLogSDK() }
+			    }
+			    
+			    
+			       val companionObject = TypeSpec.companionObjectBuilder()
+			      
+			          val instance = PropertySpec.builder("INSTANCE", className)
+			              .delegate("lazy(mode = LazyThreadSafetyMode.SYNCHRONIZED){ %T() }",className)
+			              .build()
+			  
+			          companionObject.addProperty(instance)
+			    
 			  ```
