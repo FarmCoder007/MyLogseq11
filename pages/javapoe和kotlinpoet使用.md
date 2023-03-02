@@ -1,0 +1,11 @@
+- # 一、javapoet使用
+	- 借助  [AutoService](https://www.jianshu.com/p/14669ded4b8b) 自动处理Processor + javapoet 自动生成java源文件
+	- [javapoet api](https://square.github.io/javapoet/1.x/javapoet/)
+	- [javapoetgithub](https://github.com/square/javapoet)
+	- [自定义注解生成代码（一） —— javaPoetAPI详解](https://blog.csdn.net/bencheng06/article/details/103220774)
+	- [（译）JavaPoet 官方教程](https://juejin.cn/post/6844904022600597517)
+	- [JavaPoet的使用指南](https://juejin.cn/post/6844903695621029895)
+	- [方法体的构建](https://blog.csdn.net/io_field/article/details/89355941)
+	- [JavaPoet使用详解](https://blog.csdn.net/io_field/article/details/89355941)
+	- [[javaPeot踩坑]]
+- # 二、
