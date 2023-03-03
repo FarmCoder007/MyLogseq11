@@ -1,4 +1,5 @@
 - # 一、javapoet使用
+  collapsed:: true
 	- 借助  [AutoService](https://www.jianshu.com/p/14669ded4b8b) 自动处理Processor + javapoet 自动生成java源文件
 	- [javapoet api](https://square.github.io/javapoet/1.x/javapoet/)
 	- [javapoetgithub](https://github.com/square/javapoet)
@@ -9,6 +10,7 @@
 	- [JavaPoet使用详解](https://blog.csdn.net/io_field/article/details/89355941)
 	- [[javaPeot踩坑]]
 - # 二、kotlinpoet生成kotlin类
+  collapsed:: true
 	- [使用kotlinpoet生成kotlin代码数据类型不正确的问题](https://www.jianshu.com/p/f41d21850cb4)
 	  collapsed:: true
 		- ```
