@@ -94,4 +94,7 @@
 			    
 			  ```
 		- 2、生成泛型类
-		-
+			- ```
+			  kotlinpoet  生成 HashMap<String, UnityLogBean>
+			  
+			  ```
