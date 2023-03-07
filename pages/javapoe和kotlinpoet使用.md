@@ -10,7 +10,6 @@
 	- [JavaPoet使用详解](https://blog.csdn.net/io_field/article/details/89355941)
 	- [[javaPeot踩坑]]
 - # 二、kotlinpoet生成kotlin类
-  collapsed:: true
 	- [使用kotlinpoet生成kotlin代码数据类型不正确的问题](https://www.jianshu.com/p/f41d21850cb4)
 	  collapsed:: true
 		- ```
@@ -76,6 +75,7 @@
 	- [APT api具体详解，包括获取方法的入参](https://blog.csdn.net/u014454538/article/details/122531293)
 	- ## 写代码
 		- 1、生成kotlin单例
+		  collapsed:: true
 			- ```
 			    public companion object {
 			    
@@ -93,3 +93,5 @@
 			          companionObject.addProperty(instance)
 			    
 			  ```
+		- 2、生成泛型类
+		-

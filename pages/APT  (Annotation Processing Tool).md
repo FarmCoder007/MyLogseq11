@@ -70,6 +70,7 @@
 		- [[javapoet中占位符]]
 	- ## [[APT工程接入]]
 - # 三、配置kotlin gradle 插件
+  collapsed:: true
 	- ## 1、要使用kotlin写的 注解处理器，则需要在依赖processer的 app moudle中添加kotlin插件支持
 		- 1.在根目录的 build.gralde添加 kotlin 插件配置
 		  collapsed:: true
@@ -85,6 +86,7 @@
 		  collapsed:: true
 			- ![image.png](../assets/image_1650791553233_0.png)
 	- ## 2、kotlin 写的processor怎么被AutoService 识别
+	  collapsed:: true
 		- 1、在processor 注解处理lib的 build.gradle 中添加 kotlin-kapt的支持
 			- ```
 			  plugins {
