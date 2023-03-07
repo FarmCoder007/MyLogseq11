@@ -97,4 +97,9 @@
 			- ```
 			  kotlinpoet  生成 HashMap<String, UnityLogBean>
 			  
+			  val mapType = ClassName("java.util", "HashMap")
+			  val stringType = ClassName("kotlin", "String")
+			  val nameType = ClassName("com.wuba.unitylog.annotation.bean", "UnityLogBean")
+			  
+			  val mapOfStringToName = mapType.parameterizedBy(stringType,nameType)
 			  ```
