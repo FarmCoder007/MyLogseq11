@@ -289,7 +289,8 @@
 	  collapsed:: true
 		- 从jdk1.8改成11
 		- ![image.png](../assets/image_1652695001957_0.png)
-	-
+	- APT process里使用kotlin bean 报引用出错。
+		- 解决：使用javabean
 - # 六、调试process
   collapsed:: true
 	- ## 6-1、方案一借助buildSrc
