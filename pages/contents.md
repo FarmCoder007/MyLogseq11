@@ -6,7 +6,6 @@
 	- [[PPT]]
 	- [[项目解析]]
 - Android
-  collapsed:: true
 	- [[开发常用工具]]
 	- [[Android架构]]
 	- [[系统架构]]
@@ -93,6 +92,7 @@
 	-
 	-
 - 生活
+  collapsed:: true
 	- 理财
 		- 股票
 		  collapsed:: true
