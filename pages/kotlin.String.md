@@ -1,6 +1,7 @@
 title:: kotlin.String
 
 - 1、字符串大小写转换
+  collapsed:: true
 	- ```
 	      var abc = "AbCdEfG"
 	      abc.toUpperCase() //java写法 在Studio中会有横杠提示
@@ -24,3 +25,4 @@ title:: kotlin.String
 	      // 首字母转小写
 	      var str =  abc.replaceFirstChar { if (it.isLowerCase()) it.lowercase(Locale.getDefault() else it.toString() }
 	  ```
+- 2、ifEmpty：  如果是空则使用默认的
