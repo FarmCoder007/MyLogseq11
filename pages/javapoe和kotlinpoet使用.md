@@ -94,6 +94,7 @@
 			    
 			  ```
 		- 2、生成泛型类
+		  collapsed:: true
 			- ```
 			  kotlinpoet  生成 HashMap<String, UnityLogBean>
 			  
@@ -102,4 +103,14 @@
 			  val nameType = ClassName("com.wuba.unitylog.annotation.bean", "UnityLogBean")
 			  
 			  val mapOfStringToName = mapType.parameterizedBy(stringType,nameType)
+			  ```
+		- 3、生成常量
+			- ```
+			        public val Tag_TestModule: String = "testModule"
+			        
+			      private fun getPropertySpec(tagBean: TagAnnotation):PropertySpec{
+			          return PropertySpec.builder("Tag_${tagBean.key.capitalize(Locale.ROOT)}", String::class)
+			              .initializer("\"${tagBean.key}\"")
+			              .build()
+			      }
 			  ```
