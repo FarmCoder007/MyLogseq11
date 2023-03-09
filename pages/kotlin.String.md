@@ -31,4 +31,8 @@ title:: kotlin.String
 	   val primaryValue:String =
 	              if (myAnnotation?.primaryKey?.des.isEmpty()) "" else myAnnotation?.primaryKey?.des.toString()
 	  ```
-	-
+	- ```kotlin
+	  // {里默认值}
+	  val primaryValue:String = myAnnotation.primaryKey.des.ifEmpty { "" }  
+	  ```
+-
