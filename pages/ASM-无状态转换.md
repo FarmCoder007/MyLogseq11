@@ -37,6 +37,10 @@
 - ## 场景二、替换方法
 	- 若想替换掉某一条instruction，应该如何实现呢？当然是首先找到该instruction，然后在同样的位置替换成另一个instruction就可以啦！
 	- 需要特别注意： 在替换instruction过程中，operand stack(栈桢数据)在修改前和修改后是一致的
+	- Java虚拟机规范中定义如下：
+	  collapsed:: true
+		- invokespecial: 在操作数栈中obj之后必须跟随n个参数值，他们的数量，数据类型和顺序都必须与方法描述符保持一致，若调用不是本地方法，n个参数值和obj将从操作数栈中出栈，方法调用时，将在java虚拟机栈中创建一个新的栈桢，obj和连续的n个参数值将存储到新栈桢的局部变量表中，obj存储到局部变量表0，n个参数依次往后，新栈桢创建后就成为当前栈桢，JVM的PC寄存器指向待调用方法中首条指令，程序就从这里开始继续执行；
+		- invokestatic: 在操作数栈中必须包含连续n个参数值，这些参数的数量，数据类型和顺序都必须遵循实例方法的描述符，若调用不是本地方法，n个参数值将从操作数栈中出栈，方法调用时，将在java虚拟机栈中创建一个新的栈桢，连续的n个参数值将存储到新栈桢的局部变量表中，新栈桢创建后就成为当前栈桢，JVM的PC寄存器指向待调用方法中首条指令，程序就从这里开始继续执行；
 	- 代码举例：
 		- 代码：
 		  collapsed:: true
@@ -138,8 +142,27 @@
 				  [] [sample/HelloWorld]
 				  [] []
 				  ```
-	- Java虚拟机规范中定义如下：
-	  collapsed:: true
-		- invokespecial: 在操作数栈中obj之后必须跟随n个参数值，他们的数量，数据类型和顺序都必须与方法描述符保持一致，若调用不是本地方法，n个参数值和obj将从操作数栈中出栈，方法调用时，将在java虚拟机栈中创建一个新的栈桢，obj和连续的n个参数值将存储到新栈桢的局部变量表中，obj存储到局部变量表0，n个参数依次往后，新栈桢创建后就成为当前栈桢，JVM的PC寄存器指向待调用方法中首条指令，程序就从这里开始继续执行；
-		- invokestatic: 在操作数栈中必须包含连续n个参数值，这些参数的数量，数据类型和顺序都必须遵循实例方法的描述符，若调用不是本地方法，n个参数值将从操作数栈中出栈，方法调用时，将在java虚拟机栈中创建一个新的栈桢，连续的n个参数值将存储到新栈桢的局部变量表中，新栈桢创建后就成为当前栈桢，JVM的PC寄存器指向待调用方法中首条指令，程序就从这里开始继续执行；
-	-
+	- 通过以上观察，对方法替换分为静态方法和非静态方法
+		- 代码：
+			- ```java
+			  //自定义MethodReplaceInvokeAdapter extends MethodVisitor替换visitMethodInsn方法
+			  public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
+			      if (oldOwner.equals(owner) && oldMethodName.equals(name) && oldMethodDesc.equals(desc)){
+			      	//这里是我们自定义替换的方法
+			          super.visitMethodInsn(newOpcode , newOwner , newMethodName , newMethodDesc , false);
+			      }else{
+			          super.visitMethodInsn(opcode, owner, name, desc, itf);
+			      }
+			  }
+			  
+			  /**
+			  * 调用区别newMethodDesc方法描述符是否需要消耗掉this
+			  */
+			  //静态方法替换，描述符中不添加this
+			   ClassVisitor cv = new MethodReplaceInvokeVisitor(Opcodes.ASM9, cw,
+			                  "sample/HelloWorld", "getDesc", "(Ljava/lang/String;)Ljava/lang/String;",
+			                  Opcodes.INVOKESTATIC, "com/asm/method/ReplaceMethodManager", "getDesc", "(Ljava/lang/String;)Ljava/lang/String;"); 
+			  //非静态方法替换
+			  ClassVisitor cv = new MethodReplaceInvokeVisitor(Opcodes.ASM9, cw, "sample/HelloWorld", "add", "(II)I", Opcodes.INVOKESTATIC, "com/asm/method/ReplaceMethodManager", "add", "(Lsample/HelloWorld;II)I");
+			  
+			  ```
