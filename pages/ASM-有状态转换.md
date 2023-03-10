@@ -28,4 +28,63 @@
 		- Methods：MethodPatternAdapter类中定义的visitXxxInsn()方法，都会去调用一个自定义的visitInsn()方法：该方法是一个抽象方法，作用就是让所有其他状态（state）都回归到初始状态:SEEN_NOTHING；
 	- 操作：
 		- 1、创建MethodPatternAdapter抽象类，visitXxxInsn方法中调用visitInsn
-			- ``````
+		  collapsed:: true
+			- ```java
+			  public abstract class MethodPatternAdapter extends MethodVisitor {
+			      protected final static int SEEN_NOTHING = 0; //初始状态
+			      protected int state; //记录状态变化
+			  
+			      public MethodPatternAdapter(int api, MethodVisitor methodVisitor) {
+			          super(api, methodVisitor);
+			      }
+			  
+			      @Override
+			      public void visitLdcInsn(Object value) {
+			          visitInsn();
+			          super.visitLdcInsn(value);
+			      }
+			      
+			      @Override
+			      public void visitMethodInsn(int opcode, String owner, String name, String descriptor, boolean isInterface) {
+			          visitInsn();
+			          super.visitMethodInsn(opcode, owner, name, descriptor, isInterface);
+			      }
+			      ......
+			      
+			       protected abstract void visitInsn();
+			  ```
+		- 2、将问题转换成Instruciton指令，然后对多个指令组合的特征或遵循的模式进行总结：如下Hybrid添加action示例中如何获取action列表
+		  collapsed:: true
+			- ```java
+			  Map<String, Class<? extends RegisteredActionCtrl>> actions = new HashMap<>();
+			  actions.put(CarPublishBackParser.ACTION, CarPublishBackActionCtrl.class);
+			  actions.put(CarPublishGuideParser.ACTION, CarPublishGuideActionCtrl.class);
+			  Hybrid.add(actions);
+			  
+			  //转换为asm代码如下
+			  methodVisitor.visitCode();
+			  methodVisitor.visitTypeInsn(NEW, "java/util/HashMap");
+			  methodVisitor.visitInsn(DUP);
+			  methodVisitor.visitMethodInsn(INVOKESPECIAL, "java/util/HashMap", "<init>", "()V", false);
+			  methodVisitor.visitVarInsn(ASTORE, 0);
+			  methodVisitor.visitVarInsn(ALOAD, 0);
+			  
+			  //添加第一个
+			  methodVisitor.visitLdcInsn("publish_car_go_back");
+			  methodVisitor.visitLdcInsn(Type.getType("Lcom/wuba/carLib/manager/CarPublishBackActionCtrl;"));
+			  methodVisitor.visitMethodInsn(INVOKEINTERFACE, "java/util/Map", "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", true);
+			  
+			  methodVisitor.visitInsn(POP);
+			  methodVisitor.visitVarInsn(ALOAD, 0);
+			  
+			  //添加第二个
+			  methodVisitor.visitLdcInsn("show_publish_leadingpage");
+			  methodVisitor.visitLdcInsn(Type.getType("Lcom/wuba/carLib/manager/CarPublishGuideActionCtrl;"));
+			  methodVisitor.visitMethodInsn(INVOKEINTERFACE, "java/util/Map", "put", "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;", true);
+			  
+			  methodVisitor.visitInsn(POP);
+			  ```
+			-
+		- a.通过以上观察，对于actions.put方法调用实际上是三个instruction：visitLdcInsn(key), visitLdcInsn(value),visitMethodInsn
+		- b. 总共调用三个方法，我们只需要在添加两个状态即可满足，状态转换如下图所示
+-
