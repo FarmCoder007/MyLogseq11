@@ -240,4 +240,8 @@
 			- 调用顺序由classVisitor.accept() -> classVisitor.visitMethod() -> methodVisitor.visitCode() -> readCode() ->methodVisitor.visitEnd()
 			- methodVisitor.visitCode()方法起始位置调用，methodVisitor.visitEnd()方法结束时调用,且只会调用一次
 			- readCode() 读取code中属性值调用MethodVisitor对应方法
+	- ### readCode()
+		- 代码：
+			- ```
+			  ```
 -
