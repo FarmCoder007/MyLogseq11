@@ -2,7 +2,6 @@
 	- 将各个不同的部分重新组合成一个完整的.class文件，如何实现呢？
 - ## 二、源码实现
 	- 代码：
-	  collapsed:: true
 		- ```java
 		  public class ClassWriter extends ClassVisitor {
 		      public static final int COMPUTE_MAXS = 1;
@@ -74,7 +73,8 @@
 	- 原理：
 		- ClassWriter通过构造函数将传入的ClassVisitor信息解析封装为SymbolTable对象并将用到的classFile中数据保存为全局变量，字段field，method，Attribute等数据均由链表表示；
 - ## 三、组装.class文件
+  collapsed:: true
 	- 组装过程大致分为以下三步：
 	- 1、计算byte[]数组，即class文件大小size；
-	- 向byte数组中按照classFile格式添加对应元素；
-	- 将byte[] 数据返回;
+	- 2、向byte数组中按照classFile格式添加对应元素；
+	- 3、将byte[] 数据返回;
