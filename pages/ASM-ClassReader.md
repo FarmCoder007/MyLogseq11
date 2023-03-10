@@ -241,7 +241,60 @@
 			- methodVisitor.visitCode()方法起始位置调用，methodVisitor.visitEnd()方法结束时调用,且只会调用一次
 			- readCode() 读取code中属性值调用MethodVisitor对应方法
 	- ### readCode()
+	  collapsed:: true
 		- 代码：
-			- ```
+		  collapsed:: true
+			- ```java
+			  private void readCode(MethodVisitor methodVisitor, Context context, int codeOffset) {
+			    	byte[] classBuffer = this.classFileBuffer;
+			    	//常用加载字符串字节码命令编号：0x12 -> 18 ldc 表示int、float或String型常量从常量池推送至栈顶
+			    	case 18:
+			    	  //调用visitLdcInsn获取常量池中数据readConst读取utf-8字符串
+			    	  methodVisitor.visitLdcInsn(this.readConst(classBuffer[currentOffset + 1] & 255, charBuffer));
+			    	  	currentOffset += 2;
+			    	break;
+			  	...
+			  	case 158: ifle(9E)
+			  		//readShort:表示u2类型参数
+			  		this.createLabel(bytecodeOffset + this.readShort(currentOffset + 1), labels);
+			                  currentOffset += 3;
+			    	...
+			    	
+			    	case 178: //0xb2 getstatic
+			    	case 179: //0xb3 putstatic
+			    	case 180: //0xb4 getfield
+			    	case 181: //0xb5 putfield
+			    	case 182: //0xb6 invokevirtual
+			    	case 183: //0xb7 invokespecial
+			    	case 184: //0xb8 invokestatic
+			    	case 185: //0xb9 invokeinterface
+			    	
+			    	  	typeAnnotationOffset = this.cpInfoOffsets[this.readUnsignedShort(currentOffset + 1)];
+			    	  	targetType = this.cpInfoOffsets[this.readUnsignedShort(typeAnnotationOffset + 2)];
+			    	  	annotationDescriptor = this.readClass(typeAnnotationOffset, charBuffer);
+			    	  	descriptor = this.readUTF8(targetType, charBuffer);
+			    	  	signature = this.readUTF8(targetType + 2, charBuffer);
+			    	  	if (startPc < 182) { 
+			    	  		//如果字节码是对字段操作，调用methodVisitor.visitFieldInsn
+			    	  	  	methodVisitor.visitFieldInsn(startPc, annotationDescriptor, descriptor, signature);
+			    	  	} else {
+			    	  		//如果字节码是对方法操作，则调用methodVisitor.visitMethodInsn
+			    	  	  	boolean isInterface = classBuffer[typeAnnotationOffset - 1] == 11;
+			    	  	  	methodVisitor.visitMethodInsn(startPc, annotationDescriptor, descriptor, signature, isInterface);
+			    	  	}
+			  
+			    	  	if (startPc == 185) {
+			    	  	  	currentOffset += 5;
+			    	  	} else {
+			    	  	  	currentOffset += 3;
+			    	  	}
+			    	  	break;
+			    	  	...
+			      //对方法栈桢中的最大操作数栈和最大局部变量表进行赋值  	
+			      methodVisitor.visitMaxs(maxStack, maxLocals);
+			  }
 			  ```
+		- 作用：
+		  collapsed:: true
+			- 对方法code中的字节码进行解析，调用methodVisitor对应方法，最后调用 methodVisitor.visitMaxs 设置栈桢数据，若ClassWriter中设置了COMPUTE_FRAMES属性，则visitMaxs设置无效；
 -
