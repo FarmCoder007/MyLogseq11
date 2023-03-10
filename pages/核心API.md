@@ -17,7 +17,16 @@
 		- 它实现了AnnotationVisitor接口，用于拼接注解相关字节码
 	- ### 7、FieldWriter类：
 		- 它实现了FieldVisitor接口，用于拼接字段相关字节码
-	- ### 8、
+	- ### 8、MethodWriter类：
+		- 它实现了MethodVisitor接口，用于拼接方法相关字节码。
+	- ### 9、SignatureReader类：
+		- 对类定义、字段定义、方法定义、本地变量定义的签名的解析。Signature因范型引入，用于存储范型定义时的元数据（因为这些元数据在运行时会被擦除）。
+	- ### 10、SignatureVisitor接口：
+		- 定义在解析Signature时会触发的事件，如正常的Type参数、类或接口的边界等。
+		   SignatureWriter类：它实现了SignatureVisitor接口，用于拼接范型相关字节码。
+	- ### 11、Attribute类：
+		- 字节码中属性的类抽象。
+	-
 - ## 二、常用的asm.jar 中api(ClassReader,classVisitor,ClassWrite)
   collapsed:: true
 	- 我们常用的是asm.jar中的ClassReader,classVisitor,ClassWrite这三个类，他们的关系如下：
