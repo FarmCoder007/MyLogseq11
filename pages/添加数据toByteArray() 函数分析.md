@@ -55,6 +55,7 @@
 	          this.firstAttribute.putAttributes(this.symbolTable, result);
 	      }
 	  ```
-- 添加数据：
-  创建大小为size的字节集合对象ByteVector
-  按照classFile格式由前往后依次添加元素
+- 添加数据流程：
+	- 1、创建大小为size的字节集合对象ByteVector
+	- 2、按照classFile格式由前往后依次添加元素
+-
