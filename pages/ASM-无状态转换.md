@@ -37,4 +37,6 @@
 - ## 场景二、替换方法
 	- 若想替换掉某一条instruction，应该如何实现呢？当然是首先找到该instruction，然后在同样的位置替换成另一个instruction就可以啦！
 	- 需要特别注意： 在替换instruction过程中，operand stack(栈桢数据)在修改前和修改后是一致的
-	-
+	- 举例：
+		- ```java
+		  ```
