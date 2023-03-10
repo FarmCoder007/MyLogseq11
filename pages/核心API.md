@@ -9,7 +9,15 @@
 	- ### 3、AnnotationVisitor接口：
 		- 定义在解析注解时会触发的事件，如解析到一个基本值类型的注解、enum值类型的注解、Array值类型的注解、注解值类型的注解等
 	- ### 4、FieldVisitor接口：
-		-
+		- 定义在解析字段时触发的事件，如解析到字段上的注解、解析到字段相关的属性等。
+		   MethodVisitor接口：定义在解析方法时触发的事件，如方法上的注解、属性、代码等。
+	- ### 5、ClassWriter类：
+		- 它实现了ClassVisitor接口，用于拼接字节码。
+	- ### 6、AnnotationWriter类：
+		- 它实现了AnnotationVisitor接口，用于拼接注解相关字节码
+	- ### 7、FieldWriter类：
+		- 它实现了FieldVisitor接口，用于拼接字段相关字节码
+	- ### 8、
 - ## 二、常用的asm.jar 中api(ClassReader,classVisitor,ClassWrite)
   collapsed:: true
 	- 我们常用的是asm.jar中的ClassReader,classVisitor,ClassWrite这三个类，他们的关系如下：
