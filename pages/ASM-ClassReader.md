@@ -137,4 +137,61 @@
 		- header:
 			- 存储当前类的access_flags标识位在字节码数组中位置：快速定位到当前类，父类，字段，方法等数据内容，如何验证，看一下accept()方法：
 	- ### accept 函数分析
-	-
+		- 源代码
+		  collapsed:: true
+			- ```java
+			  public void accept(ClassVisitor classVisitor, Attribute[] attributePrototypes, int parsingOptions) {
+			          ...
+			          int currentOffset = this.header; //currentOffset指定位置为：u2 access_flags
+			          int accessFlags = this.readUnsignedShort(currentOffset); //获取类标识位 Short
+			          String thisClass = this.readClass(currentOffset + 2, charBuffer); // +2获取当前类索引 this_class
+			          String superClass = this.readClass(currentOffset + 4, charBuffer); // +4 获取当前父类索引 super_class
+			          String[] interfaces = new String[this.readUnsignedShort(currentOffset + 6)]; //接口集合数据：大小 + 6
+			          currentOffset += 8; //u2:access_flags, u2:this_class, u2:super_class , u2:interfaces_count
+			  				
+			  	//获取实现接口数据
+			  	int innerClassesOffset;
+			          for(innerClassesOffset = 0; innerClassesOffset < interfaces.length; ++innerClassesOffset) {
+			              interfaces[innerClassesOffset] = this.readClass(currentOffset, charBuffer);
+			              currentOffset += 2; //interfaces[] 数组：数据类型u2
+			          }
+			          
+			          ...
+			          //获取属性表位置：attribute_info
+			          int currentAttributeOffset = this.getFirstAttributeOffset();
+			  	//属性表个数：attributes_count
+			          int fieldsCount;
+			          for(fieldsCount = this.readUnsignedShort(currentAttributeOffset - 2); fieldsCount > 0; --fieldsCount) {
+			              String attributeName = this.readUTF8(currentAttributeOffset, charBuffer);
+			              int attributeLength = this.readInt(currentAttributeOffset + 2);
+			              currentAttributeOffset += 6;
+			              ...
+			              if ("Signature".equals(attributeName)) { //若当前类属性有泛型，则读取其信息
+			                  signature = this.readUTF8(currentAttributeOffset, charBuffer);
+			              } 
+			  						...
+			              currentAttributeOffset += attributeLength;
+			                          
+			          }
+			          
+			          
+			      //调用visit方法，每个类只会调用一次，参数为我们读取到字节码数据
+			      classVisitor.visit(this.readInt(this.cpInfoOffsets[1] - 7), accessFlags, thisClass, signature, superClass, interfaces);
+			       	...
+			      
+			      //获取filed字段个数
+			      fieldsCount = this.readUnsignedShort(currentOffset);
+			      //readField() 调用classVisitor.visitField()方法
+			      for(currentOffset += 2; fieldsCount-- > 0; currentOffset = this.readField(classVisitor, context, currentOffset)) {}
+			      //获取method方法个数
+			      methodsCount = this.readUnsignedShort(currentOffset);
+			      //readMethod() 调用classVisitor.visitMethod()方法
+			      for(currentOffset += 2; methodsCount-- > 0; currentOffset = this.readMethod(classVisitor, context, currentOffset)) {}
+			  
+			      classVisitor.visitEnd();	
+			  ```
+		- 作用：
+		- 根据header快速获取类标识位，当前类索引，父类索引，接口数据，属性表等数据后调用classVisitor.visit()方法，这也就解释了为何classVisitor.visit()及classVisitor.visitEnd()只会调用一次，且一个在前，一个在最后调用；
+		  根据字段个数，调用readField中对字段解析调用classVisitor.visitField()方法
+		  根据方法个数，调用readMethod中对字段解析调用classVisitor.visitMethod()方法
+-
