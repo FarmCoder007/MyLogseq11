@@ -79,7 +79,8 @@
 		- 1、计算byte[]数组，即class文件大小size；
 		- 2、向byte数组中按照classFile格式添加对应元素；
 		- 3、将byte[] 数据返回;
-	- toByteArray() 函数分析
+	- ### toByteArray() 函数分析
+	  collapsed:: true
 		- 代码
 		  collapsed:: true
 			- ```java
@@ -128,3 +129,9 @@
 			     */
 			      size += this.symbolTable.getConstantPoolLength();
 			  ```
+		- 计算数组大小
+		  collapsed:: true
+			- 1、必要位： 由classFile格式可知总计有24个字节，接口数据有 2*interfaceCount
+			- 2、其他位： 依次计算剩下的常量池，字段，方法，属性大小
+			- 3、汇总以上数据获取.class文件大小
+	- ### 添加数据
