@@ -142,8 +142,10 @@
 				  [] [sample/HelloWorld]
 				  [] []
 				  ```
-	- 通过以上观察，对方法替换分为静态方法和非静态方法
+	- ## 通过以上观察，对方法替换分为静态方法和非静态方法
+	  collapsed:: true
 		- 代码：
+		  collapsed:: true
 			- ```java
 			  //自定义MethodReplaceInvokeAdapter extends MethodVisitor替换visitMethodInsn方法
 			  public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
@@ -166,3 +168,4 @@
 			  ClassVisitor cv = new MethodReplaceInvokeVisitor(Opcodes.ASM9, cw, "sample/HelloWorld", "add", "(II)I", Opcodes.INVOKESTATIC, "com/asm/method/ReplaceMethodManager", "add", "(Lsample/HelloWorld;II)I");
 			  
 			  ```
+		- 由于替换方法由我们定义，一般使用的是静态方法newOpcode设为Opcodes.INVOKESTATIC，最后一个参数是boolean isInterface，若为true表示调用为一个接口里的方法，若为false表示调用为一个类中方法，由于操作我们拥有自主权，一般写成在一个类里的static方法
