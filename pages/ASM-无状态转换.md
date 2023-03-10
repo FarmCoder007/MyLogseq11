@@ -99,8 +99,45 @@
 			  }
 			  ```
 		- 字节码指令解析：
+		  collapsed:: true
 			- invokespecial调用add方法时会将已经加载到操作数栈上的b , a, this依次出栈消耗掉，因此当我们替换该instruction时的方法也是需要消耗掉操作数栈上的 b, a, this数据，否则后续执行可能会报错；
-			-
+			- invokestatic调用之前只执行了ldc将常量池中3位置加载到操作数栈后执行getDesc方法，只消耗了该String对象
+			- 使用工具类[AnalyzerAdapter](https://javadoc.io/static/org.ow2.asm/asm-commons/9.3/org/objectweb/asm/commons/AnalyzerAdapter.html) [源码](https://github.com/killme2008/aviatorscript/blob/master/src/main/java/com/googlecode/aviator/asm/commons/AnalyzerAdapter.java)对上方test方法的每行Instruction执行时栈桢中局部变量表和操作数栈数据如下
+			  collapsed:: true
+				- ```java
+				  test:(II)V			 局部变量表         ｜  操作数栈
+				                                 // {this, int, int} | {}
+				  0000: aload_0                  // {this, int, int} | {this}
+				  0001: iload_1                  // {this, int, int} | {this, int}
+				  0002: iload_2                  // {this, int, int} | {this, int, int} 
+				  0003: invokespecial   #2       // {this, int, int} | {int} //将操作数栈上数据消耗掉后存储返回值
+				  0006: pop                      // {this, int, int} | {}
+				  0007: ldc             #3       // {this, int, int} | {String}
+				  0009: invokestatic    #4       // {this, int, int} | {String} //消耗掉String后存储返回值
+				  0012: pop                      // {this, int, int} | {}
+				  0013: return                   // {} | {}
+				  
+				  //单例模式的字节码
+				  0: getstatic     #2                  // Field instance:Lsample/HelloWorld;
+				  3: ifnonnull     16
+				  6: new           #3                  // class sample/HelloWorld
+				  9: dup
+				  10: invokespecial #4                  // Method "<init>":()V
+				  13: putstatic     #2                  // Field instance:Lsample/HelloWorld;
+				  16: getstatic     #2                  // Field instance:Lsample/HelloWorld;
+				  19: areturn
+				  
+				  getInstance()Lsample/HelloWorld;
+				  [] []
+				  [] [sample/HelloWorld]
+				  [] []
+				  [] [uninitialized_sample/HelloWorld]
+				  [] [uninitialized_sample/HelloWorld, uninitialized_sample/HelloWorld]
+				  [] [sample/HelloWorld]
+				  [] []
+				  [] [sample/HelloWorld]
+				  [] []
+				  ```
 	- Java虚拟机规范中定义如下：
 	  collapsed:: true
 		- invokespecial: 在操作数栈中obj之后必须跟随n个参数值，他们的数量，数据类型和顺序都必须与方法描述符保持一致，若调用不是本地方法，n个参数值和obj将从操作数栈中出栈，方法调用时，将在java虚拟机栈中创建一个新的栈桢，obj和连续的n个参数值将存储到新栈桢的局部变量表中，obj存储到局部变量表0，n个参数依次往后，新栈桢创建后就成为当前栈桢，JVM的PC寄存器指向待调用方法中首条指令，程序就从这里开始继续执行；
