@@ -1,7 +1,7 @@
 - ## 一、组成
 	- Core API包括asm.jar、asm-util.jar和asm-commons.jar
 - ## 二、CoreAPI组成(在org.objectweb.asm包中)
-	- ### 1、ClassReader类：
+	- ### 1、ClassReader类：[[ASM-ClassReader]]
 		- 字节码的读取与分析引擎。它采用类似SAX的事件读取机制，每当有事件发生时，调用注册的ClassVisitor、AnnotationVisitor、FieldVisitor、MethodVisitor做相应的处理
 	- ### 2、ClassVisitor接口：
 		- 定义在读取Class字节码时会触发的事件，如类头解析完成、注解解析、字段解析、方法解析等
@@ -11,7 +11,7 @@
 	- ### 4、FieldVisitor接口：
 		- 定义在解析字段时触发的事件，如解析到字段上的注解、解析到字段相关的属性等。
 		   MethodVisitor接口：定义在解析方法时触发的事件，如方法上的注解、属性、代码等。
-	- ### 5、ClassWriter类：
+	- ### 5、ClassWriter类：[[ASM-ClassWriter]]
 		- 它实现了ClassVisitor接口，用于拼接字节码。
 	- ### 6、AnnotationWriter类：
 		- 它实现了AnnotationVisitor接口，用于拼接注解相关字节码
@@ -41,5 +41,5 @@
   collapsed:: true
 	- 我们常用的是asm.jar中的ClassReader,classVisitor,ClassWrite这三个类，他们的关系如下：
 	- ![image.png](../assets/image_1678429847944_0.png)
-- ## 三、[[ASM-ClassReader]]
+- ## 三、
 -
