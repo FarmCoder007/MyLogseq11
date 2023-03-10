@@ -85,6 +85,21 @@
 			  methodVisitor.visitInsn(POP);
 			  ```
 			-
-		- a.通过以上观察，对于actions.put方法调用实际上是三个instruction：visitLdcInsn(key), visitLdcInsn(value),visitMethodInsn
-		- b. 总共调用三个方法，我们只需要在添加两个状态即可满足，状态转换如下图所示
+		- 说明
+		  collapsed:: true
+			- a.通过以上观察，对于actions.put方法调用实际上是三个instruction：visitLdcInsn(key), visitLdcInsn(value),visitMethodInsn
+			- b. 总共调用三个方法，我们只需要在添加两个状态即可满足，状态转换如下图所示
+				- 代码
+				  collapsed:: true
+					- ```java
+					  //调用visitLdcInsn(key)后的状态
+					  private static final int SEEN_LDCTYPE = 1
+					  //调用visitLdcInsn(value)后的状态
+					  private static final int SEEN_LDC_METHOD = 2
+					  ```
+				- 图片
+				  collapsed:: true
+					- ![image.png](../assets/image_1678437874268_0.png)
+		- 3、状态转移清楚后，写代码就很轻松了
+			-
 -
