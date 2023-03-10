@@ -38,64 +38,71 @@
 	- 若想替换掉某一条instruction，应该如何实现呢？当然是首先找到该instruction，然后在同样的位置替换成另一个instruction就可以啦！
 	- 需要特别注意： 在替换instruction过程中，operand stack(栈桢数据)在修改前和修改后是一致的
 	- 代码举例：
-	  collapsed:: true
-		- ```java
-		  // java源码
-		  public class HelloWorld {
-		      private HelloWorld(){}
-		      private static HelloWorld instance ;
-		      public static synchronized HelloWorld getInstance(){
-		          if (instance == null){
-		              instance = new HelloWorld();
-		          }
-		          return instance;
-		      }
-		  
-		      public void test(int a, int b){
-		          add(a , b); //调用非静态方法
-		          getDesc("HelloWorld"); //调用静态方法
-		      }
-		      private int add(int a , int b){
-		          return a + b;
-		      }
-		      public static String getDesc(String clazzName){
-		          return "current class " + clazzName;
-		      }
-		  }
-		  
-		  // 输出字节码如下
-		  public void test(int, int);
-		      descriptor: (II)V
-		      flags: (0x0001) ACC_PUBLIC
-		      Code:
-		        stack=3, locals=3, args_size=3  //局部变量表中位置： 0:this； 1:a ; 2:b
-		           0: aload_0   //加载this到操作数栈
-		           1: iload_1   //加载a到操作数栈
-		           2: iload_2   //加载b到操作数栈
-		           3: invokespecial #2                  // Method add:(II)I  调用非静态方法add
-		           6: pop
-		           7: ldc           #3                  // String HelloWorld
-		           9: invokestatic  #4                  // Method getDesc:(Ljava/lang/String;)Ljava/lang/String;
-		          12: pop
-		          13: return
-		          
-		  //字节码 对应的 asm代码如下
-		  {
-		    methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "test", "(II)V", null, null);
-		    methodVisitor.visitCode();
-		    methodVisitor.visitVarInsn(ALOAD, 0);
-		    methodVisitor.visitVarInsn(ILOAD, 1);
-		    methodVisitor.visitVarInsn(ILOAD, 2);
-		    methodVisitor.visitMethodInsn(INVOKESPECIAL, "sample/HelloWorld", "add", "(II)I", false); //调用non-static add方法，上面三个visitVarInsn方法是方法所需参数
-		    methodVisitor.visitInsn(POP);
-		    
-		    methodVisitor.visitLdcInsn("HelloWorld");
-		    methodVisitor.visitMethodInsn(INVOKESTATIC, "sample/HelloWorld", "getDesc", "(Ljava/lang/String;)Ljava/lang/String;", false); //调用static getDesc需要一个参数
-		    methodVisitor.visitInsn(POP);
-		    methodVisitor.visitInsn(RETURN);
-		    methodVisitor.visitMaxs(3, 3);
-		    methodVisitor.visitEnd();
-		  }
-		  ```
+		- 代码：
+		  collapsed:: true
+			- ```java
+			  // java源码
+			  public class HelloWorld {
+			      private HelloWorld(){}
+			      private static HelloWorld instance ;
+			      public static synchronized HelloWorld getInstance(){
+			          if (instance == null){
+			              instance = new HelloWorld();
+			          }
+			          return instance;
+			      }
+			  
+			      public void test(int a, int b){
+			          add(a , b); //调用非静态方法
+			          getDesc("HelloWorld"); //调用静态方法
+			      }
+			      private int add(int a , int b){
+			          return a + b;
+			      }
+			      public static String getDesc(String clazzName){
+			          return "current class " + clazzName;
+			      }
+			  }
+			  
+			  // 输出字节码如下
+			  public void test(int, int);
+			      descriptor: (II)V
+			      flags: (0x0001) ACC_PUBLIC
+			      Code:
+			        stack=3, locals=3, args_size=3  //局部变量表中位置： 0:this； 1:a ; 2:b
+			           0: aload_0   //加载this到操作数栈
+			           1: iload_1   //加载a到操作数栈
+			           2: iload_2   //加载b到操作数栈
+			           3: invokespecial #2                  // Method add:(II)I  调用非静态方法add
+			           6: pop
+			           7: ldc           #3                  // String HelloWorld
+			           9: invokestatic  #4                  // Method getDesc:(Ljava/lang/String;)Ljava/lang/String;
+			          12: pop
+			          13: return
+			          
+			  //字节码 对应的 asm代码如下
+			  {
+			    methodVisitor = classWriter.visitMethod(ACC_PUBLIC, "test", "(II)V", null, null);
+			    methodVisitor.visitCode();
+			    methodVisitor.visitVarInsn(ALOAD, 0);
+			    methodVisitor.visitVarInsn(ILOAD, 1);
+			    methodVisitor.visitVarInsn(ILOAD, 2);
+			    methodVisitor.visitMethodInsn(INVOKESPECIAL, "sample/HelloWorld", "add", "(II)I", false); //调用non-static add方法，上面三个visitVarInsn方法是方法所需参数
+			    methodVisitor.visitInsn(POP);
+			    
+			    methodVisitor.visitLdcInsn("HelloWorld");
+			    methodVisitor.visitMethodInsn(INVOKESTATIC, "sample/HelloWorld", "getDesc", "(Ljava/lang/String;)Ljava/lang/String;", false); //调用static getDesc需要一个参数
+			    methodVisitor.visitInsn(POP);
+			    methodVisitor.visitInsn(RETURN);
+			    methodVisitor.visitMaxs(3, 3);
+			    methodVisitor.visitEnd();
+			  }
+			  ```
+		- 字节码指令解析：
+			- invokespecial调用add方法时会将已经加载到操作数栈上的b , a, this依次出栈消耗掉，因此当我们替换该instruction时的方法也是需要消耗掉操作数栈上的 b, a, this数据，否则后续执行可能会报错；
+			-
 	- Java虚拟机规范中定义如下：
-		-
+	  collapsed:: true
+		- invokespecial: 在操作数栈中obj之后必须跟随n个参数值，他们的数量，数据类型和顺序都必须与方法描述符保持一致，若调用不是本地方法，n个参数值和obj将从操作数栈中出栈，方法调用时，将在java虚拟机栈中创建一个新的栈桢，obj和连续的n个参数值将存储到新栈桢的局部变量表中，obj存储到局部变量表0，n个参数依次往后，新栈桢创建后就成为当前栈桢，JVM的PC寄存器指向待调用方法中首条指令，程序就从这里开始继续执行；
+		- invokestatic: 在操作数栈中必须包含连续n个参数值，这些参数的数量，数据类型和顺序都必须遵循实例方法的描述符，若调用不是本地方法，n个参数值将从操作数栈中出栈，方法调用时，将在java虚拟机栈中创建一个新的栈桢，连续的n个参数值将存储到新栈桢的局部变量表中，新栈桢创建后就成为当前栈桢，JVM的PC寄存器指向待调用方法中首条指令，程序就从这里开始继续执行；
+	-
