@@ -137,6 +137,7 @@
 		- header:
 			- 存储当前类的access_flags标识位在字节码数组中位置：快速定位到当前类，父类，字段，方法等数据内容，如何验证，看一下accept()方法：
 	- ### accept 函数分析
+	  collapsed:: true
 		- 源代码
 		  collapsed:: true
 			- ```java
@@ -199,4 +200,8 @@
 			- 1、根据header快速获取类标识位，当前类索引，父类索引，接口数据，属性表等数据后调用classVisitor.visit()方法，这也就解释了为何classVisitor.visit()及classVisitor.visitEnd()只会调用一次，且一个在前，一个在最后调用；
 			- 2、根据字段个数，调用readField中对字段解析调用classVisitor.visitField()方法
 			- 3、根据方法个数，调用readMethod中对字段解析调用classVisitor.visitMethod()方法
+	- ### readField() 和 readMethod()
+		- 代码：
+			- ```java
+			  ```
 -
