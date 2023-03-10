@@ -101,5 +101,84 @@
 				  collapsed:: true
 					- ![image.png](../assets/image_1678437874268_0.png)
 		- 3、状态转移清楚后，写代码就很轻松了
-			-
--
+		  collapsed:: true
+			- ```java
+			  public class ReadActionMapMethod extends MethodPatternAdapter {
+			  
+			      /**
+			       * 需要校验的字节码顺序：Map.put()/HashMap.put()
+			       */
+			      private static final int SEEN_LDCTYPE = 1
+			  
+			      private static final int SEEN_LDC_METHOD = 2
+			      //当前存储业务线
+			      private String businessLine
+			      /**
+			       * 当前第一步缓存数据
+			       */
+			      private String mMapKey
+			      /**
+			       * 当前第二步缓存数据
+			       */
+			      private Type mMapValue
+			  
+			      protected ReadActionMapMethod(int api, MethodVisitor methodVisitor, String businessLine) {
+			          super(api, methodVisitor)
+			          this.businessLine = businessLine
+			      }
+			  
+			      @Override
+			      void visitLdcInsn(Object value) {
+			  
+			          if (value instanceof String) {
+			              state = SEEN_LDCTYPE
+			              mMapKey = value
+			              mv.visitLdcInsn(value)
+			              return
+			          }else if (value instanceof Type && state == SEEN_LDCTYPE){
+			              state = SEEN_LDC_METHOD
+			              mMapValue = value
+			              mv.visitLdcInsn(value)
+			              return
+			          }
+			          super.visitLdcInsn(value)
+			      }
+			  
+			      @Override
+			      protected void visitInsn() {
+			  //        switch (state) {
+			  //
+			  //            case SEEN_LDCTYPE:
+			  //                //将拦截的数据发送出去
+			  //                mv.visitLdcInsn(mMapKey)
+			  //                break
+			  //
+			  //            case SEEN_LDC_METHOD:
+			  //                //将拦截的数据发送出去
+			  //                mv.visitLdcInsn(mMapKey)
+			  //                mv.visitLdcInsn(mMapValue)
+			  //                break
+			  //        }
+			          state = SEEN_NOTHING
+			  
+			      }
+			  
+			      @Override
+			      void visitMethodInsn(int opcode, String owner, String name, String descriptor, boolean isInterface) {
+			          switch (state) {
+			              case SEEN_LDC_METHOD:
+			                  boolean flag = ((opcode == Opcodes.INVOKEVIRTUAL && owner == "java/util/HashMap" && name == "put")
+			                          || (opcode == Opcodes.INVOKEINTERFACE && owner == "java/util/Map" && name == "put"))
+			                  if (flag) { //需要存储数据啦
+			                      HybridActionManager.install.addAction(businessLine, mMapKey)
+			                  }
+			                  break
+			          }
+			          super.visitMethodInsn(opcode, owner, name, descriptor, isInterface)
+			  
+			      }
+			  ```
+- ## 四、当前只是检查三个状态，如何提升准确性？
+	- 背景：
+		- 存储上方获取的String -> Type对应值，在此扫描获取Type class文件，解析其是否实现Action接口RegisteredActionCtrl，若实现该接口在添加，提高准确性；若想了解这部分内容，请参考WubaActionSDK项目中对RN module字段获取内容，先获取具体类型再根据是否添加类注解，重写getName方法等确定字段值；
+		-
