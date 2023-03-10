@@ -75,8 +75,9 @@
 			  ```
 		- 原理：
 			- ClassWriter通过构造函数将传入的ClassVisitor信息解析封装为SymbolTable对象并将用到的classFile中数据保存为全局变量，字段field，method，Attribute等数据均由链表表示；
-	- ### 组装.class文件(都在toByteArray函数)
+	- ### toByteArray函数——>组装.class文件
 		- 1、计算byte[]数组，即class文件大小size；[[计算方式在toByteArray() 函数]]
 		- 2、向byte数组中按照classFile格式添加对应元素；[[添加数据toByteArray() 函数分析]]
 		- 3、将byte[] 数据返回;
+-
 -
