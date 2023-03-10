@@ -26,7 +26,12 @@
 		   SignatureWriter类：它实现了SignatureVisitor接口，用于拼接范型相关字节码。
 	- ### 11、Attribute类：
 		- 字节码中属性的类抽象。
-	-
+	- ### 12、 ByteVector类：
+		- 字节码二进制存储的容器。
+	- ### 13、Opcodes接口：
+		- 字节码指令的一些常量定义。
+	- ### 14、Type类：
+		- 类型相关的常量定义以及一些基于其上的操作。
 - ## 二、常用的asm.jar 中api(ClassReader,classVisitor,ClassWrite)
   collapsed:: true
 	- 我们常用的是asm.jar中的ClassReader,classVisitor,ClassWrite这三个类，他们的关系如下：
