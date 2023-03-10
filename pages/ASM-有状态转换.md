@@ -178,7 +178,49 @@
 			  
 			      }
 			  ```
-- ## 四、当前只是检查三个状态，如何提升准确性？
-	- 背景：
-		- 存储上方获取的String -> Type对应值，在此扫描获取Type class文件，解析其是否实现Action接口RegisteredActionCtrl，若实现该接口在添加，提高准确性；若想了解这部分内容，请参考WubaActionSDK项目中对RN module字段获取内容，先获取具体类型再根据是否添加类注解，重写getName方法等确定字段值；
-		-
+- ## 四、思考
+	- 1、当前只是检查三个状态，如何提升准确性？
+	  collapsed:: true
+		- 背景：
+		  collapsed:: true
+			- 存储上方获取的String -> Type对应值，在此扫描获取Type class文件，解析其是否实现Action接口RegisteredActionCtrl，若实现该接口在添加，提高准确性；若想了解这部分内容，请参考WubaActionSDK项目中对RN module字段获取内容，先获取具体类型再根据是否添加类注解，重写getName方法等确定字段值；
+			-
+		- 代码：
+		  collapsed:: true
+			- ```java
+			  @Override
+			  protected List<ModuleSpec> createWubaNativeModules(final ReactApplicationContextWrapper reactApplicationContext) {
+			         List<ModuleSpec> moduleSpecList = new ArrayList<ModuleSpec>();
+			         moduleSpecList.add(new ModuleSpec(new Provider<NativeModule>() {
+			             @Override
+			             public NativeModule get() {
+			                 return new WBSingleSelector(reactApplicationContext);
+			             }
+			         },WBSingleSelector.class.getName()));
+			  return moduleSpecList;
+			  
+			  //解析字节码指令：校验状态共计四步
+			  methodVisitor.visitLdcInsn(Type.getType("Lcom/wuba/wubaaction/rn/selector/WBMultiUnlinkSelector;"));
+			  methodVisitor.visitMethodInsn(INVOKEVIRTUAL, "java/lang/Class", "getName", "()Ljava/lang/String;", false);
+			  methodVisitor.visitMethodInsn(INVOKESPECIAL, "com/facebook/react/bridge/ModuleSpec", "<init>", "(Ljavax/inject/Provider;Ljava/lang/String;)V", false);
+			  methodVisitor.visitMethodInsn(INVOKEINTERFACE, "java/util/List", "add", "(Ljava/lang/Object;)Z", true);
+			  
+			  //viewModule注入
+			  @Override
+			    protected List<WubaViewManager> createWubaViewManagers(ReactApplicationContextWrapper reactApplicationContext) {
+			            List<WubaViewManager> list = new ArrayList<WubaViewManager>();
+			            list.add(new WBPublishLoadingView());
+			            list.add(new WBErrorView())；
+			            return list;
+			        }
+			        
+			    //解析字节码指令：校验状态共计四步
+			    methodVisitor.visitTypeInsn(NEW, "com/wuba/wubaaction/rn/selector/view/WBPublishLoadingView");
+			    methodVisitor.visitInsn(DUP);
+			    methodVisitor.visitMethodInsn(INVOKESPECIAL, "com/wuba/wubaaction/rn/selector/view/WBPublishLoadingView", "<init>", "()V", false);
+			    methodVisitor.visitMethodInsn(INVOKEINTERFACE, "java/util/List", "add", "(Ljava/lang/Object;)Z", true);
+			  ```
+	- 2、当引用一些业务库中对异常只简单捕获并未输出堆栈信息导致问题查找困难时，也可以尝试使用ASM对catch()函数校验后增加自定义逻辑：输出堆栈信息或调用自定义方法等；
+	  collapsed:: true
+		- ![image.png](../assets/image_1678438006407_0.png)
+-
