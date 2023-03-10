@@ -1,7 +1,7 @@
 - ## 一、简介
-  collapsed:: true
 	- ASM 是一种通用的Java字节码操作和分析框架，它可以用于修改现有的class文件或者动态生成class文件
 	- 处理字节码方式是“拆分-修改-合并”
+	- ASM操作字节码文件，其前提是熟记classFile文件格式，其各个数据项严格按顺序排列，没有任何分隔符，对照该文件格式在看ASM中的各个操作才能一目了然；
 - ## 二、[[字节码相关知识]]
 - ## 三、ASM组成(核心API  树API)
   collapsed:: true
@@ -26,4 +26,4 @@
 	- [ASM(字节码修改工具)](https://blog.csdn.net/qq_21383435/article/details/124434374)
 	- [Android编译插桩- ASM揭秘](https://ishare.58corp.com/articleDetail?id=95334&actType=zpsc)
 	- [AOP概念以及常见手段（一）](https://ishare.58corp.com/articleDetail?id=66060)
--
+	- [jvm字节码指令集](https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-6.html#jvms-6.5)
