@@ -33,8 +33,10 @@
 	- ### 14、Type类：
 		- 类型相关的常量定义以及一些基于其上的操作。
 		-
-	- # 他们之间的类图关系如下：
-	   ClassReader是ASM中最核心的实现，它用于读取并解析Class字节码
+	- ## 他们之间的类图关系如下：
+	  collapsed:: true
+		- ClassReader是ASM中最核心的实现，它用于读取并解析Class字节码
+		- ![image.png](../assets/image_1678431833167_0.png)
 - ## 二、常用的asm.jar 中api(ClassReader,classVisitor,ClassWrite)
   collapsed:: true
 	- 我们常用的是asm.jar中的ClassReader,classVisitor,ClassWrite这三个类，他们的关系如下：
