@@ -4,11 +4,14 @@
 	- 处理字节码方式是“拆分-修改-合并”
 - ## 二、[[字节码相关知识]]
 - ## 三、ASM组成(核心API  树API)
+  collapsed:: true
 	- 组成结构上来说，ASM分成两部分，一部分为Core API，另一部分为Tree API
 	- ### [[核心API]]
 	- Tree API
 		- 包括asm-tree.jar和asm-analysis.jar
-- ## 四、ASM使用
+-
+- 四
+- ## ASM接入使用
 	- [ASM4中文使用手册](https://www.yuque.com/mikaelzero/asm/lqufu3)
 -
 -
