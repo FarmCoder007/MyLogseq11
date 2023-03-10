@@ -137,10 +137,14 @@
 		- header:
 			- 存储当前类的access_flags标识位在字节码数组中位置：快速定位到当前类，父类，字段，方法等数据内容，如何验证，看一下accept()方法：
 	- ### accept 函数分析
-	  collapsed:: true
 		- 源代码
 		  collapsed:: true
 			- ```java
+			  // 使给定访问者访问传递给此ClassReader构造函数的JVMS ClassFile结构。
+			  // 参数：
+			  // classVisitor–必须访问该类的访问者。
+			  // attributePrototypes–在类访问期间必须解析的属性的原型。任何类型不等于原型类型的属性都不会被解析：它的字节数组值将不变地传递给ClassWriter。如果此值包含对常量池的引用，或者与已由读取器和写入器之间的类适配器转换的类元素具有语法或语义链接，则可能会损坏它。
+			  // parsingOptions–用于分析此类的选项。SKIP_CODE、SKIP_DEBUG、SKIP_FRAMES或EXPAND_FRAMES中的一个或多个。
 			  public void accept(ClassVisitor classVisitor, Attribute[] attributePrototypes, int parsingOptions) {
 			          ...
 			          int currentOffset = this.header; //currentOffset指定位置为：u2 access_flags
