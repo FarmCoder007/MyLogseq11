@@ -1,7 +1,7 @@
 - ## 一、作用
 	- 主要负责读取.class文件里的内容，然后拆分成各个不同的部分；如何实现呢？
 - ## 二、ClassReader的实现
-	- ### 源码分析,省略了些代码
+	- ### 构造函数分析
 	  collapsed:: true
 		- ```java
 		  public class ClassReader {
@@ -131,7 +131,10 @@
 		  }
 		  ```
 	- ### 属性分析：
+	  collapsed:: true
 		- int[] cpInfoOffsets：//数据的索引信息:标识了classFileBuffer中数据里包含的常量池位置
 			- 由class文件往后读取8个字节，在classFile中可知（魔数u4，次版本号u2，主版本号u2）constant_pool_count即常量池大小为cpInfoOffsets数组大小，数组中数据为当前常量在classFile中的偏移量，用于快速获取常量；
 		- header:
 			- 存储当前类的access_flags标识位在字节码数组中位置：快速定位到当前类，父类，字段，方法等数据内容，如何验证，看一下accept()方法：
+	- ### accept 函数分析
+	-
