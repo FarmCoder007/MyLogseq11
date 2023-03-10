@@ -1,4 +1,5 @@
 - 工作
+  collapsed:: true
 	- [[专利]]
 	- [[WBRouter]]
 	- [[职级评审]]
