@@ -201,6 +201,7 @@
 			- 2、根据字段个数，调用readField中对字段解析调用classVisitor.visitField()方法
 			- 3、根据方法个数，调用readMethod中对字段解析调用classVisitor.visitMethod()方法
 	- ### readField() 和 readMethod()
+	  collapsed:: true
 		- 代码：
 		  collapsed:: true
 			- ```java
@@ -235,6 +236,8 @@
 			    	return currentOffset;
 			  }
 			  ```
-		- MethodVisitor:调用顺序由classVisitor.accept() -> classVisitor.visitMethod() -> methodVisitor.visitCode() -> readCode() ->methodVisitor.visitEnd()
-		- methodVisitor.visitCode()方法起始位置调用，methodVisitor.visitEnd()方法结束时调用,且只会调用一次
+		- MethodVisitor:
+			- 调用顺序由classVisitor.accept() -> classVisitor.visitMethod() -> methodVisitor.visitCode() -> readCode() ->methodVisitor.visitEnd()
+			- methodVisitor.visitCode()方法起始位置调用，methodVisitor.visitEnd()方法结束时调用,且只会调用一次
+			- readCode() 读取code中属性值调用MethodVisitor对应方法
 -
