@@ -297,4 +297,3 @@
 		- 作用：
 		  collapsed:: true
 			- 对方法code中的字节码进行解析，调用methodVisitor对应方法，最后调用 methodVisitor.visitMaxs 设置栈桢数据，若ClassWriter中设置了COMPUTE_FRAMES属性，则visitMaxs设置无效；
--
