@@ -18,4 +18,14 @@
 		- 3、识别成功之后，要对Class文件进行转换，这就对应transformation部分，无非就是对Instruction的内容进行增删改等操作；
 		- 如何根据识别记录状态（state）变化呢，这里就要用到state machine(状态机)
 - ## 三、状态机state machine
-	-
+	- 介绍：
+	  collapsed:: true
+		- 有限状态机（Finite-state machine,FSM），又称有限状态自动机，简称状态机，是表示有限个状态以及在这些状态之间的转移和动作等行为的数学模型 , FSM是一种算法思想，简单而言，有限状态机由一组状态、一个初始状态、输入和根据输入及现有状态转换为下一个状态的转换函数组成，其作用主要是描述对象在它的生命周期内所经历的状态序列，以及如何响应来自外界的各种事件。
+	- 对于ASM来说，一般设定一个统一原始的state machine，这里命名为MethodPatternAdapter类
+	  collapsed:: true
+		- class info：MethodPatternAdapter抽象类，继承自MethodVisitor
+		- Fields: 其中定义两个字段，一个常量SEEN_NOTHING表示初始状态 ，一个state字段用于记录不断变化的状态
+		- Methods：MethodPatternAdapter类中定义的visitXxxInsn()方法，都会去调用一个自定义的visitInsn()方法：该方法是一个抽象方法，作用就是让所有其他状态（state）都回归到初始状态:SEEN_NOTHING；
+	- 操作：
+		- 1、创建MethodPatternAdapter抽象类，visitXxxInsn方法中调用visitInsn
+			- ``````
