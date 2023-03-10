@@ -202,6 +202,39 @@
 			- 3、根据方法个数，调用readMethod中对字段解析调用classVisitor.visitMethod()方法
 	- ### readField() 和 readMethod()
 		- 代码：
+		  collapsed:: true
 			- ```java
+			  private int readField(ClassVisitor classVisitor, Context context, int fieldInfoOffset) {
+			  	//descriptor :字段描述符 int:I ; constantValue :字段默认值
+			    	FieldVisitor fieldVisitor = classVisitor.visitField(accessFlags, name, descriptor, signature,constantValue);
+			    	...
+			    	fieldVisitor.visitEnd();
+			    	return currentOffset;
+			  }
+			  
+			  private int readMethod(ClassVisitor classVisitor, Context context, int methodInfoOffset) {
+			  	//调用classVisitor.visitMethod()扫描类中每一个方法
+			    	MethodVisitor methodVisitor = classVisitor.visitMethod(context.currentMethodAccessFlags, context.currentMethodName, context.currentMethodDescriptor, signatureIndex == 0 ? null : this.readUtf(signatureIndex, charBuffer), exceptions);
+			    	...
+			    	//获取方法注解
+			    	if (annotationDefaultOffset != 0) {
+			    	  	AnnotationVisitor annotationVisitor = methodVisitor.visitAnnotationDefault();
+			    	  	this.readElementValue(annotationVisitor, annotationDefaultOffset, (String)null, charBuffer);
+			    	  	if (annotationVisitor != null) {
+			    	  	  	annotationVisitor.visitEnd();
+			    	  	}
+			    	}
+			    	...
+			    	//如果方法存在code属性
+			    	if (codeOffset != 0) {
+			    	  	methodVisitor.visitCode();
+			    	  	this.readCode(methodVisitor, context, codeOffset);
+			    	}
+			  
+			    	methodVisitor.visitEnd();
+			    	return currentOffset;
+			  }
 			  ```
+		- MethodVisitor:调用顺序由classVisitor.accept() -> classVisitor.visitMethod() -> methodVisitor.visitCode() -> readCode() ->methodVisitor.visitEnd()
+		- methodVisitor.visitCode()方法起始位置调用，methodVisitor.visitEnd()方法结束时调用,且只会调用一次
 -
