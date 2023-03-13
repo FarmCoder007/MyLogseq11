@@ -213,6 +213,7 @@
 		  ```
 	- 所有的输入都是带状态的，根据这些状态做不同的处理就好了。当然，也可以根据前面提到的 getSecondaryInputs 提供的输入进行处理支持增量编译。
 - ## 六、自定义transform
+  collapsed:: true
 	- 实现一个 Transform 需要先创建 Gradle 插件，大致流程：自定义 Gradle 插件 -> 自定义 Transform -> 注册 Transform
 	- 带增量编译的transform
 	  collapsed:: true
