@@ -31,7 +31,8 @@
 	- 支持增量编译
 - ## 五、API
 	- ### getName()
-		- 指明 Transform 的名字，也对应了该 Transform 所代表的 Task 名称
+	  collapsed:: true
+		- 指明 Transform 的名字，也对应了该 Transform 所代表的 Task 名称,Gradle 在编译的时候，会将这个名称经过一些拼接显示在控制台上
 		- 举例：
 		  collapsed:: true
 			- ```kotlin
@@ -44,10 +45,9 @@
 	- ### getInputTypes()
 		- getInputTypes()方法用于返回Transform所支持的输入文件类型，开发者可以通过返回这些常量中的任意一个来指定Transform的输入文件类型。
 		- 取值：
-		  collapsed:: true
 			- 在Android Gradle插件 4.0及以上的版本中，TransformManager.CONTENT_CLASS、TransformManager.CONTENT_JARS等常量已经被废弃，取而代之的是QualifiedContent.DefaultContentType类中的一些常量。例如，
-			- QualifiedContent.DefaultContentType.CLASSES表示class文件类型，
-			- QualifiedContent.DefaultContentType.RESOURCES表示资源文件类型
+			- QualifiedContent.DefaultContentType.CLASSES表示class文件类型，Java 字节码文件，
+			- QualifiedContent.DefaultContentType.RESOURCES表示资源文件类型,资源，包含 java 文件
 		- 举例：
 		  collapsed:: true
 			- ```kotlin
