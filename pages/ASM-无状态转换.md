@@ -4,7 +4,6 @@
 - ## 场景一、查找方法
 	- 给定一个方法包括（类信息，方法名及方法描述符）查找所有调用的地方，输出类和方法集合
 	- ### step1、创建自定义MethodFindRefVisitor继承自ClassVisitor,重写visitMethod()判断code中是否调用了指定查找信息
-	  collapsed:: true
 		- ```java
 		  @Override
 		  public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
