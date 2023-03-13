@@ -194,6 +194,7 @@
 - ## 六、增量编译
 	- 其实关于增量编译的实现，通过查看 AGP 自带的几个 Transform 可以看到其实很简单。
 	- 例子：
+	  collapsed:: true
 		- ```kotlin
 		  if (transformInvocation.isIncremental) {
 		                      when (jarInput.status ?: Status.NOTCHANGED) {
@@ -210,6 +211,7 @@
 		                      transformJar(function, inputJar, outputJar)
 		                  }
 		  ```
+	- 所有的输入都是带状态的，根据这些状态做不同的处理就好了。当然，也可以根据前面提到的 getSecondaryInputs 提供的输入进行处理支持增量编译。
 - ## 六、自定义transform
 	- 实现一个 Transform 需要先创建 Gradle 插件，大致流程：自定义 Gradle 插件 -> 自定义 Transform -> 注册 Transform
 -
