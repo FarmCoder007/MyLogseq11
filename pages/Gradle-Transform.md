@@ -25,6 +25,7 @@
   collapsed:: true
 	- ![image.png](../assets/image_1678694029928_0.png)
 - ## 四、难点：
+  collapsed:: true
 	- transform 的核心难点有以下几个点：
 	- 正确、高效的进行文件目录、jar 文件的解压、class 文件 IO 流的处理，保证在这个过程中不丢失文件和错误的写入
 	- 高效的找到要插桩的结点，过滤掉无效的 class
@@ -77,6 +78,7 @@
 					      }
 					  ```
 	- ### getScopes()
+	  collapsed:: true
 		- 是Transform类中的一个方法，用于返回Transform所处理的文件的范围。它返回一个Set对象，包含了Transform所支持的所有文件范围。
 		- 取值：
 			- Scope.PROJECT:
@@ -167,7 +169,7 @@
 			  }
 			  
 			  ```
-	- ### transform()
+	- ### transform()  进行具体的检索操作，需要自己实现
 		- transform是一个空实现，input的内容将会打包成一个 TransformInvocation 对象。
 -
 - ## 六、自定义transform
