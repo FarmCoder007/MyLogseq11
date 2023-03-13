@@ -46,18 +46,26 @@
 		- getInputTypes()方法用于返回Transform所支持的输入文件类型，开发者可以通过返回这些常量中的任意一个来指定Transform的输入文件类型。
 		- 取值：
 			- 方式一、使用QualifiedContent.DefaultContentType类中的一些常量
+			  collapsed:: true
 				- 在Android Gradle插件 4.0及以上的版本中，TransformManager.CONTENT_CLASS、TransformManager.CONTENT_JARS等常量已经被废弃，取而代之的是QualifiedContent.DefaultContentType类中的一些常量。例如，
 				- QualifiedContent.DefaultContentType.CLASSES表示class文件类型，Java 字节码文件，
 				- QualifiedContent.DefaultContentType.RESOURCES表示资源文件类型,资源，包含 java 文件
-			- 举例：
-			  collapsed:: true
-				- ```kotlin
-				      override fun getInputTypes(): MutableSet<QualifiedContent.ContentType> {
-				          //QualifiedContent.DefaultContentType.RESOURCES 支持资源输入类型
-				          //QualifiedContent.DefaultContentType.CLASSES   支持class类型
-				         return mutableSetOf(QualifiedContent.DefaultContentType.CLASSES)
-				      }
-				  ```
+				- 举例：
+				  collapsed:: true
+					- ```kotlin
+					      override fun getInputTypes(): MutableSet<QualifiedContent.ContentType> {
+					          //QualifiedContent.DefaultContentType.RESOURCES 支持资源输入类型
+					          //QualifiedContent.DefaultContentType.CLASSES   支持class类型
+					         return mutableSetOf(QualifiedContent.DefaultContentType.CLASSES)
+					      }
+					  ```
+			- 方式二、使用TransformManager 定义好的集合
+				- CONTENT_CLASS：Java 字节码文件，
+				- CONTENT_JARS：jar 包
+				- CONTENT_RESOURCES：资源，包含 java 文件
+				- CONTENT_DEX：dex 文件
+				-
+				-
 	- ### getScopes()
 		- 是Transform类中的一个方法，用于返回Transform所处理的文件的范围。它返回一个Set对象，包含了Transform所支持的所有文件范围。
 		- 取值：
