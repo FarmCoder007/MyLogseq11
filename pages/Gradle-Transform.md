@@ -25,6 +25,7 @@
   collapsed:: true
 	- ![image.png](../assets/image_1678694029928_0.png)
 - ## 四、执行流程
+  collapsed:: true
 	- 一个工程内会有多个 Transform，你定义的 Transform 在处理的是上一个 Transform 经过处理的输出，而经过你处理的输出，会由下一个 Transform 进行处理。所有的 transform 任务一般都在 app/build/intermediates/transform/ 这个目录下可以看到。
 - ## 四、难点：
   collapsed:: true
@@ -190,6 +191,25 @@
 		- transform是一个空实现，input的内容将会打包成一个 TransformInvocation 对象。
 		- transform 方法主要用于对输入的数据做检索操作，它是 Transform 的核心方法，方法的参数是 [[TransformInvocation]]，它是一个接口，提供了所有与输入输出相关的信息：
 		-
+- ## 六、增量编译
+	- 其实关于增量编译的实现，通过查看 AGP 自带的几个 Transform 可以看到其实很简单。
+	- 例子：
+		- ```kotlin
+		  if (transformInvocation.isIncremental) {
+		                      when (jarInput.status ?: Status.NOTCHANGED) {
+		                          Status.NOTCHANGED -> {
+		                          }
+		                          Status.ADDED, Status.CHANGED -> transformJar(
+		                              function,
+		                              inputJar,
+		                              outputJar
+		                          )
+		                          Status.REMOVED -> FileUtils.delete(outputJar)
+		                      }
+		                  } else {
+		                      transformJar(function, inputJar, outputJar)
+		                  }
+		  ```
 - ## 六、自定义transform
 	- 实现一个 Transform 需要先创建 Gradle 插件，大致流程：自定义 Gradle 插件 -> 自定义 Transform -> 注册 Transform
 -
