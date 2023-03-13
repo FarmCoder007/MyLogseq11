@@ -91,7 +91,8 @@
 			- NOTCHANGED 当前文件不需要处理
 			- ADDED、CHANGED 正常处理，输出给下一个任务
 			- REMOVED 移除outputProvider获取路径对应的文件
--
+	- ### transform()
+		- transform是一个空实现，input的内容将会打包成一个 TransformInvocation 对象。
 -
 -
 -
