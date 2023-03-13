@@ -30,7 +30,6 @@
 	- 高效的找到要插桩的结点，过滤掉无效的 class
 	- 支持增量编译
 - ## 五、API
-  collapsed:: true
 	- ### getName()
 		- 指明 Transform 的名字，也对应了该 Transform 所代表的 Task 名称
 		- 举例：
