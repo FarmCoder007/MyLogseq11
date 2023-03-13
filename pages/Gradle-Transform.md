@@ -1,4 +1,5 @@
-- ## 一、什么是Transform
+- ## 一、概念
+  collapsed:: true
 	- 打包流程：
 	  collapsed:: true
 		- ![image.png](../assets/image_1678693760387_0.png)
@@ -16,4 +17,15 @@
 	- ### Transform 链：
 	  collapsed:: true
 		- TaskManager 会将每个TransformTask 串联起来，前一个Transform的输出会作为下一个 Transform 的输入
-	-
+- ## 二、Transform使用场景
+  collapsed:: true
+	- 对编译class文件做自定义的处理
+	- 读取编译产生的class文件，做一些其他事情，但是不需要修改它。
+- ## 三、执行流程：
+-
+-
+-
+-
+-
+- 参考：
+	- [](https://juejin.cn/post/7114863832954044446)
