@@ -170,7 +170,7 @@
 			  ```
 	- ### transform()  进行具体的检索操作，需要自己实现
 		- transform是一个空实现，input的内容将会打包成一个 TransformInvocation 对象。
-		- transform 方法主要用于对输入的数据做检索操作，它是 Transform 的核心方法，方法的参数是 TransformInvocation，它是一个接口，提供了所有与输入输出相关的信息：
+		- transform 方法主要用于对输入的数据做检索操作，它是 Transform 的核心方法，方法的参数是 [[TransformInvocation]]，它是一个接口，提供了所有与输入输出相关的信息：
 		-
 - ## 六、自定义transform
 	- 实现一个 Transform 需要先创建 Gradle 插件，大致流程：自定义 Gradle 插件 -> 自定义 Transform -> 注册 Transform
