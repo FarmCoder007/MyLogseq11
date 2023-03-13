@@ -44,6 +44,9 @@
 	- ### getInputTypes()
 		- getInputTypes()方法用于返回Transform所支持的输入文件类型，开发者可以通过返回这些常量中的任意一个来指定Transform的输入文件类型。
 		- 取值：
+			- 在Android Gradle插件 4.0及以上的版本中，TransformManager.CONTENT_CLASS、TransformManager.CONTENT_JARS等常量已经被废弃，取而代之的是QualifiedContent.DefaultContentType类中的一些常量。例如，
+			- QualifiedContent.DefaultContentType.CLASSES表示class文件类型，
+			- QualifiedContent.DefaultContentType.RESOURCES表示资源文件类型
 	-
 -
 - 参考：
