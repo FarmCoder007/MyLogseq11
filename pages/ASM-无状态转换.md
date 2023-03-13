@@ -16,7 +16,6 @@
 		  }
 		  ```
 	- ### step2、创建自定义MethodFindRefAdaptor继承自MethodVisitor，对方法体code进行解析重写visitMethodInsn判断是否调用查找方法
-	  collapsed:: true
 		- ```java
 		  @Override
 		  public void visitMethodInsn(int opcode, String owner, String name, String descriptor, boolean isInterface) {
