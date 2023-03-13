@@ -22,7 +22,6 @@
 	  
 	  ```
 - 二、api
-  collapsed:: true
 	- 1、isIncremental()：
 		- 当前 Transform 任务是否增量构建；
 	- 2、getInputs()：
