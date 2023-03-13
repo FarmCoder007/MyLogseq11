@@ -85,7 +85,12 @@
 			  ```
 	- ### isIncremental()
 		- 表明是否支持增量编译，不是每次的编译都可以增量编译，clean build没有增量的基础，需要检查当前的编译是否增量编译。
-			-
+		- 不是增量编译，则清空output目录，然后按照前面的方式，逐个class/jar处理
+		- 增量编译，则要检查每个文件的Status，Status分为四种，并且对四种文件的操作不尽相同
+		  collapsed:: true
+			- NOTCHANGED 当前文件不需要处理
+			- ADDED、CHANGED 正常处理，输出给下一个任务
+			- REMOVED 移除outputProvider获取路径对应的文件
 -
 -
 -
