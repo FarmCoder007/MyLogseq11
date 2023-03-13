@@ -43,6 +43,7 @@
 			  }
 			  ```
 	- ### getInputTypes()
+	  collapsed:: true
 		- getInputTypes()方法用于返回Transform所支持的输入文件类型，开发者可以通过返回这些常量中的任意一个来指定Transform的输入文件类型。
 		- 取值：
 			- 方式一、使用QualifiedContent.DefaultContentType类中的一些常量
@@ -78,15 +79,16 @@
 	- ### getScopes()
 		- 是Transform类中的一个方法，用于返回Transform所处理的文件的范围。它返回一个Set对象，包含了Transform所支持的所有文件范围。
 		- 取值：
-		  collapsed:: true
 			- Scope.PROJECT:
 				- 表示Transform所处理的是项目本身的文件。
 			- Scope.SUB_PROJECTS:
 				- 表示Transform所处理的是项目下的所有子项目的文件。
 			- Scope.EXTERNAL_LIBRARIES:
 				- 表示Transform所处理的是项目依赖的所有外部库的文件。
+				- 只检索外部库，包括当前模块和子模块本地依赖和远程依赖的 JAR/AAR
 			- Scope.PROVIDED_ONLY:
 				- 表示Transform所处理的是项目中provided配置下的依赖库的文件。
+				- 本地依赖和远程依赖的 JAR/AAR（provided-only）
 			- Scope.TESTED_CODE:
 				- 表示Transform所处理的是测试代码的文件。
 		- 示例：
