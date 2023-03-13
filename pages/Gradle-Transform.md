@@ -84,6 +84,7 @@
 			      }
 			  ```
 	- ### isIncremental()
+	  collapsed:: true
 		- 表明是否支持增量编译，不是每次的编译都可以增量编译，clean build没有增量的基础，需要检查当前的编译是否增量编译。
 		- 不是增量编译，则清空output目录，然后按照前面的方式，逐个class/jar处理
 		- 增量编译，则要检查每个文件的Status，Status分为四种，并且对四种文件的操作不尽相同
@@ -92,9 +93,60 @@
 			- ADDED、CHANGED 正常处理，输出给下一个任务
 			- REMOVED 移除outputProvider获取路径对应的文件
 		- 注意：
+		  collapsed:: true
 			- 增量编译是指在编译过程中，只编译发生变化的文件，而不重新编译所有文件。在Android Gradle插件中，增量编译可以提高构建效率，尤其是在大型项目中。如果一个Transform支持增量编译，Gradle会在执行Transform之前调用isIncremental()方法来查询它是否支持增量编译。如果支持，则在执行Transform时，只处理发生变化的文件。
 			- 在Transform的transform方法中，可以通过TransformInvocation的isIncremental()方法来查询增量编译的状态。如果返回值为true，则表示当前执行的是增量编译，Transform只需要处理发生变化的文件。否则，表示当前执行的是全量编译，Transform需要处理所有文件。
 			- 增量编译对于一些复杂的Transform可能并不适用，例如需要同时修改多个文件的Transform，因为如果其中一个文件发生了变化，就需要重新处理所有的文件。此时，可以将isIncremental()方法的返回值设为false，禁用增量编译。
+		- 示例：
+		  collapsed:: true
+			- ```kotlin
+			  import com.android.build.api.transform.Transform
+			  import com.android.build.api.transform.TransformInvocation
+			  import com.android.build.gradle.internal.pipeline.TransformManager
+			  import com.android.build.api.transform.QualifiedContent
+			  import com.android.build.api.transform.TransformOutputProvider
+			  import com.android.build.gradle.internal.scope.VariantScope
+			  
+			  class MyTransform : Transform() {
+			  
+			      override fun getName(): String {
+			          return "myTransform"
+			      }
+			  
+			      override fun getInputTypes(): Set<QualifiedContent.ContentType> {
+			          return setOf(QualifiedContent.DefaultContentType.CLASSES)
+			      }
+			  
+			      override fun getScopes(): MutableSet<in QualifiedContent.Scope> {
+			          return mutableSetOf(QualifiedContent.Scope.PROJECT)
+			      }
+			  
+			      override fun transform(transformInvocation: TransformInvocation) {
+			          if (transformInvocation.isIncremental) {
+			              // 处理增量变更的文件
+			              transformIncremental(transformInvocation)
+			          } else {
+			              // 处理所有文件
+			              transformFull(transformInvocation)
+			          }
+			      }
+			  
+			      override fun isIncremental(): Boolean {
+			          return true
+			      }
+			  
+			      private fun transformFull(transformInvocation: TransformInvocation) {
+			          // 处理所有文件
+			          // ...
+			      }
+			  
+			      private fun transformIncremental(transformInvocation: TransformInvocation) {
+			          // 处理增量变更的文件
+			          // ...
+			      }
+			  }
+			  
+			  ```
 	- ### transform()
 		- transform是一个空实现，input的内容将会打包成一个 TransformInvocation 对象。
 -
