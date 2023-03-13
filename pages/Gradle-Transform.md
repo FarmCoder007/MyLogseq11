@@ -32,7 +32,9 @@
 - ## 五、API
 	- ### getName
 		- 指明 Transform 的名字，也对应了该 Transform 所代表的 Task 名称
--
+		- getInputTypes
+		  指明 Transform 输入文件所属的范围, 因为 gradle 是支持多工程编译的。
+	- 在 TransformManager 类中定义了几种范围：
 -
 - 参考：
   collapsed:: true
