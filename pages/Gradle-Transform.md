@@ -44,12 +44,13 @@
 			  }
 			  ```
 	- ### getInputTypes()
+	  collapsed:: true
 		- getInputTypes()方法用于返回Transform所支持的输入文件类型，开发者可以通过返回这些常量中的任意一个来指定Transform的输入文件类型。
 		- 取值：
 			- 方式一、使用QualifiedContent.DefaultContentType类中的一些常量
 				- 在Android Gradle插件 4.0及以上的版本中，TransformManager.CONTENT_CLASS、TransformManager.CONTENT_JARS等常量已经被废弃，取而代之的是QualifiedContent.DefaultContentType类中的一些常量。例如，
 				- QualifiedContent.DefaultContentType.CLASSES表示class文件类型，Java 字节码文件，
-				- QualifiedContent.DefaultContentType.RESOURCES表示资源文件类型,资源，包含 java 文件
+				- QualifiedContent.DefaultContentType.RESOURCES表示资源文件类型,java资源，包含 java 文件
 				- 举例：
 				  collapsed:: true
 					- ```kotlin
@@ -169,7 +170,8 @@
 			  ```
 	- ### transform()  进行具体的检索操作，需要自己实现
 		- transform是一个空实现，input的内容将会打包成一个 TransformInvocation 对象。
--
+		- transform 方法主要用于对输入的数据做检索操作，它是 Transform 的核心方法，方法的参数是 TransformInvocation，它是一个接口，提供了所有与输入输出相关的信息：
+		-
 - ## 六、自定义transform
 	- 实现一个 Transform 需要先创建 Gradle 插件，大致流程：自定义 Gradle 插件 -> 自定义 Transform -> 注册 Transform
 -
