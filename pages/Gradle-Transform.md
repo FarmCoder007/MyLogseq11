@@ -33,12 +33,18 @@
 	- ### getName()
 		- 指明 Transform 的名字，也对应了该 Transform 所代表的 Task 名称
 		- 举例：
+		  collapsed:: true
 			- ```kotlin
+			  class UnityLogTransform : Transform() {
+			      override fun getName(): String {
+			          return "UnityLogTransform"
+			      }
+			  }
 			  ```
-	- ### getInputTypes
+	- ### getInputTypes()
 		- getInputTypes()方法用于返回Transform所支持的输入文件类型，开发者可以通过返回这些常量中的任意一个来指定Transform的输入文件类型。
-		-
-	- 在 TransformManager 类中定义了几种范围：
+		- 取值：
+	-
 -
 - 参考：
   collapsed:: true
