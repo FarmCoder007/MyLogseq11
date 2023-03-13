@@ -66,7 +66,10 @@
 				- 表示Transform所处理的是项目下的所有子项目的文件。
 			- Scope.EXTERNAL_LIBRARIES:
 				- 表示Transform所处理的是项目依赖的所有外部库的文件。
-			-
+			- Scope.PROVIDED_ONLY:
+				- 表示Transform所处理的是项目中provided配置下的依赖库的文件。
+			- Scope.TESTED_CODE:
+				- 表示Transform所处理的是测试代码的文件。
 -
 -
 -
