@@ -64,8 +64,15 @@
 				- CONTENT_JARS：jar 包
 				- CONTENT_RESOURCES：资源，包含 java 文件
 				- CONTENT_DEX：dex 文件
-				-
-				-
+				- CONTENT_DEX_WITH_RESOURCES：包含资源的 dex 文件
+				- 我们能用的就两种：CONTENT_CLASS 和 CONTENT_JARS
+				       * 其余几种仅 AGP 可用
+				- 举例：
+					- ```kotlin
+					   override fun getInputTypes(): MutableSet<QualifiedContent.ContentType> {
+					          return TransformManager.CONTENT_CLASS
+					      }
+					  ```
 	- ### getScopes()
 		- 是Transform类中的一个方法，用于返回Transform所处理的文件的范围。它返回一个Set对象，包含了Transform所支持的所有文件范围。
 		- 取值：
