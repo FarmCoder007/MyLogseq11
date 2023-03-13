@@ -60,6 +60,7 @@
 	- ### getScopes()
 		- 是Transform类中的一个方法，用于返回Transform所处理的文件的范围。它返回一个Set对象，包含了Transform所支持的所有文件范围。
 		- 取值：
+		  collapsed:: true
 			- Scope.PROJECT:
 				- 表示Transform所处理的是项目本身的文件。
 			- Scope.SUB_PROJECTS:
@@ -70,6 +71,18 @@
 				- 表示Transform所处理的是项目中provided配置下的依赖库的文件。
 			- Scope.TESTED_CODE:
 				- 表示Transform所处理的是测试代码的文件。
+		- 示例：
+		  collapsed:: true
+			- ```kotlin
+			  
+			      override fun getScopes(): MutableSet<in QualifiedContent.Scope> {
+			          return mutableSetOf(
+			              QualifiedContent.Scope.PROJECT, 
+			              QualifiedContent.Scope.SUB_PROJECTS,
+			              QualifiedContent.Scope.EXTERNAL_LIBRARIES
+			          )
+			      }
+			  ```
 -
 -
 -
