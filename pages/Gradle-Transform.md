@@ -21,9 +21,11 @@
   collapsed:: true
 	- 对编译class文件做自定义的处理
 	- 读取编译产生的class文件，做一些其他事情，但是不需要修改它。
-- ## 三、执行流程：
+- ## 三、transform模型：
   collapsed:: true
 	- ![image.png](../assets/image_1678694029928_0.png)
+- ## 四、执行流程
+	- 一个工程内会有多个 Transform，你定义的 Transform 在处理的是上一个 Transform 经过处理的输出，而经过你处理的输出，会由下一个 Transform 进行处理。所有的 transform 任务一般都在 app/build/intermediates/transform/ 这个目录下可以看到。
 - ## 四、难点：
   collapsed:: true
 	- transform 的核心难点有以下几个点：
@@ -31,6 +33,7 @@
 	- 高效的找到要插桩的结点，过滤掉无效的 class
 	- 支持增量编译
 - ## 五、API
+  collapsed:: true
 	- ### getName()
 	  collapsed:: true
 		- 指明 Transform 的名字，也对应了该 Transform 所代表的 Task 名称,Gradle 在编译的时候，会将这个名称经过一些拼接显示在控制台上
