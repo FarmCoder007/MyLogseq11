@@ -60,6 +60,7 @@
 					      }
 					  ```
 			- 方式二、使用TransformManager 定义好的集合
+			  collapsed:: true
 				- CONTENT_CLASS：Java 字节码文件，
 				- CONTENT_JARS：jar 包
 				- CONTENT_RESOURCES：资源，包含 java 文件
@@ -68,6 +69,7 @@
 				- 我们能用的就两种：CONTENT_CLASS 和 CONTENT_JARS
 				       * 其余几种仅 AGP 可用
 				- 举例：
+				  collapsed:: true
 					- ```kotlin
 					   override fun getInputTypes(): MutableSet<QualifiedContent.ContentType> {
 					          return TransformManager.CONTENT_CLASS
