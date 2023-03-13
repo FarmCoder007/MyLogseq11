@@ -34,4 +34,6 @@
 	- 4、getOutPutProvider()：
 		- TransformOutputProvider 是对输出文件的抽象。
 		- 输出内容 TransformOutputProvider 有两个主要功能：
+			- 1、deleteAll()： 当 Transform 运行在非增量构建模式时，需要删除上一次构建产生的所有中间文件，可以直接调用 deleteAll() 完成；
+			- 2、getContentLocation()： 获得指定范围+类型的输出目标路径。
 	-
