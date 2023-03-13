@@ -58,7 +58,14 @@
 			         return mutableSetOf(QualifiedContent.DefaultContentType.CLASSES)
 			      }
 			  ```
-	-
+	- ### getScopes()
+		- 是Transform类中的一个方法，用于返回Transform所处理的文件的范围。它返回一个Set对象，包含了Transform所支持的所有文件范围。
+-
+-
+-
+-
+-
+-
 - 参考：
   collapsed:: true
 	- [刚学会Transform，你告诉我就要被移除了](https://juejin.cn/post/7114863832954044446)
