@@ -59,7 +59,8 @@
 			  ```
 	- ### getScopes()
 		- 是Transform类中的一个方法，用于返回Transform所处理的文件的范围。它返回一个Set对象，包含了Transform所支持的所有文件范围。
-		- 取值
+		- 取值：
+			-
 -
 -
 -
