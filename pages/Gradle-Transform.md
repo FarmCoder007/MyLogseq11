@@ -214,7 +214,228 @@
 	- 所有的输入都是带状态的，根据这些状态做不同的处理就好了。当然，也可以根据前面提到的 getSecondaryInputs 提供的输入进行处理支持增量编译。
 - ## 六、自定义transform
 	- 实现一个 Transform 需要先创建 Gradle 插件，大致流程：自定义 Gradle 插件 -> 自定义 Transform -> 注册 Transform
--
+	- 带增量编译的transform
+	  collapsed:: true
+		- ```kotlin
+		  class UnityLogTransform : Transform() {
+		      override fun getName(): String {
+		          return "UnityLogTransform"
+		      }
+		  
+		      override fun getInputTypes(): MutableSet<QualifiedContent.ContentType> {
+		          return mutableSetOf(
+		              QualifiedContent.DefaultContentType.CLASSES,
+		              QualifiedContent.DefaultContentType.RESOURCES
+		          )
+		      }
+		  
+		      override fun getScopes(): MutableSet<in QualifiedContent.Scope> {
+		          return mutableSetOf(
+		              QualifiedContent.Scope.PROJECT,
+		              QualifiedContent.Scope.SUB_PROJECTS,
+		              QualifiedContent.Scope.EXTERNAL_LIBRARIES
+		          )
+		      }
+		  
+		      override fun isIncremental(): Boolean {
+		          return true
+		      }
+		  
+		      override fun transform(transformInvocation: TransformInvocation?) {
+		          super.transform(transformInvocation)
+		          println("[OwnerPlugin]:transform start")
+		          if (transformInvocation == null) {
+		              return
+		          }
+		          if (transformInvocation.isIncremental) {
+		              // 处理增量
+		              incrementalTransform(transformInvocation)
+		          } else {
+		              // 处理全部输入
+		              allTransform(transformInvocation)
+		          }
+		      }
+		  
+		      /**
+		       *  处理增量Transform ： 拿到每个文件status 进行分别处理
+		       *  1、处理jar
+		       *  2、处理文件夹类型
+		       */
+		      private fun incrementalTransform(transformInvocation: TransformInvocation) {
+		          transformInvocation.inputs.forEach { input ->
+		              // 1、处理jar
+		              input.jarInputs.forEach { jarInput ->
+		                  // 拿到文件
+		                  val outputFile = transformInvocation.outputProvider.getContentLocation(
+		                      jarInput.file.absolutePath,
+		                      jarInput.contentTypes,
+		                      jarInput.scopes,
+		                      Format.JAR
+		                  )
+		                  // 增量编译 就是根据文件的status 做不同的处理
+		                  when (jarInput.status) {
+		                      Status.ADDED, Status.CHANGED -> {
+		                          FileUtils.deleteQuietly(outputFile)
+		                          // 1.1 transformJar
+		                          transformJar(jarInput.file, outputFile)
+		                      }
+		                      Status.REMOVED -> {
+		                          FileUtils.deleteQuietly(outputFile)
+		                      }
+		                      Status.NOTCHANGED -> {
+		  
+		                      }
+		                  }
+		              }
+		              // 2、处理文件夹类型
+		              input.directoryInputs.forEach { directoryInput ->
+		                  val inputDir = directoryInput.file
+		                  val outputDir: File = transformInvocation.outputProvider.getContentLocation(
+		                      directoryInput.name,
+		                      directoryInput.contentTypes,
+		                      directoryInput.scopes,
+		                      Format.DIRECTORY
+		                  )
+		  
+		                  directoryInput.changedFiles.forEach {
+		                      val inputFile = it.key
+		                      val outputFile = File(
+		                          inputFile.absolutePath.replace(
+		                              inputDir.absolutePath,
+		                              outputDir.absolutePath
+		                          )
+		                      )
+		                      // 拿到文件 做处理
+		                      when (it.value) {
+		                          Status.ADDED, Status.CHANGED -> {
+		                              FileUtils.deleteQuietly(outputFile)
+		                              // 2.1 处理字节码
+		                              transformClassFile(inputFile, outputFile)
+		                          }
+		                          Status.REMOVED -> {
+		                              FileUtils.deleteQuietly(outputFile)
+		                          }
+		                          Status.NOTCHANGED -> {
+		  
+		                          }
+		                      }
+		                  }
+		              }
+		          }
+		      }
+		  
+		      /**
+		       *  处理全部transform
+		       *  不需要按照状态 分别处理
+		       */
+		      private fun allTransform(transformInvocation: TransformInvocation) {
+		          // 1. 不是增量编译，删除所有旧的输出内容
+		          transformInvocation.outputProvider.deleteAll()
+		          transformInvocation.inputs.forEach { input ->
+		              // 2.jar 包处理
+		              input.jarInputs.forEach { jarInput ->
+		                  val outputFile = transformInvocation.outputProvider.getContentLocation(
+		                      jarInput.file.absolutePath,
+		                      jarInput.contentTypes,
+		                      jarInput.scopes,
+		                      Format.JAR
+		                  )
+		                  // 2.1 transformJar
+		                  transformJar(jarInput.file, outputFile)
+		              }
+		              // 3. 文件夹处理
+		              input.directoryInputs.forEach { directoryInput ->
+		                  val outputFile = transformInvocation.outputProvider.getContentLocation(
+		                      directoryInput.name,
+		                      directoryInput.contentTypes,
+		                      directoryInput.scopes,
+		                      Format.DIRECTORY
+		                  )
+		                  // 3.1 文件夹 transform
+		                  transformDirectory(directoryInput.file, outputFile)
+		              }
+		          }
+		      }
+		  
+		  
+		      /**
+		       *  transformJar -> transformClassBytes 最终处理的字节码
+		       */
+		      private fun transformJar(input: File, output: File) {
+		          FileUtils.copyFile(input, output)
+		          FileUtil.traverseJarClass(
+		              input, output
+		          ) { _, inputBytes -> transformClassBytes(inputBytes) }
+		      }
+		  
+		      /**
+		       *  遍历文件夹 找到字节码文件
+		       */
+		      private fun transformDirectory(input: File, output: File) {
+		          FileUtils.forceMkdir(output)
+		          val srcDirPath = input.absolutePath
+		          val destDirPath = output.absolutePath
+		          input.listFiles()?.forEach { subFile ->
+		              val destFilePath = subFile.absolutePath.replace(srcDirPath, destDirPath)
+		              val destFile = File(destFilePath)
+		              if (subFile.isDirectory) {
+		                  transformDirectory(subFile, destFile)
+		              } else {
+		                  // 处理字节码
+		                  transformClassFile(subFile, destFile)
+		              }
+		          }
+		      }
+		  
+		      /**
+		       *  处理字节码文件
+		       */
+		      private fun transformClassFile(inputFile: File, outputFile: File) {
+		          try {
+		              val fis = FileInputStream(inputFile)
+		              val fos = FileOutputStream(outputFile)
+		              if (inputFile.name.endsWith(".class") && !name.startsWith("R$") && "R.class" != name && "BuildConfig.class" != name) {
+		                  fos.write(transformClassBytes(FileUtil.readFile(fis)))
+		              } else {
+		                  val buffer = ByteArray(1024)
+		                  var length: Int
+		                  while (true) {
+		                      length = fis.read(buffer)
+		                      if (length != -1) {
+		                          fos.write(buffer, 0, length)
+		                      } else {
+		                          break
+		                      }
+		                  }
+		              }
+		              fis.close()
+		              fos.close()
+		          } catch (e: Exception) {
+		              e.printStackTrace()
+		          }
+		      }
+		  
+		      /**
+		       *  transform 处理字节码 的字节数据流   ASM入口
+		       */
+		      private fun transformClassBytes(classBytes: ByteArray?): ByteArray {
+		          if (classBytes == null) {
+		              return ByteArray(0)
+		          }
+		          if (!ClassUtil.isValidClassBytes(classBytes)) {
+		              return classBytes
+		          }
+		          val cr = ClassReader(classBytes)
+		          val cw = ClassWriter(ClassWriter.COMPUTE_MAXS)
+		  
+		          cr.accept(OwnerClassAdapter(Opcodes.ASM7, cw), ClassReader.EXPAND_FRAMES)
+		  
+		          return cw.toByteArray()
+		      }
+		  
+		  }
+		  ```
+	-
 -
 - 参考：
   collapsed:: true
