@@ -30,6 +30,7 @@
 	- 高效的找到要插桩的结点，过滤掉无效的 class
 	- 支持增量编译
 - ## 五、API
+  collapsed:: true
 	- ### getName()
 		- 指明 Transform 的名字，也对应了该 Transform 所代表的 Task 名称
 		- 举例：
@@ -150,7 +151,8 @@
 	- ### transform()
 		- transform是一个空实现，input的内容将会打包成一个 TransformInvocation 对象。
 -
--
+- ## 六、自定义transform
+	- 实现一个 Transform 需要先创建 Gradle 插件，大致流程：自定义 Gradle 插件 -> 自定义 Transform -> 注册 Transform
 -
 -
 - 参考：
