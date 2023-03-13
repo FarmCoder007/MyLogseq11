@@ -60,6 +60,12 @@
 	- ### getScopes()
 		- 是Transform类中的一个方法，用于返回Transform所处理的文件的范围。它返回一个Set对象，包含了Transform所支持的所有文件范围。
 		- 取值：
+			- Scope.PROJECT:
+				- 表示Transform所处理的是项目本身的文件。
+			- Scope.SUB_PROJECTS:
+				- 表示Transform所处理的是项目下的所有子项目的文件。
+			- Scope.EXTERNAL_LIBRARIES:
+				- 表示Transform所处理的是项目依赖的所有外部库的文件。
 			-
 -
 -
