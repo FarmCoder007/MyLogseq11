@@ -13,7 +13,6 @@
 	- 它的开源许可允许你几乎以任何方式来使用它。
 - ## 二、[[字节码相关知识]]
 - ## 三、ASM组成(核心API  树API)
-  collapsed:: true
 	- 组成结构上来说，ASM分成两部分，一部分为Core API，另一部分为Tree API
 	- ### [[核心API]]
 	- Tree API
