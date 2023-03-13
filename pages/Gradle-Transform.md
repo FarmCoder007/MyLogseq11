@@ -435,7 +435,147 @@
 		  
 		  }
 		  ```
-	-
+	- 工具类
+	  collapsed:: true
+		- 1
+		  collapsed:: true
+			- ```kotlin
+			  package com.wuba.unitylog.util
+			  
+			  import org.apache.commons.io.IOUtils
+			  
+			  object ClassUtil {
+			      private val MAGIC_CAFEBABE = byteArrayOf(-54, -2, -70, -66)
+			      @JvmStatic
+			      fun isValidClassBytes(classBytecode: ByteArray): Boolean {
+			          return if (classBytecode.size < MAGIC_CAFEBABE.size) {
+			              false
+			          } else MAGIC_CAFEBABE[0] == classBytecode[0] && MAGIC_CAFEBABE[1] == classBytecode[1] && MAGIC_CAFEBABE[2] == classBytecode[2] && MAGIC_CAFEBABE[3] == classBytecode[3]
+			      }
+			  
+			      fun getClassBytes(clazz: Class<*>): ByteArray {
+			          val classPath = "/" + clazz.name.replace('.', '/') + ".class"
+			          val classInput = clazz.javaClass.getResourceAsStream(classPath)
+			          return IOUtils.toByteArray(classInput)
+			      }
+			  
+			      fun convert(classDescSet: Set<String>): Set<String> {
+			          val classNameSet: MutableSet<String> = HashSet(classDescSet.size)
+			          for (s in classDescSet) {
+			              classNameSet.add(s.replace("/".toRegex(), "."))
+			          }
+			          return classNameSet
+			      }
+			  }
+			  ```
+		- 2
+		  collapsed:: true
+			- ```kotlin
+			  package com.wuba.unitylog.util
+			  
+			  import com.wuba.unitylog.util.ClassUtil.isValidClassBytes
+			  import org.apache.commons.io.IOUtils
+			  import org.gradle.internal.util.BiFunction
+			  import java.io.*
+			  import java.util.function.Consumer
+			  import java.util.zip.ZipEntry
+			  import java.util.zip.ZipFile
+			  import java.util.zip.ZipOutputStream
+			  
+			  object FileUtil {
+			      fun readFile(file: File?): ByteArray {
+			          return readFile(FileInputStream(file))
+			      }
+			  
+			      fun readFile(inputStream: InputStream): ByteArray {
+			          val bos = ByteArrayOutputStream()
+			          val buffer = ByteArray(1024)
+			          val fis: FileInputStream? = null
+			          return try {
+			              var size: Int
+			              while (inputStream.read(buffer).also { size = it } != -1) {
+			                  bos.write(buffer, 0, size)
+			              }
+			              bos.toByteArray()
+			          } finally {
+			              if (fis != null) {
+			                  try {
+			                      fis.close()
+			                  } catch (ignroed: IOException) {
+			                  }
+			              }
+			          }
+			      }
+			  
+			      fun traverseJarClass(
+			          inputJar: File,
+			          outputJar: File,
+			          bytecodeTransform: BiFunction<ByteArray?, String?, ByteArray?>
+			      ) {
+			          if (outputJar.exists()) {
+			              outputJar.delete()
+			          }
+			          var zipFileInput: ZipFile? = null
+			          var zipOutput: ZipOutputStream? = null
+			          try {
+			              zipFileInput = ZipFile(inputJar)
+			              zipOutput = ZipOutputStream(BufferedOutputStream(FileOutputStream(outputJar)))
+			              val originEntries = zipFileInput.entries()
+			              while (originEntries.hasMoreElements()) {
+			                  val originEntry = originEntries.nextElement()
+			                  val name = originEntry.name
+			                  var bytecode: ByteArray? = ByteArray(originEntry.size.toInt())
+			                  IOUtils.readFully(zipFileInput.getInputStream(originEntry), bytecode)
+			                  if (name.endsWith(".class") && isValidClassBytes(bytecode!!) &&
+			                      !name.startsWith("R$") && "R.class" != name && "BuildConfig.class" != name &&
+			                      !name.startsWith("androidx") &&
+			                      !name.startsWith("com/google/") &&
+			                      !name.startsWith("okhttp3") &&
+			                      !name.startsWith("kotlin") &&
+			                      !name.startsWith("okio") &&
+			                      !name.startsWith("org/intellij") &&
+			                      !name.startsWith("org/jetbrains") &&
+			                      !name.startsWith("android/support/v4/")&&
+			                      !name.contains("R$")
+			                  ) {
+			                      bytecode = bytecodeTransform.apply(name, bytecode)
+			                  }
+			                  zipOutput.putNextEntry(ZipEntry(name))
+			                  zipOutput.write(bytecode)
+			                  zipOutput.closeEntry()
+			              }
+			          } catch (e: Throwable) {
+			              println("[OwnerPlugin] fail processJar jar=$inputJar")
+			              throw e
+			          } finally {
+			              IOUtils.closeQuietly(zipFileInput)
+			              IOUtils.closeQuietly(zipOutput)
+			          }
+			      }
+			  
+			      fun traverseJarClass(inputJar: File, byteCodeConsumer: Consumer<ByteArray?>) {
+			          var zipFileInput: ZipFile? = null
+			          try {
+			              zipFileInput = ZipFile(inputJar)
+			              val originEntries = zipFileInput.entries()
+			              while (originEntries.hasMoreElements()) {
+			                  val originEntry = originEntries.nextElement()
+			                  val name = originEntry.name
+			                  val bytecode = ByteArray(originEntry.size.toInt())
+			                  IOUtils.readFully(zipFileInput.getInputStream(originEntry), bytecode)
+			                  if (name.endsWith(".class") && isValidClassBytes(bytecode)) {
+			                      byteCodeConsumer.accept(bytecode)
+			                  }
+			              }
+			          } catch (e: Throwable) {
+			              println("[OwnerPlugin] fail processJar jar=$inputJar")
+			              throw e
+			          } finally {
+			              IOUtils.closeQuietly(zipFileInput)
+			          }
+			      }
+			  }
+			  ```
 -
 - 参考：
   collapsed:: true
