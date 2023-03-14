@@ -245,6 +245,7 @@
 		        final Object[] stack)
 		  ```
 - ## 10、visitInsn()
+  collapsed:: true
 	- 介绍：它用于访问方法中的单条指令。
 	- 使用：
 		- visitInsn方法通常用于处理那些不需要任何操作数的指令，例如将两个数字相加的iadd指令，或者创建一个新对象的new指令。在方法访问器访问到这些指令时，会调用visitInsn方法，并传递指令的操作码作为参数。
