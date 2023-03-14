@@ -51,6 +51,7 @@
 		- 在访问完注解的默认值后，需要调用 visitEnd 方法，通知 MethodVisitor 默认值的访问结束了。
 	- code:
 - ## 3、visitAnnotation()
+  collapsed:: true
 	- 介绍：用于访问方法上的注解信息。
 	- 使用：
 	  collapsed:: true
@@ -74,6 +75,7 @@
 		  AnnotationVisitor visitAnnotation(String descriptor, boolean visible);
 		  ```
 - ## 4、visitTypeAnnotation()
+  collapsed:: true
 	- 介绍：用于访问方法上的类型注解信息。
 	- 使用：
 		- 在 Java 中，类型注解用于指定程序中的类型使用情况。在 ASM 中，可以通过 visitTypeAnnotation 方法来访问方法上的类型注解信息。
@@ -85,7 +87,7 @@
 		  av.visitEnd();
 		  
 		  ```
-		-
+		- 在访问完类型注解信息后，需要调用 visitEnd 方法，通知 MethodVisitor 类型注解信息的访问结束了。
 	- code:
 		- ```java
 		  
@@ -97,6 +99,14 @@
 		  
 		  ```
 - ## 5、visitAnnotableParameterCount()
+	- 介绍：用于通知 ASM 框架方法参数中存在注解的参数数量。
+	- 使用：
+	- code:
+		- ```java
+		  parameterCount：表示方法参数中存在注解的参数数量。
+		  visible：表示注解是否可见，以布尔值形式给出。
+		  
+		  ```
 - ## 6、visitParameterAnnotation()
 - ## 7、visitAttribute()
 - ## 8、visitCode()
