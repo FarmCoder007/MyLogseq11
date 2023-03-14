@@ -35,6 +35,8 @@
 		  ```
 	- ### 4、visitNestHost()：
 		- ```java
+		  用于访问当前类的嵌套类。该方法的作用是通知 ClassVisitor 此类是一个嵌套类，
+		  并提供嵌套类的宿主类信息。
 		  //nestHost:
 		  public void visitNestHost(final String nestHost) {
 		  ```
