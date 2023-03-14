@@ -92,6 +92,8 @@
 			  ```
 			- 此代码使用 Opcodes.GETSTATIC 指令，访问 Example 类中的 EXAMPLE_VALUE 静态变量。在这个例子中，owner 参数的值为 "Example"，name 参数的值为 "EXAMPLE_VALUE"，descriptor 参数的值为 "I"（整数类型）。
 	- 2、Opcodes.PUTSTATIC：
+	  id:: 6410305b-5094-4451-849f-070cef9f8f49
+	  collapsed:: true
 		- 介绍：
 			- 将一个静态字段（类字段）的值从操作数栈顶弹出并存储到指定的类中。其语法为：
 		- 使用场景：
@@ -118,3 +120,4 @@
 				  }
 				  
 				  ```
+	- 3、INVOKEVIRTUAL是一种Java虚拟机指令
