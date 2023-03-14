@@ -569,16 +569,46 @@
 		  public void visitLineNumber(final int line, final Label start) {
 		  ```
 - ## 31、visitMaxs()
-	- 介绍：
+	- 介绍：用于通知ASM计算出方法的最大栈大小和局部变量表的最大尺寸，并设置这些信息。
 	- 使用：
+		- 该方法通常在MethodVisitor的visitEnd方法之前被调用，以便在方法被访问器处理完毕后为方法提供栈和局部变量表的大小信息。在方法体访问器（如MethodVisitor）中生成字节码时，需要考虑这些最大值。如果这些最大值设置得不正确，生成的字节码可能会导致VerifyError。
+		- 例如，以下代码片段演示了如何在MethodVisitor的实现中调用visitMaxs方法：
+			- ```java
+			  public class MyMethodVisitor extends MethodVisitor {
+			      
+			      public MyMethodVisitor(MethodVisitor mv) {
+			          super(ASM9, mv);
+			      }
+			      
+			      public void visitCode() {
+			          // 将指令添加到字节码中
+			          super.visitCode();
+			      }
+			      
+			      public void visitMaxs(int maxStack, int maxLocals) {
+			          super.visitMaxs(maxStack, maxLocals);
+			      }
+			      
+			      public void visitEnd() {
+			          super.visitEnd();
+			      }
+			  }
+			  
+			  ```
 	- code:
 		- ```java
+		  maxStack参数表示方法执行时所需的最大栈深度，即方法中使用的操作数栈的最大数量，
+		  maxLocals参数表示方法的局部变量表中的变量数。
+		  public void visitMaxs(final int maxStack, final int maxLocals) {
 		  ```
 - ## 32、visitEnd()
 	- 介绍：
 	- 使用：
 	- code:
 		- ```java
+		  
+		  
+		  public void visitEnd() {
 		  ```
 -
 -
