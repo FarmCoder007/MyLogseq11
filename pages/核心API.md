@@ -32,6 +32,7 @@
 		- 字节码指令的一些常量定义。
 	- ### 14、Type类：
 		- 类型相关的常量定义以及一些基于其上的操作。
+	- ### 15、MethodVisitor类：[[ASM-MethodVisitor]]
 		-
 	- ## 他们之间的类图关系如下：
 	  collapsed:: true
