@@ -74,9 +74,28 @@
 		  AnnotationVisitor visitAnnotation(String descriptor, boolean visible);
 		  ```
 - ## 4、visitTypeAnnotation()
-	- 介绍：
+	- 介绍：用于访问方法上的类型注解信息。
 	- 使用：
+		- 在 Java 中，类型注解用于指定程序中的类型使用情况。在 ASM 中，可以通过 visitTypeAnnotation 方法来访问方法上的类型注解信息。
+		- visitTypeAnnotation 方法会在访问方法时被调用，用于访问方法上的类型注解信息。其中，typeRef 参数表示类型引用，typePath 参数表示类型路径，descriptor 参数表示注解的类型描述符，visible 参数表示注解是否可见。在访问类型注解信息时，需要返回一个 AnnotationVisitor 对象，用于访问注解的元素信息。
+		- 例如，如果方法上有 @MyAnnotation("value") 类型注解，则可以通过以下代码来访问该类型注解的信息：
+		- ```java
+		  AnnotationVisitor av = mv.visitTypeAnnotation(TypeReference.METHOD_TYPE_PARAMETER, new TypePath("L"), "Lcom/example/MyAnnotation;", true);
+		  av.visit("value", "value");
+		  av.visitEnd();
+		  
+		  ```
+		-
 	- code:
+		- ```java
+		  
+		  typeRef：表示类型引用，以整数形式给出。
+		  typePath：表示类型路径，以 TypePath 对象形式给出。
+		  descriptor：表示注解的类型描述符，以字符串形式给出。例如，对于 @MyAnnotation 注解，其类型描述符为 "Lcom/example/MyAnnotation;"。
+		  visible：表示注解是否可见，以布尔值形式给出。
+		  AnnotationVisitor visitTypeAnnotation(int typeRef, TypePath typePath, String descriptor, boolean visible);
+		  
+		  ```
 - ## 5、visitAnnotableParameterCount()
 - ## 6、visitParameterAnnotation()
 - ## 7、visitAttribute()
