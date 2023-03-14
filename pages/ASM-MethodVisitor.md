@@ -99,15 +99,29 @@
 		  
 		  ```
 - ## 5、visitAnnotableParameterCount()
+  collapsed:: true
 	- 介绍：用于通知 ASM 框架方法参数中存在注解的参数数量。
 	- 使用：
+	  collapsed:: true
+		- 在 Java 中，可以为方法参数添加注解。在 ASM 中，可以通过 visitAnnotableParameterCount 方法来通知 ASM 框架方法参数中存在注解的参数数量。当访问到此方法时，需要在访问参数之前调用 visitParameterAnnotation 方法来访问每个参数的注解信息。
+		- 例如，如果方法有一个参数 foo，并且有 @MyAnnotation 注解，则可以使用以下代码来访问该注解信息：
+		- ```java
+		  mv.visitAnnotableParameterCount(1, true);
+		  mv.visitParameterAnnotation(0, "Lcom/example/MyAnnotation;", true);
+		  
+		  ```
+		- 在上面的代码中，visitAnnotableParameterCount 方法被调用，传入参数 1 表示存在一个带注解的参数，true 表示注解可见。然后，调用 visitParameterAnnotation 方法来访问参数的注解信息。其中，0 表示参数的索引，"Lcom/example/MyAnnotation;" 表示注解的类型描述符，true 表示注解可见。
+		- 需要注意的是，调用 visitParameterAnnotation 方法时，必须先调用 visitAnnotableParameterCount 方法。否则，ASM 框架将无法识别方法参数中存在注解的参数数量。
 	- code:
 		- ```java
 		  parameterCount：表示方法参数中存在注解的参数数量。
 		  visible：表示注解是否可见，以布尔值形式给出。
+		  void visitAnnotableParameterCount(int parameterCount, boolean visible);
 		  
 		  ```
 - ## 6、visitParameterAnnotation()
+  collapsed:: true
+	-
 - ## 7、visitAttribute()
 - ## 8、visitCode()
 - ## 9、visitFrame()
