@@ -120,4 +120,16 @@
 				  }
 				  
 				  ```
-	- 3、INVOKEVIRTUAL是一种Java虚拟机指令
+	- 3、Opcodes.INVOKEVIRTUAL
+		- 介绍：用于调用对象实例的方法。它的使用场景通常是通过对象引用调用其自身的实例方法，比如以下代码：
+		- ```java
+		  public class MyClass {
+		      public void myMethod() {
+		          // some code here
+		      }
+		  }
+		  
+		  MyClass myInstance = new MyClass();
+		  myInstance.myMethod();
+		  
+		  ```
