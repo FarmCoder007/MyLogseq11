@@ -279,15 +279,25 @@
 		  public void visitVarInsn(final int opcode, final int var) {
 		  ```
 - ## 13、visitTypeInsn()
-	- 介绍：
+	- 介绍：它用于访问方法中的类型指令。
 	- 使用：
+		- visitTypeInsn方法通常用于创建新对象、访问静态字段、检查实例类型等操作。例如，创建一个新对象的指令是new，它需要指定要创建的对象的类型，就可以使用visitTypeInsn方法传递new操作码和要创建的对象的类型作为参数。
+		- 在方法访问器中，如果需要对某个类型指令进行特殊的处理，可以重载visitTypeInsn方法，根据指令的操作码来判断是否需要特殊处理，如果需要，则在方法中进行相应的处理逻辑。
 	- code:
 		- ```java
+		  opcode：表示指令的操作码。它是一个整数，取值在Opcodes类中定义。
+		  type：表示被操作的类型。它是一个字符串，表示要创建或操作的类的类型。在Java字节码中，类型指令用于操作类、接口、数组等类型。
 		  
 		  public void visitTypeInsn(final int opcode, final String type) {
 		  ```
 - ## 14、visitFieldInsn()
+	- 介绍：
+	- 使用：
+	- code:
 - ## 15、visitMethodInsn()
+	- 介绍：
+	- 使用：
+	- code
 - ## 16、visitMethodInsn()
 - ## 17、visitInvokeDynamicInsn()
 - ## 18、visitJumpInsn()
