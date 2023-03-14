@@ -28,7 +28,6 @@
   collapsed:: true
 	- 一个工程内会有多个 Transform，你定义的 Transform 在处理的是上一个 Transform 经过处理的输出，而经过你处理的输出，会由下一个 Transform 进行处理。所有的 transform 任务一般都在 app/build/intermediates/transform/ 这个目录下可以看到。
 - ## 五、难点：
-  collapsed:: true
 	- transform 的核心难点有以下几个点：
 	- 正确、高效的进行文件目录、jar 文件的解压、class 文件 IO 流的处理，保证在这个过程中不丢失文件和错误的写入
 	- 高效的找到要插桩的结点，过滤掉无效的 class
