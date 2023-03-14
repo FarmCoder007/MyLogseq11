@@ -371,16 +371,23 @@
 - ## 19、visitLabel()
 	- 介绍：用于访问Java字节码中的标签
 	- 使用：
+		- 在Java字节码中，标签用于标识代码的执行位置，通常用于标识跳转指令的目标地址。通过调用visitLabel方法，我们可以访问并修改Java字节码中的标签。
+		- 在ASM框架中，我们可以通过实现MethodVisitor接口，重载visitLabel方法来进行标签的处理。需要注意的是，标签是Java字节码中的重要元素，它们的位置必须精确无误，否则会导致程序执行错误。在处理标签时，我们需要仔细阅读Java字节码规范，并进行必要的验证和测试。
 	- code:
 		- ```java
+		  label：表示需要访问的标签。它是一个Label类型的对象，表示Java字节码中的标签。
 		  
 		  public void visitLabel(final Label label) {
 		  ```
 - ## 20、visitLdcInsn()
-	- 介绍：
+	- 介绍：用于访问Java字节码中的LDC指令。
 	- 使用：
+		- 在Java字节码中，LDC指令用于将常量值加载到操作数栈中。通过调用visitLdcInsn方法，我们可以访问并修改Java字节码中的LDC指令。通常，我们可以通过调用ASM中提供的visitLdcInsn方法，将常量值加载到操作数栈中。
+		- 需要注意的是，在Java字节码中，常量池是一个重要的概念。在处理LDC指令时，我们需要考虑常量池中的信息，并进行必要的验证和测试。同时，由于Java字节码中支持多种类型的常量，我们需要根据实际情况选择正确的visitLdcInsn方法，并传递正确的参数。
 	- code:
 		- ```java
+		  cst：表示需要访问的常量值。它可以是数字、字符串、类类型等类型的常量。
+		  public void visitLdcInsn(final Object value) {
 		  ```
 - ## 21、visitIincInsn()
 	- 介绍：
