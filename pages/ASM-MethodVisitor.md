@@ -220,6 +220,18 @@
 	- 介绍：用于访问Java字节码中方法的栈帧信息。
 	- 使用：
 	- code:
+		- 参数：
+			- type：表示栈帧的类型，它是一个整型值，可以取下列常量之一：
+				- Opcodes.F_NEW：表示一个新的栈帧，此时参数numLocal表示局部变量表的大小，参数local表示局部变量表，参数numStack表示操作数栈的大小，参数stack表示操作数栈。
+				- Opcodes.F_FULL：表示一个完整的栈帧，此时参数numLocal表示局部变量表的大小，参数local表示局部变量表，参数numStack表示操作数栈的大小，参数stack表示操作数栈。
+				- Opcodes.F_APPEND：表示一个栈帧追加，此时参数numLocal表示追加的局部变量表项数目，参数local表示追加的局部变量表。
+				- Opcodes.F_CHOP：表示一个栈帧截断，此时参数numLocal表示截断的局部变量表项数目。
+				- Opcodes.F_SAME：表示一个空栈帧。
+				- Opcodes.F_SAME1：表示一个栈帧，其中一个操作数栈项的值与上一个栈帧相同。
+			- numLocal：表示该栈帧的局部变量表的大小，它是一个整型值。
+			- local：表示该栈帧的局部变量表，它是一个Object类型的数组，数组长度为numLocal，每个数组元素表示一个局部变量。在栈帧类型为Opcodes.F_APPEND或Opcodes.F_FULL时，local参数包含了整个局部变量表。在栈帧类型为Opcodes.F_NEW时，local参数表示了局部变量表中的前numLocal项。
+			- numStack：表示该栈帧的操作数栈的大小，它是一个整型值。
+			-
 		- ```java
 		  
 		  public void visitFrame(
