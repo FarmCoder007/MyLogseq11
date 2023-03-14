@@ -5,6 +5,9 @@
 		- ```java
 		  // version:类版本。次要版本存储在16个最高有效位中，主要版本存储在十六个最低有效位中
 		  // access: 类的访问标志（参见Opcodes）。此参数还指示该类是否已弃用。
+		  // name:表示类的全限定名
+		  // signature:这个类的签名。如果类不是泛型类，并且不扩展或实现泛型类或接口，则可以为null。
+		  // superName:
 		  public void visit(
 		        final int version,
 		        final int access,
