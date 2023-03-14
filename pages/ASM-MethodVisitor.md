@@ -450,7 +450,7 @@
 		        final int typeRef, final TypePath typePath, final String descriptor, final boolean visible) {
 		  ```
 - ## 26、visitTryCatchBlock()
-	- 介绍：
+	- 介绍：用于访问方法中的try-catch块。
 	- 使用：
 	- code:
 		- ```java
