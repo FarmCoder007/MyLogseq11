@@ -426,42 +426,60 @@
 		  public void visitLookupSwitchInsn(final Label dflt, final int[] keys, final Label[] labels) {
 		  ```
 - ## 24、visitMultiANewArrayInsn()
-	- 介绍：
+	- 介绍：用于访问字节码中的 MULTIANEWARRAY 指令。
 	- 使用：
 	- code:
 		- ```java
+		  
+		  public void visitMultiANewArrayInsn(final String descriptor, final int numDimensions) {
 		  ```
 - ## 25、visitInsnAnnotation()
 	- 介绍：
 	- 使用：
 	- code:
+		- ```java
+		  ```
 - ## 26、visitTryCatchBlock()
 	- 介绍：
 	- 使用：
 	- code:
+		- ```java
+		  ```
 - ## 27、visitTryCatchAnnotation()
 	- 介绍：
 	- 使用：
 	- code:
+		- ```java
+		  ```
 - ## 28、visitLocalVariable()
 	- 介绍：
 	- 使用：
 	- code:
+		- ```java
+		  ```
 - ## 29、visitLocalVariableAnnotation()
 	- 介绍：
 	- 使用：
 	- code:
+		- ```java
+		  ```
 - ## 30、visitLineNumber()
 	- 介绍：
 	- 使用：
 	- code:
+		- ```java
+		  ```
 - ## 31、visitMaxs()
 	- 介绍：
 	- 使用：
 	- code:
+		- ```java
+		  ```
 - ## 32、visitEnd()
 	- 介绍：
 	- 使用：
 	- code:
+		- ```java
+		  ```
 -
 -
