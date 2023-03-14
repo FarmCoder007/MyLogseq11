@@ -268,6 +268,7 @@
 		  public void visitIntInsn(final int opcode, final int operand) {
 		  ```
 - ## 12、visitVarInsn()
+  collapsed:: true
 	- 介绍：它用于访问方法中的本地变量指令。
 	- 使用：
 		- visitVarInsn方法通常用于处理那些访问或修改本地变量的指令，例如将一个整数类型的本地变量加载到栈上的iload指令，或者将一个对象类型的本地变量存储到栈上的astore指令。在方法访问器访问到这些指令时，会调用visitVarInsn方法，并传递指令的操作码和本地变量的编号作为参数。
@@ -280,6 +281,7 @@
 		  public void visitVarInsn(final int opcode, final int var) {
 		  ```
 - ## 13、visitTypeInsn()
+  collapsed:: true
 	- 介绍：它用于访问方法中的类型指令。
 	- 使用：
 		- visitTypeInsn方法通常用于创建新对象、访问静态字段、检查实例类型等操作。例如，创建一个新对象的指令是new，它需要指定要创建的对象的类型，就可以使用visitTypeInsn方法传递new操作码和要创建的对象的类型作为参数。
