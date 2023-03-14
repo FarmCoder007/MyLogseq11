@@ -120,10 +120,26 @@
 		  
 		  ```
 - ## 6、visitParameterAnnotation()
+  collapsed:: true
 	- 介绍：用于访问方法参数的注解信息。
 	- 使用：
 		- 在 Java 中，可以为方法参数添加注解。在 ASM 中，可以使用 visitParameterAnnotation 方法来访问方法参数的注解信息。当访问到此方法时，需要在访问参数之前调用 visitAnnotableParameterCount 方法来通知 ASM 框架方法参数中存在注解的参数数量。
 		- 例如，如果方法有一个参数 foo，并且有 @MyAnnotation 注解，则可以使用以下代码来访问该注解信息：
+		- ```java
+		  mv.visitAnnotableParameterCount(1, true);
+		  mv.visitParameterAnnotation(0, "Lcom/example/MyAnnotation;", true);
+		  
+		  ```
+		- 在上面的代码中，visitAnnotableParameterCount 方法被调用，传入参数 1 表示存在一个带注解的参数，true 表示注解可见。然后，调用 visitParameterAnnotation 方法来访问参数的注解信息。其中，0 表示参数的索引，"Lcom/example/MyAnnotation;" 表示注解的类型描述符，true 表示注解可见。
+		- 在调用 visitParameterAnnotation 方法后，将返回一个 AnnotationVisitor 对象，可以使用该对象来访问注解的元素值。例如，可以使用以下代码访问 @MyAnnotation 注解中 value 元素的值：
+		- ```java
+		  AnnotationVisitor av = mv.visitParameterAnnotation(0, "Lcom/example/MyAnnotation;", true);
+		  av.visit("value", "hello");
+		  av.visitEnd();
+		  
+		  ```
+		- 在上面的代码中，visit 方法被调用，传入参数 "value" 表示要访问注解中的 value 元素，"hello" 表示该元素的值。然后，调用 visitEnd 方法来结束对注解的访问。
+		- 需要注意的是，调用 visitParameterAnnotation 方法时，必须先调用 visitAnnotableParameterCount 方法。否则，ASM 框架将无法识别方法参数中存在注解的参数数量。
 	- code:
 		- ```java
 		  parameter：表示要访问注解的参数索引。
@@ -134,6 +150,9 @@
 		  
 		  ```
 - ## 7、visitAttribute()
+	- 介绍：
+	- 使用：
+	- code:
 - ## 8、visitCode()
 - ## 9、visitFrame()
 - ## 10、visitInsn()
