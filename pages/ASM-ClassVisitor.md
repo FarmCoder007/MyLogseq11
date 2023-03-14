@@ -33,10 +33,15 @@
 		  // version:模块版本或空。
 		  public ModuleVisitor visitModule(final String name, final int access, final String version) 
 		  ```
-	- ### 4、visitNestHost()：
+	- ### 4、visitNestHost()：用于访问当前类的嵌套类
+	  collapsed:: true
+		- 嵌套类是从 Java 11 开始引入的一种新的类类型，它允许在一个类中定义另一个类。嵌套类可以是静态的或非静态的，它们可以访问宿主类的私有成员
 		- ```java
 		  用于访问当前类的嵌套类。该方法的作用是通知 ClassVisitor 此类是一个嵌套类，
 		  并提供嵌套类的宿主类信息。
-		  //nestHost:
+		  //nestHost: 表示当前类的宿主类的名称。如果当前类不是嵌套类，则该参数应为 null
 		  public void visitNestHost(final String nestHost) {
+		  ```
+	- ### 5、visitOuterClass()：访问外部类的信息，即包含该类的最外层类的信息。
+		- ```java
 		  ```
