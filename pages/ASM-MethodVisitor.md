@@ -192,8 +192,10 @@
 		  
 		  ```
 - ## 8、visitCode()
-	- 介绍:
+	- 介绍: 接口的一个方法，用于访问方法的字节码指令。该方法必须在访问方法的其他部分之后调用。
 	- 使用:
+		- 该方法没有参数，因为在访问方法字节码之前，所有需要设置的信息（例如局部变量表和异常表）都应该已经设置好了。
+		- 在 visitCode 方法之后，可以使用 visitInsn、visitIntInsn、visitVarInsn、visitTypeInsn、visitFieldInsn、visitMethodInsn、visitJumpInsn、visitLabel、visitLdcInsn、visitIincInsn 和 visitTableSwitchInsn 等方法访问方法的字节码指令。
 	- code:
 - ## 9、visitFrame()
 - ## 10、visitInsn()
