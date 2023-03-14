@@ -390,10 +390,15 @@
 		  public void visitLdcInsn(final Object value) {
 		  ```
 - ## 21、visitIincInsn()
-	- 介绍：
+	- 介绍：用于访问Java字节码中的IINC指令。
 	- 使用：
+		- 在Java字节码中，IINC指令用于对指定的局部变量进行增量操作。通过调用visitIincInsn方法，我们可以访问并修改Java字节码中的IINC指令。通常，我们可以通过调用ASM中提供的visitIincInsn方法，来对指定的局部变量进行增量操作。
+		- 需要注意的是，在Java字节码中，局部变量是一个重要的概念。在处理IINC指令时，我们需要考虑局部变量表中的信息，并进行必要的验证和测试。同时，由于IINC指令支持增量操作，我们需要根据实际情况选择正确的visitIincInsn方法，并传递正确的参数。
 	- code:
 		- ```java
+		  var：表示需要增加的局部变量的索引。
+		  increment：表示需要增加的值。
+		  public void visitIincInsn(final int var, final int increment) {
 		  ```
 - ## 22、visitTableSwitchInsn()
 	- 介绍：
