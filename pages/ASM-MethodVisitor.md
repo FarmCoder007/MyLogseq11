@@ -325,7 +325,7 @@
 		        final int opcode, final String owner, final String name, final String descriptor) {
 		  ```
 - ## 16、visitMethodInsn() 新
-	- 介绍：用于访问方法中的方法指令。
+	- 介绍：通常用于访问类的方法
 	- 使用：
 		- visitMethodInsn方法通常用于访问类的方法，包括访问静态方法和访问实例方法。例如，访问一个类的静态方法的指令是invokestatic，需要指定要访问的类、方法名称和方法类型，就可以使用visitMethodInsn方法传递invokestatic操作码、要访问的类的类型、要访问的静态方法的名称和类型描述符作为参数。
 		- 在方法访问器中，如果需要对某个方法指令进行特殊的处理，可以重载visitMethodInsn方法，根据指令的操作码和要访问的方法的类型来判断是否需要特殊处理，如果需要，则在方法中进行相应的处理逻辑。
