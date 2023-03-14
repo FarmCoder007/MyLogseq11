@@ -79,7 +79,15 @@
 		  Attribute 是一个抽象类，它的子类分别表示不同类型的属性，如常量池、源文件、行号表等。
 		  public void visitAttribute(final Attribute attribute)
 		  ```
-	- ### 9、public void (final String nestMember) {
--
+	- ### 9、visitNestMember()：它用于访问一个类的嵌套成员信息
+	  collapsed:: true
+		- 介绍：
+			- 在 Java 11 中，引入了一种新的类文件结构，称为嵌套类属性（Nest Attributes）。该属性可以用来表示一个类是另一个类的嵌套类，或者一个类是一个嵌套类中的成员。当一个类被声明为嵌套类或成员时，它会被添加一个 NestHost 或 NestMembers 属性，以标识其所属的嵌套类或嵌套成员。当访问一个类时，如果该类被声明为嵌套类或嵌套成员，则 ASM 会调用 visitNestMember 方法通知 ClassVisitor 该类所属的外部类的类名，并进行处理。
+			- 需要注意的是，如果一个类既是嵌套类又是嵌套成员，则可能同时具有 NestHost 和 NestMembers 属性。在这种情况下，ASM 会先调用 visitNestHost 方法处理 NestHost 属性，然后再调用 visitNestMember 方法处理 NestMembers 属性。
+		- ```java
+		  nestMember：表示该类所属的外部类的类名，以字符串形式给出。
+		  public void visitNestMember(final String nestMember) {
+		  ```
+	-
 -
 -
