@@ -498,11 +498,17 @@
 		        final int typeRef, final TypePath typePath, final String descriptor, final boolean visible) {
 		  ```
 - ## 28、visitLocalVariable()
-	- 介绍：
+	- 介绍：用于访问方法的本地变量
 	- 使用：
+		- 方法访问者（MethodVisitor）将在访问方法体时调用此方法。此方法的调用顺序必须与本地变量在字节码中的顺序一致。通过 visitCode 方法进入方法体，通过 visitMaxs 方法离开方法体。
 	- code:
 		- ```java
-		  
+		  name：本地变量的名称
+		  descriptor：本地变量的类型描述符
+		  signature：本地变量的类型签名（可选）
+		  start：本地变量的起始偏移量
+		  end：本地变量的结束偏移量
+		  index：本地变量的索引
 		  public void visitLocalVariable(
 		        final String name,
 		        final String descriptor,
@@ -512,10 +518,27 @@
 		        final int index) {
 		  ```
 - ## 29、visitLocalVariableAnnotation()
-	- 介绍：
+	- 介绍：用于访问局部变量的注解。
 	- 使用：
+		- 该方法返回一个 AnnotationVisitor 对象，用于访问局部变量的注解。这个 AnnotationVisitor 的方法可以用来访问该注解的信息（名称和值）。
 	- code:
 		- ```java
+		  
+		  typeRef：一个目标类型说明符，指示了这个局部变量注解是如何与方法调用相关联的。
+		  typePath：表示类型注解中的路径。
+		  start：表示局部变量在字节码中起始的范围（使用标签数组表示）。
+		  end：表示局部变量在字节码中结束的范围（使用标签数组表示）。
+		  index：表示局部变量在方法中的索引。
+		  descriptor：注解描述符。
+		  visible：表示注解是否在运行时可见。
+		  public AnnotationVisitor visitLocalVariableAnnotation(
+		        final int typeRef,
+		        final TypePath typePath,
+		        final Label[] start,
+		        final Label[] end,
+		        final int[] index,
+		        final String descriptor,
+		        final boolean visible) {
 		  ```
 - ## 30、visitLineNumber()
 	- 介绍：
