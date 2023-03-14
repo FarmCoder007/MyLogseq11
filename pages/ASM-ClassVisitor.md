@@ -43,6 +43,7 @@
 		  public void visitNestHost(final String nestHost) {
 		  ```
 	- ### 5、visitOuterClass()：访问外部类的信息，即包含该类的最外层类的信息。
+	  collapsed:: true
 		- 作用：
 			- 访问一个类的外部类信息。该方法的作用是通知 ClassVisitor 该类的外部类信息，即包含该类的最外层类的信息。
 		- ```java
@@ -52,8 +53,12 @@
 		  public void visitOuterClass(final String owner, final String name, final String descriptor) 
 		  ```
 	- ### 6、visitAnnotation()：访问类的注解
+	  collapsed:: true
 		- ```java
-		  // descriptor:
-		  // visible:
+		  // descriptor:表示注解的类型描述符，以字符串形式给出。
+		  // visible:表示该注解是否在运行时可见。如果该注解在运行时不可见，则应将其设置为 false。
 		  public AnnotationVisitor visitAnnotation(final String descriptor, final boolean visible) {
 		  ```
+-
+-
+-
