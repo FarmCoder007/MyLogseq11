@@ -486,17 +486,14 @@
 		  ```
 - ## 27、visitTryCatchAnnotation()
 	- 介绍：
-		- 用于访问 try-catch 块的注解。当访问包含 try-catch 块的方法时，如果 try-catch 块上有注解，则会调用此方法。此方法应在访问 try-catch 块后立即调用。
+		- 方法是在访问方法的异常处理表中的某个异常的注解时调用的。它将创建一个 AnnotationVisitor 对象，用于访问这个注解的内容。
 	- 使用：
 	- code:
 		- ```java
-		  type：注解类型的内部名称，例如 Ljava/lang/annotation/Annotation;。
-		  visible：注解是否可见。如果为 true，则注解在运行时反射可见，否则仅在类文件中可见。
-		  repeatable：注解是否可重复。如果为 true，则可以在同一元素上多次使用该注解。
-		  tryCatchBlock：try-catch 块的描述符，
-		  形式为 "startLabel[endLabel]catchType(exceptionType)cacthLabel"，
-		  例如 "Label0(Label1:Label2)Ljava/lang/Exception;Label2"，
-		  其中 startLabel 是 try 块的起始标签，endLabel 是 try 块的结束标签，catchType 是捕获的异常类型的描述符，exceptionType 是在 catch 块中声明的异常变量的类型描述符，catchLabel 是 catch 块的标签。
+		  typeRef：表示此注释类型的引用类型。引用类型是一个以 I 表示类型引用的 8 位无符号整数，例如，类型引用可以是方法的参数、方法的返回值、泛型类型参数等。
+		  typePath：表示此注释类型的类型路径。类型路径是一系列用于指定注释类型在 class 文件中出现的嵌套类型或数组类型中的位置的项。
+		  descriptor：表示此注释类型的描述符。
+		  visible：表示此注释类型是否在运行时可见。如果为 true，则注释类型在运行时可见；否则，只有在反射时才能访问。
 		  public AnnotationVisitor visitTryCatchAnnotation(
 		        final int typeRef, final TypePath typePath, final String descriptor, final boolean visible) {
 		  ```
@@ -505,6 +502,14 @@
 	- 使用：
 	- code:
 		- ```java
+		  
+		  public void visitLocalVariable(
+		        final String name,
+		        final String descriptor,
+		        final String signature,
+		        final Label start,
+		        final Label end,
+		        final int index) {
 		  ```
 - ## 29、visitLocalVariableAnnotation()
 	- 介绍：
