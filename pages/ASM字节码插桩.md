@@ -20,9 +20,10 @@
 - ## 四、ASM的应用
 	- [[ASM-无状态转换]]
 	- [[ASM-有状态转换]]
-- ## 五、Transform+ASM
+- ## 五、Transform+ASM使用
 	- [[Gradle-Transform]]
-	- 1、定义
+	- 1、定义[[Gradle插件]]
+	- 2、定义[[Gradle-Transform]]类
 - ## ASM接入使用
 	- [ASM4中文使用手册](https://www.yuque.com/mikaelzero/asm/lqufu3)
 -
