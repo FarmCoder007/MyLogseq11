@@ -34,8 +34,21 @@
 		  void visitParameter(String name, int access);
 		  ```
 - ## 2、visitAnnotationDefault()
+  collapsed:: true
 	- 介绍：用于访问注解的默认值。
 	- 使用：
+	  collapsed:: true
+		- 在 Java 中，注解可以包含元素，元素可以有默认值。如果在注解使用时没有指定元素的值，则会使用默认值。在 ASM 中，可以通过 visitAnnotationDefault 方法来访问注解的默认值。该方法返回一个 AnnotationVisitor，用于访问注解的默认值。
+		- 需要注意的是，该方法只能在 visitAnnotation 方法之后和 visitCode 方法之前调用。
+		- visitAnnotationDefault 方法返回一个 AnnotationVisitor 对象，用于访问注解的默认值。访问注解默认值的方式与访问其他注解信息的方式类似，需要使用 AnnotationVisitor 中的方法来访问注解的元素信息。
+		- 例如，如果注解的默认值为 @MyAnnotation("default")，则可以通过以下代码来访问注解的默认值：
+			- ```java
+			  AnnotationVisitor av = mv.visitAnnotationDefault();
+			  av.visit("value", "default");
+			  av.visitEnd();
+			  
+			  ```
+		- 在访问完注解的默认值后，需要调用 visitEnd 方法，通知 MethodVisitor 默认值的访问结束了。
 	- code:
 - ## 3、visitAnnotation()
 - ## 4、visitTypeAnnotation()
