@@ -415,11 +415,14 @@
 		        final int min, final int max, final Label dflt, final Label... labels) 
 		  ```
 - ## 23、visitLookupSwitchInsn()
-	- 介绍：
+	- 介绍：用于访问字节码中的 LOOKUPSWITCH 指令。
 	- 使用：
+		- LOOKUPSWITCH 指令是用于在具有多个分支的情况下进行跳转的指令。它使用给定的键将其与一个跳转目标列表进行比较，并跳转到相应的目标。如果没有匹配项，则跳转到默认目标。
 	- code:
 		- ```java
-		  
+		  dflt：指向默认情况下应跳转到的 Label。
+		  keys：一个整数数组，它包含要比较的键的列表。
+		  labels：一个 Label 数组，其中包含与每个键关联的目标 Label。
 		  public void visitLookupSwitchInsn(final Label dflt, final int[] keys, final Label[] labels) {
 		  ```
 - ## 24、visitMultiANewArrayInsn()
