@@ -474,7 +474,7 @@
 		  }
 		  
 		  ```
-		-
+		- 在访问方法时，visitTryCatchBlock方法将被调用，并输出try-catch块的信息。最后，调用父类的visitTryCatchBlock方法，以便继续访问其他指令。
 	- code:
 		- ```java
 		  start：表示try块的起始位置，即try块的第一条指令的标签。
