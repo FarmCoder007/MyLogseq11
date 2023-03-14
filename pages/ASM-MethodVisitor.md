@@ -335,11 +335,11 @@
 		- 在方法访问器中，如果需要对某个方法指令进行特殊的处理，可以重载visitMethodInsn方法，根据指令的操作码和要访问的方法的类型来判断是否需要特殊处理，如果需要，则在方法中进行相应的处理逻辑。
 	- code:
 		- ```java
-		  opcode：表示指令的操作码。它是一个整数，取值在Opcodes类中定义。
-		  owner：表示要访问方法的类的类型。它是一个字符串，表示包含要访问方法的类的类型。
-		  name：表示要访问的方法的名称。它是一个字符串，表示要访问的方法的名称。
-		  descriptor：表示要访问方法的描述符。它是一个字符串，表示要访问的方法的类型描述符。
-		  isInterface：表示要访问方法的类是否是一个接口。它是一个布尔值，表示要访问方法的类是否是一个接口。
+		  opcode：方法调用指令的操作码，例如 INVOKEVIRTUAL、INVOKESTATIC 等。该参数的值应该通过 Opcodes 类中的常量进行设置。
+		  owner：被调用方法的所有者类名，即该方法所在类的类名。例如，调用 java.lang.String 类中的 length() 方法，则该参数应该设置为 java/lang/String。
+		  name：被调用的方法名。例如，调用 java.lang.String 类中的 length() 方法，则该参数应该设置为 length。
+		  descriptor：被调用方法的描述符。描述符用来描述方法的参数类型和返回值类型，例如 (Ljava/lang/String;)I 表示参数为 java.lang.String，返回值为 int 类型。
+		  isInterface：指示被调用方法是否为接口方法。如果被调用方法是接口方法，则该参数应该设置为 true；否则，应该设置为 false。
 		  public void visitMethodInsn(
 		        final int opcode,
 		        final String owner,
