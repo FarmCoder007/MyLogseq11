@@ -59,6 +59,16 @@
 		  // visible:表示该注解是否在运行时可见。如果该注解在运行时不可见，则应将其设置为 false。
 		  public AnnotationVisitor visitAnnotation(final String descriptor, final boolean visible) {
 		  ```
--
--
+	- ### 7、visitTypeAnnotation()：它用于访问一个类的类型注解信息
+	  collapsed:: true
+		- ```java
+		  
+		  typeRef：表示类型注解的目标类型，以一个整数形式给出。具体来说，它表示一个指向字节码中某个类型的引用。在 Java 字节码中，类型引用是一个复杂的概念，它可以表示类的继承关系、方法的参数和返回值类型、字段的类型等。
+		  typePath：表示类型注解的路径，以 TypePath 对象形式给出。类型路径是一个用于描述类型注解的位置信息的对象，它可以表示类型引用的具体位置，如类的继承链中的哪个位置、方法参数的哪个位置等。
+		  descriptor：表示注解的类型描述符，以字符串形式给出。
+		  visible：表示该注解是否在运行时可见。如果该注解在运行时不可见，则应将其设置为 false。
+		  public AnnotationVisitor visitTypeAnnotation(
+		        final int typeRef, final TypePath typePath, final String descriptor, final boolean visible)
+		  ```
+	-
 -
