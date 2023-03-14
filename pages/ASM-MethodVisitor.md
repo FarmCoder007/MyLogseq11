@@ -401,13 +401,20 @@
 		  public void visitIincInsn(final int var, final int increment) {
 		  ```
 - ## 22、visitTableSwitchInsn()
-	- 介绍：
+	- 介绍：用于访问Java字节码中的TABLESWITCH指令。
 	- 使用：
 	- code:
+		- ```java
+		  
+		  public void visitTableSwitchInsn(
+		        final int min, final int max, final Label dflt, final Label... labels) 
+		  ```
 - ## 23、visitLookupSwitchInsn()
 	- 介绍：
 	- 使用：
 	- code:
+		- ```java
+		  ```
 - ## 24、visitMultiANewArrayInsn()
 	- 介绍：
 	- 使用：
