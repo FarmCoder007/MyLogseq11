@@ -358,16 +358,23 @@
 		        final Object... bootstrapMethodArguments) {
 		  ```
 - ## 18、visitJumpInsn()
-	- 介绍：
+	- 介绍：用于访问Java字节码中的跳转指令。
 	- 使用：
+		- 在Java字节码中，跳转指令用于控制程序的执行流程。通过调用visitJumpInsn方法，我们可以访问并修改Java字节码中的跳转指令。在ASM框架中，我们可以通过实现MethodVisitor接口，重载visitJumpInsn方法来进行跳转指令的处理。
+		- 需要注意的是，在修改跳转指令时，需要保证修改后的指令仍然符合Java字节码的规范，否则会导致程序执行错误。因此，在修改跳转指令时，需要仔细阅读Java字节码规范，并进行必要的验证和测试。
 	- code:
 		- ```java
+		  opcode：表示跳转指令的操作码。它是一个整数，表示跳转指令的类型。
+		  label：表示跳转指令的目标标签。它是一个Label类型的对象，表示跳转指令的目标地址。
+		  public void visitJumpInsn(final int opcode, final Label label) {
 		  ```
 - ## 19、visitLabel()
-	- 介绍：
+	- 介绍：用于访问Java字节码中的标签
 	- 使用：
 	- code:
 		- ```java
+		  
+		  public void visitLabel(final Label label) {
 		  ```
 - ## 20、visitLdcInsn()
 	- 介绍：
