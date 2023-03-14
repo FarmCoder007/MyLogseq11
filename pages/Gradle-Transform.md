@@ -34,7 +34,6 @@
 	- 高效的找到要插桩的结点，过滤掉无效的 class
 	- 支持增量编译
 - ## 六、API
-  collapsed:: true
 	- ### getName()
 	  collapsed:: true
 		- 指明 Transform 的名字，也对应了该 Transform 所代表的 Task 名称,Gradle 在编译的时候，会将这个名称经过一些拼接显示在控制台上
@@ -81,7 +80,6 @@
 					      }
 					  ```
 	- ### getScopes()
-	  collapsed:: true
 		- 是Transform类中的一个方法，用于返回Transform所处理的文件的范围。它返回一个Set对象，包含了Transform所支持的所有文件范围。
 		- 取值：
 			- Scope.PROJECT:
@@ -97,7 +95,6 @@
 			- Scope.TESTED_CODE:
 				- 表示Transform所处理的是测试代码的文件。
 		- 示例：
-		  collapsed:: true
 			- ```kotlin
 			  
 			      override fun getScopes(): MutableSet<in QualifiedContent.Scope> {
