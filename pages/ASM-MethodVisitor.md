@@ -150,9 +150,29 @@
 		  
 		  ```
 - ## 7、visitAttribute()
-	- 介绍：
+	- 介绍：用于访问类、字段或方法的属性信息。
 	- 使用：
+		- 在 ASM 中，可以向类、字段或方法添加自定义属性，这些属性是由用户定义的，并且不在 Java 类或接口规范中定义。当访问类、字段或方法时，可以使用 visitAttribute 方法来访问这些自定义属性。
+		- 属性对象由 Attribute 类或其子类的实例表示，其中 Attribute 是一个抽象类，定义了属性对象的基本行为。在 ASM 中，可以继承 Attribute 类并实现自定义的属性对象。例如，以下代码定义了一个名为 MyAttribute 的自定义属性对象：
+		- ```java
+		  public class MyAttribute extends Attribute {
+		      public static final String NAME = "MyAttribute";
+		  
+		      public MyAttribute() {
+		          super(NAME);
+		      }
+		  
+		      // Override other methods as needed
+		  }
+		  
+		  ```
+		-
 	- code:
+		- ```java
+		  attribute：表示要访问的属性对象。
+		  void visitAttribute(Attribute attribute);
+		  
+		  ```
 - ## 8、visitCode()
 - ## 9、visitFrame()
 - ## 10、visitInsn()
