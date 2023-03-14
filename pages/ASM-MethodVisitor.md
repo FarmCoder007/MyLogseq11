@@ -23,6 +23,13 @@
 - ## 22、visitTableSwitchInsn()
 - ## 23、visitLookupSwitchInsn()
 - ## 24、visitMultiANewArrayInsn()
-- ## 25、
+- ## 25、visitInsnAnnotation()
+- ## 26、visitTryCatchBlock()
+- ## 27、visitTryCatchAnnotation()
+- ## 28、visitLocalVariable()
+- ## 29、visitLocalVariableAnnotation()
+- ## 30、visitLineNumber()
+- ## 31、visitMaxs()
+- ## 32、visitEnd()
 -
 -
