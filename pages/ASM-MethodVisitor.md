@@ -247,9 +247,15 @@
 - ## 10、visitInsn()
 	- 介绍：它用于访问方法中的单条指令。
 	- 使用：
+		- visitInsn方法通常用于处理那些不需要任何操作数的指令，例如将两个数字相加的iadd指令，或者创建一个新对象的new指令。在方法访问器访问到这些指令时，会调用visitInsn方法，并传递指令的操作码作为参数。
+		- 在方法访问器中，如果需要对某个指令进行特殊的处理，可以重载visitInsn方法，根据指令的操作码来判断是否需要特殊处理，如果需要，则在方法中进行相应的处理逻辑。
 	- code:
-		-
+		- ```java
+		  opcode：表示指令的操作码。它是一个整数，取值在Opcodes类中定义。
+		  public void visitInsn(final int opcode) {
+		  ```
 - ## 11、visitIntInsn()
+	-
 - ## 12、visitVarInsn()
 - ## 13、visitTypeInsn()
 - ## 14、visitFieldInsn()
