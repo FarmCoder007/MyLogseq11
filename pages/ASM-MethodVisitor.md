@@ -306,10 +306,13 @@
 		        final int opcode, final String owner, final String name, final String descriptor) {
 		  ```
 - ## 15、visitMethodInsn()
-	- 介绍：
+	- 介绍：用于访问方法中的方法指令。
 	- 使用：
 	- code
 		- ```java
+		  @Deprecated
+		    public void visitMethodInsn(
+		        final int opcode, final String owner, final String name, final String descriptor) {
 		  ```
 - ## 16、visitMethodInsn()
 	- 介绍：
