@@ -212,11 +212,9 @@
 		                  }
 		  ```
 	- 所有的输入都是带状态的，根据这些状态做不同的处理就好了。当然，也可以根据前面提到的 getSecondaryInputs 提供的输入进行处理支持增量编译。
-- ## 六、自定义transform
-  collapsed:: true
+- ## 六、自定义Transform
 	- 实现一个 Transform 需要先创建 Gradle 插件，大致流程：自定义 Gradle 插件 -> 自定义 Transform -> 注册 Transform
 	- 带增量编译的transform
-	  collapsed:: true
 		- ```kotlin
 		  class UnityLogTransform : Transform() {
 		      override fun getName(): String {
@@ -577,8 +575,8 @@
 			      }
 			  }
 			  ```
--
-- ## 七、transform调试
+- ## 七、Transform调试
+  collapsed:: true
 	- ### 一、新建 Remote JVM Debug
 	  collapsed:: true
 		- ![image.png](../assets/image_1678762562134_0.png)
@@ -587,6 +585,7 @@
 		- ![image.png](../assets/image_1678762646970_0.png)
 		-
 	- ### 二、Debug 插件关联的 Task
+	  collapsed:: true
 		- ```
 		  ./gradlew build -Dorg.gradle.debug=true --no-daemon
 		  ```
@@ -613,8 +612,11 @@
 		- ![image.png](../assets/image_1678762829563_0.png){:height 154, :width 562}
 		- 等待一段时间就可以了
 		-
-	-
--
+	- ### 四、其他问题
+		- 1、Android Studio Remote Debug Unable to open debugger port 5005
+			- 在执行 Debug TransformServer 中发生这一异常。出现这个问题的原因，一般是端口被占用，但是发现并没有被占用。这个时候解决方法是将 App module 运行起来，然后再 debug 即可正常。
+		- 2、断点不是每一次都能正常走到
+			- 需要手动 build -> clean
 -
 - 参考：
   collapsed:: true
