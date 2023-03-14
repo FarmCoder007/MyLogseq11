@@ -220,6 +220,15 @@
 	- 介绍：用于访问Java字节码中方法的栈帧信息。
 	- 使用：
 	- code:
+		- ```java
+		  
+		  public void visitFrame(
+		        final int type,
+		        final int numLocal,
+		        final Object[] local,
+		        final int numStack,
+		        final Object[] stack)
+		  ```
 - ## 10、visitInsn()
 - ## 11、visitIntInsn()
 - ## 12、visitVarInsn()
