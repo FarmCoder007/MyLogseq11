@@ -120,8 +120,19 @@
 		  
 		  ```
 - ## 6、visitParameterAnnotation()
-  collapsed:: true
-	-
+	- 介绍：用于访问方法参数的注解信息。
+	- 使用：
+		- 在 Java 中，可以为方法参数添加注解。在 ASM 中，可以使用 visitParameterAnnotation 方法来访问方法参数的注解信息。当访问到此方法时，需要在访问参数之前调用 visitAnnotableParameterCount 方法来通知 ASM 框架方法参数中存在注解的参数数量。
+		- 例如，如果方法有一个参数 foo，并且有 @MyAnnotation 注解，则可以使用以下代码来访问该注解信息：
+	- code:
+		- ```java
+		  parameter：表示要访问注解的参数索引。
+		  descriptor：表示注解的类型描述符。
+		  visible：表示注解是否可见，以布尔值形式给出。
+		  
+		  AnnotationVisitor visitParameterAnnotation(int parameter, String descriptor, boolean visible);
+		  
+		  ```
 - ## 7、visitAttribute()
 - ## 8、visitCode()
 - ## 9、visitFrame()
