@@ -269,10 +269,23 @@
 - ## 12、visitVarInsn()
 	- 介绍：它用于访问方法中的本地变量指令。
 	- 使用：
+		- visitVarInsn方法通常用于处理那些访问或修改本地变量的指令，例如将一个整数类型的本地变量加载到栈上的iload指令，或者将一个对象类型的本地变量存储到栈上的astore指令。在方法访问器访问到这些指令时，会调用visitVarInsn方法，并传递指令的操作码和本地变量的编号作为参数。
+		- 在方法访问器中，如果需要对某个本地变量指令进行特殊的处理，可以重载visitVarInsn方法，根据指令的操作码来判断是否需要特殊处理，如果需要，则在方法中进行相应的处理逻辑。
 	- code:
 		- ```java
+		  opcode：表示指令的操作码。它是一个整数，取值在Opcodes类中定义。
+		  var：表示指令中操作的本地变量的编号。它是一个整数，
+		  从0开始计数。在Java字节码中，本地变量可以是基本数据类型或者对象类型。
+		  public void visitVarInsn(final int opcode, final int var) {
 		  ```
 - ## 13、visitTypeInsn()
+	- 介绍：
+	- 使用：
+	- code:
+		- ```java
+		  
+		  public void visitTypeInsn(final int opcode, final String type) {
+		  ```
 - ## 14、visitFieldInsn()
 - ## 15、visitMethodInsn()
 - ## 16、visitMethodInsn()
