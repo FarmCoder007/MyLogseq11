@@ -255,7 +255,14 @@
 		  public void visitInsn(final int opcode) {
 		  ```
 - ## 11、visitIntInsn()
-	-
+	- 介绍：它用于访问方法中的整数指令。
+	- 使用：
+	- code:
+		- ```java
+		  opcode：表示指令的操作码。它是一个整数，取值在Opcodes类中定义。
+		  operand：表示指令中包含的整数操作数。它是一个int类型的值，表示指令的操作数。
+		  public void visitIntInsn(final int opcode, final int operand) {
+		  ```
 - ## 12、visitVarInsn()
 - ## 13、visitTypeInsn()
 - ## 14、visitFieldInsn()
