@@ -88,6 +88,15 @@
 		  nestMember：表示该类所属的外部类的类名，以字符串形式给出。
 		  public void visitNestMember(final String nestMember) {
 		  ```
-	-
+	- ### 10、visitInnerClass()：它用于访问一个类的内部类信息
+		-
+		- ```java
+		  name：表示内部类的名称，以字符串形式给出。对于非内部类，该参数值为类名。
+		  outerName：表示外部类的名称，以字符串形式给出。如果该类不是内部类，则该参数值为 null。
+		  innerName：表示内部类的简单名称，以字符串形式给出。如果该类不是内部类，则该参数值为 null。
+		  access：表示内部类的访问修饰符，以整数形式给出。
+		  public void visitInnerClass(
+		        final String name, final String outerName, final String innerName, final int access) 
+		  ```
 -
 -
