@@ -71,8 +71,15 @@
 		        final int typeRef, final TypePath typePath, final String descriptor, final boolean visible)
 		  ```
 	- ### 8、visitAttribute():它用于访问一个类的属性信息。
+	  collapsed:: true
+		- 在 ASM 中，当访问一个类时，除了类的注解和类型注解外，还可能有一些其他的信息，如常量池、源文件、行号表等。这些信息都被视为类的属性信息，并使用 Attribute 对象来表示。当 ASM 访问一个类的属性信息时，会调用 visitAttribute 方法通知 ClassVisitor 属性信息，并将 Attribute 对象作为参数传入。然后，ClassVisitor 可以根据不同的属性类型进行处理，如解析常量池中的字符串、获取源文件名等。
+		- 需要注意的是，如果一个类有多个属性信息，则 visitAttribute 方法会被多次调用，每次调用时传入不同的 Attribute 对象。
 		- ```java
-		  
+		  attribute：表示类的属性信息，以 Attribute 对象形式给出。
+		  Attribute 是一个抽象类，它的子类分别表示不同类型的属性，如常量池、源文件、行号表等。
 		  public void visitAttribute(final Attribute attribute)
 		  ```
+	- ### 9、public void (final String nestMember) {
+-
+-
 -
