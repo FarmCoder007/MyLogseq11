@@ -46,7 +46,6 @@
 			  }
 			  ```
 	- ### getInputTypes()
-	  collapsed:: true
 		- getInputTypes()方法用于返回Transform所支持的输入文件类型，开发者可以通过返回这些常量中的任意一个来指定Transform的输入文件类型。
 		- 取值：
 			- 方式一、使用QualifiedContent.DefaultContentType类中的一些常量
@@ -63,7 +62,6 @@
 					      }
 					  ```
 			- 方式二、使用TransformManager 定义好的集合
-			  collapsed:: true
 				- CONTENT_CLASS：Java 字节码文件，
 				- CONTENT_JARS：jar 包
 				- CONTENT_RESOURCES：资源，包含 java 文件
@@ -105,10 +103,10 @@
 			      }
 			  ```
 	- ### isIncremental()
-	  collapsed:: true
 		- 表明是否支持增量编译，不是每次的编译都可以增量编译，clean build没有增量的基础，需要检查当前的编译是否增量编译。
 		- 不是增量编译，则清空output目录，然后按照前面的方式，逐个class/jar处理
 		- 增量编译，则要检查每个文件的Status，Status分为四种，并且对四种文件的操作不尽相同
+		  collapsed:: true
 			- NOTCHANGED 当前文件不需要处理
 			- ADDED、CHANGED 正常处理，输出给下一个任务
 			- REMOVED 移除outputProvider获取路径对应的文件
