@@ -71,6 +71,7 @@
 	  RETURN: 从当前方法返回
 - ## ASM 指令示例：
 	- 1、Opcodes.GETSTATIC：
+	  collapsed:: true
 		- 介绍：是 ASM 中的一个指令，用于访问类的静态变量。
 		- 使用：
 			- 其操作数栈不会有变化，它会将指定类的指定静态变量的值压入栈中。其参数如下：
@@ -90,3 +91,10 @@
 			  
 			  ```
 			- 此代码使用 Opcodes.GETSTATIC 指令，访问 Example 类中的 EXAMPLE_VALUE 静态变量。在这个例子中，owner 参数的值为 "Example"，name 参数的值为 "EXAMPLE_VALUE"，descriptor 参数的值为 "I"（整数类型）。
+	- 2、Opcodes.PUTSTATIC：
+		- 介绍：
+			- 将一个静态字段（类字段）的值从操作数栈顶弹出并存储到指定的类中。其语法为：
+		- 使用场景：
+			- 1、用于为一个静态字段赋值。
+			-
+		-
