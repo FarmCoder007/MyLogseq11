@@ -541,10 +541,32 @@
 		        final boolean visible) {
 		  ```
 - ## 30、visitLineNumber()
-	- 介绍：接口中的一个方法，用于访问Java源代码中的行号信息。它的作用是为当前正在访问的方法添加一个源代码行号和与之对应的指令索引
+	- 介绍：
+		- 接口中的一个方法，用于访问Java源代码中的行号信息。它的作用是为当前正在访问的方法添加一个源代码行号和与之对应的指令索引
 	- 使用：
+		- 例如，下面的示例代码使用visitLineNumber在生成的字节码中添加了行号信息：
+		- ```java
+		  @Override
+		  public void visitCode() {
+		      super.visitCode();
+		      Label start = new Label();
+		      mv.visitLabel(start);
+		      mv.visitLineNumber(1, start);
+		      mv.visitInsn(RETURN);
+		      Label end = new Label();
+		      mv.visitLabel(end);
+		      mv.visitLocalVariable("this", "LTest;", null, start, end, 0);
+		      mv.visitMaxs(0, 0);
+		      mv.visitEnd();
+		  }
+		  
+		  ```
+		- 在上面的示例中，visitLabel用于为指令添加标签，visitLineNumber用于为标签添加行号信息。当我们反编译该代码时，会发现字节码中的每个指令都有相应的行号信息。
 	- code:
 		- ```java
+		  line：当前正在访问的行号。
+		  start：该行号对应的指令索引。
+		  public void visitLineNumber(final int line, final Label start) {
 		  ```
 - ## 31、visitMaxs()
 	- 介绍：
