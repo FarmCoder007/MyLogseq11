@@ -150,6 +150,7 @@
 		  
 		  ```
 - ## 7、visitAttribute()
+  collapsed:: true
 	- 介绍：用于访问类、字段或方法的属性信息。
 	- 使用：
 		- 在 ASM 中，可以向类、字段或方法添加自定义属性，这些属性是由用户定义的，并且不在 Java 类或接口规范中定义。当访问类、字段或方法时，可以使用 visitAttribute 方法来访问这些自定义属性。
@@ -166,7 +167,24 @@
 		  }
 		  
 		  ```
-		-
+		- 要向类、字段或方法添加自定义属性，可以使用 visitAttribute 方法。例如，以下代码将自定义属性 MyAttribute 添加到类中
+		- ```java
+		  ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_MAXS);
+		  cw.visit(Opcodes.V1_8, Opcodes.ACC_PUBLIC, "com/example/MyClass", null, "java/lang/Object", null);
+		  Attribute attr = new MyAttribute();
+		  cw.visitAttribute(attr);
+		  
+		  ```
+		- 在上面的代码中，首先创建了一个 ClassWriter 对象，并使用 visit 方法访问类 com.example.MyClass。然后，创建了一个自定义属性 MyAttribute 的实例，并使用 visitAttribute 方法将其添加到类中。
+		- 当访问类、字段或方法时，可以使用 getAttribute 方法获取已添加的属性信息。例如，以下代码获取类中名为 MyAttribute 的属性对象：
+		- ```java
+		  Attribute attr = cw.getAttribute(MyAttribute.NAME);
+		  if (attr != null) {
+		      // Process the attribute
+		  }
+		  
+		  ```
+		- 在上面的代码中，getAttribute 方法被调用，传入参数 MyAttribute.NAME 表示要获取名为 MyAttribute 的属性对象。如果该属性存在，则将返回一个 Attribute 对象，可以对其进行进一步处理。
 	- code:
 		- ```java
 		  attribute：表示要访问的属性对象。
@@ -174,6 +192,9 @@
 		  
 		  ```
 - ## 8、visitCode()
+	- 介绍:
+	- 使用:
+	- code:
 - ## 9、visitFrame()
 - ## 10、visitInsn()
 - ## 11、visitIntInsn()
