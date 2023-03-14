@@ -403,9 +403,14 @@
 - ## 22、visitTableSwitchInsn()
 	- 介绍：用于访问Java字节码中的TABLESWITCH指令。
 	- 使用：
+		- 在Java字节码中，TABLESWITCH指令用于实现一个带有多个分支的switch语句。通过调用visitTableSwitchInsn方法，我们可以访问并修改Java字节码中的TABLESWITCH指令。通常，我们可以通过调用ASM中提供的visitTableSwitchInsn方法，来生成一个新的TABLESWITCH指令。
+		- 需要注意的是，在Java字节码中，TABLESWITCH指令的操作比较复杂。在处理TABLESWITCH指令时，我们需要考虑各个分支的跳转目标，并进行必要的验证和测试。同时，由于TABLESWITCH指令支持多个分支，我们需要根据实际情况选择正确的visitTableSwitchInsn方法，并传递正确的参数。
 	- code:
 		- ```java
-		  
+		  min：表示case语句的最小值。
+		  max：表示case语句的最大值。
+		  dflt：表示默认的跳转目标。
+		  labels：表示各个case语句的跳转目标
 		  public void visitTableSwitchInsn(
 		        final int min, final int max, final Label dflt, final Label... labels) 
 		  ```
