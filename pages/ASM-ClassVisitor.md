@@ -33,4 +33,8 @@
 		  // version:模块版本或空。
 		  public ModuleVisitor visitModule(final String name, final int access, final String version) 
 		  ```
-	- ### 4、
+	- ### 4、visitNestHost()：
+		- ```java
+		  //nestHost:
+		  public void visitNestHost(final String nestHost) {
+		  ```
