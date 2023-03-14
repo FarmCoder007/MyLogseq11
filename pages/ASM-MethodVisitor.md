@@ -428,16 +428,26 @@
 - ## 24、visitMultiANewArrayInsn()
 	- 介绍：用于访问字节码中的 MULTIANEWARRAY 指令。
 	- 使用：
+		- MULTIANEWARRAY 指令用于创建多维数组。它接受一个类型描述符和一个整数，该整数指定要创建的数组的维数。例如，如果 numDimensions 参数为 2，则将创建一个二维数组。指令的结果是将新创建的数组的引用压入操作数栈顶。
 	- code:
 		- ```java
-		  
+		  descriptor：要创建的数组的类型描述符，如 [[Ljava/lang/Object;。
+		  numDimensions：要创建的数组的维数。
 		  public void visitMultiANewArrayInsn(final String descriptor, final int numDimensions) {
 		  ```
 - ## 25、visitInsnAnnotation()
-	- 介绍：
+	- 介绍：用于访问字节码中指令的注解。
 	- 使用：
+		- 此方法允许访问指令上的注解，例如 @Deprecated、@Override 等。它返回一个 AnnotationVisitor 对象，用于访问注解中的成员。AnnotationVisitor 对象将访问注解的每个成员，并通过其相应的 visit 方法返回该成员的值。
 	- code:
 		- ```java
+		  typeRef：表示要注解的类型的引用类型。例如，可以使用 TypeReference.METHOD_RETURN 注解方法的返回值。
+		  typePath：表示要注解的类型的路径。这是一个可选参数，可以为 null。
+		  descriptor：注解的描述符。它指定了注解的类型，如 Ljava/lang/Deprecated;。
+		  visible：表示注解是否在运行时可见。
+		  
+		  public AnnotationVisitor visitInsnAnnotation(
+		        final int typeRef, final TypePath typePath, final String descriptor, final boolean visible) {
 		  ```
 - ## 26、visitTryCatchBlock()
 	- 介绍：
