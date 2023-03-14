@@ -20,4 +20,7 @@
 		  ```
 	- ### 2、 visitSource()：访问源文件名和源文件的调试信息
 		- ```java
+		  // source:从中编译类的源文件的名称。可以为空
+		  // debug:
+		  public void visitSource(final String source, final String debug)
 		  ```
