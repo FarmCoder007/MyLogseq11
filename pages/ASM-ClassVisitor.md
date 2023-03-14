@@ -43,9 +43,16 @@
 		  public void visitNestHost(final String nestHost) {
 		  ```
 	- ### 5、visitOuterClass()：访问外部类的信息，即包含该类的最外层类的信息。
+	  collapsed:: true
 		- ```java
 		  // owner:
 		  // name:
 		  // descriptor:
 		  public void visitOuterClass(final String owner, final String name, final String descriptor) 
+		  ```
+	- ### 6、visitAnnotation()：访问类的注解
+		- ```java
+		  // descriptor:
+		  // visible:
+		  public AnnotationVisitor visitAnnotation(final String descriptor, final boolean visible) {
 		  ```
