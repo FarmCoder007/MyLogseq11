@@ -100,7 +100,23 @@
 		  public void visitInnerClass(
 		        final String name, final String outerName, final String innerName, final int access) 
 		  ```
-	- ### 11、visitField():
+	- ### 11、visitField():它用于访问一个类的字段信息。该方法的作用是通知 ClassVisitor 该类的字段信息，包括字段名称、字段类型、字段访问修饰符等。
+	  collapsed:: true
+		- 在 Java 中，字段是类的成员变量，用于存储对象的状态。当使用 ASM 访问一个类时，可能需要访问该类的字段信息，例如在生成字节码时需要访问其字段的访问修饰符。
+		- visitField 方法会在访问一个类时被调用，用于通知 ClassVisitor 该类的字段信息。其中，access 参数表示字段的访问修饰符，name 参数表示字段的名称，descriptor 参数表示字段的类型描述符，signature 参数表示字段的签名，value 参数表示字段的默认值。该方法会返回一个 FieldVisitor 对象，用于访问该字段的注解、属性等信息。
+		- 需要注意的是，如果一个类有多个字段，则 visitField 方法会被多次调用，每次调用时传入不同的字段信息。
 		- ```java
+		  access：表示字段的访问修饰符，以整数形式给出。
+		  name：表示字段的名称，以字符串形式给出。
+		  descriptor：表示字段的类型描述符，以字符串形式给出。例如，I 表示整数类型，Ljava/lang/String; 表示字符串类型。
+		  signature：表示字段的签名，以字符串形式给出。如果该字段没有泛型信息，则该参数值为 null。
+		  value：表示字段的默认值。如果该字段没有默认值，则该参数值为 null。
+		  public FieldVisitor visitField(
+		        final int access,
+		        final String name,
+		        final String descriptor,
+		        final String signature,
+		        final Object value) 
 		  ```
+	- ### 12、
 -
