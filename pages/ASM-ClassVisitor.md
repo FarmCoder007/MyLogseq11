@@ -118,5 +118,9 @@
 		        final String signature,
 		        final Object value) 
 		  ```
-	- ### 12、
--
+	- ### 12、visitMethod()：它用于访问一个类的方法信息。该方法的作用是通知 ClassVisitor 该类的方法信息，包括方法名称、方法参数、方法返回值、方法访问修饰符等。
+		- ```java
+		  ```
+	- ### 13、visitEnd()：
+		- ```java
+		  ```
