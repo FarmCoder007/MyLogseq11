@@ -192,12 +192,32 @@
 		  
 		  ```
 - ## 8、visitCode()
+  collapsed:: true
 	- 介绍: 接口的一个方法，用于访问方法的字节码指令。该方法必须在访问方法的其他部分之后调用。
 	- 使用:
 		- 该方法没有参数，因为在访问方法字节码之前，所有需要设置的信息（例如局部变量表和异常表）都应该已经设置好了。
 		- 在 visitCode 方法之后，可以使用 visitInsn、visitIntInsn、visitVarInsn、visitTypeInsn、visitFieldInsn、visitMethodInsn、visitJumpInsn、visitLabel、visitLdcInsn、visitIincInsn 和 visitTableSwitchInsn 等方法访问方法的字节码指令。
+		- 例如，以下代码访问一个名为 foo 的方法的字节码：
+		- ```java
+		  MethodVisitor mv = ...; // create MethodVisitor
+		  mv.visitCode();
+		  mv.visitInsn(Opcodes.ICONST_0);
+		  mv.visitVarInsn(Opcodes.ISTORE, 1);
+		  Label loop = new Label();
+		  mv.visitLabel(loop);
+		  mv.visitIincInsn(1, 1);
+		  mv.visitVarInsn(Opcodes.ILOAD, 1);
+		  mv.visitIntInsn(Opcodes.BIPUSH, 10);
+		  mv.visitJumpInsn(Opcodes.IF_ICMPLT, loop);
+		  mv.visitInsn(Opcodes.RETURN);
+		  mv.visitMaxs(2, 2);
+		  mv.visitEnd();
+		  
+		  ```
+		- 在上面的代码中，首先创建了一个 MethodVisitor 对象，然后使用 visitCode 方法开始访问方法字节码。接下来，使用 visitInsn 方法添加一条 ICONST_0 指令，该指令将整数值 0 推入操作数栈。然后，使用 visitVarInsn 方法添加一条 ISTORE_1 指令，该指令将栈顶的整数值存储到局部变量 1 中。接下来，使用 visitLabel 方法添加一个标签，表示一个循环的开始。然后，使用 visitIincInsn 方法添加一条 IINC 指令，该指令将局部变量 1 的值增加 1。接下来，使用 visitVarInsn 方法添加一条 ILOAD_1 指令，该指令将局部变量 1 的值推入操作数栈。然后，使用 visitIntInsn 方法添加一条 BIPUSH 指令，该指令将一个 byte 类型的整数值推入操作数栈。接下来，使用 visitJumpInsn 方法添加一条 IF_ICMPGE 指令，该指令比较两个整数值，如果值在栈中的前者小于或等于后者，则跳转到指定的标签处。在上面的代码中，跳转指令将跳转到循环的开始处。最后，使用 visitInsn 方法添加一条 RETURN 指令，表示方法的结束。在所有字节码指令添加完毕后，使用 visitMaxs 方法指定操作数
 	- code:
 - ## 9、visitFrame()
+	-
 - ## 10、visitInsn()
 - ## 11、visitIntInsn()
 - ## 12、visitVarInsn()
