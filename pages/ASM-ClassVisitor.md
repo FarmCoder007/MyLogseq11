@@ -27,4 +27,7 @@
 		  ```
 	- ### 3、visitModule()：访问与该类对应的模块。
 		- ```java
+		  // name:模块的完全限定名称（使用圆点）
+		  // access:
+		  public ModuleVisitor visitModule(final String name, final int access, final String version) 
 		  ```
