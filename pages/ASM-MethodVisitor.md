@@ -602,8 +602,8 @@
 		  public void visitMaxs(final int maxStack, final int maxLocals) {
 		  ```
 - ## 32、visitEnd()
-	- 介绍：
-	- 使用：
+	- 介绍：用于通知访问结束。在此方法之后，不能再向此 MethodVisitor 实例中添加任何内容。
+	- 使用：此方法没有参数，仅作为一个信号来表示该方法的访问已经完成。
 	- code:
 		- ```java
 		  
