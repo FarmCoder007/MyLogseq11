@@ -217,7 +217,7 @@
 		- 在上面的代码中，首先创建了一个 MethodVisitor 对象，然后使用 visitCode 方法开始访问方法字节码。接下来，使用 visitInsn 方法添加一条 ICONST_0 指令，该指令将整数值 0 推入操作数栈。然后，使用 visitVarInsn 方法添加一条 ISTORE_1 指令，该指令将栈顶的整数值存储到局部变量 1 中。接下来，使用 visitLabel 方法添加一个标签，表示一个循环的开始。然后，使用 visitIincInsn 方法添加一条 IINC 指令，该指令将局部变量 1 的值增加 1。接下来，使用 visitVarInsn 方法添加一条 ILOAD_1 指令，该指令将局部变量 1 的值推入操作数栈。然后，使用 visitIntInsn 方法添加一条 BIPUSH 指令，该指令将一个 byte 类型的整数值推入操作数栈。接下来，使用 visitJumpInsn 方法添加一条 IF_ICMPGE 指令，该指令比较两个整数值，如果值在栈中的前者小于或等于后者，则跳转到指定的标签处。在上面的代码中，跳转指令将跳转到循环的开始处。最后，使用 visitInsn 方法添加一条 RETURN 指令，表示方法的结束。在所有字节码指令添加完毕后，使用 visitMaxs 方法指定操作数
 	- code:
 - ## 9、visitFrame()
-	- 介绍：用于访问方法中的栈帧信息。
+	- 介绍：用于访问Java字节码中方法的栈帧信息。
 	- 使用：
 	- code:
 - ## 10、visitInsn()
