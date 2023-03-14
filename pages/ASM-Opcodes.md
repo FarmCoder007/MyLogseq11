@@ -96,5 +96,19 @@
 			- 将一个静态字段（类字段）的值从操作数栈顶弹出并存储到指定的类中。其语法为：
 		- 使用场景：
 			- 1、用于为一个静态字段赋值。
-			-
-		-
+				- ```java
+				  PUTSTATIC owner name desc
+				  
+				  ```
+				- ```java
+				    public static int count = 0;
+				  
+				  public static void main(String[] args) {
+				      count = 1;
+				  }
+				  上述示例代码中，使用了 PUTSTATIC 指令为 count 静态字段赋值。
+				  ```
+			- 2、用于加载一个类的静态字段。
+				- GETSTATIC owner name desc
+				- ```java
+				  ```
