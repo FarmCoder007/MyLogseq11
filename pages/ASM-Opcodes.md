@@ -133,3 +133,4 @@
 		  myInstance.myMethod();
 		  
 		  ```
+		- 在这段代码中，调用myMethod()方法时会使用INVOKEVIRTUAL指令，因为它是通过对象引用myInstance调用其自身的实例方法。在字节码层面，INVOKEVIRTUAL指令需要提供被调用方法的方法名、方法描述符以及该方法所在的类的全限定名。
