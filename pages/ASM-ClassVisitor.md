@@ -44,4 +44,8 @@
 		  ```
 	- ### 5、visitOuterClass()：访问外部类的信息，即包含该类的最外层类的信息。
 		- ```java
+		  // owner:
+		  // name:
+		  // descriptor:
+		  public void visitOuterClass(final String owner, final String name, final String descriptor) 
 		  ```
