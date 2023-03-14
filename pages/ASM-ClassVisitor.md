@@ -26,8 +26,11 @@
 		  public void visitSource(final String source, final String debug)
 		  ```
 	- ### 3、visitModule()：访问与该类对应的模块。
+	  collapsed:: true
 		- ```java
 		  // name:模块的完全限定名称（使用圆点）
-		  // access:
+		  // access:ACC_OPEN、ACC_SYNTHETIC和ACC_MANDATED中的模块访问标志。
+		  // version:模块版本或空。
 		  public ModuleVisitor visitModule(final String name, final int access, final String version) 
 		  ```
+	- ### 4、
