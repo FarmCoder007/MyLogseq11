@@ -19,8 +19,12 @@
 		        final String[] interfaces)
 		  ```
 	- ### 2、 visitSource()：访问源文件名和源文件的调试信息
+	  collapsed:: true
 		- ```java
 		  // source:从中编译类的源文件的名称。可以为空
-		  // debug:
+		  // debug:用于计算类的源元素和编译元素之间的对应关系的附加调试信息。可以为空。
 		  public void visitSource(final String source, final String debug)
+		  ```
+	- ### 3、visitModule()：访问与该类对应的模块。
+		- ```java
 		  ```
