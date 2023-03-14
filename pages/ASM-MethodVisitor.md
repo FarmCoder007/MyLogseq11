@@ -486,9 +486,13 @@
 		  ```
 - ## 27、visitTryCatchAnnotation()
 	- 介绍：
+		- 用于访问 try-catch 块的注解。当访问包含 try-catch 块的方法时，如果 try-catch 块上有注解，则会调用此方法。此方法应在访问 try-catch 块后立即调用。
 	- 使用：
 	- code:
 		- ```java
+		  
+		  public AnnotationVisitor visitTryCatchAnnotation(
+		        final int typeRef, final TypePath typePath, final String descriptor, final boolean visible) {
 		  ```
 - ## 28、visitLocalVariable()
 	- 介绍：
