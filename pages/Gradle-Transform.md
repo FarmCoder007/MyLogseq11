@@ -586,7 +586,22 @@
 		- 默认参数即可
 		- ![image.png](../assets/image_1678762646970_0.png)
 		-
-	- ### 二、
+	- ### 二、Debug 插件关联的 Task
+		- ```
+		  ./gradlew build -Dorg.gradle.debug=true --no-daemon
+		  ```
+		- 在 AS 终端执行该命令，将会卡在 Starting Daemon。如果执行命令出现如下错误，是因为端口占用的问题。需要杀死占用端口的进程。
+			- ```
+			  ERROR: transport error 202: bind failed: Address already in use
+			  ERROR: JDWP Transport dt_socket failed to initialize, TRANSPORT_INIT(510)
+			  JDWP exit error AGENT_ERROR_TRANSPORT_INIT(197): No transports initialized [./open/src/jdk.jdwp.agent/share/native/libjdwp/debugInit.c:732]
+			  ```
+		-
+-
+-
+-
+-
+-
 - 参考：
   collapsed:: true
 	- [刚学会Transform，你告诉我就要被移除了](https://juejin.cn/post/7114863832954044446)
