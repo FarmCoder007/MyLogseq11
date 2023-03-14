@@ -1,4 +1,24 @@
 - 访问Java方法的访问者。必须按以下顺序调用该类的方法
+  collapsed:: true
+	- ( visitParameter )
+	- [ visitAnnotationDefault ]
+	- ( visitAnnotation |
+	- visitAnnotableParameterCount |
+	- visitParameterAnnotation
+	- visitTypeAnnotation |
+	- visitAttribute )* [
+	- visitCode (
+	- visitFrame |
+	- visit<i>X</i>Insn |
+	- visitLabel |
+	- visitInsnAnnotation |
+	- visitTryCatchBlock |
+	- visitTryCatchAnnotation |
+	- visitLocalVariable |
+	- visitLocalVariableAnnotation |
+	- visitLineNumber )*
+	- visitMaxs ]
+	- visitEnd.
 - ## 1、visitParameter()
 	- 介绍：
 	- code:
