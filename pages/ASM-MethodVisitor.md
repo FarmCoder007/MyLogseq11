@@ -452,8 +452,37 @@
 - ## 26、visitTryCatchBlock()
 	- 介绍：用于访问方法中的try-catch块。
 	- 使用：
+		- 例如，以下示例代码展示了如何使用visitTryCatchBlock方法：
+		- ```java
+		  public class TryCatchBlockMethodVisitor extends MethodVisitor {
+		  
+		      public TryCatchBlockMethodVisitor(MethodVisitor methodVisitor) {
+		          super(Opcodes.ASM5, methodVisitor);
+		      }
+		  
+		      @Override
+		      public void visitTryCatchBlock(Label start, Label end, Label handler, String type) {
+		          // 输出try-catch块的信息
+		          System.out.println("Try-Catch Block:");
+		          System.out.println("Start: " + start);
+		          System.out.println("End: " + end);
+		          System.out.println("Handler: " + handler);
+		          System.out.println("Type: " + type);
+		          // 调用父类方法，继续访问其他指令
+		          super.visitTryCatchBlock(start, end, handler, type);
+		      }
+		  }
+		  
+		  ```
+		-
 	- code:
 		- ```java
+		  start：表示try块的起始位置，即try块的第一条指令的标签。
+		  end：表示try块的结束位置，即try块的最后一条指令的下一条指令的标签。
+		  handler：表示异常处理器代码块的起始位置，即捕获异常后将跳转到的位置的标签。
+		  type：表示捕获的异常类型的内部名称，如果不是捕获异常，则为null。
+		   public void visitTryCatchBlock(
+		        final Label start, final Label end, final Label handler, final String type) {
 		  ```
 - ## 27、visitTryCatchAnnotation()
 	- 介绍：
