@@ -291,7 +291,7 @@
 		  public void visitTypeInsn(final int opcode, final String type) {
 		  ```
 - ## 14、visitFieldInsn()
-	- 介绍：
+	- 介绍：用于访问方法中的字段指令。
 	- 使用：
 	- code:
 - ## 15、visitMethodInsn()
@@ -299,21 +299,72 @@
 	- 使用：
 	- code
 - ## 16、visitMethodInsn()
+	- 介绍：
+	- 使用：
+	- code:
 - ## 17、visitInvokeDynamicInsn()
+	- 介绍：
+	- 使用：
+	- code:
 - ## 18、visitJumpInsn()
+	- 介绍：
+	- 使用：
+	- code:
 - ## 19、visitLabel()
+	- 介绍：
+	- 使用：
+	- code:
 - ## 20、visitLdcInsn()
+	- 介绍：
+	- 使用：
+	- code:
 - ## 21、visitIincInsn()
+	- 介绍：
+	- 使用：
+	- code:
 - ## 22、visitTableSwitchInsn()
+	- 介绍：
+	- 使用：
+	- code:
 - ## 23、visitLookupSwitchInsn()
+	- 介绍：
+	- 使用：
+	- code:
 - ## 24、visitMultiANewArrayInsn()
+	- 介绍：
+	- 使用：
+	- code:
 - ## 25、visitInsnAnnotation()
+	- 介绍：
+	- 使用：
+	- code:
 - ## 26、visitTryCatchBlock()
+	- 介绍：
+	- 使用：
+	- code:
 - ## 27、visitTryCatchAnnotation()
+	- 介绍：
+	- 使用：
+	- code:
 - ## 28、visitLocalVariable()
+	- 介绍：
+	- 使用：
+	- code:
 - ## 29、visitLocalVariableAnnotation()
+	- 介绍：
+	- 使用：
+	- code:
 - ## 30、visitLineNumber()
+	- 介绍：
+	- 使用：
+	- code:
 - ## 31、visitMaxs()
+	- 介绍：
+	- 使用：
+	- code:
 - ## 32、visitEnd()
+	- 介绍：
+	- 使用：
+	- code:
 -
 -
