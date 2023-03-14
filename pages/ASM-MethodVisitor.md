@@ -9,4 +9,12 @@
 - ## 8、visitCode()
 - ## 9、visitFrame()
 - ## 10、visitInsn()
+- ## 11、visitIntInsn()
+- ## 12、visitVarInsn()
+- ## 13、visitTypeInsn()
+- ## 14、visitFieldInsn()
+- ## 15、visitMethodInsn()
+- ## 16、visitMethodInsn()
+- ## 17、visitInvokeDynamicInsn()
+-
 -
