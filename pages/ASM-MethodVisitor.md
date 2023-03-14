@@ -490,7 +490,13 @@
 	- 使用：
 	- code:
 		- ```java
-		  
+		  type：注解类型的内部名称，例如 Ljava/lang/annotation/Annotation;。
+		  visible：注解是否可见。如果为 true，则注解在运行时反射可见，否则仅在类文件中可见。
+		  repeatable：注解是否可重复。如果为 true，则可以在同一元素上多次使用该注解。
+		  tryCatchBlock：try-catch 块的描述符，
+		  形式为 "startLabel[endLabel]catchType(exceptionType)cacthLabel"，
+		  例如 "Label0(Label1:Label2)Ljava/lang/Exception;Label2"，
+		  其中 startLabel 是 try 块的起始标签，endLabel 是 try 块的结束标签，catchType 是捕获的异常类型的描述符，exceptionType 是在 catch 块中声明的异常变量的类型描述符，catchLabel 是 catch 块的标签。
 		  public AnnotationVisitor visitTryCatchAnnotation(
 		        final int typeRef, final TypePath typePath, final String descriptor, final boolean visible) {
 		  ```
