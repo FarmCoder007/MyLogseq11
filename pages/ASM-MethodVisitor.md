@@ -22,16 +22,21 @@
 - ## 1、visitParameter()
 	- 介绍：它用于访问方法的参数信息。
 	- 使用：
+	  collapsed:: true
 		- 在 Java 中，方法参数是指在方法声明中列出的参数列表。在 ASM 中，通过 visitParameter 方法可以访问方法的参数信息，包括参数名称和访问修饰符。需要注意的是，该方法只能在 visitCode 方法之前调用。
 		- visitParameter 方法会在访问方法时被调用，用于访问方法的参数信息。其中，name 参数表示参数的名称，access 参数表示参数的访问修饰符。在访问完所有参数信息后，需要调用 visitEnd 方法，通知 MethodVisitor 方法的访问结束了。
 		- 需要注意的是，由于 JDK 1.8 之前的版本中，Java 字节码并没有将方法的参数名称保存在 class 文件中，因此 name 参数可能为 null。在 JDK 1.8 及以后的版本中，Java 字节码开始支持保存方法参数的名称信息。如果编译时使用了 -parameters 参数，则可以在 class 文件中保存方法参数的名称。
 	- code:
+	  collapsed:: true
 		- ```java
 		  name：表示参数的名称，以字符串形式给出。
 		  access：表示参数的访问修饰符，以整数形式给出。
 		  void visitParameter(String name, int access);
 		  ```
 - ## 2、visitAnnotationDefault()
+	- 介绍：用于访问注解的默认值。
+	- 使用：
+	- code:
 - ## 3、visitAnnotation()
 - ## 4、visitTypeAnnotation()
 - ## 5、visitAnnotableParameterCount()
