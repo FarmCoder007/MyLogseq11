@@ -342,8 +342,20 @@
 - ## 17、visitInvokeDynamicInsn()
 	- 介绍：用于访问Java 7中引入的InvokeDynamic指令。
 	- 使用：
+		- Java 7中的InvokeDynamic指令是为了支持动态语言在JVM上的执行而引入的。它允许开发人员在运行时动态地创建方法调用点，从而使得动态语言的执行更加高效。
+		- 在方法访问器中，如果需要对InvokeDynamic指令进行特殊的处理，可以重载visitInvokeDynamicInsn方法，在方法中进行相应的处理逻辑。例如，可以利用该方法在方法访问器中实现动态代理的功能。
 	- code:
 		- ```java
+		  name：表示要访问的方法的名称。它是一个字符串，表示要访问的方法的名称。
+		  descriptor：表示要访问方法的描述符。它是一个字符串，表示要访问的方法的类型描述符。
+		  bootstrapMethodHandle：表示引导方法的句柄。它是一个Handle类型的对象，表示引导方法的类型、名称和描述符。
+		  bootstrapMethodArguments：表示引导方法的参数。
+		  它是一个对象数组，包含了引导方法需要的参数。引导方法的参数可以是基本类型、字符串、类型或者句柄。
+		  public void visitInvokeDynamicInsn(
+		        final String name,
+		        final String descriptor,
+		        final Handle bootstrapMethodHandle,
+		        final Object... bootstrapMethodArguments) {
 		  ```
 - ## 18、visitJumpInsn()
 	- 介绍：
@@ -355,14 +367,20 @@
 	- 介绍：
 	- 使用：
 	- code:
+		- ```java
+		  ```
 - ## 20、visitLdcInsn()
 	- 介绍：
 	- 使用：
 	- code:
+		- ```java
+		  ```
 - ## 21、visitIincInsn()
 	- 介绍：
 	- 使用：
 	- code:
+		- ```java
+		  ```
 - ## 22、visitTableSwitchInsn()
 	- 介绍：
 	- 使用：
