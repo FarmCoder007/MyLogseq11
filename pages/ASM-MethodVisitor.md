@@ -255,8 +255,11 @@
 		  public void visitInsn(final int opcode) {
 		  ```
 - ## 11、visitIntInsn()
+  collapsed:: true
 	- 介绍：它用于访问方法中的整数指令。
 	- 使用：
+		- visitIntInsn方法通常用于处理那些包含整数操作数的指令，例如将一个常量加载到栈上的iconst指令，或者将一个整数类型的本地变量加载到栈上的iload指令。在方法访问器访问到这些指令时，会调用visitIntInsn方法，并传递指令的操作码和操作数作为参数。
+		- 在方法访问器中，如果需要对某个整数指令进行特殊的处理，可以重载visitIntInsn方法，根据指令的操作码来判断是否需要特殊处理，如果需要，则在方法中进行相应的处理逻辑。
 	- code:
 		- ```java
 		  opcode：表示指令的操作码。它是一个整数，取值在Opcodes类中定义。
@@ -264,6 +267,11 @@
 		  public void visitIntInsn(final int opcode, final int operand) {
 		  ```
 - ## 12、visitVarInsn()
+	- 介绍：它用于访问方法中的本地变量指令。
+	- 使用：
+	- code:
+		- ```java
+		  ```
 - ## 13、visitTypeInsn()
 - ## 14、visitFieldInsn()
 - ## 15、visitMethodInsn()
