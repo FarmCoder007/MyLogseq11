@@ -53,13 +53,20 @@
 - ## 3、visitAnnotation()
 	- 介绍：用于访问方法上的注解信息。
 	- 使用：
+	  collapsed:: true
 		- 在 Java 中，注解可以用于方法上，用于给方法添加一些元数据信息。在 ASM 中，可以通过 visitAnnotation 方法来访问方法上的注解信息。
 		- visitAnnotation 方法会在访问方法时被调用，用于访问方法上的注解信息。其中，descriptor 参数表示注解的类型描述符，visible 参数表示注解是否可见。在访问注解信息时，需要返回一个 AnnotationVisitor 对象，用于访问注解的元素信息。
 		- 需要注意的是，如果注解不可见，则在使用反射 API 获取注解信息时可能无法获取到该注解。如果需要在运行时获取注解信息，建议将注解设置为可见。
 		- 例如，如果方法上有 @MyAnnotation("value") 注解，则可以通过以下代码来访问该注解的信息：
 		- ```java
+		  AnnotationVisitor av = mv.visitAnnotation("Lcom/example/MyAnnotation;", true);
+		  av.visit("value", "value");
+		  av.visitEnd();
+		  
 		  ```
+		- 在访问完注解信息后，需要调用 visitEnd 方法，通知 MethodVisitor 注解信息的访问结束了。
 	- code:
+	  collapsed:: true
 		- ```java
 		  descriptor：表示注解的类型描述符，以字符串形式给出。
 		  例如，对于 @MyAnnotation 注解，其类型描述符为 "Lcom/example/MyAnnotation;"。
@@ -67,6 +74,9 @@
 		  AnnotationVisitor visitAnnotation(String descriptor, boolean visible);
 		  ```
 - ## 4、visitTypeAnnotation()
+	- 介绍：
+	- 使用：
+	- code:
 - ## 5、visitAnnotableParameterCount()
 - ## 6、visitParameterAnnotation()
 - ## 7、visitAttribute()
