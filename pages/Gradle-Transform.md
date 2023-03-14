@@ -192,6 +192,7 @@
 		- transform 方法主要用于对输入的数据做检索操作，它是 Transform 的核心方法，方法的参数是 [[TransformInvocation]]，它是一个接口，提供了所有与输入输出相关的信息：
 		-
 - ## 七、增量编译
+  collapsed:: true
 	- 其实关于增量编译的实现，通过查看 AGP 自带的几个 Transform 可以看到其实很简单。
 	- 例子：
 	  collapsed:: true
