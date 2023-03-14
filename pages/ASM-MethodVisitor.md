@@ -541,7 +541,7 @@
 		        final boolean visible) {
 		  ```
 - ## 30、visitLineNumber()
-	- 介绍：
+	- 介绍：接口中的一个方法，用于访问Java源代码中的行号信息。它的作用是为当前正在访问的方法添加一个源代码行号和与之对应的指令索引
 	- 使用：
 	- code:
 		- ```java
