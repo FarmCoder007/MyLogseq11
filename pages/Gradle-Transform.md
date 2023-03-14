@@ -608,7 +608,8 @@
 				  // 9901 为Pid
 				  kill -9 9901
 				  ```
--
+	- ### 三、代码上加断点，debug
+		- ![image.png](../assets/image_1678762829563_0.png){:height 154, :width 562}
 -
 -
 -
