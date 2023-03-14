@@ -111,4 +111,10 @@
 			- 2、用于加载一个类的静态字段。
 				- GETSTATIC owner name desc
 				- ```java
+				  public static int count = 0;
+				  
+				  public static void main(String[] args) {
+				      int n = count;
+				  }
+				  
 				  ```
