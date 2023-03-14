@@ -609,9 +609,11 @@
 				  kill -9 9901
 				  ```
 	- ### 三、代码上加断点，debug
+	  collapsed:: true
 		- ![image.png](../assets/image_1678762829563_0.png){:height 154, :width 562}
--
--
+		- 等待一段时间就可以了
+		-
+	-
 -
 -
 - 参考：
