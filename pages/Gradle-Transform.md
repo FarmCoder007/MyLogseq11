@@ -580,8 +580,13 @@
 -
 - ## 七、transform调试
 	- ### 一、新建 Remote JVM Debug
+	  collapsed:: true
 		- ![image.png](../assets/image_1678762562134_0.png)
+		- ![image.png](../assets/image_1678762626691_0.png)
+		- 默认参数即可
+		- ![image.png](../assets/image_1678762646970_0.png)
 		-
+	- ### 二、
 - 参考：
   collapsed:: true
 	- [刚学会Transform，你告诉我就要被移除了](https://juejin.cn/post/7114863832954044446)
