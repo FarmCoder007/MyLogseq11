@@ -579,7 +579,9 @@
 			  ```
 -
 - ## 七、transform调试
-	-
+	- ### 一、新建 Remote JVM Debug
+		- ![image.png](../assets/image_1678762562134_0.png)
+		-
 - 参考：
   collapsed:: true
 	- [刚学会Transform，你告诉我就要被移除了](https://juejin.cn/post/7114863832954044446)
