@@ -2,4 +2,11 @@
 - ## 1、visitParameter()
 - ## 2、visitAnnotationDefault()
 - ## 3、visitAnnotation()
-- ## 4、
+- ## 4、visitTypeAnnotation()
+- ## 5、visitAnnotableParameterCount()
+- ## 6、visitParameterAnnotation()
+- ## 7、visitAttribute()
+- ## 8、visitCode()
+- ## 9、visitFrame()
+- ## 10、visitInsn()
+-
