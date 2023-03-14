@@ -1,7 +1,6 @@
 - ## 一、介绍
 	- Opcodes 是 ASM 框架中的一个常量接口，包含了 JVM 中的指令、操作码和一些常量等信息。以下是 Opcodes 接口中的常量列表及其作用：
 - ## 1、指令码常量
-  collapsed:: true
 	- ACC_PUBLIC：public 属性
 	  ACC_PRIVATE：private 属性
 	  ACC_PROTECTED：protected 属性
@@ -21,7 +20,6 @@
 	  ACC_INTERFACE：interface 属性
 	  ACC_MANDATED：mandated 属性
 - ## 2、JVM 操作码常量
-  collapsed:: true
 	- AALOAD：将 int 数组指定索引位置的值加载到栈顶
 	  AASTORE：将栈顶引用类型数值存入指定数组的指定索引位置
 	  ACONST_NULL：将 null 压入栈顶
@@ -46,7 +44,6 @@
 	  DCMPG：比较栈顶两个 double 类型数值大小，并将比较结果压入栈顶
 	  DCMPL：比较栈顶
 - ## 二、常用指令
-  collapsed:: true
 	- 加载和存储指令
 	- ILOAD, ISTORE: 将int类型从本地变量表中加载到操作数栈中或从操作数栈中存储到本地变量表中
 	  ALOAD, ASTORE: 将引用类型从本地变量表中加载到操作数栈中或从操作数栈中存储到本地变量表中
@@ -69,3 +66,4 @@
 	- IFEQ, IFNE, IFGT, IFGE, IFLT, IFLE: 对int类型进行比较，如果满足条件，则跳转到指定的代码位置
 	  GOTO: 无条件跳转到指定的代码位置
 	  RETURN: 从当前方法返回
+- Opcodes.GETSTATIC
