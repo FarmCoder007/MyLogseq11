@@ -70,5 +70,9 @@
 		  public AnnotationVisitor visitTypeAnnotation(
 		        final int typeRef, final TypePath typePath, final String descriptor, final boolean visible)
 		  ```
-	-
+	- ### 8、visitAttribute():它用于访问一个类的属性信息。
+		- ```java
+		  
+		  public void visitAttribute(final Attribute attribute)
+		  ```
 -
