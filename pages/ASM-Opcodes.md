@@ -71,5 +71,22 @@
 	  RETURN: 从当前方法返回
 - ## ASM 指令示例：
 	- 1、Opcodes.GETSTATIC：
-	- 是 ASM 中的一个指令，用于访问类的静态变量。
-	- 使用
+		- 介绍：是 ASM 中的一个指令，用于访问类的静态变量。
+		- 使用：
+			- 其操作数栈不会有变化，它会将指定类的指定静态变量的值压入栈中。其参数如下：
+			- owner: 静态变量所在类的内部名称（字符串类型）。
+			  name: 静态变量的名称（字符串类型）。
+			  descriptor: 静态变量的类型（字符串类型）。
+			  使用场景：GETSTATIC 指令通常在访问类的静态变量时使用。例如，在以下 Java 代码中：
+			- ```java
+			  public class Example {
+			      public static final int EXAMPLE_VALUE = 42;
+			  }
+			  
+			  ```
+			- 要在字节码中访问 EXAMPLE_VALUE 静态变量，可以使用以下 ASM 代码：
+			- ```java
+			  methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, "Example", "EXAMPLE_VALUE", "I");
+			  
+			  ```
+			- 此代码使用 Opcodes.GETSTATIC 指令，访问 Example 类中的 EXAMPLE_VALUE 静态变量。在这个例子中，owner 参数的值为 "Example"，name 参数的值为 "EXAMPLE_VALUE"，descriptor 参数的值为 "I"（整数类型）。
