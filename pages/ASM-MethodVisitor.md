@@ -16,5 +16,13 @@
 - ## 15、visitMethodInsn()
 - ## 16、visitMethodInsn()
 - ## 17、visitInvokeDynamicInsn()
+- ## 18、visitJumpInsn()
+- ## 19、visitLabel()
+- ## 20、visitLdcInsn()
+- ## 21、visitIincInsn()
+- ## 22、visitTableSwitchInsn()
+- ## 23、visitLookupSwitchInsn()
+- ## 24、visitMultiANewArrayInsn()
+- ## 25、
 -
 -
