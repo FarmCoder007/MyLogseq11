@@ -116,8 +116,8 @@
 		        final String signature,
 		        final Object value) 
 		  ```
-	- ### 12、visitMethod()：它用于访问一个类的方法信息。该方法的作用是通知 ClassVisitor 该类的方法信息，包括方法名称、方法参数、方法返回值、方法访问修饰符等。
-	  collapsed:: true
+	- ### 12、visitMethod()：
+		- 它用于访问一个类的方法信息。该方法的作用是通知 ClassVisitor 该类的方法信息，包括方法名称、方法参数、方法返回值、方法访问修饰符等。
 		- 在 Java 中，方法是类的行为，用于对对象执行某些操作。当使用 ASM 访问一个类时，可能需要访问该类的方法信息，例如在生成字节码时需要访问其方法的访问修饰符。
 		- visitMethod 方法会在访问一个类时被调用，用于通知 ClassVisitor 该类的方法信息。其中，access 参数表示方法的访问修饰符，name 参数表示方法的名称，descriptor 参数表示方法的描述符，signature 参数表示方法的签名，exceptions 参数表示方法声明抛出的异常类型。该方法会返回一个 MethodVisitor 对象，用于访问该方法的注解、属性等信息。
 		- 需要注意的是，如果一个类有多个方法，则 visitMethod 方法会被多次调用，每次调用时传入不同的方法信息。
