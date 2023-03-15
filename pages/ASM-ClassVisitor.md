@@ -88,7 +88,6 @@
 		  public void visitNestMember(final String nestMember) {
 		  ```
 	- ### 10、visitInnerClass()：它用于访问一个类的内部类信息
-	  collapsed:: true
 		- 在 Java 中，内部类是指被定义在另一个类内部的类。与常规的类不同，内部类可以访问其外部类的私有成员，可以用来实现一些特殊的功能。当使用 ASM 访问一个类时，可能需要访问该类的内部类信息，例如在生成字节码时需要访问其内部类的访问修饰符。
 		- visitInnerClass 方法会在访问一个类时被调用，用于通知 ClassVisitor 该类的内部类信息。其中，name 参数表示内部类的名称，outerName 参数表示外部类的名称，innerName 参数表示内部类的简单名称，access 参数表示内部类的访问修饰符。ClassVisitor 可以根据这些信息进行处理，例如生成内部类的字节码。需要注意的是，如果一个类有多个内部类，则 visitInnerClass 方法会被多次调用，每次调用时传入不同的内部类信息。
 		- ```java
