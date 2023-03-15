@@ -388,7 +388,9 @@
 		  public void visitLabel(final Label label) {
 		  ```
 - ## 20、visitLdcInsn()
-	- 介绍：用于访问Java字节码中的LDC指令。
+	- 介绍：
+		- 用于访问Java字节码中的LDC指令。用于访问将常量推送至栈顶的指令，如 LDC 指令。当 ASM 通过字节码分析器读取字节码指令时，如果遇到将常量推送至栈顶的指令，就会调用 visitLdcInsn 方法。
+		- 并不是方法的入参
 	- 使用：
 		- 在Java字节码中，LDC指令用于将常量值加载到操作数栈中。通过调用visitLdcInsn方法，我们可以访问并修改Java字节码中的LDC指令。通常，我们可以通过调用ASM中提供的visitLdcInsn方法，将常量值加载到操作数栈中。
 		- 需要注意的是，在Java字节码中，常量池是一个重要的概念。在处理LDC指令时，我们需要考虑常量池中的信息，并进行必要的验证和测试。同时，由于Java字节码中支持多种类型的常量，我们需要根据实际情况选择正确的visitLdcInsn方法，并传递正确的参数。
