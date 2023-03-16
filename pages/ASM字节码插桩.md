@@ -21,7 +21,6 @@
 	- [[ASM-无状态转换]]
 	- [[ASM-有状态转换]]
 - ## 五、Transform+ASM使用
-  collapsed:: true
 	- 1、定义[[Gradle插件]]
 	- 2、定义[[Gradle-Transform]]类，并且在插件注册transform
 	- 3、transform里 transform 字节码的字节流时 添加ASM  classVisitor入口详见[[Gradle-Transform]]里的示例
