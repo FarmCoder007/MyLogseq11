@@ -11,7 +11,8 @@
 		- 闭包：带返回值的函数
 			- ```kotlin
 			  // logHook 为函数类型的闭包  输入参数为String 返回参数为String
-			  logHook: (log: String) -> String?
+			  logHook: (log: String) -> String?  
+			  这个 作为方法入参 在 下边2定义  
 			  ```
 			- ```kotlin
 			  // 定义一个 函数类型的变量myClosure  
@@ -58,6 +59,6 @@
 			  ```
 		- 闭包回调：
 			- ```kotlin
-			  // it为拿到的闭包
+			  // it为拿到的闭包，调用自身
 			  it.invoke(logBody).toString()
 			  ```
