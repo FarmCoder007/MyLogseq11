@@ -58,4 +58,6 @@
 			  ```
 		- 闭包回调：
 			- ```kotlin
+			  // it为拿到的闭包
+			  it.invoke(logBody).toString()
 			  ```
