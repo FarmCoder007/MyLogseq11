@@ -39,12 +39,18 @@
 			          }
 			      }
 			  ```
-	- 3、调用2方法的示例：
+	- 3、调用2方法的示例：写法一样
 		- 设置接口：
 			- ```kotlin
+			         Instance().log { log: String ->
+			              "$log ****** ppu=${this.getPPU()}"
+			          }
 			  ```
 		- 设置闭包：
 			- ```kotlin
+			  		Instance().log { log: String ->
+			              "$log ****** ppu=${this.getPPU()}"
+			          }
 			  ```
 	- 4、获取设置的接口 和 闭包 ，进行回调的示例：
 		- 接口回调：
