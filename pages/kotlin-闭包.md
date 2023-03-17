@@ -10,7 +10,10 @@
 			  ```
 		- 闭包：带返回值的函数
 			- ```kotlin
-			  
+			  val myClosure: (String) -> String = { input ->
+			      // 在这里可以使用闭包中定义的变量
+			      "Hello, $input!"
+			  }
 			  ```
 	- 接口回调：
 	-
