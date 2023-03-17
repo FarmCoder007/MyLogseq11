@@ -2,7 +2,6 @@
 - ## 二、闭包的使用
 - ## 三、闭包和接口回调对比
 	- 1、定义接口与闭包对比
-	  collapsed:: true
 		- 接口：带返回值的函数
 			- ```java
 			  public interface HookListener {
@@ -10,7 +9,6 @@
 			  }
 			  ```
 		- 闭包：带返回值的函数
-		  collapsed:: true
 			- ```kotlin
 			  // logHook 为函数类型的闭包  输入参数为String 返回参数为String
 			  logHook: (log: String) -> String?
@@ -55,6 +53,8 @@
 	- 4、获取设置的接口 和 闭包 ，进行回调的示例：
 		- 接口回调：
 			- ```kotlin
+			  // it为 拿到的接口对象 调用 对应的方法
+			  it?.hook(logBody)
 			  ```
 		- 闭包回调：
 			- ```kotlin
