@@ -25,7 +25,6 @@
 			  }
 			  ```
 	- 2、将接口类型  和 闭包类型 定义在方法入参上
-	  collapsed:: true
 		- 接口类型的方法入参：
 			- ```kotlin
 			      fun log(hookListener: HookListener?){
