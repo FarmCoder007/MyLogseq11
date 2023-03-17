@@ -27,15 +27,15 @@
 		- 接口类型的方法入参：
 			- ```kotlin
 			      fun log(hookListener: HookListener?){
+			          // 将接口存 list里
 			          hookLogList.add(hookListener)
 			      }
 			  ```
 		- 闭包类型的方法入参：
 			- ```kotlin
 			      fun log(logHook: (log: String) -> String?) {
-			          if (!logHooks.contains(logHook)) {
-			              logHooks.add(logHook)
-			          }
+			          // 将闭包 存 list里
+			          hookLogList.add(logHook)
 			      }
 			  ```
 	- 3、调用2方法的示例：写法一样
