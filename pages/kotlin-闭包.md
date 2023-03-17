@@ -10,6 +10,11 @@
 			  ```
 		- 闭包：带返回值的函数
 			- ```kotlin
+			  ```
+			- ```kotlin
+			  // 定义一个 函数类型的变量myClosure  
+			  
+			  
 			  val myClosure: (String) -> String = { input ->
 			      // 在这里可以使用闭包中定义的变量
 			      "Hello, $input!"
