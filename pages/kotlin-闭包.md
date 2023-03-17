@@ -9,7 +9,10 @@
 			  }
 			  ```
 		- 闭包：带返回值的函数
+		  collapsed:: true
 			- ```kotlin
+			  // logHook 为函数类型的闭包  输入参数为String 返回参数为String
+			  logHook: (log: String) -> String?
 			  ```
 			- ```kotlin
 			  // 定义一个 函数类型的变量myClosure  
@@ -20,5 +23,6 @@
 			      "Hello, $input!"
 			  }
 			  ```
-	- 接口回调：
+	- 2、将接口类型  和 闭包类型 定义在方法入参上
+		-
 	-
