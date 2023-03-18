@@ -62,6 +62,7 @@
 	- [[xml解析]]
 	- [[Html解析]]
 - Kotlin
+  collapsed:: true
 	- [[基本语法]]
 	- [[注意事项]]
 	- [[Kotlin关键字]]
@@ -92,7 +93,6 @@
 	-
 	-
 - 生活
-  collapsed:: true
 	- 理财
 		- 股票
 			- [[步骤]]
