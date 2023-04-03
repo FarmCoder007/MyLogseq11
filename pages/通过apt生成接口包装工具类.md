@@ -7,5 +7,14 @@
 	-
 - ## 2、结合程序的编译和执行过程，说明在哪里添加注解、添加什么样的注解可以实现自动生成代码，且即使换内部依赖注入框架，也不影响上层API的调用。（即结合程序的编译和执行过程，说明接口包装工具类的作用、生成方法、使用方法）
 	- 前提条件，旧方案和本次优化方法涉及地方
-	- 1、定义接口：
-		-
+	- 1、定义定位接口：
+		- ```kotlin
+		  @MetaXApi(router = DemoRouters.LOCATION_SERVICE)
+		  interface ILocationService {
+		      fun startLocation(context: Context, callback: LocationCallback)
+		      fun stopLocation(context: Context)
+		  }
+		  ```
+	- 2、接口实现类：
+		- ```kotlin
+		  ```
