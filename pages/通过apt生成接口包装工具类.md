@@ -38,10 +38,13 @@
 			  ```
 	- 分享库、或者其他业务库使用
 		- 旧方式1、直接通过路由框架获取 定位实现类实例，不进行包装，直接调用，后期换路由框架、或者换定位具体实现，需要修改成本较大
-		- MetaXRouteCore这个是路由框架  ApiRouter 这个是路由标记  LocationServiceImpl  通过路由创建的对象
-		  // 1、获取实例
-		  LocationServiceImpl  impl =  MetaXRouteCore.navigation(ApiRouter)
-		  // 2、调用方法
-		  impl .startLocation()
-		  impl .stopLocation()
-		- 缺点：很多库使用后，换MetaXRouteCore 路由框架 或者换实现类(换路由 ApiRouter)都是需求
+			- ```java
+			  MetaXRouteCore这个是路由框架  ApiRouter 这个是路由标记  LocationServiceImpl  通过路由创建的对象
+			  // 1、获取实例
+			  LocationServiceImpl  impl =  MetaXRouteCore.navigation(ApiRouter)
+			  // 2、调用方法
+			  impl .startLocation()
+			  impl .stopLocation()
+			  ```
+		- 缺点：很多库使用后，换MetaXRouteCore 路由框架 或者换实现类(换路由 ApiRouter)都是需要外部库更改 和测试的
+		- 旧方式2、对方式一进行改造，
