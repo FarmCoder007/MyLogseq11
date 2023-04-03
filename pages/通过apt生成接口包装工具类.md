@@ -48,4 +48,36 @@
 			  ```
 		- 缺点：很多库使用后，换MetaXRouteCore 路由框架 或者换实现类(换路由 ApiRouter)都是需要外部库更改 和测试的
 		- 旧方式2、对方式一进行改造，将实现类对象创建方法调用，都收敛于定位SDK内部，提供一个包装方法
-			-
+			- 对外提供接口包装工具类，内部创建
+			- ```java
+			  public class LocationServiceUtils {
+			    private static final String ApiRouter = "/demo/locationService";
+			  
+			    private static ILocationService locationService;
+			  
+			    public static synchronized ILocationService getLocationService() {
+			      if (locationService != null) {
+			        return locationService;
+			      }
+			      Object object = MetaXRouteCore.navigation(ApiRouter);
+			      if (object instanceof ILocationService) {
+			        locationService = (ILocationService) object;
+			      }
+			      return locationService;
+			    }
+			  
+			    public static void startLocation(Context context, LocationCallback callback) {
+			      ILocationService locationService = getLocationService();
+			      if (locationService != null) {
+			        locationService.startLocation(context,callback);
+			      }
+			    }
+			  
+			    public static void stopLocation(Context context) {
+			      ILocationService locationService = getLocationService();
+			      if (locationService != null) {
+			        locationService.stopLocation(context);
+			      }
+			    }
+			  }
+			  ```
