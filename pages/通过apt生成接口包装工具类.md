@@ -87,4 +87,5 @@
 			  LocationServiceUtils.startLocation(Context context, LocationCallback callback) 
 			  ```
 			-
-		- 缺点：
+		- 缺点：这个方案是大多数现在使用的。但是大量接口的话，需要手写很多模板代码。因为每个这个对外工具类提供的功能是一样的
+			- 功能1、
