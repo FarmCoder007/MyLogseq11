@@ -83,6 +83,8 @@
 			  ```
 		- 外部使用：无论是分享库还是业务库 都这么调用
 			- ```java
-			  LocationServiceUtils.
+			  // 直接调用和传参数就行了。具体内部使用的哪个路由框架 也不用关系。内部换了 也不影响这个方法调用
+			  LocationServiceUtils.startLocation(Context context, LocationCallback callback) 
 			  ```
 			-
+		- 缺点：
