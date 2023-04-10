@@ -5,7 +5,6 @@
 	- [[PPT]]
 	- [[项目解析]]
 - Android
-  collapsed:: true
 	- [[开发常用工具]]
 	- [[Android架构]]
 	- [[系统架构]]
@@ -110,6 +109,7 @@
 	- [[React]]
 	- [[JavaScript]]
 - Gradle
+  collapsed:: true
 	- [[Gradle文档]]
 	- [[buildConfig相关]]
 	- [[gradle/apt调试]]
