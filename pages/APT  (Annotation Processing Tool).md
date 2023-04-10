@@ -287,7 +287,13 @@
 		  // 方案2
 		  ClassName.get(Class.forName("完整包名"))
 		  ```
-	- 14、ele: Element
+	- 14、ele: Element 获取参数类型TypeName，携带泛型 和 不携带泛型的取法
+		- ```kotlin
+		  // 不携带泛型
+		  ClassName.get(ele as TypeElement)
+		  // 携带泛型
+		  
+		  ```
 - # 五、常见问题
   collapsed:: true
 	- A failure occurred while executing org.jetbrains.kotlin.gradle.internal.KaptExecution
