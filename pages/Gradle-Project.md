@@ -169,6 +169,7 @@
 				-
 			- 4、[[gradle-project-dependencies依赖]]
 			- 5、allprojects{}：配置此项目及其每个子项目所需要的依赖。一般在多模块项目场景下我们会把公共的部分配置在根项目的allprojects中。
+			  collapsed:: true
 				- ```groovy
 				  apply plugin: 'java'
 				  apply plugin: "maven"
