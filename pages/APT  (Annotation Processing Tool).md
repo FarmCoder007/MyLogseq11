@@ -292,7 +292,7 @@
 		  // 不携带泛型
 		  ClassName.get(ele as TypeElement)
 		  // 携带泛型
-		  
+		  TypeName.get(ele.asType())
 		  ```
 - # 五、常见问题
   collapsed:: true
