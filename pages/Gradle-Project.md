@@ -102,7 +102,6 @@
 		- 插件添加到项目中的约定方法 ( convention ) 。插件可以通过项目的 Convention 对象向项目中添加属性和方法。
 		- 项目中的 Tasks 。每个 Task 都会添加一个方法，方法名是任务名，参数是单个闭包或者 Action 。该方法使用提供的闭包为相关任务调用 Task.configure( groovy.lang.Closure ) 方法。
 	- ## 2、常用的Project方法
-	  collapsed:: true
 		- ![image.png](../assets/image_1663926685739_0.png)
 		- ![image.png](../assets/image_1663926699086_0.png){:height 281, :width 716}
 		-
