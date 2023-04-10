@@ -268,7 +268,6 @@
 				  
 				  ```
 - # 七、任务的依赖
-  collapsed:: true
 	- task之间的依赖关系是通过task name来决定的。我们可以在同一个项目中做task之间的依赖：
 	- ## 任务名依赖示例：
 		- ```groovy
@@ -299,7 +298,6 @@
 		  
 		  ```
 - # 八、任务的执行顺序
-  collapsed:: true
 	- 有时候我们的task之间是有执行顺序的，我们称之为对task的排序ordering。
 	- ## ordering和dependency有什么区别。
 		- dependency表示的是一种强依赖关系，如果taskA依赖于taskB，那么执行taskA的时候一定要先执行taskB。
