@@ -27,7 +27,8 @@
 - ## 六、通过插件写ASM代码
 	- 插件：ASM Bytecode Viewer
 	- 先执行原工程，找到生成class，用插件打开
-		- 字节码路径：build-intermediates-
+		- 字节码路径：build-intermediates-transforms-UnityLogTransform-debug
+		- 打开字节码 右键->使用插件打开
 - ## ASM接入使用
 	- [ASM4中文使用手册](https://www.yuque.com/mikaelzero/asm/lqufu3)
 -
