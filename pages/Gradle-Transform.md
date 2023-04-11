@@ -33,6 +33,7 @@
 	- 高效的找到要插桩的结点，过滤掉无效的 class
 	- 支持增量编译
 - ## 六、API
+  collapsed:: true
 	- ### getName()
 	  collapsed:: true
 		- 指明 Transform 的名字，也对应了该 Transform 所代表的 Task 名称,Gradle 在编译的时候，会将这个名称经过一些拼接显示在控制台上
@@ -573,9 +574,7 @@
 			  }
 			  ```
 - ## 九、Transform调试
-  collapsed:: true
 	- ### 一、新建 Remote JVM Debug
-	  collapsed:: true
 		- ![image.png](../assets/image_1678762562134_0.png)
 		- ![image.png](../assets/image_1678762626691_0.png)
 		- 默认参数即可
