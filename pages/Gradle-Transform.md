@@ -581,14 +581,12 @@
 		- ![image.png](../assets/image_1678762646970_0.png)
 		-
 	- ### 二、Debug 插件关联的 Task
-	  collapsed:: true
 		- ```
 		  ./gradlew build -Dorg.gradle.debug=true --no-daemon
 		  ```
 		- 命令含义：
 			- 这里再特别说明一下该节中命令中的 --no-daemon 参数，它涉及到 gradle 守护进程这一概念。要添加这个参数的原因是，如果不添加该参数，在调试过程中发现断点走不到，构建流程就走完了。这个参数的作用是告诉 gradle 不使用守护进程进行构建。
 		- 问题处理
-		  collapsed:: true
 			- 在 AS 终端执行该命令，将会卡在 Starting Daemon。如果执行命令出现如下错误，是因为端口占用的问题。需要杀死占用端口的进程。
 				- ```
 				  ERROR: transport error 202: bind failed: Address already in use
@@ -596,7 +594,6 @@
 				  JDWP exit error AGENT_ERROR_TRANSPORT_INIT(197): No transports initialized [./open/src/jdk.jdwp.agent/share/native/libjdwp/debugInit.c:732]
 				  ```
 			- mac 查看端口、杀死进程
-			  collapsed:: true
 				- ```
 				  // 5005为端口
 				  lsof -i tcp:5005
@@ -604,7 +601,6 @@
 				  kill -9 9901
 				  ```
 	- ### 三、代码上加断点，debug
-	  collapsed:: true
 		- ![image.png](../assets/image_1678762829563_0.png){:height 154, :width 562}
 		- 等待一段时间就可以了
 		-
