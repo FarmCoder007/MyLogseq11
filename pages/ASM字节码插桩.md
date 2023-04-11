@@ -29,7 +29,7 @@
 	- 先执行原工程，找到生成class，用插件打开
 		- 字节码路径：build-intermediates-transforms-UnityLogTransform-debug
 		- 打开字节码 右键->使用插件打开
-	- 在java代码中
+	- 在java代码中填写要动态增加的java代码。再运行后。通过上述步骤。再打开指定字节码文件。通过插件的show diff功能 找出不同点。就是要添加的ASM
 - ## ASM接入使用
 	- [ASM4中文使用手册](https://www.yuque.com/mikaelzero/asm/lqufu3)
 -
