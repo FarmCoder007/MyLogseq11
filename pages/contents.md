@@ -1,10 +1,12 @@
 - 工作
+  collapsed:: true
 	- [[专利]]
 	- [[WBRouter]]
 	- [[职级评审]]
 	- [[PPT]]
 	- [[项目解析]]
 - Android
+  collapsed:: true
 	- [[开发常用工具]]
 	- [[Android架构]]
 	- [[系统架构]]
@@ -91,7 +93,6 @@
 	-
 	-
 - 生活
-  collapsed:: true
 	- [[理财]]
 	- [[家庭保险]]
 	- [[开销总结]]
@@ -109,6 +110,7 @@
 	- [[React]]
 	- [[JavaScript]]
 - Gradle
+  collapsed:: true
 	- [[Gradle文档]]
 	- [[buildConfig相关]]
 	- [[gradle/apt调试]]
