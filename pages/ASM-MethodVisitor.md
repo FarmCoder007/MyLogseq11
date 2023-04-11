@@ -336,6 +336,7 @@
 		- ```java
 		  opcode：方法调用指令的操作码，例如 INVOKEVIRTUAL、INVOKESTATIC 等。该参数的值应该通过 Opcodes 类中的常量进行设置。
 		  owner：被调用方法的所有者类名，即该方法所在类的类名。例如，调用 java.lang.String 类中的 length() 方法，则该参数应该设置为 java/lang/String。
+		  		如果方法是在父类中定义的，则该参数显示的是调用者的类名比如子类
 		  name：被调用的方法名。例如，调用 java.lang.String 类中的 length() 方法，则该参数应该设置为 length。
 		  descriptor：被调用方法的描述符。描述符用来描述方法的参数类型和返回值类型，例如 (Ljava/lang/String;)I 表示参数为 java.lang.String，返回值为 int 类型。
 		  isInterface：指示被调用方法是否为接口方法。如果被调用方法是接口方法，则该参数应该设置为 true；否则，应该设置为 false。
