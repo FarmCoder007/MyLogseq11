@@ -293,6 +293,7 @@
 		  public void visitTypeInsn(final int opcode, final String type) {
 		  ```
 - ## 14、visitFieldInsn()
+  collapsed:: true
 	- 介绍：visitFieldInsn方法通常用于访问类的字段
 	- 使用：
 		- visitFieldInsn方法通常用于访问类的字段，包括访问静态字段和访问实例字段。例如，访问一个类的静态字段的指令是GETSTATIC，需要指定要访问的类、字段名称和字段类型，就可以使用visitFieldInsn方法传递GETSTATIC操作码、要访问的类的类型、要访问的静态字段的名称和类型描述符作为参数。
