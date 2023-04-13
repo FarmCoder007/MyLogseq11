@@ -5,6 +5,8 @@
 	  fun test(name : String = "kd") {
 	    
 	  }
-	  ```
-	- //Java调用
+	  //Java调用
 	  Test.INSTANCE.test();
+	  ```
+	-
+- ## 二、
