@@ -5,6 +5,7 @@
 	- [[PPT]]
 	- [[项目解析]]
 - Android
+  collapsed:: true
 	- [[开发常用工具]]
 	- [[Android架构]]
 	- [[系统架构]]
@@ -60,7 +61,6 @@
 	- [[xml解析]]
 	- [[Html解析]]
 - Kotlin
-  collapsed:: true
 	- [[基本语法]]
 	- [[注意事项]]
 	- [[Kotlin关键字]]
