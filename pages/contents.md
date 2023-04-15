@@ -1,4 +1,5 @@
 - 工作
+  collapsed:: true
 	- [[专利]]
 	- [[WBRouter]]
 	- [[职级评审]]
@@ -61,6 +62,7 @@
 	- [[xml解析]]
 	- [[Html解析]]
 - Kotlin
+  collapsed:: true
 	- [[基本语法]]
 	- [[注意事项]]
 	- [[Kotlin关键字]]
