@@ -22,7 +22,6 @@
 	- 对编译class文件做自定义的处理
 	- 读取编译产生的class文件，做一些其他事情，但是不需要修改它。
 - ## 三、transform模型：
-  collapsed:: true
 	- ![image.png](../assets/image_1678694029928_0.png)
 - ## 四、执行流程
   collapsed:: true
