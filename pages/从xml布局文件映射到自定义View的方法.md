@@ -50,6 +50,7 @@
 		  }
 		  ```
 - 法二、onFinishInflate 里初始化
+  collapsed:: true
 	- custom.xml
 	  collapsed:: true
 		-
