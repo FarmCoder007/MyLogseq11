@@ -5,6 +5,8 @@
 - # 二、选出好Reits
 	- ![image.png](../assets/image_1682087199927_0.png)
 	-
+	- ![image.png](../assets/image_1682087252284_0.png)
+- # 三计算好价格
 - # 二、经营类REITs好价格计算：
   collapsed:: true
 	- ==借助微淼计算器==经营类REITs解析：
