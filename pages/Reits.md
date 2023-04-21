@@ -19,7 +19,6 @@
 		- ![image.png](../assets/image_1682087487970_0.png)
 		-
 - # 图表总结分析
-  collapsed:: true
 	- ![image.png](../assets/image_1679838744294_0.png)
 -
 -
