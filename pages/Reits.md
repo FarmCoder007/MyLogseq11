@@ -6,6 +6,7 @@
   collapsed:: true
 	- ![image.png](../assets/image_1682087199927_0.png)
 - # 三、计算好价格
+  collapsed:: true
 	- ![image.png](../assets/image_1682087252284_0.png)
 	- # 3-1、经营类REITs好价格计算：看折现率
 	  collapsed:: true
@@ -23,4 +24,7 @@
   collapsed:: true
 	- ![image.png](../assets/image_1679838744294_0.png)
 - # ==投资策略==：
+  collapsed:: true
+	- ![image.png](../assets/image_1682088387914_0.png)
 	- ![image.png](../assets/image_1682088362435_0.png)
+-
