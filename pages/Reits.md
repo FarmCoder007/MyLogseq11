@@ -17,7 +17,7 @@
 			- ![image.png](../assets/image_1682087462633_0.png)
 	- # 3-2、产权类REITS好价格看动态股息率(股息/每股价格)
 		- ![image.png](../assets/image_1682087487970_0.png)
-		-
+		- ![image.png](../assets/image_1682088314444_0.png)
 - # 图表总结分析
 	- ![image.png](../assets/image_1679838744294_0.png)
 -
