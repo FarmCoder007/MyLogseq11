@@ -11,6 +11,7 @@
 	- ![image.png](../assets/image_1675390843588_0.png){:height 445, :width 746}
 	-
 - # 二、分析
+  collapsed:: true
 	- ![image.png](../assets/image_1679838744294_0.png)
 -
 -
