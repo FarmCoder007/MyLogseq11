@@ -1,4 +1,7 @@
 - # 概念
+	- ## 1、什么是中国Reits?
+	  collapsed:: true
+		- ![image.png](../assets/image_1682087030426_0.png)
 	-
 - # 一、经营类REITs解析：
   collapsed:: true
