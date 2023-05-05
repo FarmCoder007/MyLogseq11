@@ -2,8 +2,9 @@
 - 二、[国外虚拟账号](https://sms-activate.org/getNumber)
 	- 账号密码：
 	- 18333601689@163.com   xuwencard
-- 二、[翻墙工具](https://portal.shadowsocks.au/clientarea.php)
+- 三、[翻墙工具](https://portal.shadowsocks.au/clientarea.php)
+  collapsed:: true
 	- 账号密码同上
 	- [一元机场 11元/年](https://xn--4gq62f52gdss.com/#/register?code=sEnVzDU6)
 	- [10/月](https://cp.greennode.info/)
--
+- 四、[解决重连的插件](https://github.com/xcanwin/KeepChatGPT/#%E5%AE%89%E8%A3%85%E6%B8%A0%E9%81%93)
