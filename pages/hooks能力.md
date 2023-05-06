@@ -63,7 +63,106 @@
 		- 2、[[#red]]==UnityLogSDK：SDK初始化类-注册Hook对象==
 			- 代码示例：
 				- ```kotlin
+				  package com.wuba.unitylog
 				  
+				  import android.content.Context
+				  import com.wuba.unitylog.hooks.Hooks
+				  import java.lang.ref.WeakReference
+				  
+				  object UnityLogSDK {
+				  
+				      /**
+				       * 是否已初始化
+				       */
+				      @Volatile
+				      private var isInit: Boolean = false
+				  
+				      /**
+				       * Application context
+				       */
+				      private lateinit var applicationContext: Context
+				  
+				      /**
+				       * 是否为发布包
+				       */
+				      var isPublishPackage: Boolean = false
+				          private set
+				  
+				      /**
+				       * flipper 输出接口
+				       */
+				      internal var unityFlipper: IUnityFlipper? = null
+				  
+				      /**
+				       * wlog 输出接口
+				       */
+				      internal var unityWLog: IUnityWLog? = null
+				  
+				      /**
+				       * 每个配置类的 key对应一个hook对象
+				       */
+				      private val hookObjects = HashMap<String, WeakReference<Hooks>>()
+				      /**
+				       *  配置类 对象缓存
+				       */
+				      private val unityLogComponentObjects = mutableMapOf<String, WeakReference<UnityLogComponent>>()
+				  
+				  
+				      @JvmStatic
+				      fun init(applicationContext: Context, config: Config): UnityLogSDK {
+				          if (isInit) {
+				              return this
+				          }
+				  
+				          this.applicationContext = applicationContext
+				          isPublishPackage = config.isPublishPackage
+				          unityFlipper = config.unityFlipper
+				          unityWLog = config.unityWLog
+				  
+				          isInit = true
+				  
+				          return this
+				      }
+				  
+				      /**
+				       *  注册Hook对象 到Map
+				       
+				       *  根据主键 获取map中 组件的hook对象，
+				       *  有则返回
+				       *  无则添加后返回
+				       */
+				      fun getHook(logKey: String): Hooks? {
+				          return try {
+				              hookObjects[logKey]?.get() ?: Hooks().also {
+				                  hookObjects[logKey] = WeakReference(it)
+				              }
+				          } catch (e: Exception) {
+				              null
+				          }
+				      }
+				  
+				      // 在日志打印类中 获取注册的 hook对象，调用里边添加的hook逻辑
+				      fun getHooks() = hookObjects
+				  
+				      class Config {
+				          var isPublishPackage = false
+				              private set
+				          var unityFlipper: IUnityFlipper? = null
+				          var unityWLog: IUnityWLog? = null
+				  
+				          fun isPublishPackage(isPublishPackage: Boolean) = apply {
+				              this.isPublishPackage = isPublishPackage
+				          }
+				  
+				          fun setUnityFlipperImpl(unifyFlipper: IUnityFlipper) = apply {
+				              this.unityFlipper = unifyFlipper
+				          }
+				  
+				          fun setUnityWLogImpl(unifyWLog: IUnityWLog) = apply {
+				              this.unityWLog = unifyWLog
+				          }
+				      }
+				  }
 				  ```
 			- 这个注册Hook对象是在接入方的，打印日志类LOGGER自动完成的
 			- 1、Map存储：Hook对象，按主键一个模块一个Hook对象
