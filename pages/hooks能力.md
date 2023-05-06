@@ -5,7 +5,8 @@
 	- ![image.png](../assets/image_1683360102737_0.png)
 - ## 二 Hook责任划分与Hook实现
 	-
-	- ## 统一日志库SDK[SDK负责，定义能力、注册]
+	- ## 统一日志库SDK
+		- [SDK负责：定义Hook能力范围、注册存储Hook对象，使用Hook对象]
 		- 1、提供[[#red]]==Hook类-定义Hook范围==:
 		  collapsed:: true
 			- Hooks：
@@ -174,6 +175,7 @@
 				  }
 				  ```
 	- ## 接入方
+		- [接入方负责：实现自定义的hook能力，将能力添加到]
 		- 1、新增日志组件 继承 日志库SDK的日志组件类
 		- 2、实现注册hook的方法，内部自定义处理hook逻辑
 			- 1、 根据主Key注册 hook对象 到日志SDK中
