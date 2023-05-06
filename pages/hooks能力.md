@@ -3,8 +3,9 @@
 	- 在Java语言中，常常使用代理模式来实现对现有代码的“hook”（钩子）功能。代理模式是一种结构型设计模式，它允许你提供一个代理类来替代原始的对象。代理类可以控制对原始对象的访问，并在原始对象的基础上提供一些额外的功能，比如拦截方法调用、添加日志、添加缓存等。
 - ## 一、需求背景，hook功能api，批量处理
 	- ![image.png](../assets/image_1683360102737_0.png)
-- ## 二 Hook责任划分
-	- ## 统一日志库SDK
+- ## 二 Hook责任划分与Hook实现
+	-
+	- ## 统一日志库SDK[SDK负责，定义能力、注册]
 		- 1、提供[[#red]]==Hook类-定义Hook范围==:
 		  collapsed:: true
 			- Hooks：
@@ -202,6 +203,7 @@
 				  }
 				  ```
 			- 具体hook逻辑 就体现这个传入的闭包中
+			  collapsed:: true
 				- ```kotlin
 				  hook的api：
 				     fun log(logHook: (log: String) -> String?) {
@@ -210,15 +212,18 @@
 				          }
 				      }
 				     
-				     // 调用的地方传入的闭包
+				  // 调用的地方传入的闭包
 				  unityLog.getHook(getPrimaryTag())?.log { log: String ->
 				              "$log ****** ppu=${this.getPPU()}"
 				          }
 				  
-				   // 
+				   // 这个hook闭包：
+				   1、传入打印的log参数 
+				   2、每个都添加参数 ppu
+				   3、返回处理完的字符串
 				   { log: String ->  "$log ****** ppu=${this.getPPU()}" }
 				  
 				  ```
-- ## 三、实现
+- ## 三、框架流程
 	- ### 框架梳理见[[日志库接入流程]]
 	-
