@@ -6,5 +6,5 @@
 	- 账号密码同上
 	- [一元机场 11元/年](https://xn--4gq62f52gdss.com/#/register?code=sEnVzDU6)
 	- [10/月](https://cp.greennode.info/)
-	-
+	- [90/年](https://naiko.cloud/auth/register?code=BNkf)
 - 四、[解决重连的插件](https://github.com/xcanwin/KeepChatGPT/#%E5%AE%89%E8%A3%85%E6%B8%A0%E9%81%93)
