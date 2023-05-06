@@ -7,5 +7,27 @@
 	- ### 框架梳理
 		- 1、主工程，包含统一日志库的初始化、各个SDK的初始化
 		- 2、各个SDK中 (声明日志组件+日志打印类)
+		  collapsed:: true
 			- 只用日志组件打印日志也行，自动生成日志打印类是为了注册hook到SDK,怕RD不清楚
-			- 声明日志组件
+			-
+			- SDK接入是需要声明日志组件
+			  collapsed:: true
+				- ```kotlin
+				  @UnityLogConfig(className = "DemoUnityLogger", primaryKey = "UnityLogSDK")
+				  open class DemoUnityLoggerComponent : UnityLogComponent() {
+				      // override
+				      override fun hooks(unityLog: UnityLogSDK) {
+				          unityLog.getHook(getPrimaryTag())?.log { log: String ->
+				              "$log ****** ppu=${this.getPPU()}"
+				          }
+				          unityLog.getHook(getPrimaryTag())?.log("tag") { log: String ->
+				              "$log ****** ppu=${this.getPPU()}"
+				          }
+				      }
+				  
+				      fun getPPU(): String {
+				          return "123"
+				      }
+				  }
+				  ```
+			- 自动生成
