@@ -6,6 +6,7 @@
 - ## 二 Hook责任划分
 	- ## 统一日志库SDK
 		- 1、提供[[#red]]==Hook类-定义Hook范围==:
+		  collapsed:: true
 			- Hooks：
 			  collapsed:: true
 				- ```kotlin
@@ -60,6 +61,7 @@
 				- 2、存储自定义日志组件传过来的闭包（对日志数据的具体处理逻辑，如拼接哪些参数）
 				       具体hook逻辑是各个接入方 在日志组件里自定义的闭包传过来的：
 		- 2、[[#red]]==UnityLogSDK：SDK初始化类-注册Hook对象==
+			- 这个注册Hook
 			- 1、接收注册的Hook对象，按主键一个模块一个Hook对象
 			- 2、Hook对象里存储着接入方，在日志组件里
 		- 3、[[#red]]==SDK的日志打印类-使用注册的Hook对象==调用hook能力处理：
