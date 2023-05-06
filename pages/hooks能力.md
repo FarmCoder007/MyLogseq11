@@ -201,7 +201,15 @@
 				      }
 				  }
 				  ```
-			- hook
+			- 具体hook逻辑 就体现这个传入的闭包中
+				- ```kotlin
+				  hook的api：
+				  
+				  unityLog.getHook(getPrimaryTag())?.log { log: String ->
+				              "$log ****** ppu=${this.getPPU()}"
+				          }
+				  
+				  ```
 - ## 三、实现
 	- ### 框架梳理见[[日志库接入流程]]
 	-
