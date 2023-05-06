@@ -4,8 +4,8 @@
 - ## 一、需求背景，hook功能api，批量处理
 	- ![image.png](../assets/image_1683360102737_0.png)
 - ## 二 Hook责任划分
-	- ## 统一日志库
-		- 1、提供hook类:
+	- ## 统一日志库SDK
+		- 1、提供[[#red]]==Hook类==:
 			- Hooks：
 			  collapsed:: true
 				- ```kotlin
