@@ -204,10 +204,19 @@
 			- 具体hook逻辑 就体现这个传入的闭包中
 				- ```kotlin
 				  hook的api：
-				  
+				     fun log(logHook: (log: String) -> String?) {
+				          if (!logHooks.contains(logHook)) {
+				              logHooks.add(logHook)
+				          }
+				      }
+				     
+				     // 调用的地方传入的闭包
 				  unityLog.getHook(getPrimaryTag())?.log { log: String ->
 				              "$log ****** ppu=${this.getPPU()}"
 				          }
+				  
+				   // 
+				   { log: String ->  "$log ****** ppu=${this.getPPU()}" }
 				  
 				  ```
 - ## 三、实现
