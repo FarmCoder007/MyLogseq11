@@ -6,56 +6,58 @@
 - ## 二 Hook责任划分
 	- ## 统一日志库
 		- 1、提供hook类:
-			- Hook：
-			- ```kotlin
-			  package com.wuba.unitylog.hooks
-			  
-			  /**
-			   *  作用：Hooks 类  对日志api打印的数据 做钩子处理，数据拼接好后拿过来 经过闭包hook函数 再处理一遍发出去
-			   *  1、定义hook能力范围api，比如对所有日志生效的hook api 1,还是对指定tag生效的hook能力。只定义生效范围。
-			   *    API ：
-			   *       1、log（logHook: (log: String) -> String?） 是hook所有log打印数据的
-			   *       2、log (tag: String , logHook: (log: String) -> String?) 是hook指定tag打印数据的
-			   *  2、存储自定义日志组件传过来的闭包（对日志数据的具体处理逻辑，如拼接哪些参数）
-			   *        具体hook逻辑是各个接入方 在日志组件里自定义的闭包传过来的：
-			   *
-			   */
-			  class Hooks {
-			      /**
-			       *  存储组件传过来的hook能力，按道理 通常就一个通用的因为加参数可以拼接
-			       */
-			      val logHooks: MutableList<(log: String) -> String?> = mutableListOf()
-			  
-			      /**
-			       *  按 tag标签 存储 hook能力（闭包 传入参数 包装处理后 再返回）
-			       */
-			      val tagLogHooks: HashMap<String , (log: String) -> String?> = HashMap()
-			  
-			      /**
-			       *  hook通用log能力，调用此方法一次，代表添加一项hook能力到列表中。
-			  
-			       *  @param logHook闭包：具体的hook逻辑
-			       *  (看组件实现，比如接受拼接好的log参数，拼接一些通用参数再返回)
-			       */
-			      fun log(logHook: (log: String) -> String?) {
-			          if (!logHooks.contains(logHook)) {
-			              logHooks.add(logHook)
-			          }
-			      }
-			  
-			      /**
-			       *  处理指定tag对应log  hook的能力
-			       *  @param tag  筛选对应tag,传入的hook闭包能力。可以不同tag，对应不同的hook能力比如 不同tag
-			       */
-			      fun log(tag: String , logHook: (log: String) -> String?) {
-			          if (!tagLogHooks.containsKey(tag)) {
-			              tagLogHooks[tag] = logHook
-			          }
-			      }
-			  }
-			  ```
-			- 比如：hook所有log添加通用参数：
-			- 具体实现：只需要在SDK处理日志api参数拼接完毕后，
+			- Hooks：
+			  collapsed:: true
+				- ```kotlin
+				  package com.wuba.unitylog.hooks
+				  
+				  /**
+				   *  作用：Hooks 类  对日志api打印的数据 做钩子处理，数据拼接好后拿过来 经过闭包hook函数 再处理一遍发出去
+				   *  1、定义hook能力范围api，比如对所有日志生效的hook api 1,还是对指定tag生效的hook能力。只定义生效范围。
+				   *    API ：
+				   *       1、log（logHook: (log: String) -> String?） 是hook所有log打印数据的
+				   *       2、log (tag: String , logHook: (log: String) -> String?) 是hook指定tag打印数据的
+				   *  2、存储自定义日志组件传过来的闭包（对日志数据的具体处理逻辑，如拼接哪些参数）
+				   *        具体hook逻辑是各个接入方 在日志组件里自定义的闭包传过来的：
+				   *
+				   */
+				  class Hooks {
+				      /**
+				       *  存储组件传过来的hook能力，按道理 通常就一个通用的因为加参数可以拼接
+				       */
+				      val logHooks: MutableList<(log: String) -> String?> = mutableListOf()
+				  
+				      /**
+				       *  按 tag标签 存储 hook能力（闭包 传入参数 包装处理后 再返回）
+				       */
+				      val tagLogHooks: HashMap<String , (log: String) -> String?> = HashMap()
+				  
+				      /**
+				       *  hook通用log能力，调用此方法一次，代表添加一项hook能力到列表中。
+				  
+				       *  @param logHook闭包：具体的hook逻辑
+				       *  (看组件实现，比如接受拼接好的log参数，拼接一些通用参数再返回)
+				       */
+				      fun log(logHook: (log: String) -> String?) {
+				          if (!logHooks.contains(logHook)) {
+				              logHooks.add(logHook)
+				          }
+				      }
+				  
+				      /**
+				       *  处理指定tag对应log  hook的能力
+				       *  @param tag  筛选对应tag,传入的hook闭包能力。可以不同tag，对应不同的hook能力比如 不同tag
+				       */
+				      fun log(tag: String , logHook: (log: String) -> String?) {
+				          if (!tagLogHooks.containsKey(tag)) {
+				              tagLogHooks[tag] = logHook
+				          }
+				      }
+				  }
+				  ```
+			- 作用：
+				- 1、定义hook能力范围api，比如对所有日志生效的hook api 1,还是对指定tag生效的hook能力。只定义生效范围。
+				- 2、
 			-
 		- 2、UnityLogSDK接收注册的Hook对象，按主键一个模块一个Hook对象
 		-
