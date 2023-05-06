@@ -62,6 +62,7 @@
 				       具体hook逻辑是各个接入方 在日志组件里自定义的闭包传过来的：
 		- 2、[[#red]]==UnityLogSDK：SDK初始化类-注册Hook对象==
 			- 代码示例：
+			  collapsed:: true
 				- ```kotlin
 				  package com.wuba.unitylog
 				  
@@ -102,11 +103,6 @@
 				       * 每个配置类的 key对应一个hook对象
 				       */
 				      private val hookObjects = HashMap<String, WeakReference<Hooks>>()
-				      /**
-				       *  配置类 对象缓存
-				       */
-				      private val unityLogComponentObjects = mutableMapOf<String, WeakReference<UnityLogComponent>>()
-				  
 				  
 				      @JvmStatic
 				      fun init(applicationContext: Context, config: Config): UnityLogSDK {
@@ -143,28 +139,9 @@
 				  
 				      // 在日志打印类中 获取注册的 hook对象，调用里边添加的hook逻辑
 				      fun getHooks() = hookObjects
-				  
-				      class Config {
-				          var isPublishPackage = false
-				              private set
-				          var unityFlipper: IUnityFlipper? = null
-				          var unityWLog: IUnityWLog? = null
-				  
-				          fun isPublishPackage(isPublishPackage: Boolean) = apply {
-				              this.isPublishPackage = isPublishPackage
-				          }
-				  
-				          fun setUnityFlipperImpl(unifyFlipper: IUnityFlipper) = apply {
-				              this.unityFlipper = unifyFlipper
-				          }
-				  
-				          fun setUnityWLogImpl(unifyWLog: IUnityWLog) = apply {
-				              this.unityWLog = unifyWLog
-				          }
-				      }
 				  }
 				  ```
-			- 这个注册Hook对象是在接入方的，打印日志类LOGGER自动完成的
+			- 注册时机：这个注册Hook对象是在接入方的，打印日志类LOGGER自动完成的
 			- 1、Map存储：Hook对象，按主键一个模块一个Hook对象
 			- 2、Hook对象里存储着接入方，在日志组件里
 		- 3、[[#red]]==SDK的日志打印类-使用注册的Hook对象==调用hook能力处理：
