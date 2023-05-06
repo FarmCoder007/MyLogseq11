@@ -145,7 +145,14 @@
 			- 该类作用：Map存储注册的Hook对象，按主键一个模块一个Hook对象
 		- 3、[[#red]]==SDK的日志打印类-使用注册的Hook对象==调用hook能力处理：
 			- 具体打印日志逻辑中，拿到注册到SDK的所有 hook对象 [因为不同SDK的主键不一样，hook对象也不一样，个性化处理]
-			-
+			- 代码：
+				- ```kotlin
+				  
+				  fun makeFullMessage(recycleLog: RecycleLog, builder: StringBuilder, params: String?): String {
+				    
+				    
+				  }
+				  ```
 	- ## 接入方
 		- 1、新增日志组件 继承 日志库SDK的日志组件类
 		- 2、实现注册hook的方法，内部自定义处理hook逻辑
