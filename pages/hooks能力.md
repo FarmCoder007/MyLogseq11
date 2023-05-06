@@ -175,8 +175,33 @@
 	- ## 接入方
 		- 1、新增日志组件 继承 日志库SDK的日志组件类
 		- 2、实现注册hook的方法，内部自定义处理hook逻辑
-			- ```kotlin
-			  ```
+			- 1、 根据主Key注册 hook对象 到日志SDK中
+			   2、定义hook能力 闭包【其实就是处理函数】，会被存储到 刚刚创建的hook对象中
+			   3、等真正打印日志的时候 再去遍历注册的hook对象。循环调用 hook能力
+			- 代码：
+			  collapsed:: true
+				- ```kotlin
+				  @UnityLogConfig(className = "DemoUnityLogger", primaryKey = "UnityLogSDK")
+				  open class DemoUnityLoggerComponent : UnityLogComponent() {
+				      // override
+				      override fun hooks(unityLog: UnityLogSDK) {
+				          // 1、 根据主Key注册 hook对象 到日志SDK中
+				          // 2、定义hook能力 闭包【其实就是处理函数】，会被存储到 刚刚创建的hook对象中
+				          // 3、等真正打印日志的时候 再去遍历注册的hook对象。循环调用 hook能力
+				          unityLog.getHook(getPrimaryTag())?.log { log: String ->
+				              "$log ****** ppu=${this.getPPU()}"
+				          }
+				          unityLog.getHook(getPrimaryTag())?.log("tag") { log: String ->
+				              "$log ****** ppu=${this.getPPU()}"
+				          }
+				      }
+				  
+				      fun getPPU(): String {
+				          return "123"
+				      }
+				  }
+				  ```
+			- hook
 - ## 三、实现
 	- ### 框架梳理见[[日志库接入流程]]
 	-
