@@ -5,7 +5,7 @@
 	- ![image.png](../assets/image_1683360102737_0.png)
 - ## 二 Hook责任划分
 	- ## 统一日志库SDK
-		- 1、提供[[#red]]==Hook类==:
+		- 1、提供[[#red]]==Hook类-定义Hook范围==:
 			- Hooks：
 			  collapsed:: true
 				- ```kotlin
@@ -62,7 +62,7 @@
 		- 2、[[#red]]==UnityLogSDK：SDK初始化类==
 			- 1、接收注册的Hook对象，按主键一个模块一个Hook对象
 			- 2、Hook对象里存储着接入方，在日志组件里
-		- 3、打印日志类中调用hook能力处理：
+		- 3、[[#red]]==SDK的日志打印类==中调用hook能力处理：
 			- 具体打印日志逻辑中，拿到注册到SDK的所有 hook对象 [因为不同SDK的主键不一样，hook对象也不一样，个性化处理]
 			-
 	- ## 接入方
