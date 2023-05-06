@@ -61,6 +61,7 @@
 				- 2、存储自定义日志组件传过来的闭包（对日志数据的具体处理逻辑，如拼接哪些参数）
 				       具体hook逻辑是各个接入方 在日志组件里自定义的闭包传过来的：
 		- 2、[[#red]]==UnityLogSDK：SDK初始化类-注册Hook对象==
+		  collapsed:: true
 			- 代码示例：
 			  collapsed:: true
 				- ```kotlin
@@ -144,13 +145,31 @@
 			- 注册时机：这个注册Hook对象是在接入方的，打印日志类LOGGER自动完成的
 			- 该类作用：Map存储注册的Hook对象，按主键一个模块一个Hook对象
 		- 3、[[#red]]==SDK的日志打印类-使用注册的Hook对象==调用hook能力处理：
+		  collapsed:: true
 			- 具体打印日志逻辑中，拿到注册到SDK的所有 hook对象 [因为不同SDK的主键不一样，hook对象也不一样，个性化处理]
-			- 代码：
+			- 部分代码：
 				- ```kotlin
 				  
 				  fun makeFullMessage(recycleLog: RecycleLog, builder: StringBuilder, params: String?): String {
-				    
-				    
+				              // 省略了处理拼接字符串     
+				       
+				              // logBody：拼接后的日志参数
+				              var logBody = builder.toString()
+				              // 遍历注册的hook对象【可能每个使用方SDK 一个 - 多个】
+				              UnityLogSDK.getHooks().values.forEach {
+				                  // 调用 使用方添加的hook闭包 处理字符串 并返回
+				                  it.get()?.logHooks?.forEach { hook ->
+				                      logBody = hook.invoke(logBody).toString()
+				                  }
+				                  // 按 tag 处理 hook
+				                  it.get()?.tagLogHooks?.forEach { (key, hook) ->
+				                      // 根据 tag过滤
+				                      if (recycleLog.tag == key) {
+				                          logBody = hook.invoke(logBody).toString()
+				                      }
+				                  }
+				              }
+				              return logBody
 				  }
 				  ```
 	- ## 接入方
