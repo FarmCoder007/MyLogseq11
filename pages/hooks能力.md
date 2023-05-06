@@ -5,8 +5,8 @@
 	- ![image.png](../assets/image_1683360102737_0.png)
 - ## 二 Hook责任划分
 	- ## 统一日志库
-		- 1、提供hook类
-		- 2、UnityLogSDK
+		- 1、提供hook类[内包含hook能力，和]
+		- 2、UnityLogSDK接收注册的Hook对象，按主键一个模块一个Hook对象
 	- 调用日志API,统一交由
 - ## 三、实现
 	- ### 框架梳理见[[日志库接入流程]]
