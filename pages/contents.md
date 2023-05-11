@@ -5,7 +5,6 @@
 	- [[PPT]]
 	- [[项目解析]]
 - Android
-  collapsed:: true
 	- [[开发常用工具]]
 	- [[Android架构]]
 	- [[系统架构]]
@@ -49,6 +48,7 @@
 	- [[Android开发架构]]
 	- [[单元测试]]
 	- [[AndroidX适配]]
+	- [[TextView]]
 - JAVA
   collapsed:: true
 	- [[java-泛型]]
