@@ -31,6 +31,38 @@
 		- 确定好了类大纲的格式后，下一步就是如何简单快速的生成这些类大纲数据。调研有3种方式：1. Python读取代码文件逐行分析 2. hook编译的Transform使用ASM来收集类信息 3.使用AST（抽象语法树）用java解释java
 		- 使用Python读取源码文件分析是第一个被排除的，这个方案工程量大，对java和kotlin语言需要有高深的理解和运用才能自如处理各种case。下面主要分析ASM和AST两种方式
 		- ![image.png](../assets/image_1684238760351_0.png)
-		- ##ASM读取
-		  在编译期hook Transform完全没有必要，且不可行，因为MetaX工程在编译时就需要知道当前api变化了哪些类以及变化类的细节。查询ASM使用方法可以得出只用传入源码文件就可以，内部会调用javac命令来生成class，然后进行遍历各种方法和字段。
-		- 一个简单的ASM使用包括ClassReader ClassWriter ClassVisitor，由于我们不用对class处理插桩，只需要定义个ClassVisitor就可以了，主要处理方法就是visitMethod，通过不断的回调来记录当前传入类的方法，过滤后生成一个类大纲信息。
+		- ### ASM读取
+			- 在编译期hook Transform完全没有必要，且不可行，因为MetaX工程在编译时就需要知道当前api变化了哪些类以及变化类的细节。查询ASM使用方法可以得出只用传入源码文件就可以，内部会调用javac命令来生成class，然后进行遍历各种方法和字段。
+			- 一个简单的ASM使用包括ClassReader ClassWriter ClassVisitor，由于我们不用对class处理插桩，只需要定义个ClassVisitor就可以了，主要处理方法就是visitMethod，通过不断的回调来记录当前传入类的方法，过滤后生成一个类大纲信息。
+			- ```kotlin
+			  class SourceFileASMHandler(classVisitor: ClassVisitor?) :
+			      ClassVisitor(Opcodes.ASM5, classVisitor) {
+			      override fun visitMethod(
+			          access: Int,
+			          name: String?,
+			          desc: String?,
+			          signature: String?,
+			          exceptions: Array<out String>?
+			      ): MethodVisitor {
+			        //主要处理方法，获取参数、返回值等信息
+			          println("$access name:${name} desc:${desc} signature:${signature}")
+			  
+			          return super.visitMethod(access, name, desc, signature, exceptions)
+			      }
+			  }
+			  ```
+			- 使用也比较简单，如下
+			- ```kotlin
+			  private fun handleClass(file: String) {
+			      println(file)
+			      val cr = ClassReader(FileInputStream(file))
+			      val cw = ClassWriter(cr, ClassWriter.COMPUTE_FRAMES)
+			      cr.accept(SourceFileASMHandler(cw), ClassReader.SKIP_CODE)
+			  }
+			  ```
+			- 但ASM分析也有一些难以接受的缺点：
+			- 分析方式耗时大
+			- 由于内部需要使用javac编译成class文件，因此对于整个编译时间来说成倍数增长。由于时机问题我们不能将该任务放到Transform中处理减少生成class次数。
+			- 分析处理不够全面
+			- ClassVisitor不能很好的处理内部类的方法，这样可能会出现方法遗漏的问题
+			- 对于我们MetaX框架来说，编译时间不能增长太多，对于一个经常使用的编译框架来说是无法接受的。
