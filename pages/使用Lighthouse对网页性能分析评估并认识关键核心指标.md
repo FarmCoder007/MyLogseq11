@@ -66,34 +66,40 @@
 		    "lighthouse": "9.6.8"
 		  },
 		  ```
-		- 3. 项目中添加功能代码
-		- const express = require("express");
-		  const router = express.Router();
-		  const fs = require('fs');
-		  const lighthouse = require('lighthouse');
-		  const chromeLauncher = require('chrome-launcher');
-		  const launchChromeAndRunLighthouse = async (url, opts, config = null) => {
-		    return chromeLauncher.launch({ chromeFlags: opts.chromeFlags }).then(chrome => {
-		        opts.port = chrome.port;
-		        return lighthouse(url, opts,config).then(results => {
-		            return chrome.kill().then(() => results.report);
-		        });
-		    });
-		  };
-		  const runLighthouse = async () => {
-		    const opts = {
-		        chromeFlags: ['--headless', '--no-sandbox'],
-		        output: 'html',
-		        onlyCategories: ['performance'],
-		        logLevel: 'info',
-		    };
-		    const result = await launchChromeAndRunLighthouse('https://baidu.com', opts);
-		    console.log(result);
-		    return result
-		  };
-		  router.get('/lighthouse_report', async function (req, res) {
-		    const reportHtml = await runLighthouse();
-		    fs.writeFileSync('lhreport.html', reportHtml);
-		    res.send(reportHtml);
-		- });
+		- collapsed:: true
+		  3. 项目中添加功能代码
+			- ```
+			  const express = require("express");
+			  const router = express.Router();
+			  const fs = require('fs');
+			  const lighthouse = require('lighthouse');
+			  const chromeLauncher = require('chrome-launcher');
+			  const launchChromeAndRunLighthouse = async (url, opts, config = null) => {
+			    return chromeLauncher.launch({ chromeFlags: opts.chromeFlags }).then(chrome => {
+			        opts.port = chrome.port;
+			        return lighthouse(url, opts,config).then(results => {
+			            return chrome.kill().then(() => results.report);
+			        });
+			    });
+			  };
+			  const runLighthouse = async () => {
+			    const opts = {
+			        chromeFlags: ['--headless', '--no-sandbox'],
+			        output: 'html',
+			        onlyCategories: ['performance'],
+			        logLevel: 'info',
+			    };
+			    const result = await launchChromeAndRunLighthouse('https://baidu.com', opts);
+			    console.log(result);
+			    return result
+			  };
+			  router.get('/lighthouse_report', async function (req, res) {
+			    const reportHtml = await runLighthouse();
+			    fs.writeFileSync('lhreport.html', reportHtml);
+			    res.send(reportHtml);
+			    });
+			  ```
+		- collapsed:: true
 		  4. 接口请求node服务，便可产出性能报告
+			- ![image.png](../assets/image_1684240028442_0.png)
+		-
