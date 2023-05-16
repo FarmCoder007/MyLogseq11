@@ -28,6 +28,7 @@
 		- 如果本地未获取到对应的类大纲集合文件，则认为是首次生成，然后会遍历当前工程的sourceSet目录，生成工程的类大纲集合文件。在MetaX框架中这个文件被命名为[[#red]]==api-public-method.json==，放在工程的根目录中，会随着Git提交到[[#red]]==master主分支==。另外在RD每次合并当前需求分支时，会伴随的api变更检测Task自动重新生成当前类大纲集合文件，重新覆盖旧文件。这样就能解决数据源参考唯一性的问题。
 		- [[#red]]==所以每次是需求分支的类大纲和master分支的类大纲做对比，得出api变更范围==
 	- ## 如何生成类大纲
+	  collapsed:: true
 		- 确定好了类大纲的格式后，下一步就是如何简单快速的生成这些类大纲数据。调研有3种方式：1. Python读取代码文件逐行分析 2. hook编译的Transform使用ASM来收集类信息 3.使用AST（抽象语法树）用java解释java
 		- 使用Python读取源码文件分析是第一个被排除的，这个方案工程量大，对java和kotlin语言需要有高深的理解和运用才能自如处理各种case。下面主要分析ASM和AST两种方式
 		- ![image.png](../assets/image_1684238760351_0.png)
@@ -68,11 +69,17 @@
 				- ClassVisitor不能很好的处理内部类的方法，这样可能会出现方法遗漏的问题
 			- 对于我们MetaX框架来说，编译时间不能增长太多，对于一个经常使用的编译框架来说是无法接受的。
 		- ### AST读取
+		  collapsed:: true
 			- AST，即抽象语法树，是对源代码语法结构的一种树状抽象表示，每个节点对应源代码中的一段代码语句，是一种平台无关的数据描述。（通俗一点说就是使用java来解释java源码）
 			- 我们平常所写的代码本质上是一种结构化的指令文本，是高级程序设计语言，是出于人们理解阅读而设计的。但处理器只能识别一连串的二进制机器代码，对于文本代码是无法直接识别运行的。而编译器作为桥梁打通了两者，他的作用是将源代码翻译成语义等价的目标代码，机器码和AST是常见的编译结果。
 			- 抽象语法树它以树状的形式表现代码的结构。实际上Android Studio已经提供了源码的AST表示，以帮助开发者更加完整、清晰的分析代码的结构和关系。
 			  collapsed:: true
 				- ![image.png](../assets/image_1684239076852_0.png)
 			- 在将源码转换成AST过程中，一般会经过三步：词法分析、语法分析、语义分析。本文不会深入探究java AST是如何实现的，仅从使用的角度做流程梳理。
-			- 使用抽象语法树处理源码，不像ASM仅处理一种class字节码格式就好了。AST需要对于Java语言和Kotlin语言分别做处理。因此我们寻找了目前使用较多的AST框架：[JavaParser](https://github.com/javaparser/javaparser)处理java文件，Kastree处理kotlin文件。
+			- 使用抽象语法树处理源码，不像ASM仅处理一种class字节码格式就好了。AST需要对于Java语言和Kotlin语言分别做处理。因此我们寻找了目前使用较多的AST框架：[JavaParser](https://github.com/javaparser/javaparser)处理java文件，[Kastree](https://github.com/cretz/kastree)处理kotlin文件。
 			- java类调试信息：
+				- ![image.png](../assets/image_1684239157067_0.png)
+			- kotlin类调试信息
+				- ![image.png](../assets/image_1684239173234_0.png)
+			-
+	- 确定变更文件
