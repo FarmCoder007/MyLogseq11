@@ -42,6 +42,11 @@
 		  ```
 		  然后，使用以下命令运行LightHouse:
 		- ```
+		  $:lighthouse <URL>
 		  ```
 		  其中，<URL>是您要测试的网页的网址。请注意，LightHouse默认使用Chrome来运行测试。
 		- 运行测试后，LightHouse将自动生成一份报告，其中包含有关页面性能、可访问性和可靠性的详细信息。您可以在终端中查看报告，也可以将报告保存为HTML文件并在浏览器中打开。
+	- ## 方式三：Chrome 插件扩展
+		- 1. 安装 Lighthouse 插件。打开 Chrome 浏览器，点击三个点的菜单，选择“更多工具”->“扩展程序”，然后搜索 Lighthouse 并安装。
+			- ![image.png](../assets/image_1684239915515_0.png)
+		-
