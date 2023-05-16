@@ -82,4 +82,9 @@
 			- kotlin类调试信息
 				- ![image.png](../assets/image_1684239173234_0.png)
 			-
-	- 确定变更文件
+	- ## 确定变更文件
+		- 确认本次修改了哪些文件，需要使用Git命令来获取变更文件。Git仓库有如下三个主要部分组成：Remote（远程仓库）、Repository（本地仓库）、workspace（本地工作区）。
+		- ![image.png](../assets/image_1684239228707_0.png)
+		- 对于现有开发流程来说，我们只需要处理本地仓库和workspace的变更文件就可以。
+			-
+			- workspace：
