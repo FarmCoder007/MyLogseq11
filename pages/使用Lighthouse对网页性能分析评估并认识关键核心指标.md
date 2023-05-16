@@ -28,5 +28,20 @@
 		- 2.在chrome浏览器输入“chrome://inspect/#devices”，打开一个H5载体页可以看到如下操作界面：
 		  collapsed:: true
 			- ![image.png](../assets/image_1684239785062_0.png)
-		- 3、点击应用的“inspect”按钮就进入到移动设备的调试界面
-			-
+		- 3、点击应用的“inspect”按钮就进入到移动设备的调试界面           
+		  collapsed:: true
+			- ![image.png](../assets/image_1684239798549_0.png)
+		- 4、找到Lighthouse-点击 “分析加载网页情况（generate report）”,它会对页面进行相关性能的检查，最终生成报告
+		  collapsed:: true
+			- ![image.png](../assets/image_1684239814908_0.png)
+	- ## 方式二：Node CLI
+		- LightHouse使用命令行工具可以帮助你批量运行Lighthouse，自动生成报告，方便你在CI/CD过程中集成。要使用LightHouse，请按照以下步骤操作：
+		- 首先，您需要安装Node.js。在安装完成后，在终端中输入以下命令以安装LightHouse：
+		- ```
+		  $:npm install -g lighthouse
+		  ```
+		  然后，使用以下命令运行LightHouse:
+		- ```
+		  ```
+		  其中，<URL>是您要测试的网页的网址。请注意，LightHouse默认使用Chrome来运行测试。
+		- 运行测试后，LightHouse将自动生成一份报告，其中包含有关页面性能、可访问性和可靠性的详细信息。您可以在终端中查看报告，也可以将报告保存为HTML文件并在浏览器中打开。
