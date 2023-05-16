@@ -86,5 +86,39 @@
 		- 确认本次修改了哪些文件，需要使用Git命令来获取变更文件。Git仓库有如下三个主要部分组成：Remote（远程仓库）、Repository（本地仓库）、workspace（本地工作区）。
 		- ![image.png](../assets/image_1684239228707_0.png)
 		- 对于现有开发流程来说，我们只需要处理本地仓库和workspace的变更文件就可以。
-			-
-			- workspace：
+		- ### workspace：
+			- ```
+			  ~/code/58ComponentProject/MetaXUtils/demo-api   master ±  git status -s         
+			   M src/main/java/com/metax/demo/api/service/LocationCallback.kt
+			  ?? ../../MetaXScripts/
+			  ?? ../doc/changelogs/1.49.md
+			  ```
+		- 对于有变更的文件，git status -s命令行开头会以：M–Modify ,A–Add, AM–Add&Modify, D–Delete标记。因此拿到结果后对每行文件记录进行过滤分析，整理出当前未提交的变更文件路径。
+		- ### Repository：
+		  collapsed:: true
+			- 本地仓库记录未合并到master分支上的所有改动，因此使用git diff来显示本地分支与远程master分支不一样的地方。
+			- ```
+			  //git命令
+			  git diff --name-only --diff-filter=ACMRTUXB f-dev origin/master
+			  //输出结果：
+			  58AppProject/58WuxianClient/build.gradle
+			  58ClientLib/.gitignore
+			  58ClientLib/MetaX.sh
+			  58ClientLib/app/build.gradle
+			  58ClientLib/app/src/main/java/com/wuba/client/ClientApplication.kt
+			  58ClientLib/app/src/main/res/values/themes.xml
+			  58ClientLib/build.gradle
+			  58ClientLib/client-api/build.gradle
+			  58ClientLib/client-api/gradle.properties
+			  58ClientLib/client-lib/build.gradle
+			  58ClientLib/client-lib/gradle.properties
+			  58ClientLib/client-lib/src/main/java/com/wuba/client/lib/MainActivity.kt
+			  58ClientLib/client-lib/src/main/java/com/wuba/client/lib/PassportDemoActivity.kt
+			  58ClientLib/client-lib/src/main/java/com/wuba/client/lib/WuxianApplication.kt
+			  58ClientLib/client-lib/src/main/java/com/wuba/client/lib/custom/LocationServiceProxy.kt
+			  58ClientLib/client-lib/src/main/res/layout/activity_house_demo.xml
+			  58ClientLib/client-lib/src/main/res/layout/activity_passport_demo.xml
+			  58ClientLib/client-lib/src/main/res/layout/activity_share_demo.xml
+			  ```
+		- 结合workspace和Repository仓库2处数据源就可以得到变更后的源码文件。
+-
