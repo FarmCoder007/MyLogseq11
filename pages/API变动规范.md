@@ -128,6 +128,18 @@
 			- 拿到了变更后的文件路径，以及上次生成的类大纲集合。就可以对比当前文件内的方法有哪些变化了。流程如下图所示
 			- ![image.png](../assets/image_1684239360810_0.png){:height 420, :width 685}
 		- 1、生成当前工程源码文件所有的类大纲
-		  通过变更文件路径获取最新的类大纲信息，和记录的类大纲信息
-		  通过JSON数据对比，产出变更项
-		  目前我们支持以下的变更case：
+		- 2、通过变更文件路径获取最新的类大纲信息，和记录的类大纲信息
+		- 3、通过JSON数据对比，产出变更项
+		- 目前我们支持以下的变更case：
+			- ![image.png](../assets/image_1684239396293_0.png)
+		- 变更类型	举例	备注
+		  参数类型变更	getNameById(int id)—>getNameById(String id)	
+		  参数个数	getUser(int id) -->getUser(int id,String name)	
+		  多参数位置变更	getUser(String name,int age)–>getUser(int age,String name)	
+		  返回值变更	User getUser(String name)–> List<User>getUser(String name)	
+		  可变参数的变更		同参数类型
+		  参数为集合类型中数据类型的变化	getUser(Map<String,User>) --> getUser(Map<int,User>)
+	- 对比完成后，会在本地工程下生成api-public-method-diff.json文件，这个JSON记录了三个部分：新增、修改、删除。通过读取JSON输出差异提示：
+		- ![image.png](../assets/image_1684239419771_0.png)
+	- ## 结语
+		- 通过MetaX组件，API变化不再是aar升级后各种寻找SDK网页上简单的说明点。而是产出详细的change log说明，供开发和测试人员查阅。通过AST抽象语法树解析源码文件，达到更直观便捷的方式处理源码信息。对于API变更后续会支持更多case，更加完善。
