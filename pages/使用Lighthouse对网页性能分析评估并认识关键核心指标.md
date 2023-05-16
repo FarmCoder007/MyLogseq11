@@ -21,4 +21,12 @@
 	  Node CLI
 	  Chrome 插件扩展
 	  Node Module
-	-
+	- ## 方式一：Chrome 开发者工具（DevTools）
+		- 1.同城或本地APP的debug包打开 -> 开发者选项(建议使用58Flipper) -> webview远程调试
+		  collapsed:: true
+			- ![image.png](../assets/image_1684239763255_0.png)
+		- 2.在chrome浏览器输入“chrome://inspect/#devices”，打开一个H5载体页可以看到如下操作界面：
+		  collapsed:: true
+			- ![image.png](../assets/image_1684239785062_0.png)
+		- 3、点击应用的“inspect”按钮就进入到移动设备的调试界面
+			-
