@@ -16,6 +16,7 @@
 	- ## C. 本文的目的
 		- 近期针对我们应用中H5载体页进行全链路的加载速度优化，使用到了Lighthouse工具，对Web页面进行了性能分析，发现加载性能问题，推动优化解决，过程中发现Lighthouse确实一个优秀的开源工具，跟大家分享一下它的使用（了解的可以略过此文章）和相关原理，同时讲解一下Web页面的一些性能关键指标。
 - # II. Lighthouse的使用方式
+  collapsed:: true
 	- 目前官方提供了4种使用方式：
 	  Chrome 开发者工具（DevTools）
 	  Node CLI
@@ -103,3 +104,5 @@
 		  4. 接口请求node服务，便可产出性能报告
 			- ![image.png](../assets/image_1684240028442_0.png)
 		-
+- # III. Lighthouse的分析报告
+	-
