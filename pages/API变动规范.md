@@ -4,4 +4,24 @@
 	- 如何在编译时简单准确的获取当前变更内容，是我们亟待解决的问题。
 - # 二、实现
 	- ## 定义数据
-	-
+		- 提到API变化，一定是有一个固定参考对象做对比才能得出变化结果。因此我们将首次使用MetaX运行时生成的类大纲集合文件是否存在做为参考点。
+		- 类大纲文件记录了当前类或接口的public方法信息，以及当前文件的相对路径、语言方式是java或kotlin、class还是接口枚举之类的
+		- ```json
+		  //kotlin 单例object的类大纲信息
+		  {
+		    "path": "demo-api/src/main/java/com/metax/demo/api/utils/DeviceInfoUtils.kt",
+		    "package": "com.metax.demo.api.utils",
+		    "methods": [
+		      {
+		        "p": "Nullable(Context)",
+		        "r": "Nullable(String)",
+		        "name": "fun getImei(Nullable(Context)):Nullable(String)",
+		        "n": "getImei"
+		      }
+		    ],
+		    "name": "DeviceInfoUtils",
+		    "language": "kotlin",
+		    "type": "object"
+		  }
+		  ```
+		- 如果本地未获取到对应的类大纲集合文件，则认为是首次生成，然后会遍历当前工程的sourceSet目录，生成工程的类大纲集合文件。在MetaX框架中这个文件被命名为api-public-method.json，放在工程的根目录中，会随着Git提交到master主分支。另外在RD每次合并当前需求分支时，会伴随的api变更检测Task自动重新生成当前类大纲集合文件，重新覆盖旧文件。这样就能解决数据源参考唯一性的问题。
