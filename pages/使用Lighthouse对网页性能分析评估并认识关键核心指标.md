@@ -47,6 +47,53 @@
 		  其中，<URL>是您要测试的网页的网址。请注意，LightHouse默认使用Chrome来运行测试。
 		- 运行测试后，LightHouse将自动生成一份报告，其中包含有关页面性能、可访问性和可靠性的详细信息。您可以在终端中查看报告，也可以将报告保存为HTML文件并在浏览器中打开。
 	- ## 方式三：Chrome 插件扩展
-		- 1. 安装 Lighthouse 插件。打开 Chrome 浏览器，点击三个点的菜单，选择“更多工具”->“扩展程序”，然后搜索 Lighthouse 并安装。
+	  collapsed:: true
+		- collapsed:: true
+		  1. 安装 Lighthouse 插件。打开 Chrome 浏览器，点击三个点的菜单，选择“更多工具”->“扩展程序”，然后搜索 Lighthouse 并安装。
 			- ![image.png](../assets/image_1684239915515_0.png)
-		-
+		- 2. 打开需要检测的网页，点击 Lighthouse 插件图标，选择“生成报告”即可。Lighthouse 会进行全方位的检测，并在生成报告之后提供一些优化建议。
+			- ![image.png](../assets/image_1684239936146_0.png)
+	- ## 方式四：Node Module
+		- 将Lighthouse 集成到现有node.js工程项目中使用，以实验集成到avm中为例：
+		- 1. 项目目录中使用以下命令配置
+		- ```
+		  $ yarn add Lighthouse
+		  ```
+		  2. 因为我们项目中使用commonjs，第三方模块导入使用requite语句，暂不支持import，所有项目中使用Lighthouse的版本9.6.8及以下
+		- ```
+		  "dependencies": {
+		    ...
+		    "lighthouse": "9.6.8"
+		  },
+		  ```
+		- 3. 项目中添加功能代码
+		- const express = require("express");
+		  const router = express.Router();
+		  const fs = require('fs');
+		  const lighthouse = require('lighthouse');
+		  const chromeLauncher = require('chrome-launcher');
+		  const launchChromeAndRunLighthouse = async (url, opts, config = null) => {
+		    return chromeLauncher.launch({ chromeFlags: opts.chromeFlags }).then(chrome => {
+		        opts.port = chrome.port;
+		        return lighthouse(url, opts,config).then(results => {
+		            return chrome.kill().then(() => results.report);
+		        });
+		    });
+		  };
+		  const runLighthouse = async () => {
+		    const opts = {
+		        chromeFlags: ['--headless', '--no-sandbox'],
+		        output: 'html',
+		        onlyCategories: ['performance'],
+		        logLevel: 'info',
+		    };
+		    const result = await launchChromeAndRunLighthouse('https://baidu.com', opts);
+		    console.log(result);
+		    return result
+		  };
+		  router.get('/lighthouse_report', async function (req, res) {
+		    const reportHtml = await runLighthouse();
+		    fs.writeFileSync('lhreport.html', reportHtml);
+		    res.send(reportHtml);
+		- });
+		  4. 接口请求node服务，便可产出性能报告
