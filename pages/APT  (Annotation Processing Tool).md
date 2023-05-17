@@ -1,4 +1,5 @@
 - # 一、简介
+  collapsed:: true
 	- APT(Annotation Processing Tool) 是一个编译期的注解处理工具, 它对源代码文件进行检测找出其中的 Annotation，使用 Annotation 进行额外的处理。
 	  Annotation 处理器在处理 Annotation 时可以根据源文件中的 Annotation 生成额外的源文件和其它的文件 (文件具体内容由 Annotation 处理器的编写者决定),APT 还会编译生成的源文件和原来的源文件，将它们一起生成 class 文件。一些主流的三方库，如 ButterKnife、EventBus 等都用到了这个技术来生成代码。
 	- ![image.png](../assets/image_1680491867597_0.png)
@@ -26,7 +27,6 @@
 		- 使用场景：当我们需要将注解应用到父类上，并且希望子类自动继承该注解时，可以使用该元注解。
 	- 总的来说，元注解是用于修饰注解的注解，它们可以帮助我们更加灵活地定义注解，使得注解的作用更加精确、有效。
 - # 三、自定义注解的写法
-  collapsed:: true
 	- ## java写法
 	  collapsed:: true
 		- ```java
@@ -287,7 +287,7 @@
 		  // 方案2
 		  ClassName.get(Class.forName("完整包名"))
 		  ```
-	- 14、ele: Element 获取参数类型TypeName，携带泛型 和 不携带泛型的取法
+	- ## 14、ele: Element 获取参数类型TypeName，携带泛型 和 不携带泛型的取法
 		- ```kotlin
 		  // 不携带泛型
 		  ClassName.get(ele as TypeElement)
