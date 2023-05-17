@@ -35,3 +35,41 @@
 		      }
 		  });
 		  ```
+	- OkHttpClient 通过调用 newCall(Request) 方法生成执行网络请求的 Call，Call 类是一个接口，实际执行网络请求的 RealCall 类
+	- Call 提供了同步和异步两种请求方式的API，同步请求会在当前线程直接执行网络请求，不会开新线程，当然也不会使用线程池，我们可以忽略掉这种请求方式，只需要关注异步请求即可
+	- ### OkHttp的异步请求的线程池
+		- OkHttp的异步请求流程如下图：
+		  collapsed:: true
+			- ![image.png](../assets/image_1684314059277_0.png)
+		- 从请求流程中可以看出，OkHttp提供了 Dispatcher 类来对请求进行调度，Dispatcher 默认提供了一个线程池，请求会在该线程池中执行，同时 OkHttpClient 提供了一个指定 Dispatcher 的API，调用方可以指定线程池
+		- Dispatcher 类进行请求调度的关键代码如下：
+		  collapsed:: true
+			- ```kotlin
+			  private boolean promoteAndExecute() {
+			    List<AsyncCall> executableCalls = new ArrayList<>();
+			    boolean isRunning;
+			    synchronized (this) {
+			      // 遍历请求等待队列
+			      for (Iterator<AsyncCall> i = readyAsyncCalls.iterator(); i.hasNext(); ) {
+			        AsyncCall asyncCall = i.next();
+			        // 正在执行的请求数量已达最大限制，不再执行新请求
+			        if (runningAsyncCalls.size() >= maxRequests) break; // Max capacity.
+			        // 同Host下正在执行的请求数量已达最大限制，不再执行新请求
+			        // 实际最大可执行的数量为maxRequestsPerHost + 1
+			        if (runningCallsForHost(asyncCall) >= maxRequestsPerHost) continue; // Host max capacity.
+			  
+			        i.remove();
+			        // 可以执行的请求放入executableCalls，并添加到正在执行的请求队列
+			        executableCalls.add(asyncCall);
+			        runningAsyncCalls.add(asyncCall);
+			      }
+			      isRunning = runningCallsCount() > 0;
+			    }
+			    // 执行请求
+			    for (int i = 0, size = executableCalls.size(); i < size; i++) {
+			      AsyncCall asyncCall = executableCalls.get(i);
+			      asyncCall.executeOn(executorService());
+			    }
+			    return isRunning;
+			  }
+			  ```
