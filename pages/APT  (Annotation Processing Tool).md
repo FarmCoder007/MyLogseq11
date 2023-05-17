@@ -294,6 +294,8 @@
 		  // 携带泛型
 		  TypeName.get(ele.asType())
 		  ```
+	- ## 15、除了借助javapoet生成类，还可以通过[[#red]]==processingEnv.filer输出一个类文件==
+		-
 - # 五、常见问题
   collapsed:: true
 	- A failure occurred while executing org.jetbrains.kotlin.gradle.internal.KaptExecution
