@@ -191,6 +191,7 @@
 		- 通过线程的名称可以看出，所有线程都执行在 RxJava 的 io 线程池中。这里需要注意的是，由于 RxJava 的 io 线程池对线程数量无限制，短时间内有大量请求时也会造成线程数暴增
 		-
 	- ### Retrofit中的线程池
+	  collapsed:: true
 		- Retrofit 官方提供了多种异步框架，也支持自定义，这里我们基于 RxJava1 来进行分析
 		- 先看下相关的关键代码：
 		  collapsed:: true
@@ -259,3 +260,16 @@
 			- 当使用 createAsync() 方法创建 RxJavaCallAdapter 时，由于在OkHttp的线程池中执行请求，因此创建多个 OkHttpClient 对象会导致生成对应数量的线程池，线程会过度开销
 		- 接下来还是通过代码进行下验证，结果如下：
 		- 使用create()创建RxJavaCallAdapter：
+		  collapsed:: true
+			- ![image.png](../assets/image_1684314332137_0.png)
+		- 使用createAsync()创建RxJavaCallAdapter：
+		  collapsed:: true
+			- ![image.png](../assets/image_1684314343858_0.png)
+		- 从上面运行的结果可以看出，当使用 createAsync() 方法时，如果创建多个 OkHttpClient 对象，不仅会创建 RxJava 的io线程，还会创建同样数量的 OkHttp 的 Dispatcher 线程
+		-
+- 四、OkHttp的ConnectionPool
+	- 看到这里，我们似乎能得出结论，在使用 RxJava 时，由于 OkHttp 执行在 RxJava 的 io 线程池中，即使创建多个 OkHttpClient 对象也不会引起过多的内存开销
+	- 我们再仔细看下在这种场景下的线程列表，会发现除了创建大量的 RxJava 的 io 线程之外，还存在同样数量的 OkHttp ConnectionPool 线程：
+	  collapsed:: true
+		- ![image.png](../assets/image_1684314376615_0.png)
+	-
