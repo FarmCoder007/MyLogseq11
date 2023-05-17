@@ -54,7 +54,6 @@
 	- [[性能优化]]
 	- [[Rxjava]]
 - JAVA
-  collapsed:: true
 	- [[java-泛型]]
 	- 集合
 	  collapsed:: true
@@ -64,6 +63,7 @@
 	- [[线程池]]
 	- [[xml解析]]
 	- [[Html解析]]
+	- [[java工具]]
 - Kotlin
   collapsed:: true
 	- [[基本语法]]
@@ -114,6 +114,7 @@
 	- [[React]]
 	- [[JavaScript]]
 - Gradle
+  collapsed:: true
 	- [[Gradle文档]]
 	- [[buildConfig相关]]
 	- [[gradle/apt调试]]
