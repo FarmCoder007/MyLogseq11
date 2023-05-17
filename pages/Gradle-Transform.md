@@ -1,4 +1,5 @@
 - ## 一、概念
+  collapsed:: true
 	- 打包流程：
 		- ![image.png](../assets/image_1678693760387_0.png)
 	- ### 什么是transform?
@@ -26,11 +27,13 @@
   collapsed:: true
 	- 一个工程内会有多个 Transform，你定义的 Transform 在处理的是上一个 Transform 经过处理的输出，而经过你处理的输出，会由下一个 Transform 进行处理。所有的 transform 任务一般都在 app/build/intermediates/transform/ 这个目录下可以看到。
 - ## 五、难点：
+  collapsed:: true
 	- transform 的核心难点有以下几个点：
 	- 正确、高效的进行文件目录、jar 文件的解压、class 文件 IO 流的处理，保证在这个过程中不丢失文件和错误的写入
 	- 高效的找到要插桩的结点，过滤掉无效的 class
 	- 支持增量编译
 - ## 六、API
+  collapsed:: true
 	- ### getName()
 		- 指明 Transform 的名字，也对应了该 Transform 所代表的 Task 名称,Gradle 在编译的时候，会将这个名称经过一些拼接显示在控制台上
 		- 举例：
@@ -181,6 +184,7 @@
 		- transform 方法主要用于对输入的数据做检索操作，它是 Transform 的核心方法，方法的参数是 [[TransformInvocation]]，它是一个接口，提供了所有与输入输出相关的信息：
 		-
 - ## 七、增量编译
+  collapsed:: true
 	- 其实关于增量编译的实现，通过查看 AGP 自带的几个 Transform 可以看到其实很简单。
 	- 例子：
 		- ```kotlin
@@ -201,6 +205,7 @@
 		  ```
 	- 所有的输入都是带状态的，根据这些状态做不同的处理就好了。当然，也可以根据前面提到的 getSecondaryInputs 提供的输入进行处理支持增量编译。
 - ## 八、自定义Transform
+  collapsed:: true
 	- 实现一个 Transform 需要先创建 Gradle 插件，大致流程：自定义 Gradle 插件 -> 自定义 Transform -> 注册 Transform
 	- 带增量编译的transform
 		- ```kotlin
@@ -562,6 +567,7 @@
 			  }
 			  ```
 - ## 九、Transform调试
+  collapsed:: true
 	- ### 一、新建 Remote JVM Debug
 		- ![image.png](../assets/image_1678762562134_0.png)
 		- ![image.png](../assets/image_1678762626691_0.png)
@@ -599,6 +605,5 @@
 			- 需要手动 build -> clean
 -
 - 参考：
-  collapsed:: true
 	- [刚学会Transform，你告诉我就要被移除了](https://juejin.cn/post/7114863832954044446)
 -
