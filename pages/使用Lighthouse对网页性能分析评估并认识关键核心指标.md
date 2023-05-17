@@ -105,4 +105,7 @@
 			- ![image.png](../assets/image_1684240028442_0.png)
 		-
 - # III. Lighthouse的分析报告
-	-
+	- 接下来我们通过分析一个实际的案例报告来讲解Lighthouse的主要功能，Lighthouse的主要包括四部分：性能评估、可访问性评估、最佳实践评估、SEO评估；
+	- collapsed:: true
+	  1. 性能评估：Lighthouse会评估页面的性能，并给出改进建议。这包括加载速度、渲染速度、JavaScript执行时间等方面。
+		- ![image.png](../assets/image_1684290211960_0.png)
