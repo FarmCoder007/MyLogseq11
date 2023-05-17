@@ -127,4 +127,5 @@
 	- ## 1. 第一部分性能诊断
 		- ![image.png](../assets/image_1684290324406_0.png)
 		- 当前示例性能评分49分，那是怎么计算的呢？
-		-
+		- ![image.png](../assets/image_1684290348178_0.png){:height 365, :width 716}
+			- Lighthouse 最新版的提供了 6 个性能指标：FCP、SI、LCP、TTI、TBT 和 CLS；权重分别是 10%，10%，25%，10%，30% 和 15%。Lighthouse 会根据权重计算得到一个分数值。其中不同版本存在差异，详情请看Lighthouse Scoring Calculator
