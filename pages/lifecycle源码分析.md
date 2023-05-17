@@ -431,4 +431,46 @@
 		  何为粘性事件？
 		  即发射的事件如果早于注册，那么注册之后依然可以接收到的事件称为粘性事件。通俗点说就是你先发送了一个事件，但是你还没有注册监听，当下次注册监听的时候会回调你上次的事件。
 		- 首先第一个知识点，activity/fragment在自己create的时候会调用自己注册的liveData执行setValue操作。
+		  collapsed:: true
+			- ```
+			     void performCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+			              @Nullable Bundle savedInstanceState) {
+			          ······
+			          mView = onCreateView(inflater, container, savedInstanceState);
+			          if (mView != null) {
+			              // Initialize the LifecycleRegistry if needed
+			              mViewLifecycleOwner.getLifecycle();
+			              // Then inform any Observers of the new LifecycleOwner
+			              mViewLifecycleOwnerLiveData.setValue(mViewLifecycleOwner);
+			          } else {
+			              if (mViewLifecycleRegistry != null) {
+			                  throw new IllegalStateException("Called getViewLifecycleOwner() but "
+			                          + "onCreateView() returned null");
+			              }
+			              mViewLifecycleOwner = null;
+			          }
+			      }
+			  ```
+		- 第二个问题点需要我们回到事件分发这个知识点上那个被忽略的version字段。
+		  collapsed:: true
+			- ```
+			      @MainThread
+			      protected void setValue(T value) {
+			          assertMainThread("setValue");
+			          mVersion++;
+			          mData = value;
+			          dispatchingValue(null);
+			      }
+			  
+			  private void considerNotify(ObserverWrapper observer) {
+			         ······
+			          if (observer.mLastVersion >= mVersion) {
+			              return;
+			          }
+			          observer.mLastVersion = mVersion;
+			         ······
+			      }
+			  ```
+		- 然后这个条件如果mVersion大于mLastVersion，那么就会继续往下走去做分发。
+			-
 -
