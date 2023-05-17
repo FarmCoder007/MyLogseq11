@@ -15,6 +15,10 @@
 		- ![image.png](../assets/image_1684310289417_0.png)
 	- 为什么要设计多轮处理机制？因为我们第一步生成的文件有时候可能也需要通过该Processor处理一下，如果process的返回值配置false表明需要处理，那么第二轮的rootElements就会收到我们第一轮生成的类。
 - # 四、AutoService
+	- 另外简单介绍一下我们写APT时经常会用到的AutoService库，该库提供了@AutoService(Processor.class)注解避免手动配置resource/META-INFO/services步骤。
+	- 它的原理也是利用了APT：它会遍历添加@AutoService的所有类，自动在build/resources/main/META-INF/services/中生成指定的包名文件，并在内部写入了当前的注解类。
+	- ![image.png](../assets/image_1684310385194_0.png)
+	- ![image.png](../assets/image_1684310402043_0.png)
 	-
 - # 二、自定义注解的元注解介绍
   collapsed:: true
