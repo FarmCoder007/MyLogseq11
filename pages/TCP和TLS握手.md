@@ -26,4 +26,16 @@
 		  1. Wireshark 抓包查看握手过程
 			- ![image.png](../assets/image_1684305152816_0.png)
 		- 2、TCP首部 标记位 SYN ACK PSH FIN URG RST
-			-
+		  collapsed:: true
+			- SYN Synchronize 用于建立连接
+			- ACK Acknowledge 用于确认
+			- PSH Push 数据续写
+			- FIN Finish 用于断开连接
+			- URG Urgent 紧急标记
+			- RST Reset 重置
+			- ![image.png](../assets/image_1684305187686_0.png)
+		- 3、Seq和Ack的值
+			- Seq Sequence Number 段编号 用于自己发出的段的编号
+			- 客户端和服务端生成各自的Seq初始随机值(ISN Inital Sequence Number)
+			- Ack Acknowledge Number 确认号 用于确认收到的段的编号
+			- 数据传输过程中的Seq和Ack
