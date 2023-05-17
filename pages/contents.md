@@ -1,4 +1,5 @@
 - 工作
+  collapsed:: true
 	- [[专利]]
 	- [[WBRouter]]
 	- [[职级评审]]
@@ -6,7 +7,6 @@
 	- [[项目解析]]
 	- [[面试]]
 - Android
-  collapsed:: true
 	- [[开发常用工具]]
 	- [[Android架构]]
 	- [[系统架构]]
