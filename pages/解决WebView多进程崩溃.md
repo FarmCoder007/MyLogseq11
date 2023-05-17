@@ -21,6 +21,7 @@
 		  ```
 	- 通过使用官方提供的方法后问题只减少了一部分，从bugly后台依然能收到此问题的大量崩溃信息，以至于都冲上了崩溃问题Top3。
 - 问题分析：
+  collapsed:: true
 	- ```java
 	  从源码分析调用链最终调用到了AwDataDirLock类中的lock方法。
 	  
@@ -165,5 +166,59 @@
 	      }
 	  }
 	  ```
+	- lock方法会对webview数据目录中的webview_data.lock文件在for循环中尝试加锁16次，注释中也说明了这么做的原因：可能出现的极端情况是一个旧进程正在被杀死时一个新的进程启动了，看来Google工程师对这个问题也很头痛；如果加锁成功会将该进程id和进程名写入到文件，如果加锁失败则会抛出异常。所以在android9.0以上检测应用是否存在多进程共用WebView数据目录的原理就是进程持有WebView数据目录中的webview_data.lock文件的锁。所以如果子进程也对相同文件尝试加锁则会导致应用崩溃
 - 解决：
-	-
+	- 目前大部分手机会在应用崩溃时自动重启应用，猜测当手机系统运行较慢时这时就会出现注释中提到的当一个旧进程正在被杀死时一个新的进程启动了的情况。既然获取文件锁失败就会发生崩溃，并且该文件只是用于加锁判断是否存在多进程共用WebView数据目录，每次加锁成功都会重新写入对应进程信息，那么我们可以在应用启动时对该文件尝试加锁，如果加锁失败就删除该文件并重新创建，加锁成功就立即释放锁，这样当系统尝试加锁时理论上是可以加锁成功的，也就避免了这个问题的发生。
+	- ```java
+	  private static void handleWebviewDir(Context context) {
+	  if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
+	              return;
+	          }
+	          try {
+	              String suffix = "";
+	              String processName = getProcessName(context);
+	              if (!TextUtils.equals(context.getPackageName(), processName)) {//判断不等于默认进程名称
+	                  suffix = TextUtils.isEmpty(processName) ? context.getPackageName() : processName;
+	                  WebView.setDataDirectorySuffix(suffix);
+	                  suffix = "_" + suffix;
+	              }
+	              tryLockOrRecreateFile(context,suffix);
+	          } catch (Exception e) {
+	              e.printStackTrace();
+	          }
+	      }
+	  
+	      @TargetApi(Build.VERSION_CODES.P)
+	      private static void tryLockOrRecreateFile(Context context,String suffix) {
+	          String sb = context.getDataDir().getAbsolutePath() +
+	                  "/app_webview"+suffix+"/webview_data.lock";
+	          File file = new File(sb);
+	          if (file.exists()) {
+	              try {
+	                  FileLock tryLock = new RandomAccessFile(file, "rw").getChannel().tryLock();
+	                  if (tryLock != null) {
+	                      tryLock.close();
+	                  } else {
+	                      createFile(file, file.delete());
+	                  }
+	              } catch (Exception e) {
+	                  e.printStackTrace();
+	                  boolean deleted = false;
+	                  if (file.exists()) {
+	                      deleted = file.delete();
+	                  }
+	                  createFile(file, deleted);
+	              }
+	          }
+	      }
+	  
+	      private static void createFile(File file, boolean deleted){
+	          try {
+	              if (deleted && !file.exists()) {
+	                  file.createNewFile();
+	              }
+	          } catch (Exception e) {
+	              e.printStackTrace();
+	          }
+	      }
+	  ```
