@@ -105,6 +105,7 @@
 			- ![image.png](../assets/image_1684240028442_0.png)
 		-
 - # III. Lighthouse的分析报告
+  collapsed:: true
 	- 接下来我们通过分析一个实际的案例报告来讲解Lighthouse的主要功能，Lighthouse的主要包括四部分：性能评估、可访问性评估、最佳实践评估、SEO评估；
 	- collapsed:: true
 	  1. 性能评估：Lighthouse会评估页面的性能，并给出改进建议。这包括加载速度、渲染速度、JavaScript执行时间等方面。
@@ -119,4 +120,11 @@
 	  collapsed:: true
 		- ![image.png](../assets/image_1684290273104_0.png)
 	- SEO评估：Lighthouse会检查网站是否符合SEO标准，例如是否有足够的meta标签、是否有正确的网站结构等。
+	  collapsed:: true
+		- ![image.png](../assets/image_1684290287934_0.png)
+- # IV. Lighthouse报告的性能评估
+	- 对于Web页面的优化我们更关注的是Lighthouse的性能评估，接下来我们重点讲解一下这部分。
+	- ## 1. 第一部分性能诊断
+		- ![image.png](../assets/image_1684290324406_0.png)
+		- 当前示例性能评分49分，那是怎么计算的呢？
 		-
