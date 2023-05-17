@@ -739,10 +739,24 @@
 - ## 十一、踩坑指南
 	- ### 1、gradle插件注册写法与插件配置顺序强相关
 		- 1-1：如果我们自己写的插件在BaseExtension插件之后注册的话，即
+		  collapsed:: true
 			- ```kotlin
 			  apply plugin: 'com.android.application'
 			  apply plugin: 'xxx'
 			  ```
+			- 那么插件就应该这么写，因为xxx在application之后，baseExtension一定可以查找出来。
+			- ```kotlin
+			  override fun apply(target: Project) {
+			  	val baseExtension = target.extensions.findByType(BaseExtension::class.java)
+			  	baseExtension?.registerTransform(TestNonIncrementTransform())
+			  }
+			  ```
+		- 1-2:如果我们自己写的插件在之前注册的话，即
+			- ```
+			  apply plugin: 'xxx'
+			  apply plugin: 'com.android.application'
+			  ```
+			-
 - 参考：
   collapsed:: true
 	- [刚学会Transform，你告诉我就要被移除了](https://juejin.cn/post/7114863832954044446)
