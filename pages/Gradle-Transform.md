@@ -769,7 +769,33 @@
 		- 1-3:那如果我们自己写的插件是在项目级build.gradle中写的呢？也需要使用afterEvaluate，这种情况下xxx插件也是在application插件之前应用的，与直接在module中先xxx再application的情况一致
 		- 这几种gradle插件写法与引入顺序一一对应，其他组合均会失败。
 	- ### 2、编译失败：transformDexArchiveWithDexMergerForDebug
-		-
+	  collapsed:: true
+		- 这是因为旧数据未清除导致，如果是非增量编译必须先清除之前所有的输出。
+			- ```kotlin
+			    final override fun transform(transformInvocation: TransformInvocation) {
+			          super.transform(transformInvocation)
+			          if (!transformInvocation.isIncremental) {
+			              transformInvocation.outputProvider.deleteAll()
+			          }
+			          ...
+			      }  
+			  ```
+	- ### 3、编译失败：Invalid empty classfile
+	  collapsed:: true
+		- 此错误是指生成的新class文件里面没有内容，在修改原文件内容时inputStream、outputStream使用不正确会导致此问题。实例化FileOutputStream时会清除掉原文件内容，所以必须先读出数据，再实例化。
+		- ```kotlin
+		  // 1. 错误
+		  val inputStream = FileInputStream(inputFile)
+		  val outputStream = FileOutputStream(inputFile)
+		  ...
+		  
+		  // 2. 正确
+		  val inputStream = FileInputStream(inputFile)
+		  val oldBytes = IOUtils.readBytes(inputStream)
+		  ...
+		  val outputStream = FileOutputStream(inputFile)
+		  outputStream.write(handleFileBytes(oldBytes))
+		  ```
 - 参考：
   collapsed:: true
 	- [刚学会Transform，你告诉我就要被移除了](https://juejin.cn/post/7114863832954044446)
