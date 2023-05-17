@@ -35,9 +35,11 @@
 		- [[APT  (Annotation Processing Tool)]]APT/KAPT注解处理器
 		- Transform
 		- [[AspectJ框架]]
-	- 运行时
-	-
-	-
+	- 运行时：运行时处理，例如动态代理、运行时各种各样的Hook等
+		- Cglib + DexMaker
+		- Dexposed
+		- Xposed
+		- ADocker
 	- Javasist
 	- [[ASM字节码插桩]]
 	-
