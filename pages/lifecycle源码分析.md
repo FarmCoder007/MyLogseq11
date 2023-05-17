@@ -235,5 +235,75 @@
 		        dispatchingValue(null);
 		    }
 		  ```
-		-
+		- 接下来继续往下看，这里做了一个 mVersion++的操作和value赋值的操作，mVersion的作用我们暂时先不看，我们继续看dispatchingValue这个分发逻辑。
+		- ```
+		   void dispatchingValue(@Nullable ObserverWrapper initiator) {
+		          if (mDispatchingValue) {
+		              mDispatchInvalidated = true;
+		              return;
+		          }
+		          mDispatchingValue = true;
+		          do {
+		              mDispatchInvalidated = false;
+		              if (initiator != null) {
+		                  considerNotify(initiator);
+		                  initiator = null;
+		              } else {
+		                  for (Iterator<Map.Entry<Observer<? super T>, ObserverWrapper>> iterator =
+		                          mObservers.iteratorWithAdditions(); iterator.hasNext(); ) {
+		                      considerNotify(iterator.next().getValue());
+		                      if (mDispatchInvalidated) {
+		                          break;
+		                      }
+		                  }
+		              }
+		          } while (mDispatchInvalidated);
+		          mDispatchingValue = false;
+		      }
+		  ```
+		- 首先有个开关mDispatchingValue，如果正在分发那么就return掉。
+		  接下来看do while里的内容，如果initiator变量不为空就直接调用considerNotify，如果为空就从mObservers的iteratorWithAdditions()里取出来观察者对象进行分发;
+		- ```
+		  private void considerNotify(ObserverWrapper observer) {
+		          if (!observer.mActive) {
+		              return;
+		          }
+		          // Check latest state b4 dispatch. Maybe it changed state but we didn\'t get the event yet.
+		          //
+		          // we still first check observer.active to keep it as the entrance for events. So even if
+		          // the observer moved to an active state, if we\'ve not received that event, we better not
+		          // notify for a more predictable notification order.
+		          if (!observer.shouldBeActive()) {
+		              observer.activeStateChanged(false);
+		              return;
+		          }
+		          if (observer.mLastVersion >= mVersion) {
+		              return;
+		          }
+		          observer.mLastVersion = mVersion;
+		          //noinspection unchecked
+		          observer.mObserver.onChanged((T) mData);
+		      }
+		  ```
+		- 首先先判断observer对象是否是活跃的，不是的话就return。
+		- ```
+		      // Check latest state b4 dispatch. Maybe it changed state but we didn\'t get the event yet.
+		          //
+		          // we still first check observer.active to keep it as the entrance for events. So even if
+		          // the observer moved to an active state, if we\'ve not received that event, we better not
+		          // notify for a more predictable notification order.
+		          if (!observer.shouldBeActive()) {
+		              observer.activeStateChanged(false);
+		              return;
+		          }
+		  ```
+		- 接下来这段，根据翻译就是我们仍需要确认observer是激活的且能收到消息，如果observer移动到了active激活队列里但是收不到消息，那么我们最好不要去通知事件。当然shouldBeActive是一个抽象方法，所以子类是可以复写处理的。
+		- ```
+		   if (observer.mLastVersion >= mVersion) {
+		              return;
+		          }
+		          observer.mLastVersion = mVersion;
+		          //noinspection unchecked
+		          observer.mObserver.onChanged((T) mData);
+		  ```
 -
