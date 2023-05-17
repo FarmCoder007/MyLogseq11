@@ -18,6 +18,7 @@
 			- 面向报文
 			- 首部开销小 8字节
 - ##  2.TCP三次握手
+  collapsed:: true
 	- 第一次握手: SYN(Seq=x Ack=0)
 	  第二次握手: SYN+ACK(Seq=y Ack=x+1)
 	  第三次握手: ACK(Seq=x+1 Ack=y+1)
@@ -35,7 +36,10 @@
 			- RST Reset 重置
 			- ![image.png](../assets/image_1684305187686_0.png)
 		- 3、Seq和Ack的值
+		  collapsed:: true
 			- Seq Sequence Number 段编号 用于自己发出的段的编号
 			- 客户端和服务端生成各自的Seq初始随机值(ISN Inital Sequence Number)
 			- Ack Acknowledge Number 确认号 用于确认收到的段的编号
 			- 数据传输过程中的Seq和Ack
+			- ![image.png](../assets/image_1684305338436_0.png)
+-
