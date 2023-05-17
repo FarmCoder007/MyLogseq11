@@ -603,7 +603,12 @@
 			- 在执行 Debug TransformServer 中发生这一异常。出现这个问题的原因，一般是端口被占用，但是发现并没有被占用。这个时候解决方法是将 App module 运行起来，然后再 debug 即可正常。
 		- 2、断点不是每一次都能正常走到
 			- 需要手动 build -> clean
--
+- ## 十、Transform优化思路
+	- 1、合并transform流程，像bytex一样，减少遍历次数
+	- 2、缩小transform范围
+		- 通过getInputTypes，getScopes，getReferencedScopes精确控制自己关心的内容；
+		  在transform之前通过配置关注类/方法列表进一步缩小transform处理范围。
+		  这一种优化与业务强相关，没有通用性。
 - 参考：
 	- [刚学会Transform，你告诉我就要被移除了](https://juejin.cn/post/7114863832954044446)
 -
