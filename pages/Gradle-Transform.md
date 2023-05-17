@@ -737,7 +737,13 @@
 		      }
 		  ```
 - ## 十一、踩坑指南
-	-
+	- ### 1、gradle插件注册写法与插件配置顺序强相关
+		- 1-1：如果我们自己写的插件在BaseExtension插件之后注册的话，即
+			- ```kotlin
+			  apply plugin: 'com.android.application'
+			  apply plugin: 'xxx'
+			  ```
 - 参考：
+  collapsed:: true
 	- [刚学会Transform，你告诉我就要被移除了](https://juejin.cn/post/7114863832954044446)
 -
