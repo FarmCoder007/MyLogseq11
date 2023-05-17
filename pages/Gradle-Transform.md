@@ -31,12 +31,9 @@
 	- 高效的找到要插桩的结点，过滤掉无效的 class
 	- 支持增量编译
 - ## 六、API
-  collapsed:: true
 	- ### getName()
-	  collapsed:: true
 		- 指明 Transform 的名字，也对应了该 Transform 所代表的 Task 名称,Gradle 在编译的时候，会将这个名称经过一些拼接显示在控制台上
 		- 举例：
-		  collapsed:: true
 			- ```kotlin
 			  class UnityLogTransform : Transform() {
 			      override fun getName(): String {
@@ -69,7 +66,6 @@
 				- 我们能用的就两种：CONTENT_CLASS 和 CONTENT_JARS
 				       * 其余几种仅 AGP 可用
 				- 举例：
-				  collapsed:: true
 					- ```kotlin
 					   override fun getInputTypes(): MutableSet<QualifiedContent.ContentType> {
 					          return TransformManager.CONTENT_CLASS
@@ -427,9 +423,7 @@
 		  }
 		  ```
 	- 工具类
-	  collapsed:: true
 		- 1
-		  collapsed:: true
 			- ```kotlin
 			  package com.wuba.unitylog.util
 			  
