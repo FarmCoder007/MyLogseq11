@@ -604,6 +604,7 @@
 		- 2、断点不是每一次都能正常走到
 			- 需要手动 build -> clean
 - ## 十、Transform优化思路
+  collapsed:: true
 	- 1、合并transform流程，像bytex一样，减少遍历次数
 	- 2、缩小transform范围
 		- 通过getInputTypes，getScopes，getReferencedScopes精确控制自己关心的内容；
@@ -640,7 +641,103 @@
 		          waitableExecutor.waitForTasksWithQuickFail<Any>(true)
 		      }
 		  ```
-	- 4]增量编译
+	- 4、增量编译
+	  collapsed:: true
+		- 增量编译可以跳过大多数没有改动的jar、directory文件的处理从而大幅节省编译时间。核心点是判断inputFile的修改状态，根据不同的状态执行不同的处理。
+		- NOTCHANGED: 不需要处理，因为存在缓存，所以也无需复制；
+		- ADDED：正常处理、复制
+		- REMOVED：需要删除掉outputProvider下的对应缓存文件
+		- CHANGED：需要先删除对应缓存文件，再正常处理、复制，可以理解为REMOVED+ADDED
+		- ```kotlin
+		  final override fun transform(transformInvocation: TransformInvocation) {
+		          super.transform(transformInvocation)
+		          // 非增量编译必须先清除之前所有的输出, 否则 transformDexArchiveWithDexMergerForDebug
+		          if (!transformInvocation.isIncremental) {
+		              transformInvocation.outputProvider.deleteAll()
+		          }
+		  
+		          val outputProvider = transformInvocation.outputProvider
+		          transformInvocation.inputs.forEach { input ->
+		              input.jarInputs.forEach { jarInput ->
+		                  val dest = outputProvider.getContentLocation(jarInput.file.absolutePath, jarInput.contentTypes, jarInput.scopes, Format.JAR)
+		                  // 判断是否增量
+		                  if (transformInvocation.isIncremental) {
+		                      handleIncrementalJarInput(jarInput, dest)
+		                  } else {
+		                      handleNonIncrementalJarInput(jarInput, dest)
+		                  }
+		              }
+		              input.directoryInputs.forEach { directoryInput ->
+		                  val dest = outputProvider.getContentLocation(directoryInput.name, directoryInput.contentTypes, directoryInput.scopes, Format.DIRECTORY)
+		                  // 判断是否增量
+		                  if (transformInvocation.isIncremental) {
+		                      handleIncrementalDirectoryInput(directoryInput, dest)
+		                  } else {
+		                      handleNonIncrementalDirectoryInput(directoryInput.file)
+		                      FileUtils.copyDirectory(directoryInput.file, dest)
+		                  }
+		              }
+		          }
+		      }
+		      
+		       /**
+		       * 增量处理JarInput
+		       */
+		      private fun handleIncrementalJarInput(jarInput: JarInput, dest: File) {
+		          when (jarInput.status) {
+		              Status.NOTCHANGED -> {
+		              }
+		              Status.ADDED -> {
+		                  handleNonIncrementalJarInput(jarInput, dest)
+		              }
+		              Status.REMOVED -> {
+		                  if (dest.exists()) {
+		                      FileUtils.forceDelete(dest)
+		                  }
+		              }
+		              Status.CHANGED -> {
+		                  if (dest.exists()) {
+		                      FileUtils.forceDelete(dest)
+		                  }
+		                  handleNonIncrementalJarInput(jarInput, dest)
+		              }
+		          }
+		      }
+		      
+		      /**
+		       * 增量处理类修改
+		       */
+		      private fun handleIncrementalDirectoryInput(directoryInput: DirectoryInput, dest: File) {
+		          val srcDirPath = directoryInput.file.absolutePath
+		          val destDirPath = dest.absolutePath
+		          directoryInput.changedFiles.forEach { (inputFile, status) ->
+		              val destFilePath = inputFile.absolutePath.replace(srcDirPath, destDirPath)
+		              val destFile = File(destFilePath)
+		              when (status) {
+		                  Status.NOTCHANGED -> {
+		                  }
+		                  Status.ADDED -> {
+		                      handleNonIncrementalDirectoryInput(inputFile)
+		                      FileUtils.copyFile(inputFile, destFile)
+		                  }
+		                  Status.REMOVED -> {
+		                      if (destFile.exists()) {
+		                          FileUtils.forceDelete(destFile)
+		                      }
+		                  }
+		                  Status.CHANGED -> {
+		                      if (dest.exists()) {
+		                          FileUtils.forceDelete(dest)
+		                      }
+		                      handleNonIncrementalDirectoryInput(inputFile)
+		                      FileUtils.copyFile(inputFile, destFile)
+		                  }
+		              }
+		          }
+		      }
+		  ```
+- ## 十一、踩坑指南
+	-
 - 参考：
 	- [刚学会Transform，你告诉我就要被移除了](https://juejin.cn/post/7114863832954044446)
 -
