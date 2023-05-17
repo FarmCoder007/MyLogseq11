@@ -21,4 +21,9 @@
 	- 第一次握手: SYN(Seq=x Ack=0)
 	  第二次握手: SYN+ACK(Seq=y Ack=x+1)
 	  第三次握手: ACK(Seq=x+1 Ack=y+1)
--
+	- ![image.png](../assets/image_1684305112067_0.png)
+		- collapsed:: true
+		  1. Wireshark 抓包查看握手过程
+			- ![image.png](../assets/image_1684305152816_0.png)
+		- 2、TCP首部 标记位 SYN ACK PSH FIN URG RST
+			-
