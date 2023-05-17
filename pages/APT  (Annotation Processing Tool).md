@@ -19,7 +19,8 @@
 	- 它的原理也是利用了APT：它会遍历添加@AutoService的所有类，自动在build/resources/main/META-INF/services/中生成指定的包名文件，并在内部写入了当前的注解类。
 	- ![image.png](../assets/image_1684310385194_0.png)
 	- ![image.png](../assets/image_1684310402043_0.png)
-	-
+	- 为什么AutoService内APT处理完成后还会继续处理我们自定义的APT呢？是因为APT会执行很多遍的原因么？
+	- gradle的编译顺序是按照依赖顺序依次处理，AutoService作为被依赖的三方库会优先编译，其生成的Processor后续会在依赖AutoService的APT-module的kapt task中自行被调用到。
 - # 二、自定义注解的元注解介绍
   collapsed:: true
 	- 元注解是Java中用来定义其他注解的注解，它们具有特殊的作用，可以帮助我们更加灵活地定义注解。元注解有四种，分别是@Retention、@Target、@Documented和@Inherited。
@@ -387,7 +388,6 @@
 	- APT process里使用kotlin bean 报引用出错。
 		- 解决：使用javabean
 - # 六、调试process
-  collapsed:: true
 	- ## 6-1、方案一借助buildSrc
 		- 新建buildSrc文件夹->
 		- task中 右键选择debug这个task,即可
