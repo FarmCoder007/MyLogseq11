@@ -752,11 +752,24 @@
 			  }
 			  ```
 		- 1-2:如果我们自己写的插件在之前注册的话，即
+		  collapsed:: true
 			- ```
 			  apply plugin: 'xxx'
 			  apply plugin: 'com.android.application'
 			  ```
-			-
+			- 那么插件就应该这么写，否则会因为xxx注册时application尚未注册导致baseExtension查找为空
+				- ```
+				  override fun apply(target: Project) {
+				  	target.afterEvaluate {
+				  		val baseExtension = it.extensions.findByType(BaseExtension::class.java)
+				  		baseExtension?.registerTransform(TestNonIncrementTransform())
+				  	}
+				  }
+				  ```
+		- 1-3:那如果我们自己写的插件是在项目级build.gradle中写的呢？也需要使用afterEvaluate，这种情况下xxx插件也是在application插件之前应用的，与直接在module中先xxx再application的情况一致
+		- 这几种gradle插件写法与引入顺序一一对应，其他组合均会失败。
+	- ### 2、编译失败：transformDexArchiveWithDexMergerForDebug
+		-
 - 参考：
   collapsed:: true
 	- [刚学会Transform，你告诉我就要被移除了](https://juejin.cn/post/7114863832954044446)
