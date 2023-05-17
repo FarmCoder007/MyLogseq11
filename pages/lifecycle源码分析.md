@@ -502,5 +502,10 @@
 		      }
 		  ```
 	- ## LifecycleOwner解析
-		-
--
+	  collapsed:: true
+		- LifecycleOwner是一个接口，用于回调相关生命周期。目前fragment和FragmentActivity已经实现了该接口，并且在自己相关生命周期状态的时候将状态返回了。这块比较简单就不在赘述了。
+- # 总结
+	- Lifecycle组件开发的确比传统的MVP模式开发省事省心，它将繁琐的事件传递存储与生命周期相结合大大降低了开发难度。
+	  比如：本地版首页的结构是Activity里有4个replace的fragment（重点replace的），首页fragment里有viewpager，viewpager里又有多个fragment，fragment里有recycleView。
+	  这时候如果你有个需求，需要从item里发出一个事件通知最外层Activity去做相关事件，是不是就疯了。要么你就得老老实实搞接口做层层传递，要么你就得用RXBus去发送事件。
+	  但是无论哪种方案你都逃脱不了生命周期的处理。
