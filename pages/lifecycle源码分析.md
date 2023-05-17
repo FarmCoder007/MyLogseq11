@@ -387,5 +387,48 @@
 		  ```
 		- 首先看shouldBeActive这个方法，我们在上节知识点提到过，在分发事件的时候会调用这个方法判断，如果observer是在激活状态，但是接收不到事件了，那就不分发了。
 		- ```
+		  mOwner.getLifecycle().getCurrentState().isAtLeast(STARTED)
+		  
+		  public enum State {
+		    DESTROYED,
+		    INITIALIZED,
+		    CREATED,
+		    STARTED,
+		    RESUMED;
+		    public boolean isAtLeast(@NonNull State state) {
+		           return compareTo(state) >= 0;
+		    }
+		  }
 		  ```
+		- 看下这里的条件，就是说当前状态是在STARTED或者RESUMED之后才能为ture。也就是说DESTROYED，INITIALIZED，CREATED这几个阶段，即使post了事件，你的observer也是收不到事件的。
+		- 接下来看onStateChanged方法，这个方法在事件分发的时候也提到过。首先判断下owner的生命周期状态，如果DESTROYED那就直接移除Observer。也就是说不用我们考虑注册的Observer的生命周期。在owner的生命周期触发destory的时候会自动触发接触注册。
+		- 接下来看activeStateChanged方法
+		- ```
+		  void activeStateChanged(boolean newActive) {
+		              if (newActive == mActive) {
+		                  return;
+		              }
+		              // immediately set active state, so we\'d never dispatch anything to inactive
+		              // owner
+		              mActive = newActive;
+		              boolean wasInactive = LiveData.this.mActiveCount == 0;
+		              LiveData.this.mActiveCount += mActive ? 1 : -1;
+		              if (wasInactive && mActive) {
+		                  onActive();
+		              }
+		              if (LiveData.this.mActiveCount == 0 && !mActive) {
+		                  onInactive();
+		              }
+		              if (mActive) {
+		                  dispatchingValue(this);
+		              }
+		          }
+		  ```
+		- 首先状态没有变化，什么也不做。
+		  接下来如果被激活（active）就是调用onActive()，不是的话（inactive）就调用onInactive().
+		  然后如果变为活的话就调用dispatchingValue方法，这个方法我们在事件分发的时候做了说明这里不再赘述。
+		- LiveData粘性问题及解决
+		  何为粘性事件？
+		  即发射的事件如果早于注册，那么注册之后依然可以接收到的事件称为粘性事件。通俗点说就是你先发送了一个事件，但是你还没有注册监听，当下次注册监听的时候会回调你上次的事件。
+		- 首先第一个知识点，activity/fragment在自己create的时候会调用自己注册的liveData执行setValue操作。
 -
