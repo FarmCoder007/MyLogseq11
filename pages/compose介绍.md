@@ -23,9 +23,52 @@
 - ## Compose相比XML布局有啥优势？
 	- Jetpack Compose库除了解决构建UI时的代码耦合问题，借助统一的Kotlin语言，用更少的代码、强大的工具和直观的API快速构建Android app，Compose相比XML布局还有什么优势呢？
 	- ### 声明式UI vs 命令式UI
+	  collapsed:: true
 		- 传统的 Android View 框架是面向对象的命令式UI工具，它通过加载xml布局文件，实例化一棵View控件树来初始化UI，每个控件都维护了自己的内部状态，并提供 getter/setter 方法，app逻辑层代码通过调用View控件暴露的方法来获取View的状态或者更新View状态。UI的更新依赖于逻辑层调用控件对象的 API，像是接受命令一样。
 		- Jetpack Compose是声明式的UI框架，UI控件是相对无状态的，不对外提供 getter/setter 方法，实际上声明式UI控件不是对象，通过更新参数调用同一个 Composable 函数来更新 UI。在 Compose 框架中一切都是函数，并且都是顶层函数，Composable 函数响应快速，具有幂等性且没有副作用，幂等性是指使用同一参数多次调用此函数时它的行为方式相同。用一组函数来声明 UI，一个 Composable 函数可以嵌套另一个 Composable 函数，并且只能被 Composable 函数调用。
 		- 这里用一个例子说明命令式 UI 和声明式 UI 代码的区别。假设有一个带有未读消息图标的电子邮件应用。如果没有消息，应用会绘制一个空信封；如果有一些消息，我们会在信封中绘制一些纸张；而如果有 100 条消息，我们就把图标绘制成好像在着火的样子…
 		- ![image.png](../assets/image_1684322414849_0.png)
 		- 使用命令式实现，我们可能会写出下面这样更新消息数量的逻辑函数：
-			- ``````
+		  collapsed:: true
+			- ```kotlin
+			  fun updateCount(count: Int) {
+			    if (count > 0 && !hasBadge()) {
+			      addBadge()
+			    } else if (count == 0 && hasBadge()) {
+			      removeBadge()
+			    }
+			    if (count > 99 && !hasFire()) {
+			      addFire()
+			      setBadgeText("99+")
+			    } else if (count <= 99 && hasFire()) {
+			      removeFire()
+			    }
+			    if (count > 0 && !hasPaper()) {
+			     addPaper()
+			    } else if (count == 0 && hasPaper()) {
+			     removePaper()
+			    }
+			    if (count <= 99) {
+			      setBadgeText("$count")
+			    }
+			  }
+			  ```
+		- 如果用声明式来实现这一逻辑和UI则会像下面这样：
+		  collapsed:: true
+			- ```
+			  @Composable
+			  fun BadgedEnvelope(count: Int) {
+			    Envelope(fire=count > 99, paper=count > 0) {
+			      if (count > 0) {
+			        Badge(text="$count")
+			      }
+			    }
+			  }
+			  ```
+		- 这里我们定义集中状态：
+			- 当数量大于99时，显示火焰；
+			- 当数量大于0时，显示纸张；
+			- 当数量大于0时，绘制数量气泡。
+		- 这便是声明式 API 的含义。我们编写代码来按我们的想法描述 UI，而不是如何转换到对应的状态。这里的关键是，编写像这样的声明式代码时，您不需要关注您的 UI 在先前是什么状态，而只需要指定当前应当处于的状态。框架控制着如何从一个状态转到其他状态，所以我们不再需要考虑它。
+	- ### 组合 vs 继承
+		-
