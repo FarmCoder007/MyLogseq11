@@ -11,7 +11,11 @@
 	  collapsed:: true
 		- ![image.png](../assets/image_1684310274179_0.png)
 	- 最后一轮会传入空，并且通过processingOver标记为已经处理完毕
-		-
+	  collapsed:: true
+		- ![image.png](../assets/image_1684310289417_0.png)
+	- 为什么要设计多轮处理机制？因为我们第一步生成的文件有时候可能也需要通过该Processor处理一下，如果process的返回值配置false表明需要处理，那么第二轮的rootElements就会收到我们第一轮生成的类。
+- # 四、AutoService
+	-
 - # 二、自定义注解的元注解介绍
   collapsed:: true
 	- 元注解是Java中用来定义其他注解的注解，它们具有特殊的作用，可以帮助我们更加灵活地定义注解。元注解有四种，分别是@Retention、@Target、@Documented和@Inherited。
