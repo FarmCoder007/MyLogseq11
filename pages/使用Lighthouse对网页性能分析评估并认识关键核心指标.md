@@ -123,6 +123,7 @@
 	  collapsed:: true
 		- ![image.png](../assets/image_1684290287934_0.png)
 - # IV. Lighthouse报告的性能评估
+  collapsed:: true
 	- 对于Web页面的优化我们更关注的是Lighthouse的性能评估，接下来我们重点讲解一下这部分。
 	- ## 1. 第一部分性能诊断
 	  collapsed:: true
@@ -178,3 +179,18 @@
 		  collapsed:: true
 			- ![image.png](../assets/image_1684291241644_0.png){:height 913, :width 716}
 		-
+- # V. LightHouse的工作流程
+	- LightHouse是如何工作呢？下面简单讲解一下他的执行流程
+	  collapsed:: true
+		- ![image.png](../assets/image_1684291268429_0.png)
+	- 1、Lighthouse 与浏览器建立连接。
+	- 2、测试的初始化配置与加载待测试页面。
+	- 3、在页面加载过程中，运行一系列的采集器（Gatherers），每个采集器都会收集自己的目标信息，并生成中间产物（artifacts）。
+	- 4、运行一系列的审计项（Audits），每个审计项都会从中间产物（artifacts）中获取所需的数据，计算出各自的评分。
+	- 5、基于审计项的评分计算出大类的评分，汇总生成报告。
+	- 这里简单介绍一下这几个模块：
+	- Driver 模块：驱动器负责与浏览器的双向通信、记录事件日志、模拟器的设置等。
+	  Gatherer 模块：采集者模块会通过 pass 这个配置，定义页面如何加载，并运行配置的所有 gatherers 来采集页面加载过程中的信息，并生成中间产物 artifacts。有了 artifacts，就可以进入下一步的 Audits 模块。
+	  Audits 模块：审计模块，与 gatherers 类似，在配置文件中也会定义需要运行的 audits，每一个 audits 也都有与之对应的同名实现文件。当运行完配置文件中定义的所有审计项后，就得到了每个审计项的评分与详情，后续就进入 Report 模块。
+	  Report 模块：报告模块的配置文件中，会定义每个测试类别所需的审计项，以及每个审计项所占的权重。
+	  在最终汇总阶段，Lighthouse 会基于该配置文件以及上一个环节中计算出的每个审计项的评分，加权计算出 performance 的评分。并基于每个审计项的评分与种类，将审计项划分为通过与不通过，对于不通过的审计项会给出详细的测试详情与优化指引
