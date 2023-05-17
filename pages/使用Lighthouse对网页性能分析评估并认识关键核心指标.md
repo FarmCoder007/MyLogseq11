@@ -129,3 +129,17 @@
 		- 当前示例性能评分49分，那是怎么计算的呢？
 		- ![image.png](../assets/image_1684290348178_0.png){:height 365, :width 716}
 			- Lighthouse 最新版的提供了 6 个性能指标：FCP、SI、LCP、TTI、TBT 和 CLS；权重分别是 10%，10%，25%，10%，30% 和 15%。Lighthouse 会根据权重计算得到一个分数值。其中不同版本存在差异，详情请看[Lighthouse Scoring Calculator](https://googlechrome.github.io/lighthouse/scorecalc/#FCP=3000&SI=5800&FMP=4000&TTI=7300&FCI=6500&LCP=4000&TBT=600&CLS=0.25&device=mobile&version=8)
+		- FCP (First Contentful Paint) 首次内容绘制
+			- 首次内容绘制 (FCP) 指标测量页面从开始加载到页面内容的任何部分在屏幕上完成渲染的时间。对于该指标，"内容"指的是文本、图像（包括背景图像）、<svg>元素或非白色的<canvas>元素
+		- ![image.png](../assets/image_1684290492829_0.png){:height 286, :width 716}
+		- 为了提供良好的用户体验，网站应该努力将首次内容绘制控制在1.8 秒或以内
+		- ![image.png](../assets/image_1684290507295_0.png)
+		- FP (First Paint) 首次绘制
+		  是Paint Timing API的一部分，是页面导航与浏览器将该网页的第一个像素渲染到屏幕上所用的中间时，渲染是任何与输入网页导航前的屏幕上的内容不同的内容，例如背景图或Loading
+		- SI (Speed Index)首屏展示平均值
+		  SI (Speed Index): 指标用首屏内容展现的平均速度, 单位是时间。
+		- 绿色（良好）——0 到 3.4 秒
+		  橙色（中等）——3.4 到 5.8 秒
+		  红色（慢） – 超过 5.8 秒
+		- ### LCP (Largest Contentful Paint) 最大内容渲染
+		-
