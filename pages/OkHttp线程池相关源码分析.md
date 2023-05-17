@@ -73,3 +73,50 @@
 			    return isRunning;
 			  }
 			  ```
+		- Dispatcher 类使用 maxRequests、maxRequestsPerHost 这两个参数来限制同时执行的请求的数量
+		- 默认的线程池配置如下：
+		  collapsed:: true
+			- ```java
+			  public synchronized ExecutorService executorService() {
+			    if (executorService == null) {
+			      executorService = new ThreadPoolExecutor(0, Integer.MAX_VALUE, 60, TimeUnit.SECONDS, new SynchronousQueue<Runnable>(), Util.threadFactory("OkHttp Dispatcher", false));
+			    }
+			    return executorService;
+			  }
+			  ```
+		- Dispatcher 在 OkHttpClient 中进行创建，也就是每一个 OkHttpClient 对象对应一个 Dispatcher，因此我们可以得出结论：
+		- 在直接使用 OkHttpClient 执行请求的场景下，如果创建多个 OkHttpClient 对象，会生成对应数量的线程池，对应着也会生成相应数量的线程，每个请求都在自己的线程池中执行，实际上线程池也就失去了意义
+		- 我们可以写个简单的代码进行下验证：
+		  collapsed:: true
+			- ```java
+			  // 创建OkHttpClient对象
+			  private OkHttpClient createOkHttpClient() {
+			    ThreadFactory threadFactory = new ThreadFactory() {
+			      int index = 0;
+			      @Override
+			      public Thread newThread(Runnable runnable) {
+			        return new Thread(runnable, "OkHttp Dispatcher - " + (index++));
+			      }
+			    };
+			    Dispatcher dispatcher = new Dispatcher(new ThreadPoolExecutor(0, Integer.MAX_VALUE,
+			        60, TimeUnit.SECONDS, new SynchronousQueue<Runnable>(), threadFactory));
+			    okHttpClient = new OkHttpClient.Builder().dispatcher(dispatcher).build();
+			    return okHttpClient;
+			  }
+			  
+			  // 执行请求
+			  private void executeRequest() {
+			    Request request = new Request.Builder().url("http://app.58.com").build();
+			    createOkHttpClient().newCall(request).enqueue(...);
+			  }
+			  
+			  // 执行100次
+			  for (int i = 0; i < 100; i++) {
+			    executeRequest();
+			  }
+			  ```
+		- OkHttpClient使用单例时线程如下：
+		  collapsed:: true
+			- ![image.png](../assets/image_1684314133142_0.png)
+		- OkHttpClient创建多个时线程如下：
+			-
