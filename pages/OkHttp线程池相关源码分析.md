@@ -38,6 +38,7 @@
 	- OkHttpClient 通过调用 newCall(Request) 方法生成执行网络请求的 Call，Call 类是一个接口，实际执行网络请求的 RealCall 类
 	- Call 提供了同步和异步两种请求方式的API，同步请求会在当前线程直接执行网络请求，不会开新线程，当然也不会使用线程池，我们可以忽略掉这种请求方式，只需要关注异步请求即可
 	- ### OkHttp的异步请求的线程池
+	  collapsed:: true
 		- OkHttp的异步请求流程如下图：
 		  collapsed:: true
 			- ![image.png](../assets/image_1684314059277_0.png)
@@ -121,68 +122,73 @@
 		- OkHttpClient创建多个时线程如下：
 		  collapsed:: true
 			- ![image.png](../assets/image_1684314145964_0.png)
-		- 58网络库的线程池
-			- 58网络库基于 OkHttp、RxJava 实现，由于 OkHttpClient 实例唯一，因此不存在创建多个 OkHttpClient 的场景
-			- 58网络库执行请求的关键代码如下：
-			  collapsed:: true
-				- ```java
-				  // 生成请求的Observable
-				  public <T> rx.Observable<T> exec(RxRequest<T> request) {
-				    Observable<T> requestObservable = mBuilder.getRequestObservableFactory()
-				        .createRequestObservable(request);
-				    return requestObservable;
-				  }
-				  
-				  public <T> Observable<T> createRequestObservable(RxRequest<T> request) {
-				    RxOkhttpCall<T> call = new RxOkhttpCall<T>(mOkHttpHandler, request);
-				    return Observable.create(new RxRequestOnSubscribe<T>(call));
-				  }
-				  
-				  // RxRequestOnSubscribe 中调用 RxOkhttpCall 来执行请求
-				  public class RxOkhttpCall<T> implements RxCall<T> {
-				    public T exec() throws Throwable {
-				      Request request = RequestAdapter.getOkhttpRequest(mRxRequest, mOkHttpHandler.getCommonHeader().get(mRxRequest.getUrl()));
-				      entity.setRequest(request);
-				      OkHttpHandler.getInstance().doRequest(entity);
-				      return RequestAdapter.parseResponse(mRxRequest,entity);
-				    }
-				  }
-				  
-				  // 最终调用 OkHttp 执行网络请求的方法
-				  public class OkHttpHandler {
-				    public void doRequest(BaseOkHttpEntity entity) {
-				      Call call = genCall(entity);
-				      entity.setCall(call);
-				      try {
-				        // 调用 OkHttp 的 Call.execute() 执行请求
-				        entity.setResponse(call.execute());
-				      } catch (Exception e) {
-				        entity.setException(e);
-				      }
-				    }
-				  }
-				  ```
-			- 从上述的代码可以看出，58网络库最终是通过调用 OkHttp 的同步请求方法执行网络请求，由于 OkHttp 的同步请求并不会开启新线程，因此最终请求是执行在 RxJava 的线程池中
-			- 而 RxJava 的线程池是单例对象，可以推断出，在使用 RxJava 执行请求时，即使创建多个 OkHttpClient 的实例也不会存在过多的线程开销
-			- 事实是否如此，我们再写个代码进行下验证：
-			  collapsed:: true
-				- ```
-				  // 使用58网络库执行请求
-				  private void executeRequest() {
-				    RxRequest<String> request = new RxRequest<>();
-				    request.setUrl("http://app.58.com");
-				    RxHttpManager.getHttpEngine()
-				        .exec(request)
-				        .subscribeOn(Schedulers.io())
-				        .observeOn(AndroidSchedulers.mainThread())
-				        .subscribe(...);
-				  }
-				  
-				  // 执行100次
-				  for (int i = 0; i < 100; i++) {
-				    executeRequest();
-				  }
-				  ```
-			- 执行100次请求的线程开销如下：
-			  collapsed:: true
-				- ![image.png](../assets/image_1684314203249_0.png)
+	- ### 58网络库的线程池
+	  collapsed:: true
+		- 58网络库基于 OkHttp、RxJava 实现，由于 OkHttpClient 实例唯一，因此不存在创建多个 OkHttpClient 的场景
+		- 58网络库执行请求的关键代码如下：
+		  collapsed:: true
+			- ```java
+			  // 生成请求的Observable
+			  public <T> rx.Observable<T> exec(RxRequest<T> request) {
+			    Observable<T> requestObservable = mBuilder.getRequestObservableFactory()
+			        .createRequestObservable(request);
+			    return requestObservable;
+			  }
+			  
+			  public <T> Observable<T> createRequestObservable(RxRequest<T> request) {
+			    RxOkhttpCall<T> call = new RxOkhttpCall<T>(mOkHttpHandler, request);
+			    return Observable.create(new RxRequestOnSubscribe<T>(call));
+			  }
+			  
+			  // RxRequestOnSubscribe 中调用 RxOkhttpCall 来执行请求
+			  public class RxOkhttpCall<T> implements RxCall<T> {
+			    public T exec() throws Throwable {
+			      Request request = RequestAdapter.getOkhttpRequest(mRxRequest, mOkHttpHandler.getCommonHeader().get(mRxRequest.getUrl()));
+			      entity.setRequest(request);
+			      OkHttpHandler.getInstance().doRequest(entity);
+			      return RequestAdapter.parseResponse(mRxRequest,entity);
+			    }
+			  }
+			  
+			  // 最终调用 OkHttp 执行网络请求的方法
+			  public class OkHttpHandler {
+			    public void doRequest(BaseOkHttpEntity entity) {
+			      Call call = genCall(entity);
+			      entity.setCall(call);
+			      try {
+			        // 调用 OkHttp 的 Call.execute() 执行请求
+			        entity.setResponse(call.execute());
+			      } catch (Exception e) {
+			        entity.setException(e);
+			      }
+			    }
+			  }
+			  ```
+		- 从上述的代码可以看出，58网络库最终是通过调用 OkHttp 的同步请求方法执行网络请求，由于 OkHttp 的同步请求并不会开启新线程，因此最终请求是执行在 RxJava 的线程池中
+		- 而 RxJava 的线程池是单例对象，可以推断出，在使用 RxJava 执行请求时，即使创建多个 OkHttpClient 的实例也不会存在过多的线程开销
+		- 事实是否如此，我们再写个代码进行下验证：
+		  collapsed:: true
+			- ```
+			  // 使用58网络库执行请求
+			  private void executeRequest() {
+			    RxRequest<String> request = new RxRequest<>();
+			    request.setUrl("http://app.58.com");
+			    RxHttpManager.getHttpEngine()
+			        .exec(request)
+			        .subscribeOn(Schedulers.io())
+			        .observeOn(AndroidSchedulers.mainThread())
+			        .subscribe(...);
+			  }
+			  
+			  // 执行100次
+			  for (int i = 0; i < 100; i++) {
+			    executeRequest();
+			  }
+			  ```
+		- 执行100次请求的线程开销如下：
+		  collapsed:: true
+			- ![image.png](../assets/image_1684314203249_0.png)
+		- 通过线程的名称可以看出，所有线程都执行在 RxJava 的 io 线程池中。这里需要注意的是，由于 RxJava 的 io 线程池对线程数量无限制，短时间内有大量请求时也会造成线程数暴增
+		-
+	- ### Retrofit中的线程池
+		-
