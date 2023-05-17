@@ -125,6 +125,7 @@
 - # IV. Lighthouse报告的性能评估
 	- 对于Web页面的优化我们更关注的是Lighthouse的性能评估，接下来我们重点讲解一下这部分。
 	- ## 1. 第一部分性能诊断
+	  collapsed:: true
 		- ![image.png](../assets/image_1684290324406_0.png)
 		- 当前示例性能评分49分，那是怎么计算的呢？
 		- ![image.png](../assets/image_1684290348178_0.png){:height 365, :width 716}
@@ -164,5 +165,8 @@
 				- ![image.png](../assets/image_1684291109411_0.png)
 				- ![image.png](../assets/image_1684291118337_0.png)
 				- 累积布局偏移，测量*视觉稳定性*。为了提供良好的用户体验，页面的 CLS 应保持在 **0.1.** 或更少。
-				-
--
+				- ![image.png](../assets/image_1684291136481_0.png)
+				- ## 2. 第二部分优化建议
+					-
+	- ## 2. 第二部分优化建议
+		-
