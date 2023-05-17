@@ -27,6 +27,7 @@
 		- 使用场景：当我们需要将注解应用到父类上，并且希望子类自动继承该注解时，可以使用该元注解。
 	- 总的来说，元注解是用于修饰注解的注解，它们可以帮助我们更加灵活地定义注解，使得注解的作用更加精确、有效。
 - # 三、自定义注解的写法
+  collapsed:: true
 	- ## java写法
 	  collapsed:: true
 		- ```java
@@ -63,7 +64,6 @@
 		  ```
 - # [[javapoe和kotlinpoet使用]]
 - # 二、使用
-	-
 	- ## 其他基础
 		- [自定义APT基础之：Element](https://blog.csdn.net/wengliuhu/article/details/113917457)
 		- [[Annotation Processor中判断Java或kotlin类]]
@@ -71,10 +71,8 @@
 		- [[javapoet中占位符]]
 	- ## [[APT工程接入]]
 - # 三、配置kotlin gradle 插件
-  collapsed:: true
 	- ## 1、要使用kotlin写的 注解处理器，则需要在依赖processer的 app moudle中添加kotlin插件支持
 		- 1.在根目录的 build.gralde添加 kotlin 插件配置
-		  collapsed:: true
 			- ![image.png](../assets/image_1650791323647_0.png)
 		- 2.在app build.gradle 中 添加 插件
 		  collapsed:: true
