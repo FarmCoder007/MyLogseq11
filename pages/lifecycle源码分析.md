@@ -306,5 +306,15 @@
 		          //noinspection unchecked
 		          observer.mObserver.onChanged((T) mData);
 		  ```
-		-
+		- 在接下来就是判断version然后拿出observer进行onChanged操作了。
+		- LiveData是如何做到生命周期感知的
+		  这个要从Livedata添加观察者的方法 observe 开始，即以下这个调用方法。
+		- ```
+		  mStarHomeModel.mHomeRootDataLiveData.observe(activity!!, Observer<HomeRootBean> { homeRootBean: HomeRootBean ->
+		              //doSomething
+		          })
+		  ```
+		- 我们点进去看下observe源码
+		- ```
+		  ```
 -
