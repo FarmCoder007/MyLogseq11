@@ -1,4 +1,5 @@
 - ## 一、什么是AOP
+  collapsed:: true
 	- AOP：Aspect Oriented Programming的缩写，意为面向切面编程，通过预编译方式和运行期间动态代理实现程序功能的统一维护的一种技术。
 	- OOP： Object Oriented Programming，面向对象编程 把功能或问题模块化，每个模块处理自己的家务事。
 	- AOP是OOP思想的延续。
@@ -7,9 +8,22 @@
 	- AOP是一种思想
 		- 比如 JDK提供的动态代理[[动态代理之JDK实现方式]]，也算是
 			- 统一设置默认图
-				- ```java
+			  collapsed:: true
+				- ```kotlin
+				  
 				  ```
+		- 再比如Application中注册的ActivityLifecycleCallbacks
+			- ```kotlin
+			  // 集中监听所有Activity创建
+			  registerActivityLifecycleCallbacks(object :ActivityLifecycleCallbacks{
+			      override fun onActivityCreated(activity: Activity, savedInstanceState: Bundle?) {
+			          Log.d("LifecycleCallbacks", "${activity.componentName}.onActivityCreated")
+			          replaceAllImage(activity)
+			      }
+			  } 
+			  ```
 - ## 二、AOP的特点
+  collapsed:: true
 	- 1、Aspect Oriented Programming 面向切面编程 通过预编译方式和运行期动态代理实现程序功能的统一维护
 	- 2、在运行时，编译时，类加载期，动态地将代码切入到类的指定方法、指定位置上的编程思想。
 	- 3、AOP在编程历史上可以说是里程碑式的，对OOP编程是一种十分有益的补充。
@@ -17,6 +31,7 @@
 	- 5、OOP侧重静态，名词，状态，组织，数据，载体是空间；
 	- 6、AOP侧重动态，动词，行为，调用，算法，载体是时间；
 - ## 三、Android 常用的AOP技术
+	- 编译期
 	-
 	- [[APT  (Annotation Processing Tool)]]APT/KAPT注解处理器
 	- [[AspectJ框架]]
