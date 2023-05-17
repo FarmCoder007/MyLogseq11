@@ -607,8 +607,40 @@
 	- 1、合并transform流程，像bytex一样，减少遍历次数
 	- 2、缩小transform范围
 		- 通过getInputTypes，getScopes，getReferencedScopes精确控制自己关心的内容；
-		  在transform之前通过配置关注类/方法列表进一步缩小transform处理范围。
+		- 在transform之前通过配置关注类/方法列表进一步缩小transform处理范围。
 		  这一种优化与业务强相关，没有通用性。
+	- 3、并发编译
+	  collapsed:: true
+		- 在处理transformInvocation.inputs.jarInputs/directoryInputs的每一个input时可以采用线程池并发处理，从而减少整体执行时间。SDK已经给我们提供了一个WaitableExecutor类，不仅可以提供了线程池的基本功能，也封装了各任务执行顺序的控制。
+		- ```kotlin
+		  /**
+		       * 并发处理线程池
+		       */
+		      private val waitableExecutor = WaitableExecutor.useGlobalSharedThreadPool()
+		  
+		      final override fun transform(transformInvocation: TransformInvocation) {
+		          super.transform(transformInvocation)
+		          transformInvocation.inputs.forEach { input ->
+		              input.jarInputs.forEach { jarInput ->
+		                  waitableExecutor.execute {
+		                     ...
+		                  }
+		              }
+		              // 可选配置，在waitableDirExecutor执行完毕之后再执行后面的同步代码
+		              // 如果jarInputs与directoryInputs互不相关的话就不需要这一句
+		              // 当然也可以使用 waitForTasksWithQuickFail
+		              this.waitableDirExecutor.waitForAllTasks()
+		              input.directoryInputs.forEach { directoryInput ->
+		                  waitableExecutor.execute {
+		                      ...
+		                  }
+		              }
+		          }
+		          // 保证所有任务全部执行完毕再执行后续transform, 传参true表示: 如果其中一个Task抛出异常时终止其他task
+		          waitableExecutor.waitForTasksWithQuickFail<Any>(true)
+		      }
+		  ```
+	- 4]增量编译
 - 参考：
 	- [刚学会Transform，你告诉我就要被移除了](https://juejin.cn/post/7114863832954044446)
 -
