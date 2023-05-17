@@ -71,8 +71,43 @@
 			- 当数量大于0时，绘制数量气泡。
 		- 这便是声明式 API 的含义。我们编写代码来按我们的想法描述 UI，而不是如何转换到对应的状态。这里的关键是，编写像这样的声明式代码时，您不需要关注您的 UI 在先前是什么状态，而只需要指定当前应当处于的状态。框架控制着如何从一个状态转到其他状态，所以我们不再需要考虑它。
 	- ### 组合 vs 继承
+	  collapsed:: true
 		- Android View 系统中的 UI 都是用 View 和 ViewGroup 对象的层级结构进行构建的，View 对象用于绘制用户可见的具体 UI 元素，ViewGroup 则是不可见的容器，用于布局 View 对象的排列方式；所有的 UI 元素都直接或间接地继承自 View 类，比如 EditText 继承自 TextView，而 TextView 又继承于 View，ViewGroup 类也继承于 View，自定义的容器类继承于 ViewGroup。
 		- ![image.png](../assets/image_1684322495557_0.png)
 		- Jetpack Compose 使用组合而不是继承的方式构建 UI 元素，由于 Composable 函数都是顶层函数，Text、Image、CustomComposables 和所有 UI 组件都是 Composable 函数，它们通过组合其他函数一起构建 UI，Compose 还提供了一系列现成可用的布局来帮助排列 UI 元素，类似 View 框架中的 ViewGroup 容器。
 		- ![image.png](../assets/image_1684322536448_0.png)
 		- 我们知道软件设计中有一条原则是“多用组合，少用继承”，在《阿里巴巴Java开发手册》中也推荐谨慎使用继承的方式进行扩展，优先使用组合的方式实现。继承层次过深、继承关系过于复杂时会影响到代码的可读性和可维护性。
+	- ### 单向数据流
+		- Jetpack Compose 参考了其他现代 UI 框架比如 Flutter 和 React 的思想，采取单一向下数据流和单一向上事件流的方式构建或重组 UI。简单来说，就是由父组件向子组件传递数据，子组件通过数据构建 UI，当子组件发送交互事件时，通过Lambda 方法将行为的发生交与父组件处理，父组件处理后修改数据，再通过单一向下数据流的原则通知子组件变化。
+		- 这是一种单向数据流的设计模式，这种模式下状态从有状态可组合项向下传递，而事件从无状态可组合项向上流动。
+			- ![image.png](../assets/image_1684322568920_0.png)
+		- Compose 中的状态提升是一种将状态移至可组合项的调用方以使可组合项无状态的模式。Jetpack Compose 中的常规状态提升模式是将状态变量替换为两个参数：
+			- value: T：要显示的当前值
+			- onValueChange: (T) -> Unit：请求更改值的事件，其中 T 是建议的新值。
+		- ```
+		  @Composable
+		  fun HelloScreen() {
+		      var name by rememberSaveable { mutableStateOf("") }
+		      HelloContent(name) { name = it }
+		  }
+		  
+		  @Composable
+		  fun HelloContent(name: String, onNameChanged: (String) -> Unit) {
+		      Column {
+		          Text(
+		              text = "你好, $name！",
+		              modifier = Modifier.padding(bottom = 8.dp),
+		              style = MaterialTheme.typography.h5
+		          )
+		          OutlinedTextField(
+		              value = name,
+		              onValueChange = onNameChanged,
+		              label = { Text("Name") }
+		          )
+		      }
+		  }
+		  ```
+	- 使用 Jetpack Compose 时遵循此模式可带来下面几项优势：
+	- 可测试性：将状态与显示状态的界面分离开来，更容易单独测试这两者。
+	  状态封装：因为状态只能在一个位置进行更新，并且可组合项的状态只有一个可信来源，所以不太可能由于状态不一致而产生错误。
+	  界面一致性：通过使用可观察的状态容器，例如 LiveData 或 StateFlow，所有状态更新都会立即反映在界面中。
