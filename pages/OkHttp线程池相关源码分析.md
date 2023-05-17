@@ -268,8 +268,38 @@
 		- 从上面运行的结果可以看出，当使用 createAsync() 方法时，如果创建多个 OkHttpClient 对象，不仅会创建 RxJava 的io线程，还会创建同样数量的 OkHttp 的 Dispatcher 线程
 		-
 - 四、OkHttp的ConnectionPool
+  collapsed:: true
 	- 看到这里，我们似乎能得出结论，在使用 RxJava 时，由于 OkHttp 执行在 RxJava 的 io 线程池中，即使创建多个 OkHttpClient 对象也不会引起过多的内存开销
 	- 我们再仔细看下在这种场景下的线程列表，会发现除了创建大量的 RxJava 的 io 线程之外，还存在同样数量的 OkHttp ConnectionPool 线程：
 	  collapsed:: true
 		- ![image.png](../assets/image_1684314376615_0.png)
-	-
+	- Okhttp 将客户端和服务端之间通信的链接抽象成 Connection 类，ConnectionPool 就是用来管理这些链接复用的，作用是在一定时间内可以复用 Connection
+	- ConnectionPool 类的源码注释中已经很详细的进行了说明：
+	  collapsed:: true
+		- ```java
+		  /**
+		   * 管理HTTP和HTTP/2连接的重用，以减少网络延迟。相同Address的HTTP请求可以共享同一个Connection。
+		   * 这个类实现了保持哪些连接开放以供将来使用的策略。
+		   *
+		   * Manages reuse of HTTP and HTTP/2 connections for reduced network latency. HTTP requests that
+		   * share the same {@link Address} may share a {@link Connection}. This class implements the policy
+		   * of which connections to keep open for future use.
+		   */
+		  public final class ConnectionPool {
+		    /**
+		     * 用于清除过期连接的后台线程。每个连接池最多只能运行一个线程。线程池允许对自身进行回收。
+		     *
+		     * Background threads are used to cleanup expired connections. There will be at most a single
+		     * thread running per connection pool. The thread pool executor permits the pool itself to be
+		     * garbage collected.
+		     */
+		    private static final Executor executor = new ThreadPoolExecutor(0 /* corePoolSize */,
+		        Integer.MAX_VALUE /* maximumPoolSize */, 60L /* keepAliveTime */, TimeUnit.SECONDS,
+		        new SynchronousQueue<Runnable>(), Util.threadFactory("OkHttp ConnectionPool", true));
+		  }
+		  ```
+	- 从源码中我们可以知道，每一个 OkHttpClient 对象都会生成一个链接池的管理类：ConnectionPool，ConnectionPool 类里面有一个线程池，这个线程池用来执行清除过期链接的任务
+	- 创建过多的 OkHttpClient 对象会导致创建很多 ConnectionPool 的线程池，增大线程开销
+- 五、总结
+	- 在使用 RxJava 或 Retrofit 时，尽量要将 OkHttpClient 做成单例，避免过多的线程开销，同时在短时间内执行大量请求时要注意 RxJava 的 io 线程池的特性。
+	- ![image.png](../assets/image_1684314432761_0.png)
