@@ -21,6 +21,7 @@
 	- Android View 框架的耦合性还体现在 View 组件的继承实现方式上，前文已说明 View 类拥有将近3万行代码，而所有 UI 控件都继承自该类，导致一些本身功能很简单的控件通过继承获得了很多不需要的属性和行为，所以在软件设计原则中有组合优于继承的说法。Compose 框架使用一组接受数据并生成 UI 元素的 Composable 函数来构建 UI，后文将详细说明 Compose 的使用组合的优势。
 	-
 - ## Compose相比XML布局有啥优势？
+  collapsed:: true
 	- Jetpack Compose库除了解决构建UI时的代码耦合问题，借助统一的Kotlin语言，用更少的代码、强大的工具和直观的API快速构建Android app，Compose相比XML布局还有什么优势呢？
 	- ### 声明式UI vs 命令式UI
 	  collapsed:: true
@@ -78,6 +79,7 @@
 		- ![image.png](../assets/image_1684322536448_0.png)
 		- 我们知道软件设计中有一条原则是“多用组合，少用继承”，在《阿里巴巴Java开发手册》中也推荐谨慎使用继承的方式进行扩展，优先使用组合的方式实现。继承层次过深、继承关系过于复杂时会影响到代码的可读性和可维护性。
 	- ### 单向数据流
+	  collapsed:: true
 		- Jetpack Compose 参考了其他现代 UI 框架比如 Flutter 和 React 的思想，采取单一向下数据流和单一向上事件流的方式构建或重组 UI。简单来说，就是由父组件向子组件传递数据，子组件通过数据构建 UI，当子组件发送交互事件时，通过Lambda 方法将行为的发生交与父组件处理，父组件处理后修改数据，再通过单一向下数据流的原则通知子组件变化。
 		- 这是一种单向数据流的设计模式，这种模式下状态从有状态可组合项向下传递，而事件从无状态可组合项向上流动。
 			- ![image.png](../assets/image_1684322568920_0.png)
@@ -107,7 +109,27 @@
 		      }
 		  }
 		  ```
-	- 使用 Jetpack Compose 时遵循此模式可带来下面几项优势：
-	- 可测试性：将状态与显示状态的界面分离开来，更容易单独测试这两者。
-	  状态封装：因为状态只能在一个位置进行更新，并且可组合项的状态只有一个可信来源，所以不太可能由于状态不一致而产生错误。
-	  界面一致性：通过使用可观察的状态容器，例如 LiveData 或 StateFlow，所有状态更新都会立即反映在界面中。
+		- 使用 Jetpack Compose 时遵循此模式可带来下面几项优势：
+			- 可测试性：将状态与显示状态的界面分离开来，更容易单独测试这两者。
+			- 状态封装：因为状态只能在一个位置进行更新，并且可组合项的状态只有一个可信来源，所以不太可能由于状态不一致而产生错误。
+			- 界面一致性：通过使用可观察的状态容器，例如 LiveData 或 StateFlow，所有状态更新都会立即反映在界面中。
+- ## Compose框架组成
+  collapsed:: true
+	- Jetpack Compose 库由 androidx 中6个 Maven 组构成，每个组都包含一套特定用途的功能。
+	- compose.animation
+	  在Jetpack Compose 应用中构建动画，丰富用户体验。
+	- compose.compiler
+	  借助 Kotlin 编译器插件，转换 @Composable 函数并启用优化功能。
+	- compose.foundation
+	  使用现成可用的构建块编写 Jetpack Compose 应用，还可扩展 foundation 以构建你自己的设计系统元素。
+	- compose.material
+	  使用现成可用的 Material Design 组件构建 Jetpack Compose UI，这是更高层级的 Compose 入口点，旨在提供与 www.material.io 上描述的组件一致的组件。
+	- compose.runtime
+	  Compose 的编程模型和状态管理的基本构建模块，以及 Compose 编译器插件针对的核心运行时库。
+	- compose.ui
+	  与设备互动所需的 Compose UI 的基本组件，包括布局、绘图和输入。
+- ## Refers To：
+	- 深入详解 Jetpack Compose | 优化 UI 构建
+	- 使用Compose前后
+	- Jetpack Compose漫谈
+- Jetpack Compose 最新进展
