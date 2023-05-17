@@ -1,5 +1,4 @@
 - 工作
-  collapsed:: true
 	- [[专利]]
 	- [[WBRouter]]
 	- [[职级评审]]
@@ -56,6 +55,7 @@
 	- [[Rxjava]]
 	- [[WebView]]
 - JAVA
+  collapsed:: true
 	- [[java-泛型]]
 	- 集合
 		- [[List]]
