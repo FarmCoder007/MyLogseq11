@@ -71,4 +71,8 @@
 			- 当数量大于0时，绘制数量气泡。
 		- 这便是声明式 API 的含义。我们编写代码来按我们的想法描述 UI，而不是如何转换到对应的状态。这里的关键是，编写像这样的声明式代码时，您不需要关注您的 UI 在先前是什么状态，而只需要指定当前应当处于的状态。框架控制着如何从一个状态转到其他状态，所以我们不再需要考虑它。
 	- ### 组合 vs 继承
-		-
+		- Android View 系统中的 UI 都是用 View 和 ViewGroup 对象的层级结构进行构建的，View 对象用于绘制用户可见的具体 UI 元素，ViewGroup 则是不可见的容器，用于布局 View 对象的排列方式；所有的 UI 元素都直接或间接地继承自 View 类，比如 EditText 继承自 TextView，而 TextView 又继承于 View，ViewGroup 类也继承于 View，自定义的容器类继承于 ViewGroup。
+		- ![image.png](../assets/image_1684322495557_0.png)
+		- Jetpack Compose 使用组合而不是继承的方式构建 UI 元素，由于 Composable 函数都是顶层函数，Text、Image、CustomComposables 和所有 UI 组件都是 Composable 函数，它们通过组合其他函数一起构建 UI，Compose 还提供了一系列现成可用的布局来帮助排列 UI 元素，类似 View 框架中的 ViewGroup 容器。
+		- ![image.png](../assets/image_1684322536448_0.png)
+		- 我们知道软件设计中有一条原则是“多用组合，少用继承”，在《阿里巴巴Java开发手册》中也推荐谨慎使用继承的方式进行扩展，优先使用组合的方式实现。继承层次过深、继承关系过于复杂时会影响到代码的可读性和可维护性。
