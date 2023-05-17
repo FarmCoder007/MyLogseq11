@@ -1,2 +1,11 @@
-- Jetpack Compose是什么？
+- ## Jetpack Compose是什么？
+  collapsed:: true
 	- Jetpack Compose是Google在2019年5月的I/O大会上公布的Android最新的UI框架，官网上介绍它可以简化并加快 Android 上的界面开发，使用更少的代码、强大的工具和直观的 Kotlin API，快速让应用生动而精彩。经过两年多的开发，Jetpack Compose目前是Beta版本。
+	- ![image.png](../assets/image_1684322252145_0.png)
+	- 从2008年谷歌正式发布Android系统后，一直到2019年推出Jetpack Compose，Android系统在长达10多年的发展过程中，谷歌针对不同的问题都做过了很多调整，但是在UI构建方面，除了陆续推出RecyclerView、CardView、ConstraintLayout等高级UI控件外，Android系统最初的那一套View System一直沿用到今天，UI构建体系几乎没有做任何改变，View.java 文件已经有超过30000行代码了。谷歌官方也清楚View系统越来越庞大，并且有一些问题，但很为难的是不能轻易修改现有的View类，因为有很多应用可能依赖了这些API。
+	- ![image.png](../assets/image_1684322268464_0.png)
+	- Jetpack Compose直接抛弃了View和ViewGroup那一套东西，从渲染机制、布局机制、触摸算法到 UI 的具体写法都是全新的方式，它受到React、Litho、Vue.js 和 Flutter的启发，完全采用Kotlin开发，实现声明式UI。
+	-
+- ## Compose解决什么问题？
+	- 我们知道软件工程中有个原则是高内聚低耦合，高内聚是指一个软件模块由相关性很强的代码组成，只负责一项任务，即遵循单一职责原则；低耦合指一个完整的系统中模块与模块之间尽可能相互独立，每个模块独立完成特定的子功能，模块间通信的接口尽可能少而简单。编写代码时我们会创建包含多个单元的模块，“耦合” 便是不同模块中单元之间的依赖关系，它反映了一个模块中的各部分是如何影响另一个模块的各个部分的；“内聚” 则表示的是一个模块中各个单元之间的关系，它指示了模块中各个单元相互组合的合理程度。
+	-
