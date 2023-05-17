@@ -198,6 +198,7 @@
 		  下边来张图我们总结下刚才学到的这些。
 			- ![image.png](../assets/image_1684294445431_0.png)
 	- ## LiveData解析
+	  collapsed:: true
 		- LiveData事件分发
 		  先看我们一个我们使用LiveData发送事件和接收事件的例子。
 		- ```
@@ -472,5 +473,34 @@
 			      }
 			  ```
 		- 然后这个条件如果mVersion大于mLastVersion，那么就会继续往下走去做分发。
-			-
+			- mVersion和mLastVersion的默认值是-1。mVersion是在liveData保存的全局变量，mLastVersion是ObserverWrappe里保存的。
+		- 这两个点合在一起看，在create方法执行setValue的时候，会发送一次事件，将LiveData里的mVersion加一。然后每次添加事件的时候ObserverWrapper是new的新对象，mLastVersion为-1。所以就会接收到事件。
+		- 那么如何解决呢？
+		- 自己继承LiveData,传递包装的观察者对象的时候忽略第一次事件。判断条件是getValue() != null，因为第一次oncreate回调事件的时候数据是空的。
+		- ```
+		  /**
+		       * 包装observer。可以忽略第一次的onChanged回调
+		       * @param <T>
+		       */
+		      private class ObserverWrapper<T> implements Observer<T> {
+		          private final Observer targetObserver;
+		          private boolean ignoreOnce;
+		  
+		          public ObserverWrapper(Observer targetObserver) {
+		              this.targetObserver = targetObserver;
+		              this.ignoreOnce = getValue() != null;
+		          }
+		  
+		          @Override
+		          public void onChanged(T t) {
+		              if (ignoreOnce) {
+		                  ignoreOnce = false;
+		              } else {
+		                  targetObserver.onChanged(t);
+		              }
+		          }
+		      }
+		  ```
+	- ## LifecycleOwner解析
+		-
 -
