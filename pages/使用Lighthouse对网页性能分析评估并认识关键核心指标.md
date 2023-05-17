@@ -149,4 +149,6 @@
 			- ![image.png](../assets/image_1684290572317_0.png)
 			- ### TTI (Time to Interactive) 可交互时间
 			  是指从页面开始加载到用户能够与页面交互的时间，即网页完全加载并响应用户输入的时间。
-			-
+			- ![image.png](../assets/image_1684290658680_0.png)
+			- TBT (Total Blocking Time) 页面阻塞总时长
+			  总阻塞时间 (TBT) 指标测量[First Contentful Paint](https://web.dev/fcp/) 首次内容绘制 (FCP)与Time to Interactive 可交互时间 (TTI)之间的总时间，这期间，主线程被阻塞的时间过长，无法作出输入响应。
