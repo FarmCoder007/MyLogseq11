@@ -129,8 +129,9 @@
 	- compose.ui
 	  与设备互动所需的 Compose UI 的基本组件，包括布局、绘图和输入。
 - ## Refers To：
+  collapsed:: true
 	- [深入详解 Jetpack Compose | 优化 UI 构建](https://juejin.cn/post/6885900954307133448)
 	- [使用Compose前后](https://medium.com/androiddevelopers/jetpack-compose-before-and-after-8b43ba0b7d4f)
 	- [Jetpack Compose漫谈](https://blog.csdn.net/zhireshini233/article/details/114708862)
-	- Jetpack Compose 最新进展
+	- [Jetpack Compose 最新进展](https://juejin.cn/post/6844903982742126600)
 -
