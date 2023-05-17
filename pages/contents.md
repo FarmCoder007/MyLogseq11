@@ -84,12 +84,6 @@
 		- [[编译报错集]]
 	- [[IDEA找不到Local Changes]]
 - [[算法]]
-	- 排序
-	  collapsed:: true
-		- [[各类排序算法比较和应用场景]]
-		- [[插入排序]]
-		- [LetCode 带详解排序算法](https://leetcode-cn.com/problems/sort-an-array/solution/shi-er-chong-pai-xu-suan-fa-bao-ni-man-yi-dai-gift/)
-	- 查找
 - 数据结构
 - 开源库整理
   collapsed:: true
