@@ -1,9 +1,14 @@
 - 序言
-  之前对于lifecycle三件套的理解只存在与CV使用和看了几篇文章的层面上。这次在开发达人版app的时候尝试使用了下，发下的确好用，所以在此从源码角度上总结学习一下。
+	- 之前对于lifecycle三件套的理解只存在与CV使用和看了几篇文章的层面上。这次在开发达人版app的时候尝试使用了下，发下的确好用，所以在此从源码角度上总结学习一下。
 - 为什么用Lifecycle组件
-  Lifecycle生命周期可感知，可以大大降低开发成本和内存泄漏的风险。试想MVP那套框架，你需要把Activity或fragment的生命周期一步步的注入到你的框架里是多么痛苦。
-  LiveData替换Rxbus的利器。LiveData也可以进行事件传递，在结合了Lifecycle的生命周期感知之后，你的开发难度将大大降低。你将不用考虑事件接收方已经被销毁这种边界问题。
-  viewModel数据存储共享好帮手。如果没有viewModel要实现数据共享无非以下几种方式，写全局静态类静态方法、搞SP存储。这些方法各有优缺，但是都有一个蛋疼的问题就是内存的管理。而使用viewModel则会帮你解决这些烦恼。
-  用法与源码分析
-  ViewModel解析
-  对于activty或fragment很简单，直接用ViewModelProviders就可以构造出来。看参数大概可以知道传入activity那么就跟activity生命周期绑定，传入fragment就跟fragment绑定。
+	- Lifecycle生命周期可感知，可以大大降低开发成本和内存泄漏的风险。试想MVP那套框架，你需要把Activity或fragment的生命周期一步步的注入到你的框架里是多么痛苦。
+	- LiveData替换Rxbus的利器。LiveData也可以进行事件传递，在结合了Lifecycle的生命周期感知之后，你的开发难度将大大降低。你将不用考虑事件接收方已经被销毁这种边界问题。
+	- viewModel数据存储共享好帮手。如果没有viewModel要实现数据共享无非以下几种方式，写全局静态类静态方法、搞SP存储。这些方法各有优缺，但是都有一个蛋疼的问题就是内存的管理。而使用viewModel则会帮你解决这些烦恼。
+- # 用法与源码分析
+- ## ViewModel解析
+	- 对于activty或fragment很简单，直接用ViewModelProviders就可以构造出来。看参数大概可以知道传入activity那么就跟activity生命周期绑定，传入fragment就跟fragment绑定。
+	- ```
+	   MyViewModel model = ViewModelProviders.of(activity).get(MyViewModel.class);
+	  或
+	   MyViewModel model = ViewModelProviders.of(fragment).get(MyViewModel.class);
+	  ```
