@@ -6,6 +6,12 @@
 	- 为什么我们定义一个Processor配置就可以被gradle自动处理到呢？
 	- APT技术是SPI(Service Provider Interface 服务动态提供接口)的一种应用，核心类是ServiceLoader，在所有的java项目中都可以使用。具体流程为：进行javac编译时java Compiler会执行ServiceLoader.load(XXX.class)方法，内部会固定去resource/META-INF/services路径下查找指定XXX.class的全包名文件，并反射构建文件内部声明的所有子类，然后分别执行XXX.class内的唯一接口方法。
 	- 对于SPI的特殊应用APT来说，这些步骤是在名为kaptKotlin的gradle task中执行的。
+- # 三、多轮处理机制
+	- APT处理在同一个Processor对象中会执行多轮process方法，通过RoundEnvironment指定具体待处理元素，例如第一轮会传入该module下所有的待检测元素
+	  collapsed:: true
+		- ![image.png](../assets/image_1684310274179_0.png)
+	- 最后一轮会传入空，并且通过processingOver标记为已经处理完毕
+		-
 - # 二、自定义注解的元注解介绍
   collapsed:: true
 	- 元注解是Java中用来定义其他注解的注解，它们具有特殊的作用，可以帮助我们更加灵活地定义注解。元注解有四种，分别是@Retention、@Target、@Documented和@Inherited。
