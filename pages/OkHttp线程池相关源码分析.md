@@ -191,4 +191,71 @@
 		- 通过线程的名称可以看出，所有线程都执行在 RxJava 的 io 线程池中。这里需要注意的是，由于 RxJava 的 io 线程池对线程数量无限制，短时间内有大量请求时也会造成线程数暴增
 		-
 	- ### Retrofit中的线程池
-		-
+		- Retrofit 官方提供了多种异步框架，也支持自定义，这里我们基于 RxJava1 来进行分析
+		- 先看下相关的关键代码：
+		  collapsed:: true
+			- ```java
+			  final class RxJavaCallAdapter<R> implements CallAdapter<R, Object> {
+			    @Override
+			    public Object adapt(Call<R> call) {
+			      OnSubscribe<Response<R>> callFunc = isAsync
+			          // 调用OkHttp的异步请求
+			          ? new CallEnqueueOnSubscribe<>(call)
+			          // 调用OkHttp的同步请求
+			          : new CallExecuteOnSubscribe<>(call);
+			      OnSubscribe<?> func = new BodyOnSubscribe<>(callFunc);
+			      Observable<?> observable = Observable.create(func);
+			      return observable;
+			    }
+			  }
+			  
+			  // 调用OkHttp的异步请求
+			  final class CallEnqueueOnSubscribe<T> implements OnSubscribe<Response<T>> {
+			    private final Call<T> originalCall;
+			    @Override
+			    public void call(Subscriber<? super Response<T>> subscriber) {
+			      Call<T> call = originalCall.clone();
+			      call.enqueue(new Callback<T>() {...});
+			    }
+			  }
+			  
+			  final class OkHttpCall<T> implements Call<T> {
+			    @Override
+			    public void enqueue(final Callback<T> callback) {
+			      okhttp3.Call call;
+			      // 调用OkHttp的异步请求
+			      call.enqueue(new okhttp3.Callback() { ... });
+			    }
+			  }
+			  
+			  // 调用OkHttp的同步请求
+			  final class CallExecuteOnSubscribe<T> implements OnSubscribe<Response<T>> {
+			    private final Call<T> originalCall;
+			    @Override
+			    public void call(Subscriber<? super Response<T>> subscriber) {
+			      Call<T> call = originalCall.clone();
+			      try {
+			        response = call.execute();
+			      } catch (Throwable t) {
+			      }
+			    }
+			  }
+			  
+			  final class OkHttpCall<T> implements Call<T> {
+			    @Override
+			    public Response<T> execute() throws IOException {
+			      okhttp3.Call call;
+			      // 调用OkHttp的同步请求
+			      return parseResponse(call.execute());
+			    }
+			  }
+			  
+			  ```
+		- RxJavaCallAdapterFactory 对外提供了两个创建的API：
+			- create()：调用 OkHttp 的 Call.execute() 方法同步执行请求，使用RxJava的io线程执行网络请求
+			- createAsync()：调用 OkHttp 的 Call.enqueue() 方法异步执行请求，使用OkHttp的线程池执行网络请求
+		- 我们可以推断出：
+			- 当使用 create() 方法创建 RxJavaCallAdapter 时，由于使用 RxJava 的线程池，因此创建多个 OkHttpClient 对象也不会引起过多的线程开销
+			- 当使用 createAsync() 方法创建 RxJavaCallAdapter 时，由于在OkHttp的线程池中执行请求，因此创建多个 OkHttpClient 对象会导致生成对应数量的线程池，线程会过度开销
+		- 接下来还是通过代码进行下验证，结果如下：
+		- 使用create()创建RxJavaCallAdapter：
