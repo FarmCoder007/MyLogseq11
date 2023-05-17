@@ -737,6 +737,7 @@
 		      }
 		  ```
 - ## 十一、踩坑指南
+  collapsed:: true
 	- ### 1、gradle插件注册写法与插件配置顺序强相关
 		- 1-1：如果我们自己写的插件在BaseExtension插件之后注册的话，即
 		  collapsed:: true
@@ -796,6 +797,17 @@
 		  val outputStream = FileOutputStream(inputFile)
 		  outputStream.write(handleFileBytes(oldBytes))
 		  ```
+- ## 十二、如何选型？
+	- 根据上面的介绍，可以总结出它们的核心场景如下：
+	- APT
+		- APT核心功能为：遍历所有标注某注解的元素，可以动态生成新类提供给运行时调用。那么也就是说它有以下局限性：
+		- 不能修改现有代码，只能添加新类或者只读；
+		  需要手动添加注解，会介入历史代码（创建切面）。
+	- Transform
+		- Transform可以遍历到工程下的所有代码、资源，能够做到对它们的动态修改或添加，可以说它是万能的，APT的功能它也可以实现。
+		- 它的难点在于两点：
+		- 如何找到一个切面，也就是要处理的元素的共同特征；
+		  ASM比较难上手，对字节码知识要求比较高。
 - 参考：
   collapsed:: true
 	- [刚学会Transform，你告诉我就要被移除了](https://juejin.cn/post/7114863832954044446)
