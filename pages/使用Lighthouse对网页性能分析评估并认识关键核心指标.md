@@ -134,12 +134,19 @@
 		- ![image.png](../assets/image_1684290492829_0.png){:height 286, :width 716}
 		- 为了提供良好的用户体验，网站应该努力将首次内容绘制控制在1.8 秒或以内
 		- ![image.png](../assets/image_1684290507295_0.png)
-		- FP (First Paint) 首次绘制
+		- ### FP (First Paint) 首次绘制
 		  是Paint Timing API的一部分，是页面导航与浏览器将该网页的第一个像素渲染到屏幕上所用的中间时，渲染是任何与输入网页导航前的屏幕上的内容不同的内容，例如背景图或Loading
-		- SI (Speed Index)首屏展示平均值
+		- ### SI (Speed Index)首屏展示平均值
 		  SI (Speed Index): 指标用首屏内容展现的平均速度, 单位是时间。
 		- 绿色（良好）——0 到 3.4 秒
 		  橙色（中等）——3.4 到 5.8 秒
 		  红色（慢） – 超过 5.8 秒
 		- ### LCP (Largest Contentful Paint) 最大内容渲染
-		-
+			- 衡量viewport内可见的最大内容元素的渲染时间。元素包括img、video、div及其他块级元素。
+			  LCP的数据会通过PerformanceEntry对象记录, 每次出现更大的内容渲染, 则会产生一个新的PerformanceEntry对象.(2019年11月新增)。
+			- ![image.png](../assets/image_1684290558874_0.png){:height 274, :width 685}
+			- 根据google建议，为了给用户提供更好的产品体验，LCP应该低于2.5s。
+			- ![image.png](../assets/image_1684290572317_0.png)
+			- ### TTI (Time to Interactive) 可交互时间
+			  是指从页面开始加载到用户能够与页面交互的时间，即网页完全加载并响应用户输入的时间。
+			-
