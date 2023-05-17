@@ -295,7 +295,74 @@
 		  TypeName.get(ele.asType())
 		  ```
 	- ## 15、除了借助javapoet生成类，还可以通过[[#red]]==processingEnv.filer输出一个类文件==
-		-
+		- ```kotlin
+		  @AutoService(Processor::class)
+		  class RouterProcessor : AbstractProcessor() {
+		      private var generateContent = ""
+		  
+		      override fun process(typeElementSet: MutableSet<out TypeElement>, roundEnvironment: RoundEnvironment): Boolean {
+		          if (roundEnvironment.processingOver()) {
+		              // 第二步，生成文件
+		              generateFile()
+		          } else {
+		              // 第一步，遍历注解类并缓存在list中
+		              for (typeElement in typeElementSet) {
+		                  val elements = roundEnvironment.getElementsAnnotatedWith(typeElement) ?: continue
+		                  for (element in elements) {
+		                      if (element is Symbol.ClassSymbol) {
+		                          generateContent += element.fullname.toString() + "|"
+		                      }
+		                  }
+		              }
+		          }
+		          return false
+		      }
+		  
+		      private fun generateFile() {
+		          try {
+		              val source = processingEnv.filer.createSourceFile(ROUTER_CLASS_NAME)
+		              val writer: Writer = source.openWriter()
+		              writer.write(
+		                  """
+		                  package com.youcii.advanced;
+		                  
+		                  /**
+		                   * Created by APT on ${Date()}.
+		                   */
+		                  public class RouteList {
+		                      public static final String $ROUTER_FIELD_NAME = \"$generateContent\";
+		                  }
+		                  """
+		              )
+		              writer.flush()
+		              writer.close()
+		          } catch (ignore: IOException) {
+		              print("写入失败$ignore")
+		          }
+		      }
+		  
+		      override fun getSupportedSourceVersion(): SourceVersion {
+		          return SourceVersion.latestSupported()
+		      }
+		  
+		      override fun getSupportedAnnotationTypes(): MutableSet<String> {
+		          return LinkedHashSet<String>().apply {
+		              add(Router::class.java.canonicalName)
+		          }
+		      }
+		  
+		      companion object {
+		          /**
+		           * 生成的类全名
+		           */
+		          const val ROUTER_CLASS_NAME = "com.youcii.advanced.RouteList"
+		          /**
+		           * 生成的类内数据存储变量名
+		           */
+		          const val ROUTER_FIELD_NAME = "list"
+		      }
+		  }
+		  ```
 - # 五、常见问题
   collapsed:: true
 	- A failure occurred while executing org.jetbrains.kotlin.gradle.internal.KaptExecution
