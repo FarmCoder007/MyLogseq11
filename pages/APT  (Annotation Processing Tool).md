@@ -73,6 +73,7 @@
 - # 三、配置kotlin gradle 插件
 	- ## 1、要使用kotlin写的 注解处理器，则需要在依赖processer的 app moudle中添加kotlin插件支持
 		- 1.在根目录的 build.gralde添加 kotlin 插件配置
+		  collapsed:: true
 			- ![image.png](../assets/image_1650791323647_0.png)
 		- 2.在app build.gradle 中 添加 插件
 		  collapsed:: true
@@ -362,7 +363,6 @@
 		  }
 		  ```
 - # 五、常见问题
-  collapsed:: true
 	- A failure occurred while executing org.jetbrains.kotlin.gradle.internal.KaptExecution
 	  collapsed:: true
 		- 从jdk1.8改成11
