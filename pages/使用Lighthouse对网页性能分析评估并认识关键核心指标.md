@@ -109,3 +109,14 @@
 	- collapsed:: true
 	  1. 性能评估：Lighthouse会评估页面的性能，并给出改进建议。这包括加载速度、渲染速度、JavaScript执行时间等方面。
 		- ![image.png](../assets/image_1684290211960_0.png)
+	- 优化建议
+	  collapsed:: true
+		- ![image.png](../assets/image_1684290237038_0.png)
+	- 可访问性评估：Lighthouse会检查网站的可访问性，例如，是否提供文本替代方案、是否提供足够的对比度等。
+	  collapsed:: true
+		- ![image.png](../assets/image_1684290257736_0.png)
+	- 最佳实践评估：Lighthouse会检查网站是否符合最佳实践，例如是否使用HTTP/2、是否启用Gzip压缩等。
+	  collapsed:: true
+		- ![image.png](../assets/image_1684290273104_0.png)
+	- SEO评估：Lighthouse会检查网站是否符合SEO标准，例如是否有足够的meta标签、是否有正确的网站结构等。
+		-
