@@ -32,9 +32,12 @@
 	- 6、AOP侧重动态，动词，行为，调用，算法，载体是时间；
 - ## 三、Android 常用的AOP技术
 	- 编译期
+		- [[APT  (Annotation Processing Tool)]]APT/KAPT注解处理器
+		- Transform
+		- [[AspectJ框架]]
+	- 运行时
 	-
-	- [[APT  (Annotation Processing Tool)]]APT/KAPT注解处理器
-	- [[AspectJ框架]]
+	-
 	- Javasist
 	- [[ASM字节码插桩]]
 	-
