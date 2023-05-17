@@ -316,5 +316,76 @@
 		  ```
 		- 我们点进去看下observe源码
 		- ```
+		   @MainThread
+		      public void observe(@NonNull LifecycleOwner owner, @NonNull Observer<? super T> observer) {
+		          assertMainThread("observe");
+		          if (owner.getLifecycle().getCurrentState() == DESTROYED) {
+		              // ignore
+		              return;
+		          }
+		          LifecycleBoundObserver wrapper = new LifecycleBoundObserver(owner, observer);
+		          ObserverWrapper existing = mObservers.putIfAbsent(observer, wrapper);
+		          if (existing != null && !existing.isAttachedTo(owner)) {
+		              throw new IllegalArgumentException("Cannot add the same observer"
+		                      + " with different lifecycles");
+		          }
+		          if (existing != null) {
+		              return;
+		          }
+		          owner.getLifecycle().addObserver(wrapper);
+		      }
+		  
+		  ```
+		- 首先看了断言了下主线程，接下来判断了下Lifecycle的生命周期，如果是已经销毁状态就不在添加。
+		- 注意这的LifecycleOwner是一个接口，而我们传递的是activity/fragmnet，所以即activity/fragmnet已经是一个LifecycleOwner对象了。
+		  关于activity/fragmnet是如何与Lifecycle相关联的可以自行查看源码。看完之后将会对Lifecycle生命周期感知理解会有比较深的了解。
+		- 接下来校验是否已经存在，且有相同的则抛出异常
+		- ```
+		  ObserverWrapper existing = mObservers.putIfAbsent(observer, wrapper);
+		  ```
+		- 如果不存在就调用
+		- ```
+		  owner.getLifecycle().addObserver(wrapper);
+		  
+		  ```
+		- 然后我们在看下LifecycleBoundObserver这个东西，他继承ObserverWrapper类实现了GenericLifecycleObserver接口。
+		- ```
+		  class LifecycleBoundObserver extends ObserverWrapper implements GenericLifecycleObserver {
+		          @NonNull
+		          final LifecycleOwner mOwner;
+		  
+		          LifecycleBoundObserver(@NonNull LifecycleOwner owner, Observer<? super T> observer) {
+		              super(observer);
+		              mOwner = owner;
+		          }
+		  
+		          @Override
+		          boolean shouldBeActive() {
+		              return mOwner.getLifecycle().getCurrentState().isAtLeast(STARTED);
+		          }
+		  
+		          @Override
+		          public void onStateChanged(LifecycleOwner source, Lifecycle.Event event) {
+		              if (mOwner.getLifecycle().getCurrentState() == DESTROYED) {
+		                  removeObserver(mObserver);
+		                  return;
+		              }
+		              activeStateChanged(shouldBeActive());
+		          }
+		  
+		          @Override
+		          boolean isAttachedTo(LifecycleOwner owner) {
+		              return mOwner == owner;
+		          }
+		  
+		          @Override
+		          void detachObserver() {
+		              mOwner.getLifecycle().removeObserver(this);
+		          }
+		      }
+		  
+		  ```
+		- 首先看shouldBeActive这个方法，我们在上节知识点提到过，在分发事件的时候会调用这个方法判断，如果observer是在激活状态，但是接收不到事件了，那就不分发了。
+		- ```
 		  ```
 -
