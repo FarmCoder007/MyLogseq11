@@ -52,6 +52,7 @@
 	- 1. Wireshark 抓包查看挥手过程
 		- ![image.png](../assets/image_1684305399081_0.png)
 - ## 4、TLS握手(RSA)
+  collapsed:: true
 	- TCP三次握手
 	  Client Hello（TLS版本 随机数 支持的加密套件）
 	  ACK
@@ -68,4 +69,24 @@
 	  Finished （所有握手数据加密）
 	  ACK
 	- ![image.png](../assets/image_1684305573863_0.png){:height 1196, :width 747}
-	-
+	- 1. Wireshark 抓包查看握手过程
+		- ![image.png](../assets/image_1684305594273_0.png)
+- ## 5、TLS握手(ECDHE)
+	- TCP三次握手
+	  Client Hello (TLS版本 随机数 支持的密码套件)
+	  ACK
+	  Server Hello (TLS版本 随机数 选择密码套件)
+	  Certificate （证书下发）
+	  Server Key Exchange (ECDH算法参数 公钥+签名)
+	  ACK
+	  证书校验通过
+	  Client Key Exchange（ECDH算法参数 公钥）
+	  Change Cypher Spec (切换加密传输)
+	  Finished (所有握手数据加密)
+	  ACK
+	  Change Cypher Spec (切换加密传输)
+	  Finished （所有握手数据加密）
+	  ACK
+	- ![image.png](../assets/image_1684305619450_0.png)
+		- 1. Wireshark 抓包查看握手过程
+			- ![image.png](../assets/image_1684305640169_0.png)
