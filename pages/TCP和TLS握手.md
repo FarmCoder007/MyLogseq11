@@ -43,10 +43,29 @@
 			- 数据传输过程中的Seq和Ack
 			- ![image.png](../assets/image_1684305338436_0.png)
 - ## 3、TCP四次挥手
+  collapsed:: true
 	- 第一次挥手 FIN (Seq=u Ack=m)
 	- 第二次挥手 ACK (Seq=v Ack=u+1)
 	- 第三次挥手 FIN (Seq=w Ack=u+1)
 	- 第四次挥手 ACK (Seq=u+1 Ack=w+1)
 	- ![image.png](../assets/image_1684305375572_0.png){:height 796, :width 747}
 	- 1. Wireshark 抓包查看挥手过程
-		-
+		- ![image.png](../assets/image_1684305399081_0.png)
+- ## 4、TLS握手(RSA)
+	- TCP三次握手
+	  Client Hello（TLS版本 随机数 支持的加密套件）
+	  ACK
+	  Server Hello (TLS版本 随机数 选择加密套件)
+	  Certificate （证书下发）
+	  Server Hello Done
+	  ACK
+	  证书校验通过
+	  Client Key Exchange (preMaster密钥)
+	  Change Cipher Spec (切换加密传输)
+	  Finished (所有握手数据加密)
+	  ACK
+	  Change Cipher Spec（切换加密传输）
+	  Finished （所有握手数据加密）
+	  ACK
+	- ![image.png](../assets/image_1684305573863_0.png){:height 1196, :width 747}
+	-
