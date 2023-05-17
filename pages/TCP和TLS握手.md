@@ -42,4 +42,11 @@
 			- Ack Acknowledge Number 确认号 用于确认收到的段的编号
 			- 数据传输过程中的Seq和Ack
 			- ![image.png](../assets/image_1684305338436_0.png)
--
+- ## 3、TCP四次挥手
+	- 第一次挥手 FIN (Seq=u Ack=m)
+	- 第二次挥手 ACK (Seq=v Ack=u+1)
+	- 第三次挥手 FIN (Seq=w Ack=u+1)
+	- 第四次挥手 ACK (Seq=u+1 Ack=w+1)
+	- ![image.png](../assets/image_1684305375572_0.png){:height 796, :width 747}
+	- 1. Wireshark 抓包查看挥手过程
+		-
