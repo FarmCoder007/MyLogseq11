@@ -973,4 +973,17 @@
 				          return app;
 				      }
 				  ```
+			- Application.attach()会触发其attachBaseContext(context)方法，Application的生命周期由Instrumentation触发。
+			- Instrumentation和Application的创建流程图：
+				- ![image.png](../assets/image_1684417331262_0.png)
+	- ## ContentProvider的onCreate执行时机
+	  collapsed:: true
+		- 通过深入分析ActivityThread.handleBindApplication()方法分析，我们可以发现ContentProvider的执行时机，不再带大家看源码了，直接将时序图分享给大家
+		  collapsed:: true
+			- ![image.png](../assets/image_1684417355006_0.png)
+		- 以上时序图不难看出ContentProvider的OnCreate方法是在Application的attachBaseContext方法和onCreate之间执行的。
+		- 到此目标应用进程创建成功，application创建成功并执行了onCreate方法，整个过程共涉及3个进程Launcher进程、AMS进程、目标应用的进程。
+		- 那Activity的是如何创建和执行生命周期的呢？
+	- ## 启动流程-Activity创建启动和生命周期管理
+	-
 -
