@@ -160,5 +160,84 @@
 		- 对于用户空间，不同进程之间彼此是不能共享的，而内核空间却是可共享的。Client进程向Server进程通信，恰恰是利用进程间可共享的内核内存空间来完成底层通信工作的，Client端与Server端进程往往采用ioctl等方法跟内核空间的驱动进行交互。ioctl是设备驱动程序中对设备的I/O通道进行管理的函数，Linux设备控制接口采用的就是这个函数。用户空间和内核空间合起来就是操作系统的虚拟地址空间（线性地址空间），针对32位 Linux 操作系统而言，最高的 1G 字节(从虚拟地址 0xC0000000 到 0xFFFFFFFF)由内核使用，称为内核空间。而较低的 3G 字节(从虚拟地址 0x00000000 到 0xBFFFFFFF)由各个进程使用，称为用户空间。
 		- 操作系统的核心是内核，它独立于普通的应用程序，可以访问受保护的内存空间，也有访问底层硬件设备的所有权限。为了保证内核的安全，现在的操作系统一般都强制用户进程不能直接操作内核。系统资源管理都是在内核空间中完成的。比如读写磁盘文件，分配回收内存，从网络接口读写数据等等。我们的应用程序是无法直接进行这样的操作的。但是我们可以通过内核提供的接口来完成这样的任务。比如应用程序要读取磁盘上的一个文件，它可以向内核发起一个 "系统调用" 告诉内核："我要读取磁盘上的某某文件"。
 		- 接着讲解ServiceManager
+		  collapsed:: true
 			- ```
+			  public final class ServiceManager {
+			      private static final String TAG = "ServiceManager";
+			      private static final Object sLock = new Object();
+			  
+			      @UnsupportedAppUsage
+			      private static IServiceManager sServiceManager;
+			  
+			      /**
+			       * Cache for the "well known" services, such as WM and AM.
+			       */
+			      @UnsupportedAppUsage
+			      private static Map<String, IBinder> sCache = new ArrayMap<String, IBinder>();
+			      /**
+			       * Returns a reference to a service with the given name.
+			       *
+			       * @param name the name of the service to get
+			       * @return a reference to the service, or <code>null</code> if the service doesn\'t exist
+			       */
+			      @UnsupportedAppUsage
+			      public static IBinder getService(String name) {
+			          try {
+			              IBinder service = sCache.get(name);
+			              if (service != null) {
+			                  return service;
+			              } else {
+			                  return Binder.allowBlocking(rawGetService(name));
+			              }
+			          } catch (RemoteException e) {
+			              Log.e(TAG, "error in getService", e);
+			          }
+			          return null;
+			      }    
+			  }
 			  ```
+		- sCache中存放所有的IBinder系统服务。
+	- ## AMS的startActivity方法解析
+	  collapsed:: true
+		- 通过ServiceManager获取到AMS，让AMS执行startActivity方法；
+		  collapsed:: true
+			- ```
+			  @Override
+			      public final int startActivity(IApplicationThread caller, String callingPackage,
+			              Intent intent, String resolvedType, IBinder resultTo, String resultWho, int requestCode,
+			              int startFlags, ProfilerInfo profilerInfo, Bundle bOptions) {
+			          return startActivityAsUser(caller, callingPackage, intent, resolvedType, resultTo,
+			                  resultWho, requestCode, startFlags, profilerInfo, bOptions,
+			                  UserHandle.getCallingUserId());
+			      }
+			  
+			       public final int startActivityAsUser(IApplicationThread caller, String callingPackage,
+			              Intent intent, String resolvedType, IBinder resultTo, String resultWho, int requestCode,
+			              int startFlags, ProfilerInfo profilerInfo, Bundle bOptions, int userId,
+			              boolean validateIncomingUser) {
+			          enforceNotIsolatedCaller("startActivity");
+			  
+			          userId = mActivityStartController.checkTargetUser(userId, validateIncomingUser,
+			                  Binder.getCallingPid(), Binder.getCallingUid(), "startActivityAsUser");
+			  
+			          // TODO: Switch to user app stacks here.
+			          return mActivityStartController.obtainStarter(intent, "startActivityAsUser")
+			                  .setCaller(caller)
+			                  .setCallingPackage(callingPackage)
+			                  .setResolvedType(resolvedType)
+			                  .setResultTo(resultTo)
+			                  .setResultWho(resultWho)
+			                  .setRequestCode(requestCode)
+			                  .setStartFlags(startFlags)
+			                  .setProfilerInfo(profilerInfo)
+			                  .setActivityOptions(bOptions)
+			                  .setMayWait(userId)
+			                  .execute();
+			  
+			      }
+			  ```
+		- 执行顺序：startActivity()->startActivityAsUser()->ActivityStart.execute()
+	- ## ActivityStart的execute()方法
+		- da
+		- ```
+		  ```
