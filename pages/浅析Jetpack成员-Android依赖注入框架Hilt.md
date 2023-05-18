@@ -314,4 +314,53 @@
 			   ...
 			  }
 			  ```
-		- ##
+		- ## Hilt模块
+		  collapsed:: true
+			- ​ 对于简单无参的构造函数类，可以直接使用@Inject注解进行注入对象，但对于有参数的类、接口或我们无法修改的第三方类，就需要自定义一个带有@Module注解的类来告知Hilt如何在外部进行初始化该类对象。同时需要对该模块类添加@InstallIn注解，告知Hilt这个模块类应用在哪个Android类中。
+			  collapsed:: true
+				- ```
+				  @Module
+				  @InstallIn(ApplicationComponent::class)
+				  class UserData {
+				     String name = "";
+				     int age = 0;
+				  
+				     @Provides
+				     public UserData getUserData() {
+				         return new UserData(name,age);
+				     }
+				  
+				  }
+				  ```
+		- ## 接口注入
+		  collapsed:: true
+			- 接口注入和普通类注入不太相同，接口注入需要将Hilt模块类声明为抽象类，使用Binds注解修饰获取对象的方法。以一个简单的例子：
+			  collapsed:: true
+				- ```
+				  interface Driver {
+				     val name: String
+				  }
+				  class DriverImp @Inject constructor(): Driver {
+				     override val name:String
+				     get() = "mage"
+				  }
+				  class Car @Inject constructor(val driver: Driver) {
+				     fun drive(){
+				        print("老司机¥{driver.name} 在线开车")
+				     }
+				  }
+				  ```
+			- 创建一个抽象类模块，添加@Module和@InstallIn注释，将DriverImp设置到方法参数中，返回值为接口类，使用@Binds注解修饰
+			  collapsed:: true
+				- ```
+				  @Module
+				  @InstallIn(ActivityComponent::class)
+				  abstract class DriverModule {
+				     @Binds
+				     abstract fun bindDriver(driver: DriverImp): Driver
+				  }
+				  ```
+			- 使用@Binds注入接口实例，向Hilt提供以下信息：
+			  1.函数返回类型会告知Hilt函数提供哪个接口的实例
+			  2.函数参数会告知Hilt要提供哪种实现
+-
