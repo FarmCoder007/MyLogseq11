@@ -33,4 +33,7 @@
 				      kapt "com.google.dagger:hilt-android-compiler:2.28-alpha"
 				  }
 				  ```
+			- Hilt支持的依赖注入注解有： @HiltAndroidApp、 @AndroidEntryPoint 、@Module、@InstallIn 、@Provides以及Java Inject包中的几个注解：Inject、Qualifier、Scope、Singleton
+		- ## 2. 使用步骤
+			-
 	-
