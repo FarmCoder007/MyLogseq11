@@ -98,5 +98,24 @@
 			  collapsed:: true
 				- ![image.png](../assets/image_1684430929395_0.png)
 			- webview有自己的缓存机制，代码可以设置缓存方式，如下
+			  collapsed:: true
+				- ```
+				  WebSettings webSettings = webView.getSettings();
+				  webSettings.setCacheMode(WebSettings.LOAD_DEFAULT);
+				  //LOAD_CACHE_ONLY:不使用网络，只读取本地缓存数据
+				  //LOAD_DEFAULT:根据cache-control决定是否从网络上取数据
+				  //LOAD_CACHE_NORMAL:API level 17中已经废弃，从API level 11开始作用同LOAD_DEFAULT模式
+				  //LOAD_NO_CACHE:不使用缓存，只从网络获取数据
+				  //LOAD_CACHE_ELSE_NETWORK:只要本地有，无论是否过期，或者no-cache，都使用缓存中的数据。本地没有缓存时才从网络上获取。
+				  ```
+			- 我们通过什么能确定webview的缓存方式生效了？我们正常加载url，刷新页面看资源加载过程。发现已缓存的js都是disk chache。如下图
+			  collapsed:: true
+				- ![image.png](../assets/image_1684430965273_0.png)
+			- 查看Performance信息，[Performance api](https://developer.mozilla.org/zh-CN/docs/Web/API/Performance)详见
+			- 通过api 获取首次绘制耗时
+				- ```
+				  window.performance.getEntries()
+				  ```
+				- ![image.png](../assets/image_1684431003873_0.png)
 				-
 	-
