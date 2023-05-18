@@ -178,8 +178,165 @@
 		  
 		  ```
 - ## 四、释放对象到对象池
+  collapsed:: true
 	- 关键点
 	  只有对象池设置了对应空间大小的key（比如key是330个字节），这个对象才能放到对象池。所以如果对象是直接从对象池取的那可以放回对象池，如果不是则丢弃。当然这种情况如果想要放到对象池则Fresco提供了对应的开关设置
 		- ```
+		  // 两种情况
+		  // 1. 如果对象池存在对应内存大小的Bucket，则将要释放的对象放到对象池
+		  // 2. 如果不存在对应的Bucket，则直接释放该对象占用空间
+		  public void release(V value) {
+		      Preconditions.checkNotNull(value);
+		  
+		      final int bucketedSize = getBucketedSizeForValue(value);
+		      final int sizeInBytes = getSizeInBytes(bucketedSize);
+		      synchronized (this) {
+		        final Bucket<V> bucket = getBucketIfPresent(bucketedSize);
+		        if (!mInUseValues.remove(value)) {
+		          // This value was not 'known' to the pool (i.e.) allocated via the pool.
+		          // Something is going wrong, so let's free the value and report soft error.
+		          FLog.e(
+		              TAG,
+		              "release (free, value unrecognized) (object, size) = (%x, %s)",
+		              System.identityHashCode(value),
+		              bucketedSize);
+		          free(value);
+		          mPoolStatsTracker.onFree(sizeInBytes);
+		        } else {
+		          // free the value, if
+		          //  - pool exceeds maxSize
+		          //  - there is no bucket for this value
+		          //  - there is a bucket for this value, but it has exceeded its maxLength
+		          //  - the value is not reusable
+		          // If no bucket was found for the value, simply free it
+		          // We should free the value if no bucket is found, or if the bucket length cap is exceeded.
+		          // However, if the pool max size softcap is exceeded, it may not always be best to free
+		          // *this* value.
+		          if (bucket == null ||
+		              bucket.isMaxLengthExceeded() ||
+		              isMaxSizeSoftCapExceeded() ||
+		              !isReusable(value)) {
+		            if (bucket != null) {
+		              bucket.decrementInUseCount();
+		            }
+		  
+		            if (FLog.isLoggable(FLog.VERBOSE)) {
+		              FLog.v(
+		                  TAG,
+		                  "release (free) (object, size) = (%x, %s)",
+		                  System.identityHashCode(value),
+		                  bucketedSize);
+		            }
+		            free(value);
+		            mUsed.decrement(sizeInBytes);
+		            mPoolStatsTracker.onFree(sizeInBytes);
+		          } else {
+		            bucket.release(value);
+		            mFree.increment(sizeInBytes);
+		            mUsed.decrement(sizeInBytes);
+		            mPoolStatsTracker.onValueRelease(sizeInBytes);
+		            if (FLog.isLoggable(FLog.VERBOSE)) {
+		              FLog.v(
+		                  TAG,
+		                  "release (reuse) (object, size) = (%x, %s)",
+		                  System.identityHashCode(value),
+		                  bucketedSize);
+		            }
+		          }
+		        }
+		        logStats();
+		      }
+		    }
 		  ```
--
+- ## 五、监听低内存事件
+  collapsed:: true
+	- Fresco提供了MemoryTrimmableRegistry用于监听低内存事件，Fresco只提供一个默认空实现，具体需要用户去实现。
+	  collapsed:: true
+		- ```
+		  public interface MemoryTrimmable {
+		  
+		    /**
+		     * Trim memory.
+		     */
+		    void trim(MemoryTrimType trimType);
+		  }
+		  
+		  public interface MemoryTrimmableRegistry {
+		  
+		    /** Register an object. */
+		    void registerMemoryTrimmable(MemoryTrimmable trimmable);
+		  
+		    /** Unregister an object. */
+		    void unregisterMemoryTrimmable(MemoryTrimmable trimmable);
+		  }
+		  ```
+	- 1
+		- ```
+		  public void trim(MemoryTrimType memoryTrimType) {
+		      synchronized (this) {
+		        if (mPoolParams.fixBucketsReinitialization) {
+		          bucketsToTrim = refillBuckets();
+		        } else {
+		          bucketsToTrim = new ArrayList<>(mBuckets.size());
+		          final SparseIntArray inUseCounts = new SparseIntArray();
+		  
+		          for (int i = 0; i < mBuckets.size(); ++i) {
+		            final Bucket<V> bucket = mBuckets.valueAt(i);
+		            if (bucket.getFreeListSize() > 0) {
+		              bucketsToTrim.add(bucket);
+		            }
+		            inUseCounts.put(mBuckets.keyAt(i), bucket.getInUseCount());
+		          }
+		  
+		          legacyInitBuckets(inUseCounts);
+		        }
+		  
+		        // free up the stats
+		        mFree.reset();
+		        logStats();
+		      }
+		  
+		      // the pool parameters 'may' have changed.
+		      onParamsChanged();
+		  
+		      // Explicitly free all the values.
+		      // All the core data structures have now been reset. We no longer need to block other calls.
+		      // This is true even for a concurrent trim() call
+		      for (int i = 0; i < bucketsToTrim.size(); ++i) {
+		        final Bucket<V> bucket = bucketsToTrim.get(i);
+		        while (true) {
+		          // what happens if we run into an exception during the recycle. I'm going to ignore
+		          // these exceptions for now, and let the GC handle the rest of the to-be-recycled-bitmaps
+		          // in its usual fashion
+		          V item = bucket.pop();
+		          if (item == null) {
+		            break;
+		          }
+		          free(item);
+		        }
+		      }
+		  }
+		  ```
+- ## 六、配置对象池
+	- ```
+	   /**
+	       * Fresco默认配置可能会出现如下异常,现在由默认1MB升级到2MB
+	       * BasePool$PoolSizeViolationException
+	       * Pool hard cap violation?
+	       * Hard cap = 1048576 Used size = 1048576 Free size = 0 Request size = 16384
+	       * @return
+	       */
+	      private PoolFactory getPoolFactory(){
+	          // 使用okhttp maxRequest 1/2
+	          int maxRequestPerTime = 64 >> 1;
+	          SparseIntArray defaultBuckets = new SparseIntArray();
+	          defaultBuckets.put(16 * ByteConstants.KB, maxRequestPerTime);
+	          PoolParams smallByteArrayPoolParams = new PoolParams(
+	                  16 * ByteConstants.KB * maxRequestPerTime,
+	                  2 * ByteConstants.MB,
+	                  defaultBuckets);
+	          PoolConfig.Builder builder = PoolConfig.newBuilder().setSmallByteArrayPoolParams(smallByteArrayPoolParams);
+	          PoolFactory poolFactory = new PoolFactory(builder.build());
+	          return poolFactory;
+	    }
+	  ```
