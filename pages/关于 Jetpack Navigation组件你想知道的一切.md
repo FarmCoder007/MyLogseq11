@@ -40,4 +40,31 @@
 - # 示例
 	- 让我们通过创建一个简单的例子来看看 Navigation 组件是如何工作的。 接下来将创建一个带有两个 Fragment 的简单 Activity 来看看如何使用 Navigation 组件实现
 	  Fragment 之间的导航。
-	-
+	- ## 第1步
+		- 创建一个基于 AndroidX 的新项目。AndroidX 是 Android 团队用于在 Jetpack 中开发、测试、打包、版本和发布库的开源项目。可以在 AndroidX 概览 中查看更多信息。
+	- ## 第2步
+	  collapsed:: true
+		- 在 build.gradle 中添加依赖
+		  collapsed:: true
+			- ```
+			  dependencies {
+			    def nav_version = "2.3.0-alpha02"
+			  
+			    // Java language implementation
+			    implementation "androidx.navigation:navigation-fragment:$nav_version"
+			    implementation "androidx.navigation:navigation-ui:$nav_version"
+			  
+			    // Kotlin
+			    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+			    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+			  
+			    // Dynamic Feature Module Support
+			    implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
+			  
+			    // Testing Navigation
+			    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
+			  }
+			  ```
+		- 这些是针对不同需求的不同依赖项。根据需求进行选择。
+	- ## 第3步 - 1
+		-
