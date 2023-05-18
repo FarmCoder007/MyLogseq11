@@ -39,5 +39,42 @@
 					- ```
 					  -dontobfuscate 关闭混淆
 					  ```
-		- ## gradle配置
-			-
+			- ## gradle配置
+			  collapsed:: true
+				- 混淆之后，默认会在工程目录 app/build/outputs/mapping/release 下生成一个 mapping.txt 文件，这就是 混淆规则，所以我们可以根据这个文件把混淆后的代码反推回原本的代码。要使用混淆，我们只需配置如下代码即可：
+				- ```
+				  buildTypes {
+				      release {
+				          // 1、是否进行混淆
+				          minifyEnabled true
+				          // 2、开启zipAlign可以让安装包中的资源按4字节对齐，这样可以减少应用在运行时的内存消耗
+				          zipAlignEnabled true
+				          // 3、移除无用的resource文件：当ProGuard 把部分无用代码移除的时候，
+				          // 这些代码所引用的资源也会被标记为无用资源，然后
+				          // 系统通过资源压缩功能将它们移除。
+				          // 需要注意的是目前资源压缩器目前不会移除values/文件夹中
+				          // 定义的资源（例如字符串、尺寸、样式和颜色）
+				          // 开启后，Android构建工具会通过ResourceUsageAnalyzer来检查
+				          // 哪些资源是无用的，当检查到无用的资源时会把该资源替换
+				          // 成预定义的版本。主要是针对.png、.9.png、.xml提供了
+				          // TINY_PNG、TINY_9PNG、TINY_XML这3个byte数组的预定义版本。
+				          // 资源压缩工具默认是采用安全压缩模式来运行，可以通过开启严格压缩模式来达到更好的瘦身效果。
+				          shrinkResources true
+				          // 4、混淆文件的位置，其中 proguard-android.txt 为sdk默认的混淆配置，
+				          // 它的位置位于android-sdk/tools/proguard/proguard-android.txt，
+				          // 此外，proguard-android-optimize.txt 也为sdk默认的混淆配置，
+				          // 但是它默认打开了优化开关。并且，我们可在配置混淆文件将android.util.Log置为无效代码，
+				          // 以去除apk中打印日志的代码。而 proguard-rules.pro 是该模块下的混淆配置。
+				          proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+				          signingConfig signingConfigs.release
+				      }
+				  }
+				  ```
+				- 58同城APP目前仅开启了混淆操作，对于zipAlign和shrinkResources并未开启，因为开启后会出现某些页面打开失败的情况。
+				- 开启混淆是一个常规操作，这个举动能给我们应用带来极大的包大小收益。
+		- ## AndResGuard
+			- Android在构建过程中会根据资源生成R文件，里面包含了资源索引，使用该索引可以在最终生成的resources.arsc资源映射表中找到对应资源，对于开发者来说在代码中引用资源很方便。
+			- 资源混淆主要为了混淆资源ID长度(例如将res/drawable/welcome.png混淆为r/s/a.png)，同时利用7z深度压缩，大大减少了安装包体积，同时提升了反破解难度。
+			- 介绍微信的AndResGuard前，先看一下resource.arsc文件的结构，有助于我们更好的理解ResGuard原理
+			  collapsed:: true
+				- ![image.png](../assets/image_1684422937375_0.png)
