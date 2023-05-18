@@ -71,12 +71,12 @@
 	- [[java工具]]
 	- [[并发]]
 - Kotlin
-  collapsed:: true
 	- [[基本语法]]
 	- [[注意事项]]
 	- [[Kotlin关键字]]
 	- [[官方文档]]
 	- [[协程]]
+	- [[kotlin相关]]
 - AndroidStudio
   collapsed:: true
 	- AS插件
