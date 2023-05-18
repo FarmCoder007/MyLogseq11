@@ -131,6 +131,7 @@
 				  
 				  ```
 - ## 引入LiveDataBus
+  collapsed:: true
 	- LiveData是一个可以观察的数据持有类，它可以感知并遵循Activity，Fragment或Service等组件的生命周期。正是由于LiveData对组件生命周期可感知特点，因此可以做到仅在组件处于生命周期的激活状态时才更新UI数据。
 	- LiveData需要一个观察者对象，一般是Observer类的具体实现。当观察者的生命周期处于STARTED或RESUMED状态时，LiveData会通知观察者数据变化；
 	- 在观察者处于其他状态时，即使LiveData的数据变化了，也不会通知。
@@ -351,3 +352,5 @@
 		- EventBus和Rxbus不可跨进程发送消息。
 		  LiveEventBus实现原理，广播实现跨进程发消息
 		- ![image.png](../assets/image_1684421799336_0.png)
+- # 总结
+	- ![image.png](../assets/image_1684421819204_0.png)
