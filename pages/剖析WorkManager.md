@@ -13,6 +13,7 @@
 	  WorkManager的周期性任务和一次性任务都是怎么调度的。
 - # 源码分析
 	- ## 初始化
+	  collapsed:: true
 		- 我们先来一张结构图从整体角度来看下WorkManager的初始化
 		  collapsed:: true
 			- ![image.png](../assets/image_1684427556910_0.png)
@@ -38,5 +39,22 @@
 					- GreedyScheduler：看网上大部分帖子总结的都是“执行没有任何约束的非周期性的任务”。但实际上也会执行带约束的非周期性的任务。但是前提条件是buildsdkversion< 24,或者没有设置ContentUriTriggers
 					- SystemJobScheduler/GcmBasedScheduler/SystemAlarmScheduler：执行周期性或者有约束性的任务。优先返回SystemJobScheduler，在build version小于23的情况下先尝试返回GcmBasedScheduler，若返回为空再返回SystemAlarmScheduler。
 				- 3 internalInit内部初始化任务，主要是对异常退出重新启动场景下，对任务重新调度。
-		- ## WorkConstraintsTracker
+		- ### WorkConstraintsTracker
+			- 持有相关约束控制类，当满足任务约束条件时，通知任务执行。目前WorkManager内置了如下任务约束控制器
+			- BatteryChargingController 电池充电状态
+			  BatteryNotLowController 手机低电量状态
+			  StorageNotLowController 存储低空间状态
+			  NetworkConnectedController 网络连接可用状态
+			  NetworkUnmeteredController 网络非计费状态
+			  NetworkNotRoamingController 网络非漫游状态
+			  NetworkMeteredController 网络计费状态
+			  我们后边会专门讲述这些约束实现逻辑，这里只留一个概念。
 			-
+	- ## 任务调度流程
+	  collapsed:: true
+		- 我们还是先从整体角度来看下WorkManager的调度。
+		  collapsed:: true
+			- ![image.png](../assets/image_1684427686254_0.png)
+			-
+		- 1 整个调度流程是从WorkManager开始，到Processor处理器最终调用具体任务的doWork()方法结束。
+		- 2 WorkManager会根据调度任务的不同交给GreedyScheduler和BestAvailableBackgroundScheduler。其中GreedyScheduler会调度不需要延时的任务，BestAvailableBackgroundScheduler会根据系统版本生成真正可用的调度器，负责调度需要延迟或者周期性的任务。
