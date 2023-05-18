@@ -192,9 +192,146 @@
 	- 复现场景
 		- 使用同一个LiveData
 	- 解决方案
+	  collapsed:: true
 		- 看看LiveData的observe方法，他会在步骤1创建一个LifecycleBoundObserver，LifecycleBoundObserver是ObserverWrapper的派生类。然后会在步骤2把这个LifecycleBoundObserver放入一个私有Map容器mObservers中。无论ObserverWrapper还是LifecycleBoundObserver都是私有的或者包可见的，所以无法通过继承的方式更改LifecycleBoundObserver的version。
 		- 那么能不能从Map容器mObservers中取到LifecycleBoundObserver，然后再更改version呢？答案是肯定的，通过查看SafeIterableMap的源码有一个protected的get方法。因此，在调用observe的时候，通过反射拿到LifecycleBoundObserver，再把LifecycleBoundObserver的version设置成和LiveData一致
 		- ![image.png](../assets/image_1684421658179_0.png){:height 312, :width 716}
 		- 对于非生命周期感知的observeForever方法来说，实现的思路是一致的，但是具体的实现略有不同。observeForever的时候，生成的wrapper不是LifecycleBoundObserver，而是AlwaysActiveObserver（步骤1），没有机会在observeForever调用完成之后再去更改AlwaysActiveObserver的version，因为在observeForever方法体内，步骤3的语句，回调就发生了。
 		- ![image.png](../assets/image_1684421670019_0.png)
 	- 那么对于observeForever，如何解决这个问题呢？既然是在调用内回调的，那么我们可以写一个ObserverWrapper，把真正的回调给包装起来。把ObserverWrapper传给observeForever，那么在回调的时候我们去检查调用栈，如果回调是observeForever方法引起的，那么就不回调真正的订阅者。
+	- 最终实现
+	  collapsed:: true
+		- ```
+		  public final class LiveDataBus {
+		  
+		      private final Map<String, BusMutableLiveData<Object>> bus;
+		  
+		      private LiveDataBus() {
+		          bus = new HashMap<>();
+		      }
+		  
+		      private static class SingletonHolder {
+		          private static final LiveDataBus DEFAULT_BUS = new LiveDataBus();
+		      }
+		  
+		      public static LiveDataBus get() {
+		          return SingletonHolder.DEFAULT_BUS;
+		      }
+		  
+		      public <T> MutableLiveData<T> with(String key, Class<T> type) {
+		          if (!bus.containsKey(key)) {
+		              bus.put(key, new BusMutableLiveData<>());
+		          }
+		          return (MutableLiveData<T>) bus.get(key);
+		      }
+		  
+		      public MutableLiveData<Object> with(String key) {
+		          return with(key, Object.class);
+		      }
+		  
+		      private static class ObserverWrapper<T> implements Observer<T> {
+		  
+		          private Observer<T> observer;
+		  
+		          public ObserverWrapper(Observer<T> observer) {
+		              this.observer = observer;
+		          }
+		  
+		          @Override
+		          public void onChanged(@Nullable T t) {
+		              if (observer != null) {
+		                  if (isCallOnObserve()) {
+		                      return;
+		                  }
+		                  observer.onChanged(t);
+		              }
+		          }
+		  
+		          private boolean isCallOnObserve() {
+		              StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
+		              if (stackTrace != null && stackTrace.length > 0) {
+		                  for (StackTraceElement element : stackTrace) {
+		                      if ("android.arch.lifecycle.LiveData".equals(element.getClassName()) &&
+		                              "observeForever".equals(element.getMethodName())) {
+		                          return true;
+		                      }
+		                  }
+		              }
+		              return false;
+		          }
+		      }
+		  
+		      private static class BusMutableLiveData<T> extends MutableLiveData<T> {
+		  
+		          private Map<Observer, Observer> observerMap = new HashMap<>();
+		  
+		          @Override
+		          public void observe(@NonNull LifecycleOwner owner, @NonNull Observer<T> observer) {
+		              super.observe(owner, observer);
+		              try {
+		                  hook(observer);
+		              } catch (Exception e) {
+		                  e.printStackTrace();
+		              }
+		          }
+		  
+		          @Override
+		          public void observeForever(@NonNull Observer<T> observer) {
+		              if (!observerMap.containsKey(observer)) {
+		                  observerMap.put(observer, new ObserverWrapper(observer));
+		              }
+		              super.observeForever(observerMap.get(observer));
+		          }
+		  
+		          @Override
+		          public void removeObserver(@NonNull Observer<T> observer) {
+		              Observer realObserver = null;
+		              if (observerMap.containsKey(observer)) {
+		                  realObserver = observerMap.remove(observer);
+		              } else {
+		                  realObserver = observer;
+		              }
+		              super.removeObserver(realObserver);
+		          }
+		  
+		          private void hook(@NonNull Observer<T> observer) throws Exception {
+		              //get wrapper\'s version
+		              Class<LiveData> classLiveData = LiveData.class;
+		              Field fieldObservers = classLiveData.getDeclaredField("mObservers");
+		              fieldObservers.setAccessible(true);
+		              Object objectObservers = fieldObservers.get(this);
+		              Class<?> classObservers = objectObservers.getClass();
+		              Method methodGet = classObservers.getDeclaredMethod("get", Object.class);
+		              methodGet.setAccessible(true);
+		              Object objectWrapperEntry = methodGet.invoke(objectObservers, observer);
+		              Object objectWrapper = null;
+		              if (objectWrapperEntry instanceof Map.Entry) {
+		                  objectWrapper = ((Map.Entry) objectWrapperEntry).getValue();
+		              }
+		              if (objectWrapper == null) {
+		                  throw new NullPointerException("Wrapper can not be bull!");
+		              }
+		              Class<?> classObserverWrapper = objectWrapper.getClass().getSuperclass();
+		              Field fieldLastVersion = classObserverWrapper.getDeclaredField("mLastVersion");
+		              fieldLastVersion.setAccessible(true);
+		              //get livedata\'s version
+		              Field fieldVersion = classLiveData.getDeclaredField("mVersion");
+		              fieldVersion.setAccessible(true);
+		              Object objectVersion = fieldVersion.get(this);
+		              //set wrapper\'s version
+		              fieldLastVersion.set(objectWrapper, objectVersion);
+		          }
+		      }
+		  }
+		  ```
+	- ## 线程分发
+	- ### EventBus
+		- EventBus可以为你处理线程：事件可以被发布到与发布线程不同的线程中。一般用法是处理UI，在安卓中UI的处理需要在主线程中完成。
+		- 底层采用Handler消息机制实现线程间通信
+		- 设置接收消息的线程需要在订阅的时候用threadMode设置：
+		- EventBus支持的线程模式有：
+		- 1.POSITION    2.MAIN  3.MAIN_ORDERED 4.BACKGROUND  5.ASYNC
+	- ## RxBus
+		- RxBus以Rxjava的模式实现线程切换，例如：
+		-
+-
