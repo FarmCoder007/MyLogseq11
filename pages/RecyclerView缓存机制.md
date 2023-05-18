@@ -72,4 +72,32 @@
 		  ```
 	- 2.在adapter的onCreateViewHolder和onBindViewHolder分别输出日志
 		- 2.1）首次运行，demo截图：
-		-
+		  collapsed:: true
+			- ![image.png](../assets/image_1684430291384_0.png)
+			- 所有的item都执行了onCreateViewHolder和onBindViewHolder，各项缓存为0
+		- 2.1）向上滑动一个item position = 0的位置滑出屏幕，如图：即将滑入屏幕的position = 14的位置，创建并放进mCachedViews中，而position = 0进入缓存mCachedViews中
+		  collapsed:: true
+			- ![image.png](../assets/image_1684430313965_0.png)
+		- 2.2）position = 0的位置再次划入屏幕时，从mCachedViews缓存中获取ViewHolder，没有执行onCreateViewHolder和onBindViewHolder方法
+		  collapsed:: true
+			- ![image.png](../assets/image_1684430325317_0.png)
+		- 那么分析下为何不执行再次绑定方法，分析源码，找到核心校验逻辑：
+		- 当缓存的ViewHolder和所需要的position相同的并且有效才可以复用，在执行bind校验时是绑定状态。因此不需要重新bind
+			- final int cacheSize = mCachedViews.size();
+			              for (int i = 0; i < cacheSize; i++) {
+			                  final ViewHolder holder = mCachedViews.get(i);
+			                  // invalid view holders may be in cache if adapter has stable ids as they can be
+			                  // retrieved via getScrapOrCachedViewForId
+			                  if (!holder.isInvalid() && holder.getLayoutPosition() == position
+			                          && !holder.isAttachedToTransitionOverlay()) {
+			                      if (!dryRun) {
+			                          mCachedViews.remove(i);
+			                      }
+			                      if (DEBUG) {
+			                          Log.d(TAG, "getScrapOrHiddenOrCachedHolderForPosition(" + position
+			                                  + ") found match in cache: " + holder);
+			                      }
+			                      return holder;
+			                  }
+			              }
+	-
