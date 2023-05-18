@@ -270,4 +270,67 @@
 			- 因为在两个调度器的内部，BestAvailableBackgroundScheduler只负责周期性调度任务，而GreedyScheduler只负责非周期任务。
 			- 当然GreedyScheduler也不是会执行所有的非周期任务，当你的任务设置了约束条件，并且设置了ContentUriTriggers并且你的版本大于24的时候，GreedyScheduler不在调度这个任务，而是交给了BestAvailableBackgroundScheduler。
 		- ### Processor
-			-
+		  collapsed:: true
+			- 上边我们提到两个scheduler最终都会调用WorkManagerImpl的startWork()方法最终去真正调度任务，我们顺着代码可以看到最终任务是交给了WorkTaskExecutor线程池执行StartWorkRunnable任务。而StartWorkRunnable的run方法又将任务交给了Processor去处理,Processor又将任务包装成WorkerWrapper在交个WorkTaskExecutor线程池执行Runnable。
+			- ```
+			  public void startWork(String workSpecId, WorkerParameters.RuntimeExtras runtimeExtras) {
+			          mWorkTaskExecutor
+			                  .executeOnBackgroundThread(
+			                          new StartWorkRunnable(this, workSpecId, runtimeExtras));
+			      }
+			  ```
+			- ```
+			  public void run() {
+			          mWorkManagerImpl.getProcessor().startWork(mWorkSpecId, mRuntimeExtras);
+			      }
+			  ```
+			- ```
+			  public boolean startWork(String id, WorkerParameters.RuntimeExtras runtimeExtras) {
+			          WorkerWrapper workWrapper;
+			          synchronized (mLock) {
+			              if (mEnqueuedWorkMap.containsKey(id)) {
+			                  Logger.get().debug(
+			                          TAG,
+			                          String.format("Work %s is already enqueued for processing", id));
+			                  return false;
+			              }
+			  
+			              workWrapper =
+			                      new WorkerWrapper.Builder(
+			                              mAppContext,
+			                              mConfiguration,
+			                              mWorkTaskExecutor,
+			                              mWorkDatabase,
+			                              id)
+			                              .withSchedulers(mSchedulers)
+			                              .withRuntimeExtras(runtimeExtras)
+			                              .build();
+			              ListenableFuture<Boolean> future = workWrapper.getFuture();
+			          }
+			        
+			  //最终又扔到线程池里一个任务
+			   mWorkTaskExecutor.getBackgroundExecutor().execute(workWrapper);
+			          return true;
+			      }
+			  ```
+			- 这里你肯定有疑问，为啥WorkManager不一步到位，而是先搞个StartWorkRunnable，然后又搞个WorkerWrapper调来调去的？这块也是我的疑问，大家可以探讨下。
+		- ### WorkerWrapper
+			- 最终任务调度到这个WorkerWrapper类里执行runWorker()方法真正调度任务。因为这个runWorker()方法太长了这里就不贴里边的具体代码了。我们主要看两个东西。
+			- 首先是Worker任务的具体执行时机，WorkTaskExecutor开启了一个主线程去调用mWorker.startWork()方法，这个最终就会调用到我们实际的任务上。
+			- ```
+			  mWorkTaskExecutor.getMainThreadExecutor()
+			                      .execute(new Runnable() {
+			                          @Override
+			                          public void run() {
+			                              try {
+			                                 
+			                                  mInnerFuture = mWorker.startWork();
+			                                  future.setFuture(mInnerFuture);
+			                              } catch (Throwable e) {
+			                                  future.setException(e);
+			                              }
+			  
+			                          }
+			                      });
+			  ```
+		-
