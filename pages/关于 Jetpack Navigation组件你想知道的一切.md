@@ -241,4 +241,29 @@
 			  ```
 		- 了解有关 [NavOptions](https://developer.android.google.cn/reference/androidx/navigation/NavOptions) 的更多信息。
 - ## 如何在 Fragment 之间传递参数
--
+	- 在 Fragment 之间共享数据的需求很常见。最简单的方法之一是使用共享的 ViewModel。当我们使用 Navigation 组件时，让我们看看如何使用 safe args 插件在两个 Fragment 之间共享数据。
+	- ## Safe Args
+		- Safe Args 插件生成的代码允许我们进行类型安全的导航和参数传递。
+		- 首先，要将 Safe Args 添加到项目中，在项目顶层的 build.gradle 文件中添加如下依赖：
+		  collapsed:: true
+			- ```
+			  buildscript {
+			      repositories {
+			          google()
+			      }
+			      dependencies {
+			          def nav_version = "2.3.0-alpha01"
+			          classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"
+			      }
+			  }
+			  ```
+		- 要生成适用于 Java 或 Java 和 Kotlin 混编模块的代码，需要在 module 的 build.gradle 文件中添加：
+		  collapsed:: true
+			- ```
+			  apply plugin: "androidx.navigation.safeargs"
+			  ```
+		- 如果要添加纯 Kotlin 模块的代码，需要添加：
+		  collapsed:: true
+			- ```
+			  apply plugin: "androidx.navigation.safeargs.kotlin"
+			  ```
