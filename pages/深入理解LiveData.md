@@ -24,4 +24,55 @@
 		  如果将 LiveData 对象扩展，用单例模式将系统服务进行包裹。这些服务就可以在 APP 中共享。
 - # 2 LiveData 的使用
 	- ## 2.1 MutableLiveData 的使用
-		-
+	  collapsed:: true
+		- 在 ViewModel 中创建一个实例 LiveData 来保存某种类型的数据。
+		  collapsed:: true
+			- ```
+			  class NameViewModel : ViewModel() {
+			  
+			           // 创建一个字符串类型的LiveData
+			            val currentNameLiveData: MutableLiveData<String> by lazy {
+			                   MutableLiveData<String>()
+			            }
+			  
+			           // Rest of the ViewModel...
+			  }
+			  ```
+		- 注册观察者 Observer 并实现 onChanged 方法，该方法在 LiveData 对象持有的数据变化的时候回调，来更新 UI
+		  collapsed:: true
+			- ```
+			  class NameActivity : AppCompatActivity() {
+			  
+			      // Use the 'by viewModels()' Kotlin property delegate
+			      // from the activity-ktx artifact
+			      private val model: NameViewModel by viewModels()
+			  
+			      override fun onCreate(savedInstanceState: Bundle?) {
+			          super.onCreate(savedInstanceState)
+			  
+			          // Other code to setup the activity...
+			          
+			          // 为LiveData注册Observer观察者
+			          model.currentNameLiveData.observe(this, object : Observer<String>{
+			              override fun onChanged(newName: String?) {
+			                  // Update the UI,
+			                  nameTextView.text = newName
+			              }
+			          })
+			      }
+			  }
+			  ```
+		- 更新 LiveData 对象
+		  collapsed:: true
+			- ```
+			  button.setOnClickListener {
+			      val anotherName = "Hello"
+			      model.currentNameLiveData.setValue(anotherName)
+			  }
+			  ```
+		- 注意点：LiveData建议封装在ViewModel内部使用
+		- 避免造成 Activity 和 Fragment 的臃肿。现在这些 UI 控制器负责显示数据但不保存数据状态；
+		  将 LiveData 实例与特定 Activity 和 Fragment 实例分离，从而确保 LiveData对象在横竖屏切换后继续存在。
+	- ## 2.2 LiveData 的数据转换
+		- ## 2.2.1 Transformations.map
+			-
