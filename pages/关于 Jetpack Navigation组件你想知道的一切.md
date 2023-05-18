@@ -38,6 +38,7 @@
 		- Safe Args — 一个 Gradle 插件，在目的地之间导航和传递数据时提供类型安全。
 		- 支持 ViewModel —— 实现在不同的目的地之间共享 UI 相关的数据
 - # 示例
+  collapsed:: true
 	- 让我们通过创建一个简单的例子来看看 Navigation 组件是如何工作的。 接下来将创建一个带有两个 Fragment 的简单 Activity 来看看如何使用 Navigation 组件实现
 	  Fragment 之间的导航。
 	- ## 第1步
@@ -93,6 +94,7 @@
 			- app:navGraph：将 NavHostFragment 与导航图相关联。导航图指定了此 NavHostFragment 中用户可以导航到的所有目的地。
 			- app:defaultNavHost="true"：确保 NavHostFragment 拦截系统后退按钮。 请注意，只有一个NavHost 可以是默认值。 如果在同一布局中有多个 NavHost（例如双窗格布局），请确保仅指定一个默认 NavHost。
 	- ## 第4步
+	  collapsed:: true
 		- 在 nav_graph 中添加目的地和路径。
 		  在添加目的地之前创建两个 Fragment 及其 XML：
 		- ![image.png](../assets/image_1684414981596_0.png)
@@ -149,4 +151,18 @@
 		- 点击运行按钮并查看 Navigation 组件的神奇之处：
 		  collapsed:: true
 			- ![edb06220-89c6-4492-8698-4fac75b7ba4bnav_demo.gif](../assets/edb06220-89c6-4492-8698-4fac75b7ba4bnav_demo_1684415094860_0.gif)
-		-
+		- 通过按钮的点击事件实现 Fragment 的跳转，可以看到没有使用 Fragment transaction：
+			- ```
+			  btn_next.setOnClickListener {
+			      view.findNavController()
+			          .navigate(R.id.action_fragment1_to_fragment2)
+			  }
+			  ```
+		- 我们需要找到 NavController 并为其提供我们在 XML 中指定的操作 ID。
+	-
+- # 其他须知
+	- 对于每个导航操作，都会将一个目的地添加到返回堆栈中。
+	- 在前面的实现中，当我们从 FragmentOne 移动到 FragmentTwo 并单击返回按钮时，返回到了 FragmentOne。
+	- 假如从 FragmentTwo 点击返回不希望切换回 FragmentOne，这时需要在 nav_graph 中为 action 添加其他属性，或者我们可以选择使用 NavOptions 以代码的方式添加这些属性。NavOptions 存储了用于导航操作的特殊选项。
+	- 在 XML 中可以设置如下属性：
+	-
