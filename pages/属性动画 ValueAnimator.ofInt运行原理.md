@@ -117,4 +117,33 @@ title:: 属性动画 ValueAnimator.ofInt运行原理
 	        super(keyframes);
 	   }
 	  ```
-	-
+	- ```java
+	  public class KeyframeSet implements Keyframes {
+	  
+	  int mNumKeyframes;
+	  
+	  Keyframe mFirstKeyframe;
+	  Keyframe mLastKeyframe;
+	  TimeInterpolator mInterpolator; // only used in the 2-keyframe case
+	  List<Keyframe> mKeyframes; // only used when there are not 2 keyframes
+	  TypeEvaluator mEvaluator;
+	  
+	  public KeyframeSet(Keyframe... keyframes) {
+	      mNumKeyframes = keyframes.length;
+	      // immutable list
+	      mKeyframes = Arrays.asList(keyframes);
+	      mFirstKeyframe = keyframes[0];
+	      mLastKeyframe = keyframes[mNumKeyframes - 1];
+	      mInterpolator = mLastKeyframe.getInterpolator();
+	  }
+	  ```
+	- 总结一下
+	  collapsed:: true
+		- ValueAnimator.ofInt时序图
+			- ![image.png](../assets/image_1684419614171_0.png)
+	- 现在ValueAnimator#mValues持有PropertyValuesHolder
+	  PropertyValuesHolder#mKeyframes持有IntKeyframeSet
+	  IntKeyframeSet#mKeyframes持有IntKeyframe
+	  属性动画中什么时候用到了PropertyValuesHolder#mValues
+	  那现在我们从入手valueAnimator.start()，看看什么时候用到了mValues
+	- ## ValueAnimator.start()源码解析
