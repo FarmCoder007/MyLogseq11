@@ -457,5 +457,78 @@
 				  ```
 			- ContinuationImpl继承BaseContinuationImpl，它的作用是使用拦截器生成一个DispatchedContinuation对象，这也是一个Continuation，这个对象内部封装线程调度器，以及代理了协程体对象。
 		- ### CoroutineScope
-			-
+		  collapsed:: true
+			- CoroutineScope是协程作用域，我们的例子代码使用的GlobalScope就是实现了CoroutineScope。
+			  collapsed:: true
+				- ```
+				  public interface CoroutineScope {
+				      /**
+				       * The context of this scope.
+				       * Context is encapsulated by the scope and used for implementation of coroutine builders that are extensions on the scope.
+				       * Accessing this property in general code is not recommended for any purposes except accessing the [Job] instance for advanced usages.
+				       *
+				       * By convention, should contain an instance of a [job][Job] to enforce structured concurrency.
+				       */
+				      public val coroutineContext: CoroutineContext
+				  }
+				  
+				  public object GlobalScope : CoroutineScope {
+				      /**
+				       * Returns [EmptyCoroutineContext].
+				       */
+				      override val coroutineContext: CoroutineContext
+				          get() = EmptyCoroutineContext
+				  }
+				  ```
+			- GlobalScope实现了CoroutineScope接口，而CoroutineScope只有一个属性CoroutineContext协程上下文，GlobalScope重写了这个上下文返回了一个空的协程上下文。GlobalScope由object修饰，是一个单例对象，所以它的生命周期跟随整个应用。
+			- CoroutineScope可以理解为作用范围，通过CoroutineScope的扩展函数去创建一个协程，当这个作用范围被取消的时候，它内部的协程也会被取消，比如viewModelScope、lifecycleScope具有这样的功能。
+		- ### CoroutineContext
+		  collapsed:: true
+			- ```
+			  public interface CoroutineContext {
+			      /**
+			       * Returns the element with the given [key] from this context or `null`.
+			       */
+			      public operator fun <E : Element> get(key: Key<E>): E?
+			  
+			      /**
+			       * Accumulates entries of this context starting with [initial] value and applying [operation]
+			       * from left to right to current accumulator value and each element of this context.
+			       */
+			      public fun <R> fold(initial: R, operation: (R, Element) -> R): R
+			  
+			      /**
+			       * Returns a context containing elements from this context and elements from  other [context].
+			       * The elements from this context with the same key as in the other one are dropped.
+			       */
+			      public operator fun plus(context: CoroutineContext): CoroutineContext
+			          //... 省略部分代码
+			  
+			      /**
+			       * Returns a context containing elements from this context, but without an element with
+			       * the specified [key].
+			       */
+			      public fun minusKey(key: Key<*>): CoroutineContext
+			  
+			      /**
+			       * Key for the elements of [CoroutineContext]. [E] is a type of element with this key.
+			       */
+			      public interface Key<E : Element>
+			  
+			      /**
+			       * An element of the [CoroutineContext]. An element of the coroutine context is a singleton context by itself.
+			       */
+			      public interface Element : CoroutineContext {
+			          //... 省略部分代码
+			      }
+			  }
+			  ```
+			- CoroutineContext是一个接口，声明的方法展示了它的能力，是一个以Key为索引的数据集合，它的Key是一个interface，每一个元素的类型是Element，而Element又实现CoroutineContext，所以它既可以是一个集合的元素，也可以是一个集合。
+		- ### CoroutineStart
+		  collapsed:: true
+			- CoroutineStart 是协程的启动模式，有以下4种模式：
+			- DEFAULT 立即调度，可以在执行前被取消
+			  LAZY 需要时才启动，需要start、join等函数触发才可进行调度
+			  ATOMIC 立即调度，协程肯定会执行，执行前不可以被取消
+			  UNDISPATCHED 立即在当前线程执行，直到遇到第一个挂起点（可能切线程
 -
