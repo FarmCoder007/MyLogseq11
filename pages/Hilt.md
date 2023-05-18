@@ -215,12 +215,12 @@
 				- |  == Component ==   | ==注入对象==  | ==作用域==  | ==创建于==  |
 				  |  ApplicationComponent  | Application  |@Singleton|Application#onCreate()|
 				  |  ActivityRetainedComponent  | ViewModel  |@ActivityRetainedScoped|539.6|
-				  |  ViewModelComponent  | ViewModel  |2039.65|539.6| 
-				  |  ActivityComponent  | Activity  |2039.65|539.6|
-				  |  FragmentComponent  | Fragment  |2039.65|539.6|
-				  |  ViewComponent  | View  |2039.65|539.6|
-				  |  ViewWithFragmentComponent  | View with @WithFragmentBindings  |2039.65|539.6|
-				  |  ServiceComponent  | Service  |2039.65|539.6|
+				  |  ViewModelComponent  | ViewModel  |@ViewModelScoped|539.6| 
+				  |  ActivityComponent  | Activity  |@ActivityScoped|539.6|
+				  |  FragmentComponent  | Fragment  |@FragmentScoped|539.6|
+				  |  ViewComponent  | View  |@ViewScoped|539.6|
+				  |  ViewWithFragmentComponent  | View with @WithFragmentBindings  |@ViewScoped|539.6|
+				  |  ServiceComponent  | Service  |@ServiceScoped|539.6|
 				-
 				-
 		-
