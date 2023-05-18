@@ -208,3 +208,32 @@
 	- 最后结果如下：
 	  collapsed:: true
 		- ![dd9b960d-f5be-45e1-8f84-6630f29a7e5bpopup_one_demo.gif](../assets/dd9b960d-f5be-45e1-8f84-6630f29a7e5bpopup_one_demo_1684415217585_0.gif)
+	- ### action
+		- action 示例如下：
+		  collapsed:: true
+			- ```
+			  <action android:id="@+id/next_action"
+			          app:destination="@+id/flow_step_one"
+			          app:enterAnim="@anim/slide_in_right"
+			          app:exitAnim="@anim/slide_out_left"
+			          app:popEnterAnim="@anim/slide_in_left"
+			          app:popExitAnim="@anim/slide_out_right"
+			          app:popUpTo="@id/fragmentOne"
+			          app:popUpToInclusive="true" />
+			  ```
+		- 各属性含义如下：
+		- id：操作的 ID，NavHost 通过该 ID 进行导航
+		- app:enterAnim, app:exitAnim, app:popEnterAnim, app:popExitAnim：四种动画，指定添加和删除 Fragment 时执行的动画
+		- app:popUpToInclusive：指定返回堆栈中是否包含当前实例
+		- app:launchSingleTop：用于指定此导航操作是否应作为单顶启动（即返回堆栈顶部最多有一个指定的目的地的副本），与 Intent.FLAG_ACTIVITY_SINGLE_TOP 类似
+		- 注意：当不使用 app:popUpToInclusive 时频繁在两个 Fragment 之间导航，后台堆栈中将包含 Fragment 的多个实例。
+		- 接下来再看下使用代码实现的方法：
+			- ```
+			  btn_next.setOnClickListener {
+			      val navOptions = NavOptions.Builder()
+			              .setPopUpTo(R.id.fragmentOne, true)
+			              .build()
+			      view.findNavController()
+			          .navigate(R.id.action_fragment1_to_fragment2, null, navOptions)
+			  }
+			  ```
