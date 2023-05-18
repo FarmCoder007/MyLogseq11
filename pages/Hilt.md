@@ -7,4 +7,30 @@
 	- 现在回到上文中的问题，如何依赖注入？
 		- ## 1. 添加依赖
 			- 在项目的根目录的build.gradle添加
+			  collapsed:: true
+				- ```
+				  buildscript {
+				      ...
+				      dependencies {
+				          ...
+				          classpath 'com.google.dagger:hilt-android-gradle-plugin:2.28-alpha'
+				      }
+				  }
+				  ```
+			- 然后在app/build.gradle文件中添加以下依赖项：
+			  collapsed:: true
+				- ```
+				  ...
+				  apply plugin: 'kotlin-kapt'
+				  apply plugin: 'dagger.hilt.android.plugin'
+				  
+				  android {
+				      ...
+				  }
+				  
+				  dependencies {
+				      implementation "com.google.dagger:hilt-android:2.28-alpha"
+				      kapt "com.google.dagger:hilt-android-compiler:2.28-alpha"
+				  }
+				  ```
 	-
