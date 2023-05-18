@@ -181,6 +181,107 @@
 			          ClassName routeTypeCn = ClassName.get(RouteType.class);
 			  ```
 		- 创建 RouteMeta 对象，RouteMeta主要存放的是路径信息，包含了Rout注解的值（path，name，group…），安卓activity/fragment/service类名，Element（只要用来获取注解类的className），以及跳转参数信息。
+		  collapsed:: true
+			- ```
+			  for (Element element : routeElements) {
+			          TypeMirror tm = element.asType();
+			          Route route = element.getAnnotation(Route.class);
+			          RouteMeta routeMeta;
+			  
+			          //6。注解的是 Activity or Fragment
+			          if (types.isSubtype(tm, type_Activity) || types.isSubtype(tm, fragmentTm) || types.isSubtype(tm, fragmentTmV4)) {
+			              // Get all fields annotation by @Autowired
+			              Map<String, Integer> paramsType = new HashMap<>();
+			              Map<String, Autowired> injectConfig = new HashMap<>();
+			              // 7。收集 @Autowired 注解的参数
+			              injectParamCollector(element, paramsType, injectConfig);
+			  
+			              if (types.isSubtype(tm, type_Activity)) {
+			                  // Activity
+			                  logger.info(">>> Found activity route: " + tm.toString() + " <<<");
+			                  routeMeta = new RouteMeta(route, element, RouteType.ACTIVITY, paramsType);
+			              } else {
+			                  // Fragment
+			                  logger.info(">>> Found fragment route: " + tm.toString() + " <<<");
+			                  routeMeta = new RouteMeta(route, element, RouteType.parse(FRAGMENT), paramsType);
+			              }
+			  
+			              routeMeta.setInjectConfig(injectConfig);
+			          } else if (types.isSubtype(tm, iProvider)) {
+			              // IProvider（接口）
+			              logger.info(">>> Found provider route: " + tm.toString() + " <<<");
+			              routeMeta = new RouteMeta(route, element, RouteType.PROVIDER, null);
+			          } else if (types.isSubtype(tm, type_Service)) {
+			              // Service
+			              logger.info(">>> Found service route: " + tm.toString() + " <<<");
+			              routeMeta = new RouteMeta(route, element, RouteType.parse(SERVICE), null);
+			          } else {
+			              throw new RuntimeException("The @Route is marked on unsupported class, look at [" + tm.toString() + "].");
+			          }
+			          // 7。routeMeta（路径信息）存入groupMap
+			          categories(routeMeta);
+			      }
+			  ```
+		- 1.先验证路径path是否合规；合规就把RouteMeta按groupName分组存入 groupMap
+		  collapsed:: true
+			- ```
+			  private void categories(RouteMeta routeMete) {
+			      //验证routeMete
+			      if (routeVerify(routeMete)) {
+			          logger.info(">>> Start categories, group = " + routeMete.getGroup() + ", path = " + routeMete.getPath() + " <<<");
+			          Set<RouteMeta> routeMetas = groupMap.get(routeMete.getGroup());
+			          if (CollectionUtils.isEmpty(routeMetas)) {
+			              Set<RouteMeta> routeMetaSet = new TreeSet<>(new Comparator<RouteMeta>() {
+			                  @Override
+			                  public int compare(RouteMeta r1, RouteMeta r2) {
+			                      try {
+			                          return r1.getPath().compareTo(r2.getPath());
+			                      } catch (NullPointerException npe) {
+			                          logger.error(npe.getMessage());
+			                          return 0;
+			                      }
+			                  }
+			              });
+			              routeMetaSet.add(routeMete);
+			              groupMap.put(routeMete.getGroup(), routeMetaSet);
+			          } else {
+			              routeMetas.add(routeMete);
+			          }
+			      } else {
+			          logger.warning(">>> Route meta verify error, group is " + routeMete.getGroup() + " <<<");
+			      }
+			  }     
+			  ```
+		- 从这个判断方法 里，知道了
+		  collapsed:: true
+		  path 必须“/”开头，并且第一段作为默认 group 名；
+			- ```
+			  private boolean routeVerify(RouteMeta meta) {
+			      String path = meta.getPath();
+			  
+			      if (StringUtils.isEmpty(path) || !path.startsWith("/")) {   // The path must be start with '/' and not empty!
+			          return false;
+			      }
+			  
+			      if (StringUtils.isEmpty(meta.getGroup())) { // Use default group(the first word in path)
+			          try {
+			              String defaultGroup = path.substring(1, path.indexOf("/", 1));
+			              if (StringUtils.isEmpty(defaultGroup)) {
+			                  return false;
+			              }
+			  
+			              meta.setGroup(defaultGroup);
+			              return true;
+			          } catch (Exception e) {
+			              logger.error("Failed to extract default group! " + e.getMessage());
+			              return false;
+			          }
+			      }
+			  
+			      return true;
+			  }
+			  ```
+		- 接着生成代码的过程
 			- ```
 			  ```
 	-
