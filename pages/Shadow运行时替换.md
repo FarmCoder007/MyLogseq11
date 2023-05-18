@@ -137,4 +137,99 @@
 			  ```
 		- 从方法1的代码中可以看到，TelephonyManager.getDeviceId()是通过调用ITelephony.getDeviceIdWithFeature()方法获取的，所以我们需要拦截的系统服务为ITelephony，需要拦截的方法为getDeviceIdWithFeature。
 	- # 2. 获取待拦截服务名称
+	  collapsed:: true
+		- 通过分析代码可以看到调用链如下，最终可以知道ITelephony对应的服务名称为Context.TELEPHONY_SERVICE。
+		  collapsed:: true
+			- ```
+			  class TelephonyManager {
+			  
+			      public String getDeviceId() {
+			          try {
+			              ITelephony telephony = getITelephony();
+			              if (telephony == null)
+			                  return null;
+			  
+			              return telephony.getDeviceIdWithFeature(mContext.getOpPackageName(),     // ①
+			                      mContext.getAttributionTag());
+			          } catch (RemoteException ex) {
+			              return null;
+			          } catch (NullPointerException ex) {
+			              return null;
+			          }
+			      }
+			                  |
+			                  ∨
+			      private ITelephony getITelephony() {
+			          return ITelephony.Stub.asInterface(TelephonyFrameworkInitializer              // ②
+			                  .getTelephonyServiceManager().getTelephonyServiceRegisterer().get());
+			      }
+			  }
+			                  |
+			                  ∨
+			  class TelephonyFrameworkInitializer {
+			      public static TelephonyServiceManager getTelephonyServiceManager() {              // ③
+			          return sTelephonyServiceManager;
+			      }
+			  }
+			                  |
+			                  ∨
+			  class TelephonyServiceManager {
+			  
+			      public ServiceRegisterer getTelephonyServiceRegisterer() {
+			          return new ServiceRegisterer(Context.TELEPHONY_SERVICE);                      // ④
+			      }
+			  
+			      public static final class ServiceRegisterer {
+			          private final String mServiceName;
+			  
+			          public ServiceRegisterer(String serviceName) {
+			              mServiceName = serviceName;                                               // ⑤
+			          }
+			  
+			                          |
+			                          ∨
+			          public void register(@NonNull IBinder service) {
+			              ServiceManager.addService(mServiceName, service);                         // ⑥
+			          }
+			  
+			          public IBinder get() {
+			              return ServiceManager.getService(mServiceName);
+			          }
+			      }
+			  }
+			  ```
+	- # 3. 创建对应拦截器
+	  collapsed:: true
+		- 知道了需要拦截的服务名称和方法，创建ITelephonyInterceptor类，然后令其实现android.shadow.ShadowServiceInterceptor接口，
+		  collapsed:: true
+			- 1在provideInterceptServiceName()方法中返回拦截的服务名称Context.TELEPHONY_SERVICE。
+			- 2在provideInterceptMethodNames()方法中返回拦截的服务方法getDeviceIdWithFeature。
+			- 3在invoke()方法中对服务方法进行拦截，这里我们只是打印一条日志，然后执行服务原有逻辑。
+		- ```
+		  public class ITelephonyInterceptor implements ShadowServiceInterceptor {
+		  
+		      private final Set<String> mInterceptMethodNames = Collections.unmodifiableSet(new HashSet<>(Arrays.asList(
+		              "getDeviceId", // android-26 8.0.0
+		              "getDeviceIdWithFeature"
+		      )));
+		  
+		      @Override
+		      public Object invoke(String serviceName, Object service, Method method, Object[] args) throws Throwable {
+		          ShadowLog.d("ITelephonyInterceptor intercept method=" + method.getName());
+		          return ReflectUtil.wrapReturnValue(method.invoke(service, args), method.getReturnType());
+		      }
+		  
+		      @Override
+		      public String provideInterceptServiceName() {
+		          return Context.TELEPHONY_SERVICE;
+		      }
+		  
+		      @Override
+		      public Set<String> provideInterceptMethodNames() {
+		          return mInterceptMethodNames;
+		      }
+		  
+		  }
+		  ```
+	- # 4. 快速获取待拦截服务名字和方法
 		-
