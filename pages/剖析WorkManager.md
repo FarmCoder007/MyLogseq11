@@ -395,4 +395,39 @@
 				      }
 				  ```
 			- SystemAlarmService没啥内容，主要是将消息有交给了SystemAlarmDispatcher来分发。
-		- ###
+		- ### SystemAlarmDispatcher
+			- 这里重点看下processCommand()这个方法。这里创建一个异步线程有将任务扔回给了CommandHandler的onHandleIntent()方法处理。
+				- ```
+				  private void processCommand() {
+				  ····
+				  try {
+				  processCommandLock.acquire();
+				  // Process commands on the background thread.
+				  mWorkManager.getWorkTaskExecutor().executeOnBackgroundThread(new Runnable() {
+				  @Override
+				  public void run() {
+				  ·····
+				  try {
+				   wakeLock.acquire();
+				                          mCommandHandler.onHandleIntent(mCurrentIntent, startId,
+				                                  SystemAlarmDispatcher.this);
+				                      } catch (Throwable throwable) {
+				                         
+				                      }  finally {
+				                          
+				                      }
+				                  }
+				              }
+				          });
+				      } finally {
+				          processCommandLock.release();
+				      }
+				  }
+				  ```
+			- 我这里整理下链路，首先是ConstraintProxy约束广播，然后用CommandHandler创建消息发送给SystemAlarmService服务。这个服务又把消息给SystemAlarmDispatcher，SystemAlarmDispatcher创建一个异步线程任务又把消息扔给CommandHandler去处理任务。我们用一个图来总体看下。
+				- ![image.png](../assets/image_1684428170868_0.png)
+			- 具体到这里后边的逻辑大家心里就有谱了，CommandHandler会接受多种指令，有重新调度的，有约束条件变换的有约束延迟满足的。这些指令在进一步给到对应的调度器和分发器，最终由WorkManagerImpl执行相应的策略。
+			- 这里就不在具体往后跟踪代码分析了，大家有兴趣可以自行分析一波。
+			- 异常退出重新调度
+			  最后我们来讲讲大家感兴趣的一个问题，WorkManager如何做到异常退出重新启动后，仍然调度未完成的任务的。
+			- 首先还是要从最开始的初始化WorkManagerImpl类开始说起
