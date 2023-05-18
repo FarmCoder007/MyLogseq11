@@ -40,6 +40,7 @@
 		  ```
 	- 第四次尝试，对应于Pool，和ListView不同的地方，RecyclerView提供了这种缓存形式，支持多个RecyclerView之间复用View，也就是说通过自定义Pool我们甚至可以实现整个应用内的RecyclerView的View的复用
 - # Demo验证时机
+  collapsed:: true
 	- 1.反射获取RecyclerView的成员变量mRecycler并获取Recycler的成员变量，设置OnLayout和OnScroll监听
 	  collapsed:: true
 		- ```
@@ -132,4 +133,41 @@
 			  ```
 		- 那么什么时候，会将holder缓存到RecycledViewPool中，当需要缓存的数量大于等于mViewCacheMax时，最初被加入mCachedViews的item会被加入到RecycledViewPool中
 			- ```
+			  if (cachedViewSize >= mViewCacheMax && cachedViewSize > 0) {
+			                          recycleCachedViewAt(0);
+			                          cachedViewSize--;
+			                      }
 			  ```
+- # RecyclerView局部刷新
+  collapsed:: true
+	- 以notifyItemChanged(1)为例，验证刷新之后执行的动作：最终会调用requestLayout()，使整个RecyclerView重新绘制，过程为：
+	- onMeasure()-->onLayout()-->onDraw()
+	- onLayout 方法执行关键步骤： dispatchLayoutStep1() ：预处理，记录各项状态数值。此时，修改了需要刷新的ViewHolder的cmd状态机标志位为ViewHolder.FLAG_UPDATE
+	- dispatchLayoutStep2()：真正测量布局大小，位置，核心函数为layoutChildren()，fill方法-> 执行layoutChunk->recycler.getViewForPosition，屏幕内无需刷新的ViewHolder缓存到mAttachScrap列表，而需要刷新的ViewHolder缓存到mChangedScrap，当调用到tryGetViewHolderForPositionByDeadline时，从mAttachScrap取出的ViewHolder无需
+	- 再次bind，从mChangedScrap取出的ViewHolder执行bind方法，使得bindview只调用一次
+- # 对比listView
+	- 两级缓存
+	- 负责缓存管理类是RecycleBin
+	- mActiveViews：缓存的是View而非ViewHolder，mActiveViews类比于mAttachedScrap，快速重用屏幕内View，无需createView和bindView
+	- mScrapViews:  类比于mCachedViews ，mReyclerViewPool缓存的是屏幕外的View，mCachedViews通过对应position精准获取ViewHolder，数据源不变，无需再次bind， mScrapViews中获取的View每次都调用getView方法，因此需要重新bindView
+	  collapsed:: true
+		- ```
+		  final View scrapView = mRecycler.getScrapView(position);
+		          final View child = mAdapter.getView(position, scrapView, this);
+		          if (scrapView != null) {
+		              if (child != scrapView) {
+		                  // Failed to re-bind the data, return scrap to the heap.
+		                  mRecycler.addScrapView(scrapView, position);
+		              } else if (child.isTemporarilyDetached()) {
+		                  outMetadata[0] = true;
+		  
+		                  // Finish the temporary detach started in addScrapView().
+		                  child.dispatchFinishTemporaryDetach();
+		              }
+		          }
+		  ```
+	- 缓存区别
+		- ListView中通过pos获取的是view，即pos-->view；
+		  RecyclerView中通过pos获取的是ViewHolder，即pos --> (view，viewHolder，flag)
+	- 刷新区别
+		- ListView是将所有的mActiveViews都移入了二级缓存mScrapViews，都需要重新bind，而RecyclerView是通过修改ViewHolder标志位，调用getViewForPosition通过识别标志判断是否重新bindView
