@@ -222,7 +222,9 @@
 	- 不正确的context
 	-
 - ## 解决方案
+  collapsed:: true
 	- 1.使用Builder，增加一层widget，此时的context是Builder的context，向上查找可以找到Scaffold了
+	  collapsed:: true
 		- ```
 		  @override
 		     Widget build(BuildContext context) {
@@ -252,4 +254,54 @@
 			    Widget build(BuildContext context) => builder(context);
 			  }
 			  ```
-		- 2. 为Scaffold指定id(key),并通过其获取currentState
+	- collapsed:: true
+	  2. 为Scaffold指定id(key),并通过其获取currentState
+		- GlobalKey是app中全局唯一的，是不能出现两个相同的GlobalKe的widget。
+		- GlobalKey是Flutter提供的一种在整个APP中引用element的机制
+		- 那么我们便可以通过globalKey.currentWidget获得该widget对象
+		  globalKey.currentElement来获得widget对应的element对象
+		  如果当前widget是StatefulWidget，则可以通过globalKey.currentState来获得该widget对应的state对象
+			- ```
+			  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+			  
+			     @override
+			     Widget build(BuildContext context) {
+			      return Scaffold(
+			        key: _scaffoldKey,
+			        body: Center(
+			          child: Text(
+			            \'$_counter\',
+			            style: Theme.of(context).textTheme.display1,
+			          ),
+			        ),
+			        floatingActionButton: FloatingActionButton(
+			          onPressed: () {
+			           // Scaffold.of(context).showSnackBar(SnackBar(content: Text(\'message\')));
+			            _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(\'message\')));
+			              _incrementCounter();
+			          },
+			          child: Icon(Icons.add),
+			        ),
+			      );
+			    }
+			  ```
+		-
+	- 3.使用ScaffoldMessenger，官方提供的另一种调用方式。它会查找下面的Scasffold
+		- ```
+		  @override
+		     Widget build(BuildContext context) {
+		      return Scaffold(
+		        body: ・・・ ,
+		        floatingActionButton: Builder(builder: (context) {
+		          return FloatingActionButton(
+		            onPressed: () {
+		               ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(\'message\')));
+		              _incrementCounter();
+		            },
+		            child: Icon(Icons.add),
+		          );
+		        }),
+		  ```
+- 总结
+  我们常用的widget只是一个配置信息，实际每个widget都对应了一个element，由于element实现了BuildContext，所以我们在Widget的build(context)方法中，通过
+  context，可以间接操作Element。context实际就是我们widget在Element树中对应的实际位置。
