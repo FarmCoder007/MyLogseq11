@@ -14,6 +14,7 @@
 	- 从 Kotlin 发展的时间线可以知道，Kotlin 语言得到了 Android 官方的大力支持，2017年I/O上确定 Kotlin 是 Android 官方支持的一等开发语言。在去年10月 Android 官方宣布 Jetpack 开始支持 KMM，目前 Collections 和 DataStore 可以通过依赖 -dev01 版本在 KMM 上使用，同时 KMM 进入了 Beta 版本阶段，预计今年将发布稳定版。
 	- ![image.png](../assets/image_1684432799100_0.png)
 - # 小试KMM，名不虚传
+  collapsed:: true
 	- 了解了 KMM 的大概来历和作用，下面就简单试试水，看看如何上手 KMM。
 	- ### 开发环境准备
 	  collapsed:: true
@@ -22,4 +23,21 @@
 		  从 Android Studio 下载 KMM 插件
 		  更新 Kotlin Plugin 插件到最新版本
 	- ### 创建KMM工程
-		-
+	  collapsed:: true
+		- 准备好必须的环境后就可以创建跨平台的App项目了，使用 Android Studio 创建 KMM 项目与我们创建普通的 Android 项目类似，可以创建 KMM 的 App 工程，也可以创建 Library 工程，创建的 App 工程中包含双端的壳工程和 shared 模块，Library 工程中就只包含 shared 模块
+		  collapsed:: true
+			- ![image.png](../assets/image_1684432840652_0.png)
+		- 配置完成应用程序的名称、包名、项目位置及最小SDK版本后，点击下一步进入工程中模块名称的配置，并选择iOS的发布类型，目前支持 CocoaPods Dependency Manager 和 Regular framework 两种，前者用于更复杂的项目，需要使用 CocoaPods 依赖管理器来管理依赖库，后者不需要三方工具，直接通过内部的 Gradle 任务和 Xcode 编译配置来集成 KMM 模块。
+		  collapsed:: true
+			- ![image.png](../assets/image_1684432852927_0.png)
+	- ## 代码工程结构
+	  collapsed:: true
+		- 创建好的 KMM App 工程中包含三个模块：
+		  collapsed:: true
+			- androidApp：是 Android 平台的应用程序模块，用于实现 Android App 的 UI 和平台相关的能力。
+			- iosApp：是 iOS 应用程序模块，它依赖并使用 shared 模块作为 iOS 框架。
+			- shared：是一个 Kotlin 模块，包含 Android 和 iOS 应用程序在平台之间共享的通用代码逻辑。
+		- ![image.png](../assets/image_1684432879108_0.png)
+		- androidApp 和 shared 两个模块都是 Gradle 项目，在根目录下的 settings.gradle.kts 文件中有被 include，而 iosApp 是 Xcode 项目，需要单独编译，shared 工程需要被打包成 framework 提供给 iOS 使用。
+		- 在 shared 模块内包含了三个源码集：androidMain、commonMain 和 iosMain，androidMain和 iosMain 分别是 Android 和 iOS 这两个平台的具体实现的源码集，通过 actual 关键字实现在 commonMain 中以 expected 关键字声明的 API。源码集是一个有逻辑关联的代码集合的 Gradle 概念，在 shared 模块根目录下的 build.gradle.kts 文件中可以为每个源码集配置依赖，Kotlin 标准库会被自动加到相应的 sourceSet 中，无需重复引入。
+- #
