@@ -177,6 +177,7 @@ title:: kotlin1.5新特性
 	- 内联类的用途
 		- 主要用来定义替代基本数据类型的VO，很多数据，尤其在作为参数时，直接用基本数据类型并不合适因为其存在一定的规则，比如电子邮件需要满足特定正则表达式，这种情况就应该将这种数据类型和其校验规则一起抽象成一个VO以便最大化内聚性，但不良后果是本来用基本数据类型可以解决的，改用VO会需要创建额外的对象，内联类解决了这一问题。
 - # 密封接口
+  collapsed:: true
 	- kotlin在很早的版本里就已经有密封类的概念，使用关键字sealed定义，
 	  密封类的子类只能跟父类定义在同一文件中，1.5.0版本开始出现密封接口的概念，子类可以随处定义，在编译器会自动统计出所有子类以供when语句的闭环判断。下面通过例子熟悉一下密封接口
 	- 使用密封接口定义如下结构，蓝色方块为接口：
@@ -211,4 +212,81 @@ title:: kotlin1.5新特性
 	- 以上例子说明when语句对于分支是否覆盖了全部case的判断并不支持多级，如果包含多级，并不会只判断叶子节点。
 	- 下面通过代码了解下密封接口的具体实现方式是什么：
 	- kotlin代码
-	-
+	  collapsed:: true
+		- ```
+		  sealed interface State{
+		      fun description(): String
+		  }
+		  
+		  interface NotIdle: State{
+		  
+		  }
+		  
+		  class Working: NotIdle{
+		      override fun description(): String = "工作状态"
+		  }
+		  
+		  object Idle : State {
+		      override fun description(): String = "忙碌状态"
+		  }
+		  
+		  sealed interface Gender{
+		  
+		  }
+		  
+		  object Male: Gender{
+		  
+		  }
+		  
+		  object Female: Gender{
+		  
+		  }
+		  
+		  object Unknown: Gender{
+		  
+		  }
+		  ```
+	- 字节码反编译成java代码（只例举部分）：
+	  collapsed:: true
+		- ```
+		  //sealed interface
+		  @Metadata(
+		     mv = {1, 5, 1},
+		     k = 1,
+		     d1 = {"\u0000\u0018\n\u0002\u0018\u0002\n\u0002\u0010\u0000\n\u0000\n\u0002\u0010\u000e\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\bv\u0018\u00002\u00020\u0001J\b\u0010\u0002\u001a\u00020\u0003H&\u0082\u0001\u0002\u0004\u0005¨\u0006\u0006"},
+		     d2 = {"Lcom/example/whatsnew/State;", "", "description", "", "Lcom/example/whatsnew/Idle;", "Lcom/example/whatsnew/NotIdle;", "app_debug"}
+		  )
+		  public interface State {
+		     @NotNull
+		     String description();
+		  }
+		  
+		  //normal interface
+		  @Metadata(
+		     mv = {1, 5, 1},
+		     k = 1,
+		     d1 = {"\u0000\n\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0000\bf\u0018\u00002\u00020\u0001¨\u0006\u0002"},
+		     d2 = {"Lcom/example/whatsnew/NotIdle;", "Lcom/example/whatsnew/State;", "app_debug"}
+		  )
+		  public interface NotIdle extends State {
+		  }
+		  
+		  //class
+		  @Metadata(
+		     mv = {1, 5, 1},
+		     k = 1,
+		     d1 = {"\u0000\u0012\n\u0002\u0018\u0002\n\u0002\u0018\u0002\n\u0002\b\u0002\n\u0002\u0010\u000e\n\u0000\u0018\u00002\u00020\u0001B\u0005¢\u0006\u0002\u0010\u0002J\b\u0010\u0003\u001a\u00020\u0004H\u0016¨\u0006\u0005"},
+		     d2 = {"Lcom/example/whatsnew/Working;", "Lcom/example/whatsnew/NotIdle;", "()V", "description", "", "app_debug"}
+		  )
+		  public final class Working implements NotIdle {
+		     @NotNull
+		     public String description() {
+		        return "工作状态";
+		     }
+		  }
+		  ```
+	- 可以看到，密封接口跟普通接口一样也是对应java的interface，它们的真正差异在元数据的data1字段中（d1），密封接口在d1中会有对应的标记，以供kotlin运行时解析。由于d1中的数据是被编码的二进制，暂未找到方法解析其值含义，这里就不做具体分析了。
+	- 密封接口最大的好处在于它允许类多继承，有些类可能同时拥有多个可枚举特征，这时就可以通过密封接口很好地实现相应设计。
+- # 标准库
+	- ## 无符号整型
+		-
