@@ -77,4 +77,19 @@
 		  ```
 	-
 	-
-- Widget生命周期流程
+- ## Widget生命周期流程
+	- Widget 的生命周期主要体现在 State 对象的回调方法中，主要执行流程如下图：
+	  collapsed:: true
+		- ![image.png](../assets/image_1684401529810_0.png){:height 712, :width 747}
+	- 上述过程可以分为3个主要阶段：创建 Widget、更新 Widget 和销毁 Widget。
+	- 创建
+		- State 的初始化流程是从系统调用 StatefulWidget 的 createWidget方 法开始的，在 createWidget 方法中会调用 State 类的构造方法，接着依次执行State类生命周期方法：initState -> didChangeDependencies -> build，然后完成页面渲染。
+		- 构造方法是 State 生命周期的起点，Flutter 通过调用 StatefulWidget.createState() 创建一个 State，父 Widget 可以通过构造方法传入一些初始化 UI 的数据。当 State 对象被插入到视图树时会调用 initState 方法，这个方法在 State 对象的生命周期中只会被调用一次，我们可以在这里做一些初始化工作。didChangeDependencies 方法是用来专门处理 State 对象依赖关系变化的，它会在 initState 执行结束后立即被调用。build 方法用于构建UI视图，经过前面的步骤，当前 State 对象已经准备好了，在 build 方法中根据父 Widget 传递的初始化数据以及 State 的当前状态，创建一个 Widget 返回。
+	- 更新
+		- 当一个Widget收到其父 Widget 的重构请求，或者由于用户的交互触发内部 State 对象改变并调用 setState 方法，或者当前 Widget 被插入到新的视图树中，或者在开发过程中发生热重载，将触发 Widget 的 State 更新，更新的场景比较复杂，每次更新都会调用 build 方法。State 更新主要由3个方法触发：setState、didchangeDependencies 与 didUpdateWidget。
+		- 父 Widget 根据 runtimeType 和 Widget.key 确定需要更新的视图树中某个位置的 Widget，当 Widget 的配置发生变化或热重载时，会调用 didUpdateWidget 方法。当 State 内部状态改变时，可以在当前 State 中直接调用 setState 方法更新状态数据，setState 的回调是立即执行的，所以不能是 async 的。当 State 对象的依赖关系发生变化，比如系统语言或应用主题等全局的状态发生改变后，Framework 会通知 State 执行 didChangeDependencies 方法。
+	- 销毁
+		- State 对象的销毁过程比较简单，包括移除和销毁 Widget 两个场景，系统会分别调用 deactivate 和 dispose 方法。
+		- 当组件的可见状态发生变化时，deactivate 函数会被调用，这时 State 会被暂时从视图树中移除。值得注意的是，页面切换时，由于 State 对象在视图树中的位置发生了变化，需要先暂时移除后再重新添加，重新触发组件构建，因此这个函数也会被调用。
+		- 当 State 被永久地从视图树中移除时，Flutter 会调用 dispose 函数。而一旦到这个阶段，组件就要被销毁了，所以我们可以在这里进行最终的资源释放、移除监听、清理环境等等。
+-
