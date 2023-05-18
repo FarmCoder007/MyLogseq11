@@ -45,6 +45,7 @@
 	- 从前面的了解我们对 KMM 的大致认识是：为 Android 和 iOS 应用程序的网路、数据存储、数据分析和其他通用逻辑维护一份共享的代码库，然后分别实现平台特有的功能，UI 部分也采用给自平台的原生代码实现。简而言之 KMM 实现跨平台的理念就是“Shared business, native UI”。
 	- ![image.png](../assets/image_1684432903111_0.png)
 - # 接下来我们进一步探索 KMM 的 shared 模块是如何工作的。
+  collapsed:: true
 	- ### 共享代码库编译过程
 	  collapsed:: true
 		- 首选我们看一下 KMM 的编译过程。shared 模块下的 build.gradle.kts 文件中在 plugins 闭包下加载了 multiplatform 插件，并把 shared module 作为 library 输出。在 kotlin 闭包中配置了需要编译的平台。
@@ -150,3 +151,48 @@
 			      }
 			  }
 			  ```
+		- 在共享代码中如果想要访问平台相关的 API，则需要使用 Kotlin 的 expect/actual 声明的机制。在共享的源码集中定义 expect 声明，然后在平台源码集中提供对应的 actual 声明，这个机制可以用于声明方法、类、接口、枚举、成员属性和注解。
+		  collapsed:: true
+			- ![image.png](../assets/image_1684433078119_0.png)
+		- KMP 的编译器会确保每个在共享源码集中定义的 expect 声明都会在所有依赖该共享源码集的平台源码集中有对应的 actual 声明的实现，IDE 也会提示开发者创建缺少的 actual 声明。下面以获取 Android 和 iOS 平台的 UUID 为例，在 common 模块中定义一个 expect 声明的 randomUUID 方法，然后在 Android 和 iOS 平台分别提供实现，在实现方法前需要加上 actual 关键字。
+		  collapsed:: true
+			- ```
+			  // Common
+			  expect fun randomUUID(): String
+			  
+			  // Android
+			  import java.util.*
+			  
+			  actual fun randomUUID() = UUID.randomUUID().toString()
+			  
+			  // iOS
+			  import platform.Foundation.NSUUID
+			  
+			  actual fun randomUUID(): String = NSUUID().UUIDString()
+			  ```
+		- 对于 expect/actual 声明有一些使用规则：
+		  collapsed:: true
+			- 必须标记关键字 expect 和 actual
+			- 使用 expect 和 actual 声明的内容必须有相同的名字，并且所在的包名也要一致
+			- expect 声明的方法里不能有任何的实现，默认是抽象的
+			- 声明为 expect 的接口中的函数不能有函数体，但是对应的 actual 接口中的函数可以有函数体。允许 expect 声明的接口的子类不实现其中的某些函数，这需要将不被实现的函数标记为 open。
+			- ```
+			  // Common
+			  expect interface Mascot {
+			      open fun display(): String
+			  }
+			  
+			  class MascotImpl : Mascot {
+			      // 这里可以不实现`display()`函数
+			  }
+			  
+			  // Platform-specific
+			  actual interface Mascot {
+			      actual fun display(): String {
+			          // 由`actual`声明的函数需要有默认的实现
+			          TODO()
+			      }
+			  }
+			  ```
+- # 群英比武，各显神通
+	-
