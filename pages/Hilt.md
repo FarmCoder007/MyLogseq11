@@ -20,3 +20,35 @@
 		    }
 		  }
 		  ```
+		- ```
+		  //方式2：通过构造函数初始化DataSource
+		  class UserRepository(val userLocalDataSource:UserLocalDataSource,
+		                       val userRemoteDataSource:UserRemoteDataSource){
+		    //...todo...
+		    fun getUserDataFromLocal(userID:String){
+		      var user = userLocalDataSource.loadUserById(userID)
+		      //...
+		    }
+		  }
+		  ```
+	- 上面的2种方式最大的区别就是DataSource是由Repository类内部初始化实现还是由外部构造好后传入Repository。像这样通过构造函数的方式传入类对象，是依赖注入的方式。同样的使用setXXX()方法也是注入。
+	- 另外我们熟悉的创建类型的设计模式如：1.Builder模式 2.工厂模式也是依赖注入。
+	  collapsed:: true
+		- ```
+		  //bulider模式
+		  val user = User.Builder()
+		  	.name("Tom")
+		  	.age(19)
+		  	.build()
+		  
+		  //工厂模式
+		  class UserFactory{
+		    fun newUser:User{
+		      val user = User()
+		      user.name = "Tom"
+		      user.age = 19
+		      return user
+		    }
+		  }
+		  ```
+	- 这些都属于由外部来提供依赖的初始化，都是依赖注入，只是我们的说法不一样而已。
