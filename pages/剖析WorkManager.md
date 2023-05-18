@@ -515,7 +515,7 @@
 		  3 利用PackageManagerHelper.setComponentEnabled(）来关闭一些不用的广播或者服务，等真正使用的时候在开启，而不用反复注册、解注册。这样可以可以优化一部分app性能。
 - # 参考文章
 	- [WorkManager 源码解析](https://juejin.cn/post/7054558688563953694)
-	- Android WrokManager
-	- Android Jetpack之WorkManager源码分析
-	- WorkManager的基本使用
-	- WorkManager 基础入门
+	- [Android WrokManager](https://juejin.cn/post/7046971339248238628)
+	- [Android Jetpack之WorkManager源码分析](https://www.jianshu.com/p/ef2ed3cba64a)
+	- [WorkManager的基本使用](https://zhuanlan.zhihu.com/p/78599394)
+	- [WorkManager 基础入门](https://juejin.cn/post/6844903848570683405)
