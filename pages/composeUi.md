@@ -107,5 +107,15 @@
 			- 3-1、通过modifier.requestHeight设置高度180
 			  collapsed:: true
 				- ![image.png](../assets/image_1684394225859_0.png)
-			- r3-2、equestHeight实际会创建一个SizeModifier，并且链接到Modifier链
-	-
+			- 3-2、requestHeight实际会创建一个SizeModifier，并且链接到Modifier链
+			  collapsed:: true
+				- ![image.png](../assets/image_1684394247273_0.png)
+			- 3-3、SizeModifier继承自LayoutModifer，并且实现了设置测量的功能
+			  collapsed:: true
+				- ![image.png](../assets/image_1684394266185_0.png)
+			- 3-4、在LayoutNode遍历modifer的时候，遇到LayoutModifer后用ModifiedLayoutNode来包装LayoutModife
+			  collapsed:: true
+				- ![image.png](../assets/image_1684394280365_0.png)
+			- 3-5ModifiedLayoutNode在测量时调用LayoutModifier去测量大小
+			- 3-6LayoutModifer之后用自身的Constraints去继续向下层LayoutNodeWrapper测量
+			- 最终测量到最接近LayoutNode的InnerPlaceable（LayoutNodeWrapper子类），在这里会触发测试子LayoutNode
