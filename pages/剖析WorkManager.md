@@ -315,6 +315,7 @@
 			  ```
 			- 这里你肯定有疑问，为啥WorkManager不一步到位，而是先搞个StartWorkRunnable，然后又搞个WorkerWrapper调来调去的？这块也是我的疑问，大家可以探讨下。
 		- ### WorkerWrapper
+		  collapsed:: true
 			- 最终任务调度到这个WorkerWrapper类里执行runWorker()方法真正调度任务。因为这个runWorker()方法太长了这里就不贴里边的具体代码了。我们主要看两个东西。
 			- 首先是Worker任务的具体执行时机，WorkTaskExecutor开启了一个主线程去调用mWorker.startWork()方法，这个最终就会调用到我们实际的任务上。
 			- ```
@@ -366,4 +367,32 @@
 				          }
 				      }
 				  ```
-			-
+				- 这是对于GreedyScheduler执行非周期性任务的逻辑。那对于约束条件暂时不满足，后期又满足的情况WorkManager是怎么处理的呢？我们还是从最开始的源头来分析下。
+				- 我们知道，耗电量、存储、网络这些状态的监听只能通过系统广播来实现，所以源头一定是广播。
+		- ### ConstraintProxy
+		  collapsed:: true
+			- WorkManager的约束广播都是继承ConstraintProxy这个抽象类。这个类的父类就是广播。
+			- ```
+			  abstract class ConstraintProxy extends BroadcastReceiver {
+			      private static final String TAG = Logger.tagWithPrefix("ConstraintProxy");
+			  
+			      @Override
+			      public void onReceive(Context context, Intent intent) {
+			          Logger.get().debug(TAG, String.format("onReceive : %s", intent));
+			          Intent constraintChangedIntent = CommandHandler.createConstraintsChangedIntent(context);
+			          context.startService(constraintChangedIntent);
+			      }
+			  
+			      ·····
+			  }
+			  ```
+			- 我们重点看下onReceive()这个方法，当约束条件变化的时候会调用CommandHandler向SystemAlarmService发送消息。
+				- ```
+				   static Intent createConstraintsChangedIntent(@NonNull Context context) {
+				          Intent intent = new Intent(context, SystemAlarmService.class);
+				          intent.setAction(ACTION_CONSTRAINTS_CHANGED);
+				          return intent;
+				      }
+				  ```
+			- SystemAlarmService没啥内容，主要是将消息有交给了SystemAlarmDispatcher来分发。
+		- ###
