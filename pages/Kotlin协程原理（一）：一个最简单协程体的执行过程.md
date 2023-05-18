@@ -233,6 +233,66 @@
 			  }
 			  ```
 		- 这里又调用了DispatchedContinuation的resumeCancellableWith方法，我们看看执行了什么？
+		  collapsed:: true
 			- ```
+			     @Suppress("NOTHING_TO_INLINE")
+			      inline fun resumeCancellableWith(
+			          result: Result<T>,
+			          noinline onCancellation: ((cause: Throwable) -> Unit)?
+			      ) {
+			          val state = result.toState(onCancellation)
+			          if (dispatcher.isDispatchNeeded(context)) {
+			              _state = state
+			              resumeMode = MODE_CANCELLABLE
+			              dispatcher.dispatch(context, this)
+			          } else {
+			              executeUnconfined(state, MODE_CANCELLABLE) {
+			                  if (!resumeCancelled(state)) {
+			                      resumeUndispatchedWith(result)
+			                  }
+			              }
+			          }
+			      }
+			  ```
+		- 根据逻辑这里会调用dispatcher.dispatch方法，实现如下：
+		  collapsed:: true
+			- ```
+			  override fun dispatch(context: CoroutineContext, block: Runnable): Unit = coroutineScheduler.dispatch(block)
+			  ```
+		- 这里首次引入了CoroutineScheduler，这个概念后面再讲，我们继续往下看：
+		  collapsed:: true
+			- ```
+			   fun dispatch(block: Runnable, taskContext: TaskContext = NonBlockingContext, tailDispatch: Boolean = false) {
+			          trackTask() // this is needed for virtual time support
+			          val task = createTask(block, taskContext)
+			          // try to submit the task to the local queue and act depending on the result
+			          val currentWorker = currentWorker()
+			          val notAdded = currentWorker.submitToLocalQueue(task, tailDispatch)
+			          if (notAdded != null) {
+			              if (!addToGlobalQueue(notAdded)) {
+			                  // Global queue is closed in the last step of close/shutdown -- no more tasks should be accepted
+			                  throw RejectedExecutionException("$schedulerName was terminated")
+			              }
+			          }
+			          val skipUnpark = tailDispatch && currentWorker != null
+			          // Checking 'task' instead of 'notAdded' is completely okay
+			          if (task.mode == TASK_NON_BLOCKING) {
+			              if (skipUnpark) return
+			              signalCpuWork()
+			          } else {
+			              // Increment blocking tasks anyway
+			              signalBlockingWork(skipUnpark = skipUnpark)
+			          }
+			      }
+			  ```
+		- 这里出现了一个方法currentWorker，直觉告诉我这跟线程有关系，我们看一下currentWorker的实现：
+		  collapsed:: true
+			- ```
+			   private fun currentWorker(): Worker? = (Thread.currentThread() as? Worker)?.takeIf { it.scheduler == this }
+			  ```
+		- 如果当前线程为Worker就返回当前Worker，否则返回null，通过这段代码我们可以理解，kotlin协程里的执行线程是被包装成了Worker，我们看一下Worker的定义就知道了：
+		  collapsed:: true
+			- ```
+			  internal inner class Worker private constructor() : Thread() {}
 			  ```
 -
