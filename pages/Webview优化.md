@@ -113,9 +113,72 @@
 				- ![image.png](../assets/image_1684430965273_0.png)
 			- 查看Performance信息，[Performance api](https://developer.mozilla.org/zh-CN/docs/Web/API/Performance)详见
 			- 通过api 获取首次绘制耗时
+			  collapsed:: true
 				- ```
 				  window.performance.getEntries()
 				  ```
 				- ![image.png](../assets/image_1684431003873_0.png)
-				-
+				- ```
+				  window.performance.timing
+				  ```
+				- ![image.png](../assets/image_1684431021169_0.png)
+			- android 如何获取Performance信息
+			- mWebView.addJavascriptInterface(new NewJsObject(this, mAccessProxy), "jsbridge");
+			  collapsed:: true
+				- ```
+				  	 /**
+				           * 用于收集Timing信息
+				           *
+				           * @param jsonStr
+				           */
+				          @JavascriptInterface
+				          public void sendTiming(String jsonStr) {
+				              try {
+				                  JSONObject jsObject = new JSONObject(jsonStr);
+				                  long domInteractive = jsObject.optLong("domInteractive");
+				                  long domLoading = jsObject.optLong("domLoading");
+				                  long fetchStart = jsObject.optLong("fetchStart");
+				                  if (domInteractive > 0) {
+				                      Log.d("web", "白屏时间 (domInteractive - fetchStart):" + (domInteractive - fetchStart));
+				                  }
+				                  if (domLoading > 0) {
+				                      Log.d("web", "白屏时间 (domLoading - fetchStart):" + (domLoading - fetchStart));
+				                  }
+				                  long domContentLoadedEventEnd = jsObject.optLong("domContentLoadedEventEnd");
+				                  if (domContentLoadedEventEnd > 0) {
+				                      Log.d("web", "domReadyTime (domContentLoadedEventEnd - fetchStart):" + (domContentLoadedEventEnd - fetchStart));
+				                  }
+				  
+				  
+				              } catch (JSONException e) {
+				                  e.printStackTrace();
+				              }
+				          }
+				  
+				          @JavascriptInterface
+				          public void sendPerformance(String s) throws JSONException {
+				              JSONArray jsonArray =new JSONArray(s);
+				              for (int i = 0; i < jsonArray.length(); i++) {
+				                  JSONObject jsonObject = jsonArray.getJSONObject(i);
+				                  if ("first-paint".equals(jsonObject.optString("name"))) {
+				                      Log.d("web", "首次像素绘制(FP):" + jsonObject.optString("startTime"));
+				                  }
+				                  if ("first-contentful-paint".equals(jsonObject.optString("name"))) {
+				                      Log.d("web", "首次内容绘制(FCP):" + jsonObject.optString("startTime"));
+				                  }
+				  
+				              }
+				          }
+				  ```
+				- ```
+				  String injectJs ="javascript:jsbridge.sendTiming(JSON.stringify(window.performance.timing));";
+				  
+				  webview.directLoadUrl(injectJs);
+				  
+				  String injectJs ="javascript:jsbridge.sendPerformance(JSON.stringify(window.performance.getEntries()));";
+				  
+				  webview.directLoadUrl(injectJs);
+				  ```
+			- ![image.png](../assets/image_1684431063246_0.png)
+			-
 	-
