@@ -57,6 +57,12 @@
 			- LayoutNode的draw方法调用outerLayoutNodeWrapper: LayoutWrapper的draw方法
 			- LayoutNodeWrapper依次向后调用，LayoutNodeWrapper绘制结束后，再依次调用LayoutNode的子节点的draw方法
 		- 2、LayoutNode内部是分层绘制，每层最终由DrawModifier(Modifier子类）来进行绘制
-			-
-		- 以上面的Demo为例，给Column底部添加颜色和文字
+		- 3、以上面的Demo为例，给Column底部添加颜色和文字
+			- 1添加红色部分代码：
+			  collapsed:: true
+				- ![image.png](../assets/image_1684393906317_0.png)
+			- 2、效果
+			  collapsed:: true
+				- ![image.png](../assets/image_1684393917094_0.png)
+			- 3、
 -
