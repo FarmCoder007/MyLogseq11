@@ -240,7 +240,8 @@
 			  }
 			  ```
 		- 了解有关 [NavOptions](https://developer.android.google.cn/reference/androidx/navigation/NavOptions) 的更多信息。
-- ## 如何在 Fragment 之间传递参数
+- # 如何在 Fragment 之间传递参数
+  collapsed:: true
 	- 在 Fragment 之间共享数据的需求很常见。最简单的方法之一是使用共享的 ViewModel。当我们使用 Navigation 组件时，让我们看看如何使用 safe args 插件在两个 Fragment 之间共享数据。
 	- ## Safe Args
 		- Safe Args 插件生成的代码允许我们进行类型安全的导航和参数传递。
@@ -338,3 +339,10 @@
 		- 我们可以在 build 文件夹中找到生成的代码
 		  collapsed:: true
 			- ![image.png](../assets/image_1684415519570_0.png)
+	- ## 支持的参数类型
+	  collapsed:: true
+		- ![image.png](../assets/image_1684415534916_0.png){:height 462, :width 700}
+- # 参考资料
+	- [Navigation component](https://developer.android.google.cn/guide/navigation/navigation-getting-started?hl=zh-cn)
+	- [Pass data between destinations](https://developer.android.google.cn/guide/navigation/navigation-pass-data?hl=zh-cn)
+-
