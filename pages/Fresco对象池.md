@@ -24,4 +24,50 @@
 	  collapsed:: true
 		- ![image.png](../assets/image_1684400373565_0.png)
 	- Bucket
-	-
+		- Bucket通过队列(LinkedList)维护了一组空闲且相同大小的值称为自由链表，通过BasePool.get(Object)请求时会找到一个合适的Bucket，如果自由链表不为空则返回一个值并从自由链表删除
+		  collapsed:: true
+			- ```
+			    public V get() {
+			      V value = mFreeList.poll();
+			      if (value != null) {
+			        //bucket还维护了当前“正在使用”的项(来自这个bucket)的数量,
+			  	// 桶的“长度”是桶中当前正在使用的值的数量(mInUseLength)，加上自由列表的大小
+			        mInUseLength++;
+			      }
+			      return value;
+			    }
+			  ```
+		- 当一个值通过调用BasePool.release(Object)被释放到存储池中时，存储池会找到合适的存储池，并将该值返回给存储池的自由列表
+		  collapsed:: true
+			- ```
+			   public void release(V value) {
+			      Preconditions.checkNotNull(value);
+			      ...
+			        if (mInUseLength > 0) {
+			          mInUseLength--;
+			          mFreeList.add(value);
+			        } else {
+			          FLog.e(TAG, "Tried to release value %s from an empty bucket!", value);
+			        }
+			      }
+			    }
+			  ```
+		- 实例化并填充mBuckets
+		  collapsed:: true
+			- ```
+			   private void fillBuckets(SparseIntArray bucketSizes) {
+			      mBuckets.clear();
+			      for (int i = 0; i < bucketSizes.size(); ++i) {
+			  	// 桶的每个元素空间的大小
+			        final int bucketSize = bucketSizes.keyAt(i);
+			  	// 每个桶自由链表长度
+			        final int maxLength = bucketSizes.valueAt(i);
+			        mBuckets.put(
+			            bucketSize,
+			  	// 一个桶内的所有元素空间都是一样大
+			            new Bucket<V>(
+			                getSizeInBytes(bucketSize), maxLength, 0, mPoolParams.fixBucketsReinitialization));
+			      }
+			    }
+			  ```
+		-
