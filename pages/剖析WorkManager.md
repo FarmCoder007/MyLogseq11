@@ -333,4 +333,37 @@
 			                          }
 			                      });
 			  ```
-		-
+			- 另外一个点是这个方法里的一个注释
+				- ```
+				  // Case 2:
+				              // On API 23, we double scheduler Workers because JobScheduler prefers batching.
+				              // So is the Work is periodic, we only need to execute it once per interval.
+				              // Also potential bugs in the platform may cause a Job to run more than once.
+				  ```
+			- 这时候又回到我们之前的那个问题，两个调度器遍历调度任务会不会出现一个任务被执行两次的问题？
+			- 刚才我的回答是不会，因为每个schedule会执行执行特定的任务，但这里官方很诚实的加上注释说明了。23平台上会有潜在bug会调度多次！！（尼玛！）
+			- 那我们分析下潜在的风险究竟是什么。
+			- 数据库没来得及更改状态？但是Workmanager读取操作数据库都是用的事务，不太可能出现状态不一致情况。
+			  异步组装任务造成任务状态不及时更新？我觉得也不太可能，因为组装任务是在数据库读取任务之后，此时及时异步线程组装任务也是在状态修改之后才执行的，不太可能出现问题。
+			  目前这块暂时还没想明白具体会是什么潜在的Bug，（也许谷歌自己也不知道要不也不会用潜在这个词），总之这里是个坑。
+			- 也就是说WorkManager保证任务一定会执行，但是不保证任务会被立即执行，也不保证任务不会被调用多次。
+			- 我们在从一个全局角度看下这个任务调度逻辑。
+			- 约束条件逻辑
+				- 我们在上边分析GreedyScheduler调度逻辑的时候讲到了WorkConstraintsTracker约束追踪器这个东西，它持有了BatteryChargingController等多种条件控制器。当约束条件满足后会回调onConstraintMet，并回调GreedyScheduler一个onAllConstraintsMet的函数。在这里GreedyScheduler会执行那些已经满足约束的调度任务。
+				- ```
+				      public void onConstraintMet(@NonNull List<String> workSpecIds) {
+				          synchronized (mLock) {
+				              List<String> unconstrainedWorkSpecIds = new ArrayList<>();
+				              for (String workSpecId : workSpecIds) {
+				                  if (areAllConstraintsMet(workSpecId)) {
+				                      Logger.get().debug(TAG, String.format("Constraints met for %s", workSpecId));
+				                      unconstrainedWorkSpecIds.add(workSpecId);
+				                  }
+				              }
+				              if (mCallback != null) {
+				               //回调外部所有约束都已经满足了   mCallback.onAllConstraintsMet(unconstrainedWorkSpecIds);
+				              }
+				          }
+				      }
+				  ```
+			-
