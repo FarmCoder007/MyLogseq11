@@ -6,6 +6,7 @@
 	- [[项目解析]]
 	- [[面试]]
 - Android
+  collapsed:: true
 	- [[开发常用工具]]
 	- [[Android架构]]
 	- [[系统架构]]
@@ -55,7 +56,6 @@
 	- [[Rxjava]]
 	- [[WebView]]
 - JAVA
-  collapsed:: true
 	- [[java-泛型]]
 	- 集合
 	  collapsed:: true
@@ -66,6 +66,7 @@
 	- [[xml解析]]
 	- [[Html解析]]
 	- [[java工具]]
+	- []
 - Kotlin
   collapsed:: true
 	- [[基本语法]]
@@ -111,6 +112,7 @@
 	- [[React]]
 	- [[JavaScript]]
 - Gradle
+  collapsed:: true
 	- [[Gradle文档]]
 	- [[buildConfig相关]]
 	- [[gradle/apt调试]]
