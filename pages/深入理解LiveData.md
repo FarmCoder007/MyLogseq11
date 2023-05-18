@@ -23,6 +23,7 @@
 		- LiveData 能资源共享
 		  如果将 LiveData 对象扩展，用单例模式将系统服务进行包裹。这些服务就可以在 APP 中共享。
 - # 2 LiveData 的使用
+  collapsed:: true
 	- ## 2.1 MutableLiveData 的使用
 	  collapsed:: true
 		- 在 ViewModel 中创建一个实例 LiveData 来保存某种类型的数据。
@@ -148,4 +149,43 @@
 	- ## 2.3MediatorLiveData 的使用
 		- MediatorLiveData可以作为中介观察或调度多个 LiveData 数据源；
 		  同时也可以做为一个liveData，被其他 Observer 观察。
-		-
+		- ## 2.3.1 示例
+		  collapsed:: true
+			- 监听多个不同类型数据源，map() 和 switchMap() 也应用了 MediatorLiveData 中介功能
+			  collapsed:: true
+				- ```
+				   // String 类型的liveData
+				      private val liveData1 = MutableLiveData<String>()
+				      // Int类型的liveData
+				      private val liveData2 = MutableLiveData<Int>()
+				      
+				      fun setData1(name: String) {
+				          liveData1.value = name
+				      }
+				      fun setData2(id: Int) {
+				          liveData2.value = id
+				      }
+				    
+				      val mediatorLiveData = MediatorLiveData<String>()
+				      init {
+				          mediatorLiveData.addSource(liveData1) {   
+				             mediatorLiveData.value = "A:$it"
+				          }
+				          mediatorLiveData.addSource(liveData2) {
+				             mediatorLiveData.value = "B:$it"
+				          }
+				      }
+				      // 监听不同数据源更新UI
+				      mediatorLiveData.observe(this, changeObserver)
+				      private val changeObserver = Observer<String> { value ->
+				          value?.let {
+				              text = it
+				          }
+				      }
+				  ```
+			- ![image.png](../assets/image_1684422363076_0.png)
+		- 使用多个MutableLiveData 单独观察数据，更新UI也能实现以上功能，但MutableLiveData需要分别要设置 LifecycleOwner 而 MediatorLiveData 能统一管理添加到它内部所有 LiveData 的生命周期， MediatorLiveData 重写了 LiveData 的 onActive 和 onInactive 方法统一去添加和移除它内部 LiveData 的 Observer
+		- ## 2.3.2 可用点
+			- MediatorLiveData监听不同来源（缓存、内置、网络）LiveData，更新UI数据
+- #  3LiveData 原理解析
+-
