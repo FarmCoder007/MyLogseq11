@@ -295,4 +295,51 @@
 			- ```
 			  internal inner class Worker private constructor() : Thread() {}
 			  ```
+		- 好了，继续我们刚才的运行过程，首次执行currentWorker为null，那我们再看看submitToLocalQueue的实现：
+		  collapsed:: true
+			- ```
+			   private fun Worker?.submitToLocalQueue(task: Task, tailDispatch: Boolean): Task? {
+			          if (this == null) return task
+			          /*
+			           * This worker could have been already terminated from this thread by close/shutdown and it should not
+			           * accept any more tasks into its local queue.
+			           */
+			          if (state === WorkerState.TERMINATED) return task
+			          // Do not add CPU tasks in local queue if we are not able to execute it
+			          if (task.mode == TASK_NON_BLOCKING && state === WorkerState.BLOCKING) {
+			              return task
+			          }
+			          mayHaveLocalTasks = true
+			          return localQueue.add(task, fair = tailDispatch)
+			      }
+			  ```
+		- 当Worker为null的时候返回了task，继续执行，会进入到addToGlobalQueue方法，
+		  collapsed:: true
+			- ```
+			    @JvmField
+			      val globalCpuQueue = GlobalQueue()
+			      @JvmField
+			      val globalBlockingQueue = GlobalQueue()
+			  
+			      private fun addToGlobalQueue(task: Task): Boolean {
+			          return if (task.isBlocking) {
+			              globalBlockingQueue.addLast(task)
+			          } else {
+			              globalCpuQueue.addLast(task)
+			          }
+			      }
+			  ```
+		- 由于上文中dispatch方法中的taskContext为默认值NonBlockingContext，创建的task.isBlocking为false，会将task加入到globalCpuQueue队列中。继续执行就会进入到signalCpuWork方法中
+		  collapsed:: true
+			- ```
+			  fun signalCpuWork() {
+			          // 从stack中pop出一个挂起线程，并对其进行唤醒。
+			          if (tryUnpark()) return
+			          if (tryCreateWorker()) return
+			          tryUnpark()
+			      }
+			  ```
+		- 由于首次执行协程，没有挂起的线程，tryUnpark方法可以忽略，继续看tryCreateWorker方法
+			- ```
+			  ```
 -
