@@ -188,4 +188,13 @@
 		- ## 2.3.2 可用点
 			- MediatorLiveData监听不同来源（缓存、内置、网络）LiveData，更新UI数据
 - #  3LiveData 原理解析
--
+	- 在分析 LiveData 的原理之前，我们先来回顾一下 Handler、EventBus、RxjavaBus 的消息分发机制，它们不会关心当前页面是否可见，只要有消息就会进行转发。
+	- 这样做的后果就是，即便应用在后台，页面处于不可见的情况下，还在进行一些无用的工作抢占资源。甚至可能造成 NPE。
+	- 而 LiveData 的出现，完美地解决了以往使用 callback 回调可能带来的 NPE，生命周期越界，后台任务抢占资源等问题。
+	- 我们从代码的角度，来看一看 LiveData 与传统消息分发组件的不同：
+	  collapsed:: true
+		- ![image.png](../assets/image_1684422411727_0.png){:height 530, :width 716}
+	- ## 3.1 那么 LiveData 是如何解决这些问题的呢？下面我们从源码角度来分析一下。
+		- 我们想要使用 LiveData 去观察数据，会用到 observe 方法，观察者可以在收到 onChanged 事件时更新界面：
+		- ![image.png](../assets/image_1684422443140_0.png){:height 335, :width 716}
+		- 而与宿主生命周期的绑定，也是在 observe 里进行的：
