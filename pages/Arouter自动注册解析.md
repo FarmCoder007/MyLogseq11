@@ -212,3 +212,105 @@
 			    }
 			  ```
 			- 通过ASM框架的 ClassVisitor 获取类的父类类名及所实现的接口名称，如果是IRouteRoot 的实现类即ARouter$Root$xxx，就把类名存入列表
+	- ## 3. 插入字节码
+		- 代码：
+		  collapsed:: true
+			- ```
+			  private File insertInitCodeIntoJarFile(File jarFile) {
+			          if (jarFile) {
+			           。。。
+			              def file = new JarFile(jarFile)
+			              Enumeration enumeration = file.entries()
+			              JarOutputStream jarOutputStream = new JarOutputStream(new FileOutputStream(optJar))
+			  
+			              while (enumeration.hasMoreElements()) {
+			                  JarEntry jarEntry = (JarEntry) enumeration.nextElement()
+			                  String entryName = jarEntry.getName()
+			                  ZipEntry zipEntry = new ZipEntry(entryName)
+			                  InputStream inputStream = file.getInputStream(jarEntry)
+			                  jarOutputStream.putNextEntry(zipEntry)
+			  
+			                 // GENERATE_TO_CLASS_FILE_NAME = com/alibaba/android/arouter/core/LogisticsCenter.class
+			  
+			                  遍历到 LogisticsCenter 类
+			                  if (ScanSetting.GENERATE_TO_CLASS_FILE_NAME == entryName) {
+			                       插入字节码，并转化成bytes数组
+			                      def bytes = referHackWhenInit(inputStream)
+			                      jarOutputStream.write(bytes)
+			                  } else {
+			                      jarOutputStream.write(IOUtils.toByteArray(inputStream))
+			                  }
+			                  。。。
+			              }
+			             。。。
+			          }
+			          return jarFile
+			      }
+			  ```
+		- 前面提到，扫码到 LogisticsCenter 记录下了jar路径。上面这个方法，就是遍历这个jar包里的所有文件找到 LogisticsCenter 。
+		- 下面开始动LogisticsCenter 的字节码了
+		  collapsed:: true
+			- ```
+			  private byte[] referHackWhenInit(InputStream inputStream) {
+			          ClassReader cr = new ClassReader(inputStream)
+			          ClassWriter cw = new ClassWriter(cr, 0)
+			          ClassVisitor cv = new MyClassVisitor(Opcodes.ASM5, cw)
+			          cr.accept(cv, ClassReader.EXPAND_FRAMES)
+			          return cw.toByteArray()
+			      }
+			  
+			  class MyClassVisitor extends ClassVisitor {
+			  
+			         ...
+			         
+			          @Override
+			          MethodVisitor visitMethod(int access, String name, String desc,
+			                                  String signature, String[] exceptions) {
+			              MethodVisitor mv = super.visitMethod(access, name, desc, signature, exceptions)
+			              //generate code into this method
+			              //                      GENERATE_TO_METHOD_NAME = 'loadRouterMap'
+			  
+			         // 找到目标方法 LogisticsCenter.loadRouterMap()，转化成 MethodVisitor
+			  
+			              if (name == ScanSetting.GENERATE_TO_METHOD_NAME) {
+			                  mv = new RouteMethodVisitor(Opcodes.ASM5, mv)
+			              }
+			              return mv
+			          }
+			  }
+			  
+			  class RouteMethodVisitor extends MethodVisitor {
+			  
+			         ...
+			  
+			          @Override
+			          void visitInsn(int opcode) {
+			              //generate code before return
+			              if ((opcode >= Opcodes.IRETURN && opcode <= Opcodes.RETURN)) {
+			                  extension.classList.each { name ->
+			  
+			                 // name 就是我们前面扫码收集的 ARouter$Root$xxx 的类名
+			  
+			                      name = name.replaceAll("/", ".")
+			                      mv.visitLdcInsn(name)  // 方法参数
+			  
+			                    // 生成要插入的代码
+			                    // ```register（name）```
+			  
+			                      mv.visitMethodInsn(Opcodes.INVOKESTATIC //方法类型 statc
+			                              , ScanSetting.GENERATE_TO_CLASS_NAME  //类名com/alibaba/android/arouter/core/LogisticsCenter
+			                              , ScanSetting.REGISTER_METHOD_NAME //方法名 register
+			                              , "(Ljava/lang/String;)V" //参数类型 String
+			                              , false //是否是接口
+			                              )
+			                  }
+			              }
+			              super.visitInsn(opcode)
+			          }
+			         ...
+			  }
+			  ```
+		- 借助ClassVisitor，遍历所有方法，找到 loadRouterMap()方法。ClassWriter 生成一个 MethodVisitor 对象用来向方法里插入代码：‘ register（”name“）’，name 是 ARouter$Root$xxx的类名。修改完通过 visitMethod（）方法覆盖原loadRouterMap()方法。
+		- 修改完后反编译过来就像这样：
+			- ```
+			  ```
