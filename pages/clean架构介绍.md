@@ -10,6 +10,7 @@
 	- 独立于数据库。您的业​​务规则未绑定到数据库，这样就可以将 Oracle 或 SQL Server 换成MongoDb，My SQL或其他数据库。
 	- 外部机制独立。事实上业务规则根本不知道外层的事情。
 - # 洋葱图层级
+  collapsed:: true
 	- 我们再仔细看一下这个洋葱图右上角，对软件的四个层由外向内进行的简述
 	- ## 框架和驱动（Frameworks and Drivers）
 	- ## 接口适配器（Interface Adapter）
@@ -22,11 +23,21 @@
 		- 实体层封装了业务范围的规则。这层不仅仅是我们在数据库中映射的对象，还可以是有方法的对象，或者一系列数据结构和方法。
 	- ## 一定是4层吗
 		- Bob在文章中也提到了，这4层只是一个简述，实际可能要比四层多，但依赖原则是一定要从外向内的。越往内层移动抽象的等级越高。最外层环是低抽象等级的具体细节，也封装了更高等级的策略，最内层是最通用的策略。
--
--
--
--
--
+- # Android 中的使用 Clean
+	- 对于 Android 来说使用 Clean 框架，有一个重要的开源项目Android-CleanArchitecture
+	- 这个工程中将洋葱图简化为以下图：
+	  collapsed:: true
+		- ![image.png](../assets/image_1684417887627_0.png)
+	- 同时项目作者 Fernando大神也将洋葱图在 Android 上的使用抽取简化为以下三层结构
+	  collapsed:: true
+	  Presentation Layer、Domain Layer和Data Layer。这三层都有各自的属性，并且相对独立。
+		- ![image.png](../assets/image_1684417898732_0.png)
+	- Presentation Layer
+	  collapsed:: true
+	  这里是 MVX 中 X （Presenter、ViewModel）所在的地方，这里持有了View，是操作UI该如何渲染的地方。
+		- ![image.png](../assets/image_1684417909662_0.png)
+	- 所有的业务逻辑和Use Case 应该在这一层被实现。在这里包含了use case(用例)以及Bussiness Objects(业务对象),按照洋葱图的依赖规则，这层属于最内层，也就是完全不依赖于外层。Fernando大神建议这一层应该是一个纯java模块
+		- ![image.png](../assets/image_1684417922258_0.png)
 -
 -
 -
