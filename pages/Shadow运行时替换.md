@@ -96,6 +96,7 @@
 		  获取待拦截服务对应的方法。
 		-
 - # 0x02 编写TelephonyManager拦截器
+  collapsed:: true
 	- 下面我们以TelephonyManager.getDeviceId()为例，分析如果获取待拦截的服务名称和方法，从而实现拦截器。
 	- # 1. 获取待拦截服务方法名
 	  collapsed:: true
@@ -232,4 +233,37 @@
 		  }
 		  ```
 	- # 4. 快速获取待拦截服务名字和方法
-		-
+	  collapsed:: true
+		- 通过在ShadowConfig配置中启用devTools和debug参数
+		  collapsed:: true
+			- ```
+			  ShadowConfig.Builder shadowConfigBuilder = new ShadowConfig.Builder(base, this)
+			             .debug(true)
+			             .devTools(ShadowDevTools.DEFAULT_DEV_TOOLS)
+			             .logMode(ShadowLog.DEBUG)
+			             .interceptAll(true)
+			             .build();
+			  
+			  ShadowServiceManager.init(shadowConfigBuilder.build());
+			  ```
+		- 然后在app代码中直接调用需要拦截的服务方法，如telephonyManager.getDeviceId()。
+		  collapsed:: true
+			- ```
+			  findViewById(R.id.test_get_device_id).setOnClickListener(v -> {
+			      try {
+			          TelephonyManager telephonyManager = (TelephonyManager) getSystemService(Service.TELEPHONY_SERVICE);
+			          ShadowLog.e("MainActivity.test_get_device_id; getDeviceId=" + telephonyManager.getDeviceId());
+			      } catch (Throwable e) {
+			          ShadowLog.e("fail test_get_device_id.getDeviceId", e);
+			      }
+			  });
+			  
+			  ```
+		- 运行app，触发telephonyManager.getDeviceId()相关逻辑。最后再通过ShadowDevTools关键字过滤日志，即可获取到需要拦截的服务名字和方法。
+		  collapsed:: true
+			- ```
+			  D/ShadowServiceManager: ShadowDevTools; serviceName=phone, service=com.android.internal.telephony.ITelephony$Stub$Proxy@2370e51, method=public abstract java.lang.String com.android.internal.telephony.ITelephony.getDeviceId(java.lang.String) throws android.os.RemoteException, args=[com.coofee.shadowapp]
+			  ```
+		- 可以看到待拦截服务名称为phone，方法名为getDeviceId。
+- # 0x03 注册与运行
+	-
