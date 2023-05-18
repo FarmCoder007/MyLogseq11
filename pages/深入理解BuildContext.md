@@ -86,9 +86,48 @@
 		  ```
 - ## Flutter视图构建
 	- 回到问题思考，Flutter在构建视图的时候究竟发生了什么。这里以Stateless Widget为例。
-		- ``
-		- abstract class StatelessWidget extends Widget {
+	  collapsed:: true
+		- ```
+		  abstract class StatelessWidget extends Widget {
 		    const StatelessWidget({ Key key }) : super(key: key);
 		    @override
 		    StatelessElement createElement() => StatelessElement(this);
-		    ...``
+		    ...
+		  ```
+	- 当要把这个widget装进视图树的时候，首先会去createElement，并将当前widget传给Element的构造函数，那么StatelessElement就持有的Widget的引用。
+	- 继续跟踪源码，看下StatelessElement又做了什么呢。
+	  collapsed:: true
+		- ```
+		  class StatelessElement extends ComponentElement {
+		    /// Creates an element that uses the given widget as its configuration.
+		    StatelessElement(StatelessWidget widget) : super(widget);
+		  
+		    @override
+		    StatelessWidget get widget => super.widget;
+		  
+		    @override
+		    Widget build() => widget.build(this);
+		  
+		    @override
+		    void update(StatelessWidget newWidget) {
+		      super.update(newWidget);
+		      assert(widget == newWidget);
+		      _dirty = true;
+		      rebuild();
+		    }
+		  }
+		  
+		  
+		  ```
+	- 将Widget传入StatelessElement的构造函数，StatelessElement持有widget的引用，并且调用了自身的build方法，而build方法真正调用了widget的build方法，并且传入了this，
+	- 即将StatelessElement对象传入。这个BuildContext就是StatelessElement，跟踪代码，发现他们间接继承自Element类，查看Element定义，发现果然实现了BuildContext接口
+	  collapsed:: true
+		- ```
+		  class Element extends DiagnosticableTree implements BuildContext {
+		      ...
+		  }
+		  ```
+	- 至此真相大白，BuildContext就是widget对应的Element，Flutter不鼓励直接操作Element，所以以BuildContext接口的形式对外暴露。所以我们可以通过context在StatelessWidget和StatefulWidget的build方法中访问Element对象。
+	- BuildContext与Element继承关系
+	  collapsed:: true
+		- ![image.png](../assets/image_1684403670191_0.png)
