@@ -48,6 +48,7 @@
 	-
 	-
 - ## 二.ARouter 注解处理器:RouteProcessor
+  collapsed:: true
 	- 有注解就有注解处理器，ARouter也是基于APT+ Javapoat，构建路由表的逻辑就在RouteProcessor，也是在RouteProcessor里生成了上面的那些类
 	- APT 和 javapoat 有同学分享过，这也是APT 和 javapoat应用很好的一个例子
 	- 1、BaseProcessor
@@ -404,13 +405,36 @@
 			  ```
 		- 可以看到这个类命名：ARouter+Providers+moduleName，Module里只有一个这样的类，把这个模块里注册的接口（接口都继承IProvider）put到map集合里
 		- 代码里看到，生成的这些类的包名都是PACKAGE_OF_GENERATE_FILE，PACKAGE_OF_GENERATE_FILE = “com.alibaba.android.arouter.routes”;这意味着所有模块生成的代码都在这个目录下，这有个问题：如果俩个模块下有个相同组名都叫home 那就会生成俩个ARouter
-		  �
-		  �
-		  �
-		  �
-		  �
 		  Grouphome文件，这会导致编译报错
 		- WBRouter 这里做类优化，把moduleName拼接了进去，这样就不会报错了。
 		- 接着生成root
+		  collapsed:: true
+			- ```
+			  String rootFileName = NAME_OF_ROOT + SEPARATOR + moduleName;
+			          JavaFile.builder(PACKAGE_OF_GENERATE_FILE,
+			                  TypeSpec.classBuilder(rootFileName)
+			                          .addJavadoc(WARNING_TIPS)
+			                          .addSuperinterface(ClassName.get(elementUtils.getTypeElement(ITROUTE_ROOT)))
+			                          .addModifiers(PUBLIC)
+			                          .addMethod(loadIntoMethodOfRootBuilder.build())
+			                          .build()
+			          ).build().writeTo(mFiler);
+			  ```
+		- rootFileName =“ARouter$$Root$LoginSDK”，其中moduleName = LoginSDK
+		- 最终生成的类是：
+		  collapsed:: true
+			- ```
+			  public class ARouter$$Root$$LoginSDK implements IRouteRoot {
+			      @Override
+			      public void loadInto(Map<String, Class<? extends IRouteGroup>> routes) {
+			          routes.put("interface", ARouter$$Group$$interface.class);
+			          routes.put("login", ARouter$$Group$$login.class);
+			      }
+			  } 
+			  ```
+		- 这个类也只有一个，把前面生成的所有 ARouter$Group 都类存入map，到此就完所有注解的分组和映射。
+		- 模块间以modleName分离，每个模块有多个组，分组能够更好的管理和查找路由信息。
+		- 映射关系构建好了，类文件创建出来， 什么时候加载调用的呢？
 	-
--
+	-
+- ## 三
