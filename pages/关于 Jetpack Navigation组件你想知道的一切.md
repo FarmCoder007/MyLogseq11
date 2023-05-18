@@ -67,4 +67,27 @@
 			  ```
 		- 这些是针对不同需求的不同依赖项。根据需求进行选择。
 	- ## 第3步 - 1
-		-
+	  collapsed:: true
+		- 创建导航图。
+		- 要将导航图添加到您的项目：
+		  collapsed:: true
+			- 右键单击 res 目录并选择 New > Android Resource File，出现 New Resource File 对话框
+			- 输入文件名，例如：nav_graph
+			- 在 Resource type 的下拉列表中选择 Navigation，然后单击确定
+				- ![image.png](../assets/image_1684414877484_0.png)
+		- 当添加第一个导航图时，Android Studio 会在 res 目录中创建一个导航资源文件夹，该文件夹中包含导航图资源文件。创建的文件看起来像这样：
+		  collapsed:: true
+			- ```
+			  <?xml version="1.0" encoding="utf-8"?>
+			  <navigation xmlns:android="http://schemas.android.com/apk/res/android"
+			      xmlns:app="http://schemas.android.com/apk/res-auto"
+			      android:id="@+id/nav_graph">
+			  </navigation>
+			  ```
+		- <navigation> 元素是导航图的根元素。当向图表添加目的地和连接操作时，会添加相应的 <destination> 和 <action> 元素作为子元素。如果有嵌套的图形，将显示为子 <navigation> 元素。
+	- ## 第3步 - 2
+		- 添加 NavHost 到 Activity 的 XML 文件中。
+		- nav_host_fragment 中包含：
+		- android:name：NavHost 的类名。
+		- app:navGraph：将 NavHostFragment 与导航图相关联。导航图指定了此 NavHostFragment 中用户可以导航到的所有目的地。
+		- app:defaultNavHost="true"：确保 NavHostFragment 拦截系统后退按钮。 请注意，只有一个 NavHost 可以是默认值。 如果在同一布局中有多个 NavHost（例如双窗格布局），请确保仅指定一个默认 NavHost。
