@@ -104,6 +104,7 @@
 			- ![image.png](../assets/image_1684394200227_0.png)
 		- 2、performMeasure最终调用LayoutModifier.measure来测量
 		- 3、以Column为例
+		  collapsed:: true
 			- 3-1、通过modifier.requestHeight设置高度180
 			  collapsed:: true
 				- ![image.png](../assets/image_1684394225859_0.png)
@@ -118,4 +119,12 @@
 				- ![image.png](../assets/image_1684394280365_0.png)
 			- 3-5ModifiedLayoutNode在测量时调用LayoutModifier去测量大小
 			- 3-6LayoutModifer之后用自身的Constraints去继续向下层LayoutNodeWrapper测量
-			- 最终测量到最接近LayoutNode的InnerPlaceable（LayoutNodeWrapper子类），在这里会触发测试子LayoutNode
+			- 3-7最终测量到最接近LayoutNode的InnerPlaceable（LayoutNodeWrapper子类），在这里会触发测试子LayoutNode
+			  collapsed:: true
+				- ![image.png](../assets/image_1684394307758_0.png)
+			- 完成测量
+		- 4、设置位置。
+			- 1、测试完成之后会调用LayoutNode.place(或者replace)设置位置，最终执行到接口Placealble的placeAt方法
+			- 2、先调用DelegatingLayoutNodeWrapper的placeAt方法，这里会调用LayoutNodeWrapper的placeAt方法，然后再调用measureResult.placeChildren去设置下层LayoutNodeWrapper的位置
+			-
+	-
