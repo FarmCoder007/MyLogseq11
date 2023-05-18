@@ -49,10 +49,10 @@ Java 程序员都知道对象初始化的重要性，我们要使用一个对象
   
   2. 遍历过程中，A拷贝到To space,然后C又拷贝过去，此时空间引用时将是这样的！
   
-  ![](./assets/数据结构之链表的应用/copy_DFS_02.png)
+  ![image.png](../assets/image_1684415885504_0.png) 
   3. 若当拷贝B后再将C拷贝一份，则To中又两个C了，如何解决呢？
     * 使用forwarding指针：在每个对象头部引入一个新的field,即forwarding，正常状态下，其值为null,如果一个对象被拷贝，就把它的新地址设到From空间对象的forwarding指针中；
-  ![](./assets/数据结构之链表的应用/copy_DFS_03.png)
+  ![image.png](../assets/image_1684415935748_0.png)
 #### BFS与DFS在copy算法中对比
 * 举例对比方能解释明晰：
 ```
