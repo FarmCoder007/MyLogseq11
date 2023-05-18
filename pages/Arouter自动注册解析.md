@@ -102,6 +102,7 @@
 			  ```
 		- PluginLaunch 是自定义的gradle Plugin，RegisterTransform是自定义的Transform。apply(）方法先给 registerList 初始化了数据，这里只看IRouteRoot这个接口是怎么处理的，其他俩个流程也是一样的。IRouteRoot的实现类就是一个个的ARouter$Root$xxx
 	- ## 2. 扫描Jar文件 和 源码的class 文件
+	  collapsed:: true
 		- 遍历TransformInput集合，扫描所有的jar文件和.class 文件
 		  collapsed:: true
 			- ```
@@ -177,4 +178,37 @@
 			- 遍历每个jar 文件包下的.class文件，如果包名是“com.alibaba.android.arouter.routes”则调用 scanClass（）方法
 			- 如果遍历到com.alibaba.android.arouter.core.LogisticsCenter.class ，把这个jar路径记录下来。
 		- 扫描.class文件
-		-
+			- ```
+			  static void scanClass(InputStream inputStream) {
+			            ClassReader cr = new ClassReader(inputStream)
+			            ClassWriter cw = new ClassWriter(cr, 0)
+			            ScanClassVisitor cv = new ScanClassVisitor(Opcodes.ASM5, cw)
+			            cr.accept(cv, ClassReader.EXPAND_FRAMES)
+			            inputStream.close()
+			        }
+			  
+			    static class ScanClassVisitor extends ClassVisitor {
+			  
+			            ScanClassVisitor(int api, ClassVisitor cv) {
+			                super(api, cv)
+			            }
+			  
+			            void visit(int version, int access, String name, String signature,
+			                    String superName, String[] interfaces) {
+			                super.visit(version, access, name, signature, superName, interfaces)
+			                RegisterTransform.registerList.each { ext ->
+			                    if (ext.interfaceName && interfaces != null) {
+			                        interfaces.each { itName ->
+			                            if (itName == ext.interfaceName) {
+			                                //fix repeated inject init code when Multi-channel packaging
+			                                if (!ext.classList.contains(name)) {
+			                                    ext.classList.add(name)
+			                                }
+			                            }
+			                        }
+			                    }
+			                }
+			            }
+			    }
+			  ```
+			- 通过ASM框架的 ClassVisitor 获取类的父类类名及所实现的接口名称，如果是IRouteRoot 的实现类即ARouter$Root$xxx，就把类名存入列表
