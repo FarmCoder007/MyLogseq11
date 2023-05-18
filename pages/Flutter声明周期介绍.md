@@ -5,6 +5,7 @@
 	- Flutter 的 Widget 有 StatelessWidget 和 StatefulWidget 两种类型，StatelessWidget 用于处理静态的、无状态变化的视图展示，而 StatefulWidget 应对有交互、需要动态变化视觉效果的场景。
 	- StatelessWidget 通过父 Widget 初始化时传入的静态配置就能完全控制其静态展示，而 StatefulWidget 需要借助于 State 对象，在特定阶段来处理用户交互或内部数据的变化，然后更新到 UI 上。这些特定的阶段涵盖了一个 Widget 从初始化到卸载的全过程，即生命周期。Flutter 中的生命周期即指的 StatefulWidget 的生命周期，并通过 State 对象来体现，StatelessWidget 的生命周期只有 build 过程，且只会执行一次。
 - ## 生命周期方法
+  collapsed:: true
 	- Flutter中的生命周期方法主要包括以下内容：
 	- createState
 	  collapsed:: true
@@ -48,5 +49,32 @@
 	  collapsed:: true
 		- 主要是提供开发阶段使用，在 debug 模式下，每次热重载都会调用该函数，因此在 debug 阶段可以在此期间增加一些 debug 代码，来检查代码问题。
 	- didUpdateWidget
+	  collapsed:: true
 		- 该函数主要是在组件重新构建，比如说热重载，父组件发生 build 的情况下，子组件该方法才会被调用，其次该方法调用之后一定会再调用本组件中的 build 方法。
-		-
+		- ```
+		  @override
+		  void didUpdateWidget(MyHomePage oldWidget) {
+		    super.didUpdateWidget(oldWidget)
+		  }
+		  ```
+	- deactivate
+	  collapsed:: true
+		- 在组件被移除节点后会被调用，如果该组件被移除节点，然后未被插入到其他节点时，则会继续调用 dispose 永久移除。
+		- ```
+		  @override
+		  void deactivate() {
+		    super.deactivate();
+		  }
+		  ```
+	- dispose
+	  collapsed:: true
+		- 永久移除组件，并释放组件资源。
+		- ```
+		  @override
+		  dispose() {
+		    super.dispose();
+		  }
+		  ```
+	-
+	-
+- Widget生命周期流程
