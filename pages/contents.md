@@ -10,14 +10,15 @@
 	- [[Android架构]]
 	- [[系统架构]]
 	- Android系统启动
-	  collapsed:: true
 		- [[Android 系统启动流程]]
 		- [[init进程启动过程]]
 		- [[Zygote 进程启动过程]]
 		- [[SystemServer 处理过程]]
 		- [[Launcher （系统桌面）启动过程]]
 		- [[启动流程整合]]
+		-
 	- 应用程序进程启动过程
+	  collapsed:: true
 		- [[应用程序进程启动过程]]
 		- [[Binder 线程池启动过程]]
 		- [[消息循环创建过程]]
