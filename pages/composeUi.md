@@ -34,4 +34,5 @@
 		- ![image.png](../assets/image_1684391380281_0.png)
 		- ![image.png](../assets/image_1684391388575_0.png)
 	- 最后所有的方法都执行到了ComposeNode方法，这里边进行创建LayoutNode并创建子LayoutNode。基本上可以确定compose ui由LayoutNode来组成
-- ##
+- ## compose ui 和android ui嵌套用法
+	-
