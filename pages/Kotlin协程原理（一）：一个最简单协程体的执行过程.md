@@ -393,7 +393,29 @@
 			  Coroutine start : DefaultDispatcher-worker-1
 			  ```
 	- ## 原理分析
+	  collapsed:: true
 		- 协程的创建和执行过程原理图大致如下：
-		-
-	-
+		- ![image.png](../assets/image_1684433793809_0.png)
+		- 协程创建：kotlin编译器将协程体编译为SuspendLambda对象，并且创建为Coroutine对象，在运行中一共会创建两个SuspendLambda，主要是为了实现挂起功能，由于篇幅限制后面再讲。
+		- 协程执行：协程代码在执行时需要一个协程上下文和分发器，协程上下文包括协程范围和协程作业，并负责管理协程的生命周期和作业的关系。分发器则是用于将协程分发到线程池中运行。
+	- ## 协程相关概念
+		- ### SuspendLambda
+		  collapsed:: true
+			- 上面我们可以看到，我们的协程代码被编译成了继承了SuspendLambda的类，协程体的继承链是这样的：SuspendLambda->ContinuationImpl->BaseContinuationImpl->Continuation，我们从继承链的最顶部Continuation类开始，依次分析各个类的作用：
+				- ```
+				  public interface Continuation<in T> {
+				      /**
+				       * 协程上下文
+				       */
+				      public val context: CoroutineContext
+				  
+				      /**
+				       * 恢复相应协程的执行，将成功或失败[result]作为最后一个挂起点的返回值。
+				       */
+				      public fun resumeWith(result: Result<T>)
+				  }
+				  ```
+			- Continuation 接口内部的实现很简单，一个协程上下文context，一个方法声明resumeWith()，用于协程的启动或者恢复执行。
+		- ### BaseContinuationImpl：
+			-
 -
