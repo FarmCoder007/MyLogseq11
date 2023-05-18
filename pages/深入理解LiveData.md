@@ -213,4 +213,16 @@
 		  collapsed:: true
 			- 在 onStateChanged 方法里，首先会判断宿主当前的状态是否为 DESTROYED，即销毁状态，如果条件成立，则会主动移除掉观察者，即反注册，从而避免了内存泄露。
 			- ![image.png](../assets/image_1684422513099_0.png)
-		- ##
+		- ## 3.2.2 宿主生命周期变化的消息分发规则
+		  collapsed:: true
+			- 宿主生命周期变化的消息分发，起点依然是在onStateChanged里：
+			  collapsed:: true
+				- ![image.png](../assets/image_1684422528939_0.png)
+			- 下面通过一张图来给大家展示具体的消息分发流程：
+			  collapsed:: true
+				- ![image.png](../assets/image_1684422541882_0.png)
+			- 特别说明一下，第4 步中的关键逻辑：
+			  collapsed:: true
+				- ![image.png](../assets/image_1684422554782_0.png)
+			- 这就是为什么 LiveData 支持黏性事件的原因，即先发送一条数据，后注册一个观察者，也是能够收到之前发送的那条数据的。
+		- ## 3.2.3 普通消息分发规则
