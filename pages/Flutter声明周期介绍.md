@@ -78,6 +78,7 @@
 	-
 	-
 - ## Widget生命周期流程
+  collapsed:: true
 	- Widget 的生命周期主要体现在 State 对象的回调方法中，主要执行流程如下图：
 	  collapsed:: true
 		- ![image.png](../assets/image_1684401529810_0.png){:height 712, :width 747}
@@ -92,4 +93,32 @@
 		- State 对象的销毁过程比较简单，包括移除和销毁 Widget 两个场景，系统会分别调用 deactivate 和 dispose 方法。
 		- 当组件的可见状态发生变化时，deactivate 函数会被调用，这时 State 会被暂时从视图树中移除。值得注意的是，页面切换时，由于 State 对象在视图树中的位置发生了变化，需要先暂时移除后再重新添加，重新触发组件构建，因此这个函数也会被调用。
 		- 当 State 被永久地从视图树中移除时，Flutter 会调用 dispose 函数。而一旦到这个阶段，组件就要被销毁了，所以我们可以在这里进行最终的资源释放、移除监听、清理环境等等。
+	- ![image.png](../assets/image_1684401585586_0.png)
+- ## App生命周期
+	- State 的生命周期定义了视图从加载到构建以及更新和销毁的全过程，根据其回调机制，我们可以在合适的回调方法中根据 Widget 的状态做相应的逻辑响应。在原生 Android 开发中，我们经常会处理 App 从后台进入前台、从前台切到后台，或者是 UI 绘制完成等时机的一些状态逻辑，通过重写 Activity 的生命周期回调方法或注册应用程序的相关通知，监听 App 的生命周期并做相应的处理。在 Flutter 中我们可以监听 WidgetsBindingObserver 的回调方法来实现同样的需求。
+	  collapsed:: true
+		- ```
+		  	abstract class WidgetsBindingObserver {
+		    //页面pop
+		    Future<bool> didPopRoute() => Future<bool>.value(false);
+		    //页面push
+		    Future<bool> didPushRoute(String route) => Future<bool>.value(false);
+		    //系统窗口相关改变回调，如旋转
+		    void didChangeMetrics() { }
+		    //文本缩放系数变化
+		    void didChangeTextScaleFactor() { }
+		    //系统亮度变化
+		    void didChangePlatformBrightness() { }
+		    //本地化语言变化
+		    void didChangeLocales(List<Locale> locale) { }
+		    //App生命周期变化
+		    void didChangeAppLifecycleState(AppLifecycleState state) { }
+		    //内存警告回调
+		    void didHaveMemoryPressure() { }
+		    //Accessibility相关特性回调
+		    void didChangeAccessibilityFeatures() {}
+		  }
+		  `````
+	- 可以看出 WidgetsBindingObserver 类提供了很多回调方法，比如屏幕旋转、屏幕亮度变化、语言变化、内存警告等都可以通过监听这个类实现回调。通过给 WidgetsBinding 的单例对象设置监听器，就可以监听对应的回调方法。
+	-
 -
