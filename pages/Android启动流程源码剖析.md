@@ -24,5 +24,42 @@
 	  ActivityStackSupervisor：ActivityStack的管理者，早期的Android版本是没有这个类的，直到Android 6.0才出现。
 - # 启动流程
 	- ## 本次分析的环境条件：
+		- 1. 源码基于android 28
+		  2. 本次启动分析是基于Launcher的桌面启动应用
+		  3. AOSP源码阅读可使用的方式：
+		      3.1 在线阅读 https://cs.android.com 、https://github.com/aosp-mirror（google已经把framework源码托管在了gitHub） 或http://androidxref.com/（快速搜索引擎） 在线搜索及浏览 。
+		      3.2 离线阅读工具OpenGrok、Source Insight、AS或我们常用Sublime Text；
+		      3.3 源码下载地址：
+		          3.3.1 [国内GitHub地址](https://github.com/aosp-mirror/platform_frameworks_base)
+		          3.3.2 [清华大学开源软件镜像站](https://mirrors.tuna.tsinghua.edu.cn/help/AOSP/)
+		          3.3.3 [中国科学技术大学开源软件镜像站](http://mirrors.ustc.edu.cn/)
+		          3.3.4 若只阅读Android platform 源码，可以从科大上clone：
+		  git clone git://mirrors.ustc.edu.cn/aosp/platform/frameworks/base --depth=1
+		  因为AOSP资源较大，本次采用在线方式阅读分析
 	- ## 启动入口Launcher.StartActivity
-	- ##
+		- Launcher,我们安卓桌面,他也是一个应用.只不过他有些特殊属性,特殊在于它是系统开机后第一个启动的应用,并且该应用常驻在系统中,不会被杀死,用户一按home键就会回到桌面(回到该应用).桌面上面放了很多很多我们自己安装的或者是系统自带的APP,我们通过点击这个应用的快捷方法可以打开我们的应用，桌面Launcher也是一个Activity，也是通过startActivity打开我们的应用的，可以认为我们的应用都是通过其他应用打开的。
+	- ## Activity的startActivity方法
+		- 代码
+		  collapsed:: true
+			- ```
+			  @Override
+			  public void startActivity(Intent intent, @Nullable Bundle options) {
+			      if (mIntent != null && mIntent.hasExtra(AutofillManager.EXTRA_RESTORE_SESSION_TOKEN)
+			              && mIntent.hasExtra(AutofillManager.EXTRA_RESTORE_CROSS_ACTIVITY)) {
+			          if (TextUtils.equals(getPackageName(),
+			                  intent.resolveActivity(getPackageManager()).getPackageName())) {
+			              ...
+			          }
+			      }
+			      if (options != null) {
+			          startActivityForResult(intent, -1, options);
+			      } else {
+			          // Note we want to go through this call for compatibility with
+			          // applications that may have overridden the method.
+			          startActivityForResult(intent, -1);
+			      }
+			  }
+			  ```
+		- startActivity会调用startActivityForResult方法。
+			- ```
+			  ```
