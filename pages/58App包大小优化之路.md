@@ -222,4 +222,24 @@
 				- ![image.png](../assets/image_1684423397498_0.png)
 			- 但随着使用过程中，Zucker也暴露的一些问题：mock aar时会导致某些资源找不到，导致打包计算失败；打包时间虽相对手动统计有所提升，但时间上还是很长。
 		- ## APS CI自动化
-			-
+		  collapsed:: true
+			- 与Zucker基于本项目打包计算AAR大小的思路不同，卫国创新性的使用了一个demo工程来统计AAR打入到apk中来计算AAR的大小，并修改了aapt2源码解决资源找不到的问题。这样使用APS能够解决Zucker的暴露所有问题，统计速度也更上一层楼。
+			- ## APS流程
+				- 首先执行打包获取demo包大小，
+				- 然后获取依赖树列表，
+				- 将依赖逐个添加到demo中并移除pom依赖，
+				- 执行循环打包获取增量包大小，输出json结果。
+				- ![image.png](../assets/image_1684423439265_0.png)
+				- 为了方便使用，APS与我们的AVM CI系统整合，专门用于产出包大小报告，它会自动下载58app工程源码并获取依赖树，一键式的发送包大小邮件。
+				- ![image.png](../assets/image_1684423457578_0.png)
+		- 总结与展望
+		- 58同城APP在包大小治理上做过很多的努力，总结下来就是对APK内的各个文件进行优化，有对于res文件夹内资源的压缩与适度删除，也有对于dex文件进行的混淆和去除R文件内联等操作，还有对于resource.arsc文件内进行混淆的业界做法。我们激进地探索过内置图片网络化的功能，也有对于无用代码删除的方案踌躇过，这些都是我们对于包大小治理的方方面面。
+		- 但随着时间的推移工程的越来越庞大，业务功能不断丰富累牍，包大小治理道阻且长。
+		- 参考：
+		- https://ishare.58corp.com/articleDetail?id=77385
+		- https://ishare.58corp.com/articleDetail?id=24157
+		- https://ishare.58corp.com/articleDetail?id=60576
+		- https://juejin.cn/post/6844904103131234311
+		- https://booster.johnsonlee.io/zh/guide/shrinking/res-index-inlining.html#%E5%88%A0%E9%99%A4%E4%B8%8D%E5%BF%85%E8%A6%81%E7%9A%84-r
+		- https://mp.weixin.qq.com/s?__biz=MzAwNDY1ODY2OQ==&mid=208135658&idx=1&sn=ac9bd6b4927e9e82f9fa14e396183a8f#rd
+		- https://developer.android.google.cn/training/multiscreen/screendensities?hl=zh_cn
