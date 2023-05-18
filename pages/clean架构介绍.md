@@ -24,7 +24,7 @@
 	- ## 一定是4层吗
 		- Bob在文章中也提到了，这4层只是一个简述，实际可能要比四层多，但依赖原则是一定要从外向内的。越往内层移动抽象的等级越高。最外层环是低抽象等级的具体细节，也封装了更高等级的策略，最内层是最通用的策略。
 - # Android 中的使用 Clean
-	- 对于 Android 来说使用 Clean 框架，有一个重要的开源项目Android-CleanArchitecture
+	- 对于 Android 来说使用 Clean 框架，有一个重要的开源项目[Android-CleanArchitecture](https://github.com/android10/Android-CleanArchitecture/)
 	- 这个工程中将洋葱图简化为以下图：
 	  collapsed:: true
 		- ![image.png](../assets/image_1684417887627_0.png)
@@ -37,10 +37,22 @@
 	  这里是 MVX 中 X （Presenter、ViewModel）所在的地方，这里持有了View，是操作UI该如何渲染的地方。
 		- ![image.png](../assets/image_1684417909662_0.png)
 	- 所有的业务逻辑和Use Case 应该在这一层被实现。在这里包含了use case(用例)以及Bussiness Objects(业务对象),按照洋葱图的依赖规则，这层属于最内层，也就是完全不依赖于外层。Fernando大神建议这一层应该是一个纯java模块
+	  collapsed:: true
 		- ![image.png](../assets/image_1684417922258_0.png)
--
--
--
+	- ### Use Case
+	  collapsed:: true
+		- Use Case 描述了业务逻辑，是整个App中最核心的元素。举个例子，假如说我对你的app一无所知，我只需要看你的domain层的描述，就能完全知道你的app能做什么，完全不需要看其他层次，它规定了要做什么，至于怎么做怎么实现，这些具体的实现逻辑就是外层的事情了，因为按照Uncle bob的说法，越往内层抽象的等级越高，最外层通常是具体的实现细节。
+		- 你完全可以在app中建立多个Use Case，即使是一些很小看起来很简单的逻辑，Domain层的大部分业务逻辑都是在 Use Case 中实现的。这里是一个纯java模块，不包含任何的 Android 依赖。
+	- ## Data Layer
+	  collapsed:: true
+		- 数据层主要作用是提供应用中所有的数据需求。该层实现可以使用 Repository Pattern方式。
+		- 什么是 Respository ?
+		- Repository是不同的域(domain)中数据和操作之间的桥梁。
+		  使用 Respository 将检索数据和实体模型的映射与作用于实体的的业务逻辑分离。业务逻辑应该与包含此数据的数据层实现无关，比如说，数据层可以是数据库，一个网络服务等。
+		- 程序中的 Repository 应该是在数据层和业务逻辑层中间，它从数据层查询数据，将数据从数据源映射到业务实体，并将业务实体的更改保留到数据源。存储库将业务逻辑与与底层数据源或Web服务的交互分离。
+		- 一个比较简单的理解方式就是 上层Domain 层提供了业务接口，传递给 Data 层但不关心数据层是如何实现的。 Data 层的 Respository 只需要实现相关接口提供服务就可以。
+			- ![image.png](../assets/image_1684417959242_0.png)
+	- 数据跨越
 - # 参考:
   collapsed:: true
 	- 参考文章
