@@ -96,3 +96,17 @@
 		- 在 nav_graph 中添加目的地和路径。
 		  在添加目的地之前创建两个 Fragment 及其 XML：
 		- ![image.png](../assets/image_1684414981596_0.png)
+		- 接下来为 FragmentOne、FragmentTwo 类创建 XML 文件。
+		- 现在让我们将目的地添加到 nav_graph 中
+		- 目的地 destination 包含如下属性：
+		  collapsed:: true
+			- Type：指示目标是作为 Fragment、Activity 还是其他自定义类。
+			- Label：包含目的地的 XML 布局文件的名称。
+			- ID：目的地的 ID，用于在代码中引用。
+			- Class：显示与目标关联的类的名称，可以通过下拉列表将关联的类更改为其他目标类型。
+			  collapsed:: true
+			  在导航编辑器中，视图将如下所示：
+				- ![image.png](../assets/image_1684415018984_0.png)
+		- 现在将 NavHost 添加到 activity_main XML 文件中：
+			- ```
+			  ```
