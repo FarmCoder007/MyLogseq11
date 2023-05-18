@@ -2,6 +2,7 @@
   collapsed:: true
 	- hilt是一个功能强大且用法简单的依赖注入框架，那么为什么要使用hilt？为什么要使用依赖注入框架？
 - # Android中的依赖项注入
+  collapsed:: true
 	- ## 什么是依赖项注入
 	  collapsed:: true
 		- 具体含义是：当某个角色（可能是一个Java实例，调用者）需要另一个角色（另一个Java实例，被调用者）的协助时，在传统的程序设计过程中，通常由调用者来创建被调用者的实例。而在依赖注入框架中，创建被调用者的工作不再由调用者来完成，创建被调用者实例的工作由依赖注入框架容器来完成。然后注入调用者，因此称为依赖注入。
@@ -179,6 +180,7 @@
 				  ```
 			- 思考：使用了AppContainer之后，我们需要重点关注：针对不同的业务场景如何管理AppContainer中的依赖项，并且为依赖项创建工厂
 	- ## 管理应用流程中的依赖项
+	  collapsed:: true
 		- 如需在项目中添加更多功能，AppContainer会变得非常复杂。当应用变大并且可以引入不同功能流程时，还会出现更多问题：
 		- 官方示例业务场景：
 		  登录流程由一个Activity（LoginActivity）和多个Fragment（LoginUsernameFragment和LoginPasswordFragment），这些试图需要：
@@ -231,4 +233,29 @@
 			         }
 			     }
 			  ```
-	-
+		- 与LoginActivity一样，登录Fragment可以从AppContainer访问LoginContainer并使用共享的LoginUserData实例。
+	- ## 依赖注入框架的作用
+	  collapsed:: true
+		- 在上面的简单示例中，自行创建，提供并管理不同类的依赖项，不依赖于库。这种称为手动依赖项注入或者人工依赖项注入。如果依赖项和类越多，手动依赖项注入越繁琐。
+		- 对于大型项目，获取所有依赖项并正确的连接他们需要大量样板代码。而依赖注入框架通过自动执行创建和提供依赖项，分为两大类：
+		- 1.基于反射的解决方案，在运行时连接依赖项
+		  2.静态解决方案，可生成在编译时连接依赖项的代码
+		  Hilt是采用第二种解决方案，在dagger的基础上构建而成，受益于Dagger提供的编译时正确性。
+		- ## Android常用的依赖注入框架，绕不开的Dagger
+			- Dagger是由Square公司开发的使用反射实现的依赖注入，我们在编译期无法得知依赖注入的用法对不对，只能在运行时，通过程序是否崩溃判断，容易将一些bug
+			- 隐藏的很深。
+			  Google开发了Dagger2，通过注解，Dagger2会在编译期自动生成用于依赖注入的代码，不会增加任何运行耗时，另外，Dagger2会在编译期检查开发者的依赖注入用法是否正确，如果不正确的话直接编译失败。Hilt是在依赖项注入库Dagger的基础上构建而成，提供了一种将Dagger纳入Android应用的标准方法。
+- # 使用Hilt实现依赖项注入
+	- 添加依赖项
+		- 首先，将hilt-android-gradle-plugin插件添加到项目的根级build.gradle文件中：
+		  collapsed:: true
+			- ```
+			  buildscript {
+			     ...
+			     dependencies {
+			         ...
+			         classpath 'com.google.dagger:hilt-android-gradle-plugin:2.28-alpha'
+			     }
+			  }
+			  ```
+-
