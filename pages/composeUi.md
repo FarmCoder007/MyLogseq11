@@ -137,4 +137,4 @@
 	- 在缺少硬件加速的情况下，会存在很多ViewLayer的android view对象，他们的父类容器是ViewLayerContainer，ViewLayer都是兄弟节点
 - ## 其他
 	- 同城测试接入Jetpack Compose记录
-	- Compose优点
+	- [Compose优点](https://shimo.im/docs/qvvWyDRQYRK9kQrR/read)
