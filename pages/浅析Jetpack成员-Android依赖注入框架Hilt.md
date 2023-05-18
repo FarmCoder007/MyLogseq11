@@ -116,4 +116,62 @@
 				     }
 				  ```
 			- 现在可以从应用中获取AppContainer的实例并获取共享UserRepository实例：
-				-
+			  collapsed:: true
+				- ```
+				  public class MainActivity extends Activity {
+				  
+				         private LoginViewModel loginViewModel;
+				  
+				         @Override
+				         protected void onCreate(Bundle savedInstanceState) {
+				             super.onCreate(savedInstanceState);
+				             setContentView(R.layout.activity_main);
+				  
+				             // Gets userRepository from the instance of AppContainer in Application
+				             AppContainer appContainer = ((MyApplication) getApplication()).appContainer;
+				             loginViewModel = new LoginViewModel(appContainer.userRepository);
+				         }
+				     }
+				  ```
+			- 所有Activity共享AppContainer，并且没有使用单例，如果要在更多位置使用LoginViewModel，可以将LoginViewModel的创建移至容器，并为工厂提供该类型的新对象。LoginViewModelFactory
+			  collapsed:: true
+				- ```
+				  // Definition of a Factory interface with a function to create objects of a type
+				     interface Factory {
+				         fun create(): T
+				     }
+				  
+				     // Factory for LoginViewModel.
+				     // Since LoginViewModel depends on UserRepository, in order to create instances of
+				     // LoginViewModel, you need an instance of UserRepository that you pass as a parameter.
+				     class LoginViewModelFactory(private val userRepository: UserRepository) : Factory {
+				         override fun create(): LoginViewModel {
+				             return LoginViewModel(userRepository)
+				         }
+				     }
+				  ```
+			- 您可以在AppContainer中添加LoginViewModelFactory并让LoginActivity使用它：
+			  collapsed:: true
+				- ```
+				  // AppContainer can now provide instances of LoginViewModel with LoginViewModelFactory
+				     class AppContainer {
+				         ...
+				         val userRepository = UserRepository(localDataSource, remoteDataSource)
+				  
+				         val loginViewModelFactory = LoginViewModelFactory(userRepository)
+				     }
+				  
+				     class LoginActivity: Activity() {
+				  
+				         private lateinit var loginViewModel: LoginViewModel
+				  
+				         override fun onCreate(savedInstanceState: Bundle?) {
+				             super.onCreate(savedInstanceState)
+				  
+				             // Gets LoginViewModelFactory from the application instance of AppContainer
+				             // to create a new LoginViewModel instance
+				             val appContainer = (application as MyApplication).appContainer
+				             loginViewModel = appContainer.loginViewModelFactory.create()
+				         }
+				     }
+				  ```
