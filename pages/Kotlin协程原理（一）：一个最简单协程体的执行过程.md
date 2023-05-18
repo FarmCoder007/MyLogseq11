@@ -188,6 +188,51 @@
 			      }
 			  ```
 		- 这里又创建了一个协程体对象，并且把之前的协程体对象进行了包装，这里可能会很迷茫，明明一开始已经创建了一个协程体对象了，为什么这里又创建了一个呢？我们继续往下看，创建完返回后会进入intercepted方法：
+		  collapsed:: true
+			- ```
+			  public actual fun <T> Continuation<T>.intercepted(): Continuation<T> =
+			      (this as? ContinuationImpl)?.intercepted() ?: this
+			  ```
+		- 这里又调用了协程体的intercepted方法：
+		  collapsed:: true
+			- ```
+			  internal abstract class ContinuationImpl(
+			      completion: Continuation<Any?>?,
+			      private val _context: CoroutineContext?
+			  ) : BaseContinuationImpl(completion) {
+			      constructor(completion: Continuation<Any?>?) : this(completion, completion?.context) public override val context: CoroutineContext
+			          get() = _context!!
+			  
+			      @Transient
+			      private var intercepted: Continuation<Any?>? = null
+			  
+			      public fun intercepted(): Continuation<Any?> =
+			          intercepted
+			              ?: (context[ContinuationInterceptor]?.interceptContinuation(this) ?: this)
+			                  .also { intercepted = it }
+			  }
+			  
+			  ```
+		- 由于我们刚刚运行到这里，intercepted为null，context是CoroutineContext协程上下文。
+		- 进入到CoroutineDispatcher的interceptContinuation方法
+		  collapsed:: true
+			- ```
+			  public final override fun <T> interceptContinuation(continuation: Continuation<T>): Continuation<T> =
+			          DispatchedContinuation(this, continuation)
+			  ```
+		- 这里构造了一个DispatchedContinuation对象并返回。回到上一步，调用完intercepted方法后，调用了DispatchedContinuation的resumeCancellableWith
+		  collapsed:: true
+			- ```
+			  @InternalCoroutinesApi
+			  public fun <T> Continuation<T>.resumeCancellableWith(
+			      result: Result<T>,
+			      onCancellation: ((cause: Throwable) -> Unit)? = null
+			  ): Unit = when (this) {
+			      is DispatchedContinuation -> resumeCancellableWith(result, onCancellation)
+			      else -> resumeWith(result)
+			  }
+			  ```
+		- 这里又调用了DispatchedContinuation的resumeCancellableWith方法，我们看看执行了什么？
 			- ```
 			  ```
 -
