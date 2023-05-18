@@ -258,4 +258,36 @@
 			     }
 			  }
 			  ```
--
+		- 然后，应用Gradle插件并在app/build.gradle文件中添加以下依赖项：
+		  collapsed:: true
+			- ```
+			  ...
+			  apply plugin: 'kotlin-kapt'
+			  apply plugin: 'dagger.hilt.android.plugin'
+			  
+			  android {
+			     ...
+			  }
+			  
+			  dependencies {
+			     implementation "com.google.dagger:hilt-android:2.28-alpha"
+			     kapt "com.google.dagger:hilt-android-compiler:2.28-alpha"
+			  }
+			  ```
+	- Hilt支持的依赖注入注解有：
+	- @HiltAndroidApp
+	  @AndroidEntryPoint
+	  @Module
+	  @InstallIn
+	  @Provides等
+	- ## 使用步骤
+		- ### 1.在工程Application添加@HiltAndroidApp注解
+		  collapsed:: true
+			- ```
+			  @HiltAndroidApp
+			  public class ExampleApplication extends Application { ... }
+			  ```
+		- 2.确定哪个类使用依赖注入，添加@AndroidEntryPoint注解。Hilt支持的Android入口类有：Activity、Fragment、View、Service、BroadcastReceiver
+		  比如在Activity中注入某个类：
+			- ```
+			  ```
