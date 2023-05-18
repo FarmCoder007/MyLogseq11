@@ -79,10 +79,50 @@
 			- 按照以上步骤就可以实现Hilt简单的依赖注入了。我们在实际的使用中也不仅仅是这么简单的情况，下面介绍一下其他情况如何进行注入。
 		- ## 3. 进阶使用
 			- ### Hilt模块
+			  collapsed:: true
 				- 对于简单无参的构造函数类，可以直接使用@Inject注解进行注入对象，但对于有参数的类、接口或我们无法修改的第三方类，就需要自定义一个带有@Module注解的类来告知Hilt如何在外部进行初始化该类对象。同时需要对该模块类添加@InstallIn注解，告知Hilt这个模块类应用在哪个Android类中。
 				- ```
+				  @Module
+				  @InstallIn(ApplicationComponent::class)
+				  class NetworkModule {
+				  
+				      //...省略...
+				  
+				  }
 				  ```
-			-
+			- ### 带参数的对象注入
+			  collapsed:: true
+				- 一般类总会有带参数的构造函数，或者初始化类对象后需要再次设置一些成员变量。这时候我们就需要使用**@Provides**注解来告知Hilt如何构造当前类对象。
+				- ```
+				  //注入类，构造函数配合provides注解的话，不用添加@Inject注解
+				  class OldDriver constructor(val name:String) {
+				  
+				  }
+				  -----
+				  
+				  @Module
+				  @InstallIn(ActivityComponent::class)
+				  class ProvideModule {
+				  
+				    	//使用Provides注解来初始化OldDriver类
+				      @Provides
+				      fun getDriver(): OldDriver {
+				          return OldDriver("Tony")
+				      }
+				  }
+				  ```
+			- ### 接口注入
+				- 接口注入和普通类注入不太相同，接口注入需要将Hilt模块类声明为抽象类，使用**@Binds**注解修饰获取对象的方法。以一个简单的View#OnClickListener为例，首先需要定义一个类实现OnClickListener接口，在默认构造函数中添加@Inject接口
+				- ```
+				  class CustomOnClickListener @Inject constructor() : View.OnClickListener {
+				      override fun onClick(v: View?) {
+				          Toast.makeText(v?.context, "click this view", Toast.LENGTH_SHORT).show()
+				      }
+				  }
+				  ```
+				- 创建一个抽象类模块，添加@Module和@InstallIn注释，将CustomOnClickListener设置到方法参数中，返回值为接口类，使用@Binds注解修饰
+				- ```
+				  ```
 		-
 		-
 	-
