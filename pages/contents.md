@@ -26,6 +26,7 @@
 		- [[消息循环创建过程]]
 		- [[Android应用进程启动与Binder]]
 	- RecyclerView
+	  collapsed:: true
 		- 动画
 		  collapsed:: true
 			- [[ItemAnimator源码分析]]
@@ -80,7 +81,9 @@
 	- [[协程]]
 	- [[kotlin相关]]
 - AndroidStudio
+  collapsed:: true
 	- AS插件
+	  collapsed:: true
 		- 常用插件- [[AS插件]]
 		- [开发插件](https://developer.aliyun.com/article/1113455)
 	- AS工程配置问题
@@ -110,6 +113,7 @@
 	- [[文件内容操作]]
 	- [[开发工具]]
 - 前端
+  collapsed:: true
 	- [[yarn环境配置]]
 	- [[常见的文档生成工具]]
 	- [[常见命令]]
