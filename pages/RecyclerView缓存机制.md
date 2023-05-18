@@ -147,25 +147,25 @@
 	- 再次bind，从mChangedScrap取出的ViewHolder执行bind方法，使得bindview只调用一次
 - # 对比listView
 	- 两级缓存
-	- 负责缓存管理类是RecycleBin
-	- mActiveViews：缓存的是View而非ViewHolder，mActiveViews类比于mAttachedScrap，快速重用屏幕内View，无需createView和bindView
-	- mScrapViews:  类比于mCachedViews ，mReyclerViewPool缓存的是屏幕外的View，mCachedViews通过对应position精准获取ViewHolder，数据源不变，无需再次bind， mScrapViews中获取的View每次都调用getView方法，因此需要重新bindView
-	  collapsed:: true
-		- ```
-		  final View scrapView = mRecycler.getScrapView(position);
-		          final View child = mAdapter.getView(position, scrapView, this);
-		          if (scrapView != null) {
-		              if (child != scrapView) {
-		                  // Failed to re-bind the data, return scrap to the heap.
-		                  mRecycler.addScrapView(scrapView, position);
-		              } else if (child.isTemporarilyDetached()) {
-		                  outMetadata[0] = true;
-		  
-		                  // Finish the temporary detach started in addScrapView().
-		                  child.dispatchFinishTemporaryDetach();
-		              }
-		          }
-		  ```
+		- 负责缓存管理类是RecycleBin
+		- mActiveViews：缓存的是View而非ViewHolder，mActiveViews类比于mAttachedScrap，快速重用屏幕内View，无需createView和bindView
+		- mScrapViews:  类比于mCachedViews ，mReyclerViewPool缓存的是屏幕外的View，mCachedViews通过对应position精准获取ViewHolder，数据源不变，无需再次bind， mScrapViews中获取的View每次都调用getView方法，因此需要重新bindView
+		  collapsed:: true
+			- ```
+			  final View scrapView = mRecycler.getScrapView(position);
+			          final View child = mAdapter.getView(position, scrapView, this);
+			          if (scrapView != null) {
+			              if (child != scrapView) {
+			                  // Failed to re-bind the data, return scrap to the heap.
+			                  mRecycler.addScrapView(scrapView, position);
+			              } else if (child.isTemporarilyDetached()) {
+			                  outMetadata[0] = true;
+			  
+			                  // Finish the temporary detach started in addScrapView().
+			                  child.dispatchFinishTemporaryDetach();
+			              }
+			          }
+			  ```
 	- 缓存区别
 		- ListView中通过pos获取的是view，即pos-->view；
 		  RecyclerView中通过pos获取的是ViewHolder，即pos --> (view，viewHolder，flag)
