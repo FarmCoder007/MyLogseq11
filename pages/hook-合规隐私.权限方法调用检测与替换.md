@@ -45,6 +45,7 @@ title:: hook-合规隐私/权限方法调用检测与替换
 		  $ ./gradlew :app:assembleDebug
 		  ```
 - # 2、例子
+  collapsed:: true
 	- ## 1、获取android framework方法权限集
 	  collapsed:: true
 		- 首先需要保证已通过sdk manager安装对应compileSdkVersion版本的android源代码**，如下图所示：
@@ -191,7 +192,7 @@ title:: hook-合规隐私/权限方法调用检测与替换
 		- ```
 		  replaceMethod {
 		      // 启用后编译应用时会替换除`excludes`包之外的其他类的方法，可以根据`[RewritePlugin] replace`关键字过滤输出日志获取结果。
-		      enable = true
+		    enable = true
 		  
 		      // 不替换该包下的方法
 		      excludes = [
@@ -224,11 +225,14 @@ title:: hook-合规隐私/权限方法调用检测与替换
 			  ]
 			  ```
 		- 结果查看：
-		- 可以使用[RewritePlugin] replace关键字过滤输出日志获取替换结果，单条输出如下所示：
-		  collapsed:: true
-			- ```
-			  [RewritePlugin] replace moduleName=8f0a287af65fe4840370804c25783e3d59e2e135, sourceFile=MainActivity.kt, lineNo=61, className=com.coofee.rewrite.MainActivity, methodName=testPackageManager, methodDesc=()V, methodSignature=null; owner=android/content/pm/PackageManager, method=getInstalledApplications, desc=(I)Ljava/util/List; by owner=com/coofee/rewrite/hook/pm/ShadowPackageManager, method=getInstalledApplications, desc=(Landroid/content/pm/PackageManager;I)Ljava/util/List;
-			  ```
+			- 可以使用[RewritePlugin] replace关键字过滤输出日志获取替换结果，单条输出如下所示：
+			  collapsed:: true
+				- ```
+				  [RewritePlugin] replace moduleName=8f0a287af65fe4840370804c25783e3d59e2e135, sourceFile=MainActivity.kt, lineNo=61, className=com.coofee.rewrite.MainActivity, methodName=testPackageManager, methodDesc=()V, methodSignature=null; owner=android/content/pm/PackageManager, method=getInstalledApplications, desc=(I)Ljava/util/List; by owner=com/coofee/rewrite/hook/pm/ShadowPackageManager, method=getInstalledApplications, desc=(Landroid/content/pm/PackageManager;I)Ljava/util/List;
+				  ```
 		- replace_method编写方法
+			- 如果src_method是实例方法，则其对应的dest_method静态方法的第一个参数是实例自身，也就是this。
+			- 如果src_method是静态方法，则其对应的dest_method静态方法和其一模一样。
+			- 如果src_method方法存在泛型，在需要去掉其限定类型，见：PackageManager配置。
 		-
 -
