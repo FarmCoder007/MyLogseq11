@@ -49,4 +49,9 @@
 			  collapsed:: true
 				- ![image.png](../assets/image_1684414069027_0.png)
 - # 一张图做个了结
--
+	- ![image.png](../assets/image_1684414085853_0.png){:height 317, :width 746}
+	- Android应用进程的启动可以总结成以下步骤：
+	  1、AMS判断APP进程是否存在，不存在则发起socket请求。
+	  2、Zygote进程接收请求并处理参数。
+	  3、Zygote进程fork出应用进程，应用进程继承得到虚拟机实例。
+	  4、应用进程启动binder线程池、运行ActivityThread类的main函数、启动Looper循环。
