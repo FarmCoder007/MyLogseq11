@@ -76,6 +76,7 @@
 				      }
 				  ```
 		- ### EnqueueRunnable
+		  collapsed:: true
 			- EnqueueRunnable任务中，会先调用addToDatabase()方法将调度任务添加到数据库中。这样，在这个任务被真正调度之前，调度任务绝不会丢失，除非连APP的数据库都被清除了。
 			  collapsed:: true
 				- ```
@@ -97,5 +98,89 @@
 				  ```
 			- 当任务添加到数据库之后，如果该任务需要被调度，那么就会调用scheduleWorkInBackground()方法最终调用Schedulers.schedule(）来调度任务。
 			- 在这个方法中会先从数据库中取出刚才的任务，然后交给schedulers去遍历调度执行。这里的schedulers就是初始化时创建的两个调度器GreedyScheduler和BestAvailableBackgroundScheduler。
+			  collapsed:: true
 				- ```
+				    public static void schedule(
+				              @NonNull Configuration configuration,
+				              @NonNull WorkDatabase workDatabase,
+				              List<Scheduler> schedulers) {
+				          if (schedulers == null || schedulers.size() == 0) {
+				              return;
+				          }
+				  
+				          WorkSpecDao workSpecDao = workDatabase.workSpecDao();
+				          List<WorkSpec> eligibleWorkSpecs;
+				  
+				          workDatabase.beginTransaction();
+				          try {
+				              eligibleWorkSpecs = workSpecDao.getEligibleWorkForScheduling(
+				                      configuration.getMaxSchedulerLimit());
+				              if (eligibleWorkSpecs != null && eligibleWorkSpecs.size() > 0) {
+				                  long now = System.currentTimeMillis();
+				                  for (WorkSpec workSpec : eligibleWorkSpecs) {
+				                      workSpecDao.markWorkSpecScheduled(workSpec.id, now);
+				                  }
+				              }
+				              workDatabase.setTransactionSuccessful();
+				          } finally {
+				              workDatabase.endTransaction();
+				          }
+				  
+				          if (eligibleWorkSpecs != null && eligibleWorkSpecs.size() > 0) {
+				              WorkSpec[] eligibleWorkSpecsArray = eligibleWorkSpecs.toArray(new WorkSpec[0]);
+				              // Delegate to the underlying scheduler.
+				              for (Scheduler scheduler : schedulers) {
+				                  scheduler.schedule(eligibleWorkSpecsArray);
+				              }
+				          }
+				      }
 				  ```
+			- 这时候你就有疑问了，为啥一个任务要两个调度器执行？而不是指定对应的调度器去执行？这样做会不会出现重复执行任务的问题？
+			- 实际上虽然这里调度器列表遍历去调度，但是实际上不会出现一个任务被两次执行的问题。具体原因我们后边给出答案。我们先继续我们的分析。
+			- 我们假设系统是大于23，BestAvailableBackgroundScheduler选用了SystemJobScheduler调度器，我们以SystemJobScheduler进行分析。
+			-
+		- ### SystemJobScheduler
+		  collapsed:: true
+			- SystemJobScheduler会从数据库中取出对应任务id，然后在scheduleInternal方法里调用mSystemJobInfoConverter.convert()转换成JobInfo最终交给JobScheduler去调度任务。
+			  collapsed:: true
+				- ```
+				  public void schedule(@NonNull WorkSpec... workSpecs) {
+				          WorkDatabase workDatabase = mWorkManager.getWorkDatabase();
+				  
+				          for (WorkSpec workSpec : workSpecs) {
+				              workDatabase.beginTransaction();
+				              try {
+				                  WorkSpec currentDbWorkSpec = workDatabase.workSpecDao().getWorkSpec(workSpec.id);
+				                  ·······
+				                  scheduleInternal(workSpec, jobId);
+				  
+				                  if (Build.VERSION.SDK_INT == 23) {
+				                     
+				                      if (jobIds != null) {
+				                          ············
+				                          scheduleInternal(workSpec, nextJobId);
+				                      }
+				                  }
+				                  workDatabase.setTransactionSuccessful();
+				              } finally {
+				                  workDatabase.endTransaction();
+				              }
+				          }
+				      }
+				  ```
+				- ```
+				  public void scheduleInternal(WorkSpec workSpec, int jobId) {
+				          JobInfo jobInfo = mSystemJobInfoConverter.convert(workSpec, jobId);
+				          
+				          try {
+				              mJobScheduler.schedule(jobInfo);
+				          } catch (IllegalStateException e) {
+				              ·······
+				          } catch (Throwable throwable) {
+				              ·······
+				          }
+				      }
+				  ```
+			- JobScheduler是android在5.0上针对于降低功耗而提出来的一种策略方案，所有的降耗策略与WorkManager完全一致。所以也可以这么理解WorkManager是对JobScheduler的兼容包装。
+			- JobScheduler特性不在我们这次研究范围大家可以自行了解。但是有个特性必须要在这里说明下：
+			- JobScheduler面对的是定时任务，系统内置了最小的周期事件，为15分钟。如果我们设置的周期小于15分钟，则会被强制设置为15分钟。
