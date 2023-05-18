@@ -195,6 +195,22 @@
 	  collapsed:: true
 		- ![image.png](../assets/image_1684422411727_0.png){:height 530, :width 716}
 	- ## 3.1 那么 LiveData 是如何解决这些问题的呢？下面我们从源码角度来分析一下。
+	  collapsed:: true
 		- 我们想要使用 LiveData 去观察数据，会用到 observe 方法，观察者可以在收到 onChanged 事件时更新界面：
-		- ![image.png](../assets/image_1684422443140_0.png){:height 335, :width 716}
+		  collapsed:: true
+			- ![image.png](../assets/image_1684422443140_0.png){:height 335, :width 716}
 		- 而与宿主生命周期的绑定，也是在 observe 里进行的：
+		  collapsed:: true
+			- ![image.png](../assets/image_1684422462736_0.png)
+		- 可将上面的源码总结为图：
+		  collapsed:: true
+			- ![image.png](../assets/image_1684422476700_0.png)
+		- 结论
+		- 所以，LiveData 之所以能够感知到宿主的生命周期，是借助了 Lifecycle 的能力。
+	- ## 3.2 LiveData 的反注册和消息分发
+		- 在上一节中，我们分析了，LiveData 是借助 Lifecycle 的能力实现了对宿主生命周期的监听，每当宿主的生命周期变化的时候，都会回调 LifecycleBoundObserver 的 onStateChanged 方法，那么，可以在 onStateChanged 方法里判断宿主当前的生命周期，从而做一些操作。
+		- ## 3.2.1 反注册
+		  collapsed:: true
+			- 在 onStateChanged 方法里，首先会判断宿主当前的状态是否为 DESTROYED，即销毁状态，如果条件成立，则会主动移除掉观察者，即反注册，从而避免了内存泄露。
+			- ![image.png](../assets/image_1684422513099_0.png)
+		- ##
