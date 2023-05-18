@@ -651,4 +651,86 @@
 		          }
 		      }
 		  ```
+	- build()方法创建了Postcard对象，然后看Postcard.navigation()
+	  collapsed:: true
+		- ```
+		  protected Object navigation(final Context context, final Postcard postcard, final int requestCode, final NavigationCallback callback) {
+		          PretreatmentService pretreatmentService = ARouter.getInstance().navigation(PretreatmentService.class);
+		          if (null != pretreatmentService && !pretreatmentService.onPretreatment(context, postcard)) {
+		              // Pretreatment failed, navigation canceled.
+		              return null;
+		          }
+		  
+		          // Set context to postcard.
+		          postcard.setContext(null == context ? mContext : context);
+		  
+		          try {
+		              LogisticsCenter.completion(postcard);
+		  ```
+	- 这里调用了 LogisticsCenter.completion(postcard) ，找到跳转目标，给postcart赋值
+	  collapsed:: true
+		- ```
+		  public synchronized static void completion(Postcard postcard) {
+		      if (null == postcard) {
+		          throw new NoRouteFoundException(TAG + "No postcard!");
+		      }
+		  
+		      RouteMeta routeMeta = Warehouse.routes.get(postcard.getPath());
+		      if (null == routeMeta) {
+		          // Maybe its does't exist, or didn't load.
+		          if (!Warehouse.groupsIndex.containsKey(postcard.getGroup())) {
+		              throw new NoRouteFoundException(TAG + "There is no route match the path [" + postcard.getPath() + "], in group [" + postcard.getGroup() + "]");
+		          } else {
+		      
+		              try {
+		                  。。。
+		                  addRouteGroupDynamic(postcard.getGroup(), null);
+		  
+		                  。。。
+		              } catch (Exception e) {
+		          。。。
+		              }
+		  
+		              completion(postcard);   // Reload
+		          }
+		      } else {
+		          postcard.setDestination(routeMeta.getDestination());
+		          postcard.setType(routeMeta.getType());
+		          postcard.setPriority(routeMeta.getPriority());
+		          postcard.setExtra(routeMeta.getExtra());
+		  
+		          。。。
+		  
+		      }
+		  }
+		  ```
+	- Warehouse.routes如果已经加载了path，直接赋值给postcard，如果没找到但是在Warehouse.groupsIndex里有这个group（Warehouse.groupsIndex是在init（）里添加元素的，ARouter$$Root$xxx这个类的loadInto(）方法里） 就会执行
+	  collapsed:: true
+	  addRouteGroupDynamic(postcard.getGroup(), null)方法
+		- ```
+		  public synchronized static void addRouteGroupDynamic(String groupName, IRouteGroup group) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+		      if (Warehouse.groupsIndex.containsKey(groupName)){
+		          // If this group is included, but it has not been loaded
+		          // load this group first, because dynamic route has high priority.
+		          Warehouse.groupsIndex.get(groupName).getConstructor().newInstance().loadInto(Warehouse.routes);
+		          Warehouse.groupsIndex.remove(groupName);
+		      }
+		  
+		      // cover old group.
+		      if (null != group) {
+		          group.loadInto(Warehouse.routes);
+		      }
+		  }
+		  ```
+	- Warehouse.groupsIndex.get(groupName).getConstructor().newInstance().loadInto(Warehouse.routes);
+	  加载一个ARouter$$Group$xxx 类，调用其loadInto（）方法给Warehouse.routes添加元素 ，寻址完成。
+	- 看到这里我们就知道了ARouter
+	  �
+	  �
+	  �
+	  �
+	  �
+	  Groupxxx是在第一次调用这个builde（“/group/path”).navigation()时候加载，使用时才加载。
+	- 跳转：
+	  _ARouter._navigation().startActivity()
 -
