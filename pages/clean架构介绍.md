@@ -1,6 +1,26 @@
-- 介绍：
-	- ![FireShot Capture 005 - 知享-聊聊 Clean 架构 - ishare.58corp.com.png](../assets/FireShot_Capture_005_-_知享-聊聊_Clean_架构_-_ishare.58corp.com_1684394982663_0.png)
-- 参考:
+- # 背景
+  collapsed:: true
+	- Clean Architecture是由 Uncle Bob 在2012年提出的一种架构模式。
+	- ![image.png](../assets/image_1684417770065_0.png)
+	- Clean 架构的目标是关注点分离，实现解耦。上面的洋葱图中，将软件分为了很多层，层层包裹，其中有一个重要的依赖规则：源码依赖方向只能由外向内。内圈不能依赖外圈，即内圈相对来是业务核心，中间层是业务转换模块，外部则是可以替换的部分。
+	- 同时 Uncle Bob 在提出架构体系中也归纳了一个架构应该满足的一些条件：
+	- 独立框架。架构不依赖于一些满载功能的软件库。这可以让你像使用工具一样使用这样的框架，而不是把系统塞到他们有限的约束之中。
+	- 可测试性。可以在没有UI，数据库，Web服务器或任何其他外部元素的情况下测试业务规则。
+	- UI独立。UI可以轻松更改，而无需更改系统的其余部分。例如，可以在不更改业务规则的情况下用控制台UI替换Web UI。
+	- 独立于数据库。您的业​​务规则未绑定到数据库，这样就可以将 Oracle 或 SQL Server 换成MongoDb，My SQL或其他数据库。
+	- 外部机制独立。事实上业务规则根本不知道外层的事情。
+- 洋葱图层级
+- 我们再仔细看一下这个洋葱图右上角，对软件的四个层由外向内进行的简述
+-
+-
+-
+-
+-
+-
+-
+-
+-
+- # 参考:
   collapsed:: true
 	- 参考文章
 	- https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html
