@@ -120,7 +120,8 @@
 		- 方法区是一个 JVM 规范，永久代与元空间都是其一种实现方式。在 JDK 1.8 之后，原来永久代的数据被分到了堆和元空间中。元空间存储类的元信息，而静态变量和常量池等放入了堆中
 		- jdk1.8前后稍有差别，如下图：
 			- ![image.png](../assets/image_1684431565173_0.png)
-	- # java堆
+	- # 5java堆
+	  collapsed:: true
 		- 对于绝大多数应用来说，java堆这块区域是 JVM 所管理的内存中最大的一块，也是垃圾收集的主要区域，主要存放对象实例和数组。
 		- 由于现代虚拟机采用分代收集算法，Java堆从GC的角度还可以细分新生代和老年代，新生代又分Eden区、From Survivor区和To Survivor区。进一步划分的目的是为了更好地回收内存，或者更快地分配内存
 		- ![image.png](../assets/image_1684431594574_0.png)
@@ -159,3 +160,29 @@
 					     }
 					  }
 					  ```
+				- 先看看这段代码加载到内存中的有哪些东西：
+				- 类：Test.clas、Animal.class
+				  静态变量：CatName、DogName
+				  对象实例：Animal1、Animal2
+				  对象的引用：cat、dog
+				  栈帧：main（）方法
+				  局部变量：2、3
+				- ![image.png](../assets/image_1684431676946_0.png){:height 454, :width 656}
+			- 对象晋升到老年代的年龄阈值，可以通过参数 -XX:MaxTenuringThreshold 来设置。堆可以不需要连续内存（现在堆内存的结构可能是一块块的堆内存通过链表连接起来，哪块需要回收就回收哪块），并且可以动态增加其内存，但如果超出了最大内存，增加失败或者新对象无法分配到内存会抛出 OutOfMemoryError 异常。
+	- # 6. 直接内存
+		- 在 JDK 1.4 中新加入 NIO (New Input/Output) 类，引入了一种基于通道(Channel)和缓存(Buffer)的 I/O 方式，它可以使用 Native 函数库直接分配堆外内存，然后通过一个存储在 Java 堆中的 DirectByteBuffer 对象作为这块内存的引用进行操作。可以避免在 Java 堆和 Native 堆中来回的数据耗时操作，这样在一些场景中能显著提高性能。
+		- jdk1.8的元空间就在这块内存中，这块内存不受Java堆大小的限制，但受本机总内存的限制，可拓展，通过MaxDirectMemorySize来设置（默认与堆内存最大值一样），如果内存区域总和大于物理内存限制从而导致动态扩展时出现异常就会报outOfMemoryError。
+	- # 再看OutOfMemory
+		- 哪些会内存溢出：
+		- 1. 虚拟机栈和本地方法栈溢出
+		  不断创建线程，如果虚拟机在扩展栈时无法申请到足够的内存空间，则抛出OutOfMemoryError异常
+		- 2.堆内存溢出
+		  Full GC后，若Survivor及Old区仍然无法存放从Eden复制过来的部分对象，导致JVM无法在Eden区为新对象创建内存区域，则出现outOfMemoryError：java heap space
+		- 3.方法区溢出
+		  方法区用于存放Class的相关信息，如果程序加载的类过多，或者使用反射、gclib等这种动态代理生成类的技术，就可能导致该区发生内存溢出。方法区溢出也是一种常见的内存溢出异常，因为类是是很难被垃圾收集器回收的。
+		- 4. 直接内存溢出
+		  直接内存溢出受本机总内存的限制，如果内存区域总和大于物理内存限制从而导致动态扩展时出现异常就会报outOfMemoryError。
+	- 参考资料：
+	- 《深入理解Java虚拟机》
+	  Java虚拟机JVM的本地方法栈
+	  快速了解什么是HotSpot
