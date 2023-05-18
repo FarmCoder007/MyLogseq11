@@ -28,4 +28,97 @@
 			  $ brew install watchman
 			  ```
 	- ## 下载编译运行Flipper桌面客户端
-		-
+	  collapsed:: true
+		- 开发Flipper插件，强烈建议通过编译运行Flipper源代码的方式进行开发，使用该方式进行开发时，可以使用各种React/Redex Dev Tools以及Chrome Dev Tools/Visual Studio Code等调试开发工具等。
+		- ```
+		  # 下载源代码
+		  $ git clone https://github.com/facebook/flipper.git  
+		  
+		  # 切换到Flipper桌面客户端源代码目录，然后使用yarn编译运行。
+		  $ cd flipper/desktop  
+		  $ yarn  
+		  $ yarn start
+		  
+		  # 如果遇到依赖找不到问题，可以强制重新下载依赖
+		  $ yarn install --force
+		  ```
+	- ## 创建Flipper桌面插件
+		- 使用npx flipper-pkg init命令创建Flipper桌面插件。
+		- 首次使用会提示是否将FlipperPlugins添加到Flipper的插件目录中，当选择Yes时，就会将目录添加到~/.flipper/config.json文件的pluginPaths配置项中，后续也可以通过编辑文件的方式自己添加插件路径。
+		- 注意：
+		- 创建插件的目录不能放到flipper源码目录下。
+		  添加到pluginPaths的插件，在打包时，会被内置到Flipper客户端中。
+		  在Plugin Type步骤可以选择插件类型client/device，当创建插件成功后，可以在package.json文件中看到pluginType（其默认值为client）。
+		- client：和应用进行交互的插件。
+		  device：和设备直接进行交互的插件。
+		  整个命令执行如下所示：
+			- ```
+			  # 创建插件目录
+			  $ mkdir ~/FlipperPlugins  
+			  $ cd ~/FlipperPlugins  
+			  
+			  # 通过命令创建插件
+			  $ npx flipper-pkg init
+			  ? Plugin Type ("client" if the plugin will work with a mobile app, "device" if the plugin will work with a mobile device): device
+			  ? ID (must match native plugin ID, e.g. returned by getId() in Android plugin): ShortcutCommand
+			  ? Title (will be shown in the Flipper main sidebar): 快捷命令
+			  
+			  $ cat ~/.flipper/config.json
+			  {
+			    "pluginPaths": [
+			      "/Users/xxxxx/FlipperPlugins"
+			    ],
+			    "disabledPlugins": [],
+			    "darkMode": "light",
+			    "updaterEnabled": true,
+			    "launcherEnabled": true
+			  }
+			  ```
+		- 命令执行成功后，可以查看插件的package.json文件，内容大致如下：
+		  collapsed:: true
+			- ```
+			  {
+			    "$schema": "https://fbflipper.com/schemas/plugin-package/v2.json", // 插件配置定义文件地址。
+			    "name": "flipper-plugin-device-shortcut-command", // 插件名字
+			    "id": "ShortcutCommand", // 插件的id，当pluginType为client时，需要搭配其他插件一起使用。
+			    "version": "0.0.3",
+			    "pluginType": "device",  // 插件类型
+			    "supportedDevices": [    // 支持的设备类型，可以支持多种Android/iOS，还可以区分模拟器。
+			      {"os":"Android"}
+			    ],
+			    "main": "dist/bundle.js", // 打包后会生成该文件，所有源代码会编译到单文件中，flipper加载插件后，会执行该文件代码。
+			    "flipperBundlerEntry": "src/index.tsx", // 主源代码文件
+			    "license": "MIT",
+			    "keywords": [
+			      "flipper-plugin"
+			    ],
+			    "icon": "apps",
+			    "title": "快捷命令", // 插件标题，在flipper上显示的插件名字。
+			    "scripts": {
+			      "lint": "flipper-pkg lint",
+			      "prepack": "flipper-pkg lint && flipper-pkg bundle",
+			      "build": "flipper-pkg bundle",
+			      "watch": "flipper-pkg bundle --watch",
+			      "test": "jest --no-watchman"
+			    },
+			    "peerDependencies": {
+			      "flipper-plugin": "^0.152.0",
+			      "antd": "latest"
+			    },
+			    "devDependencies": {
+			      "@babel/preset-react": "latest",
+			      "@babel/preset-typescript": "latest",
+			      "@testing-library/react": "latest",
+			      "@types/jest": "latest",
+			      "@types/react": "latest",
+			      "@types/react-dom": "latest",
+			      "antd": "latest",
+			      "flipper-plugin": "latest",
+			      "flipper-pkg": "latest",
+			      "jest": "latest",
+			      "typescript": "latest"
+			    }
+			  }
+			  ```
+		- device和client方法除了pluginType类型不同和导出方法不同外，其他内容基本一致。整个桌面插件开发大概流程就是从plugin/devicePlugin方法返回数据源，然后在Component方法中使用数据源展示对应数据，或者数据进行交互，UI展示可以使用Flipper内置的组件或者直接使用AntDesign。
+		- Flipper桌面端的UI控件库就是AntDesign。
