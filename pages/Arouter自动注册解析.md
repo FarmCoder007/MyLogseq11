@@ -1,5 +1,6 @@
 - # 一、 Arouter的组件注册
 	- ## 1. 自动注册插件
+	  collapsed:: true
 		- 在看ARouter源码的过程中看到，在初始化方法 init（），有个 boolean 变量 registerByPlugin, 表示是否用了插件注册组件。那么这个插件干了什么，为什么要用插件或者不用插件有啥问题吗？
 		- LogisticsCenter
 		  collapsed:: true
@@ -18,4 +19,39 @@
 			          }
 			      }
 			  ```
+		- build.gradle
+			- ```
+			  apply plugin: 'com.alibaba.arouter'
+			  
+			  buildscript {
+			     ...
+			      dependencies {
+			          classpath "com.alibaba:arouter-register:1.0.2"
+			      }
+			  }
+			  ```
+	- ## 2. arouter的工作流程：
+		- 流程
+		  collapsed:: true
+			- ![image.png](../assets/image_1684413203491_0.png)
+		- 回顾ARouter的流程，分三个步骤
+		- （1）利用APT 编译期生成构建映射表的类和方法
+			- ```
+			  public class ARouter$$Root$$MainBusiness implements IRouteRoot {
+			      @Override
+			      public void loadInto(Map<String, Class<? extends IRouteGroup>> routes) {
+			          routes.put("detail", ARouter$$Group$$detail.class);
+			          routes.put("home", ARouter$$Group$$home.class);
+			      }
+			  } 
+			  
+			  public class ARouter$$Group$$detail implements IRouteGroup {
+			      @Override
+			      public void loadInto(Map<String, RouteMeta> atlas) {
+			          atlas.put("/detail/first", RouteMeta.build(RouteType.ACTIVITY, DetailActivity.class, "/detail/first", "detail", null, -1, -2147483648));
+			          ...
+			      }
+			  }
+			  ```
+			-
 	-
