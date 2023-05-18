@@ -121,4 +121,14 @@
 		  `````
 	- 可以看出 WidgetsBindingObserver 类提供了很多回调方法，比如屏幕旋转、屏幕亮度变化、语言变化、内存警告等都可以通过监听这个类实现回调。通过给 WidgetsBinding 的单例对象设置监听器，就可以监听对应的回调方法。
 	-
+	- ### 生命周期回调
+	  collapsed:: true
+		- didChangeAppLifecycleState 回调函数中，有一个参数类型为 AppLifecycleState 的枚举类，这个枚举类是 Flutter 对 App 生命周期状态的封装。它包括 resumed、inactive、paused 和 detached 4个状态，常用的是前3个。
+			- resumed：App可见，并能响应用户的输入
+			- inactive：App处于不活动状态，无法处理用户响应；此时App可能仍可见，但在Android中被其他的Activity或Window抢占了焦点，在iOS中类似被其他页面获取了焦点
+			- paused：App不可见并不能响应用户的输入，但是在后台继续活动中
+		- 当切换Flutter应用到前后台时，App的状态变化如下：
+			- 从前台退回后台：AppLifecycleState.resumed -> AppLifecycleState.inactive -> AppLifecycleState.paused
+			- 从后台切入前台：AppLifecycleState.paused -> AppLifecycleState.inactive -> AppLifecycleState.resumed
+	- ### 帧绘制回调
 -
