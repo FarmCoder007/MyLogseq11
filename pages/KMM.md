@@ -40,4 +40,23 @@
 		- ![image.png](../assets/image_1684432879108_0.png)
 		- androidApp 和 shared 两个模块都是 Gradle 项目，在根目录下的 settings.gradle.kts 文件中有被 include，而 iosApp 是 Xcode 项目，需要单独编译，shared 工程需要被打包成 framework 提供给 iOS 使用。
 		- 在 shared 模块内包含了三个源码集：androidMain、commonMain 和 iosMain，androidMain和 iosMain 分别是 Android 和 iOS 这两个平台的具体实现的源码集，通过 actual 关键字实现在 commonMain 中以 expected 关键字声明的 API。源码集是一个有逻辑关联的代码集合的 Gradle 概念，在 shared 模块根目录下的 build.gradle.kts 文件中可以为每个源码集配置依赖，Kotlin 标准库会被自动加到相应的 sourceSet 中，无需重复引入。
-- #
+- # 深交KMM，内力深厚
+  collapsed:: true
+	- 从前面的了解我们对 KMM 的大致认识是：为 Android 和 iOS 应用程序的网路、数据存储、数据分析和其他通用逻辑维护一份共享的代码库，然后分别实现平台特有的功能，UI 部分也采用给自平台的原生代码实现。简而言之 KMM 实现跨平台的理念就是“Shared business, native UI”。
+	- ![image.png](../assets/image_1684432903111_0.png)
+- # 接下来我们进一步探索 KMM 的 shared 模块是如何工作的。
+	- ### 共享代码库编译过程
+		- 首选我们看一下 KMM 的编译过程。shared 模块下的 build.gradle.kts 文件中在 plugins 闭包下加载了 multiplatform 插件，并把 shared module 作为 library 输出。在 kotlin 闭包中配置了需要编译的平台。
+		- ```
+		  plugins {
+		      kotlin("multiplatform")
+		      id("com.android.library")
+		  }
+		  
+		  kotlin {
+		      android()
+		      iosX64()
+		      iosArm64()
+		      iosSimulatorArm64()
+		  }
+		  ```
