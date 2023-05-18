@@ -64,18 +64,20 @@
 		- 在分析了架构的各层依赖关系以后，我们通过具体的例子来分析数据是怎么流动的，这能更好的帮助我们理解整个机制。
 		- 举个例子，比如说从Presenter层传递一个对象UserModel给Data层进行存储：
 		- ## Presenter层：
-	- 用户输入数据，并点击OK按钮(View)
-	- Presenter(ViewModel,Controller等同样)获取到数据，并构造一个UserModel
-	- 使用UserModelMapper（Presenter层的数据Mapper对象）将UserModel转换成User对象
-	- 调用UseCase.store(user)
-	- Domain层(唯一的目的就是执行上面的业务逻辑:存储对象)：
-	- 这里可以先做额外的逻辑
-	- StoreUseCase接受到User对象
-		- 调用UserRepository接口的方法，传入User
-	- Data层：
-		- UserDataRepository(UserRepository接口的实现类)，接受到User对象
-		- 调用Mapper方法(Data层)将User对象转换成UserEntity
-		- 存储UserEntity对象
+			- 用户输入数据，并点击OK按钮(View)
+			- Presenter(ViewModel,Controller等同样)获取到数据，并构造一个UserModel
+			- 使用UserModelMapper（Presenter层的数据Mapper对象）将UserModel转换成User对象
+			- 调用UseCase.store(user)
+		- ### Domain层(唯一的目的就是执行上面的业务逻辑:存储对象)：
+			- StoreUseCase接受到User对象
+			- 这里可以先做额外的逻辑
+			- 调用UserRepository接口的方法，传入User
+		- ## Data层：
+			- UserDataRepository(UserRepository接口的实现类)，接受到User对象
+			- 调用Mapper方法(Data层)将User对象转换成UserEntity
+			- 存储UserEntity对象
+		- ![image.png](../assets/image_1684418202249_0.png)
+		- 这样可以清楚的看到数据的流动过程，从左往右，但是这只是数据的流动过程，与依赖关系无关。Domain层实际上不持有任何依赖。
 - # 参考:
   collapsed:: true
 	- 参考文章
