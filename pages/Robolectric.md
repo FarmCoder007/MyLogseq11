@@ -72,7 +72,7 @@ JUnitCore是运行测试的入口类，使用它来运行测试，它有我们�
   
   Request的子类及作用   
   
-  
+  ![image.png](../assets/image_1684426210570_0.png) 
   
   * RunnerRequest，直接构造传入Runner对象来创建；
   * SortingRequest，作用就是可以将@Test的方法进行排序。Runner对象需要实现org.junit.runner.manipulation.Sortable
@@ -157,10 +157,10 @@ JUnitCore是运行测试的入口类，使用它来运行测试，它有我们�
 	  ```
 	  
 	  通过上述步骤我们就找到了执行的Runner(BlockJUnit4ClassRunner)
-#### BlockJUnit4ClassRunner的构成
-是ParentRunner运行类的子类，也是junit4版本的默认执行类，类结构图如下：  
-
-![](../assets/技术分享/Robolectric原理解析/BlockJUnit4ClassRunner.drawio.png)
+- #### BlockJUnit4ClassRunner的构成
+  是ParentRunner运行类的子类，也是junit4版本的默认执行类，类结构图如下：  
+  
+  ![image.png](../assets/image_1684426240448_0.png)
 ### 2.找到@Test 注解的方法
 第一步创建 Runner 对象时，在构造方法里会传入 ExampleUnitTest.Class，然后利用反射，查找标记有 @Test 注解的方法，并将这些方法保存起来。   
 ```java
@@ -201,17 +201,16 @@ protected Statement methodBlock(FrameworkMethod method) { // FrameworkMethod 是
 # Robolectric原理
 ## 如何Mock Android特性和运行环境
 本节的重点是分析 Robolectric 如何 mock Android 运行时环境的。在此之前，需要先了解下所需的两门相关技术 Java 类加载器 和 ASM部分。
-### 类加载器
-虚拟机设计团队把类加载阶段中的 "通过一个类的全限定名来获取描述此类的二进制字节流" 这个动作放到 Java 虚拟机外部去实现，以便让应用程序自己决定如何去获取所需要的类。实现这个动作的代码模块称为"类加载器"。    
-
-![](../assets/技术分享/Robolectric原理解析/ClassLoader.drawio.png)   
-
-以上列出了Java（黄色）和Android（红色）的ClassLoader,以便我们整体了解：
-* ClassLoader是一个抽象类，其中定义了ClassLoader的主要功能。
-* SecureClassLoader类和JDK8中的SecureClassLoader类的代码是一样的，它继承了抽象类ClassLoader，SecureClassLoader并不是ClassLoader的实现类，而是拓展了ClassLoader类加入了权限方面的功能，加强了ClassLoader的安全性。           
-* URLClassLoader类和JDK8中的URLClassLoader类的代码是一样的，它继承自SecureClassLoader，用来通过URl路径从jar文件和文件夹中加载类和资源。在Android中基本无法使用          
-* BootClassLoader是它的内部类，用于预加载preload()常用类，加载一些系统Framework层级需要的类，我们的Android应用里也需要用到一些系统的类等        
-* BaseDexClassLoader继承自ClassLoader，是抽象类ClassLoader的具体实现类，PathClassLoader和DexClassLoader都继承它。
+- ### 类加载器
+  虚拟机设计团队把类加载阶段中的 "通过一个类的全限定名来获取描述此类的二进制字节流" 这个动作放到 Java 虚拟机外部去实现，以便让应用程序自己决定如何去获取所需要的类。实现这个动作的代码模块称为"类加载器"。    
+  ![image.png](../assets/image_1684426253677_0.png) 
+  
+  以上列出了Java（黄色）和Android（红色）的ClassLoader,以便我们整体了解：
+  * ClassLoader是一个抽象类，其中定义了ClassLoader的主要功能。
+  * SecureClassLoader类和JDK8中的SecureClassLoader类的代码是一样的，它继承了抽象类ClassLoader，SecureClassLoader并不是ClassLoader的实现类，而是拓展了ClassLoader类加入了权限方面的功能，加强了ClassLoader的安全性。           
+  * URLClassLoader类和JDK8中的URLClassLoader类的代码是一样的，它继承自SecureClassLoader，用来通过URl路径从jar文件和文件夹中加载类和资源。在Android中基本无法使用          
+  * BootClassLoader是它的内部类，用于预加载preload()常用类，加载一些系统Framework层级需要的类，我们的Android应用里也需要用到一些系统的类等        
+  * BaseDexClassLoader继承自ClassLoader，是抽象类ClassLoader的具体实现类，PathClassLoader和DexClassLoader都继承它。
 	- PathClassLoader加载系统类和应用程序的类，如果是加载非系统应用程序类，则会加载data/app/目录下的dex文件以及包含dex的apk文件或jar文件
 	- DexClassLoader 可以加载自定义的dex文件以及包含dex的apk文件或jar文件，也支持从SD卡进行加载
 	- InMemoryDexClassLoader是Android8.0新增的类加载器，继承自BaseDexClassLoader，用于加载内存中的dex文件。
