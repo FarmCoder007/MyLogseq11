@@ -39,6 +39,7 @@
 	- ## 启动入口Launcher.StartActivity
 		- Launcher,我们安卓桌面,他也是一个应用.只不过他有些特殊属性,特殊在于它是系统开机后第一个启动的应用,并且该应用常驻在系统中,不会被杀死,用户一按home键就会回到桌面(回到该应用).桌面上面放了很多很多我们自己安装的或者是系统自带的APP,我们通过点击这个应用的快捷方法可以打开我们的应用，桌面Launcher也是一个Activity，也是通过startActivity打开我们的应用的，可以认为我们的应用都是通过其他应用打开的。
 	- ## Activity的startActivity方法
+	  collapsed:: true
 		- 代码
 		  collapsed:: true
 			- ```
@@ -61,5 +62,73 @@
 			  }
 			  ```
 		- startActivity会调用startActivityForResult方法。
+		  collapsed:: true
 			- ```
+			  public void startActivityForResult(@RequiresPermission Intent intent, int requestCode,
+			          @Nullable Bundle options) {
+			      if (mParent == null) {
+			          options = transferSpringboardActivityOptions(options);
+			          //调用Instrumentation.execStartActivity()启动新的Activity。mMainThread类型为ActivityThread, 在attach()函数被回调时被赋值
+			          Instrumentation.ActivityResult ar =
+			              mInstrumentation.execStartActivity(
+			                  this, mMainThread.getApplicationThread(), mToken, this,
+			                  intent, requestCode, options);
+			          if (ar != null) {
+			              // 如果activity之前已经启动，而且处于阻塞状态，execStartActivity函数直接返回要启动的activity的result或者null。
+			              //如果结果不为空，发送结果
+			              mMainThread.sendActivityResult(
+			                  mToken, mEmbeddedID, requestCode, ar.getResultCode(),
+			                  ar.getResultData());
+			          }
+			          if (requestCode >= 0) {
+			              // 如果需要一个返回结果，那么赋值mStartedActivity为true，在结果返回来之前保持当前Activity不可见
+			              mStartedActivity = true;
+			          }
+			  
+			          cancelInputsAndStartExitTransition(options);
+			          // TODO Consider clearing/flushing other event sources and events for child windows.
+			      } else {
+			          if (options != null) {
+			              mParent.startActivityFromChild(this, intent, requestCode, options);
+			          } else {
+			              // Note we want to go through this method for compatibility with
+			              // existing applications that may have overridden it.
+			              mParent.startActivityFromChild(this, intent, requestCode);
+			          }
+			      }
+			  }
 			  ```
+		- mParent是ActivityGroup，之前的组合模式，已经不推荐使用了，现在被Fragment替代，一般情况为空，所以都会进入为空判断分支，随后调用了Instrumentation的execStartActivity方法,其中mMainThread是ActivityThread(就是从这里开始启动一个应用的),mMainThread.getApplicationThread()是获取ApplicationThread，ApplicationThread是ActivityThread的内部类,下文介绍。
+	- ## Instrumentation执行execStartActivity方法
+	  collapsed:: true
+		- 代码
+		  collapsed:: true
+			- ```
+			  @UnsupportedAppUsage	
+			  public ActivityResult execStartActivity(
+			          Context who, IBinder contextThread, IBinder token, Activity target,
+			          Intent intent, int requestCode, Bundle options) {
+			      //1. 将ApplicationThread转为IApplicationThread
+			      IApplicationThread whoThread = (IApplicationThread) contextThread;
+			      Uri referrer = target != null ? target.onProvideReferrer() : null;
+			      if (referrer != null) {
+			          intent.putExtra(Intent.EXTRA_REFERRER, referrer);
+			      }
+			      ...
+			      try {
+			  
+			          intent.migrateExtraStreamToClipData(who);
+			          intent.prepareToLeaveProcess(who);
+			          //2. 获取AMS实例,调用startActivity方法
+			          int result = ActivityManager.getService().startActivity(whoThread,
+			                  who.getBasePackageName(), who.getAttributionTag(), intent,
+			                  intent.resolveTypeIfNeeded(who.getContentResolver()), token,
+			                  target != null ? target.mEmbeddedID : null, requestCode, 0, null, options);
+			          checkStartActivityResult(result, intent);
+			      } catch (RemoteException e) {
+			          throw new RuntimeException("Failure from system", e);
+			      }
+			      return null;
+			  }
+			  ```
+		- IApplicationThread是一个Binder接口,继承自android.os.IInterface接口，IInterface接口是Binder的基础类，ApplicationThread是继承了IApplicationThread.Stub(由Android SDK工具会生成以IApplicationThread.aidl 文件命名的 .java 接口文件，生成的接口包含一个名为 Stub 的子类),实现了IApplicationThread的,所以可以转成IApplicationThread.由ApplicationThread和AMS通信进一步执行启动流程。
