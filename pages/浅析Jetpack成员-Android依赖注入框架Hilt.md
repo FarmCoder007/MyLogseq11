@@ -3,6 +3,7 @@
 	- hilt是一个功能强大且用法简单的依赖注入框架，那么为什么要使用hilt？为什么要使用依赖注入框架？
 - # Android中的依赖项注入
 	- ## 什么是依赖项注入
+	  collapsed:: true
 		- 具体含义是：当某个角色（可能是一个Java实例，调用者）需要另一个角色（另一个Java实例，被调用者）的协助时，在传统的程序设计过程中，通常由调用者来创建被调用者的实例。而在依赖注入框架中，创建被调用者的工作不再由调用者来完成，创建被调用者实例的工作由依赖注入框架容器来完成。然后注入调用者，因此称为依赖注入。
 		- 下面是一个示例，Car创建自己的Engine依赖项
 		  collapsed:: true
@@ -83,6 +84,7 @@
 			  2.必须按顺序声明依赖项
 			  3.很难重复使用对象，如需在多项功能中重复使用UserRepository，必须使其遵循单例模式。
 		- ## 使用容器管理依赖项
+		  collapsed:: true
 			- 如需解决重复使用对象的问题，可以创建自己的依赖项容器，用于获取依赖项。此容器提供的所有实例可以是公共实例。在该示例中，由于您仅需要UserRepository的一个实例，
 			  collapsed:: true
 			  您可以将其依赖项设为私有，并且可以在将来需要提供依赖项时将其公开
@@ -175,3 +177,31 @@
 				         }
 				     }
 				  ```
+			- 思考：使用了AppContainer之后，我们需要重点关注：针对不同的业务场景如何管理AppContainer中的依赖项，并且为依赖项创建工厂
+	- ## 管理应用流程中的依赖项
+		- 如需在项目中添加更多功能，AppContainer会变得非常复杂。当应用变大并且可以引入不同功能流程时，还会出现更多问题：
+		  collapsed:: true
+		  官方示例业务场景：
+		  登录流程由一个Activity（LoginActivity）和多个Fragment（LoginUsernameFragment和LoginPasswordFragment），这些试图需要：
+		  1.访问需要共享的同一LoginUserData实例，直至登录流程完成。
+		  2.当登录流程再次开始，创建一个新的LoginUserData实例。
+		  使用登录流程容器实现这一目标，此容器需要能够在登陆流程开始时创建，在流程结束从内存中移除。
+			- ```
+			  class LoginContainer(val userRepository: UserRepository) {
+			  
+			         val loginData = LoginUserData()
+			  
+			         val loginViewModelFactory = LoginViewModelFactory(userRepository)
+			     }
+			  
+			     // AppContainer contains LoginContainer now
+			     class AppContainer {
+			         ...
+			         val userRepository = UserRepository(localDataSource, remoteDataSource)
+			  
+			         // LoginContainer will be null when the user is NOT in the login flow
+			         var loginContainer: LoginContainer? = null
+			     }
+			  ```
+		- 拥有某个流程专用的容器后，必须决定何时创建和删除容器实例。由于登录流程在Activity（LoginActivity）中是独立的，因此该Activity是管理该容器生命周期的Activity。LoginActivity可以在onCreate()中创建实例并在onDestroy()中将其删除。
+	-
