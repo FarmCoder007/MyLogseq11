@@ -234,6 +234,6 @@
 		- 如上所述，其他插件指的是针对Android、iOS、React-Native、Browser/Node等平台应用开发的插件，其开发流程和各平台的开发流程一致，添加上Flipper提供的依赖，然后按照正常的库进行开发即可。
 		- ##Refs
 		- [flipper-plugin](https://fbflipper.com/docs/extending/flipper-plugin/)
-		  [flipper-node-apis]9flipper-node-apis
-		  flipper-dev-setup
+		  [flipper-node-apis](https://fbflipper.com/docs/extending/node-apis/)
+		  [flipper-dev-setup](https://fbflipper.com/docs/extending/dev-setup/)
 -
