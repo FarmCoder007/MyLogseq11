@@ -232,6 +232,42 @@
 				      }
 				  ```
 		- ### WorkConstraintsTracker
+		  collapsed:: true
 			- 上一步提到GreedyScheduler的schedule方法最终会调用WorkConstraintsTracker的replace方法。
 			- 这里会循环遍历ConstraintController重新设置callback
-				-
+			  collapsed:: true
+				- ```
+				  public void replace(@NonNull List<WorkSpec> workSpecs) {
+				          synchronized (mLock) {
+				              for (ConstraintController controller : mConstraintControllers) {
+				                  controller.setCallback(null);
+				              }
+				  
+				              for (ConstraintController controller : mConstraintControllers) {
+				                  controller.replace(workSpecs);
+				              }
+				  
+				              for (ConstraintController controller : mConstraintControllers) {
+				                  controller.setCallback(this);
+				              }
+				          }
+				      }
+				  ```
+			- 而ConstraintController的Callback回调最终又会回调到GreedyScheduler的onAllConstraintsMet的回调函数里。在这里会对所有满足约束条件的任务调用mWorkManagerImpl.startWork()来执行任务。
+				- ```
+				   @Override
+				      public void onAllConstraintsMet(@NonNull List<String> workSpecIds) {
+				          for (String workSpecId : workSpecIds) {
+				              Logger.get().debug(
+				                      TAG,
+				                      String.format("Constraints met: Scheduling work ID %s", workSpecId));
+				              mWorkManagerImpl.startWork(workSpecId);
+				          }
+				      }
+				  ```
+			- 通过刚才代码分析，我们知道GreedyScheduler也会调度非周期带约束的任务，并非如网上一些资料说的只会调度非周期无约束任务。
+			- 在这里我们就可以解答下为什么有两个调度器在遍历调度一个任务，而最终不会出现一个任务被执行两遍的情况。
+			- 因为在两个调度器的内部，BestAvailableBackgroundScheduler只负责周期性调度任务，而GreedyScheduler只负责非周期任务。
+			- 当然GreedyScheduler也不是会执行所有的非周期任务，当你的任务设置了约束条件，并且设置了ContentUriTriggers并且你的版本大于24的时候，GreedyScheduler不在调度这个任务，而是交给了BestAvailableBackgroundScheduler。
+		- ### Processor
+			-
