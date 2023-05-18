@@ -610,6 +610,7 @@
 		  Root、ARouterInterceptors，但是没有加载任何一个ARouterGroup;那group是什么时候加载的呢
 		  ```
 - ## 四、navigation()
+  collapsed:: true
 	- 如何根据path找到跳转目标（寻址）？
 	  collapsed:: true
 		- ```
@@ -732,5 +733,44 @@
 	  �
 	  Groupxxx是在第一次调用这个builde（“/group/path”).navigation()时候加载，使用时才加载。
 	- 跳转：
+	  collapsed:: true
 	  _ARouter._navigation().startActivity()
--
+		- ```
+		  private Object _navigation(final Postcard postcard, final int requestCode, final NavigationCallback callback) {
+		      final Context currentContext = postcard.getContext();
+		  
+		      switch (postcard.getType()) {
+		          case ACTIVITY:
+		              // Build intent
+		              final Intent intent = new Intent(currentContext, postcard.getDestination());
+		              intent.putExtras(postcard.getExtras());
+		  
+		              // Set flags.
+		              int flags = postcard.getFlags();
+		              if (0 != flags) {
+		                  intent.setFlags(flags);
+		              }
+		  
+		              // Non activity, need FLAG_ACTIVITY_NEW_TASK
+		              if (!(currentContext instanceof Activity)) {
+		                  intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		              }
+		  
+		              // Set Actions
+		              String action = postcard.getAction();
+		              if (!TextUtils.isEmpty(action)) {
+		                  intent.setAction(action);
+		              }
+		  
+		              // Navigation in main looper.
+		              runInMainThread(new Runnable() {
+		                  @Override
+		                  public void run() {
+		                      startActivity(requestCode, currentContext, intent, postcard, callback);
+		                  }
+		              });
+		  ```
+- 总结
+  ARouter 编译期间构建路由表和映射关系，分模块分组；
+  有自己的线程池，编译完成后扫描dex文件，扫出apt生成的文件的类名
+  初始化只会去加载 ARouter$$Root$$、ARouter$$Providers$$、ARouter$$Interceptors这三个类;ARouter$$Group的类是在第一次使用时加载。

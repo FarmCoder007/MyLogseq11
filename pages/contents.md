@@ -56,7 +56,6 @@
 	- [[Rxjava]]
 	- [[WebView]]
 - JAVA
-  collapsed:: true
 	- [[java-泛型]]
 	- 集合
 	  collapsed:: true
