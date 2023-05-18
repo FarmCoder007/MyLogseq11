@@ -182,7 +182,7 @@
 		  方法区用于存放Class的相关信息，如果程序加载的类过多，或者使用反射、gclib等这种动态代理生成类的技术，就可能导致该区发生内存溢出。方法区溢出也是一种常见的内存溢出异常，因为类是是很难被垃圾收集器回收的。
 		- 4. 直接内存溢出
 		  直接内存溢出受本机总内存的限制，如果内存区域总和大于物理内存限制从而导致动态扩展时出现异常就会报outOfMemoryError。
-	- 参考资料：
-	- 《深入理解Java虚拟机》
-	  Java虚拟机JVM的本地方法栈
-	  快速了解什么是HotSpot
+	- # 参考资料：
+		- 《深入理解Java虚拟机》
+		- [Java虚拟机JVM的本地方法栈](https://blog.51cto.com/u_14201949/2825620)
+		- [快速了解什么是HotSpot](https://blog.csdn.net/weixin_43791695/article/details/118617395?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522167187169216800186542391%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=167187169216800186542391&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~top_click~default-1-118617395-null-null.142%5Ev68%5Econtrol,201%5Ev4%5Eadd_ask,213%5Ev2%5Et3_control1&utm_term=HotSpot&spm=1018.2226.3001.4187)
