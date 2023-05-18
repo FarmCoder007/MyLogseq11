@@ -27,6 +27,26 @@
 		  }
 		  ```
 	- didChangeDependencies
+	  collapsed:: true
 		- 用来专门处理 State 对象依赖关系的变化，这里说的 State 为全局 State ，例如语言或者主题等，会在 initState() 方法调用结束后被调用。
 		- ```
+		  @override
+		  void didChangeDependencies() {
+		  super.didChangeDependencies();
+		  }
 		  ```
+	- build
+	  collapsed:: true
+		- 主要是构建视图，返回需要渲染的 Widget ，由于 build 会被调用多次，因此在该函数中只能做返回 Widget 相关逻辑，避免因为执行多次导致状态异常。
+		- ```
+		  @override
+		  Widget build(BuildContext context, MyButtonState state) {
+		    return Container(color:Colors.red);
+		  }
+		  ```
+	- reassemble
+	  collapsed:: true
+		- 主要是提供开发阶段使用，在 debug 模式下，每次热重载都会调用该函数，因此在 debug 阶段可以在此期间增加一些 debug 代码，来检查代码问题。
+	- didUpdateWidget
+		- 该函数主要是在组件重新构建，比如说热重载，父组件发生 build 的情况下，子组件该方法才会被调用，其次该方法调用之后一定会再调用本组件中的 build 方法。
+		-
