@@ -271,55 +271,55 @@ G1是一种服务器端的垃圾收集器，应用在多处理器和大容量内
 *4. G1 中的重要概念和原理有哪些？*
 
 在 G1 的实现中引入了一些新的概念和算法，来实现 GC 的高吞吐量、低内存碎片、可预测的停顿时间等目标。
-#### Region
-传统的 GC 将内存空间划分为新生代、老年代和永久代（JDK 8 中去除了永久代，引入了元空间），各代的内存地址是连续的。
-
-![](./assets/数据结构之链表的应用/2021-12-27-22-33-53.png)
-
-G1 也是分代的垃圾回收算法，不过 G1 的老年代和年轻代的存储地址是不连续的，每一代都使用了n个不连续的大小相同的Region，每个Region占有一块连续的虚拟内存地址。这就是 G1 引入的分区的概念，Region 的类型有 Eden、Survivor、Old、Humongous 四种，而且每个 Region 都可以单独进行管理。
-
-![](./assets/数据结构之链表的应用/2021-12-28-10-29-04.png)
-
-其中 Humongous 是用来存放大对象的，如果一个对象的大小大于一个 Region 的 50%（默认值），那么我们就认为这个对象是一个大对象。为了防止大对象的频繁拷贝，我们可以将大对象直接放到 Humongous 中。
-
-H-obj有如下几个特征：
-* H-obj直接分配到了老年代，防止了大对象的反复拷贝移动
-* H-obj在全局并发标记阶段的cleanup 和 full GC阶段回收
-* 在分配H-obj之前先检查是否超过 initiating heap occupancy percent和the marking threshold, 如果超过的话，就启动global concurrent marking，为的是提早回收，防止 evacuation failures 和 full GC。
-
-一个Region的大小可以通过参数-XX:G1HeapRegionSize设定，取值范围从1M到32M，且是2的指数。如果不设定，那么G1会根据Heap大小自动决定。
-#### SATB
-SATB 的英文全称是 Snapshot-At-The-Beginning，其字面意思是 GC 开始时活着的对象的一个快照。根据前面介绍的三色标记算法，发生白对象漏标有两个前提条件：
-1. Mutator赋予一个黑对象该白对象的引用
-2. Mutator删除了所有从灰对象到该白对象的直接或者间接引用
-
-对于第一个条件，在并发标记阶段，如果该白对象是new出来的，并没有被灰对象持有，那么它会不会被漏标呢？
-
-![](./assets/数据结构之链表的应用/2021-12-28-16-05-21.png)
-
-每个Region中有两个标记位图：next和 prev，next 是本次标记的标 记位图，而 prev 是上次标记的标记位图，保存了上次标记的结果。上图中的 bottom 表示 Region 内众多对象的末尾，top 表示开头。另外有两个top-at-mark-start（TAMS）指针，分别为prevTAMS和nextTAMS。nextTAMS 保存了本次标记开始时的 top，而 prevTAMS 保存了上次标记开始时的 top。在并发标记阶段新创建的对象会在 top 之后的区域分配空间，它将直接被标记为黑色，这是一种隐式的标记。所以并发标记阶段新生成的对象不会被漏标。
-
-而对于在GC时已经存在的白对象，如果它是活着的，它必然会被另一个对象引用，即条件二中的灰对象。如果灰对象到白对象的直接引用或者间接引用被替换了，或者删除了，那个白对象就会被漏标，从而导致被回收掉，这是非常严重的错误。
-
-在 CMS GC 算法中解决白对象漏标问题采用了写屏障技术，当 B 对象对 C 对象的引用消失时，C 对象将会被标记为灰色。这个动作的效率是比较低的，如果都放在写屏障中做，会极大地影响程序性能，因为写屏障的逻辑是由业务线程执行的。
-
-为了解决写屏障的性能问题，G1 将“C 对象标记为灰色”这件事情往后推迟了。业务线程只需要把 C 对象记录到一个本地队列中就可以了。每个业务线程都有一个这样的线程本地队列，它的名字是 SATB 队列。SATB 专用写屏障的伪代码如下所示：
-```
-1: def satb_write_barrier(field, newobj): 
-2:      if $gc_phase == GC_CONCURRENT_MARK: 
-3:          oldobj = *field 
-4:          if oldobj != Null: 
-5:              enqueue($current_thread.stab_local_queue, oldobj) 
-6:
-7:          *field = newobj
-```
-参数 field 表示被写入对象的域，参数 newobj 表示被写入域的值。第 2 行的 GC_CONCURRENT_MARK 用来表示并发标记阶段的标志位（flag）。第 4 行会检查当前是否处于并发标记阶段且被写入之前 field 域的值是不是 Null。如果检查通过，则在第 5 行将 oldobj 添加到 $current_thread.stab_local_queue 中。然后，在第 7 行进行 实际的写入操作。这个算法没有对 oldobj 进行任何标记处理。
-
-上述SATB 写屏障的实现考虑了多线程环境的执行，第 5 行 $current_thread.stab_local_queue 是 mutator 各自持有的 线程本地队列，而非全局的队列，因此在执行 enqueue() 时不用担心 线程之间会发生资源竞争。 如下图每个线程有自己的本地 SATB 队列，当本地队列满了之后，就把它交给 SATB 队列集合，然后再领取一个空队列当做线程的本地 SATB 队列。GC 线程则会将 SATB 队列集合中的对象标记为灰色，至于什么时候标记，并不需要业务线程关心。
-
-![](./assets/数据结构之链表的应用/2021-12-28-16-46-10.png)
-
-在并发标记阶段，GC 线程会定期检查 SATB 队列集合的大小。如果发 现其中有队列，则会对队列中的全部对象进行标记和扫描。前面已经讲 过，SATB 专用写屏障并不检查目标对象是否被标记，因此队列中可能存在已经被标记的对象，已经被标记的对象也不会再次被标记和扫描。
+- #### Region
+  传统的 GC 将内存空间划分为新生代、老年代和永久代（JDK 8 中去除了永久代，引入了元空间），各代的内存地址是连续的。
+  
+  ![image.png](../assets/image_1684416133252_0.png) 
+  
+  G1 也是分代的垃圾回收算法，不过 G1 的老年代和年轻代的存储地址是不连续的，每一代都使用了n个不连续的大小相同的Region，每个Region占有一块连续的虚拟内存地址。这就是 G1 引入的分区的概念，Region 的类型有 Eden、Survivor、Old、Humongous 四种，而且每个 Region 都可以单独进行管理。
+  
+  ![image.png](../assets/image_1684416141601_0.png) 
+  
+  其中 Humongous 是用来存放大对象的，如果一个对象的大小大于一个 Region 的 50%（默认值），那么我们就认为这个对象是一个大对象。为了防止大对象的频繁拷贝，我们可以将大对象直接放到 Humongous 中。
+  
+  H-obj有如下几个特征：
+  * H-obj直接分配到了老年代，防止了大对象的反复拷贝移动
+  * H-obj在全局并发标记阶段的cleanup 和 full GC阶段回收
+  * 在分配H-obj之前先检查是否超过 initiating heap occupancy percent和the marking threshold, 如果超过的话，就启动global concurrent marking，为的是提早回收，防止 evacuation failures 和 full GC。
+  
+  一个Region的大小可以通过参数-XX:G1HeapRegionSize设定，取值范围从1M到32M，且是2的指数。如果不设定，那么G1会根据Heap大小自动决定。
+- #### SATB
+  SATB 的英文全称是 Snapshot-At-The-Beginning，其字面意思是 GC 开始时活着的对象的一个快照。根据前面介绍的三色标记算法，发生白对象漏标有两个前提条件：
+  1. Mutator赋予一个黑对象该白对象的引用
+  2. Mutator删除了所有从灰对象到该白对象的直接或者间接引用
+  
+  对于第一个条件，在并发标记阶段，如果该白对象是new出来的，并没有被灰对象持有，那么它会不会被漏标呢？
+  
+  ![image.png](../assets/image_1684416154670_0.png) 
+  
+  每个Region中有两个标记位图：next和 prev，next 是本次标记的标 记位图，而 prev 是上次标记的标记位图，保存了上次标记的结果。上图中的 bottom 表示 Region 内众多对象的末尾，top 表示开头。另外有两个top-at-mark-start（TAMS）指针，分别为prevTAMS和nextTAMS。nextTAMS 保存了本次标记开始时的 top，而 prevTAMS 保存了上次标记开始时的 top。在并发标记阶段新创建的对象会在 top 之后的区域分配空间，它将直接被标记为黑色，这是一种隐式的标记。所以并发标记阶段新生成的对象不会被漏标。
+  
+  而对于在GC时已经存在的白对象，如果它是活着的，它必然会被另一个对象引用，即条件二中的灰对象。如果灰对象到白对象的直接引用或者间接引用被替换了，或者删除了，那个白对象就会被漏标，从而导致被回收掉，这是非常严重的错误。
+  
+  在 CMS GC 算法中解决白对象漏标问题采用了写屏障技术，当 B 对象对 C 对象的引用消失时，C 对象将会被标记为灰色。这个动作的效率是比较低的，如果都放在写屏障中做，会极大地影响程序性能，因为写屏障的逻辑是由业务线程执行的。
+  
+  为了解决写屏障的性能问题，G1 将“C 对象标记为灰色”这件事情往后推迟了。业务线程只需要把 C 对象记录到一个本地队列中就可以了。每个业务线程都有一个这样的线程本地队列，它的名字是 SATB 队列。SATB 专用写屏障的伪代码如下所示：
+  ```
+  1: def satb_write_barrier(field, newobj): 
+  2:      if $gc_phase == GC_CONCURRENT_MARK: 
+  3:          oldobj = *field 
+  4:          if oldobj != Null: 
+  5:              enqueue($current_thread.stab_local_queue, oldobj) 
+  6:
+  7:          *field = newobj
+  ```
+  参数 field 表示被写入对象的域，参数 newobj 表示被写入域的值。第 2 行的 GC_CONCURRENT_MARK 用来表示并发标记阶段的标志位（flag）。第 4 行会检查当前是否处于并发标记阶段且被写入之前 field 域的值是不是 Null。如果检查通过，则在第 5 行将 oldobj 添加到 $current_thread.stab_local_queue 中。然后，在第 7 行进行 实际的写入操作。这个算法没有对 oldobj 进行任何标记处理。
+  
+  上述SATB 写屏障的实现考虑了多线程环境的执行，第 5 行 $current_thread.stab_local_queue 是 mutator 各自持有的 线程本地队列，而非全局的队列，因此在执行 enqueue() 时不用担心 线程之间会发生资源竞争。 如下图每个线程有自己的本地 SATB 队列，当本地队列满了之后，就把它交给 SATB 队列集合，然后再领取一个空队列当做线程的本地 SATB 队列。GC 线程则会将 SATB 队列集合中的对象标记为灰色，至于什么时候标记，并不需要业务线程关心。
+  
+  ![image.png](../assets/image_1684416166035_0.png) 
+  
+  在并发标记阶段，GC 线程会定期检查 SATB 队列集合的大小。如果发 现其中有队列，则会对队列中的全部对象进行标记和扫描。前面已经讲 过，SATB 专用写屏障并不检查目标对象是否被标记，因此队列中可能存在已经被标记的对象，已经被标记的对象也不会再次被标记和扫描。
 #### Collection Set
 G1 的垃圾回收模式有两种：分别是 young GC 和 mixed GC。
 * young GC：只回收年轻代的 Region
@@ -332,16 +332,16 @@ CSet 的选取要素有以下两点：
 2. 建议的暂停时间。建议的暂停时间由 -XX:MaxGCPauseMillis 指定，G1 会根据这个值来选择合适数量的老年代 Region。
 
 MaxGCPauseMillis 默认是 200ms，一般不需要进行调整，如果需要停顿时间更短可以对它进行设置，但是 MaxGCPauseMillis 设置的越小，选取的老年代 Region 就会越少，如果 GC 压力居高不下，就会触发 G1 的 Full GC。
-#### Remember Set 和 Card Table
-在 CMS GC 中也用到了 Remember Set（RSet） 和 Card Table（卡表）这两种记录集数据结构，它们是用于辅助 GC 的结构，是一种空间换时间的方式。
-
-逻辑上每个 Region 都有一个对应的 RSet，RSet 中记录了其他 Region 中的对象引用了本 Region 的对象的关系，即谁引用了我，这种记录集被称为 point-in 类型，而 Card Table 则记录我引用了谁的对象，被称为 point-out 类型。
-
-卡表是由元素大小为 1B 的数组实现的，卡表里的元素称为卡片。堆中大小适当的一段存储空间会对应卡表中的 1 个元素（卡片）。比如在某个版本 JDK 中，这个大小被定为 512B，当堆的大小是 1GB 时，可以计算出卡表的大小就是 2MB。G1 的 RSet 是在卡表的基础上实现的：每个 Region 会记录下别的 Region 有指向自己的指针，并标记这些指针分别在哪些 Card 的范围内。 这个RSet其实是一个哈希表，Key是别的 Region 的起始地址，Value 是一个集合，里面的元素是卡表的 Index。
-
-![](./assets/数据结构之链表的应用/2021-12-29-16-00-31.png)
-
-上面图中表示了RSet、Card和Region的关系，每个Region被分成了多个Card，在不同Region中的Card会相互引用，Region1 和 Region3 中的 Card 中的对象引用了 Region2 中的 Card 中的对象，蓝色实线表示的就是 point-out 的关系，而在 Region2 的 RSet 中，记录了 Region1 和 Region3 的 Card，即红色虚线表示的关系，这就是point-in。
+- #### Remember Set 和 Card Table
+  在 CMS GC 中也用到了 Remember Set（RSet） 和 Card Table（卡表）这两种记录集数据结构，它们是用于辅助 GC 的结构，是一种空间换时间的方式。
+  
+  逻辑上每个 Region 都有一个对应的 RSet，RSet 中记录了其他 Region 中的对象引用了本 Region 的对象的关系，即谁引用了我，这种记录集被称为 point-in 类型，而 Card Table 则记录我引用了谁的对象，被称为 point-out 类型。
+  
+  卡表是由元素大小为 1B 的数组实现的，卡表里的元素称为卡片。堆中大小适当的一段存储空间会对应卡表中的 1 个元素（卡片）。比如在某个版本 JDK 中，这个大小被定为 512B，当堆的大小是 1GB 时，可以计算出卡表的大小就是 2MB。G1 的 RSet 是在卡表的基础上实现的：每个 Region 会记录下别的 Region 有指向自己的指针，并标记这些指针分别在哪些 Card 的范围内。 这个RSet其实是一个哈希表，Key是别的 Region 的起始地址，Value 是一个集合，里面的元素是卡表的 Index。
+  
+  ![image.png](../assets/image_1684416178588_0.png) 
+  
+  上面图中表示了RSet、Card和Region的关系，每个Region被分成了多个Card，在不同Region中的Card会相互引用，Region1 和 Region3 中的 Card 中的对象引用了 Region2 中的 Card 中的对象，蓝色实线表示的就是 point-out 的关系，而在 Region2 的 RSet 中，记录了 Region1 和 Region3 的 Card，即红色虚线表示的关系，这就是point-in。
 #### G1 如何维护跨区引用
 每个 Region 的专属 RSet 中记录了其他 Region 的对象对本 Region 中对象的引用关系，那么有哪些引用关系需要加入 RSet 中呢？
 1. 同一个 Region 中的对象之间的相互引用是不必维护的，因为不存在跨 Region 的问题；
