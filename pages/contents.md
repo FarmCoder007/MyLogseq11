@@ -72,6 +72,7 @@
 	- [[并发]]
 	- [[JVM]]
 - Kotlin
+  collapsed:: true
 	- [[基本语法]]
 	- [[注意事项]]
 	- [[Kotlin关键字]]
@@ -79,10 +80,9 @@
 	- [[协程]]
 	- [[kotlin相关]]
 - AndroidStudio
-  collapsed:: true
 	- AS插件
-	  collapsed:: true
 		- 常用插件- [[AS插件]]
+		- [开发插件](https://developer.aliyun.com/article/1113455)
 	- AS工程配置问题
 	  collapsed:: true
 		- [[同一个module同时使用Java和Kotlin]]
