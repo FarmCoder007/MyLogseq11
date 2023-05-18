@@ -110,15 +110,22 @@
 					  5. table chunk的大小	修改table chunk的最后大小
 					  ![image.png](../assets/image_1684423019248_0.png){:height 826, :width 640}
 		- ## R资源文件内联
+		  collapsed:: true
 			- Android 在构建的过程中，会为每个模块（库、应用）生成一份资源索引，诸如：Rid.class*，*Rlayout.class 等等，这对于开发者来说，在代码里引用资源十分的方便。
 			- 为什么会出现内联？
 			  在Library工程中引用的R资源索引不是final的不是常量，所以我们在Library工程不能在switch - case 和Annotation中使用资源索引。由于引用的资源不是final的，所以Library的产物aar中包含的class中使用的资源索引还是会以包名存在。
 			- ![image.png](../assets/image_1684423043172_0.png)
 			- 在App工程中构建时会将依赖的AAR资源进行合并，根据合并的结果生成最终的R资源索引，这时的资源索引已经确定，所以全部是final的，java编译器在编译时会将final常量进行inline内联操作，也就是App工程中的java源码编译后的class中使用的R资源索引全部会替换为常量值。但resource.arsc文件中有关library的R资源类型还依然存在。
-			- 我们采用了业界比较优秀的方案ByteX R文件瘦身。他是通过编译时使用Transform处理R文件的class，收集R资源相关的信息。流程如下：
+			- 我们采用了业界比较优秀的方案[ByteX R文件瘦身](https://github.com/bytedance/ByteX/blob/master/shrink-r-plugin/README-zh.md)。他是通过编译时使用Transform处理R文件的class，收集R资源相关的信息。流程如下：
 			- 首先默认当前R文件class是可以被删除的。
 			  如果是静态final int的field并且没有在白名单中则添加到shouldBeInlinedRFields集合中，否则添加到shouldSkipInlineRFields集合中，标记当前class不能被删除。
 			  如果当前R文件所有field没有在白名单中则添加到shouldDiscardRClasses集合中，也就是该R文件class是可以被删除的。
 			  如果扫描到Styleable class的方法时，方法用于初始化静态变量和静态代码块，并且不需要保留该类时，会使用AnalyzeStyleableClassVisitor处理，如果数组大小和计算的大小一致则加到shouldBeInlinedRFields集合，否则抛出异常。
 			  真正开始Transform处理R文件，扫描filed判断进行删除
 			  58app在使用ByteX将R资源inline后，包大小减少了4.6M，dex数量从16个减到了11个。
+		- ## 资源优化
+			- ## 图片压缩、使用WebP等
+				- 图片资源是res文件夹下占比最大的，也是处理方式最简单的。我们拿到UI提供的图片资源后，直接使用压缩工具进行压缩即可。
+				- 应用中使用最多的图片格式就是PNG。PNG图片主要有三个类型，分别为 PNG-8，PNG-24，PNG-32，数字越大代表可表现的色彩越丰富，但对于移动端来说，色彩越多意味着文件体积和占用的内存越大，对于APP中简单的icon或图片直接选择png-8更合适。
+				- 对于带透明度的PNG可以选择[TinyPNG](https://tinypng.com/)、[pngquant](https://pngquant.org/)进行有损压缩，通常能有30-60%的压缩收益。
+			-
