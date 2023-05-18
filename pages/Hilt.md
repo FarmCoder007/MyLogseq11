@@ -42,6 +42,24 @@
 				  public class ExampleApplication extends Application { ... }
 				  ```
 			- 2、确定哪个类使用依赖注入，添加@AndroidEntryPoint注解。Hilt支持的Android 入口类有：Activity、Fragment、View、Service、BroadcastReceiver
+			  collapsed:: true
 				- 比如在Activity中注入某个类：
-					-
+					- ```
+					  @AndroidEntryPoint
+					  public class ExampleActivity extends AppCompatActivity { ... }
+					  ```
+			- 3、注入类
+			  collapsed:: true
+				- 在组件中获取依赖项，需要使用@Inject注解标记字段注入，以上面的例子为例，在Activity中注入一个User对象，应该如下：
+				- ```
+				  @AndroidEntryPoint
+				  public class ExampleActivity extends AppCompatActivity {
+				  
+				    @Inject
+				    User currentUser;
+				    ...
+				  }
+				  ```
+			- 4、定义注入类注入方式
+			-
 	-
