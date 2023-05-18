@@ -17,6 +17,7 @@
 	- 然后将OkHttpClient对象也塞了进去。
 	- 最后调用create方法传入请求服务的接口，就可以构造出一个请求服务的实例对象。
 - # 构造
+  collapsed:: true
 	- 我们看下create方法的源码。这里判断如果一个普通类里的方法就直接反射执行这个方法。
 	- 如果是默认方法就就反射调用，不是的话就去加载ServiceMethod，然后去invoke。关于这段我们后边详述。
 	  collapsed:: true
@@ -84,7 +85,106 @@
 		    }
 		  ```
 	- 我们继续往下跟就能发现解析的地方。
+	  collapsed:: true
 		- ```
+		  abstract class ServiceMethod<T> {
+		    static <T> ServiceMethod<T> parseAnnotations(Retrofit retrofit, Method method) {
+		      RequestFactory requestFactory = RequestFactory.parseAnnotations(retrofit, method);
+		      
+		     ...
+		     
+		      return HttpServiceMethod.parseAnnotations(retrofit, method, requestFactory);
+		    }
 		  ```
+	- 这块我们可以看到有两个地方做解析，一个是RequestFactory，一个是HttpServiceMethod。
+	- 先看RequestFactory解析部分：
+	  collapsed:: true
+		- ```
+		  private void parseMethodAnnotation(Annotation annotation) {
+		        if (annotation instanceof DELETE) {
+		          parseHttpMethodAndPath("DELETE", ((DELETE) annotation).value(), false);
+		        } else if (annotation instanceof GET) {
+		          parseHttpMethodAndPath("GET", ((GET) annotation).value(), false);
+		        } else if (annotation instanceof HEAD) {
+		          parseHttpMethodAndPath("HEAD", ((HEAD) annotation).value(), false);
+		        } else if (annotation instanceof PATCH) {
+		          parseHttpMethodAndPath("PATCH", ((PATCH) annotation).value(), true);
+		        } else if (annotation instanceof POST) {
+		          parseHttpMethodAndPath("POST", ((POST) annotation).value(), true);
+		        } else if (annotation instanceof PUT) {
+		          parseHttpMethodAndPath("PUT", ((PUT) annotation).value(), true);
+		        } else if (annotation instanceof OPTIONS) {
+		          parseHttpMethodAndPath("OPTIONS", ((OPTIONS) annotation).value(), false);
+		        } else if (annotation instanceof HTTP) {
+		          HTTP http = (HTTP) annotation;
+		          parseHttpMethodAndPath(http.method(), http.path(), http.hasBody());
+		        } else if (annotation instanceof retrofit2.http.Headers) {
+		          String[] headersToParse = ((retrofit2.http.Headers) annotation).value();
+		          if (headersToParse.length == 0) {
+		            throw methodError(method, "@Headers annotation is empty.");
+		          }
+		          headers = parseHeaders(headersToParse);
+		        } else if (annotation instanceof Multipart) {
+		          if (isFormEncoded) {
+		            throw methodError(method, "Only one encoding annotation is allowed.");
+		          }
+		          isMultipart = true;
+		        } else if (annotation instanceof FormUrlEncoded) {
+		          if (isMultipart) {
+		            throw methodError(method, "Only one encoding annotation is allowed.");
+		          }
+		          isFormEncoded = true;
+		        }
+		      }
+		  ```
+	- 可以看到这部分就是把我们请求服务上的注解里的参数解析出来放到了RequestFactory.Builder里。
+	- 我们在看HttpServiceMethod解析部分。
+	  collapsed:: true
+		- ```
+		  /**
+		     * Inspects the annotations on an interface method to construct a reusable service method that
+		     * speaks HTTP. This requires potentially-expensive reflection so it is best to build each service
+		     * method only once and reuse it.
+		     */
+		    static <ResponseT, ReturnT> HttpServiceMethod<ResponseT, ReturnT> parseAnnotations(
+		        Retrofit retrofit, Method method, RequestFactory requestFactory) {
+		      ...
+		  
+		      CallAdapter<ResponseT, ReturnT> callAdapter =
+		          createCallAdapter(retrofit, method, adapterType, annotations);
+		      ...
+		  
+		      Converter<ResponseBody, ResponseT> responseConverter =
+		          createResponseConverter(retrofit, method, responseType);
+		  
+		      okhttp3.Call.Factory callFactory = retrofit.callFactory;
+		      if (!isKotlinSuspendFunction) {
+		        return new CallAdapted<>(requestFactory, callFactory, responseConverter, callAdapter);
+		      } else if (continuationWantsResponse) {
+		        //noinspection unchecked Kotlin compiler guarantees ReturnT to be Object.
+		        return (HttpServiceMethod<ResponseT, ReturnT>)
+		            new SuspendForResponse<>(
+		                requestFactory,
+		                callFactory,
+		                responseConverter,
+		                (CallAdapter<ResponseT, Call<ResponseT>>) callAdapter);
+		      } else {
+		        //noinspection unchecked Kotlin compiler guarantees ReturnT to be Object.
+		        return (HttpServiceMethod<ResponseT, ReturnT>)
+		            new SuspendForBody<>(
+		                requestFactory,
+		                callFactory,
+		                responseConverter,
+		                (CallAdapter<ResponseT, Call<ResponseT>>) callAdapter,
+		                continuationBodyNullable);
+		      }
+		    }
+		  ```
+	- 这里核心东西就来了。首先他根据外边传的callAdapterFactories创建了callAdapter，然后根据外边传的converterFactories创建了responseConverter对象。最终返回了HttpServiceMethod对象。
+	- callAdapter是对网络请求事件的一次包装，他的作用就是将我们的这个请求封装成一个指定类型的东西，例如如果是rx实现那么就让他变成一个可观察的事件，由外部监听他。
+	- responseConverter很好理解，无非就是之后网络请求结果回来之后，通过这个转换器将数据流转换成对应的实体数据bean。这个转换逻辑是外部实现，retrofit只调用这个能力并不关心具体的实现。
+- # CallAdapter
+	-
+-
 - 参考：
 	- https://hexilee.me/2018/09/27/animal-sniffer/
