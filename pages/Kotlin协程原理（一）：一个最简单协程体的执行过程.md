@@ -39,6 +39,7 @@
 			  }
 			  ```
 		- 代码
+		  collapsed:: true
 			- ```java
 			  final class MainActivity$onCreate$1 extends SuspendLambda implements Function2<CoroutineScope, Continuation<? super Unit>, Object> {
 			      int label;
@@ -69,5 +70,46 @@
 			          }
 			      }
 			  }
+			  ```
+		- 从上面反编译类可以看出，协程代码块会被编译成继承了SuspendLambda的代码类，并实现了Function2接口，Function2是高阶函数生成的类，那么这个类的invoke方法就是入口方法。看到这里我们可以暂时把这个类放一放，看看上面的MainActivity的反编译代码。
+		- 协程的启动被编译成了这行代码
+		  collapsed:: true
+			- ```
+			      Job unused = BuildersKt__Builders_commonKt.launch$default(GlobalScope.INSTANCE, null, null, new MainActivity$onCreate$1(null), 3, null);`
+			  ```
+		- 看一下BuildersKt__Builders_commonKt.launch$default方法
+		  collapsed:: true
+			- ```
+			    public static /* synthetic */ Job launch$default(CoroutineScope coroutineScope, CoroutineContext coroutineContext, CoroutineStart coroutineStart, Function2 function2, int i, Object obj) {
+			          if ((i & 1) != 0) {
+			              coroutineContext = EmptyCoroutineContext.INSTANCE;
+			          }
+			          if ((i & 2) != 0) {
+			              coroutineStart = CoroutineStart.DEFAULT;
+			          }
+			          return BuildersKt.launch(coroutineScope, coroutineContext, coroutineStart, function2);
+			      }
+			  ```
+		- 先不关注细枝末节，继续看BuildersKt.launch方法
+		  collapsed:: true
+			- ```
+			      public static final Job launch(CoroutineScope $this$launch, CoroutineContext context, CoroutineStart start, Function2<? super CoroutineScope, ? super Continuation<? super Unit>, ? extends Object> function2) {
+			          return BuildersKt__Builders_commonKt.launch($this$launch, context, start, function2);
+			      }
+			  ```
+		- 再回到BuildersKt__Builders_commonKt.launch方法
+		  collapsed:: true
+			- ```
+			      public static final Job launch(CoroutineScope $this$launch, CoroutineContext context, CoroutineStart start, Function2<? super CoroutineScope, ? super Continuation<? super Unit>, ? extends Object> function2) {
+			          LazyStandaloneCoroutine coroutine;
+			          CoroutineContext newContext = CoroutineContextKt.newCoroutineContext($this$launch, context);
+			          if (start.isLazy()) {
+			              coroutine = new LazyStandaloneCoroutine(newContext, function2);
+			          } else {
+			              coroutine = new StandaloneCoroutine(newContext, true);
+			          }
+			          coroutine.start(start, coroutine, function2);
+			          return coroutine;
+			      }
 			  ```
 -
