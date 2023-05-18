@@ -98,3 +98,14 @@
 		- ![image.png](../assets/image_1684394161112_0.png)
 		- ![image.png](../assets/image_1684394167523_0.png)
 		- ![image.png](../assets/image_1684394173988_0.png)
+	- 2、测量流程
+		- 1、测试最终也是从LayoutNodeWrapper层层测量来确定大小的，确定大小之后修改LayoutNodeWrapper相关的Layer大小
+		  collapsed:: true
+			- ![image.png](../assets/image_1684394200227_0.png)
+		- 2、performMeasure最终调用LayoutModifier.measure来测量
+		- 3、以Column为例
+			- 3-1、通过modifier.requestHeight设置高度180
+			  collapsed:: true
+				- ![image.png](../assets/image_1684394225859_0.png)
+			- r3-2、equestHeight实际会创建一个SizeModifier，并且链接到Modifier链
+	-
