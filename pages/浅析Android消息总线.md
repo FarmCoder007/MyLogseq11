@@ -134,7 +134,44 @@
 	- LiveData是一个可以观察的数据持有类，它可以感知并遵循Activity，Fragment或Service等组件的生命周期。正是由于LiveData对组件生命周期可感知特点，因此可以做到仅在组件处于生命周期的激活状态时才更新UI数据。
 	- LiveData需要一个观察者对象，一般是Observer类的具体实现。当观察者的生命周期处于STARTED或RESUMED状态时，LiveData会通知观察者数据变化；
 	- 在观察者处于其他状态时，即使LiveData的数据变化了，也不会通知。
-	- LiveData的优点
-	- UI和实时数据保持一致
-	- 避免内存泄漏
-	- 不会再产生由于Activity处于stop状态而引起的崩溃
+	- ## LiveData的优点
+		- UI和实时数据保持一致
+		- 避免内存泄漏
+		- 不会再产生由于Activity处于stop状态而引起的崩溃
+	- LiveEventBus不需要为每一个事件都定义一个Java Object，只需要维护一个String类型的消息名字即可，每一个消息可以携带任何类型的Java Object作为消息的payload，十分灵活。
+	- 并且如果是在Activity这种LifecycleOwner中使用LiveEventBus，只需要订阅消息，不需要手动取消订阅，消息会在观察者生命周期结束的时候自动取消订阅。
+	- ## 2.订阅消息
+	  collapsed:: true
+		- ```
+		  @Override
+		  protected void onCreate(Bundle savedInstanceState) {
+		      super.onCreate(savedInstanceState);
+		      setContentView(R.layout.activity_eventbus_demo);
+		      LiveEventBus
+		              .get(TEST_KEY, String.class)
+		              .observe(this, new Observer<String>() {
+		                  @Override
+		                  public void onChanged(@Nullable String s) {
+		                      Toast.makeText(LiveEventBusDemo.this, "receive massage: " + s, Toast.LENGTH_SHORT).show();
+		                  }
+		              });
+		  }
+		  ```
+	- ## 3发送消息
+		- ```
+		  public void sendMsg(View v) {
+		      LiveEventBus
+		              .get(TEST_KEY)
+		              .post("msg from liveeventbus");
+		  }
+		  ```
+	- 1.LiveEventBus for Android，消息总线，基于LiveData，具有生命周期感知能力，支持Sticky，支持AndroidX，支持跨进程，支持跨APP
+	- LiveEventBus优势
+	- 生命周期感知
+	- 消息随时订阅，自动取消订阅
+	- 告别消息总线造成的内存泄漏
+	- 告别生命周期造成的崩溃
+	- LiveDataBus依赖方支持更好 LiveDataBus只依赖Android官方Android Architecture Components组件的LiveData，相比RxBus依赖的RxJava和RxAndroid，依赖方支持更好。
+	  LiveDataBus具有生命周期感知 LiveDataBus具有生命周期感知，在Android系统中使用调用者不需要调用反注册，相比EventBus和RxBus使用更为方便，并且没有内存泄漏风险       
+	  LiveDataBus原理图
+	-
