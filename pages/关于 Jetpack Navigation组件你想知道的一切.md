@@ -165,4 +165,46 @@
 	- 在前面的实现中，当我们从 FragmentOne 移动到 FragmentTwo 并单击返回按钮时，返回到了 FragmentOne。
 	- 假如从 FragmentTwo 点击返回不希望切换回 FragmentOne，这时需要在 nav_graph 中为 action 添加其他属性，或者我们可以选择使用 NavOptions 以代码的方式添加这些属性。NavOptions 存储了用于导航操作的特殊选项。
 	- 在 XML 中可以设置如下属性：
-	-
+	  collapsed:: true
+		- ![image.png](../assets/image_1684415166825_0.png)
+	- 对于上面的情况，我们需要使用两个不同的属性：
+	  collapsed:: true
+		- ```
+		  app:popUpTo="@id/fragmentOne"
+		  app:popUpToInclusive="true"
+		  ```
+	- 完整的 nav_graph 如下：
+	  collapsed:: true
+		- ```
+		  <?xml version="1.0" encoding="utf-8"?>
+		  <navigation xmlns:android="http://schemas.android.com/apk/res/android"
+		      xmlns:app="http://schemas.android.com/apk/res-auto"
+		      xmlns:tools="http://schemas.android.com/tools"
+		      android:id="@+id/nav_graph"
+		      app:startDestination="@id/fragmentOne">
+		  
+		      <fragment
+		          android:id="@+id/fragmentOne"
+		          android:name="com.example.navcomponent.FragmentOne"
+		          android:label="Fragment1"
+		          tools:layout="@layout/fragment_one" >
+		          <action
+		              android:id="@+id/action_fragment1_to_fragment2"
+		              app:destination="@id/fragmentTwo"
+		              app:popUpTo="@id/fragmentOne"
+		              app:popUpToInclusive="true"
+		              />
+		      </fragment>
+		  
+		      <fragment
+		          android:id="@+id/fragmentTwo"
+		          android:name="com.example.navcomponent.FragmentTwo"
+		          android:label="Fragment2"
+		          tools:layout="@layout/fragment_two">
+		      </fragment>
+		  </navigation>
+		  
+		  ```
+	- 最后结果如下：
+	  collapsed:: true
+		- ![dd9b960d-f5be-45e1-8f84-6630f29a7e5bpopup_one_demo.gif](../assets/dd9b960d-f5be-45e1-8f84-6630f29a7e5bpopup_one_demo_1684415217585_0.gif)
