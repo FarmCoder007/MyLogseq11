@@ -1,0 +1,11 @@
+- # 概述
+	- 在我们日常开发的项目中，存在大量的KV（Key-Value）数据读写，这些数据都会以某种文件格式保存来实现数据的持久化。读写文件是一种耗时的操作，特别是非常频繁地写入或者要写入的数据非常大时容易发生IO阻塞，从而引起App的卡顿甚至ANR异常。
+	- Android SDK 从最初的版本就提供了 SharedPreferences API （通常简称为SP）来保存键值对数据，在大量开发者的应用实践中发现 SP 容易产生 ANR 问题；微信团队为了解决微信中特定的数据保存问题开发并在 2018 年开源了 MMKV，很多应用也接入了 MMKV 并提升了 KV 数据存储的效率；Android 官方在 2020 年又推出了一个 Jetpack 组件 DataStore，是改进版本的数据存储解决方案，它的目标是取代 SharedPreferences。
+	- 那么 KV 存储库从 SP 到 MMKV 再到 DataStore，他们分别有什么特点和价值？这些存储方案一路升级有什么收益？
+- # SharedPreferences
+	- SharedPreferences 是 Android 平台上轻量级的存储类，用来保存 App 的各种配置信息，其本质是一个以键值对（key-value）的方式保存数据的 xml 文件，被保存在 /data/data/shared_prefs 目录下。将数据以xml文件的键值对形式保存，每次读取数据的时候，解析xml文件得到指定 key 对应的 value，每次更新数据也通过文件中的 key 更新对应的 value。
+	- 每次读写数据都是操作文件，其性能势必有很大的问题，在SharedPreferences的实现上对读写操作也有一些优化。
+	- 当调用Context.getSharedPreferences()对SP进行初始化时对xml文件进行一次读取，并将文件中的所有内容缓存到内存中，接下来的所有读操作只需要从这个缓存Map中取就可以了。这其实是一种空间换时间的策略，当xml文件很大时，这种内存缓存机制就会产生内存占用过高的问题。
+	- 所以SP不适合在一个文件中存储过多内容，在实际开发中可以根据业务范围定义一些轻量的SP文件。
+- 通常我们对SP进行更新是通过 mSharedPreferences.edit().putString().commit() 进行操作的。为什么首先需要通过SP对象获取edit，然后再更新键值对，最后提交更新呢？SP设计者希望，在复杂业务中将多次更新文件合并到一次写操作中，以达到性能的优化。
+- 对SP的写操作抽象了一个Editor类，在一次写操作中不管调用多少次putXXX()方法，更新了xml文件中的多少键值对，只有调用了commit方法后才会真正写入xml文件。
