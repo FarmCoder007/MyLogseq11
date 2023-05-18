@@ -31,11 +31,13 @@
 			  }
 			  ```
 	- ## 2. arouter的工作流程：
+	  collapsed:: true
 		- 流程
 		  collapsed:: true
 			- ![image.png](../assets/image_1684413203491_0.png)
 		- 回顾ARouter的流程，分三个步骤
 		- （1）利用APT 编译期生成构建映射表的类和方法
+		  collapsed:: true
 			- ```
 			  public class ARouter$$Root$$MainBusiness implements IRouteRoot {
 			      @Override
@@ -53,5 +55,14 @@
 			      }
 			  }
 			  ```
+			- ARouter$Root$xxx ： 收集当前模块所有的Group信息，loadInto（）方法 参数传入一个map，把所有ARouter$Group$xxx 放进这个map；
+			- ARouter$Group$xxx：用于收集相同group的所有组件，loadInto（）方法参数传入一个map，把所有RouteMeta（保存注解的信息，class、group、path、参数等） 放进这个map；
+		- (2)加载ARouter$Root$xxx类，收集一个module的所有的group映射表
+		  collapsed:: true
+			- 初始化ARout时读取每个dex文件，遍历com.alibaba.android.arouter.routes目录下的文件，收集所有的 ARouter$Root$xxx 类名
+			- 反射创建 ARouter$Root$xxx 对象，调用loadInfo()，把 ARouter$Group&xxx.class 装进 Map groupsIndex 保存到内存里
 			-
+		- (3)跳转时，根据path加载对应的ARouter$Group$xxx.class类，构建一个group的映射表，然后根据path从映射表里找到目标组件，执行跳转
+			- 调用 navigation( path)，根据 groupName 从 groupsIndex 里取出 ARouter$Group$xxx.class，反射创建对象 ，调用loadInfo() , 把这个组的 RouteMate 装进 Map routes，完成group的映射表的构建加载。
+			- 根据path 从 routers 取出 RouteMate(保存注解的信息class、group、path、参数等) ，获取 Activity.class 构建 Intent ，startActivity() 跳转
 	-
