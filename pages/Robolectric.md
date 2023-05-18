@@ -391,7 +391,7 @@ protected Statement methodBlock(FrameworkMethod method) { // FrameworkMethod 是
   
   进过ReflectorClassWriter字节码写入处理后，activity会添加一个__robo_data__的成员变量：  
   
-  ![](../assets/技术分享/Robolectric原理解析/字节码处理后.png)    
+  ![image.png](../assets/image_1684426346457_0.png) 
   
    __robo_data__就是插入的ShadowActivity对象，该对象替换了原activity的原生方法，达到将原生特性转接沙箱环境特性的类,以下已findViewById方法举例说明；  
    ```java
