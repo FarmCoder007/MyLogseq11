@@ -195,4 +195,14 @@
 			  }
 			  ```
 - # 群英比武，各显神通
-	-
+	- 前面讲过，跨平台开发方案有很多，比如有相对成熟的 React Native，以及近几年很火的 Flutter，它们各有特点，目前都还没有取代其他方案的的绝对优势，KMM 是后起之秀，也可以与它们一比高下。
+	  collapsed:: true
+		- ![image.png](../assets/image_1684433138753_0.png)
+	- 综合来看，KMM 更贴合 Android 和 iOS 平台原生能力，编译产物是 Android 平台的 aar 和供 iOS 平台使用的 framework，结合 KMP 与平台无关的 common 逻辑可以跨更多的平台。对于 Android 开发者来说，KMM 有较低的学习成本，接入新项目和迁移老逻辑的成本也较低，不足的是 KMM 目前对 UI 支持较弱，未来官方可能使用 Compose 来提供 UI 的跨平台能力。
+	- 使用 KMM 可以较低成本地实现双端逻辑一致性，同时可以提升研发效能，目前已有多家国内互联网公司在项目中实践了 KMM，并且在一些平台上进行了分享。
+- # Refers
+	- [KMM 初探与编译过程详解](https://www.jianshu.com/p/e1ae5eaa894e)
+	- [阿里巴巴 KMM 实战](https://mp.weixin.qq.com/s/2t7N3NdACF-ZtfZWIPJPyQ)
+	- [携程机票 App KMM 跨端生产实践](https://mp.weixin.qq.com/s/gQNPO5iNFH1OQ-ygqjNfTA)
+	- 快速了解KMM、Compose和Flutter现状
+	- KMM官网
