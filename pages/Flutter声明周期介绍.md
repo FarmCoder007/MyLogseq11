@@ -153,5 +153,5 @@
   Flutter App 生命周期可以通过 WidgetsBinding 注册监听 WidgetsBindingObserver 类的回调方法来获取；
   帧绘制回调可以通过 WidgetsBinding 注册 FrameCallback 的回调方法获取，包括单次 Frame 绘制回调和实时 Frame 绘制回调。
 - Refers To
-  State<T extends StatefulWidget> class
-  Flutter widget生命周期详解
+	- [State<T extends StatefulWidget> class](https://api.flutter.dev/flutter/widgets/State-class.html)
+	- [Flutter widget生命周期详解](https://www.jianshu.com/p/06dadf6ed3a2)
