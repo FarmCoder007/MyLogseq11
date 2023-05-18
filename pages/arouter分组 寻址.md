@@ -102,6 +102,18 @@
 			  }
 			  ```
 		- 主要初始化工具类，从gradle 配置里获取 moduleName
+		- ### getSupportedOptions()
+		  collapsed:: true
+			- KEY_MODULE_NAME的值：
+			- // Options of processor
+			  public static final String KEY_MODULE_NAME = "AROUTER_MODULE_NAME";
+			  public static final String KEY_GENERATE_DOC_NAME = "AROUTER_GENERATE_DOC";
+			  就是我们在build.gradle里配置的 AROUTER_MODULE_NAME
+			- ![image.png](../assets/image_1684399429922_0.png)
+		- ### init（）
+			- 从 options 里获取 moduleName，如果moduleName为空抛出异常； 异常信息就是这段字符串：
+			- ![image.png](../assets/image_1684399453466_0.png)
+			-
 		-
 	-
 -
