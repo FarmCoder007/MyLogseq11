@@ -150,6 +150,7 @@
 			  }
 			  ```
 	- ## client插件
+	  collapsed:: true
 		- client插件在index.tsx文件中导出plugin和Component两个方法：
 		- plugin：该方法通过createState()方法创建可以观察的数据源，然后包装为普通的对象返回。
 		  Component：该方法通过react hooks来使用plugin()方法返回的数据源，对UI进行填充。
@@ -157,4 +158,67 @@
 		- client.send：发送数据到其他插件。
 		  client.onMessage：接收来自其他插件发送的数据。
 		  通过createState()方法创建的对象，可以使用subscribe、update等方法实现订阅和更新操作。
-		-
+			- ```
+			  // 该方法可以主要通过`client.onMessage()`方法监听(android/ios/etc)插件发送的事件，然后将解析事件更新数据源，然后返回数据源
+			  export function plugin(client: PluginClient<Events, Methods>) {
+			    const events = createState<Array<ImageEventWithId>>([], {persist: \'events\'});
+			    
+			    client.onMessage(\'events\', (event) => {
+			      events.update((draft) => {
+			        draft.unshift({
+			          eventId: nextEventId.get(),
+			          ...event,
+			        });
+			      });
+			  
+			      nextEventId.set(nextEventId.get() + 1);
+			    })
+			  
+			  
+			    client.onConnect(async () => {
+			      try {
+			        const currentLogs = await client.send(\'currentLogs\', {
+			          payload: {
+			             time: Date.now()
+			          }
+			        })
+			        logs.set(currentLogs)
+			      } catch (e) {
+			        console.error("Failed to retrieve current logs: ", e)
+			      }
+			    })
+			    
+			    return { events }
+			  }
+			  
+			  // 该方法定义了UI展示样式，其数据源来自于`plugin`方法的返回值。
+			  export function Component() {
+			    const instance = usePlugin(plugin);
+			    const events = useValue(instance.events);
+			    
+			    return (
+			      <Layout.ScrollContainer
+			        vertical
+			        >
+			        /// 略  
+			      </Layout.ScrollContainer>
+			    )
+			  }
+			  ```
+	- ## 启用插件
+	  collapsed:: true
+		- 切换到Flipper的源代码的desktop目录，然后通过yarn start启动Flipper桌面客户端。
+		- ```
+		  $ cd flipper/desktop  
+		  $ yarn start
+		  # 实验性功能：不需要重启Flipper客户端，就可以快速刷新插件页面.
+		  $ yarn start --fast-refresh
+		  ```
+		- 然后在插件列表就可以看到新开发的插件：
+		  collapsed:: true
+			- ![image.png](../assets/image_1684428703204_0.png)
+		- 然后点击+ Enable Plugin按钮，就可以启用插件，插件启用后，点击插件名称，就可以打开插件，此时就能够看到在export function Component()方法返回的UI界面。
+	- ## 调试
+		- 运行Flipper之后，可以通过多种方式进行调试，详见官网flipper-debug，下面以Chrome开发者工具介绍：
+		- 通过浏览器打开http://localhost:9222，然后点击列表中的Flipper即可，然后选中自己插件的代码就可以调试了，调试页面如下所示：
+			-
