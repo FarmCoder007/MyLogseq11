@@ -5,3 +5,4 @@
 		- 有些组件或基础库在多个模块中都有调用，把这些耦合度高的提炼出来，造成可复用组件，组件化除了具备复用性的特点，还可以独立开发、调试、测试
 -
 - [Android架构演进](https://handsomeliuyang.github.io/2021/04/26/%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%93/Android%E7%AB%AF%E7%9A%84%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E7%9A%84%E6%BC%94%E8%BF%9B%E5%92%8C%E6%80%9D%E8%80%83/)
+- [[clean架构]]
