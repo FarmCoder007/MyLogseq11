@@ -40,7 +40,7 @@
 		- Dexposed
 		- Xposed
 		- ADocker
-	- Javasist
+	- [[Javasist]]
 	- [[ASM字节码插桩]]
 	-
 	- 对比
