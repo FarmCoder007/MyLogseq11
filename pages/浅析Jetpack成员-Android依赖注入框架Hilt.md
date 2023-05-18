@@ -421,4 +421,33 @@
 				  }
 				  ```
 			-
+		- ## Hilt中的预定义限定符
+		  collapsed:: true
+			- Hilt提供了一些预定义的限定符，例如，需要来自应用或Activity的Context类，Hilt提供了@ApplicationContext和@ActivityContext限定符
+			  collapsed:: true
+				- ```
+				  public class AnalyticsAdapter {
+				  
+				   private final Context context;
+				   private final AnalyticsService service;
+				  
+				   @Inject
+				   AnalyticsAdapter(
+				     @ActivityContext Context context,
+				     AnalyticsService service
+				   ) {
+				     this.context = context;
+				     this.service = service;
+				   }
+				  }
+				  ```
+		- ## 为Android类生成的组件
+		  collapsed:: true
+			- 字段注入的每个 Android 类，都有一个关联的 Hilt 组件，可以在 @InstallIn 注释中引用该组件。每个 Hilt 组件负责将其绑定注入相应的 Android 类。
+				- ![image.png](../assets/image_1684424293708_0.png)
+		- ## 组件生命周期
+		  collapsed:: true
+			- Hilt 会按照相应 Android 类的生命周期自动创建和销毁生成的组件类的实例。
+			  collapsed:: true
+				- ![image.png](../assets/image_1684424312367_0.png)
 -
