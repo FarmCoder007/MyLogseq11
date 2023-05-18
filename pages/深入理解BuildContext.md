@@ -85,6 +85,7 @@
 		    ...
 		  ```
 - ## Flutter视图构建
+  collapsed:: true
 	- 回到问题思考，Flutter在构建视图的时候究竟发生了什么。这里以Stateless Widget为例。
 	  collapsed:: true
 		- ```
@@ -131,3 +132,17 @@
 	- BuildContext与Element继承关系
 	  collapsed:: true
 		- ![image.png](../assets/image_1684403670191_0.png)
+	- 再来看下Element的继承关系
+	  collapsed:: true
+		- ![image.png](../assets/image_1684403684328_0.png)
+	- ComponentElement，负责组装element，包含Widget的配置信息。
+	- RenderObjectElement  视图树的渲染
+	- 调用 Element 的 createRenderObject() 方法（当然不是每个widget的element都有renderObject）创建每个渲染对象，形成一个 Render Tree。
+- ## 视图树装载过程
+	- StatelessWidget
+	  collapsed:: true
+		- 首先它会调用StatelessWidget的 createElement 方法，并根据这个widget生成StatelesseElement对象。
+		- 将这个StatelesseElement对象挂载到element树上。
+		- StatelesseElement对象调用widget的build方法，并将element自身作为BuildContext传入
+	- of(context)方法
+		-
