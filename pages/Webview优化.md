@@ -47,6 +47,7 @@
 		- 针对首次启动app，提升webview的打开速度，可以采取内置资源和模版的方案。
 		- 和前端同事看完统计数据后都认为结论和预期一致，但是又出新问题了。
 - # 4.Performance
+  collapsed:: true
 	- performance 是W3C性能小组引入的新的API，performance 接口可以获取到当前页面中与性能相关的信息。可以通过调用只读属性 window.performance 来获取。
 	- 通过performance可以获取到：
 	- FP（First Paint）：首次绘制时间，这个指标用于记录页面第一次绘制像素的时间。
@@ -56,4 +57,19 @@
 		  collapsed:: true
 			- ![image.png](../assets/image_1684430760038_0.png)
 		- 指标解读：
-			-
+		  collapsed:: true
+			- ![image.png](../assets/image_1684430769908_0.png)
+		- 我们按前端的指标重新统计数据，统计首次绘制耗时。加载url方式还是上述三种方式。
+		  collapsed:: true
+			- ![image.png](../assets/image_1684430784498_0.png)
+		- 可以得出结论native请求预加载组装好内容的html，webview渲染。按前端指标计算这种方式效果最好
+- # 5.Webview调试方法
+	- ## 代码中把WebView的浏览器调试开关打开
+	  collapsed:: true
+		- ```
+		  if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+		      webView.setWebContentsDebuggingEnabled(true);
+		  }
+		  ```
+	- ## 其次在浏览器的地址栏输入如下网址：
+		-
