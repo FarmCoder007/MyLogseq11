@@ -223,7 +223,6 @@
 	-
 - ## 解决方案
 	- 1.使用Builder，增加一层widget，此时的context是Builder的context，向上查找可以找到Scaffold了
-	  collapsed:: true
 		- ```
 		  @override
 		     Widget build(BuildContext context) {
@@ -239,3 +238,18 @@
 		          );
 		        }),
 		  ```
+		- Builder类继承StatelessWidget，通过一个接口回调将自己对应的context回调出来，供外部使用，此时的context是Builder自己的context，根据自身的context去向上查找最近的祖先，就找到了对应的Scaffold，这就是为啥包装了一层Builder后可以找到的原因。
+			- ```
+			  class Builder extends StatelessWidget {
+			  
+			    const Builder({
+			      Key? key,
+			      required this.builder,
+			    }) : assert(builder != null),
+			         super(key: key);
+			         
+			    @override
+			    Widget build(BuildContext context) => builder(context);
+			  }
+			  ```
+		- 2. 为Scaffold指定id(key),并通过其获取currentState
