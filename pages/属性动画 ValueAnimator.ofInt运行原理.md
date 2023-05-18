@@ -53,4 +53,9 @@ title:: 属性动画 ValueAnimator.ofInt运行原理
 		  }
 		  ```
 		- ```
+		  //IntPropertyValuesHolder
+		  public void setIntValues(int... values) {
+		        mValueType = int.class;
+		        mKeyframes = KeyframeSet.ofInt(values);
+		    }
 		  ```
