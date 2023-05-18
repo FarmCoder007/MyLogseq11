@@ -111,7 +111,6 @@
 	- [[React]]
 	- [[JavaScript]]
 - Gradle
-  collapsed:: true
 	- [[Gradle文档]]
 	- [[buildConfig相关]]
 	- [[gradle/apt调试]]
@@ -119,6 +118,7 @@
 	- [[gradle命令]]
 	- [[maven发布]]
 	- [[代码覆盖率在buildsrc配置]]
+	- [[gradle升级]]
 - Mac
   collapsed:: true
 	- [charles关闭后不能上网](https://blog.csdn.net/minmin_bufucisheng/article/details/89025601)
