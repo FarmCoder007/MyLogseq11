@@ -316,3 +316,25 @@
 			      </fragment>
 			  </navigation>
 			  ```
+		- 在 FragmentOne 中调用方法：
+		  collapsed:: true
+			- ```
+			  btn_next.setOnClickListener {
+			      val action = FragmentOneDirections.actionFragment1ToFragment2("Android")
+			      view.findNavController().navigate(action)
+			  }
+			  ```
+		- 在 FragmentTwo 中可以接收到参数：
+		  collapsed:: true
+			- ```
+			  override fun onActivityCreated(savedInstanceState: Bundle?) {
+			      super.onActivityCreated(savedInstanceState)
+			      val args: FragmentTwoArgs by navArgs()
+			      args.let {
+			          Toast.makeText(activity!!, it.name, Toast.LENGTH_SHORT).show()
+			      }
+			  }
+			  ```
+		- 我们可以在 build 文件夹中找到生成的代码
+		  collapsed:: true
+			- ![image.png](../assets/image_1684415519570_0.png)
