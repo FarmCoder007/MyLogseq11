@@ -92,6 +92,7 @@
 				- 1、调用Modifier.graphicsLayer { } 在方法块里边修改ui属性
 				- 2、Modifier.graphicsLayer() 在函数里边传递ui属性
 - ## 布局流程
+  collapsed:: true
 	- compose的布局同样不使用android ui控件布局，是全新的一套布局流程。通过LayoutNode树完成布局，LayoutNode的大小和位置由LayoutNodeWrapper链来确定，最终都是通过Modifier来确定布局的
 	- 1、从AndroidComposeView触发布局流程，MeasureAndLayoutDelegate来分发布局事件
 	  collapsed:: true
@@ -126,5 +127,14 @@
 		- 4、设置位置。
 			- 1、测试完成之后会调用LayoutNode.place(或者replace)设置位置，最终执行到接口Placealble的placeAt方法
 			- 2、先调用DelegatingLayoutNodeWrapper的placeAt方法，这里会调用LayoutNodeWrapper的placeAt方法，然后再调用measureResult.placeChildren去设置下层LayoutNodeWrapper的位置
-			-
+				- ![image.png](../assets/image_1684394361583_0.png)
+				- ![image.png](../assets/image_1684394367590_0.png)
 	-
+- ## 总结
+	- compose是全新开发的ui框架，不依赖android ui
+	- compose的ui树由LayoutNode构成
+	- LayoutNode其实是简单的数据对象，实际的布局、绘制等都依赖Modifier链
+	- 在缺少硬件加速的情况下，会存在很多ViewLayer的android view对象，他们的父类容器是ViewLayerContainer，ViewLayer都是兄弟节点
+- ## 其他
+	- 同城测试接入Jetpack Compose记录
+	- Compose优点
