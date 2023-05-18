@@ -112,4 +112,34 @@
 			          return coroutine;
 			      }
 			  ```
+		- 继续追踪coroutine.start方法，这里有一个lazy的判断，简单看一下可知LazyStandaloneCoroutine是继承自StandaloneCoroutine，他们的start的实现都在父类AbstractCoroutine中，具体实现如下：
+		  collapsed:: true
+			- ```
+			    public final <R> void start(CoroutineStart start, R r, Function2<? super R, ? super Continuation<? super T>, ? extends Object> function2) {
+			          start.invoke(function2, r, this);
+			      }
+			  ```
+		- 继续往下追踪，CoroutineStart.invoke(function2, r, this)方法由于反编译后的代码由于有枚举类阅读起来比较吃力，我们可以直接看kotlin源码：
+		- 在分析kotlin协程源码时要结合反编译和kotlin源码，由于kotlin编译器会在编译时生成较多代码因此优先读反编译代码，当发现反编译代码阅读比较吃力时再切换到kotlin源码方式。
+		  collapsed:: true
+			- ```
+			      public operator fun <R, T> invoke(block: suspend R.() -> T, receiver: R, completion: Continuation<T>): Unit =
+			          when (this) {
+			              DEFAULT -> block.startCoroutineCancellable(receiver, completion)
+			              ATOMIC -> block.startCoroutine(receiver, completion)
+			              UNDISPATCHED -> block.startCoroutineUndispatched(receiver, completion)
+			              LAZY -> Unit // will start lazily
+			          }
+			  
+			  ```
+		- 看到这里我们就不能继续往下读了，因为我们不知道CoroutineStart这个类是什么枚举类，那就回到CoroutineStart这个类创建的地方。回到MainActivity类，发现BuildersKt__Builders_commonKt.launch$default方法中传的CoroutineStart参数是null，再往下走BuildersKt__Builders_commonKt.launch方法中有一段代码如下：
+		  collapsed:: true
+			- ```
+			  if ((i & 2) != 0) {
+			     coroutineStart = CoroutineStart.DEFAULT;
+			  }
+			  ```
+		- 通过上文我们可知这个i=3，因此coroutineStart就是CoroutineStart.DEFAULT。那我们就继续往下看：
+			- ```
+			  ```
 -
