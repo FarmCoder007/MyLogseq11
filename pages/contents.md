@@ -58,7 +58,6 @@
 	- [[WebView]]
 	- [[依赖注入]]
 - JAVA
-  collapsed:: true
 	- [[java-泛型]]
 	- 集合
 	  collapsed:: true
