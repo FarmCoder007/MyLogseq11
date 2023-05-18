@@ -1033,6 +1033,131 @@
 				- app：客户端进程中对应的ProcessRecord；
 				  activity：客户端进程中待启动Activity对应的ActivityRecord。
 				  andResume：true，启动后进行resume操作。
+			- ### ActivityStackSupervisor.realStartActivityLocked
+			  collapsed:: true
+				- ```
+				  final boolean realStartActivityLocked(ActivityRecord r, ProcessRecord app,
+				          boolean andResume, boolean checkConfig) throws RemoteException {
+				      //有Activity的onPause未结束，不往下进行
+				      if (!allPausedActivitiesComplete()) {
+				          return false;
+				      }
+				  
+				      final TaskRecord task = r.getTask();
+				      final ActivityStack stack = task.getStack();
+				  
+				      try {
+				          //设置ActivityRecord和ProcessRecord的一些参数等
+				          r.startFreezingScreenLocked(app, 0);
+				          r.startLaunchTickingLocked();
+				          r.setProcess(app);
+				          ...
+				          app.waitingToKill = null;
+				          r.launchCount++;
+				          r.lastLaunchTime = SystemClock.uptimeMillis();
+				  
+				          int idx = app.activities.indexOf(r);
+				          if (idx < 0) {
+				              app.activities.add(r);
+				          }
+				          //更新进程列表，更新进程oom adj值
+				          mService.updateLruProcessLocked(app, true, null);
+				          mService.updateOomAdjLocked();
+				  
+				          try {
+				              if (app.thread == null) {
+				                  throw new RemoteException();
+				              }
+				              List<ResultInfo> results = null;
+				              List<ReferrerIntent> newIntents = null;
+				              if (andResume) {
+				                  results = r.results;
+				                  newIntents = r.newIntents;
+				              }
+				              if (r.isActivityTypeHome()) {
+				                  mService.mHomeProcess = task.mActivities.get(0).app;
+				              }
+				              mService.notifyPackageUse(r.intent.getComponent().getPackageName(),
+				                      PackageManager.NOTIFY_PACKAGE_USE_ACTIVITY);
+				              r.sleeping = false;
+				              r.forceNewConfig = false;
+				              mService.getAppWarningsLocked().onStartActivity(r);
+				              mService.showAskCompatModeDialogLocked(r);
+				              r.compat = mService.compatibilityInfoForPackageLocked(r.info.applicationInfo);
+				  
+				              app.hasShownUi = true;
+				              app.pendingUiClean = true;
+				              app.forceProcessStateUpTo(mService.mTopProcessState);
+				  
+				              //创建启动Activity并进行Resume的事务。
+				              final ClientTransaction clientTransaction = ClientTransaction.obtain(app.thread,
+				                      r.appToken);
+				              clientTransaction.addCallback(LaunchActivityItem.obtain(new Intent(r.intent),
+				                      System.identityHashCode(r), r.info,
+				                      mergedConfiguration.getGlobalConfiguration(),
+				                      mergedConfiguration.getOverrideConfiguration(), r.compat,
+				                      r.launchedFromPackage, task.voiceInteractor, app.repProcState, r.icicle,
+				                      r.persistentState, results, newIntents, mService.isNextTransitionForward(),
+				                      profilerInfo));
+				              final ActivityLifecycleItem lifecycleItem;
+				              //andResume为true，后续执行Resume流程。
+				              if (andResume) {
+				                  lifecycleItem = ResumeActivityItem.obtain(mService.isNextTransitionForward());
+				              } else {
+				                  lifecycleItem = PauseActivityItem.obtain();
+				              }
+				              clientTransaction.setLifecycleStateRequest(lifecycleItem);
+				              mService.getLifecycleManager().scheduleTransaction(clientTransaction);
+				  
+				          } catch (RemoteException e) {
+				              if (r.launchFailed) {
+				                  //如果是第二次失败，则关闭Activity
+				                  mService.appDiedLocked(app);
+				                  stack.requestFinishActivityLocked(r.appToken, Activity.RESULT_CANCELED, null,
+				                          "2nd-crash", false);
+				                  return false;
+				              }
+				              // 第一次失败添加一个标记
+				              r.launchFailed = true;
+				              app.activities.remove(r);
+				              throw e;
+				          }
+				      }
+				      r.launchFailed = false;
+				      if (andResume && readyToResume()) {
+				          //更新Resume状态等
+				          stack.minimalResumeActivityLocked(r);
+				      } else {
+				          r.setState(PAUSED, "realStartActivityLocked");
+				      }
+				      ...
+				      //更新与Activity进行bind的Service的IServiceConnection
+				      if (r.app != null) {
+				          mService.mServices.updateServiceConnectionActivitiesLocked(r.app);
+				      }
+				      return true;
+				  }
+				  ```
+				- Activity的启动和运行，AMS通过事务的统一发送到客户端进程。这个过程类似于AMS发送事务让Launcher进入后台执行pause操作，经过Binder驱动，最终来到客户端进程，由客户端进程中ActivityThread的TransactionExecutor来处理AMS发送的ClientTransaction。
+				  TransactionExecutor先后处理ClientTransaction的mActivityCallbacks和mLifecycleStateRequest，其中mActivityCallbacks便是LaunchActivityItem，作用是创建Activity并回调onCreate()方法；
+				  先看LaunchActivityItem：
+			- ### LaunchActivityItem.execute
+			  collapsed:: true
+				- 代码：
+				  collapsed:: true
+					- ```
+					  public void execute(ClientTransactionHandler client, IBinder token,
+					          PendingTransactionActions pendingActions) {
+					      ActivityClientRecord r = new ActivityClientRecord(token, mIntent, mIdent, mInfo,
+					              mOverrideConfig, mCompatInfo, mReferrer, mVoiceInteractor, mState, mPersistentState,
+					              mPendingResults, mPendingNewIntents, mIsForward,
+					              mProfilerInfo, client);
+					      client.handleLaunchActivity(r, pendingActions, null /* customIntent */);
+					  }
+					  ```
+				- client：ActivityThread父类，定义了抽象方法由ActivityThread实现；
+				  token：AMS进程中，是代表Activity的ActivityRecord所保存的Token(Binder)在客户端进程的本地代理，
+				  构造ActivityClientRecord，调用ActivityThread.handleLaunchActivity()。
 			-
 	-
 -
