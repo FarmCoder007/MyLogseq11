@@ -238,6 +238,80 @@
 			  ```
 		- 执行顺序：startActivity()->startActivityAsUser()->ActivityStart.execute()
 	- ## ActivityStart的execute()方法
-		- da
-		- ```
-		  ```
+	  collapsed:: true
+		- 代码
+		  collapsed:: true
+			- ```
+			  /**
+			       * Starts an activity based on the request parameters provided earlier.
+			       * @return The starter result.
+			       */
+			      int execute() {
+			          try {
+			              // TODO(b/64750076): Look into passing request directly to these methods to allow
+			              // for transactional diffs and preprocessing.
+			              if (mRequest.mayWait) {
+			                  return startActivityMayWait(mRequest.caller, mRequest.callingUid,
+			                          mRequest.callingPackage, mRequest.intent, mRequest.resolvedType,
+			                          mRequest.voiceSession, mRequest.voiceInteractor, mRequest.resultTo,
+			                          mRequest.resultWho, mRequest.requestCode, mRequest.startFlags,
+			                          mRequest.profilerInfo, mRequest.waitResult, mRequest.globalConfig,
+			                          mRequest.activityOptions, mRequest.ignoreTargetSecurity, mRequest.userId,
+			                          mRequest.inTask, mRequest.reason,
+			                          mRequest.allowPendingRemoteAnimationRegistryLookup);
+			              } else {
+			                  return startActivity(mRequest.caller, mRequest.intent, mRequest.ephemeralIntent,
+			                          mRequest.resolvedType, mRequest.activityInfo, mRequest.resolveInfo,
+			                          mRequest.voiceSession, mRequest.voiceInteractor, mRequest.resultTo,
+			                          mRequest.resultWho, mRequest.requestCode, mRequest.callingPid,
+			                          mRequest.callingUid, mRequest.callingPackage, mRequest.realCallingPid,
+			                          mRequest.realCallingUid, mRequest.startFlags, mRequest.activityOptions,
+			                          mRequest.ignoreTargetSecurity, mRequest.componentSpecified,
+			                          mRequest.outActivity, mRequest.inTask, mRequest.reason,
+			                          mRequest.allowPendingRemoteAnimationRegistryLookup);
+			              }
+			          } finally {
+			              onExecutionComplete();
+			          }
+			      }
+			  private int startActivity(final ActivityRecord r, ActivityRecord sourceRecord,
+			              IVoiceInteractionSession voiceSession, IVoiceInteractor voiceInteractor,
+			              int startFlags, boolean doResume, ActivityOptions options, TaskRecord inTask,
+			              ActivityRecord[] outActivity) {
+			      ......
+			      result = startActivityUnchecked(r, sourceRecord, voiceSession, voiceInteractor,
+			                  startFlags, doResume, options, inTask, outActivity);
+			      ......
+			  }
+			  
+			  private int startActivityUnchecked(final ActivityRecord r, ActivityRecord sourceRecord,
+			          IVoiceInteractionSession voiceSession, IVoiceInteractor voiceInteractor,
+			          int startFlags, boolean doResume, ActivityOptions options, TaskRecord inTask,
+			          ActivityRecord[] outActivity) {
+			      .......
+			      mSupervisor.resumeFocusedStackTopActivityLocked(mTargetStack, mStartActivity, mOptions);
+			  
+			      return START_SUCCESS;
+			  }
+			  
+			  ```
+		- ActivityStarter的execute方法会继续调用startActivityMayWait方法.startActivityMayWait会去调用startActivity方法,通过一系列回调后（这里不做过多赘述），会调用ActivityStackSupervisor（Activity管理者）的startSpecificActivityLocked方法。
+		  collapsed:: true
+			- ```
+			  void startSpecificActivityLocked(ActivityRecord r,
+			              boolean andResume, boolean checkConfig) {
+			      ....
+			      //进程存在则启动
+			      if (app != null && app.thread != null) {
+			          realStartActivityLocked(r, app, andResume, checkConfig);
+			          return;
+			      }
+			  
+			      //进程不存在则创建
+			      mService.startProcessLocked(r.processName, r.info.applicationInfo, true, 0,
+			              "activity", r.intent.getComponent(), false, false, true);
+			  }
+			  ```
+		- 这里会判断一下进程是否存在,如果不存在则创建.这里的mService是AMS,会调用AMS的startProcessLocked方法.
+		  以上流程是Launcher应用和System Server进程的通信交互过程，就是在目标应用进程启动之前的执行流程，可以用流程图总结一下，便于我们加深认识。
+		- ![image.png](../assets/image_1684416960546_0.png)
