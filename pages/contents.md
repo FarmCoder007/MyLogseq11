@@ -6,6 +6,7 @@
 	- [[项目解析]]
 	- [[面试]]
 - Android
+  collapsed:: true
 	- [[开发常用工具]]
 	- [[Android架构]]
 	- [[系统架构]]
@@ -57,6 +58,7 @@
 	- [[WebView]]
 	- [[依赖注入]]
 - JAVA
+  collapsed:: true
 	- [[java-泛型]]
 	- 集合
 	  collapsed:: true
