@@ -83,7 +83,9 @@
 			- ![image.png](../assets/image_1684430325317_0.png)
 		- 那么分析下为何不执行再次绑定方法，分析源码，找到核心校验逻辑：
 		- 当缓存的ViewHolder和所需要的position相同的并且有效才可以复用，在执行bind校验时是绑定状态。因此不需要重新bind
-			- final int cacheSize = mCachedViews.size();
+		  collapsed:: true
+			- ```
+			  final int cacheSize = mCachedViews.size();
 			              for (int i = 0; i < cacheSize; i++) {
 			                  final ViewHolder holder = mCachedViews.get(i);
 			                  // invalid view holders may be in cache if adapter has stable ids as they can be
@@ -100,4 +102,34 @@
 			                      return holder;
 			                  }
 			              }
-	-
+			  ```
+		- 2.3）向上快速滑动，观察到只执行了onBindViewHolder方法，未执行onCreateViewHolder
+		  collapsed:: true
+			- ![image.png](../assets/image_1684430372967_0.png)
+		- 分析源码确认绑定时机：当未执行过绑定时，需要更新，失效时再次执行绑定
+		  collapsed:: true
+			- ```
+			  (!holder.isBound() || holder.needsUpdate() || holder.isInvalid()) {
+			                  if (DEBUG && holder.isRemoved()) {
+			                      throw new IllegalStateException("Removed holder should be bound and it should"
+			                              + " come here only in pre-layout. Holder: " + holder
+			                              + exceptionLabel());
+			                  }
+			                  final int offsetPosition = mAdapterHelper.findPositionOffset(position);
+			                  bound = tryBindViewHolderByDeadline(holder, offsetPosition, position, deadlineNs);
+			              }
+			  ```
+		- 而此时的ViewHolder是从RecycledViewPool中获取的，而获取之后进行了标识位重置，因此再次执行bind方法符合预期。
+		  collapsed:: true
+			- ```
+			  holder = getRecycledViewPool().getRecycledView(type);
+			                      if (holder != null) {
+			                          holder.resetInternal();
+			                          if (FORCE_INVALIDATE_DISPLAY_LIST) {
+			                              invalidateDisplayListInt(holder);
+			                          }
+			                      }
+			  ```
+		- 那么什么时候，会将holder缓存到RecycledViewPool中，当需要缓存的数量大于等于mViewCacheMax时，最初被加入mCachedViews的item会被加入到RecycledViewPool中
+			- ```
+			  ```
