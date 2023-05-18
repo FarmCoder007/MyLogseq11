@@ -57,7 +57,6 @@
 	- [[WebView]]
 	- [[依赖注入]]
 - JAVA
-  collapsed:: true
 	- [[java-泛型]]
 	- 集合
 	  collapsed:: true
@@ -69,6 +68,7 @@
 	- [[Html解析]]
 	- [[java工具]]
 	- [[并发]]
+	- [[JVM]]
 - Kotlin
   collapsed:: true
 	- [[基本语法]]
