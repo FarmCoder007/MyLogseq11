@@ -219,6 +219,21 @@
 			- ![image.png](../assets/image_1684428703204_0.png)
 		- 然后点击+ Enable Plugin按钮，就可以启用插件，插件启用后，点击插件名称，就可以打开插件，此时就能够看到在export function Component()方法返回的UI界面。
 	- ## 调试
+	  collapsed:: true
 		- 运行Flipper之后，可以通过多种方式进行调试，详见官网flipper-debug，下面以Chrome开发者工具介绍：
 		- 通过浏览器打开http://localhost:9222，然后点击列表中的Flipper即可，然后选中自己插件的代码就可以调试了，调试页面如下所示：
-			-
+			- ![image.png](../assets/image_1684428730081_0.png)
+	- ## 打包插件
+		- 执行如下命令可以打包插件，插件会输出到-o指定的目录，其扩展名为.tgz，然后在FlipperPC客户端上的插件管理中可以直接安装该插件。
+		  collapsed:: true
+			- ```
+			  $ yarn build 或者 yarn prepack
+			  $ yarn flipper-pkg pack flipperPluginDir -o  ~/Downloads
+			  ```
+	- ## 创建其他插件
+		- 如上所述，其他插件指的是针对Android、iOS、React-Native、Browser/Node等平台应用开发的插件，其开发流程和各平台的开发流程一致，添加上Flipper提供的依赖，然后按照正常的库进行开发即可。
+		- ##Refs
+		- [flipper-plugin](https://fbflipper.com/docs/extending/flipper-plugin/)
+		  [flipper-node-apis]9flipper-node-apis
+		  flipper-dev-setup
+-
