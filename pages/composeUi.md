@@ -25,3 +25,11 @@
 	- Image方法，最后执行Layout方法
 	  collapsed:: true
 		- ![image.png](../assets/image_1684391352377_0.png)
+	- Text方法一样最后执行Layout方法：Layout方法
+	  collapsed:: true
+		- ![image.png](../assets/image_1684391368858_0.png)
+	- 执行ComposeUiNode.Constructor会创建一个LayoutNode
+	  collapsed:: true
+		- ![image.png](../assets/image_1684391380281_0.png)
+		- ![image.png](../assets/image_1684391388575_0.png)
+	- 最后所有的方法都执行到了ComposeNode方法，这里边进行创建LayoutNode并创建子LayoutNode。基本上可以确定compose ui由LayoutNode来组成
