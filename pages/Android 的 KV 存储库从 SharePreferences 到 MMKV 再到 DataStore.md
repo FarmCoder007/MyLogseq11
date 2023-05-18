@@ -62,3 +62,28 @@
 	      value[stringPreferencesKey("key_datastore_str")] ?: ""
 	  }
 	  ```
+- # 性能和稳定性比较
+	- 网上有一份如下图所示的 Android 键值对存储方案的性能测试对比，大概的结论是使用 DataStore 读写数据的性能比 SP 和 MMKV 都要差很多，MMKV 的性能远胜于 DataStore 和 SP。
+	- ![image.png](../assets/image_1684430006998_0.png)
+	- 得出这个测试结果可能是对 DataStore 的设计原理没有理解从而进行了错误的耗时统计。首先，dataStore.edit() 函数运行在 Kotlin 协程中，所以在 edit 内容执行数据写入的操作不会阻塞主线程的其他任务执行；其次，edit 的 Lambda 函数块是以事务方式执行的，所以统计执行 1000 次写入的耗时应该在 Lambda 函数内部，即从 Lambda 函数内 for 循环之前开始到 for 之后结束。上面错误的统计可能是从 edit 方法执行前开始到 edit 执行之后，设计的 for 循环可能是在 Lambda 函数内或者将 edit 放在 for 循环之内执行了。
+	- ```
+	  GlobalScope.launch {
+	      dataStore.edit { settings ->
+	          val startDS1 = System.currentTimeMillis()
+	          for (i in 0..1000) {
+	              settings[stringPreferencesKey("key_datastore_$i")] = data
+	          }
+	          Log.d(
+	              "TimeCost",
+	              "DataStore put 1000 times cost: ${System.currentTimeMillis() - startDS1}"
+	          )
+	      }
+	  }
+	  ```
+	- 如果采用上面代码的计时方式统计DataStore 的耗时，对比 MMKV 和 SP，分别写入1000次 Int 类型的随机值，耗时对比如下
+	  collapsed:: true
+		- ![image.png](../assets/image_1684430039029_0.png)
+	- 可以发现，通过 SP 写入每次调用 commit 的方式耗时非常严重，而执行1000次 put 后调用一次 commit 的耗时也远高于 MMKV 和 DataStore。从测试数据的性能对比可以说明，我们在实际项目中应改放弃使用 SP，若使用 SP 则应使用 apply 方式提交，并且最好多次写入一次提交。
+	- DataStore 的耗时从上面图中可以看出比 MMKV 要少，但并没有太大的差距，而它的推出时间比 MMKV 至少晚两年，而且是官方出品，那么它究竟有什么优势呢？
+	- 我们客户端开发接触 MMKV 已经很久了，对它的直观映象就是它的性能很强。因为内部实现采用 mmap 内存映射文件，在一段可供随时写入的内存块上，App 只管写数据，由操作系统负责将内存回写到文件，这样也不必担心应用 crash 导致数据丢失；另外 MMKV 采用 protobuf 协议进行数据序列化，并实现增量更新，所以 MMKV 具有很强的高频同步写入性能。
+	- 但是，如果将写入 Int 值改为写入长字符串，仍用上面的测试逻辑进行性能比较，DataStore 相对于 MMKV 就有了明显的优势，测试数据如下：
