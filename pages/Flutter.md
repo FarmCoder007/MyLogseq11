@@ -3,4 +3,4 @@
 - [Flutter状态管理方案选择-基于工程化的思考](https://www.wolai.com/kdxWGYADNcK5duG6UeM8By)
 - [InheritedWidget源码分析](https://www.wolai.com/jbWGzCWLCbx4oHCSuGDEFb)
 - [[深入理解BuildContext]]
-- []
+- [Dart的const理解](https://handsomeliuyang.github.io/2022/05/28/%E6%97%A5%E5%B8%B8%E5%AD%A6%E4%B9%A0/Dart%E7%9A%84const%E7%90%86%E8%A7%A3/)
