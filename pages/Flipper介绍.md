@@ -43,6 +43,7 @@
 		  $ yarn install --force
 		  ```
 	- ## 创建Flipper桌面插件
+	  collapsed:: true
 		- 使用npx flipper-pkg init命令创建Flipper桌面插件。
 		- 首次使用会提示是否将FlipperPlugins添加到Flipper的插件目录中，当选择Yes时，就会将目录添加到~/.flipper/config.json文件的pluginPaths配置项中，后续也可以通过编辑文件的方式自己添加插件路径。
 		- 注意：
@@ -121,4 +122,39 @@
 			  }
 			  ```
 		- device和client方法除了pluginType类型不同和导出方法不同外，其他内容基本一致。整个桌面插件开发大概流程就是从plugin/devicePlugin方法返回数据源，然后在Component方法中使用数据源展示对应数据，或者数据进行交互，UI展示可以使用Flipper内置的组件或者直接使用AntDesign。
-		- Flipper桌面端的UI控件库就是AntDesign。
+		- Flipper桌面端的UI控件库就是[AntDesign](https://ant.design/components/overview-cn/)。
+	- ## device插件
+	  collapsed:: true
+		- device插件必须在index.tsx文件中导出devicePlugin和Component两个方法：
+		- devicePlugin：该方法通过createState()方法创建可以观察的数据源，然后包装为普通的对象返回。
+		  Component：该方法通过react hooks来使用devicePlugin()方法返回的数据源，对UI进行填充。
+			- ```
+			  // 该方法可以通过client参数获取设备信息，然后返回数据源。
+			  export function devicePlugin(client: DevicePluginClient) {
+			    const data = createState<string[]>(["abc", "cdf", "def"])
+			    return { data }
+			  } 
+			  
+			  // 该方法定义了UI展示样式，其数据源来自于`devicePlugin`方法的返回值。
+			  export function Component() {
+			    const instance = usePlugin(devicePlugin);
+			    const data = useValue(instance.data)
+			    
+			    return (
+			      <Layout.ScrollContainer
+			        vertical
+			        >
+			        /// 略  
+			      </Layout.ScrollContainer>
+			    )
+			  }
+			  ```
+	- ## client插件
+		- client插件在index.tsx文件中导出plugin和Component两个方法：
+		- plugin：该方法通过createState()方法创建可以观察的数据源，然后包装为普通的对象返回。
+		  Component：该方法通过react hooks来使用plugin()方法返回的数据源，对UI进行填充。
+		  因为client插件需要与嵌入到应用程序中的其他插件进行交互，所以需要保证client插件和其他插件的id一致，当插件连接后，可以使用如下方法进行数据交互：
+		- client.send：发送数据到其他插件。
+		  client.onMessage：接收来自其他插件发送的数据。
+		  通过createState()方法创建的对象，可以使用subscribe、update等方法实现订阅和更新操作。
+		-
