@@ -288,6 +288,7 @@ title:: kotlin1.5新特性
 	- 可以看到，密封接口跟普通接口一样也是对应java的interface，它们的真正差异在元数据的data1字段中（d1），密封接口在d1中会有对应的标记，以供kotlin运行时解析。由于d1中的数据是被编码的二进制，暂未找到方法解析其值含义，这里就不做具体分析了。
 	- 密封接口最大的好处在于它允许类多继承，有些类可能同时拥有多个可枚举特征，这时就可以通过密封接口很好地实现相应设计。
 - # 标准库
+  collapsed:: true
 	- ## 无符号整型
 	  collapsed:: true
 		- 无符号整型包括UByte、UShort、UInt和ULong，它们可以表示的正数范围是对应有符号整型的二倍，具体参见测试代码
@@ -325,6 +326,39 @@ title:: kotlin1.5新特性
 			          "rabbit".replaceFirstChar { it.lowercase() }
 			  ```
 	- ### Char类型
+	  collapsed:: true
 		- 增加了新的方法，原有对应方法被标记为废弃：
 			- ```
+			   val char:Char = 'a'
+			          //deprecated
+			          char.toUpperCase()
+			          //返回String
+			          val upperCaseStringResult: String = char.uppercase()
+			          //返回char
+			          val upperCaseCharResult: Char = char.uppercaseChar()
+			  
+			          //deprecated
+			          char.toLowerCase()
+			          //返回String
+			          val lowerCaseStringResult: String = char.lowercase()
+			          //返回char
+			          val lowerCaseCharResult: Char = char.lowercaseChar()
+			  
+			          //deprecated
+			          5.toChar()
+			          //deprecated
+			          char.toInt()
+			          val intResult = char.digitToInt()
+			          5.digitToChar()
 			  ```
+	- ### 路径API
+		- 路径API用于操作文件：
+			- ```
+			      //path API
+			          val path = Path("/wuba")
+			          //内联重载操作符，编译时会展开成方法调用path.resolve(target)
+			          val town = path / "town"
+			          val pngList = town.listDirectoryEntries("*.png")
+			  ```
+- 结尾
+  其他新特性诸如对java 15 record class的支持、对lombok的支持以及对Js、kotlinNative方面的内容由于安卓这边用不到，这里就不做展开了，个人比较希望contract早日对用户开放。
