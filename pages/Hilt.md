@@ -4,6 +4,7 @@
 	- Hilt意为刀柄，而Dagger是匕首的意思。匕首很好用，但使用门槛高，刀柄拿住就好。
 	- 为什么不直接去优化改进 Dagger，而要基于它做一个新库呢？因为 Hilt 做的事其实也并不是对 Dagger 进行优化，而是场景化：针对 Android 开发制定了一系列的规则，通过这些规则大大简化了这套工具的使用。比如Hilt 会自动找到 Android 的系统组件里面那些最佳的初始化位置——比如 Activity 的 onCreate() ——然后在这些位置注入依赖。而Dagger使用很繁琐且复杂。
 	- 现在回到上文中的问题，如何依赖注入？
+	  collapsed:: true
 		- ## 1. 添加依赖
 			- 在项目的根目录的build.gradle添加
 			  collapsed:: true
@@ -215,14 +216,25 @@
 				- |  == Component ==   | ==注入对象==  | ==作用域==  | ==创建于==  |
 				  |  ApplicationComponent  | Application  |@Singleton|Application#onCreate()|
 				  |  ActivityRetainedComponent  | ViewModel  |@ActivityRetainedScoped|Activity#onCreate()|
-				  |  ViewModelComponent  | ViewModel  |@ViewModelScoped|539.6| 
-				  |  ActivityComponent  | Activity  |@ActivityScoped|539.6|
+				  |  ViewModelComponent  | ViewModel  |@ViewModelScoped|ViewModel created| 
+				  |  ActivityComponent  | Activity  |@ActivityScoped|Activity#onCreate()|
 				  |  FragmentComponent  | Fragment  |@FragmentScoped|Fragment#onAttach()|
 				  |  ViewComponent  | View  |@ViewScoped|View#super()|
 				  |  ViewWithFragmentComponent  | View with @WithFragmentBindings  |@ViewScoped|View#super()|
 				  |  ServiceComponent  | Service  |@ServiceScoped|Service#onCreate()|
-				-
-				-
+				- 一般情况下，我们在设置注入对象时仅使用**@Inject**来标记，此时注入对象是无作用域的，这意味着每次都会注入一个新的对象。如果我们在注入方法的上面添加Scope相关的注解，作用域绑定只会在他作用域范围内的组件中生成一个实例，举个例子来说：
+					- ```
+					  // 仅有Inject注解注入是无作用域的，每一次请求都会创建一个新的实例
+					  class UnscopedBinding @Inject constructor() {
+					  }
+					  
+					  //有ActivityScoped注解修饰的对象，在同一个Activity中的实例是唯一的。
+					  @ActivityScoped
+					  class ScopedBinding @Inject constructor() {
+					  }
+					  ```
+				- 有ActivityScoped注解修饰的对象，在同一个Activity中的实例是唯一的，不同的Activity还是会创建新的对象。从上面的表格中可以看到Hilt对于注入对象的作用域支持很多：有常见的全局唯一单例类型的对象，也有和ViewModel声明周期对应的作用域。不同的作用域这样就可解决多对象单例过多占用资源的问题。
 		-
 		-
 	-
+-
