@@ -74,6 +74,7 @@
 		- 避免造成 Activity 和 Fragment 的臃肿。现在这些 UI 控制器负责显示数据但不保存数据状态；
 		  将 LiveData 实例与特定 Activity 和 Fragment 实例分离，从而确保 LiveData对象在横竖屏切换后继续存在。
 	- ## 2.2 LiveData 的数据转换
+	  collapsed:: true
 		- ## 2.2.1 Transformations.map
 		  collapsed:: true
 			- map 函数：基于原 LiveData，对其值进行改变然后生成一个新的 LiveData 返回。
@@ -104,5 +105,47 @@
 		- ## 2.2.2 Transformations.switchMap()
 			- switchMap() 函数： 传入LiveData对象，当此LivaData中值变化时，调用转换函数生成新的LiveData对象返回。
 			- ## api:
+			  collapsed:: true
 				- ```
+				  /**
+				   * @param  source:传入待观察的LiveData对象
+				   * @param  switchMapFunction: 转换函数
+				   */
+				  public static LiveData<Y> switchMap (LiveData<X> source, Function<X,LiveData<Y>> switchMapFunction)
 				  ```
+			- ## 示例：
+				- ```
+				  // 条件结果liveDataA
+				  val liveDataA = MutableLiveData<String>("1001")
+				  // 条件结果liveDataB
+				  val liveDataB = MutableLiveData<String>("2002")
+				  // 条件LiveData
+				  val liveDataSwitch = MutableLiveData<Boolean>(false)
+				  
+				  // Transformations.switchMap 监测liveDataSwitch值的变化，条件触发不同的liveData返回
+				  val transformSwitchedLiveData =
+				      Transformations.switchMap(liveDataSwitch) {
+				      switchToB ->
+				          if(switchToB) { liveDataB }
+				          else{ liveDataA }
+				      }
+				  
+				  // 注册监听
+				  transformSwitchedLiveData.observe(this,Observer<String> { value ->
+				      value?.let {
+				          txt_fragment.text = it
+				      }
+				  })
+				  
+				  // SwitchCompat 开关手动控制liveDataSwitch值的变化
+				  liveDataSwitch.value = switch_live_data.isChecked
+				  switch_live_data.setOnCheckedChangeListener { buttonView, isChecked ->
+				      liveDataSwitch.value = isChecked
+				  }
+				  ```
+				- ![image.png](../assets/image_1684422308102_0.png)
+		-
+	- ## 2.3MediatorLiveData 的使用
+		- MediatorLiveData可以作为中介观察或调度多个 LiveData 数据源；
+		  同时也可以做为一个liveData，被其他 Observer 观察。
+		-
