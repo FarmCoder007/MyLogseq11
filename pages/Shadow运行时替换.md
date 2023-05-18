@@ -266,4 +266,21 @@
 			  ```
 		- 可以看到待拦截服务名称为phone，方法名为getDeviceId。
 - # 0x03 注册与运行
-	-
+	- ## 1. 添加拦截器到配置
+	  collapsed:: true
+		- 将编写好的拦截器ITelephonyInterceptor添加到ShadowConfig配置中。
+			- ```
+			  ShadowConfig.Builder shadowConfigBuilder = new ShadowConfig.Builder(base, this)
+			            ...
+			            .add(new ITelephonyInterceptor())
+			  ;
+			  ```
+	- # 2. 运行
+		- 编译运行App，可以看到日志输出如下：
+			- ```
+			  // android-26
+			  D/ShadowServiceManager: ITelephonyInterceptor intercept method=getDeviceId
+			  
+			  // android-30
+			  D/ShadowServiceManager: ITelephonyInterceptor intercept method=getDeviceIdWithFeature
+			  ```
