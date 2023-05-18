@@ -6,6 +6,7 @@
 	- [[项目解析]]
 	- [[面试]]
 - Android
+  collapsed:: true
 	- [[开发常用工具]]
 	- [[Android架构]]
 	- [[系统架构]]
@@ -25,6 +26,7 @@
 		- [[消息循环创建过程]]
 		- [[Android应用进程启动与Binder]]
 	- RecyclerView
+	  collapsed:: true
 		- 动画
 		  collapsed:: true
 			- [[ItemAnimator源码分析]]
@@ -57,6 +59,7 @@
 	- [[WebView]]
 	- [[依赖注入]]
 - JAVA
+  collapsed:: true
 	- [[java-泛型]]
 	- 集合
 	  collapsed:: true
@@ -69,6 +72,7 @@
 	- [[java工具]]
 	- [[并发]]
 - Kotlin
+  collapsed:: true
 	- [[基本语法]]
 	- [[注意事项]]
 	- [[Kotlin关键字]]
@@ -88,7 +92,7 @@
 	- [[IDEA找不到Local Changes]]
 - [[算法]]
   collapsed:: true
-- 数据结构
+- [[数据结构]]
 - 开源库整理
   collapsed:: true
 	- [动效开源库整理博主](https://juejin.cn/user/1204720443862887/posts)
