@@ -47,16 +47,64 @@
 - # 接下来我们进一步探索 KMM 的 shared 模块是如何工作的。
 	- ### 共享代码库编译过程
 		- 首选我们看一下 KMM 的编译过程。shared 模块下的 build.gradle.kts 文件中在 plugins 闭包下加载了 multiplatform 插件，并把 shared module 作为 library 输出。在 kotlin 闭包中配置了需要编译的平台。
-		- ```
-		  plugins {
-		      kotlin("multiplatform")
-		      id("com.android.library")
-		  }
-		  
-		  kotlin {
-		      android()
-		      iosX64()
-		      iosArm64()
-		      iosSimulatorArm64()
-		  }
-		  ```
+		  collapsed:: true
+			- ```
+			  plugins {
+			      kotlin("multiplatform")
+			      id("com.android.library")
+			  }
+			  
+			  kotlin {
+			      android()
+			      iosX64()
+			      iosArm64()
+			      iosSimulatorArm64()
+			  }
+			  ```
+		- 分别进入 android() 和 iosXXX()，android() 是创建了 KotlinAndroidTarget 对象，iOSArm64() 创建了 KotlinNativeTarget 对象。
+		  collapsed:: true
+			- ```
+			  fun android(
+			          name: String = "android",
+			          configure: KotlinAndroidTarget.() -> Unit = { }
+			      ): KotlinAndroidTarget =
+			          configureOrCreate(
+			              name,
+			              presets.getByName("android") as KotlinAndroidTargetPreset,
+			              configure
+			          )
+			          
+			  fun iosArm64(
+			          name: String = "iosArm64",
+			          configure: KotlinNativeTarget.() -> Unit = { }
+			      ): KotlinNativeTarget =
+			          configureOrCreate(
+			              name,
+			              presets.getByName("iosArm64") as KotlinNativeTargetPreset,
+			              configure
+			          )
+			  
+			  ```
+		- kotlin-multiplatform 插件的入口类是 KotlinMultiplatformPluginWrapper，在其父类实现的 getPlugin 方法中返回了一个 KotlinMultiplatformPlugin 对象。
+		  collapsed:: true
+			- ```
+			  implementation-class=org.jetbrains.kotlin.gradle.plugin.KotlinMultiplatformPluginWrapper
+			  ```
+		- KotlinMultiplatformPlugin 继承自 Plugin<Project>，它的 apply 方法核心实现部分如下：
+		  collapsed:: true
+			- ```
+			  override fun apply(project: Project) {
+			      //...
+			      setupDefaultPresets(project)
+			      customizeKotlinDependencies(project)
+			      configureSourceSets(project)
+			      //...
+			  }
+			  ```
+		- 上面的 setupDefaultPresets 方法中主要是创建并添加各个平台的 TargetPreset，配置各个平台的编译详情，这里就与前面讲的 android() 和 iosXXX() 会分别创建 KotlinAndroidTarget 和 KotlinNativeTarget 关联起来了。接下来 Android 和 iOS 平台就会分别创建和配置 Target 了。
+		- Android 平台的主要实现逻辑在 AndroidProjectHandler 类中，首先会创建编译工厂对象KotlinJvmAndroidCompilationFactory，然后预处理配置变量进行 KotlinJVMTask 注册，然后再创建 javaTask 和 kotlinTask，并调用编译工厂对象分别进行 Java 和 Kotlin 的代码编译，最终将生成 class 文件，kotlin编译有三种策略，分别是：
+		- 守护进程编译：Kotlin编译的默认模式，只有这种模式才支持增量编译，可以在多个Gradle daemon进程间共享
+		  进程内编译：Gradle daemon进程内编译
+		  进程外编译：每次编译都是在不同的进程
+		  总结 Android aar 的编译过程是由 KotlinMultiplatformPlugin 发起 kotlinTask，再由 kotlinTask开启 KotlinCompile 编译任务，并交给 GradleCompilerRunnerWithWorkers 执行。在执行过程中调到了 Kotlin 编译器内部 org.jetbrains.kotlin.daemon.CompileServiceImpl 的 compile()方法，并交由 CodegenFactory 实现，最终使用 ASM 框架去生成字节码。
+		- iOS 平台的主要实现是在 KotlinNativeTargetConfigurator 类中，其中实现了该类继承的接口 KotlinTargetConfigurator 中的方法 configurePlatformSpecificModel。
