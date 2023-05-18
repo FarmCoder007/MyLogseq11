@@ -147,3 +147,94 @@ title:: 属性动画 ValueAnimator.ofInt运行原理
 	  属性动画中什么时候用到了PropertyValuesHolder#mValues
 	  那现在我们从入手valueAnimator.start()，看看什么时候用到了mValues
 	- ## ValueAnimator.start()源码解析
+		- 只能从animator.start()中去寻找答案了
+		  collapsed:: true
+		  ** ps:本次分析的是ValueAnimator，不是ObjectAnimator**
+			- ```
+			  @Override
+			      public void start() {
+			          start(false);
+			      }
+			      
+			  	private void start(boolean playBackwards) {
+			          if (Looper.myLooper() == null) {
+			              throw new AndroidRuntimeException("Animators may only be run on Looper threads");
+			          }
+			          mReversing = playBackwards;
+			          mSelfPulse = !mSuppressSelfPulseRequested;
+			          // Special case: reversing from seek-to-0 should act as if not seeked at all.
+			          if (playBackwards && mSeekFraction != -1 && mSeekFraction != 0) {
+			              if (mRepeatCount == INFINITE) {
+			                  // Calculate the fraction of the current iteration.
+			                  float fraction = (float) (mSeekFraction - Math.floor(mSeekFraction));
+			                  mSeekFraction = 1 - fraction;
+			              } else {
+			                  mSeekFraction = 1 + mRepeatCount - mSeekFraction;
+			              }
+			          }
+			          mStarted = true;
+			          mPaused = false;
+			          mRunning = false;
+			          mAnimationEndRequested = false;
+			          // Resets mLastFrameTime when start() is called, so that if the animation was running,
+			          // calling start() would put the animation in the
+			          // started-but-not-yet-reached-the-first-frame phase.
+			          mLastFrameTime = -1;
+			          mFirstFrameTime = -1;
+			          mStartTime = -1;
+			          addAnimationCallback(0);
+			  
+			          if (mStartDelay == 0 || mSeekFraction >= 0 || mReversing) {
+			              // If there's no start delay, init the animation and notify start listeners right away
+			              // to be consistent with the previous behavior. Otherwise, postpone this until the first
+			              // frame after the start delay.
+			              startAnimation();
+			              if (mSeekFraction == -1) {
+			                  // No seek, start at play time 0. Note that the reason we are not using fraction 0
+			                  // is because for animations with 0 duration, we want to be consistent with pre-N
+			                  // behavior: skip to the final value immediately.
+			                  setCurrentPlayTime(0);
+			              } else {
+			                  setCurrentFraction(mSeekFraction);
+			              }
+			          }
+			      }
+			  ```
+		- 调用了内部的 start(boolean) 方法，前面无外乎就是一些变量的初始化，然后好像调用了很多方法，我们知道AnimationHandler是统一处理属性动画的，那么就找和AnimationHandler相关的逻辑。
+		- ok找到了，在addAnimationCallback(0)中，我们找到了和AnimationHandler相关的逻辑，来看看：
+			- ```
+			  private void addAnimationCallback(long delay) {
+			         if (!mSelfPulse) {
+			             return;
+			         }
+			         getAnimationHandler().addAnimationFrameCallback(this, delay);
+			  }
+			  ```
+			- ```
+			   public void addAnimationFrameCallback(final AnimationFrameCallback callback, long delay) {
+			   		/**
+			   		* 重点
+			   		*/
+			          if (mAnimationCallbacks.size() == 0) {
+			              getProvider().postFrameCallback(mFrameCallback);
+			          }
+			          if (!mAnimationCallbacks.contains(callback)) {
+			              mAnimationCallbacks.add(callback);
+			          }
+			  
+			          if (delay > 0) {
+			              mDelayedCallbackStartTime.put(callback, (SystemClock.uptimeMillis() + delay));
+			          }
+			      }
+			  ```
+			- ```
+			  /ValueAnimator
+			  private AnimationFrameCallbackProvider getProvider() {
+			          if (mProvider == null) {
+			              mProvider = new MyFrameCallbackProvider();
+			          }
+			          return mProvider;
+			   }
+			  ```
+			-
+	-
