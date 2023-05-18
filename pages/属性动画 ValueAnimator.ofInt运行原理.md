@@ -532,5 +532,56 @@ title:: 属性动画 ValueAnimator.ofInt运行原理
 				          return ((Number)mKeyframes.get(mNumKeyframes - 1).getValue()).intValue();
 				      }
 				  ```
-		-
+			- mEvaluator我们没有设置，为null，走的是 prevValue + (int)(intervalFraction * (nextValue - prevValue)) ；
+			  intervalFraction = (fraction - prevFraction) / (nextFraction - prevFraction); 表示，在这个帧区间内，所占的比例。
+			  因为是第一帧的处理逻辑：
+			  intervalFraction = (fraction - prevFraction) / (nextFraction - prevFraction);
+			  intervalFraction = 0
+			  第一帧是 prevValue，也就是我们刚开始设置的值（ofInt(0,100,300)）中的0。
+				- ```
+				   @Override
+				      public int getIntValue(float fraction) {
+				      	/*
+				      	*  中间帧的处理
+				      	* 
+				      	*/
+				          for (int i = 1; i < mNumKeyframes; ++i) {
+				              IntKeyframe nextKeyframe = (IntKeyframe) mKeyframes.get(i);
+				              if (fraction < nextKeyframe.getFraction()) {
+				                  final TimeInterpolator interpolator = nextKeyframe.getInterpolator();
+				                  float intervalFraction = (fraction - prevKeyframe.getFraction()) /
+				                      (nextKeyframe.getFraction() - prevKeyframe.getFraction());
+				                  int prevValue = prevKeyframe.getIntValue();
+				                  int nextValue = nextKeyframe.getIntValue();
+				                  // Apply interpolator on the proportional duration.
+				                  if (interpolator != null) {
+				                      intervalFraction = interpolator.getInterpolation(intervalFraction);
+				                  }
+				                  return mEvaluator == null ?
+				                          prevValue + (int)(intervalFraction * (nextValue - prevValue)) :
+				                          ((Number)mEvaluator.evaluate(intervalFraction, prevValue, nextValue)).
+				                                  intValue();
+				              }
+				              prevKeyframe = nextKeyframe;
+				          }
+				          // shouldn't get here
+				          return ((Number)mKeyframes.get(mNumKeyframes - 1).getValue()).intValue();
+				      }
+				  
+				  ```
+		- 处理中间帧的逻辑：关键找出当前进度处于哪两个关键帧之间：
+		  从第一帧开始，按顺序遍历每一帧，然后去判断当前的动画进度跟这一帧保存的位置信息来找出当前进度是否就是落在某两个关键帧之间。
+		- 至此，我们已经将整个流程梳理出来了，两部分小结的内容整合起来就是这次梳理出来的整个属性动画从 start() 之后，到我们在 onAnimationUpdate 回调中取到我们需要的值。
+		  OK～～～～～
+		  结束了
+		- 回答刚开始提出的问题
+		  0-100 中经过的时间到底是0.5s还是0.33s？
+		  answer:100对应的帧为1/2。 fraction = scaledDuration > 0 ? (float)(currentTime - mStartTime) / scaledDuration : 1f;
+		  假设刚开始记录的时间为0
+		  1/2 = （currentTime -0）/1s
+		  currentTime = 0.5s
+		  ValueAnimator.ofInt(0, 300)有区别吗？
+		  answer：是有区别的，动画属性值为100时，经过的时间为0.33s(不要问怎么算出来的)
+		  ValueAnimator时序图结尾：
+			- ![image.png](../assets/image_1684419970415_0.png)
 	-
