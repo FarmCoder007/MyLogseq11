@@ -1,6 +1,7 @@
 - # 前言
 	- 原生列表视图RecyclerView，最重要的亮点是其巧妙灵活的视图缓存策略，使其在渲染性能上体现出明显优势，这篇文章从源码的角度深入理解缓存机制以及和ListView相比较，优势体现在何处
 - # 缓存机制
+  collapsed:: true
 	- 首先使用时涉及几个核心类，LayoutManager、Adapter、ViewHolder、Recycler之间的关系，如何产生的关联
 	  分析RecyclerView的onMeasure和onLayout方法，RecyclerView的绘制交给了LayoutManager。以LinearLayoutManager为例
 		- ```
@@ -21,10 +22,54 @@
 	  mRecyclePool ：四级缓存，缓存复用需要重新bind，RecycleView 特性。和ListView不同的地方。支持多个RecyclerView之间复用ViewHolder
 		- ![image.png](../assets/image_1684430178660_0.png){:height 1172, :width 716}
 - ## 四次尝试
+  collapsed:: true
 	- 第一次尝试:核心方法getScrapOrHiddenOrCachedHolderForPosition方法来获取ViewHolder，并检验holder的有效性，如果无效，则从mAttachedScrap中移除，并加入到mCacheViews或者Pool中，并且将holder至null，走下一级缓存判断
 		- ⚠️：没有获取type
 		  collapsed:: true
 			- ![image.png](../assets/image_1684430207390_0.png)
 	- 第二次尝试
+	  collapsed:: true
 		- 和第一次整体流程差不多，核心方法getScrapOrCachedViewForId，重点：内部调用了mAdapter.getItemViewType(offsetPosition)，多了对id和type的校验
+		- ![image.png](../assets/image_1684430228000_0.png)
+	- 第三次尝试，开发者可自定制的缓存，源码未做实现
+	  collapsed:: true
+		- ```
+		  public abstract static class ViewCacheExtension {
+		      public abstract View getViewForPositionAndType(Recycler recycler, int position, int type);
+		  }
+		  ```
+	- 第四次尝试，对应于Pool，和ListView不同的地方，RecyclerView提供了这种缓存形式，支持多个RecyclerView之间复用View，也就是说通过自定义Pool我们甚至可以实现整个应用内的RecyclerView的View的复用
+- # Demo验证时机
+	- 1.反射获取RecyclerView的成员变量mRecycler并获取Recycler的成员变量，设置OnLayout和OnScroll监听
+	  collapsed:: true
+		- ```
+		  Field mRecycler =
+		                      Class.forName("androidx.recyclerview.widget.RecyclerView").getDeclaredField("mRecycler");
+		              mRecycler.setAccessible(true);
+		              RecyclerView.Recycler recyclerInstance = (RecyclerView.Recycler) mRecycler.get(rcy);
+		  
+		              Class<?> recyclerClass = Class.forName(mRecycler.getType().getName());
+		              Field mViewCacheMax = recyclerClass.getDeclaredField("mViewCacheMax");
+		              Field mAttachedScrap = recyclerClass.getDeclaredField("mAttachedScrap");
+		              Field mChangedScrap = recyclerClass.getDeclaredField("mChangedScrap");
+		              Field mCachedViews = recyclerClass.getDeclaredField("mCachedViews");
+		              Field mRecyclerPool = recyclerClass.getDeclaredField("mRecyclerPool");
+		              mViewCacheMax.setAccessible(true);
+		              mAttachedScrap.setAccessible(true);
+		              mChangedScrap.setAccessible(true);
+		              mCachedViews.setAccessible(true);
+		              mRecyclerPool.setAccessible(true);
+		  
+		              int mViewCacheSize = (int) mViewCacheMax.get(recyclerInstance);
+		              ArrayListWrapper mAttached =
+		                      (ArrayListWrapper<RecyclerView.ViewHolder>) mAttachedScrap.get(recyclerInstance);
+		              ArrayList<RecyclerView.ViewHolder> mChanged =
+		                      (ArrayList<RecyclerView.ViewHolder>) mChangedScrap.get(recyclerInstance);
+		              ArrayListWrapper<RecyclerView.ViewHolder> mCached =
+		                      (ArrayListWrapper<RecyclerView.ViewHolder>) mCachedViews.get(recyclerInstance);
+		              RecyclerView.RecycledViewPool recycledViewPool =
+		                      (RecyclerView.RecycledViewPool) mRecyclerPool.get(recyclerInstance);
+		  ```
+	- 2.在adapter的onCreateViewHolder和onBindViewHolder分别输出日志
+		- 2.1）首次运行，demo截图：
 		-
