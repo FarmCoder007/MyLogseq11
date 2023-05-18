@@ -55,8 +55,36 @@
 		    }
 		  ```
 	- 在 java 8 之前，接口与其实现类之间的 耦合度 太高了（tightly coupled），当需要为一个接口添加方法时，所有的实现类都必须随之修改。默认方法解决了这个问题，它可以为接口添加新的方法，而不会破坏已有的接口的实现,比如这样：
-		-
--
--
+	  collapsed:: true
+		- ```
+		  interface InterfaceA {
+		      default void foo() {
+		          System.out.println("InterfaceA foo");
+		      }
+		  }
+		  ```
+	- 这么写之后，那么实现这个接口的类也不必非要实现foo这个方法。
+	- 第二个知识点@IgnoreJRERequirement有啥干啥的？
+	- 这个目前理解还是模棱两可，目前我的理解是这样的：有个方法在java6和java8都有，但是他们内部实现细节可能跟java环境不一样有各自区别。在真正编译的时候虚拟机会校验这个方法的签名。如果不满足环境要求就报错。加上这个注解就会跳过这个检查。[参考文档](https://hexilee.me/2018/09/27/animal-sniffer/)
+	- 我们接着回到正题，对于我们安卓平台这个最后返回的是false。false走loadServiceMethod(method).invoke(args)逻辑。
+	- 我们重点看下loadServiceMethod(method).invoke(args);这段代码实现。内部会先去缓存map里根据方法去查找map，如果查到就直接返回，否则调用ServiceMethod.parseAnnotations(this, method);进行解析。
+		- ```
+		  ServiceMethod<?> loadServiceMethod(Method method) {
+		      ServiceMethod<?> result = serviceMethodCache.get(method);
+		      if (result != null) return result;
+		  
+		      synchronized (serviceMethodCache) {
+		        result = serviceMethodCache.get(method);
+		        if (result == null) {
+		          result = ServiceMethod.parseAnnotations(this, method);
+		          serviceMethodCache.put(method, result);
+		        }
+		      }
+		      return result;
+		    }
+		  ```
+	- 我们继续往下跟就能发现解析的地方。
+		- ```
+		  ```
 - 参考：
 	- https://hexilee.me/2018/09/27/animal-sniffer/
