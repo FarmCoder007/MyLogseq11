@@ -1,2 +1,3 @@
 - 配置见[](https://mubu.com/app/edit/home/1535yZrtCuW)
 - [[Flutter声明周期介绍]]
+- [Flutter状态管理方案选择-基于工程化的思考](https://www.wolai.com/kdxWGYADNcK5duG6UeM8By)
