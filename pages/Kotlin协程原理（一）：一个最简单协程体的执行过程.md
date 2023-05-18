@@ -140,6 +140,54 @@
 			  }
 			  ```
 		- 通过上文我们可知这个i=3，因此coroutineStart就是CoroutineStart.DEFAULT。那我们就继续往下看：
+		  collapsed:: true
+			- ```
+			  internal fun <R, T> (suspend (R) -> T).startCoroutineCancellable(
+			      receiver: R, completion: Continuation<T>,
+			      onCancellation: ((cause: Throwable) -> Unit)? = null
+			  ) =
+			      runSafely(completion) {
+			          createCoroutineUnintercepted(receiver, completion).intercepted().resumeCancellableWith(Result.success(Unit), onCancellation)
+			      }
+			  先
+			  ```
+		- 先看一下runSafely方法是干什么的：
+		  collapsed:: true
+			- ```
+			  private inline fun runSafely(completion: Continuation<*>, block: () -> Unit) {
+			      try {
+			          block()
+			      } catch (e: Throwable) {
+			          dispatcherFailure(completion, e)
+			      }
+			  }
+			  ```
+		- 这里学到了新的写法，使用kotlin的闭包可以优雅的处理异常，那我们继续看createCoroutineUnintercepted方法，这个方法其实通过ide点进去看到的是IntrinsicsKt.class类文件，无法直接查看到源码，这里有一个小知识，这个源码其实在IntrinsicsJvm.kt文件里，kotlin通过注解@file:kotlin.jvm.JvmName("IntrinsicsKt")，改变了其生成的class文件名。言归正传，继续看代码：
+		  collapsed:: true
+			- ```
+			  @SinceKotlin("1.3")
+			  public actual fun <R, T> (suspend R.() -> T).createCoroutineUnintercepted(
+			      receiver: R,
+			      completion: Continuation<T>
+			  ): Continuation<Unit> {
+			      val probeCompletion = probeCoroutineCreated(completion)
+			      return if (this is BaseContinuationImpl)
+			          create(receiver, probeCompletion)
+			      else {
+			          createCoroutineFromSuspendFunction(probeCompletion) {
+			              (this as Function2<R, Continuation<T>, Any?>).invoke(receiver, it)
+			          }
+			      }
+			  }
+			  ```
+		- probeCoroutineCreated方法直接将completion返回了，继续往下走，从上文可知我们的协程体继承了SuspendLambda，而SuspendLambda又继承了ContinuationImpl，ContinuationImpl继承了BaseContinuationImpl，因此第一个判断条件成立，进入create方法，就是我们的协程体的create：
+		  collapsed:: true
+			- ```
+			   public final Continuation<Unit> create(Object obj, Continuation<?> continuation) {
+			          return new MainActivity$onCreate$1(continuation);
+			      }
+			  ```
+		- 这里又创建了一个协程体对象，并且把之前的协程体对象进行了包装，这里可能会很迷茫，明明一开始已经创建了一个协程体对象了，为什么这里又创建了一个呢？我们继续往下看，创建完返回后会进入intercepted方法：
 			- ```
 			  ```
 -
