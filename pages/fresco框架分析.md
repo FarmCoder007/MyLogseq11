@@ -98,4 +98,17 @@
 	    }
 	  ```
 	- ```
+	   /** Creates a new reference for the client. */
+	    private synchronized CloseableReference<V> newClientReference(final Entry<K, V> entry) {
+	      increaseClientCount(entry);
+	  	  // 这个设计思想可以学习下，返回一个包含一定能力的包装结果，而不是最原始的数据
+	      return CloseableReference.of(
+	          entry.valueRef.get(),
+	          new ResourceReleaser<V>() {
+	            @Override
+	            public void release(V unused) {
+	              releaseClientReference(entry);
+	            }
+	          });
+	    }
 	  ```
