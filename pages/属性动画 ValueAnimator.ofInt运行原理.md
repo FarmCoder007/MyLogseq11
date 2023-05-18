@@ -236,5 +236,37 @@ title:: 属性动画 ValueAnimator.ofInt运行原理
 			          return mProvider;
 			   }
 			  ```
-			-
+			- ```
+			  //MyFrameCallbackProvider
+			  public void postFrameCallback(Choreographer.FrameCallback callback) {
+			              mChoreographer.postFrameCallback(callback);
+			   }
+			  ```
+			- 看到 Choreographer 了，感觉我们好像已经快接近真相了，不继续跟下去了。
+			  大概说一下后面的流程：
+			- 向底层注册屏幕监听信号：
+			  Choreographer 内部有几个队列，通过postCallbackDelayedInternal(int callbackType,
+			  Object action, Object token, long delayMillis) 方法将FrameCallback放进队列中，callbackType是区分队列类型的，属性动画中传入的是CALLBACK_ANIMATION用于区分这些队列。接着，Choreographer#scheduleFrameLocked()->scheduleFrameLocked#()scheduleVsyncLocked()->FrameDisplayEventReceiver#scheduleVsyncLocked()->最终调用native的方法nativeScheduleVsync（）
+			  向底层注册屏幕监听信号。
+			- 当屏幕刷新信号来临时：
+			  nativeScheduleVsync()会向SurfaceFlinger注册Vsync信号的监听，VSync信号由SurfaceFlinger实现并定时发送，当Vsync信号来的时候就会回调FrameDisplayEventReceiver#onVsync()，这个方法给发送一个带时间戳Runnable消息，这个Runnable消息的run()实现就是FrameDisplayEventReceiver# run()， 接着就会执行doFrame()
+			  具体的流程比如：nativeScheduleVsync怎么向SurfaceFlinger注册监听信号，以及SurfaceFlinger和VSync是什么？以后再去研究。
+			- 根据目前的信息，我们先小结一下：
+			  当 ValueAnimator 调用了 start() 方法之后，首先会对一些变量进行初始化工作并通知动画开始了，然后 ValueAnimator 实现了 AnimationFrameCallback 接口，并通过 AnimationHander 将自身 this 作为参数传到 mAnimationCallbacks 列表里缓存起来。而 AnimationHandler 在 mAnimationCallbacks 列表大小为 0 时会通过内部类 MyFrameCallbackProvider 将一个 mFrameCallback 工作缓存到 Choreographer 的待执行队列里，并向底层注册监听下一个屏幕刷新信号事件。
+			  当屏幕刷新信号到的时候，Choreographer 的 doFrame() 会去将这些待执行队列里的工作取出来执行，那么此时也就回调了 AnimationHandler 的 mFrameCallback 工作。
+			- 那么，接下去就继续看看，当接收到屏幕刷新信号之后，mFrameCallback 又继续做了什么：
+				- ```
+				  private final Choreographer.FrameCallback mFrameCallback = new Choreographer.FrameCallback() {
+				          @Override
+				          public void doFrame(long frameTimeNanos) {
+				              doAnimationFrame(getProvider().getFrameTime());
+				              if (mAnimationCallbacks.size() > 0) {
+				                  getProvider().postFrameCallback(this);
+				              }
+				          }
+				      };
+				  ```
+				- 1、去处理动画的相关工作，也就是说要找到动画真正执行的地方，
+				- 2、继续向底层注册监听下一个屏幕刷新信号。
+			- 那么，下去就是跟着 doAnimationFrame() 来看看，属性动画是怎么执行的
 	-
