@@ -675,6 +675,7 @@
 		  mStackSupervisor.attachApplicationLocked(app)开始启动Activity
 	- ## 创建Instrumentation和Application
 		- 1.（ApplicationThread）thread.bindApplication()，ApplicationTread是ActivityThread的内部类
+		  collapsed:: true
 			- ```
 			  private class ApplicationThread extends IApplicationThread.Stub {
 			      private static final String DB_INFO_FORMAT = "  %8s %8s %14s %14s  %s";
@@ -743,6 +744,7 @@
 			  }
 			  ```
 			- sendMessage(H.BIND_APPLICATION, data)，发送给内部类Handler处理
+			  collapsed:: true
 				- ```
 				  class H extends Handler {
 				  public void handleMessage(Message msg) {
@@ -759,6 +761,216 @@
 				  }
 				  }
 				  ```
-			- 2. 调用ActivityThread.handleBindApplication()最终创建Instrumentacion和Application
+		- collapsed:: true
+		  2. 调用ActivityThread.handleBindApplication()最终创建Instrumentacion和Application
+			- 代码
+			  collapsed:: true
 				- ```
+				  private void handleBindApplication(AppBindData data) {
+				          // Register the UI Thread as a sensitive thread to the runtime.
+				          VMRuntime.registerSensitiveThread();
+				          // In the case the stack depth property exists, pass it down to the runtime.
+				          String property = SystemProperties.get("debug.allocTracker.stackDepth");
+				          if (property.length() != 0) {
+				              VMDebug.setAllocTrackerStackDepth(Integer.parseInt(property));
+				          }
+				          if (data.trackAllocation) {
+				              DdmVmInternal.enableRecentAllocations(true);
+				          }
+				          // Note when this process has started.
+				          Process.setStartTimes(SystemClock.elapsedRealtime(), SystemClock.uptimeMillis());
+				  
+				          AppCompatCallbacks.install(data.disabledCompatChanges);
+				          // Let libcore handle any compat changes after installing the list of compat changes.
+				          AppSpecializationHooks.handleCompatChangesBeforeBindingApplication();
+				  
+				          mBoundApplication = data;
+				          mConfiguration = new Configuration(data.config);
+				          mCompatConfiguration = new Configuration(data.config);
+				  
+				          mProfiler = new Profiler();
+				      // 创建Context上下文
+				          final ContextImpl appContext = ContextImpl.createAppContext(this, data.info);
+				          if (!Process.isIsolated()) {
+				              ......
+				          }
+				  
+				          .....
+				  
+				          // Instrumentation info affects the class loader, so load it before
+				          // setting up the app context.
+				          final InstrumentationInfo ii;
+				          if (data.instrumentationName != null) {
+				              try {
+				                  ii = new ApplicationPackageManager(
+				                          null, getPackageManager(), getPermissionManager())
+				                          .getInstrumentationInfo(data.instrumentationName, 0);
+				              } catch (PackageManager.NameNotFoundException e) {
+				                  throw new RuntimeException(
+				                          "Unable to find instrumentation info for: " + data.instrumentationName);
+				              }
+				  
+				              // Warn of potential ABI mismatches.
+				              if (!Objects.equals(data.appInfo.primaryCpuAbi, ii.primaryCpuAbi)
+				                      || !Objects.equals(data.appInfo.secondaryCpuAbi, ii.secondaryCpuAbi)) {
+				                  Slog.w(TAG, "Package uses different ABI(s) than its instrumentation: "
+				                          + "package[" + data.appInfo.packageName + "]: "
+				                          + data.appInfo.primaryCpuAbi + ", " + data.appInfo.secondaryCpuAbi
+				                          + " instrumentation[" + ii.packageName + "]: "
+				                          + ii.primaryCpuAbi + ", " + ii.secondaryCpuAbi);
+				              }
+				  
+				              mInstrumentationPackageName = ii.packageName;
+				              mInstrumentationAppDir = ii.sourceDir;
+				              mInstrumentationSplitAppDirs = ii.splitSourceDirs;
+				              mInstrumentationLibDir = getInstrumentationLibrary(data.appInfo, ii);
+				              mInstrumentedAppDir = data.info.getAppDir();
+				              mInstrumentedSplitAppDirs = data.info.getSplitAppDirs();
+				              mInstrumentedLibDir = data.info.getLibDir();
+				          } else {
+				              ii = null;
+				          }
+				  
+				          .....
+				  
+				          // Continue loading instrumentation.
+				          if (ii != null) {
+				              ApplicationInfo instrApp;
+				              try {
+				                  instrApp = getPackageManager().getApplicationInfo(ii.packageName, 0,
+				                          UserHandle.myUserId());
+				              } catch (RemoteException e) {
+				                  instrApp = null;
+				              }
+				              if (instrApp == null) {
+				                  instrApp = new ApplicationInfo();
+				              }
+				              ii.copyTo(instrApp);
+				              instrApp.initForUser(UserHandle.myUserId());
+				              final LoadedApk pi = getPackageInfo(instrApp, data.compatInfo,
+				                      appContext.getClassLoader(), false, true, false);
+				  
+				              // The test context\'s op package name == the target app\'s op package name, because
+				              // the app ops manager checks the op package name against the real calling UID,
+				              // which is what the target package name is associated with.
+				              final ContextImpl instrContext = ContextImpl.createAppContext(this, pi,
+				                      appContext.getOpPackageName());
+				  
+				              try {
+				                  final ClassLoader cl = instrContext.getClassLoader();
+				                  // 创建Instrumentation 
+				                  mInstrumentation = (Instrumentation)
+				                      cl.loadClass(data.instrumentationName.getClassName()).newInstance();
+				              } catch (Exception e) {
+				                  throw new RuntimeException(
+				                      "Unable to instantiate instrumentation "
+				                      + data.instrumentationName + ": " + e.toString(), e);
+				              }
+				  
+				              final ComponentName component = new ComponentName(ii.packageName, ii.name);
+				              mInstrumentation.init(this, instrContext, appContext, component,
+				                      data.instrumentationWatcher, data.instrumentationUiAutomationConnection);
+				  
+				              if (mProfiler.profileFile != null && !ii.handleProfiling
+				                      && mProfiler.profileFd == null) {
+				                  mProfiler.handlingProfiling = true;
+				                  final File file = new File(mProfiler.profileFile);
+				                  file.getParentFile().mkdirs();
+				                  Debug.startMethodTracing(file.toString(), 8 * 1024 * 1024);
+				              }
+				          } else {
+				              // 初始化mInstrumentation
+				              mInstrumentation = new Instrumentation();
+				              mInstrumentation.basicInit(this);
+				          }
+				          .....
+				  
+				          // Allow disk access during application and provider setup. This could
+				          // block processing ordered broadcasts, but later processing would
+				          // probably end up doing the same disk access.
+				          Application app;
+				          final StrictMode.ThreadPolicy savedPolicy = StrictMode.allowThreadDiskWrites();
+				          final StrictMode.ThreadPolicy writesAllowedPolicy = StrictMode.getThreadPolicy();
+				          try {
+				  
+				              //创建Application
+				              app = data.info.makeApplication(data.restrictedBackupMode, null);
+				  
+				              // Propagate autofill compat state
+				              app.setAutofillOptions(data.autofillOptions);
+				  
+				              // Propagate Content Capture options
+				              app.setContentCaptureOptions(data.contentCaptureOptions);
+				  
+				              mInitialApplication = app;
+				  
+				              // 装载Providers
+				              if (!data.restrictedBackupMode) {
+				                  if (!ArrayUtils.isEmpty(data.providers)) {
+				                      installContentProviders(app, data.providers);
+				                  }
+				              }
+				  
+				              // Do this after providers, since instrumentation tests generally start their
+				              // test thread at this point, and we don\'t want that racing.
+				              try {
+				                  mInstrumentation.onCreate(data.instrumentationArgs);
+				              }
+				              catch (Exception e) {
+				                  throw new RuntimeException(
+				                      "Exception thrown in onCreate() of "
+				                      + data.instrumentationName + ": " + e.toString(), e);
+				              }
+				              try {
+				                  mInstrumentation.callApplicationOnCreate(app);
+				              } catch (Exception e) {
+				                  if (!mInstrumentation.onException(app, e)) {
+				                      throw new RuntimeException(
+				                        "Unable to create application " + app.getClass().getName()
+				                        + ": " + e.toString(), e);
+				                  }
+				              }
+				          } finally {
+				              // If the app targets < O-MR1, or doesn\'t change the thread policy
+				              // during startup, clobber the policy to maintain behavior of b/36951662
+				              if (data.appInfo.targetSdkVersion < Build.VERSION_CODES.O_MR1
+				                      || StrictMode.getThreadPolicy().equals(writesAllowedPolicy)) {
+				                  StrictMode.setThreadPolicy(savedPolicy);
+				              }
+				          }
+				  
+				          // Preload fonts resources
+				          FontsContract.setApplicationContextForResources(appContext);
+				          if (!Process.isIsolated()) {
+				              try {
+				                  final ApplicationInfo info =
+				                          getPackageManager().getApplicationInfo(
+				                                  data.appInfo.packageName,
+				                                  PackageManager.GET_META_DATA /*flags*/,
+				                                  UserHandle.myUserId());
+				                  if (info.metaData != null) {
+				                      final int preloadedFontsResource = info.metaData.getInt(
+				                              ApplicationInfo.METADATA_PRELOADED_FONTS, 0);
+				                      if (preloadedFontsResource != 0) {
+				                          data.info.getResources().preloadFonts(preloadedFontsResource);
+				                      }
+				                  }
+				              } catch (RemoteException e) {
+				                  throw e.rethrowFromSystemServer();
+				              }
+				          }
+				      }
 				  ```
+			- 在ActivityThread.handleBindApplication()方法体中创建了我们的Instrumentation,然后是创建Application，Application由Instrumentaion的newApplication()方法创建。
+			  collapsed:: true
+				- ```
+				  public Application newApplication(ClassLoader cl, String className, Context context)
+				              throws InstantiationException, IllegalAccessException, 
+				              ClassNotFoundException {
+				          Application app = getFactory(context.getPackageName())
+				                  .instantiateApplication(cl, className);
+				          app.attach(context);
+				          return app;
+				      }
+				  ```
+-
