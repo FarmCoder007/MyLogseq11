@@ -10,6 +10,7 @@
 	- [[Android架构]]
 	- [[系统架构]]
 	- Android系统启动
+	  collapsed:: true
 		- [[Android 系统启动流程]]
 		- [[init进程启动过程]]
 		- [[Zygote 进程启动过程]]

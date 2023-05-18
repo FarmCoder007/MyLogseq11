@@ -1,5 +1,4 @@
 - 介绍：
-  collapsed:: true
 	- ![FireShot Capture 005 - 知享-聊聊 Clean 架构 - ishare.58corp.com.png](../assets/FireShot_Capture_005_-_知享-聊聊_Clean_架构_-_ishare.58corp.com_1684394982663_0.png)
 - 参考:
   collapsed:: true
