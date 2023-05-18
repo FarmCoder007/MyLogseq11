@@ -45,4 +45,12 @@ title:: hook-合规隐私/权限方法调用检测与替换
 		  $ ./gradlew :app:assembleDebug
 		  ```
 - # 2、例子
-	-
+	- ## 1、获取android framework方法权限集
+		- 首先需要保证已通过sdk manager安装对应compileSdkVersion版本的android源代码**，如下图所示：
+		  collapsed:: true
+			- ![image.png](../assets/image_1684412673589_0.png)
+		- 然后通过执行collectAndroidPermissionMethod任务获取android framework中需要权限的方法集：
+		  collapsed:: true
+			- ```
+			  
+			  ```
