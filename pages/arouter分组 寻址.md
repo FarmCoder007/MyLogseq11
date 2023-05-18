@@ -437,4 +437,50 @@
 		- 映射关系构建好了，类文件创建出来， 什么时候加载调用的呢？
 	-
 	-
-- ## 三
+- ## 三、ARouter 初始化
+	- 一般在application里初始化
+	  collapsed:: true
+		- ```
+		  public class MainApplication  extends Application {
+		  
+		      @Override
+		      public void onCreate() {
+		          super.onCreate();
+		          ARouter.openDebug();
+		          ARouter.init(this);
+		      }
+		  
+		  ```
+	- 开发过程中如果没有 开启 ARouter.openDebug();会发现新增的path 跳转不了，但是release可以跳转
+	- 来看看init （）方法
+	  collapsed:: true
+		- ```
+		  public static void init(Application application) {
+		      if (!hasInit) {
+		          logger = _ARouter.logger;
+		          _ARouter.logger.info(Consts.TAG, "ARouter init start.");
+		          hasInit = _ARouter.init(application);
+		  
+		          if (hasInit) {
+		              _ARouter.afterInit();
+		          }
+		  
+		          _ARouter.logger.info(Consts.TAG, "ARouter init over.");
+		      }
+		  ```
+	- 调用里 _ARouter.init(application)
+	  collapsed:: true
+		- ```
+		  protected static synchronized boolean init(Application application) {
+		          mContext = application;
+		          LogisticsCenter.init(mContext, executor);
+		          logger.info(Consts.TAG, "ARouter init success!");
+		          hasInit = true;
+		          mHandler = new Handler(Looper.getMainLooper());
+		  
+		          return true;
+		      }
+		  ```
+	- _ARouter 又调用了 LogisticsCenter.init(mContext, executor)，并传入了一个线程池
+		- ```
+		  ```
