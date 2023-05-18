@@ -438,6 +438,7 @@
 	-
 	-
 - ## 三、ARouter 初始化
+  collapsed:: true
 	- 一般在application里初始化
 	  collapsed:: true
 		- ```
@@ -608,3 +609,46 @@
 		  �
 		  Root、ARouterInterceptors，但是没有加载任何一个ARouterGroup;那group是什么时候加载的呢
 		  ```
+- ## 四、navigation()
+	- 如何根据path找到跳转目标（寻址）？
+	  collapsed:: true
+		- ```
+		  ARouter.getInstance().build("login/loginX").navigation();
+		  ```
+	- build（）会进入 _ARouter.build(String path)
+	  collapsed:: true
+		- ```
+		  protected Postcard build(String path) {
+		      if (TextUtils.isEmpty(path)) {
+		          throw new HandlerException(Consts.TAG + "Parameter is invalid!");
+		      } else {
+		          PathReplaceService pService = ARouter.getInstance().navigation(PathReplaceService.class);
+		          if (null != pService) {
+		              path = pService.forString(path);
+		          }
+		          return build(path, extractGroup(path), true);
+		      }
+		  }
+		  ```
+	- 这里有个方法，可以看到path 必须以“/”开头且至少两段，否则会抛异常
+	  collapsed:: true
+		- ```
+		  private String extractGroup(String path) {
+		          if (TextUtils.isEmpty(path) || !path.startsWith("/")) {
+		              throw new HandlerException(Consts.TAG + "Extract the default group failed, the path must be start with '/' and contain more than 2 '/'!");
+		          }
+		  
+		          try {
+		              String defaultGroup = path.substring(1, path.indexOf("/", 1));
+		              if (TextUtils.isEmpty(defaultGroup)) {
+		                  throw new HandlerException(Consts.TAG + "Extract the default group failed! There's nothing between 2 '/'!");
+		              } else {
+		                  return defaultGroup;
+		              }
+		          } catch (Exception e) {
+		              logger.warning(Consts.TAG, "Failed to extract default group! " + e.getMessage());
+		              return null;
+		          }
+		      }
+		  ```
+-
