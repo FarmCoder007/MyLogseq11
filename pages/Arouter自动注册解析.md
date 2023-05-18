@@ -72,6 +72,7 @@
 		- 插件的作用
 		- 在编译期扫描即将打包到apk中的所有类，将符合条件的类收集起来，并通过修改字节码生成注册代码到指定的方法中
 - # 二、 插件Auto-Register原理
+  collapsed:: true
 	- 前面说过，影响效率的是扫码dex的过程，扫描dex的目的是为了收集项目中所有的ARouter$Root$xxx类。这个过程发生在运行时，所以插件就是把收集的过程提前到编译期。
 	- 下面看看是怎么做的
 	- ## 1. 自定义插件，注册Transform
@@ -386,7 +387,11 @@
 		- registerRouteRoot（）方法 里还调用了markRegisteredByPlugin()方法把 registerByPlugin设置成true，这样一来 init（）就不会再执行扫描dex的逻辑了。
 		- 到此整个流程就结束了。
 	- ## 4. 总结
-	- 1 定义Gradle插件，利用Transform 拿到编译后的class文件
-	- 2 利用ASM框架的 ClassVisitor 扫描 calss文件，收集所有的ARouter$Root$xxx 和 记录 LogisticsCenter 所在jar包的位置
-	- 利用ASM框架的 MethodVisitor 在 LogisticsCenter 中插入生成注册的代码
-	- 修改字节码并不是在修改原class文件，而是把class拷贝了一份到输出路径也就是下个Transform的输入数据，改完后从classWriter得到修改后的byte流，然后写入到输出路径,流向下一个Trasform达到在编译期操作字节码的目的。
+		- 1 定义Gradle插件，利用Transform 拿到编译后的class文件
+		- 2 利用ASM框架的 ClassVisitor 扫描 calss文件，收集所有的ARouter$Root$xxx 和 记录 LogisticsCenter 所在jar包的位置
+		- 3 利用ASM框架的 MethodVisitor 在 LogisticsCenter 中插入生成注册的代码
+		- 4 修改字节码并不是在修改原class文件，而是把class拷贝了一份到输出路径也就是下个Transform的输入数据，改完后从classWriter得到修改后的byte流，然后写入到输出路径,流向下一个Trasform达到在编译期操作字节码的目的。
+	-
+- # 三、 结语
+	- 插件虽然会牺牲一点编译效率，但由于ASM框架支持增量编译，分析和修改字节码的效率比较高，并且过滤了android/support包，这点效率上影响是可以忽略不计的。
+	  插件的实现原理就是使用了 gradle自定义插件，和ASM框架，涉及的主要就是Transform、ClassVisitor、MethodVisitor，对这些熟悉的同学看起来应该会很轻松。这篇文章只贴了一些关健代码，主要就是分析这个流程。我自己在这个分析过程中的收获就是熟悉了字节码分析和修改的一些流程，个人感受是 ASM还是得学，香啊！！
