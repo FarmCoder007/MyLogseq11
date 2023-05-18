@@ -58,5 +58,29 @@
 			  }
 			  ```
 		- 手动依赖项注入
-		  collapsed:: true
 			- ![image.png](../assets/image_1684423657306_0.png)
+			- 这是一个典型的Android登录流程，LoginActivity依赖于LoginViewModel，LoginViewModel依赖于UserRepository,UserRepository依赖于UserLocalDataSource和UserRemoteDataSource，而后者又依赖于Retrofit服务
+			  Repository和DataSource类如下所示：
+			- ```
+			  class UserRepository(
+			         private val localDataSource: UserLocalDataSource,
+			         private val remoteDataSource: UserRemoteDataSource
+			     ) { ... }
+			  
+			     class UserLocalDataSource { ... }
+			     class UserRemoteDataSource(
+			         private val loginService: LoginRetrofitService
+			     ) { ... }
+			  ```
+			- LoginActivity如下所示
+			  collapsed:: true
+				- ```
+				  
+				  ```
+			- 存在以下问题：
+			  1.大量样板代码
+			  2.必须按顺序声明依赖项
+			  3.很难重复使用对象，如需在多项功能中重复使用UserRepository，必须使其遵循单例模式。
+			- 使用容器管理依赖项
+			  如需解决重复使用对象的问题，可以创建自己的依赖项容器，用于获取依赖项。此容器提供的所有实例可以是公共实例。在该示例中，由于您仅需要UserRepository的一个实例，
+			  您可以将其依赖项设为私有，并且可以在将来需要提供依赖项时将其公开
