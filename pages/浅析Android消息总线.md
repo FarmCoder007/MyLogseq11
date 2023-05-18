@@ -172,6 +172,19 @@
 	- 告别消息总线造成的内存泄漏
 	- 告别生命周期造成的崩溃
 	- LiveDataBus依赖方支持更好 LiveDataBus只依赖Android官方Android Architecture Components组件的LiveData，相比RxBus依赖的RxJava和RxAndroid，依赖方支持更好。
+	  collapsed:: true
 	  LiveDataBus具有生命周期感知 LiveDataBus具有生命周期感知，在Android系统中使用调用者不需要调用反注册，相比EventBus和RxBus使用更为方便，并且没有内存泄漏风险       
 	  LiveDataBus原理图
-	-
+		- ![image.png](../assets/image_1684421561088_0.png)
+		- ![image.png](../assets/image_1684421570583_0.png)
+	- 核心实现了通信总线的功能，具有生命周期感知能力，使用简单。
+		- 注册订阅
+		  collapsed:: true
+			- ![image.png](../assets/image_1684421589368_0.png)
+		- 发送消息
+		  collapsed:: true
+			- ![image.png](../assets/image_1684421601644_0.png)
+	- 存在问题
+		- 粘性消息，订阅者会收到订阅前发送的消息，因为LiveData的粘性问题
+		- 具体代码中指的是，先setValue/postValue,后调用observe(),如果成功收到了回调，即为粘性事件。
+			- ![image.png](../assets/image_1684421618504_0.png)
