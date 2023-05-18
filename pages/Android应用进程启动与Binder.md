@@ -28,4 +28,15 @@
 	-
 	-
 - # 二、应用中启用的binder机制
-	-
+	- ## 在何处启用binder机制
+	  collapsed:: true
+		- startProcessLocked方法除了判断进程判断，还会负责进程启动的核心逻辑。
+		  collapsed:: true
+			- ![image.png](../assets/image_1684413978133_0.png){:height 344, :width 453}
+		- AMS通过Socket与Zygote发送请求参数，Zygote收到socket请求后会通过ZygoteConnection，核心逻辑在runOnce方法中，会调用handleChildProc。
+			- ![image.png](../assets/image_1684413994557_0.png){:height 250, :width 716}
+		- handleChildProc方法调用了ZygoteInit的zygoteInit方法，核心逻辑有以下三步：
+		  1、启动binder线程池；
+		  2、读取请求参数拿到ActivityThread类并执行他的main函数，执行thread.attach告知AMS并回传自己的binder句柄；
+		  3、执行Looper.loop启动消息循环；
+	- ## 怎么启用binder机制
