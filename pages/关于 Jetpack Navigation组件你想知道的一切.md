@@ -86,8 +86,13 @@
 			  ```
 		- <navigation> 元素是导航图的根元素。当向图表添加目的地和连接操作时，会添加相应的 <destination> 和 <action> 元素作为子元素。如果有嵌套的图形，将显示为子 <navigation> 元素。
 	- ## 第3步 - 2
+	  collapsed:: true
 		- 添加 NavHost 到 Activity 的 XML 文件中。
 		- nav_host_fragment 中包含：
-		- android:name：NavHost 的类名。
-		- app:navGraph：将 NavHostFragment 与导航图相关联。导航图指定了此 NavHostFragment 中用户可以导航到的所有目的地。
-		- app:defaultNavHost="true"：确保 NavHostFragment 拦截系统后退按钮。 请注意，只有一个 NavHost 可以是默认值。 如果在同一布局中有多个 NavHost（例如双窗格布局），请确保仅指定一个默认 NavHost。
+			- android:name：NavHost 的类名。
+			- app:navGraph：将 NavHostFragment 与导航图相关联。导航图指定了此 NavHostFragment 中用户可以导航到的所有目的地。
+			- app:defaultNavHost="true"：确保 NavHostFragment 拦截系统后退按钮。 请注意，只有一个NavHost 可以是默认值。 如果在同一布局中有多个 NavHost（例如双窗格布局），请确保仅指定一个默认 NavHost。
+	- ## 第4步
+		- 在 nav_graph 中添加目的地和路径。
+		  在添加目的地之前创建两个 Fragment 及其 XML：
+		- ![image.png](../assets/image_1684414981596_0.png)
