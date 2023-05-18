@@ -180,5 +180,7 @@
 				  webview.directLoadUrl(injectJs);
 				  ```
 			- ![image.png](../assets/image_1684431063246_0.png)
-			-
+			- ![image.png](../assets/image_1684431068882_0.png)
+			- 最直观的信息，可以点击Performance查看
+				- ![image.png](../assets/image_1684431077308_0.png)
 	-
