@@ -6,6 +6,7 @@
 	- 订阅发布模式定义了一种“一对多”的依赖关系，让多个订阅者对象同时监听某一个主题对象。这个主题对象在自身状态变化时，会通知所有订阅者对象，使它们能够自动更新自己的状态。
 - ## 普通用法
 	- ## EventBus
+	  collapsed:: true
 		- ### 1.定义消息
 			- EventBus需要定义一个Java Object作为消息事件
 			  collapsed:: true
@@ -41,4 +42,37 @@
 				      Toast.makeText(this, "receive massage: " + event.msg, Toast.LENGTH_SHORT).show();
 				  }
 				  ```
-		-
+		- ### 3.发送消息
+		  collapsed:: true
+			- ```
+			  public void sendMsg(View v) {
+			      EventBus.getDefault().post(new MessageEvent("msg from event bus"));
+			  }
+			  ```
+	- ## RxBus
+		- ## 2.消息的订阅和取消订阅
+		  collapsed:: true
+			- ```
+			    private Subscription mIMKickOffSubscription;  
+			  @Override
+			  protected void onCreate(Bundle savedInstanceState) {
+			      super.onCreate(savedInstanceState);
+			      setContentView(R.layout.activity_eventbus_demo);
+			         mIMKickOffSubscription = RxDataManager.getBus().observeEvents(IMKickOff.class) 
+			                  .observeOn(AndroidSchedulers.mainThread()) //订阅者消费的线程
+			                  .subscribe(new RxWubaSubsriber<IMKickOff>() {
+			                      @Override
+			                      public void onNext(IMKickOff imKickOff) {
+			                          IMLoginManager.getInstance().showLoginIMDialog(getActivity());
+			                      }
+			                  });
+			  
+			  }
+			  
+			  @Override
+			  protected void onDestroy() {
+			      super.onDestroy();
+			          RxUtil.safeUnsubscribe(mIMKickOffSubscription);
+			  }
+			  ```
+		- ##
