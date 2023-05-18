@@ -214,10 +214,10 @@ protected Statement methodBlock(FrameworkMethod method) { // FrameworkMethod 是
 	- PathClassLoader加载系统类和应用程序的类，如果是加载非系统应用程序类，则会加载data/app/目录下的dex文件以及包含dex的apk文件或jar文件
 	- DexClassLoader 可以加载自定义的dex文件以及包含dex的apk文件或jar文件，也支持从SD卡进行加载
 	- InMemoryDexClassLoader是Android8.0新增的类加载器，继承自BaseDexClassLoader，用于加载内存中的dex文件。
-### ASM
-字节码增强技术就是一类对现有字节码进行修改或者动态生成全新字节码文件的技术,对于需要手动操纵字节码的需求，可以使用ASM，它可以直接生产 .class字节码文件，也可以在类被加载入JVM之前动态修改类行为。ASM的应用场景有AOP（Cglib就是基于ASM）、热部署、修改其他jar包中的类等   
-
-![](../assets/技术分享/Robolectric原理解析/ASM.drawio.png)
+- ### ASM
+  字节码增强技术就是一类对现有字节码进行修改或者动态生成全新字节码文件的技术,对于需要手动操纵字节码的需求，可以使用ASM，它可以直接生产 .class字节码文件，也可以在类被加载入JVM之前动态修改类行为。ASM的应用场景有AOP（Cglib就是基于ASM）、热部署、修改其他jar包中的类等   
+  
+  ![image.png](../assets/image_1684426268050_0.png)
 - 先通过ClassReader读取编译好的.class文件
 - 通过访问者模式（Visitor）对字节码进行修改，常见的Visitor类有：对方法进行修改的MethodVisitor，或者对变量进行修改的FieldVisitor等
 - 通过ClassWriter重新构建编译修改后的字节码文件、或者将修改后的字节码文件输出到文件中
@@ -307,121 +307,120 @@ protected Statement methodBlock(FrameworkMethod method) { // FrameworkMethod 是
   首先是MyClassVisitor，MyClassVisitor继承自ClassVisitor，用以观察某个类的字节码文件，其中visitMethod方法用于判断当前读取到字节码文件的哪个方法了，当读取到我们想进行增强的方法时，交给MyMethodVisitor对原方法进行增强   
   MyMethodVisitor负责对具体方法进行增强，visitCode会在某个方法被访问时调用，故前置增强逻辑在此编写，visitInsn会在无参数的指令的执行时调用，退出语句return被调用时就会调用visitInsn方法，因此，后置增强逻辑可以写在这里   
   至于具体的增强指令visitFieldInsn，visitMethodInsn，并不是用java语句级别的，而是字节码指令。
-### Robolectric使用ClassLoader和ASM实现运行时动态替换Android特性
-1. android运行环境沙箱
-Robolectric 实现了自定义的 RobolectricTestRunner，单元测试的执行主体，也是Robolectric的启动入口   
-
-![](../assets/技术分享/Robolectric原理解析/RobolectricTestRunner.drawio.png)    
-
-上图可见RobolectricTestRunner的继承关系
-
-
-Robolectric保障Android运行是创建了Android沙箱环境的，具体怎么创建呢？以Runner的时序图查看沙箱的创建：  
-
-![](../assets/技术分享/Robolectric原理解析/Runner时序图.drawio.png)   
-
-上图可见，在SandboxTestRunner的getSandbox方法，会生成Android的沙箱，沙箱包括2个重要项SandboxClassLoader和AndroidTestEnvironment(提供Android特性环境)
-为了可以看到AndroidTestEnvironment都提供了什么，我截取了他的部分代码：  
-```java
-@Override
-public void setUpApplicationState(
-    Method method, Configuration configuration, AndroidManifest appManifest) {
-  clearEnvironment();
-  RuntimeEnvironment.setTempDirectory(new TempDirectory(createTestDataDirRootPath(method)));
-  if (ShadowLooper.looperMode() == LooperMode.Mode.LEGACY) {
-    RuntimeEnvironment.setMasterScheduler(new Scheduler());
-    RuntimeEnvironment.setMainThread(Thread.currentThread()); // 把当前线程设置为主线程
-    ShadowLegacyLooper.internalInitializeBackgroundThreadScheduler();
+- ### Robolectric使用ClassLoader和ASM实现运行时动态替换Android特性
+  1. android运行环境沙箱
+  Robolectric 实现了自定义的 RobolectricTestRunner，单元测试的执行主体，也是Robolectric的启动入口   
+  
+  ![image.png](../assets/image_1684426290805_0.png) 
+  
+  上图可见RobolectricTestRunner的继承关系
+  
+  
+  Robolectric保障Android运行是创建了Android沙箱环境的，具体怎么创建呢？以Runner的时序图查看沙箱的创建：  
+  ![image.png](../assets/image_1684426301868_0.png) 
+  
+  上图可见，在SandboxTestRunner的getSandbox方法，会生成Android的沙箱，沙箱包括2个重要项SandboxClassLoader和AndroidTestEnvironment(提供Android特性环境)
+  为了可以看到AndroidTestEnvironment都提供了什么，我截取了他的部分代码：  
+  ```java
+  @Override
+  public void setUpApplicationState(
+      Method method, Configuration configuration, AndroidManifest appManifest) {
+    clearEnvironment();
+    RuntimeEnvironment.setTempDirectory(new TempDirectory(createTestDataDirRootPath(method)));
+    if (ShadowLooper.looperMode() == LooperMode.Mode.LEGACY) {
+      RuntimeEnvironment.setMasterScheduler(new Scheduler());
+      RuntimeEnvironment.setMainThread(Thread.currentThread()); // 把当前线程设置为主线程
+      ShadowLegacyLooper.internalInitializeBackgroundThreadScheduler();
+    }
+    android.content.res.Configuration androidConfiguration =
+        new android.content.res.Configuration(); // 模拟设备配置信息
+    DisplayMetrics displayMetrics = new DisplayMetrics(); // 
+    Bootstrap.applyQualifiers(config.qualifiers(), apiLevel, androidConfiguration, displayMetrics);//配置模拟设备环境
+  
+    // Looper needs to be prepared before the activity thread is created
+    if (Looper.myLooper() == null) {
+      Looper.prepareMainLooper(); // 设置MainLooper
+    }
+    preloadClasses(apiLevel); // 预加载Android代码
+  
+    RuntimeEnvironment.setActivityThread(ReflectionHelpers.newInstance(ActivityThread.class));// 设置ActiviyThread
+    ReflectionHelpers.setStaticField(
+        ActivityThread.class, "sMainThreadHandler", new Handler(Looper.myLooper()));
+  
+    Instrumentation instrumentation = createInstrumentation();//创建Instrumentation
+    InstrumentationRegistry.registerInstance(instrumentation, new Bundle());
+    Supplier<Application> applicationSupplier =
+        createApplicationSupplier(appManifest, config, androidConfiguration, displayMetrics); // 创建application对象
+    RuntimeEnvironment.setApplicationSupplier(applicationSupplier); 
+  
+    if (configuration.get(LazyLoad.class) == LazyLoad.ON) {
+      RuntimeEnvironment.setConfiguredApplicationClass(
+          getApplicationClass(appManifest, config, new ApplicationInfo()));
+    } else {
+      // force eager load of the application
+      RuntimeEnvironment.getApplication();
+    }
+    ...
   }
-  android.content.res.Configuration androidConfiguration =
-      new android.content.res.Configuration(); // 模拟设备配置信息
-  DisplayMetrics displayMetrics = new DisplayMetrics(); // 
-  Bootstrap.applyQualifiers(config.qualifiers(), apiLevel, androidConfiguration, displayMetrics);//配置模拟设备环境
-
-  // Looper needs to be prepared before the activity thread is created
-  if (Looper.myLooper() == null) {
-    Looper.prepareMainLooper(); // 设置MainLooper
-  }
-  preloadClasses(apiLevel); // 预加载Android代码
-
-  RuntimeEnvironment.setActivityThread(ReflectionHelpers.newInstance(ActivityThread.class));// 设置ActiviyThread
-  ReflectionHelpers.setStaticField(
-      ActivityThread.class, "sMainThreadHandler", new Handler(Looper.myLooper()));
-
-  Instrumentation instrumentation = createInstrumentation();//创建Instrumentation
-  InstrumentationRegistry.registerInstance(instrumentation, new Bundle());
-  Supplier<Application> applicationSupplier =
-      createApplicationSupplier(appManifest, config, androidConfiguration, displayMetrics); // 创建application对象
-  RuntimeEnvironment.setApplicationSupplier(applicationSupplier); 
-
-  if (configuration.get(LazyLoad.class) == LazyLoad.ON) {
-    RuntimeEnvironment.setConfiguredApplicationClass(
-        getApplicationClass(appManifest, config, new ApplicationInfo()));
-  } else {
-    // force eager load of the application
-    RuntimeEnvironment.getApplication();
-  }
-  ...
-}
-
-```
-想再深入研究的可以查看源码。
-
-2. 替换系统类加载器为自定义类加载器  
-Robolectric 在 SandboxTestRunner 的 methodBlock 方法中进行了类加载器的替换：
-```java
-// getTestClass().getJavaClass() 作用是获取 MainActivityTest 的 Class 对象
-Class bootstrappedTestClass = bootstrappedClass(getTestClass().getJavaClass());
-```
-```
-public <T> Class<T> bootstrappedClass(Class<?> clazz) {
-  try {
-  return (Class<T>) sandboxClassLoader.loadClass(clazz.getName());
-  } catch (ClassNotFoundException e) {
-  throw new RuntimeException(e);
-  }
-}
-```
-
-3. Shadow类对Android特性类字节码处理
-以Activity为例，查找Android特性类进行字节码处理  
-Robolectric 在 org.robolectric.shadows 包中预定义了许多 Shadow 开头的类，比如 ShadowActivity   
-在 SandboxClassLoader 的 findClass方法中，会去寻找相匹配的 Shadow 类，然后利用 ASM 工具，在加载类时进行字节码的动态处理。  
-
-![](../assets/技术分享/Robolectric原理解析/activity替换.png)  
-
-进过ReflectorClassWriter字节码写入处理后，activity会添加一个__robo_data__的成员变量：  
-
-![](../assets/技术分享/Robolectric原理解析/字节码处理后.png)    
-
- __robo_data__就是插入的ShadowActivity对象，该对象替换了原activity的原生方法，达到将原生特性转接沙箱环境特性的类,以下已findViewById方法举例说明；  
- ```java
- package org.robolectric.shadows;
-@SuppressWarnings("NewApi")
-@Implements(Activity.class)
-public class ShadowActivity extends ShadowContextThemeWrapper {
-@RealObject protected Activity realActivity;
-@Implementation
-protected View findViewById(int id) { // 重写原生findViewById方法，达到替换的作用，保证运行使用上下文为沙箱环境
-  return getWindow().findViewById(id);
-}
-@Implementation
-protected Window getWindow() {
-  Window window = reflector(DirectActivityReflector.class, realActivity).getWindow();
-  if (window == null) {
+  
+  ```
+  想再深入研究的可以查看源码。
+  
+  2. 替换系统类加载器为自定义类加载器  
+  Robolectric 在 SandboxTestRunner 的 methodBlock 方法中进行了类加载器的替换：
+  ```java
+  // getTestClass().getJavaClass() 作用是获取 MainActivityTest 的 Class 对象
+  Class bootstrappedTestClass = bootstrappedClass(getTestClass().getJavaClass());
+  ```
+  ```
+  public <T> Class<T> bootstrappedClass(Class<?> clazz) {
     try {
-      window = ShadowWindow.create(realActivity);
-      setWindow(window);
-    } catch (Exception e) {
-      throw new RuntimeException("Window creation failed!", e);
+    return (Class<T>) sandboxClassLoader.loadClass(clazz.getName());
+    } catch (ClassNotFoundException e) {
+    throw new RuntimeException(e);
     }
   }
-  return window;
-}
-...
-}
- ```  
- 至此Android特性就可以运行在JVM上了，是不是很神奇，以上由于篇幅有限，只能讲解关键流程，Robolectric框架一个很优秀的框架，包括google官方的Androidx Test对其也做了支持，有很多可贵的知识点和问题解决方案，我这边只讲了冰山一角，大家感兴趣可以查看其源码自学。
+  ```
+  
+  3. Shadow类对Android特性类字节码处理
+  以Activity为例，查找Android特性类进行字节码处理  
+  Robolectric 在 org.robolectric.shadows 包中预定义了许多 Shadow 开头的类，比如 ShadowActivity   
+  在 SandboxClassLoader 的 findClass方法中，会去寻找相匹配的 Shadow 类，然后利用 ASM 工具，在加载类时进行字节码的动态处理。  
+  
+  ![image.png](../assets/image_1684426325723_0.png) 
+  
+  进过ReflectorClassWriter字节码写入处理后，activity会添加一个__robo_data__的成员变量：  
+  
+  ![](../assets/技术分享/Robolectric原理解析/字节码处理后.png)    
+  
+   __robo_data__就是插入的ShadowActivity对象，该对象替换了原activity的原生方法，达到将原生特性转接沙箱环境特性的类,以下已findViewById方法举例说明；  
+   ```java
+   package org.robolectric.shadows;
+  @SuppressWarnings("NewApi")
+  @Implements(Activity.class)
+  public class ShadowActivity extends ShadowContextThemeWrapper {
+  @RealObject protected Activity realActivity;
+  @Implementation
+  protected View findViewById(int id) { // 重写原生findViewById方法，达到替换的作用，保证运行使用上下文为沙箱环境
+    return getWindow().findViewById(id);
+  }
+  @Implementation
+  protected Window getWindow() {
+    Window window = reflector(DirectActivityReflector.class, realActivity).getWindow();
+    if (window == null) {
+      try {
+        window = ShadowWindow.create(realActivity);
+        setWindow(window);
+      } catch (Exception e) {
+        throw new RuntimeException("Window creation failed!", e);
+      }
+    }
+    return window;
+  }
+  ...
+  }
+   ```  
+   至此Android特性就可以运行在JVM上了，是不是很神奇，以上由于篇幅有限，只能讲解关键流程，Robolectric框架一个很优秀的框架，包括google官方的Androidx Test对其也做了支持，有很多可贵的知识点和问题解决方案，我这边只讲了冰山一角，大家感兴趣可以查看其源码自学。
 # 总结
 Robolectric为实现单元测试在JVM上运行Android特性，通过Shadow的来映射Android中的类，模拟了Android沙箱环境，使用ClassLoader和ASM技术实现加载类时字节码动态替换。
 
