@@ -132,3 +132,33 @@
 			  }
 			  ```
 		- IApplicationThread是一个Binder接口,继承自android.os.IInterface接口，IInterface接口是Binder的基础类，ApplicationThread是继承了IApplicationThread.Stub(由Android SDK工具会生成以IApplicationThread.aidl 文件命名的 .java 接口文件，生成的接口包含一个名为 Stub 的子类),实现了IApplicationThread的,所以可以转成IApplicationThread.由ApplicationThread和AMS通信进一步执行启动流程。
+	- ## ServiceManager获取ActivityManagerService（AMS）并继续启动startActivity
+	  collapsed:: true
+		- 在Instrumentacion的execStartActivity方法中ActivityManager.getService()获取ActivityManagerService（AMS）实例,调用AMS的startActivity方法，看一下ActivityManagerService的获取方式，通过ServiceManager.getService(Context.ACTIVITY_SERVICE)
+		  collapsed:: true
+			- ```
+			  @UnsupportedAppUsage
+			  public static IActivityManager getService() {
+			      return IActivityManagerSingleton.get();
+			  }
+			  @UnsupportedAppUsage
+			  private static final Singleton<IActivityManager> IActivityManagerSingleton =
+			          new Singleton<IActivityManager>() {
+			              @Override
+			              protected IActivityManager create() {
+			                  //System service 获取AMS 
+			                  final IBinder b = ServiceManager.getService(Context.ACTIVITY_SERVICE);
+			                  final IActivityManager am = IActivityManager.Stub.asInterface(b);
+			                  return am;
+			              }
+			          };
+			  ```
+		- ServiceManager是安卓中一个重要的类，用于管理所有的系统服务，维护着系统服务和客户端的binder通信。返回的是Binder对象,用来进行应用与系统服务之间的通信的.
+		- ServiceManager存在于System Server进程，是由Zygote进程fork而来，Zygote孵化的第一个进程，System Server负责启动和管理整个Java framework，包含ActivityManager，WindowManager，PackageManager，PowerManager等服务，AMS就是其中的一个重要服务
+		  collapsed:: true
+			- ![image.png](../assets/image_1684416825352_0.png)
+		- 对于用户空间，不同进程之间彼此是不能共享的，而内核空间却是可共享的。Client进程向Server进程通信，恰恰是利用进程间可共享的内核内存空间来完成底层通信工作的，Client端与Server端进程往往采用ioctl等方法跟内核空间的驱动进行交互。ioctl是设备驱动程序中对设备的I/O通道进行管理的函数，Linux设备控制接口采用的就是这个函数。用户空间和内核空间合起来就是操作系统的虚拟地址空间（线性地址空间），针对32位 Linux 操作系统而言，最高的 1G 字节(从虚拟地址 0xC0000000 到 0xFFFFFFFF)由内核使用，称为内核空间。而较低的 3G 字节(从虚拟地址 0x00000000 到 0xBFFFFFFF)由各个进程使用，称为用户空间。
+		- 操作系统的核心是内核，它独立于普通的应用程序，可以访问受保护的内存空间，也有访问底层硬件设备的所有权限。为了保证内核的安全，现在的操作系统一般都强制用户进程不能直接操作内核。系统资源管理都是在内核空间中完成的。比如读写磁盘文件，分配回收内存，从网络接口读写数据等等。我们的应用程序是无法直接进行这样的操作的。但是我们可以通过内核提供的接口来完成这样的任务。比如应用程序要读取磁盘上的一个文件，它可以向内核发起一个 "系统调用" 告诉内核："我要读取磁盘上的某某文件"。
+		- 接着讲解ServiceManager
+			- ```
+			  ```
