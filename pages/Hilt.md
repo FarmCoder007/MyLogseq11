@@ -214,13 +214,13 @@
 				- 组件生命周期通常受限于 Android 类的相应实例的创建和销毁。下表列出了每个组件的范围注释和有界生命周期。
 				- |  == Component ==   | ==注入对象==  | ==作用域==  | ==创建于==  |
 				  |  ApplicationComponent  | Application  |@Singleton|Application#onCreate()|
-				  |  ActivityRetainedComponent  | ViewModel  |@ActivityRetainedScoped|539.6|
+				  |  ActivityRetainedComponent  | ViewModel  |@ActivityRetainedScoped|Activity#onCreate()|
 				  |  ViewModelComponent  | ViewModel  |@ViewModelScoped|539.6| 
 				  |  ActivityComponent  | Activity  |@ActivityScoped|539.6|
-				  |  FragmentComponent  | Fragment  |@FragmentScoped|539.6|
-				  |  ViewComponent  | View  |@ViewScoped|539.6|
-				  |  ViewWithFragmentComponent  | View with @WithFragmentBindings  |@ViewScoped|539.6|
-				  |  ServiceComponent  | Service  |@ServiceScoped|539.6|
+				  |  FragmentComponent  | Fragment  |@FragmentScoped|Fragment#onAttach()|
+				  |  ViewComponent  | View  |@ViewScoped|View#super()|
+				  |  ViewWithFragmentComponent  | View with @WithFragmentBindings  |@ViewScoped|View#super()|
+				  |  ServiceComponent  | Service  |@ServiceScoped|Service#onCreate()|
 				-
 				-
 		-
