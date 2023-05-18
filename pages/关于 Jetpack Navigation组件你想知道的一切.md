@@ -108,5 +108,45 @@
 			  在导航编辑器中，视图将如下所示：
 				- ![image.png](../assets/image_1684415018984_0.png)
 		- 现在将 NavHost 添加到 activity_main XML 文件中：
+		  collapsed:: true
 			- ```
+			  <androidx.constraintlayout.widget.ConstraintLayout
+			      xmlns:android="http://schemas.android.com/apk/res/android"
+			      xmlns:app="http://schemas.android.com/apk/res-auto"
+			      xmlns:tools="http://schemas.android.com/tools"
+			      android:layout_width="match_parent"
+			      android:layout_height="match_parent"
+			      tools:context=".MainActivity">
+			  
+			      <fragment
+			          android:id="@+id/nav_host_fragment"
+			          android:name="androidx.navigation.fragment.NavHostFragment"
+			          android:layout_width="match_parent"
+			          android:layout_height="match_parent"
+			          app:defaultNavHost="true"
+			          app:navGraph="@navigation/nav_graph" />
+			  
+			  </androidx.constraintlayout.widget.ConstraintLayout>
 			  ```
+		- MainActivity 的代码如下：
+		  collapsed:: true
+			- ```
+			  package com.example.navigationsample
+			  
+			  import android.support.v7.app.AppCompatActivity
+			  import android.os.Bundle
+			  import androidx.navigation.findNavController
+			  
+			  class MainActivity : AppCompatActivity() {
+			      override fun onCreate(savedInstanceState: Bundle?) {
+			          super.onCreate(savedInstanceState)
+			          setContentView(R.layout.activity_main)
+			      }
+			      override fun onSupportNavigateUp() = findNavController(R.id.nav_host_fragment).navigateUp()
+			  }
+			  ```
+		- 就是这样 - 我们完成了。
+		- 点击运行按钮并查看 Navigation 组件的神奇之处：
+		  collapsed:: true
+			- ![edb06220-89c6-4492-8698-4fac75b7ba4bnav_demo.gif](../assets/edb06220-89c6-4492-8698-4fac75b7ba4bnav_demo_1684415094860_0.gif)
+		-
