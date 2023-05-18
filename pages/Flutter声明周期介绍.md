@@ -95,6 +95,7 @@
 		- 当 State 被永久地从视图树中移除时，Flutter 会调用 dispose 函数。而一旦到这个阶段，组件就要被销毁了，所以我们可以在这里进行最终的资源释放、移除监听、清理环境等等。
 	- ![image.png](../assets/image_1684401585586_0.png)
 - ## App生命周期
+  collapsed:: true
 	- State 的生命周期定义了视图从加载到构建以及更新和销毁的全过程，根据其回调机制，我们可以在合适的回调方法中根据 Widget 的状态做相应的逻辑响应。在原生 Android 开发中，我们经常会处理 App 从后台进入前台、从前台切到后台，或者是 UI 绘制完成等时机的一些状态逻辑，通过重写 Activity 的生命周期回调方法或注册应用程序的相关通知，监听 App 的生命周期并做相应的处理。在 Flutter 中我们可以监听 WidgetsBindingObserver 的回调方法来实现同样的需求。
 	  collapsed:: true
 		- ```
@@ -131,4 +132,26 @@
 			- 从前台退回后台：AppLifecycleState.resumed -> AppLifecycleState.inactive -> AppLifecycleState.paused
 			- 从后台切入前台：AppLifecycleState.paused -> AppLifecycleState.inactive -> AppLifecycleState.resumed
 	- ### 帧绘制回调
--
+		- 除了需要监听 App 的生命周期回调做相应的处理之外，有时候我们还需要在组件渲染之后做一些与显示安全相关的操作。在Flutter中同样使用WidgetsBinding来监听帧绘制回调，提供了单次 Frame 绘制回调，以及实时 Frame 绘制回调两种机制：
+		- 1、单次 Frame 绘制回调，会在当前 Frame 绘制完成后进行回调，并且只会回调一次，如果要再次监听则需要再设置一次
+		  collapsed:: true
+			- ```
+			  WidgetsBinding.instance.addPostFrameCallback((_) {
+			    print("单次Frame绘制回调"); //只回调一次
+			  });
+			  ```
+		- 2、实时 Frame 绘制回调，则通过 addPersistentFrameCallback 实现。这个函数会在每次绘制 Frame 结束后进行回调，可以用做 FPS 监测。
+		  collapsed:: true
+			- ```
+			  WidgetsBinding.instance.addPersistentFrameCallback((_) {
+			    print("实时Frame绘制回调"); //每帧都回调
+			  });
+			  ```
+- 总结
+  Flutter Widget 生命周期的实际承载者是State类，其主要过程分为创建（插入视图树）、更新（在视图树中发生状态变化）和销毁（从视图树中移除）3个阶段；
+  StatelessWidget 用于不需要维护状态的场景，只会执行一次 build 方法，StatefulWidget 的 build 方法会被多次执行，触发函数是 setState、didChangeDependencies、didUpdateWidget；
+  Flutter App 生命周期可以通过 WidgetsBinding 注册监听 WidgetsBindingObserver 类的回调方法来获取；
+  帧绘制回调可以通过 WidgetsBinding 注册 FrameCallback 的回调方法获取，包括单次 Frame 绘制回调和实时 Frame 绘制回调。
+- Refers To
+  State<T extends StatefulWidget> class
+  Flutter widget生命周期详解
