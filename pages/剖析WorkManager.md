@@ -58,3 +58,44 @@
 			-
 		- 1 整个调度流程是从WorkManager开始，到Processor处理器最终调用具体任务的doWork()方法结束。
 		- 2 WorkManager会根据调度任务的不同交给GreedyScheduler和BestAvailableBackgroundScheduler。其中GreedyScheduler会调度不需要延时的任务，BestAvailableBackgroundScheduler会根据系统版本生成真正可用的调度器，负责调度需要延迟或者周期性的任务。
+		- ### WorkContinuationImpl
+		  collapsed:: true
+			- 无论你是调用WorkManager.enqueue的任务，还是WorkContinuation.enqueue的任务，最终都会执行到WorkContinuationImpl的enqueue方法。
+			- 在这里，如果这个任务没有在排队，那么就会创建一个EnqueueRunnable对象，由WorkManager之前初始化的TaskExecutor线程池执行任务。
+			  collapsed:: true
+				- ```
+				      public @NonNull Operation enqueue() {
+				          if (!mEnqueued) {
+				              EnqueueRunnable runnable = new EnqueueRunnable(this);        
+				  	 mWorkManagerImpl.getWorkTaskExecutor().executeOnBackgroundThread(runnable);
+				             ········
+				          } else {
+				  ······
+				          }
+				          return mOperation;
+				      }
+				  ```
+		- ### EnqueueRunnable
+			- EnqueueRunnable任务中，会先调用addToDatabase()方法将调度任务添加到数据库中。这样，在这个任务被真正调度之前，调度任务绝不会丢失，除非连APP的数据库都被清除了。
+			  collapsed:: true
+				- ```
+				  public void run() {
+				          try {
+				              ·····
+				              boolean needsScheduling = addToDatabase();
+				              if (needsScheduling) {
+				                  final Context context =
+				                          mWorkContinuation.getWorkManagerImpl().getApplicationContext();
+				                  PackageManagerHelper.setComponentEnabled(context, RescheduleReceiver.class, true);
+				                  scheduleWorkInBackground();
+				              }
+				              mOperation.setState(Operation.SUCCESS);
+				          } catch (Throwable exception) {
+				              mOperation.setState(new Operation.State.FAILURE(exception));
+				          }
+				      }
+				  ```
+			- 当任务添加到数据库之后，如果该任务需要被调度，那么就会调用scheduleWorkInBackground()方法最终调用Schedulers.schedule(）来调度任务。
+			- 在这个方法中会先从数据库中取出刚才的任务，然后交给schedulers去遍历调度执行。这里的schedulers就是初始化时创建的两个调度器GreedyScheduler和BestAvailableBackgroundScheduler。
+				- ```
+				  ```
