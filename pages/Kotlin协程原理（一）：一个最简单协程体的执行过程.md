@@ -417,5 +417,45 @@
 				  ```
 			- Continuation 接口内部的实现很简单，一个协程上下文context，一个方法声明resumeWith()，用于协程的启动或者恢复执行。
 		- ### BaseContinuationImpl：
+		  collapsed:: true
+			- ```
+			  internal abstract class BaseContinuationImpl(
+			      // This is `public val` so that it is private on JVM and cannot be modified by untrusted code, yet
+			      // it has a public getter (since even untrusted code is allowed to inspect its call stack).
+			      public val completion: Continuation<Any?>?
+			  ) : Continuation<Any?>, CoroutineStackFrame, Serializable {
+			      // This implementation is final. This fact is used to unroll resumeWith recursion.
+			      public final override fun resumeWith(result: Result<Any?>) {
+			          //省略部分代码
+			                          val outcome = invokeSuspend(param)
+			          //省略部分代码
+			      }
+			  
+			      protected abstract fun invokeSuspend(result: Result<Any?>): Any?
+			      //省略部分代码
+			  }
+			  ```
+			- BaseContinuationImpl中定义了一个抽象方法invokeSuspend()，并重写了Continuation的resumeWith()，resumeWith()中调用invokeSuspend()，上文我们看到协程体的代码都被编译到invokeSuspend()方法中，由此可见协程体的执行其实就是resumeWith()被调用。BaseContinuationImpl中的invokeSuspend()只是一个抽象方法，它的具体实现是在协程体类中。
+		- ### ContinuationImpl
+		  collapsed:: true
+			- code
+			  collapsed:: true
+				- ```
+				  internal abstract class ContinuationImpl(
+				      completion: Continuation<Any?>?,
+				      private val _context: CoroutineContext?
+				  ) : BaseContinuationImpl(completion) {
+				      constructor(completion: Continuation<Any?>?) : this(completion, completion?.context)
+				      // 省略部分代码
+				      public fun intercepted(): Continuation<Any?> =
+				          intercepted
+				              ?: (context[ContinuationInterceptor]?.interceptContinuation(this) ?: this)
+				                  .also { intercepted = it }
+				  
+				      // 省略部分代码
+				  }
+				  ```
+			- ContinuationImpl继承BaseContinuationImpl，它的作用是使用拦截器生成一个DispatchedContinuation对象，这也是一个Continuation，这个对象内部封装线程调度器，以及代理了协程体对象。
+		- ### CoroutineScope
 			-
 -
