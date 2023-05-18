@@ -399,6 +399,7 @@
 		- 协程创建：kotlin编译器将协程体编译为SuspendLambda对象，并且创建为Coroutine对象，在运行中一共会创建两个SuspendLambda，主要是为了实现挂起功能，由于篇幅限制后面再讲。
 		- 协程执行：协程代码在执行时需要一个协程上下文和分发器，协程上下文包括协程范围和协程作业，并负责管理协程的生命周期和作业的关系。分发器则是用于将协程分发到线程池中运行。
 	- ## 协程相关概念
+	  collapsed:: true
 		- ### SuspendLambda
 		  collapsed:: true
 			- 上面我们可以看到，我们的协程代码被编译成了继承了SuspendLambda的类，协程体的继承链是这样的：SuspendLambda->ContinuationImpl->BaseContinuationImpl->Continuation，我们从继承链的最顶部Continuation类开始，依次分析各个类的作用：
@@ -531,4 +532,53 @@
 			  LAZY 需要时才启动，需要start、join等函数触发才可进行调度
 			  ATOMIC 立即调度，协程肯定会执行，执行前不可以被取消
 			  UNDISPATCHED 立即在当前线程执行，直到遇到第一个挂起点（可能切线程
+		- ### Dispatchers
+		  collapsed:: true
+			- Dispatchers是协程中提供的线程调度器，用来切换线程，指定协程所运行的线程。
+				- ```
+				  public actual object Dispatchers {
+				      //默认调度器，适合CPU密集型任务调度器 比如逻辑计算；
+				      @JvmStatic
+				      public actual val Default: CoroutineDispatcher = DefaultScheduler
+				  
+				      //UI调度器
+				      @JvmStatic
+				      public actual val Main: MainCoroutineDispatcher get() = MainDispatcherLoader.dispatcher
+				  
+				      //无限制调度器，对协程执行的线程不做限制，协程恢复时可以在任意线程；
+				      @JvmStatic
+				      public actual val Unconfined: CoroutineDispatcher = kotlinx.coroutines.Unconfined
+				  
+				      //IO调度器，适合IO密集型任务调度器 比如读写文件，网络请求等。
+				      @JvmStatic
+				      public val IO: CoroutineDispatcher = DefaultIoScheduler
+				  
+				      
+				      @DelicateCoroutinesApi
+				      public fun shutdown() {
+				          DefaultExecutor.shutdown()
+				          // Also shuts down Dispatchers.IO
+				          DefaultScheduler.shutdown()
+				      }
+				  }
+				  ```
+		- 各个线程调度器根据自己的特点有不同的实现，不再一一分析。
+		- ### CoroutineScheduler
+			- 分析源码的时候我们也讲了CoroutineScheduler就是kotlin实现的一个线程池，提供了协程运行线程，而具体的线程对象则由Worker类实现。由于代码比较多大部分是对策略的封装，有兴趣可以查看源码，此处不再细讲。
+	-
+	- # 总结
+		- 问题
+		  反编译的时候发现调用launch创建了一个继承SuspendLambda的协程体对象，后面又调用了create方法创建了一个协程体对象？
+		- 其实这里使用了装饰模式，协程其实一共有3层包装，每一层包装都自己的职责：
+	- 第一层就是launch和async返回的Job、Deferred，里面封装了协程状态，提供了取消协程接口，而它们的实例都是继承自AbstractCoroutine，AbstractCoroutine就是协程的第一层包装
+	- 第二层包装是编译器生成的SuspendLambda的子类，封装了协程执行的代码和执行逻辑，SuspendLambda又继承自BaseContinuationImpl，其completion属性就是协程的第一层包装
+	- 第三层包装是协程的线程调度器DispatchedContinuation，封装了线程调度逻辑，并持有协程的第二层包装对象。
+	- 回顾
+	  协程体类：封装协程体的操作逻辑。
+	  CoroutineScope：协程作用域，作用域取消则内部协程相应取消。
+	  CoroutineContext：协程上下文，是一个存储了协程运行时信息的集合。
+	  CoroutineStart：协程启动模式，4种：DEFAULT、LAZY、ATOMIC、UNDISPATCHED。
+	  Dispatchers ：线程调度器，4种：Default、Main、Unconfined、IO。
+	  CoroutineScheduler：执行协程体代码的线程池。
+	  Worker：Worker的实现是继承了Thread，对java线程的封装。
 -
