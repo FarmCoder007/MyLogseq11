@@ -69,13 +69,13 @@
 	- 使用UserModelMapper（Presenter层的数据Mapper对象）将UserModel转换成User对象
 	- 调用UseCase.store(user)
 	- Domain层(唯一的目的就是执行上面的业务逻辑:存储对象)：
-	- StoreUseCase接受到User对象
 	- 这里可以先做额外的逻辑
-	- 调用UserRepository接口的方法，传入User
+	- StoreUseCase接受到User对象
+		- 调用UserRepository接口的方法，传入User
 	- Data层：
-	- UserDataRepository(UserRepository接口的实现类)，接受到User对象
-	- 调用Mapper方法(Data层)将User对象转换成UserEntity
-	- 存储UserEntity对象
+		- UserDataRepository(UserRepository接口的实现类)，接受到User对象
+		- 调用Mapper方法(Data层)将User对象转换成UserEntity
+		- 存储UserEntity对象
 - # 参考:
   collapsed:: true
 	- 参考文章
