@@ -21,5 +21,20 @@ title:: hook-合规隐私/权限方法调用检测与替换
 		  }
 		  ```
 	- ## 2. 在Application项目中添加配置
+	  collapsed:: true
 		- ```
+		  apply plugin: 'com.coofee.rewrite'
+		  
+		  rewrite {
+		  
+		      scanPermissionMethodCaller {
+		         // ...
+		      }
+		  
+		      replaceMethod {
+		          // ...
+		      }
+		  }
 		  ```
+	- ## 3.执行
+		-
