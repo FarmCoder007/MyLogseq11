@@ -1285,5 +1285,14 @@
 				- 分析完了LaunchActivityItem如何创建Activity并回调onCreate()方法后，再看TransactionExecutor如何处理ClientTransaction的mLifecycleStateRequest。
 				  通过前面的文章分析知道，TransactionExecutor再处理ClientTransaction时，会通过cycleToPath()以及performLifecycleSequence()方法，处理当前声明周期状态到目标声明周期中间的声明周期，在LaunchActivityItem处理完毕后，当前状态是ON_CREATE，而目标状态是ON_RESUME，所以cycleToPath()会在处理ResumeActivityItem前先调用ActivityThread.handleStartActivity()完成Activity的onStart()方法的回调。处理完cycleToPath()以后，TransactionExecutor再处理ResumeActivityItem，ResumeActivityItem最终回调Activity的onResume()方法，具体的流程不在分析。
 				- ![image.png](../assets/image_1684417556248_0.png)
+			- AMS跨进程和客户端进程通信有关Activity的重要的生命周期，均由ClientLifecycleManager.scheduleTransaction()完成。
+			  把Activity准备执行的行为抽象到ActivityLifecycleItem中，根据不同的场景编写相应代码；把Activity准备执行必备参数和ActivityLifecycleItem封装到ClientTransaction中。
+			  AMS跨进程传输ClientTransaction，客户端进程ApplicationThread接收，然后发送到主线程ActivityThread，最后由TransactionExecutor统一解析。
+			  AMS封装并传输ClientTransaction，统一接口；客户端进程接收ClientTransaction并使用TransactionExecutor解析AMS的请求，再根据ActivityLifecycleItem执行不同的代码。
+			  ActivityLifecycleItem的实现在“…/android-28/android/app/servertransaction/”目录下，Activity生命周期相关的方法LaunchActivityItem、ResumeActivityItem、PauseActivityItem、StopActivityItem、DestroyActivityItem，Activity的Configuration变化的回调、ActivityResult、onNewIntent等等。基本上其他的ActivityLifecycleItem是一样的原理。均在execute()方法中调用ActivityThread相关方法的；
+			  ActivityThread方法执行最终是调用Instrumentation的相应生命周期方法执行Activity的生命周期回调；
+			  这个时候Activity便显示出来并执行相关生命周期回调。
+		- 总结
+			- Android的整个启动过程链路较长，在目标应用启动过程中涉及3个进程Launcher进程、System Service进程、目标应用进程，进程间通信使用Binder机制，由AMS负责调度，调度进程创建、绑定应用等核心逻辑，目标应用在接收到调度任务后执行相应操作，AMS通知App创建Activity并回调相关生命周期，整个链路虽然长，但类之间各司其职，还是比较容易理解的。熟悉了这个启动流程，对于我们对今后的启动优化和代码理解都是有益的。
 	-
 -
