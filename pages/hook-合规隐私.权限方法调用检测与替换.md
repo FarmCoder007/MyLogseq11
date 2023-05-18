@@ -72,6 +72,7 @@ title:: hook-合规隐私/权限方法调用检测与替换
 			  ```
 		-
 	- ## 2. scanPermissionMethodCaller（扫描隐私API方法调用）
+	  collapsed:: true
 		- 配置scanPermissionMethodCaller如下所示:
 		  collapsed:: true
 			- 注意：对于使用ContentResolver的获取联系人/短信等需要权限的行为，暂时不支持通过scanPermissionMethodCaller统计。
@@ -133,5 +134,57 @@ title:: hook-合规隐私/权限方法调用检测与替换
 			  [RewritePlugin] scan permission method caller result success write to file app/scan_permission_method_caller_result_by_module.json
 			  ```
 		- scan_permission_method_caller_result.json扫描结果文件是按照权限进行分组，样例如下：
+		  collapsed:: true
 			- ```
+			  
 			  ```
+		- scan_permission_method_caller_result_by_module.json扫描结果文件则是按照模块名进行分组，样例如下：
+		  collapsed:: true
+			- ```
+			  {
+			    "androidx.appcompat:appcompat:1.1.0": [
+			      {
+			        "className": "androidx.appcompat.app.TwilightManager",
+			        "methodName": "getLastKnownLocationForProvider",
+			        "lineNo": 135,
+			        "permissionMethod": "android.location.LocationManager#getLastKnownLocation",
+			        "permissions": [
+			          "android.Manifest.permission.ACCESS_FINE_LOCATION",
+			          "android.Manifest.permission.ACCESS_COARSE_LOCATION"
+			        ]
+			      }
+			    ],
+			    "8f0a287af65fe4840370804c25783e3d59e2e135": [
+			      {
+			        "className": "com.coofee.rewrite.MainActivity",
+			        "methodName": "testGetDeviceId",
+			        "lineNo": 113,
+			        "permissionMethod": "android.telephony.TelephonyManager#getDeviceId",
+			        "permissions": [
+			          "android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE"
+			        ]
+			      },
+			      {
+			        "className": "com.coofee.rewrite.MainActivity",
+			        "methodName": "testGetMacAddress",
+			        "lineNo": 122,
+			        "permissionMethod": "android.net.wifi.WifiInfo#getMacAddress",
+			        "permissions": [
+			          "Mac地址"
+			        ]
+			      },
+			      {
+			        "className": "com.coofee.rewrite.MainActivity",
+			        "methodName": "testGetMacAddress",
+			        "lineNo": 126,
+			        "permissionMethod": "java.net.NetworkInterface#getHardwareAddress",
+			        "permissions": [
+			          "Mac地址"
+			        ]
+			      }
+			    ]
+			  }
+			  
+			  ```
+	- ## 3. replaceMethod（替换方法）
+-
