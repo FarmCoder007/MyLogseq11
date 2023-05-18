@@ -73,6 +73,7 @@
 				- 58同城APP目前仅开启了混淆操作，对于zipAlign和shrinkResources并未开启，因为开启后会出现某些页面打开失败的情况。
 				- 开启混淆是一个常规操作，这个举动能给我们应用带来极大的包大小收益。
 		- ## AndResGuard
+		  collapsed:: true
 			- Android在构建过程中会根据资源生成R文件，里面包含了资源索引，使用该索引可以在最终生成的resources.arsc资源映射表中找到对应资源，对于开发者来说在代码中引用资源很方便。
 			- 资源混淆主要为了混淆资源ID长度(例如将res/drawable/welcome.png混淆为r/s/a.png)，同时利用7z深度压缩，大大减少了安装包体积，同时提升了反破解难度。
 			- 介绍微信的AndResGuard前，先看一下resource.arsc文件的结构，有助于我们更好的理解ResGuard原理
@@ -100,3 +101,24 @@
 				- 上图简化如下：
 				  collapsed:: true
 					- ![image.png](../assets/image_1684422996650_0.png)
+				- AndResGuard流程：
+				  collapsed:: true
+					- 1. table stringblock	把文件指向路径改变，例如res/layout/test.xml,改为res/layout/a.xml
+					  2. 资源的文件名	需要将资源的文件名改为对应1，即将test.xml重命名为a.xml
+					  3. specsname stringblock	旧的specsname除了白名单部分全部废弃，替换成所有我们混淆方案中用到的字符。由于大家都重复使用[a-z0-9_],specsname的总数量会大大减少。
+					  4. entry中指向的specsname 中的id	例如原本test.xml它指向specsname中的第十项，我们需要用混淆后的a项的位置改写。
+					  5. table chunk的大小	修改table chunk的最后大小
+					  ![image.png](../assets/image_1684423019248_0.png){:height 826, :width 640}
+		- ## R资源文件内联
+			- Android 在构建的过程中，会为每个模块（库、应用）生成一份资源索引，诸如：Rid.class*，*Rlayout.class 等等，这对于开发者来说，在代码里引用资源十分的方便。
+			- 为什么会出现内联？
+			  在Library工程中引用的R资源索引不是final的不是常量，所以我们在Library工程不能在switch - case 和Annotation中使用资源索引。由于引用的资源不是final的，所以Library的产物aar中包含的class中使用的资源索引还是会以包名存在。
+			- ![image.png](../assets/image_1684423043172_0.png)
+			- 在App工程中构建时会将依赖的AAR资源进行合并，根据合并的结果生成最终的R资源索引，这时的资源索引已经确定，所以全部是final的，java编译器在编译时会将final常量进行inline内联操作，也就是App工程中的java源码编译后的class中使用的R资源索引全部会替换为常量值。但resource.arsc文件中有关library的R资源类型还依然存在。
+			- 我们采用了业界比较优秀的方案ByteX R文件瘦身。他是通过编译时使用Transform处理R文件的class，收集R资源相关的信息。流程如下：
+			- 首先默认当前R文件class是可以被删除的。
+			  如果是静态final int的field并且没有在白名单中则添加到shouldBeInlinedRFields集合中，否则添加到shouldSkipInlineRFields集合中，标记当前class不能被删除。
+			  如果当前R文件所有field没有在白名单中则添加到shouldDiscardRClasses集合中，也就是该R文件class是可以被删除的。
+			  如果扫描到Styleable class的方法时，方法用于初始化静态变量和静态代码块，并且不需要保留该类时，会使用AnalyzeStyleableClassVisitor处理，如果数组大小和计算的大小一致则加到shouldBeInlinedRFields集合，否则抛出异常。
+			  真正开始Transform处理R文件，扫描filed判断进行删除
+			  58app在使用ByteX将R资源inline后，包大小减少了4.6M，dex数量从16个减到了11个。
