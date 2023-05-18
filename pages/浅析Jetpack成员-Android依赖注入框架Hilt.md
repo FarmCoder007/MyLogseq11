@@ -363,4 +363,62 @@
 			- 使用@Binds注入接口实例，向Hilt提供以下信息：
 			  1.函数返回类型会告知Hilt函数提供哪个接口的实例
 			  2.函数参数会告知Hilt要提供哪种实现
+		- ## Provides注入实例
+		  collapsed:: true
+			- 来自外部库，比如Retrofit，必须使用构造器模式创建实例。
+			  collapsed:: true
+				- ```
+				  @Module
+				  @InstallIn(ActivityComponent::class)
+				  object AnalyticsModule {
+				  
+				   @Provides
+				   fun provideAnalyticsService(
+				     okHttpClient：OkHttpClient
+				   ): Retrofit{
+				       return Retrofit.Builder()
+				                .baseUrl("https://example.com")
+				                .build()
+				                .create(AnalyticsService::class.java)
+				   }
+				  }
+				  ```
+		- ## 为同一类型提供多个绑定
+		  collapsed:: true
+			- 获取同一个接口的不同实例，讲到了使用@Binds注入接口实例，需要多个不同的实例，不能通过设置不同的方法名来注入多个实例。
+			- 1.首先要使用@Qualifier和@Retention注解来自定义注释的限定符，这个限定符用于模块的@Binds、@Provides注解
+			  collapsed:: true
+				- ```
+				  @Qualifier
+				  @Retention(RetentionPolicy.RUNTIME)
+				  private annotation class AuthInterceptorOkHttpClient
+				  
+				  @Qualifier
+				  @Retention(RetentionPolicy.RUNTIME)
+				  private annotation class OtherInterceptorOkHttpClient
+				  ```
+			- 2.然后，Hilt需要知道如何提供与每个限定符对应的类型的实例。限定符将它们标记为两个不同的绑定
+			  collapsed:: true
+				- ```
+				  @Module
+				  @InstallIn(ApplicationComponent::class)
+				  class NetworkModule {
+				     @AuthInterceptorOkHttpClient
+				     @Provides
+				     fun provideAuthInterceptorOkHttpClient(AuthInterceptor authInterceptor): OkHttpClient {
+				         return OkHttpClient.Builder()
+				             .addInterceptor(authInterceptor)
+				             .build();
+				     }
+				  
+				     @OtherInterceptorOkHttpClient
+				     @Provides
+				     fun provideOtherInterceptorOkHttpClient(OtherInterceptor otherInterceptor): OkHttpClient {
+				         return OkHttpClient.Builder()
+				             .addInterceptor(otherInterceptor)
+				             .build();
+				     }
+				  }
+				  ```
+			-
 -
