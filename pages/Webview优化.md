@@ -72,4 +72,22 @@
 		  }
 		  ```
 	- ## 其次在浏览器的地址栏输入如下网址：
+		- chrome://inspect/#devices
+		- ![image.png](../assets/image_1684430841766_0.png)
+		- 可以看到这个网址内容出现了变化，出现如下类似信息就表示成功了，注意看这里的MI 9，这里就是我当前开发所使用的手机机型，它下面的网址就是我当前所打开的网址。
+		- 点击inspect，顾名思义就是开始检查当前网页，点击之后会弹出一个调试窗口，就是如下的效果：
+		  collapsed:: true
+			- ![image.png](../assets/image_1684430859609_0.png)
+		- 可以查看打印信息或者点击其他的选项来进行更多的调试操作了。这里能操作或者看到什么信息？
+		- 1.调用action
+		- 可以调用各种action，和前端定好action可以自己先聊天，不用等待前端调试的环境。
+		- 在控制台输入以下代码，可以调用getUserInfo。
+		  collapsed:: true
+			- ```
+			  WBUTOWN.action.getUserInfo('', (headers) => {
+			        console.log('headers:', headers);
+			  });
+			  ```
+			-
 		-
+	-
