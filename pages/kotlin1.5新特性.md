@@ -289,4 +289,42 @@ title:: kotlin1.5新特性
 	- 密封接口最大的好处在于它允许类多继承，有些类可能同时拥有多个可枚举特征，这时就可以通过密封接口很好地实现相应设计。
 - # 标准库
 	- ## 无符号整型
-		-
+	  collapsed:: true
+		- 无符号整型包括UByte、UShort、UInt和ULong，它们可以表示的正数范围是对应有符号整型的二倍，具体参见测试代码
+		  collapsed:: true
+			- ```
+			   //UByte范围0至255
+			          val a:UByte = 10u
+			          //UShort范围0至65535
+			          val b:UShort = 10u
+			  
+			          //u结尾的字面量在UInt范围内（2的32次方-1）默认UInt
+			          val c = 10u
+			          //超出UInt范围的字面量自动推断为ULong，超出ULong范围（2的64次方-1）的字面量则报错
+			          val d = 6553161111111111111u
+			  ```
+		- 无符号整型字面量以小写字母u结尾，其中需要注意的是，直接声明的字面量在uInt范围默认被类型推断为UInt，超出UInt范围但在ULong范围内的被类型推断为ULong，超出ULong范围则报错。
+	- ### 字符串
+	  collapsed:: true
+		- 增加了新的用于大小写转换的方法，原有方法则被标记废弃：
+			- ```
+			          //deprecated
+			          "rabbit".toUpperCase()
+			          "rabbit".uppercase()
+			  
+			          //deprecated
+			          "rabbit".toLowerCase()
+			          "rabbit".lowercase()
+			  
+			          //deprecated
+			          "rabbit".capitalize()
+			          "rabbit".replaceFirstChar { it.uppercase() }
+			  
+			          //deprecated
+			          "rabbit".decapitalize()
+			          "rabbit".replaceFirstChar { it.lowercase() }
+			  ```
+	- ### Char类型
+		- 增加了新的方法，原有对应方法被标记为废弃：
+			- ```
+			  ```
