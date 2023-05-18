@@ -431,3 +431,62 @@
 			- 异常退出重新调度
 			  最后我们来讲讲大家感兴趣的一个问题，WorkManager如何做到异常退出重新启动后，仍然调度未完成的任务的。
 			- 首先还是要从最开始的初始化WorkManagerImpl类开始说起
+		- ### WorkManagerImpl
+			- 还记得我们最开始将初始化的时候遗留的一个方法internalInit()吗？我们继续从这看起
+			  collapsed:: true
+				- ```
+				  private void internalInit(@NonNull Context context,
+				              @NonNull Configuration configuration,
+				              @NonNull TaskExecutor workTaskExecutor,
+				              @NonNull WorkDatabase workDatabase,
+				              @NonNull List<Scheduler> schedulers,
+				              @NonNull Processor processor) {
+				       ······
+				          // Checks for app force stops.
+				          mWorkTaskExecutor.executeOnBackgroundThread(new ForceStopRunnable(context, this));
+				      }
+				  ```
+			- 这里给线程池扔了一个ForceStopRunnable任务，我们看下他的run()方法
+			  collapsed:: true
+				- ```
+				   @Override
+				      public void run() {
+				        
+				          boolean needsScheduling = cleanUp();
+				  
+				          if (shouldRescheduleWorkers()) {
+				              mWorkManager.rescheduleEligibleWork();
+				              mWorkManager.getPreferences().setNeedsReschedule(false);
+				          } else if (isForceStopped()) {
+				              mWorkManager.rescheduleEligibleWork();
+				          } else if (needsScheduling) {
+				              Schedulers.schedule(
+				                      mWorkManager.getConfiguration(),
+				                      mWorkManager.getWorkDatabase(),
+				                      mWorkManager.getSchedulers());
+				          }
+				          mWorkManager.onForceStopRunnableCompleted();
+				      }
+				  ```
+			- 这里可以清楚看到几种处理类型，需要重新调度，强制退出等情形。我们重点可以看下isForceStopped()这个条件怎么做的
+			- ```
+			   @VisibleForTesting
+			      public boolean isForceStopped() {
+			          // Alarms get cancelled when an app is force-stopped starting at Eclair MR1.
+			          // Cancelling of Jobs on force-stop was introduced in N-MR1 (SDK 25).
+			          // Even though API 23, 24 are probably safe, OEMs may choose to do
+			          // something different.
+			          PendingIntent pendingIntent = getPendingIntent(mContext, FLAG_NO_CREATE);
+			          if (pendingIntent == null) {
+			              setAlarm(mContext);
+			              return true;
+			          } else {
+			              return false;
+			          }
+			      
+			  ```
+			- 看到这基本你就猜出几分逻辑了。这里因为涉及代码比较跳所以就不贴具体代码了，大家可以具体看下setAlarm()方法以及CommandHandler类中的handleStopWork()方法。具体讲下思路：
+			- 首先在任务开始前设置一个闹钟任务，时间是十年后。
+			  如果应用正常调度完所有任务，那么就取消掉这个时钟。
+			  当应用不幸强制被关了之后，下次启动就检查这个闹钟任务，如果在，那么就认为上次是被强制退出的，那么就执行数据库中尚未完成的调度任务。
+		-
