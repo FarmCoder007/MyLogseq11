@@ -47,3 +47,61 @@
 		  * ARouter$Providers$$xxx(modulename) 把注册的接口存入map
 	-
 	-
+- ## 二.ARouter 注解处理器:RouteProcessor
+	- 有注解就有注解处理器，ARouter也是基于APT+ Javapoat，构建路由表的逻辑就在RouteProcessor，也是在RouteProcessor里生成了上面的那些类
+	- APT 和 javapoat 有同学分享过，这也是APT 和 javapoat应用很好的一个例子
+	- 1、BaseProcessor
+		- RouteProcessor 继承了 BaseProcessor
+		  collapsed:: true
+			- ```
+			  public abstract class BaseProcessor extends AbstractProcessor {
+			       ...
+			       // 模块名
+			       String moduleName = null;
+			       //是否需要生成router 文档
+			       boolean generateDoc;
+			  
+			       @Override
+			       public synchronized void init(ProcessingEnvironment processingEnv) {
+			           super.init(processingEnv);
+			           //初始化工具类
+			           mFiler = processingEnv.getFiler();
+			           types = processingEnv.getTypeUtils();
+			           elementUtils = processingEnv.getElementUtils();
+			           typeUtils = new TypeUtils(types, elementUtils);
+			           logger = new Logger(processingEnv.getMessager());
+			  
+			           // Attempt to get user configuration [moduleName]
+			           Map<String, String> options = processingEnv.getOptions();
+			           if (MapUtils.isNotEmpty(options)) {
+			  
+			               //从options里获取 moduleName
+			               moduleName = options.get(KEY_MODULE_NAME);
+			               generateDoc = VALUE_ENABLE.equals(options.get(KEY_GENERATE_DOC_NAME));
+			           }
+			  
+			           if (StringUtils.isNotEmpty(moduleName)) {
+			               moduleName = moduleName.replaceAll("[^0-9a-zA-Z_]+", "");
+			  
+			           } else {
+			               //moduleName为空抛出异常，停止编译
+			               logger.error(NO_MODULE_NAME_TIPS);
+			              。。。
+			           }
+			       }
+			  
+			       ...
+			  
+			       @Override
+			       public Set<String> getSupportedOptions() {
+			           return new HashSet<String>() {{
+			               this.add(KEY_MODULE_NAME);
+			               this.add(KEY_GENERATE_DOC_NAME);
+			           }};
+			       }
+			  }
+			  ```
+		- 主要初始化工具类，从gradle 配置里获取 moduleName
+		-
+	-
+-
