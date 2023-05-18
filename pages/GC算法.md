@@ -53,44 +53,44 @@ Java 程序员都知道对象初始化的重要性，我们要使用一个对象
   3. 若当拷贝B后再将C拷贝一份，则To中又两个C了，如何解决呢？
     * 使用forwarding指针：在每个对象头部引入一个新的field,即forwarding，正常状态下，其值为null,如果一个对象被拷贝，就把它的新地址设到From空间对象的forwarding指针中；
   ![image.png](../assets/image_1684415935748_0.png)
-#### BFS与DFS在copy算法中对比
-* 举例对比方能解释明晰：
-```
-class A {
-  public B b1;
-  public B b2;
-  public A() {
-      b1 = new B();
-      b2 = new B();
+- #### BFS与DFS在copy算法中对比
+  * 举例对比方能解释明晰：
+  ```
+  class A {
+    public B b1;
+    public B b2;
+    public A() {
+        b1 = new B();
+        b2 = new B();
+    }
   }
-}
-class B {
-  public C c1;
-  public C c2;
-  public B() {
-      c1 = new C();
-      c2 = new C();
+  class B {
+    public C c1;
+    public C c2;
+    public B() {
+        c1 = new C();
+        c2 = new C();
+    }
   }
-}
-class C {
-}
-```
-
-1. 对于以上对象，在From空间布局如下所示：
-![](./assets/数据结构之链表的应用/copy_BFS_01.png)
-
-2. 我们开始从A用DFS遍历，拷贝至TO空间
-![](./assets/数据结构之链表的应用/copy_BFS_02.png)
-
-3. 对A的属性扩展，先访问属性b1引用的对象，即把b1指向对象拷贝至TO空间
-![](./assets/数据结构之链表的应用/copy_BFS_03.png)
-
-4. 接着我们拷贝c1所引用的C对象,这部完成以后开始退栈（DFS依靠栈，BFS依靠队列实现）
-![](./assets/数据结构之链表的应用/copy_BFS_04.png)
-
-5. 依次退栈，直到完成copy后布局如下：
-![](./assets/数据结构之链表的应用/copy_BFS_05.png)
-* 经过以上步骤，不知你发现什么没有： 对比起始于结束箭头，会发现变简约好多啊，箭头代表了引用关系，说明具有引用关系的对象在新空间中距离更近了！这有啥用呢？
+  class C {
+  }
+  ```
+  
+  1. 对于以上对象，在From空间布局如下所示：
+  ![image.png](../assets/image_1684415950926_0.png) 
+  
+  2. 我们开始从A用DFS遍历，拷贝至TO空间
+  ![image.png](../assets/image_1684415958471_0.png) 
+  
+  3. 对A的属性扩展，先访问属性b1引用的对象，即把b1指向对象拷贝至TO空间
+  ![image.png](../assets/image_1684415972020_0.png) 
+  
+  4. 接着我们拷贝c1所引用的C对象,这部完成以后开始退栈（DFS依靠栈，BFS依靠队列实现）
+  ![image.png](../assets/image_1684415980549_0.png) 
+  
+  5. 依次退栈，直到完成copy后布局如下：
+  ![image.png](../assets/image_1684415990315_0.png) 
+  * 经过以上步骤，不知你发现什么没有： 对比起始于结束箭头，会发现变简约好多啊，箭头代表了引用关系，说明具有引用关系的对象在新空间中距离更近了！这有啥用呢？
 #### DFS总结
 * **优点：** 编程中如果访问一个对象，马上就会访问它的属性，而又因为CPU缓存机制，在读取某个对象时，又很大概率会把它后面的对象一起读进来。而经过DFS遍历后，拥有引用关系极大可能会在同一个缓存中，即读 A 对象的时候，把它后面的 B 和 C 对象都能加载进缓存，那么，a.b1.c1 这种写法就可以立即命中缓存；
 * **缺点：** 需要维护一个额外的辅助数据结构栈；
