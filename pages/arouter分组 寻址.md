@@ -282,7 +282,135 @@
 			  }
 			  ```
 		- 接着生成代码的过程
+		  collapsed:: true
 			- ```
+			  for (Map.Entry<String, Set<RouteMeta>> entry : groupMap.entrySet()) {
+			              //组名
+			              String groupName = entry.getKey();
+			                // 构建一个生成loadInto方法的MethodSpec
+			                  /** 
+			                  *  @Override
+			                  *  public void loadInto(Map<String, RouteMeta> providers);
+			                  */
+			              MethodSpec.Builder loadIntoMethodOfGroupBuilder = MethodSpec.methodBuilder(METHOD_LOAD_INTO)
+			                      .addAnnotation(Override.class)
+			                      .addModifiers(PUBLIC)
+			                      .addParameter(groupParamSpec);
+			  
+			              List<RouteDoc> routeDocList = new ArrayList<>();
+			              Set<RouteMeta> groupData = entry.getValue();
+			              for (RouteMeta routeMeta : groupData) {
+			                  // Build group method body
+			                  RouteDoc routeDoc = extractDocInfo(routeMeta);
+			  
+			                  ClassName className = ClassName.get((TypeElement) routeMeta.getRawType());
+			  
+			  
+			                  // 构建跳转参数的map
+			                  StringBuilder mapBodyBuilder = new StringBuilder();
+			                  Map<String, Integer> paramsType = routeMeta.getParamsType();
+			                  Map<String, Autowired> injectConfigs = routeMeta.getInjectConfig();
+			                  if (MapUtils.isNotEmpty(paramsType)) {
+			                      List<RouteDoc.Param> paramList = new ArrayList<>();
+			  
+			                      for (Map.Entry<String, Integer> types : paramsType.entrySet()) {
+			                          mapBodyBuilder.append("put(\"").append(types.getKey()).append("\", ").append(types.getValue()).append("); ");
+			  
+			                          RouteDoc.Param param = new RouteDoc.Param();
+			                          Autowired injectConfig = injectConfigs.get(types.getKey());
+			                          param.setKey(types.getKey());
+			                          param.setType(TypeKind.values()[types.getValue()].name().toLowerCase());
+			                          param.setDescription(injectConfig.desc());
+			                          param.setRequired(injectConfig.required());
+			  
+			                          paramList.add(param);
+			                      }
+			  
+			                      routeDoc.setParams(paramList);
+			                  }
+			                  String mapBody = mapBodyBuilder.toString();
+			  
+			                  //生成 map的 put 代码
+			                  loadIntoMethodOfGroupBuilder.addStatement(
+			                          "atlas.put($S, $T.build($T." + routeMeta.getType() + ", $T.class, $S, $S, " + (StringUtils.isEmpty(mapBody) ? null : ("new java.util.HashMap<String, Integer>(){{" + mapBodyBuilder.toString() + "}}")) + ", " + routeMeta.getPriority() + ", " + routeMeta.getExtra() + "))",
+			                          routeMeta.getPath(),
+			                          routeMetaCn,
+			                          routeTypeCn,
+			                          className,
+			                          routeMeta.getPath().toLowerCase(),
+			                          routeMeta.getGroup().toLowerCase());
+			  
+			                  routeDoc.setClassName(className.toString());
+			                  routeDocList.add(routeDoc);
+			              }
+			  
+			              // 生成ARouter$Group$文件
+			              String groupFileName = NAME_OF_GROUP + groupName;
+			              JavaFile.builder(PACKAGE_OF_GENERATE_FILE,
+			                      TypeSpec.classBuilder(groupFileName)
+			                              .addJavadoc(WARNING_TIPS)
+			                              .addSuperinterface(ClassName.get(type_IRouteGroup))
+			                              .addModifiers(PUBLIC)
+			                              .addMethod(loadIntoMethodOfGroupBuilder.build())
+			                              .build()
+			              ).build().writeTo(mFiler);
+			  
+			              logger.info(">>> Generated group: " + groupName + "<<<");
+			              rootMap.put(groupName, groupFileName);
+			              docSource.put(groupName, routeDocList);
+			          }
 			  ```
+		- 上面这段代码生成类 ARouter$$Group$login，groupname = login；
+		  collapsed:: true
+			- ```
+			  public class ARouter$$Group$xxx（groupname） implements IRouteGroup {
+			      @Override
+			      public void loadInto(Map<String, RouteMeta> atlas) {
+			          atlas.put("/login/loginX", RouteMeta.build(RouteType.ACTIVITY, LoginActivity.class, "/login/loginx", "login", null, -1, -2147483648));
+			          atlas.put("/login/register", RouteMeta.build(RouteType.ACTIVITY, RegisterActivity.class, "/login/register", "login", null, -1, -2147483648))；
+			      }
+			  }
+			  ```
+		- 有多少group就有多少这样的类，然后把这些类名存入rootMap
+		  collapsed:: true
+			- ```
+			  if (MapUtils.isNotEmpty(rootMap)) {
+			              // Generate root meta by group name, it must be generated before root, then I can find out the class of group.
+			              for (Map.Entry<String, String> entry : rootMap.entrySet()) {
+			                  loadIntoMethodOfRootBuilder.addStatement("routes.put($S, $T.class)", entry.getKey(), ClassName.get(PACKAGE_OF_GENERATE_FILE, entry.getValue()));
+			              }
+			          }
+			  
+			          // Write provider into disk
+			          String providerMapFileName = NAME_OF_PROVIDER + SEPARATOR + moduleName;
+			          JavaFile.builder(PACKAGE_OF_GENERATE_FILE,
+			                  TypeSpec.classBuilder(providerMapFileName)
+			                          .addJavadoc(WARNING_TIPS)
+			                          .addSuperinterface(ClassName.get(type_IProviderGroup))
+			                          .addModifiers(PUBLIC)
+			                          .addMethod(loadIntoMethodOfProviderBuilder.build())
+			                          .build()
+			          ).build().writeTo(mFiler);
+			  ```
+		- 上面这段代码，我们看到了moduleName,也就是gradle里的project.getName()，这段代码生成下面这个类， moduleName =“LoginSDK”
+		  collapsed:: true
+			- ```
+			  public class ARouter$$Providers$$LoginSDK implements IProviderGroup {
+			      @Override
+			      public void loadInto(Map<String, RouteMeta> providers) {
+			          providers.put("com.example.loginsdk.IUserInfo", RouteMeta.build(RouteType.PROVIDER, UserInfoManager.class, "/interface/user", "interface", null, -1, -2147483648));
+			      }
+			  }
+			  ```
+		- 可以看到这个类命名：ARouter+Providers+moduleName，Module里只有一个这样的类，把这个模块里注册的接口（接口都继承IProvider）put到map集合里
+		- 代码里看到，生成的这些类的包名都是PACKAGE_OF_GENERATE_FILE，PACKAGE_OF_GENERATE_FILE = “com.alibaba.android.arouter.routes”;这意味着所有模块生成的代码都在这个目录下，这有个问题：如果俩个模块下有个相同组名都叫home 那就会生成俩个ARouter
+		  �
+		  �
+		  �
+		  �
+		  �
+		  Grouphome文件，这会导致编译报错
+		- WBRouter 这里做类优化，把moduleName拼接了进去，这样就不会报错了。
+		- 接着生成root
 	-
 -
