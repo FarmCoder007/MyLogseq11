@@ -58,6 +58,7 @@
 			- LayoutNodeWrapper依次向后调用，LayoutNodeWrapper绘制结束后，再依次调用LayoutNode的子节点的draw方法
 		- 2、LayoutNode内部是分层绘制，每层最终由DrawModifier(Modifier子类）来进行绘制
 		- 3、以上面的Demo为例，给Column底部添加颜色和文字
+		  collapsed:: true
 			- 1添加红色部分代码：
 			  collapsed:: true
 				- ![image.png](../assets/image_1684393906317_0.png)
@@ -68,16 +69,23 @@
 			  collapsed:: true
 				- ![image.png](../assets/image_1684393945789_0.png)
 				- ![image.png](../assets/image_1684393953310_0.png)
-			-
-		- 4、drawBehind方法最终创建了一个DrawBackgroundModifer(集成自DrawModifer)，并把DrawBackgroundModifer通过CombinedModifier连接在modifier链上
-		  collapsed:: true
-			- ![image.png](../assets/image_1684393973957_0.png)
-		- 5、之后在给LayoutNode的modifer赋值的时候，判断如果modifier是DrawModifer就用ModifiedDrawNode包装到LayoutNodeWrapper链
-		  collapsed:: true
-			- ![image.png](../assets/image_1684393997623_0.png)
-			-
-		- 6、调用LayoutNode.draw方法时，从外向内执行LayoutNodeWrapper.performDraw方法，在performDraw方法执行绘制方法块
-		  collapsed:: true
-			- ![image.png](../assets/image_1684394014397_0.png)
-		- 7、
+			- 4、drawBehind方法最终创建了一个DrawBackgroundModifer(集成自DrawModifer)，并把DrawBackgroundModifer通过CombinedModifier连接在modifier链上
+			  collapsed:: true
+				- ![image.png](../assets/image_1684393973957_0.png)
+			- 5、之后在给LayoutNode的modifer赋值的时候，判断如果modifier是DrawModifer就用ModifiedDrawNode包装到LayoutNodeWrapper链
+			  collapsed:: true
+				- ![image.png](../assets/image_1684393997623_0.png)
+				-
+			- 6、调用LayoutNode.draw方法时，从外向内执行LayoutNodeWrapper.performDraw方法，在performDraw方法执行绘制方法块
+			  collapsed:: true
+				- ![image.png](../assets/image_1684394014397_0.png)
+		- 4、为什么关闭硬件加速后出现很多LayerView？
+			- 1、我们看LayerView的实现的OwnedLayer。它定义了缩放、透明度、位移、阴影、旋转等多种ui属性
+			  collapsed:: true
+				- ![image.png](../assets/image_1684394096703_0.png)
+			- 2、再看创建layer的代码，如果是硬件加速使用RenderNodeLayer，如果没有硬件加速会使用LayerView
+			  collapsed:: true
+				- ![image.png](../assets/image_1684394108762_0.png)
+			- 3、
+			- 调用Modifier.graphicsLayer { }和Modifier.graphicsLayer()会添加layer
 -
