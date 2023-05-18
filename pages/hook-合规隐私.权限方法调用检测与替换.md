@@ -225,6 +225,10 @@ title:: hook-合规隐私/权限方法调用检测与替换
 			  ```
 		- 结果查看：
 		- 可以使用[RewritePlugin] replace关键字过滤输出日志获取替换结果，单条输出如下所示：
+		  collapsed:: true
 			- ```
+			  [RewritePlugin] replace moduleName=8f0a287af65fe4840370804c25783e3d59e2e135, sourceFile=MainActivity.kt, lineNo=61, className=com.coofee.rewrite.MainActivity, methodName=testPackageManager, methodDesc=()V, methodSignature=null; owner=android/content/pm/PackageManager, method=getInstalledApplications, desc=(I)Ljava/util/List; by owner=com/coofee/rewrite/hook/pm/ShadowPackageManager, method=getInstalledApplications, desc=(Landroid/content/pm/PackageManager;I)Ljava/util/List;
 			  ```
+		- replace_method编写方法
+		-
 -
