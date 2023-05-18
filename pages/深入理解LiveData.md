@@ -75,4 +75,34 @@
 		  将 LiveData 实例与特定 Activity 和 Fragment 实例分离，从而确保 LiveData对象在横竖屏切换后继续存在。
 	- ## 2.2 LiveData 的数据转换
 		- ## 2.2.1 Transformations.map
-			-
+		  collapsed:: true
+			- map 函数：基于原 LiveData，对其值进行改变然后生成一个新的 LiveData 返回。
+			- ## api:
+			  collapsed:: true
+				- ```
+				  /**
+				   * @param  source:用于转换的LiveData原始对象
+				   * @param  mapFunction: 转换函数
+				   */
+				  public static LiveData<Y> map (LiveData<X> source, Function<X, Y> mapFunction)
+				  ```
+			- ## 示例：
+			  collapsed:: true
+				- ```
+				  data class User(val firstName:String,val lastName:String){}
+				  
+				  val userLiveData: MutableLiveData<User> by lazy{
+				      MutableLiveData<User>(User("三","张"))
+				  }
+				  
+				  // 传入MutableLiveData<User>(User("三","张")) -> MutableLiveData<String>(”张三“)
+				  val userName: MutableLiveData<String> = Transformations.map(userLiveData) {
+				      user -> "${user.lastName} ${user.firstName}"
+				  }
+				  ```
+			- ![image.png](../assets/image_1684422256231_0.png)
+		- ## 2.2.2 Transformations.switchMap()
+			- switchMap() 函数： 传入LiveData对象，当此LivaData中值变化时，调用转换函数生成新的LiveData对象返回。
+			- ## api:
+				- ```
+				  ```
