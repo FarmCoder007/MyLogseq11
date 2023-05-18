@@ -1158,6 +1158,132 @@
 				- client：ActivityThread父类，定义了抽象方法由ActivityThread实现；
 				  token：AMS进程中，是代表Activity的ActivityRecord所保存的Token(Binder)在客户端进程的本地代理，
 				  构造ActivityClientRecord，调用ActivityThread.handleLaunchActivity()。
-			-
+			- ### ActivityThread.handleLaunchActivity
+			  collapsed:: true
+				- ```
+				  public Activity handleLaunchActivity(ActivityClientRecord r ,
+				          PendingTransactionActions pendingActions, Intent customIntent) {
+				      ...
+				      //初始化WMS
+				      WindowManagerGlobal.initialize();
+				      //创建Activity
+				      final Activity a = performLaunchActivity(r, customIntent);
+				      if (a != null) {
+				          ...
+				      } else {
+				          //出现异常，通知AMS停止自己
+				          try {
+				              ActivityManager.getService()
+				                      .finishActivity(r.token, Activity.RESULT_CANCELED, null,
+				                              Activity.DONT_FINISH_TASK_WITH_ACTIVITY);
+				          } catch (RemoteException ex) {
+				              throw ex.rethrowFromSystemServer();
+				          }
+				      }
+				      return a;
+				  }
+				  ```
+			- ### ActivityThread.performLaunchActivity
+			  collapsed:: true
+				- 代码
+				  collapsed:: true
+					- ```
+					  private Activity performLaunchActivity(ActivityClientRecord r, Intent customIntent) {
+					      ActivityInfo aInfo = r.activityInfo;
+					      if (r.packageInfo == null) {
+					          r.packageInfo = getPackageInfo(aInfo.applicationInfo, r.compatInfo,
+					                  Context.CONTEXT_INCLUDE_CODE);
+					      }
+					  
+					      ComponentName component = r.intent.getComponent();
+					      if (component == null) {
+					          component = r.intent.resolveActivity(
+					              mInitialApplication.getPackageManager());
+					          r.intent.setComponent(component);
+					      }
+					  
+					      if (r.activityInfo.targetActivity != null) {
+					          component = new ComponentName(r.activityInfo.packageName,
+					                  r.activityInfo.targetActivity);
+					      }
+					      //创建Activity持有的BaseContext
+					      ContextImpl appContext = createBaseContextForActivity(r);
+					      Activity activity = null;
+					      try {
+					          java.lang.ClassLoader cl = appContext.getClassLoader();
+					          //由Instrumentation完成Activity的构造
+					          activity = mInstrumentation.newActivity(
+					                  cl, component.getClassName(), r.intent);
+					          r.intent.setExtrasClassLoader(cl);
+					          r.intent.prepareToEnterProcess();
+					          if (r.state != null) {
+					              r.state.setClassLoader(cl);
+					          }
+					      } catch (Exception e) {
+					      }
+					  
+					      try {
+					          //创建Application，如果已创建则直接返回
+					          Application app = r.packageInfo.makeApplication(false, mInstrumentation);
+					  
+					          if (activity != null) {
+					              CharSequence title = r.activityInfo.loadLabel(appContext.getPackageManager());
+					              Configuration config = new Configuration(mCompatConfiguration);
+					              if (r.overrideConfig != null) {
+					                  config.updateFrom(r.overrideConfig);
+					              }
+					              Window window = null;
+					              if (r.mPendingRemoveWindow != null && r.mPreserveWindow) {
+					                  window = r.mPendingRemoveWindow;
+					                  r.mPendingRemoveWindow = null;
+					                  r.mPendingRemoveWindowManager = null;
+					              }
+					              appContext.setOuterContext(activity);
+					              activity.attach(appContext, this, getInstrumentation(), r.token,
+					                      r.ident, app, r.intent, r.activityInfo, title, r.parent,
+					                      r.embeddedID, r.lastNonConfigurationInstances, config,
+					                      r.referrer, r.voiceInteractor, window, r.configCallback);
+					  
+					              if (customIntent != null) {
+					                  activity.mIntent = customIntent;
+					              }
+					              r.lastNonConfigurationInstances = null;
+					              checkAndBlockForNetworkAccess();
+					              activity.mStartedActivity = false;
+					              int theme = r.activityInfo.getThemeResource();
+					              if (theme != 0) {
+					                  activity.setTheme(theme);
+					              }
+					  
+					              activity.mCalled = false;
+					              //回调Activity的onCreate方法
+					              if (r.isPersistable()) {
+					                  mInstrumentation.callActivityOnCreate(activity, r.state, r.persistentState);
+					              } else {
+					                  mInstrumentation.callActivityOnCreate(activity, r.state);
+					              }
+					              if (!activity.mCalled) {
+					                  throw new SuperNotCalledException(
+					                      "Activity " + r.intent.getComponent().toShortString() +
+					                      " did not call through to super.onCreate()");
+					              }
+					              r.activity = activity;
+					          }
+					          r.setState(ON_CREATE);
+					          //缓存token
+					          mActivities.put(r.token, r);
+					      } catch (SuperNotCalledException e) {
+					          throw e;
+					      } catch (Exception e) {
+					      }
+					      return activity;
+					  }
+					  ```
+				- Instrumentation.newActivity()：类似Application的创建，最终调用AppComponentFactory.instantiateActivity()反射构造Activity；
+				  activity.attach()：Activity自己的初始化；
+				  mInstrumentation.callActivityOnCreate()：先调用activity.performCreate()，再回调Activity.onCreate()。
+				- 分析完了LaunchActivityItem如何创建Activity并回调onCreate()方法后，再看TransactionExecutor如何处理ClientTransaction的mLifecycleStateRequest。
+				  通过前面的文章分析知道，TransactionExecutor再处理ClientTransaction时，会通过cycleToPath()以及performLifecycleSequence()方法，处理当前声明周期状态到目标声明周期中间的声明周期，在LaunchActivityItem处理完毕后，当前状态是ON_CREATE，而目标状态是ON_RESUME，所以cycleToPath()会在处理ResumeActivityItem前先调用ActivityThread.handleStartActivity()完成Activity的onStart()方法的回调。处理完cycleToPath()以后，TransactionExecutor再处理ResumeActivityItem，ResumeActivityItem最终回调Activity的onResume()方法，具体的流程不在分析。
+				- ![image.png](../assets/image_1684417556248_0.png)
 	-
 -
