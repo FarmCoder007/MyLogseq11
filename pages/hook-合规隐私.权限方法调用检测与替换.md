@@ -187,4 +187,44 @@ title:: hook-合规隐私/权限方法调用检测与替换
 			  
 			  ```
 	- ## 3. replaceMethod（替换方法）
+		- 在replace_method.json文件中配置要替换的方法，编译时会使用dest_class.dest_method替换src_class.src_method对应的方法。
+		- ```
+		  replaceMethod {
+		      // 启用后编译应用时会替换除`excludes`包之外的其他类的方法，可以根据`[RewritePlugin] replace`关键字过滤输出日志获取结果。
+		      enable = true
+		  
+		      // 不替换该包下的方法
+		      excludes = [
+		              'com/coofee/rewrite/hook/'
+		      ]
+		  
+		      // 配置要替换的方法
+		      configFile = file("replace_method.json")
+		  }
+		  
+		  ```
+		- replace_method.json文件是json数组，其结构如下所示，替换隐私API的方法配置详见：replace_method.json
+		  collapsed:: true
+			- ```
+			  [
+			    {
+			      "src_class": "android.telephony.TelephonyManager",  
+			      "dest_class": "com.coofee.rewrite.hook.telephony.ShadowTelephoneManager",
+			      "methods": [
+			        {
+			          "src_method": "java.lang.String getDeviceId()",
+			          "dest_method": "java.lang.String getDeviceId(android.telephony.TelephonyManager)"
+			        },
+			        {
+			          "src_method": "java.lang.String getDeviceId(int)",
+			          "dest_method": "java.lang.String getDeviceId(android.telephony.TelephonyManager, int)"
+			        }
+			      ]
+			    }
+			  ]
+			  ```
+		- 结果查看：
+		- 可以使用[RewritePlugin] replace关键字过滤输出日志获取替换结果，单条输出如下所示：
+			- ```
+			  ```
 -
