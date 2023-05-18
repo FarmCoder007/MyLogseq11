@@ -674,4 +674,91 @@
 		- thread.bindApplication(）这个方法开始创建Instrumentation和Application
 		  mStackSupervisor.attachApplicationLocked(app)开始启动Activity
 	- ## 创建Instrumentation和Application
-		-
+		- 1.（ApplicationThread）thread.bindApplication()，ApplicationTread是ActivityThread的内部类
+			- ```
+			  private class ApplicationThread extends IApplicationThread.Stub {
+			      private static final String DB_INFO_FORMAT = "  %8s %8s %14s %14s  %s";
+			  
+			      @Override
+			      public final void bindApplication(String processName, ApplicationInfo appInfo,
+			              ProviderInfoList providerList, ComponentName instrumentationName,
+			              ProfilerInfo profilerInfo, Bundle instrumentationArgs,
+			              IInstrumentationWatcher instrumentationWatcher,
+			              IUiAutomationConnection instrumentationUiConnection, int debugMode,
+			              boolean enableBinderTracking, boolean trackAllocation,
+			              boolean isRestrictedBackupMode, boolean persistent, Configuration config,
+			              CompatibilityInfo compatInfo, Map services, Bundle coreSettings,
+			              String buildSerial, AutofillOptions autofillOptions,
+			              ContentCaptureOptions contentCaptureOptions, long[] disabledCompatChanges) {
+			          if (services != null) {
+			              if (false) {
+			                  // Test code to make sure the app could see the passed-in services.
+			                  for (Object oname : services.keySet()) {
+			                      if (services.get(oname) == null) {
+			                          continue; // AM just passed in a null service.
+			                      }
+			                      String name = (String) oname;
+			  
+			                      // See b/79378449 about the following exemption.
+			                      switch (name) {
+			                          case "package":
+			                          case Context.WINDOW_SERVICE:
+			                              continue;
+			                      }
+			  
+			                      if (ServiceManager.getService(name) == null) {
+			                          Log.wtf(TAG, "Service " + name + " should be accessible by this app");
+			                      }
+			                  }
+			              }
+			  
+			              // Setup the service cache in the ServiceManager
+			              ServiceManager.initServiceCache(services);
+			          }
+			  
+			          setCoreSettings(coreSettings);
+			  
+			          AppBindData data = new AppBindData();
+			          data.processName = processName;
+			          data.appInfo = appInfo;
+			          data.providers = providerList.getList();
+			          data.instrumentationName = instrumentationName;
+			          data.instrumentationArgs = instrumentationArgs;
+			          data.instrumentationWatcher = instrumentationWatcher;
+			          data.instrumentationUiAutomationConnection = instrumentationUiConnection;
+			          data.debugMode = debugMode;
+			          data.enableBinderTracking = enableBinderTracking;
+			          data.trackAllocation = trackAllocation;
+			          data.restrictedBackupMode = isRestrictedBackupMode;
+			          data.persistent = persistent;
+			          data.config = config;
+			          data.compatInfo = compatInfo;
+			          data.initProfilerInfo = profilerInfo;
+			          data.buildSerial = buildSerial;
+			          data.autofillOptions = autofillOptions;
+			          data.contentCaptureOptions = contentCaptureOptions;
+			          data.disabledCompatChanges = disabledCompatChanges;
+			          sendMessage(H.BIND_APPLICATION, data);
+			      }
+			  }
+			  ```
+			- sendMessage(H.BIND_APPLICATION, data)，发送给内部类Handler处理
+				- ```
+				  class H extends Handler {
+				  public void handleMessage(Message msg) {
+				          if (DEBUG_MESSAGES) Slog.v(TAG, ">>> handling: " + codeToString(msg.what));
+				          switch (msg.what) {
+				              case BIND_APPLICATION:
+				                  Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, "bindApplication");
+				                  AppBindData data = (AppBindData)msg.obj;
+				                  handleBindApplication(data);
+				                  Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
+				                  break;
+				          }
+				          ......
+				  }
+				  }
+				  ```
+			- 2. 调用ActivityThread.handleBindApplication()最终创建Instrumentacion和Application
+				- ```
+				  ```
