@@ -80,14 +80,23 @@
 			- ![image.png](../assets/image_1684430859609_0.png)
 		- 可以查看打印信息或者点击其他的选项来进行更多的调试操作了。这里能操作或者看到什么信息？
 		- 1.调用action
-		- 可以调用各种action，和前端定好action可以自己先聊天，不用等待前端调试的环境。
-		- 在控制台输入以下代码，可以调用getUserInfo。
 		  collapsed:: true
-			- ```
-			  WBUTOWN.action.getUserInfo('', (headers) => {
-			        console.log('headers:', headers);
-			  });
-			  ```
-			-
-		-
+			- 可以调用各种action，和前端定好action可以自己先聊天，不用等待前端调试的环境。
+			- 在控制台输入以下代码，可以调用getUserInfo。
+			  collapsed:: true
+				- ```
+				  WBUTOWN.action.getUserInfo('', (headers) => {
+				        console.log('headers:', headers);
+				  });
+				  ```
+				-
+			- ![image.png](../assets/image_1684430891456_0.png)
+		- 2.观察资源的加载过程
+			- 我们内置js和css，怎么能看出webview的确是加载本地文件了？我们在测试中内置了以下js和css：
+			- ![image.png](../assets/image_1684430913871_0.png)
+			- 通过控制台可以看出，内置的js都没有网络请求。
+			  collapsed:: true
+				- ![image.png](../assets/image_1684430929395_0.png)
+			- webview有自己的缓存机制，代码可以设置缓存方式，如下
+				-
 	-
