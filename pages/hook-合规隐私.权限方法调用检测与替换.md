@@ -46,6 +46,7 @@ title:: hook-合规隐私/权限方法调用检测与替换
 		  ```
 - # 2、例子
 	- ## 1、获取android framework方法权限集
+	  collapsed:: true
 		- 首先需要保证已通过sdk manager安装对应compileSdkVersion版本的android源代码**，如下图所示：
 		  collapsed:: true
 			- ![image.png](../assets/image_1684412673589_0.png)
@@ -54,3 +55,25 @@ title:: hook-合规隐私/权限方法调用检测与替换
 			- ```
 			  
 			  ```
+		- 查看android_framework_class_method_permission.json文件的内容格式大致如下：
+		  collapsed:: true
+			- ```
+			  {
+			    "android.telephony.TelephonyManager#getDeviceId": [
+			      "android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE"
+			    ],
+			    "android.telephony.TelephonyManager#getImei": [
+			      "android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE"
+			    ],
+			    "android.telephony.TelephonyManager#getMeid": [
+			      "android.Manifest.permission.READ_PRIVILEGED_PHONE_STATE"
+			    ]
+			  }
+			  ```
+		-
+	- ## 2. scanPermissionMethodCaller（扫描隐私API方法调用）
+		- 配置scanPermissionMethodCaller如下所示:
+		  collapsed:: true
+			- 注意：对于使用ContentResolver的获取联系人/短信等需要权限的行为，暂时不支持通过scanPermissionMethodCaller统计。
+			  可以参考ShadowContentResolver.java和replace_method的配置，
+			  使用replaceMethod进行运行时拦截，统计权限获取情况。
