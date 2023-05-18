@@ -43,5 +43,5 @@
 				  ```
 			- 2、确定哪个类使用依赖注入，添加@AndroidEntryPoint注解。Hilt支持的Android 入口类有：Activity、Fragment、View、Service、BroadcastReceiver
 				- 比如在Activity中注入某个类：
-		-
+					-
 	-
