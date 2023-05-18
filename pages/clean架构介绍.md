@@ -52,7 +52,30 @@
 		- 程序中的 Repository 应该是在数据层和业务逻辑层中间，它从数据层查询数据，将数据从数据源映射到业务实体，并将业务实体的更改保留到数据源。存储库将业务逻辑与与底层数据源或Web服务的交互分离。
 		- 一个比较简单的理解方式就是 上层Domain 层提供了业务接口，传递给 Data 层但不关心数据层是如何实现的。 Data 层的 Respository 只需要实现相关接口提供服务就可以。
 			- ![image.png](../assets/image_1684417959242_0.png)
-	- 数据跨越
+	- ## 数据跨越
+	  collapsed:: true
+		- ![image.png](../assets/image_1684417991698_0.png)
+		- 洋葱图的右下方是一个表示如何跨越环形界限的列子。它展现了 Controllers 和 Presenters 进行的一次的用户交互情形。看一下 Flow of control 这条线，它开始于Controller ，并引用到了穿越 Use Case 层，然后在 Persenter 层执行。简单点来说为了规避这样可能出现违反Clean向内层依赖原则，从而创建出了 Output Port 和 Input Port接口。这样以抽象接口的方式解决内层依赖外层模块的方式叫做 依赖倒置
+		- 依赖倒置 DIP: Dependence Inversion Principle
+		  依赖倒置原则指代了一种特定的解耦形式，使得高层次的模块不依赖于低层次的模块的实现细节的目的，依赖模块被颠倒了.
+		- 在 Java 语言中，抽象就是指接口或抽象类，两者都是不能直接被实例化的；细节就是实现类，实现接口或继承抽象类而产生的类就是细节，其特点就是，可以直接被实例化，也就是可以加上一个关键字 new 产生一个对象。高层模块就是调用端，低层模块就是具体实现类。依赖倒置原则在 Java 语言中的表现就是：模块间的依赖通过抽象发生，实现类之间不发生直接的依赖关系，其依赖关系是通过接口或抽象类产生的。其实简单来说就是：面向接口编程，或者说是面向抽象编程。
+		- 本段节选自《Android 源码设计模式解析与实战》
+	- ## 数据流动
+		- 在分析了架构的各层依赖关系以后，我们通过具体的例子来分析数据是怎么流动的，这能更好的帮助我们理解整个机制。
+		- 举个例子，比如说从Presenter层传递一个对象UserModel给Data层进行存储：
+		- ## Presenter层：
+	- 用户输入数据，并点击OK按钮(View)
+	- Presenter(ViewModel,Controller等同样)获取到数据，并构造一个UserModel
+	- 使用UserModelMapper（Presenter层的数据Mapper对象）将UserModel转换成User对象
+	  调用UseCase.store(user)
+	  Domain层(唯一的目的就是执行上面的业务逻辑:存储对象)：
+	  StoreUseCase接受到User对象
+	  这里可以先做额外的逻辑
+	  调用UserRepository接口的方法，传入User
+	  Data层：
+	  UserDataRepository(UserRepository接口的实现类)，接受到User对象
+	  调用Mapper方法(Data层)将User对象转换成UserEntity
+	  存储UserEntity对象
 - # 参考:
   collapsed:: true
 	- 参考文章
