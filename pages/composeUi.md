@@ -50,6 +50,7 @@
 	  collapsed:: true
 		- ![image.png](../assets/image_1684392069097_0.png)
 - ## 绘制流程
+  collapsed:: true
 	- compose的ui绘制不依赖android ui控件，是完全实现了一套绘制流程。通过LayoutNode树完成绘制，LayoutNode内部通过LayoutNodeWrapper来层层绘制，每层最终由DrawModifier(Modifier子类）来进行绘制
 		- 1、绘制方法传递：从android层传递到LayoutNode，LayoutNode内部绘制结束之后继续绘制子LayoutNode
 		  collapsed:: true
@@ -80,12 +81,20 @@
 			  collapsed:: true
 				- ![image.png](../assets/image_1684394014397_0.png)
 		- 4、为什么关闭硬件加速后出现很多LayerView？
+		  collapsed:: true
 			- 1、我们看LayerView的实现的OwnedLayer。它定义了缩放、透明度、位移、阴影、旋转等多种ui属性
 			  collapsed:: true
 				- ![image.png](../assets/image_1684394096703_0.png)
 			- 2、再看创建layer的代码，如果是硬件加速使用RenderNodeLayer，如果没有硬件加速会使用LayerView
 			  collapsed:: true
 				- ![image.png](../assets/image_1684394108762_0.png)
-			- 3、
-			- 调用Modifier.graphicsLayer { }和Modifier.graphicsLayer()会添加layer
--
+			- 3、调用Modifier.graphicsLayer { }和Modifier.graphicsLayer()会添加layer
+				- 1、调用Modifier.graphicsLayer { } 在方法块里边修改ui属性
+				- 2、Modifier.graphicsLayer() 在函数里边传递ui属性
+- ## 布局流程
+	- compose的布局同样不使用android ui控件布局，是全新的一套布局流程。通过LayoutNode树完成布局，LayoutNode的大小和位置由LayoutNodeWrapper链来确定，最终都是通过Modifier来确定布局的
+	- 1、从AndroidComposeView触发布局流程，MeasureAndLayoutDelegate来分发布局事件
+	  collapsed:: true
+		- ![image.png](../assets/image_1684394161112_0.png)
+		- ![image.png](../assets/image_1684394167523_0.png)
+		- ![image.png](../assets/image_1684394173988_0.png)
