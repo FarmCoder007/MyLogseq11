@@ -204,5 +204,5 @@
 	- [KMM 初探与编译过程详解](https://www.jianshu.com/p/e1ae5eaa894e)
 	- [阿里巴巴 KMM 实战](https://mp.weixin.qq.com/s/2t7N3NdACF-ZtfZWIPJPyQ)
 	- [携程机票 App KMM 跨端生产实践](https://mp.weixin.qq.com/s/gQNPO5iNFH1OQ-ygqjNfTA)
-	- 快速了解KMM、Compose和Flutter现状
-	- KMM官网
+	- [快速了解KMM、Compose和Flutter现状](https://juejin.cn/post/7159131087112208392)
+	- [KMM官网](https://kotlinlang.org/docs/multiplatform-mobile-getting-started.html)

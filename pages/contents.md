@@ -73,7 +73,6 @@
 	- [[并发]]
 	- [[JVM]]
 - Kotlin
-  collapsed:: true
 	- [[基本语法]]
 	- [[注意事项]]
 	- [[Kotlin关键字]]
