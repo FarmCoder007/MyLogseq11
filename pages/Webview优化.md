@@ -18,6 +18,7 @@
 			- 加载渲染完成使用的是WebPageLoadCallBack.onWebPageLoadFinish
 				- ![image.png](../assets/image_1684430599229_0.png)
 - # 3.优化思路
+  collapsed:: true
 	- 第三阶段耗时优化 -- Web加载提速
 	- 该阶段主要是css、js、html网络请求时间的耗时。
 	- 优化方案：预加载所需的css、js、html
@@ -39,4 +40,20 @@
 	- 结论：通过上述结果可以看出方式一效果最好，即：客户端内置模版（html）。webview加载模板，模板请求内容数据并渲染。
 	- 方式一更多维度统计数据
 		- 对方式一再分别统计出内置js和css在正常网络下、4G网络下的耗时和不内置js和css在正常网络下、4G网络下的耗时
-		-
+		  collapsed:: true
+			- ![image.png](../assets/image_1684430718556_0.png)
+		- 结论：通过上述结果得出正常网络，内置资源与不内置资源在首次启动速度有差异，内置资源速度更快，但提升加载速度不明显，只有10%
+		- 4G网络，内置资源在首次启动、非首次启动、热启动加载速度均有所提升，尤其是首次启动，速度提升45%。
+		- 针对首次启动app，提升webview的打开速度，可以采取内置资源和模版的方案。
+		- 和前端同事看完统计数据后都认为结论和预期一致，但是又出新问题了。
+- # 4.Performance
+	- performance 是W3C性能小组引入的新的API，performance 接口可以获取到当前页面中与性能相关的信息。可以通过调用只读属性 window.performance 来获取。
+	- 通过performance可以获取到：
+	- FP（First Paint）：首次绘制时间，这个指标用于记录页面第一次绘制像素的时间。
+	- FCP（First Contentful Paint）：首次内容绘制时间，这个指标用于记录页面首次绘制文本、图片、非空白 Canvas 或 SVG 的时间。
+		- ![image.png](../assets/image_1684430745219_0.png){:height 206, :width 716}
+		- 可以获取更多的信息
+		  collapsed:: true
+			- ![image.png](../assets/image_1684430760038_0.png)
+		- 指标解读：
+			-
