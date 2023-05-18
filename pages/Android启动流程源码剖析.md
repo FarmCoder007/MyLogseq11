@@ -985,5 +985,54 @@
 		- 到此目标应用进程创建成功，application创建成功并执行了onCreate方法，整个过程共涉及3个进程Launcher进程、AMS进程、目标应用的进程。
 		- 那Activity的是如何创建和执行生命周期的呢？
 	- ## 启动流程-Activity创建启动和生命周期管理
+		- 我们熟悉了启动流程的上半部流程，从Launcher启动到Instrumentation、Application的创建时机，本篇为上篇的下半部分，重点讲解启动过程中Activity的创建和生命周期的回调，包括中间过程中涉及到的重要类作用的说明
+		- ### AMS通知App创建Activity并回调相关生命周期
+			- 回到AMS.attachApplicationLocked()，AMS通知客户端进程创建完Application之后，调用mStackSupervisor.attachApplicationLocked()处理Activity：
+			- ### ActivityStackSupervisor.attachApplicationLocked
+			  collapsed:: true
+				- ```
+				  boolean attachApplicationLocked(ProcessRecord app) throws RemoteException {
+				      final String processName = app.processName;
+				      boolean didSomething = false;
+				      for (int displayNdx = mActivityDisplays.size() - 1; displayNdx >= 0; --displayNdx) {
+				          final ActivityDisplay display = mActivityDisplays.valueAt(displayNdx);
+				          for (int stackNdx = display.getChildCount() - 1; stackNdx >= 0; --stackNdx) {
+				              final ActivityStack stack = display.getChildAt(stackNdx);
+				              if (!isFocusedStack(stack)) {
+				                  continue;
+				              }
+				              stack.getAllRunningVisibleActivitiesLocked(mTmpActivityList);
+				              final ActivityRecord top = stack.topRunningActivityLocked();
+				              final int size = mTmpActivityList.size();
+				              for (int i = 0; i < size; i++) {
+				                  final ActivityRecord activity = mTmpActivityList.get(i);
+				                  if (activity.app == null && app.uid == activity.info.applicationInfo.uid
+				                          && processName.equals(activity.processName)) {
+				                      try {
+				                          //真正启动Activity的方法
+				                          if (realStartActivityLocked(activity, app,
+				                                  top == activity /* andResume */, true /* checkConfig */)) {
+				                              didSomething = true;
+				                          }
+				                      } catch (RemoteException e) {
+				                          throw e;
+				                      }
+				                  }
+				              }
+				          }
+				      }
+				      if (!didSomething) {
+				          ensureActivitiesVisibleLocked(null, 0, !PRESERVE_WINDOWS);
+				      }
+				      return didSomething;
+				  }
+				  ```
+				- 从后向前遍历当前显示屏幕上的Activity栈，如果这个栈没有焦点则跳出循环；
+				  遍历这个栈中所有的ActivityRecord，判断ActivityRecord是否绑定了ProcessRecord、uid是否相同、进程名是否相同；
+				  如果这3个条件都满足，则取出这个栈的栈顶处于运行状态的ActivityRecord，调用realStartActivityLocked()方法启动Activity。
+				- app：客户端进程中对应的ProcessRecord；
+				  activity：客户端进程中待启动Activity对应的ActivityRecord。
+				  andResume：true，启动后进行resume操作。
+			-
 	-
 -
