@@ -25,7 +25,6 @@
 		- [[消息循环创建过程]]
 		- [[Android应用进程启动与Binder]]
 	- RecyclerView
-	  collapsed:: true
 		- 动画
 		  collapsed:: true
 			- [[ItemAnimator源码分析]]

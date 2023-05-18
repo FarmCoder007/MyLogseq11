@@ -450,4 +450,23 @@
 			- Hilt 会按照相应 Android 类的生命周期自动创建和销毁生成的组件类的实例。
 			  collapsed:: true
 				- ![image.png](../assets/image_1684424312367_0.png)
--
+		- ## 组件作用域
+		  collapsed:: true
+			- Hilt 允许将绑定的作用域限定为特定组件。Hilt 只为绑定作用域限定到的组件的每个实例创建一次限定作用域的绑定，对该绑定的所有请求共享同一实例。
+			  collapsed:: true
+				- ![image.png](../assets/image_1684424329685_0.png)
+			- Hilt 会在相应 Activity 的整个生命周期内提供 AnalyticsAdapter 的同一实例：
+			  collapsed:: true
+				- ```
+				  @ActivityScoped
+				  class AnalyticsAdapter @Inject constructor(
+				   private val service: AnalyticsService
+				  ) { ... }
+				  ```
+		- 依赖注入优点
+		  重用类以及分离依赖项
+		  更容易换掉依赖项的实现。由于控制反转，代码重用得以改进，并且类不再控制其依赖项的创建方式，而是支持任何配置。
+		- 易于重构
+		  依赖项成为API Surface的可验证部分，因此可以在创建对象时或编译时进行检查，而不是作为实现详情隐藏
+		- 易于测试
+		  类不再管理器依赖项，因此在测试时，您可以传入不同的实现以测试所有不同实例
