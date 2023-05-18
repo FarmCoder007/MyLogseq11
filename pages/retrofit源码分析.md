@@ -184,6 +184,60 @@
 	- callAdapter是对网络请求事件的一次包装，他的作用就是将我们的这个请求封装成一个指定类型的东西，例如如果是rx实现那么就让他变成一个可观察的事件，由外部监听他。
 	- responseConverter很好理解，无非就是之后网络请求结果回来之后，通过这个转换器将数据流转换成对应的实体数据bean。这个转换逻辑是外部实现，retrofit只调用这个能力并不关心具体的实现。
 - # CallAdapter
+  collapsed:: true
+	- 我们接着往下瞅。上边create方法的动态代理处理类里，得到上边的HttpServiceMethod对象后会调用他的invoke方法。
+	  collapsed:: true
+		- ```
+		   @Override
+		    final @Nullable ReturnT invoke(Object[] args) {
+		      Call<ResponseT> call = new OkHttpCall<>(requestFactory, args, callFactory, responseConverter);
+		      return adapt(call, args);
+		    }
+		  ```
+	- 首先创建了一个OkHttpCall对象，然后调用adapt抽象方法。我们具体找一个简单的实现类看看。
+	  collapsed:: true
+		- ```
+		   @Override
+		      protected ReturnT adapt(Call<ResponseT> call, Object[] args) {
+		        return callAdapter.adapt(call);
+		      }
+		  ```
+	- CallAdapter 是个接口我们继续找实现类。我们就找这个RxJavaCallAdapter这个经典的适配器来瞅瞅。
+	  collapsed:: true
+		- ```
+		  @Override
+		    public Object adapt(Call<R> call) {
+		      OnSubscribe<Response<R>> callFunc =
+		          isAsync ? new CallEnqueueOnSubscribe<>(call) : new CallExecuteOnSubscribe<>(call);
+		  
+		      OnSubscribe<?> func;
+		      if (isResult) {
+		        func = new ResultOnSubscribe<>(callFunc);
+		      } else if (isBody) {
+		        func = new BodyOnSubscribe<>(callFunc);
+		      } else {
+		        func = callFunc;
+		      }
+		      Observable<?> observable = Observable.create(func);
+		  
+		      if (scheduler != null) {
+		        observable = observable.subscribeOn(scheduler);
+		      }
+		  
+		      if (isSingle) {
+		        return observable.toSingle();
+		      }
+		      if (isCompletable) {
+		        return observable.toCompletable();
+		      }
+		      return observable;
+		    }
+		  
+		  ```
+	- 嗯，看到这里我们就搞明白了CallAdapter的作用。retrofit是通过这个适配器将我们的请求操作转换成一个observable对象，这样其他地方就可以进行订阅这个可监听事件，如此就完成了rxjava得适配器的转换工作。
+- # responseConverter
+	- 上边我们讲了CallAdapter这个东西可以将我们的请求转换成observable，这样我们就可以用rxjava来进行订阅这个事件。
+	- 那我们继续顺着CallAdapter的代码继续往下看。
 	-
 -
 - 参考：
