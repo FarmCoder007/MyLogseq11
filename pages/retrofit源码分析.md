@@ -236,6 +236,7 @@
 		  ```
 	- 嗯，看到这里我们就搞明白了CallAdapter的作用。retrofit是通过这个适配器将我们的请求操作转换成一个observable对象，这样其他地方就可以进行订阅这个可监听事件，如此就完成了rxjava得适配器的转换工作。
 - # responseConverter
+  collapsed:: true
 	- 上边我们讲了CallAdapter这个东西可以将我们的请求转换成observable，这样我们就可以用rxjava来进行订阅这个事件。
 	- 那我们继续顺着CallAdapter的代码继续往下看。
 		- ```
@@ -334,7 +335,13 @@
 		    }
 		  ```
 	- 这块逻辑很清晰，如果请求结果小于200或者大于等于300就返回异常，如果204或者205就直接返回成功不做解析。如果这些都不是那么就用到了我们的responseConverter进行转换强转。
-	-
--
+	- T body = responseConverter.convert(catchingBody);
+	      return Response.success(body, rawResponse);
+	  这又有一个知识点，Http状态码204和205是啥？
+	- HTTP 204(no content)表示响应执行成功，但没有数据返回，浏览器不用刷新，不用导向新页面。
+	- HTTP 205(reset content) 表示响应执行成功，重置页面（Form表单），方便用户下次输入。
+	- 也就是说他们只是表示一个成功的请求，但是没有数据，客户端也不要对内容进行解析。这样就可以减少传输大小。
+- # 结语
+	- 本文只是简单巴拉了下Retrofit的源码，分析了下callAdapter和responseConverter主要功能以及一些零碎的知识点。下次再巴拉OkHttp看它怎么进行网络请求的
 - 参考：
 	- https://hexilee.me/2018/09/27/animal-sniffer/
