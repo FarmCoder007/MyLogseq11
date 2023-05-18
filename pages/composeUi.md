@@ -51,5 +51,12 @@
 		- ![image.png](../assets/image_1684392069097_0.png)
 - ## 绘制流程
 	- compose的ui绘制不依赖android ui控件，是完全实现了一套绘制流程。通过LayoutNode树完成绘制，LayoutNode内部通过LayoutNodeWrapper来层层绘制，每层最终由DrawModifier(Modifier子类）来进行绘制
-	- 绘制方法传递：从android层传递到LayoutNode，LayoutNode内部绘制结束之后继续绘制子LayoutNode
+		- 1、绘制方法传递：从android层传递到LayoutNode，LayoutNode内部绘制结束之后继续绘制子LayoutNode
+		  collapsed:: true
+			- compose从AndroidComposeView的dispatchDraw开始绘制，调用root: LayoutNode的draw方法
+			- LayoutNode的draw方法调用outerLayoutNodeWrapper: LayoutWrapper的draw方法
+			- LayoutNodeWrapper依次向后调用，LayoutNodeWrapper绘制结束后，再依次调用LayoutNode的子节点的draw方法
+		- 2、LayoutNode内部是分层绘制，每层最终由DrawModifier(Modifier子类）来进行绘制
+			-
+		- 以上面的Demo为例，给Column底部添加颜色和文字
 -
