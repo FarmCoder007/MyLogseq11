@@ -51,6 +51,7 @@
 	- 有注解就有注解处理器，ARouter也是基于APT+ Javapoat，构建路由表的逻辑就在RouteProcessor，也是在RouteProcessor里生成了上面的那些类
 	- APT 和 javapoat 有同学分享过，这也是APT 和 javapoat应用很好的一个例子
 	- 1、BaseProcessor
+	  collapsed:: true
 		- RouteProcessor 继承了 BaseProcessor
 		  collapsed:: true
 			- ```
@@ -111,9 +112,76 @@
 			  就是我们在build.gradle里配置的 AROUTER_MODULE_NAME
 			- ![image.png](../assets/image_1684399429922_0.png)
 		- ### init（）
+		  collapsed:: true
 			- 从 options 里获取 moduleName，如果moduleName为空抛出异常； 异常信息就是这段字符串：
 			- ![image.png](../assets/image_1684399453466_0.png)
-			-
+			- 这就是为什么如果不在build.gradle里配置AROUTER_MODULE_NAME，会异常的原因， moduleName有什么用？
 		-
+	- 2、RouteProcessor
+		- 1
+		  collapsed:: true
+			- ```
+			  public class RouteProcessor extends BaseProcessor {
+			      private Map<String, Set<RouteMeta>> groupMap = new HashMap<>(); // ModuleName and routeMeta.
+			      private Map<String, String> rootMap = new TreeMap<>();  // Map of root metas, used for generate class file in order.
+			  
+			      private TypeMirror iProvider = null;
+			  
+			      @Override
+			      public synchronized void init(ProcessingEnvironment processingEnv) {
+			          super.init(processingEnv);
+			          //
+			          iProvider = elementUtils.getTypeElement(Consts.IPROVIDER).asType();
+			      }
+			  
+			      @Override
+			      public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+			          if (CollectionUtils.isNotEmpty(annotations)) {
+			              Set<? extends Element> routeElements = roundEnv.getElementsAnnotatedWith(Route.class);
+			                  try {
+			                      this.parseRoutes(routeElements);
+			                  } catch (Exception e) {
+			                  }
+			                  return true;
+			              }
+			  
+			              return false;
+			      }
+			  
+			  }
+			  ```
+		- 创建两个map，分别用来存放当前模块下所有的分组（rootMap），和每个分组下的路径（groupMap）
+		- private Map<String, Set<RouteMeta>> groupMap = new HashMap<>();
+		  private Map<String, String> rootMap = new TreeMap<>();
+		- process（）方法调用了parseRoutes（）方法，处理注解的逻辑在这个方里
+		- 先从类名获取activity/fragment/service 的类型，用于后面的类型判断
+		  collapsed:: true
+			- ```
+			  private void parseRoutes(Set<? extends Element> routeElements) throws IOException {
+			      if (CollectionUtils.isNotEmpty(routeElements)) {
+			          // prepare the type an so on.
+			  
+			          logger.info(">>> Found routes, size is " + routeElements.size() + " <<<");
+			  
+			          rootMap.clear();
+			  
+			           //ACTIVITY = "android.app.Activity";
+			           //FRAGMENT = "android.app.Fragment";
+			           //SERVICE = "android.app.Service";
+			         
+			          TypeMirror type_Activity = elementUtils.getTypeElement(ACTIVITY).asType();
+			          TypeMirror type_Service = elementUtils.getTypeElement(SERVICE).asType();
+			          TypeMirror fragmentTm = elementUtils.getTypeElement(FRAGMENT).asType();
+			          TypeMirror fragmentTmV4 = elementUtils.getTypeElement(Consts.FRAGMENT_V4).asType();
+			  
+			          // IRouteRoot、IRouteGroup 接口
+			          TypeElement type_IRouteGroup = elementUtils.getTypeElement(IROUTE_GROUP);
+			          TypeElement type_IProviderGroup = elementUtils.getTypeElement(IPROVIDER_GROUP);
+			          ClassName routeMetaCn = ClassName.get(RouteMeta.class);
+			          ClassName routeTypeCn = ClassName.get(RouteType.class);
+			  ```
+		- 创建 RouteMeta 对象，RouteMeta主要存放的是路径信息，包含了Rout注解的值（path，name，group…），安卓activity/fragment/service类名，Element（只要用来获取注解类的className），以及跳转参数信息。
+			- ```
+			  ```
 	-
 -
