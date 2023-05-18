@@ -162,11 +162,55 @@
 				  ```
 				-
 			- ### 注入相同类的不同实例
+			  collapsed:: true
 				- 如果现在需要获取同一个接口的不同实例。上面讲到了使用 @Binds 注入接口实例，但是现在需要多个不同的实例，不能通过设置不同的方法名来注入多个实例。
 				- 1、首先要使用**@Qualifier** 和**@Retention**注解来自定义注释的限定符，这个限定符用于模块的@Binds、@Provides注解
+				  collapsed:: true
 					- ```
+					  @Qualifier
+					  @Retention(RetentionPolicy.RUNTIME)
+					  private annotation class AuthInterceptorOkHttpClient
+					  
+					  @Qualifier
+					  @Retention(RetentionPolicy.RUNTIME)
+					  private annotation class OtherInterceptorOkHttpClient
 					  ```
-			-
+				- 2、然后，Hilt需要知道如何提供与每个限定符对应的类型的实例。下面的两个方法具有相同的返回值类型，但是限定符将它们标记为两个不同的绑定。
+				  collapsed:: true
+					- ```
+					  @Module
+					  @InstallIn(ApplicationComponent::class)
+					  class NetworkModule {
+					      @AuthInterceptorOkHttpClient
+					      @Provides
+					      fun provideAuthInterceptorOkHttpClient(AuthInterceptor authInterceptor): OkHttpClient {
+					          return OkHttpClient.Builder()
+					              .addInterceptor(authInterceptor)
+					              .build();
+					      }
+					  
+					      @OtherInterceptorOkHttpClient
+					      @Provides
+					      fun provideOtherInterceptorOkHttpClient(OtherInterceptor otherInterceptor): OkHttpClient {
+					          return OkHttpClient.Builder()
+					              .addInterceptor(otherInterceptor)
+					              .build();
+					      }
+					  }
+					  ```
+				- 3、在使用时也需要使用自定义的限定符来标记不同的实例
+				  collapsed:: true
+					- ```
+					  @AndroidEntryPoint
+					  class ExampleActivity : AppCompatActivity() {
+					  
+					    @AuthInterceptorOkHttpClient
+					    @Inject
+					    val okHttpClient:OkHttpClient
+					    ...
+					  }
+					  ```
+			- ### 注入类的生命周期和作用域
 		-
 		-
 	-
