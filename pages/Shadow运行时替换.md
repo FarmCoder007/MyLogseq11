@@ -20,6 +20,7 @@
 	  }
 	  ```
 - # 0x01 初始化Shadow库
+  collapsed:: true
 	- 在Application的attachBaseContext()方法中，初始化Shadow库，模板代码如下：
 	  collapsed:: true
 		- ```
@@ -89,3 +90,51 @@
 			      }
 			  }
 			  ```
+	-
+		- 在编写拦截器时，最重要的是获取以下两点：
+		- 获取待拦截服务的名称。
+		  获取待拦截服务对应的方法。
+		-
+- # 0x02 编写TelephonyManager拦截器
+	- 下面我们以TelephonyManager.getDeviceId()为例，分析如果获取待拦截的服务名称和方法，从而实现拦截器。
+	- # 1. 获取待拦截服务方法名
+	  collapsed:: true
+		- 以android-30代码为基准，打开TelephonyManager的源代码，可以看到getDeviceId有两个方法，其中一个无参数，一个有参数，
+		  我们这里以无参的方法1进行分析，方法2可以参考方法1的分析，自行实现，两个方法的代码如下：
+		- 注意: 不同android版本的服务实现不同，需要进行适配，避免遗漏。如getDeviceId()方法的实现在android-26中，调用的服务方法名称就是getDeviceId.
+		  collapsed:: true
+			- ```
+			  // 方法1:
+			  public String getDeviceId() {
+			      try {
+			          ITelephony telephony = getITelephony();
+			          if (telephony == null)
+			              return null;
+			          return telephony.getDeviceIdWithFeature(mContext.getOpPackageName(),
+			                  mContext.getAttributionTag());
+			      } catch (RemoteException ex) {
+			          return null;
+			      } catch (NullPointerException ex) {
+			          return null;
+			      }
+			  }
+			  
+			  // 方法2:
+			  public String getDeviceId(int slotIndex) {
+			      // FIXME this assumes phoneId == slotIndex
+			      try {
+			          IPhoneSubInfo info = getSubscriberInfoService();
+			          if (info == null)
+			              return null;
+			          return info.getDeviceIdForPhone(slotIndex, mContext.getOpPackageName(),
+			                  mContext.getAttributionTag());
+			      } catch (RemoteException ex) {
+			          return null;
+			      } catch (NullPointerException ex) {
+			          return null;
+			      }
+			  }
+			  ```
+		- 从方法1的代码中可以看到，TelephonyManager.getDeviceId()是通过调用ITelephony.getDeviceIdWithFeature()方法获取的，所以我们需要拦截的系统服务为ITelephony，需要拦截的方法为getDeviceIdWithFeature。
+	- # 2. 获取待拦截服务名称
+		-
