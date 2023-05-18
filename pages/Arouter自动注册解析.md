@@ -103,4 +103,78 @@
 		- PluginLaunch 是自定义的gradle Plugin，RegisterTransform是自定义的Transform。apply(）方法先给 registerList 初始化了数据，这里只看IRouteRoot这个接口是怎么处理的，其他俩个流程也是一样的。IRouteRoot的实现类就是一个个的ARouter$Root$xxx
 	- ## 2. 扫描Jar文件 和 源码的class 文件
 		- 遍历TransformInput集合，扫描所有的jar文件和.class 文件
+		  collapsed:: true
+			- ```
+			   void transform(Context context, Collection<TransformInput> inputs
+			               , Collection<TransformInput> referencedInputs
+			               , TransformOutputProvider outputProvider
+			               , boolean isIncremental) throws IOException, TransformException, InterruptedException {
+			  
+			       。。。
+			       inputs.each { TransformInput input ->
+			  
+			           // 遍历 jar文件
+			           input.jarInputs.each { JarInput jarInput ->
+			                ...
+			               //scan jar file to find classes
+			               if (ScanUtil.shouldProcessPreDexJar(src.absolutePath)) {
+			                   ScanUtil.scanJar(src, dest)
+			               }
+			               FileUtils.copyFile(src, dest)
+			           }
+			  
+			           // 扫描源码编译的class文件 
+			           input.directoryInputs.each { DirectoryInput directoryInput ->
+			               。。。
+			               directoryInput.file.eachFileRecurse { File file ->
+			                  ...
+			                   if(file.isFile() && ScanUtil.shouldProcessClass(path)){
+			                       ScanUtil.scanClass(file)
+			                   }
+			               }
+			  
+			               // copy to dest
+			               FileUtils.copyDirectory(directoryInput.file, dest)
+			           }
+			       }
+			  
+			   //过滤掉"com.android.support"和"/android/m2repository"
+			  
+			   static boolean shouldProcessPreDexJar(String path) {
+			       return !path.contains("com.android.support") && !path.contains("/android/m2repository")
+			   }         
+			  ```
+		- 代码里看到有两种input类型，一种是jarInput，包含jar、aar包的文件；另一种是directoryInputs，包含源码编译的.class文件。扫描所有的jar文件和源码class文件，并且过滤掉android/support包。
+		  然后outputProvider 获取到输出路径dest，所有的jar和class文件都copy一份到dest，交给下个Transform。
+		- ScanUtil 是一个工具类， scanJar(src, dest) 和 scanClass(file) 分别是用来扫描jar文件和源码class文件的。扫描的原理是利用 ASM 的 ClassVisitor 来查看每个类的父类类名及所实现的接口名称，与指定的类名进行比较，如果符合我们的过滤条件，则记录下来。也就是 IRouteRoot 接口的实现类：ARouter$Root$xxx。
+		- 扫描 jar文件
+		  collapsed:: true
+			- ```
+			  static void scanJar(File jarFile, File destFile) {
+			          if (jarFile) {
+			              def file = new JarFile(jarFile)
+			              Enumeration enumeration = file.entries()
+			              while (enumeration.hasMoreElements()) {
+			                  JarEntry jarEntry = (JarEntry) enumeration.nextElement()
+			                  String entryName = jarEntry.getName()
+			  
+			                  if (entryName.startsWith(ScanSetting.ROUTER_CLASS_PACKAGE_NAME)) {
+			                      //ScanSetting.ROUTER_CLASS_PACKAGE_NAME = “com/alibaba/android/arouter/routes/”
+			  
+			                      InputStream inputStream = file.getInputStream(jarEntry)
+			                      scanClass(inputStream)
+			                      inputStream.close()
+			                  } else if (ScanSetting.GENERATE_TO_CLASS_FILE_NAME == entryName) {
+			                      //ScanSetting.GENERATE_TO_CLASS_FILE_NAME = “com/alibaba/android/arouter/core/LogisticsCenter.class”
+			  
+			                      RegisterTransform.fileContainsInitClass = destFile
+			                  }
+			              }
+			              file.close()
+			          }
+			  }
+			  ```
+			- 遍历每个jar 文件包下的.class文件，如果包名是“com.alibaba.android.arouter.routes”则调用 scanClass（）方法
+			- 如果遍历到com.alibaba.android.arouter.core.LogisticsCenter.class ，把这个jar路径记录下来。
+		- 扫描.class文件
 		-
