@@ -108,13 +108,13 @@
 	- [[文件内容操作]]
 	- [[开发工具]]
 - 前端
-  collapsed:: true
 	- [[yarn环境配置]]
 	- [[常见的文档生成工具]]
 	- [[常见命令]]
 	- [[React]]
 	- [[JavaScript]]
 - Gradle
+  collapsed:: true
 	- [[Gradle文档]]
 	- [[buildConfig相关]]
 	- [[gradle/apt调试]]
