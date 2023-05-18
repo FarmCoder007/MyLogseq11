@@ -499,4 +499,105 @@
 		  ActivityThread在Android中它就代表了Android的主线程，但是并不是一个Thread类。
 		  严格来说，UI主线程不是ActivityThread。ActivityThread类是Android APP进程的初始类，它的main函数是这个APP进程的入口。APP进程中UI事件的执行代码段都是由ActivityThread提供的。
 	- ## ActivityThread.attach()创建Instrumentation和Application
+	  collapsed:: true
+		- 代码：
+		  collapsed:: true
+			- ```
+			  private void attach(boolean system) {
+			      sCurrentActivityThread = this;
+			      // 是否是系统进程
+			      mSystemThread = system;
+			      if (!system) {
+			          ViewRootImpl.addFirstDrawHandler(new Runnable() {
+			              @Override
+			              public void run() {
+			                  ensureJitEnabled();
+			              }
+			          });
+			          // 暂时设置进程的名字为<pre-initialized>
+			          android.ddm.DdmHandleAppName.setAppName("<pre-initialized>",
+			                                                  UserHandle.myUserId());
+			          RuntimeInit.setApplicationObject(mAppThread.asBinder());
+			          // 调用AMS
+			          final IActivityManager mgr = ActivityManagerNative.getDefault();
+			          try {
+			              mgr.attachApplication(mAppThread);
+			          } catch (RemoteException ex) {}
+			          // GC检测
+			          BinderInternal.addGcWatcher(new Runnable() {
+			              @Override public void run() {
+			                  if (!mSomeActivitiesChanged) {
+			                      return;
+			                  }
+			                  Runtime runtime = Runtime.getRuntime();
+			                  long dalvikMax = runtime.maxMemory();
+			                  long dalvikUsed = runtime.totalMemory() - runtime.freeMemory();
+			                  if (dalvikUsed > ((3*dalvikMax)/4)) {
+			                      //当已用内存超过最大内存的3/4,则请求释放内存空间
+			                      mSomeActivitiesChanged = false;
+			                      try {
+			                          mgr.releaseSomeActivities(mAppThread);
+			                      } catch (RemoteException e) {
+			                      }
+			                  }
+			              }
+			          });
+			      } else {
+			          // 如果是系统进程，设置名称为system_process
+			          android.ddm.DdmHandleAppName.setAppName("system_process",
+			                  UserHandle.myUserId());
+			          // 初始化mInstrumentation和mInitialApplication
+			          // 非系统进程这些对象的初始化在handleBindApplication()中进行
+			          try {
+			              mInstrumentation = new Instrumentation();
+			              ContextImpl context = ContextImpl.createAppContext(
+			                      this, getSystemContext().mPackageInfo);
+			              mInitialApplication = context.mPackageInfo.makeApplication(true, null);
+			              mInitialApplication.onCreate();
+			          } catch (Exception e) {...}
+			      }
+			      DropBox.setReporter(new DropBoxReporter());
+			      // 这里要快速的设置Config回调
+			      ViewRootImpl.addConfigCallback(new ComponentCallbacks2() {
+			          @Override
+			          public void onConfigurationChanged(Configuration newConfig) {
+			              synchronized (mResourcesManager) {
+			                  // 快速响应onConfigurationChanged
+			                  if (mResourcesManager.applyConfigurationToResourcesLocked(newConfig, null)) {
+			                      if (mPendingConfiguration == null ||
+			                              mPendingConfiguration.isOtherSeqNewer(newConfig)) {
+			                          mPendingConfiguration = newConfig;
+			                          sendMessage(H.CONFIGURATION_CHANGED, newConfig);
+			                      }
+			                  }
+			              }
+			          }
+			          @Override
+			          public void onLowMemory() {
+			          }
+			          @Override
+			          public void onTrimMemory(int level) {
+			          }
+			      });
+			  }
+			  ```
+		- ActivityThread.attach()的方法调用ActivityManagerService的attchApplication方法，创建Instrumentation和Application，Instrumentation的作用是监视应用程序和系统的所有交互，文章一开始已经介绍，所以我们一定要了解到它的创建和执行流程；
+	- ## ActivityManagerService.attachApplication()
+		- 代码
+		  collapsed:: true
+			- ```
+			  @Override
+			      public final void attachApplication(IApplicationThread thread, long startSeq) {
+			          if (thread == null) {
+			              throw new SecurityException("Invalid application interface");
+			          }
+			          synchronized (this) {
+			              int callingPid = Binder.getCallingPid();
+			              final int callingUid = Binder.getCallingUid();
+			              final long origId = Binder.clearCallingIdentity();
+			              attachApplicationLocked(thread, callingPid, callingUid, startSeq);
+			              Binder.restoreCallingIdentity(origId);
+			          }
+			      }
+			  ```
 	-
