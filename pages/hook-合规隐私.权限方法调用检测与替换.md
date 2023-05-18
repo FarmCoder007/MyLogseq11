@@ -77,3 +77,61 @@ title:: hook-合规隐私/权限方法调用检测与替换
 			- 注意：对于使用ContentResolver的获取联系人/短信等需要权限的行为，暂时不支持通过scanPermissionMethodCaller统计。
 			  可以参考ShadowContentResolver.java和replace_method的配置，
 			  使用replaceMethod进行运行时拦截，统计权限获取情况。
+			- ```
+			  scanPermissionMethodCaller {
+			      // 会在 replaceMethod 之后执行，所以在 replaceMethod 中配置的方法不会被统计到。
+			      enable = true
+			  
+			      // 配置未添加权限的方法，比如隐私方法等。
+			      configPermissionMethods = [
+			              "android.content.pm.PackageManager#getInstalledPackages"         : [
+			                      "获取应用列表"
+			              ] as Set,
+			              "android.content.pm.PackageManager#getInstalledApplications"     : [
+			                      "获取应用列表"
+			              ] as Set,
+			  
+			              // 高德地图
+			              "com.amap.api.location.AMapLocationClient#startLocation"         : [
+			                      "android.Manifest.permission.ACCESS_FINE_LOCATION",
+			              ] as Set,
+			              "com.amap.api.location.AMapLocationClient#startAssistantLocation": [
+			                      "android.Manifest.permission.ACCESS_FINE_LOCATION",
+			              ] as Set,
+			  
+			              // 百度地图
+			              "com.baidu.location.LocationClient#start"                        : [
+			                      "android.Manifest.permission.ACCESS_FINE_LOCATION",
+			              ] as Set,
+			  
+			              "android.net.wifi.WifiInfo#getMacAddress"                        : [
+			                      "Mac地址"
+			              ] as Set,
+			              "java.net.NetworkInterface#getHardwareAddress"                   : [
+			                      "Mac地址"
+			              ] as Set,
+			      ]
+			  
+			      // 当执行 `collectAndroidPermissionMethod` 任务成功后，
+			      // 会生成 android_framework_class_method_permission.json 到当前project目录中.
+			      configFile = file("android_framework_class_method_permission.json")
+			  
+			      // 输出扫描结果
+			      outputFile = file("scan_permission_method_caller.json")
+			  
+			      // 忽略android系统库
+			      excludes = [
+			              "android/", "java/", "javax/", 'com/coofee/rewrite/hook/'
+			      ]
+			  }
+			  ```
+		- 然后通过如下命令编译应用：
+		  collapsed:: true
+			- ```
+			  $ ./gradlew :app:assembleDebug
+			  [RewritePlugin] scan permission method caller result success write to file app/scan_permission_method_caller_result.json
+			  [RewritePlugin] scan permission method caller result success write to file app/scan_permission_method_caller_result_by_module.json
+			  ```
+		- scan_permission_method_caller_result.json扫描结果文件是按照权限进行分组，样例如下：
+			- ```
+			  ```
