@@ -100,49 +100,49 @@ Java 程序员都知道对象初始化的重要性，我们要使用一个对象
 * 缺点：有引用关系的对象之间的距离就会比较远，这将不利于业务线程运行期的缓存命中；
 
 * 深度优先搜索的非递归写法需要占用额外的空间，但有利于提高业务线程运行期的缓存命中率。而广度优先搜索则与其相反，它不利于运行期的缓存命中，但算法的执行效率更高。所以 JDK6 以前的 JVM 使用了广度优先的非递归遍历，而在 JDK8 以后，已经把广度优先算法改为深度优先了，尽管这样做需要额外引用一个独立的栈。
-### 2、CMS算法
-* CMS（Concurrent Mark Sweep）是一款里程碑式的垃圾收集器，为什么这么说呢？
-* 在它之前，GC线程和用户线程是无法同时工作的，即使是Parallel Scavenge，也不过是GC时开启多个线程并行回收而已，GC的整个过程依然要暂停用户线程，即Stop The World。这带来的后果就是Java程序运行一段时间就会卡顿一会，降低应用的响应速度，这对于运行在服务端的程序是不能被接收的。
-* CMS过程图大家都很熟悉，但是对于他如何实现并发你真的了解吗？
-![](./assets/数据结构之链表的应用/cms_process.png)
-![](./assets/数据结构之链表的应用/cms_details.png)
-#### 三色标记
-* Serial、ParNew等垃圾收集器会简单粗暴的等所有线程进行安全点后STW；而CMS、G1等垃圾收集器采取了并发标记的策略；
-* 在并发标记的过程中，对象间的引用关系也一直在发生改变：如原本与GCRoots存在间接引用的节点在并发标记过程中断连了，而这会产生并发的问题，如何解决？使用三色标记算法进行分析;
-* 三色标记，即通过不同的颜色标记处于不同标记状态的对象
-![](./assets/数据结构之链表的应用/three_color.png)
-#### 漏标
-* 对于一个本来不应该被回收的对象，却被标记成白色；
-```
-public class ThreeColorRemark {
-
-  private static A a ;
-  public static void main(String[] args) {
-      creatClassA();
-      //并发标记
-      a.d = a.b.d ;
-      a.b.d = null ;
+- ### 2、CMS算法
+  * CMS（Concurrent Mark Sweep）是一款里程碑式的垃圾收集器，为什么这么说呢？
+  * 在它之前，GC线程和用户线程是无法同时工作的，即使是Parallel Scavenge，也不过是GC时开启多个线程并行回收而已，GC的整个过程依然要暂停用户线程，即Stop The World。这带来的后果就是Java程序运行一段时间就会卡顿一会，降低应用的响应速度，这对于运行在服务端的程序是不能被接收的。
+  * CMS过程图大家都很熟悉，但是对于他如何实现并发你真的了解吗？
+  ![image.png](../assets/image_1684416006635_0.png) 
+  ![image.png](../assets/image_1684416023519_0.png)
+- #### 三色标记
+  * Serial、ParNew等垃圾收集器会简单粗暴的等所有线程进行安全点后STW；而CMS、G1等垃圾收集器采取了并发标记的策略；
+  * 在并发标记的过程中，对象间的引用关系也一直在发生改变：如原本与GCRoots存在间接引用的节点在并发标记过程中断连了，而这会产生并发的问题，如何解决？使用三色标记算法进行分析;
+  * 三色标记，即通过不同的颜色标记处于不同标记状态的对象
+  ![image.png](../assets/image_1684416034141_0.png)
+- #### 漏标
+  * 对于一个本来不应该被回收的对象，却被标记成白色；
+  ```
+  public class ThreeColorRemark {
+  
+    private static A a ;
+    public static void main(String[] args) {
+        creatClassA();
+        //并发标记
+        a.d = a.b.d ;
+        a.b.d = null ;
+    }
+    private static void creatClassA() {
+        a = new A();
+        return; //安全点
+    }
   }
-  private static void creatClassA() {
-      a = new A();
-      return; //安全点
+  class A{
+    B b = new B();
+    D d = null;
   }
-}
-class A{
-  B b = new B();
-  D d = null;
-}
-class B{
-  C c = new C();
-  D d = new D();
-}
-class C{}
-class D{}
-```
-![](./assets/数据结构之链表的应用/three-color-missing.drawio.svg)
-
-* 对于以上黑色指向了未被标记的白色，将会导致白色对象不会再被扫描到而漏标，运行时会导致空指针；CMS时如何避免呢？
-![](./assets/数据结构之链表的应用/more_miss_type.png)
+  class B{
+    C c = new C();
+    D d = new D();
+  }
+  class C{}
+  class D{}
+  ```
+  ![image.png](../assets/image_1684416044498_0.png) 
+  
+  * 对于以上黑色指向了未被标记的白色，将会导致白色对象不会再被扫描到而漏标，运行时会导致空指针；CMS时如何避免呢？
+  ![image.png](../assets/image_1684416058028_0.png)
 #### 增量更新
 * 通过破坏第一条规则实现：依靠写屏障
 ![](./assets/数据结构之链表的应用/incremental_update.jpg)
