@@ -11,3 +11,83 @@
 	- 按照我们之前的了解，注解处理器APT只能用来生成代码，无法修改代码，但有了AST就不一样了。
 	  IDE里面的Lombok插件的原理就是利用APT动态修改AST，给现有类增加了新的逻辑。
 	- 原理我们现在都明白了，下面直接写个Hello World试试水。
+	- 示例Demo
+		- 1、javasdk/Contents/Home/lib/tools.jar中提供了AST相关的API，我们需要引用这个库
+		- 2、 配置AST
+		  collapsed:: true
+			- ```
+			  class ASTProcessor : AbstractProcessor() {
+			  
+			      // 生成的AST
+			      private lateinit var trees: Trees
+			      // 用于生成新代码
+			      private lateinit var treeMaker: TreeMaker
+			      // 用于构建命名
+			      private lateinit var names: Names
+			  
+			      override fun init(processingEnv: ProcessingEnvironment?) {
+			          super.init(processingEnv)
+			          if (processingEnv is JavacProcessingEnvironment) {
+			              trees = Trees.instance(processingEnv)
+			              treeMaker = TreeMaker.instance(processingEnv.context)
+			              names = Names.instance(processingEnv.context)
+			          }
+			      }
+			  
+			  }    
+			  ```
+		- 3、修改AST
+			- ```
+			  override fun process(typeElementSet: MutableSet, roundEnvironment: RoundEnvironment): Boolean {
+			      for (typeElement in typeElementSet) {
+			          val elements = roundEnvironment.getElementsAnnotatedWith(typeElement)
+			          for (element in elements) {
+			              // 找到Element对应的子树
+			              val jcTree = trees.getTree(element) as JCTree
+			              jcTree.accept(myVisitor)
+			          }
+			      }
+			      return false
+			  }
+			  
+			  private val myVisitor = object : TreeTranslator() {
+			      /**
+			       * 访问者模式里的类定义visit
+			       */
+			      override fun visitClassDef(tree: JCClassDecl) {
+			          super.visitClassDef(tree)
+			          // defs指定义的内容，包含方法、参数、内部类等
+			          for (jcTree in tree.defs) {
+			              // 如果是参数
+			              if (jcTree is JCVariableDecl) {
+			                  tree.defs.append(makeGetterMethod(jcTree))
+			              }
+			          }
+			      }
+			  }
+			  
+			  /**
+			   * 构建get方法
+			   */
+			  private fun makeGetterMethod(variable: JCVariableDecl): JCMethodDecl? {
+			      // this
+			      val ident = treeMaker.Ident(names.fromString("this"))
+			      // this.xx
+			      val select = treeMaker.Select(ident, variable.name)
+			      // return this.xxx
+			      val jcStatement: JCStatement = treeMaker.Return(select)
+			      // 把整个表达式塞到代码块里
+			      val jcBlock = treeMaker.Block(0, List.nil<JCStatement?>().append(jcStatement))
+			  
+			      return treeMaker.MethodDef(
+			          treeMaker.Modifiers(Flags.PUBLIC.toLong()), //public
+			          getterMethodName(variable),   // getXxx
+			          variable.vartype,             // return 类型
+			          List.nil<JCTypeParameter>(),  // 泛型参数列表
+			          List.nil<JCVariableDecl>(),   // 参数列表
+			          List.nil<JCExpression>(),     // 异常抛出列表
+			          jcBlock,                      // 代码块
+			          null
+			      )
+			      }
+			  ```
