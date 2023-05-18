@@ -568,17 +568,22 @@
 	-
 	- # 总结
 		- 问题
-		  反编译的时候发现调用launch创建了一个继承SuspendLambda的协程体对象，后面又调用了create方法创建了一个协程体对象？
+			- 反编译的时候发现调用launch创建了一个继承SuspendLambda的协程体对象，后面又调用了create方法创建了一个协程体对象？
 		- 其实这里使用了装饰模式，协程其实一共有3层包装，每一层包装都自己的职责：
-	- 第一层就是launch和async返回的Job、Deferred，里面封装了协程状态，提供了取消协程接口，而它们的实例都是继承自AbstractCoroutine，AbstractCoroutine就是协程的第一层包装
-	- 第二层包装是编译器生成的SuspendLambda的子类，封装了协程执行的代码和执行逻辑，SuspendLambda又继承自BaseContinuationImpl，其completion属性就是协程的第一层包装
-	- 第三层包装是协程的线程调度器DispatchedContinuation，封装了线程调度逻辑，并持有协程的第二层包装对象。
-	- 回顾
-	  协程体类：封装协程体的操作逻辑。
-	  CoroutineScope：协程作用域，作用域取消则内部协程相应取消。
-	  CoroutineContext：协程上下文，是一个存储了协程运行时信息的集合。
-	  CoroutineStart：协程启动模式，4种：DEFAULT、LAZY、ATOMIC、UNDISPATCHED。
-	  Dispatchers ：线程调度器，4种：Default、Main、Unconfined、IO。
-	  CoroutineScheduler：执行协程体代码的线程池。
-	  Worker：Worker的实现是继承了Thread，对java线程的封装。
+			- 第一层就是launch和async返回的Job、Deferred，里面封装了协程状态，提供了取消协程接口，而它们的实例都是继承自AbstractCoroutine，AbstractCoroutine就是协程的第一层包装
+			- 第二层包装是编译器生成的SuspendLambda的子类，封装了协程执行的代码和执行逻辑，SuspendLambda又继承自BaseContinuationImpl，其completion属性就是协程的第一层包装
+			- 第三层包装是协程的线程调度器DispatchedContinuation，封装了线程调度逻辑，并持有协程的第二层包装对象。
+	- # 回顾
+	  collapsed:: true
+		- 协程体类：封装协程体的操作逻辑。
+		- CoroutineScope：协程作用域，作用域取消则内部协程相应取消。
+		- CoroutineContext：协程上下文，是一个存储了协程运行时信息的集合。
+		- CoroutineStart：协程启动模式，4种：DEFAULT、LAZY、ATOMIC、UNDISPATCHED。
+		- Dispatchers ：线程调度器，4种：Default、Main、Unconfined、IO。
+		- CoroutineScheduler：执行协程体代码的线程池。
+		- Worker：Worker的实现是继承了Thread，对java线程的封装。
+	- # 收获
+		- 未指定Dispatchers.Main的kotlin协程就是运行在线程池中，可以理解为kotlin协程就是一种运行在线程中的任务，只不过这种任务依赖于kotlin语法糖，使用起来更便捷。
+		- 目前较多开源项目已支持kotlin协程，使用kotlin协程可以显著减少线程池数量。
+		- kotlin源码实现比较复杂，对于习惯了java式代码风格而缺少kotlin语法经验的同学阅读源码过程中可以学到很多kotlin的高级语法。
 -
