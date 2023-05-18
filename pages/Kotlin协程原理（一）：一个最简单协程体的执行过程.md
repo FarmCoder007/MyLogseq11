@@ -10,6 +10,7 @@
 - # 原理解析
 	- 本文着重于协程原理的剖析，不再进行协程使用部分的介绍，如不了解请参考其他使用文档。本文使用的kotlin版本为1.6.1，不同kotlin版本生成的字节码稍有不同，内部原理没有太大区别。
 	- ## 源码分析
+	  collapsed:: true
 		- 为了详细展示出运行的原理，下面一段中包含大量代码，可以先阅读文字解说再看大致源码。
 		- 第一步我们从最简单的代码开始，逐步剖析其中的原理，下面是我准备的第一段代码：
 		  collapsed:: true
@@ -340,6 +341,59 @@
 			      }
 			  ```
 		- 由于首次执行协程，没有挂起的线程，tryUnpark方法可以忽略，继续看tryCreateWorker方法
+		  collapsed:: true
 			- ```
+			  private fun tryCreateWorker(state: Long = controlState.value): Boolean {
+			          val created = createdWorkers(state)
+			          val blocking = blockingTasks(state)
+			          val cpuWorkers = (created - blocking).coerceAtLeast(0)
+			          /*
+			           * We check how many threads are there to handle non-blocking work,
+			           * and create one more if we have not enough of them.
+			           */
+			          if (cpuWorkers < corePoolSize) {
+			              val newCpuWorkers = createNewWorker()
+			              // If we've created the first cpu worker and corePoolSize > 1 then create
+			              // one more (second) cpu worker, so that stealing between them is operational
+			              if (newCpuWorkers == 1 && corePoolSize > 1) createNewWorker()
+			              if (newCpuWorkers > 0) return true
+			          }
+			          return false
+			      }
 			  ```
+		- 首次运行cpuWorkers为0，继续看createNewWorker方法：
+		  collapsed:: true
+			- ```
+			  /*
+			       * Returns the number of CPU workers after this function (including new worker) or
+			       * 0 if no worker was created.
+			       */
+			      private fun createNewWorker(): Int {
+			          synchronized(workers) {
+			              //...省略部分代码
+			              //创建一个Worker并执行
+			              val worker = Worker(newIndex)
+			              workers.setSynchronized(newIndex, worker)
+			              require(newIndex == incrementCreatedWorkers())
+			              worker.start()
+			              return cpuWorkers + 1
+			          }
+			      }
+			  ```
+		- 这里主要是创建了Worker并且调用了worker.start方法。到这里我们应该能看明白CoroutineScheduler其实是线程池，而Worker是一个线程，协程就是运行在Worker线程中。后面的代码暂时不再详细介绍了，有兴趣的读者可以自行阅读kotlinx.coroutines.scheduling.CoroutineScheduler.Worker。下面我们打印一下线程名称，来确认一下逻辑判断，将协程体代码修改为如下：
+		  collapsed:: true
+			- ```
+			  GlobalScope.launch {
+			              println("Coroutine start : ${Thread.currentThread().name}")
+			          }
+			  ```
+		- 打印结果如下：
+		  collapsed:: true
+			- ```
+			  Coroutine start : DefaultDispatcher-worker-1
+			  ```
+	- ## 原理分析
+		- 协程的创建和执行过程原理图大致如下：
+		-
+	-
 -
