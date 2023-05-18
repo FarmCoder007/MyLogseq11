@@ -237,4 +237,19 @@
 		-
 		-
 	-
--
+- 总结
+	- 文章介绍了依赖注入的概念和Hilt库的使用。依赖注入就是：由外部初始化依赖的类对象，而不是类内部去创建对象。我们日常使用的构造函数初始化对象，Builder模式，工厂模式都是依赖注入的方式。Hilt库只是帮助我们简化设置对象的过程，并提供对象作用域的能力。
+	- Hilt库必须要在Application中添加@HiltAndroidApp然后在注入类和对象类中使用@Inject注解来简单实现对象注入，也枚举了一些诸如接口注入、第三方类的注入等情况。
+- 题外话
+  Hilt优点说了挺多比如：减少模板代码、分离依赖项、重构容易等等，Google也将这个Hilt库添加到Jetpack中来推广并支持依赖注入。
+- 那为什么我们不用依赖注入库？
+- 我认为的原因有这些：
+- 对于依赖注入名称不理解
+  对于依赖注入库有一定的学习成本
+  依赖注入会增加打包时间，降低性能
+  对于Hilt性能，网上有作者从项目结构、代码行数、编译时间等角度将Hilt和纯 Kotlin 的注入库Koin做了对比。（文章在这里）结论是由于Hilt使用了注解和kapt的代码编译时生成，会导致使用了Hilt库代码行数远多于没有额外代码生成的Koin，编译时间也会大大增加，因此在大型项目中Hilt引用也会很谨慎。
+- 参考资料
+- https://developer.android.com/training/dependency-injection/hilt-android?hl=zh_cn
+- https://dagger.dev/hilt/
+- https://rengwuxian.com/cong-dagger-dao-hilt-gu-ge-wei-shi-yao-zhi-zhao-yu-rang-wo-men-shi-yong-yi-lai-zhu-ru/
+- https://juejin.cn/post/6986450257295081502
