@@ -57,7 +57,8 @@
 			     car.start()
 			  }
 			  ```
-		- 手动依赖项注入
+		- ## 手动依赖项注入
+		  collapsed:: true
 			- ![image.png](../assets/image_1684423657306_0.png)
 			- 这是一个典型的Android登录流程，LoginActivity依赖于LoginViewModel，LoginViewModel依赖于UserRepository,UserRepository依赖于UserLocalDataSource和UserRemoteDataSource，而后者又依赖于Retrofit服务
 			  Repository和DataSource类如下所示：
@@ -81,6 +82,38 @@
 			  1.大量样板代码
 			  2.必须按顺序声明依赖项
 			  3.很难重复使用对象，如需在多项功能中重复使用UserRepository，必须使其遵循单例模式。
-			- 使用容器管理依赖项
-			  如需解决重复使用对象的问题，可以创建自己的依赖项容器，用于获取依赖项。此容器提供的所有实例可以是公共实例。在该示例中，由于您仅需要UserRepository的一个实例，
+		- ## 使用容器管理依赖项
+			- 如需解决重复使用对象的问题，可以创建自己的依赖项容器，用于获取依赖项。此容器提供的所有实例可以是公共实例。在该示例中，由于您仅需要UserRepository的一个实例，
+			  collapsed:: true
 			  您可以将其依赖项设为私有，并且可以在将来需要提供依赖项时将其公开
+				- ```
+				  // Container of objects shared across the whole app
+				     public class AppContainer {
+				  
+				         // Since you want to expose userRepository out of the container, you need to satisfy
+				         // its dependencies as you did before
+				         private Retrofit retrofit = new Retrofit.Builder()
+				                 .baseUrl("https://example.com")
+				                 .build()
+				                 .create(LoginService.class);
+				  
+				         private UserRemoteDataSource remoteDataSource = new UserRemoteDataSource(retrofit);
+				         private UserLocalDataSource localDataSource = new UserLocalDataSource();
+				  
+				         // userRepository is not private; it'll be exposed
+				         public UserRepository userRepository = new UserRepository(localDataSource, remoteDataSource);
+				     }
+				  ```
+			- 由于这些依赖项在整个应用中使用，因此需要将它们放置在所有Activity都可以使用的通用位置：应用类。创建一个包含AppContainer实例的自定义应用类
+			  collapsed:: true
+				- ```
+				  / Custom Application class that needs to be specified
+				     // in the AndroidManifest.xml file
+				     public class MyApplication extends Application {
+				  
+				         // Instance of AppContainer that will be used by all the Activities of the app
+				         public AppContainer appContainer = new AppContainer();
+				     }
+				  ```
+			- 现在可以从应用中获取AppContainer的实例并获取共享UserRepository实例：
+				-
