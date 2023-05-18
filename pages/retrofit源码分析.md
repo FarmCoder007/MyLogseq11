@@ -238,6 +238,102 @@
 - # responseConverter
 	- 上边我们讲了CallAdapter这个东西可以将我们的请求转换成observable，这样我们就可以用rxjava来进行订阅这个事件。
 	- 那我们继续顺着CallAdapter的代码继续往下看。
+		- ```
+		  OnSubscribe<Response<R>> callFunc =
+		          isAsync ? new CallEnqueueOnSubscribe<>(call) : new CallExecuteOnSubscribe<>(call);
+		  ```
+	- 这里我们瞅见有个判断，是否是异步的。如果是异步构造的是CallEnqueueOnSubscribe这个东西，否则是CallExecuteOnSubscribe。我们在继续看他们各自的源码
+		- ```
+		  CallEnqueueOnSubscribe 源码
+		  
+		  @Override
+		    public void call(Subscriber<? super Response<T>> subscriber) {
+		      // Since Call is a one-shot type, clone it for each new subscriber.
+		      Call<T> call = originalCall.clone();
+		      final CallArbiter<T> arbiter = new CallArbiter<>(call, subscriber);
+		      subscriber.add(arbiter);
+		      subscriber.setProducer(arbiter);
+		  
+		      call.enqueue(
+		          new Callback<T>() {
+		            @Override
+		            public void onResponse(Call<T> call, Response<T> response) {
+		              arbiter.emitResponse(response);
+		            }
+		  
+		            @Override
+		            public void onFailure(Call<T> call, Throwable t) {
+		              Exceptions.throwIfFatal(t);
+		              arbiter.emitError(t);
+		            }
+		          });
+		    }
+		  ```
+		- ```
+		  CallExecuteOnSubscribe 源码
+		  
+		  @Override
+		    public void call(Subscriber<? super Response<T>> subscriber) {
+		      // Since Call is a one-shot type, clone it for each new subscriber.
+		      Call<T> call = originalCall.clone();
+		      CallArbiter<T> arbiter = new CallArbiter<>(call, subscriber);
+		      subscriber.add(arbiter);
+		      subscriber.setProducer(arbiter);
+		  
+		      Response<T> response;
+		      try {
+		        response = call.execute();
+		      } catch (Throwable t) {
+		        Exceptions.throwIfFatal(t);
+		        arbiter.emitError(t);
+		        return;
+		      }
+		      arbiter.emitResponse(response);
+		    }
+		  ```
+	- 他们的区别其实就是调用Call的方法不一样，而这个Call最常用的子类其实就是我们外边看到的OkHttpCall这个东西。enqueue就是OKhttp的异步请求通过接口监听进行回调。而execute是同步请求，最终将结果emitResponse出去。
+	- 我们在继续顺着这个线往下看就能看到数据解析的地方。
+	  collapsed:: true
+		- ```
+		  Response<T> parseResponse(okhttp3.Response rawResponse) throws IOException {
+		      ResponseBody rawBody = rawResponse.body();
+		  
+		      // Remove the body\'s source (the only stateful object) so we can pass the response along.
+		      rawResponse =
+		          rawResponse
+		              .newBuilder()
+		              .body(new NoContentResponseBody(rawBody.contentType(), rawBody.contentLength()))
+		              .build();
+		  
+		      int code = rawResponse.code();
+		      if (code < 200 || code >= 300) {
+		        try {
+		          // Buffer the entire body to avoid future I/O.
+		          ResponseBody bufferedBody = Utils.buffer(rawBody);
+		          return Response.error(bufferedBody, rawResponse);
+		        } finally {
+		          rawBody.close();
+		        }
+		      }
+		  
+		      if (code == 204 || code == 205) {
+		        rawBody.close();
+		        return Response.success(null, rawResponse);
+		      }
+		  
+		      ExceptionCatchingResponseBody catchingBody = new ExceptionCatchingResponseBody(rawBody);
+		      try {
+		        T body = responseConverter.convert(catchingBody);
+		        return Response.success(body, rawResponse);
+		      } catch (RuntimeException e) {
+		        // If the underlying source threw an exception, propagate that rather than indicating it was
+		        // a runtime exception.
+		        catchingBody.throwIfCaught();
+		        throw e;
+		      }
+		    }
+		  ```
+	- 这块逻辑很清晰，如果请求结果小于200或者大于等于300就返回异常，如果204或者205就直接返回成功不做解析。如果这些都不是那么就用到了我们的responseConverter进行转换强转。
 	-
 -
 - 参考：
