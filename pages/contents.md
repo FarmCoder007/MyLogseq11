@@ -58,6 +58,7 @@
   collapsed:: true
 	- [[java-泛型]]
 	- 集合
+	  collapsed:: true
 		- [[List]]
 		-
 	- [[设计模式]]
@@ -84,6 +85,7 @@
 		- [[编译报错集]]
 	- [[IDEA找不到Local Changes]]
 - [[算法]]
+  collapsed:: true
 - 数据结构
 - 开源库整理
   collapsed:: true
