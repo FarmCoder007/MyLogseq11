@@ -315,3 +315,62 @@
 		- 这里会判断一下进程是否存在,如果不存在则创建.这里的mService是AMS,会调用AMS的startProcessLocked方法.
 		  以上流程是Launcher应用和System Server进程的通信交互过程，就是在目标应用进程启动之前的执行流程，可以用流程图总结一下，便于我们加深认识。
 		- ![image.png](../assets/image_1684416960546_0.png)
+	- ## AMS中启动目标应用进程
+	  collapsed:: true
+		- 目标应用的进程具体是如何创建的呢？
+		  结合上面所讲继续从AMS调用startProcessLocked开始分析,startProcessLocked方法最终都会调用startProcess方法,然后通过Process调用start方法，开始创建进程。
+		- ```
+		  private ProcessStartResult startProcess(String hostingType, String entryPoint,
+		              ProcessRecord app, int uid, int[] gids, int runtimeFlags, int mountExternal,
+		              String seInfo, String requiredAbi, String instructionSet, String invokeWith,
+		              long startTime) {
+		          try {
+		              Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, "Start proc: " +
+		                      app.processName);
+		              checkTime(startTime, "startProcess: asking zygote to start proc");
+		              final ProcessStartResult startResult;
+		              if (hostingType.equals("webview_service")) {
+		                  startResult = startWebView(entryPoint,
+		                          app.processName, uid, uid, gids, runtimeFlags, mountExternal,
+		                          app.info.targetSdkVersion, seInfo, requiredAbi, instructionSet,
+		                          app.info.dataDir, null,
+		                          new String[] {PROC_START_SEQ_IDENT + app.startSeq});
+		              } else {
+		                  startResult = Process.start(entryPoint,
+		                          app.processName, uid, uid, gids, runtimeFlags, mountExternal,
+		                          app.info.targetSdkVersion, seInfo, requiredAbi, instructionSet,
+		                          app.info.dataDir, invokeWith,
+		                          new String[] {PROC_START_SEQ_IDENT + app.startSeq});
+		              }
+		              checkTime(startTime, "startProcess: returned from zygote!");
+		              return startResult;
+		          } finally {
+		              Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
+		          }
+		      }
+		  ```
+	- ## 目标应用新进程
+		- Process.start()创建进程。
+		  collapsed:: true
+			- ```
+			  public static final ProcessStartResult start(final String processClass,
+			                                    final String niceName,
+			                                    int uid, int gid, int[] gids,
+			                                    int runtimeFlags, int mountExternal,
+			                                    int targetSdkVersion,
+			                                    String seInfo,
+			                                    String abi,
+			                                    String instructionSet,
+			                                    String appDataDir,
+			                                    String invokeWith,
+			                                    String[] zygoteArgs) {
+			          return zygoteProcess.start(processClass, niceName, uid, gid, gids,
+			                      runtimeFlags, mountExternal, targetSdkVersion, seInfo,
+			                      abi, instructionSet, appDataDir, invokeWith, zygoteArgs);
+			      }
+			  ```
+		- zygoteProcess通过socket通信告知Zygote创建fork子进程，创建新进程后将 ActivityThread 类加载到新进程，并调用 ActivityThread.main() 方法，该过程比较复杂，本节不做展开描述，如果大家感兴趣可以重点关注ZygoteInit、ZygoteConnection、RuntimeInit这几个类，便可找到详细答案.
+		  看一下ActivityThread.main()是怎么被触发执行的？
+		  RuntimeInit类
+			- ```
+			  ```
