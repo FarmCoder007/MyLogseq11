@@ -269,4 +269,100 @@ title:: 属性动画 ValueAnimator.ofInt运行原理
 				- 1、去处理动画的相关工作，也就是说要找到动画真正执行的地方，
 				- 2、继续向底层注册监听下一个屏幕刷新信号。
 			- 那么，下去就是跟着 doAnimationFrame() 来看看，属性动画是怎么执行的
+			  collapsed:: true
+				- ```
+				  //AnimationHandler
+				   private void doAnimationFrame(long frameTime) {
+				          long currentTime = SystemClock.uptimeMillis();
+				          final int size = mAnimationCallbacks.size();
+				          for (int i = 0; i < size; i++) {
+				              final AnimationFrameCallback callback = mAnimationCallbacks.get(i);
+				              if (callback == null) {
+				                  continue;
+				              }
+				              if (isCallbackDue(callback, currentTime)) {
+				                  callback.doAnimationFrame(frameTime);
+				                  if (mCommitCallbacks.contains(callback)) {
+				                      getProvider().postCommitCallback(new Runnable() {
+				                          @Override
+				                          public void run() {
+				                              commitAnimationFrame(callback, getProvider().getFrameTime());
+				                          }
+				                      });
+				                  }
+				              }
+				          }
+				          cleanUpList();
+				      }
+				  ```
+			- 1、是去循环遍历列表，取出每一个 ValueAnimator，就会去调用 ValueAnimator 的 doAnimationFrame()；
+			- 2、是调用了 cleanUpList() 方法，处理掉已经结束的动画；
+			  collapsed:: true
+				- ```
+				  //ValueAnimator
+				  public final boolean doAnimationFrame(long frameTime) {
+				       if (mStartTime < 0) {
+				           // First frame. If there is start delay, start delay count down will happen *after* this
+				           // frame.
+				           mStartTime = mReversing
+				                   ? frameTime
+				                   : frameTime + (long) (mStartDelay * resolveDurationScale());
+				       }
+				  
+				       // Handle pause/resume
+				       if (mPaused) {
+				           mPauseTime = frameTime;
+				           removeAnimationCallback();
+				           return false;
+				       } else if (mResumed) {
+				           mResumed = false;
+				           if (mPauseTime > 0) {
+				               // Offset by the duration that the animation was paused
+				               mStartTime += (frameTime - mPauseTime);
+				           }
+				       }
+				  
+				       if (!mRunning) {
+				           // If not running, that means the animation is in the start delay phase of a forward
+				           // running animation. In the case of reversing, we want to run start delay in the end.
+				           if (mStartTime > frameTime && mSeekFraction == -1) {
+				               // This is when no seek fraction is set during start delay. If developers change the
+				               // seek fraction during the delay, animation will start from the seeked position
+				               // right away.
+				               return false;
+				           } else {
+				               // If mRunning is not set by now, that means non-zero start delay,
+				               // no seeking, not reversing. At this point, start delay has passed.
+				               mRunning = true;
+				               startAnimation();
+				           }
+				       }
+				  
+				       if (mLastFrameTime < 0) {
+				           if (mSeekFraction >= 0) {
+				               long seekTime = (long) (getScaledDuration() * mSeekFraction);
+				               mStartTime = frameTime - seekTime;
+				               mSeekFraction = -1;
+				           }
+				           mStartTimeCommitted = false; // allow start time to be compensated for jank
+				       }
+				       mLastFrameTime = frameTime;
+				       // The frame time might be before the start time during the first frame of
+				       // an animation.  The "current time" must always be on or after the start
+				       // time to avoid animating frames at negative time intervals.  In practice, this
+				       // is very rare and only happens when seeking backwards.
+				       final long currentTime = Math.max(frameTime, mStartTime);
+				       boolean finished = animateBasedOnTime(currentTime);
+				  
+				       if (finished) {
+				           endAnimation();
+				       }
+				       return finished;
+				   }
+				  ```
+			- 稍微概括一下，这个方法内部其实就做了三件事：
+				- 是处理第一帧动画的一些工作；
+				- 是根据当前时间计算当前帧的动画进度，所以动画的核心应该就是在 animateBaseOnTime() 这个方法里（刚开始问题的答案，或许也在这里面;
+				- 是判断动画是否已经结束了，结束了就去调用 endAnimation();
+				  我们重点在第二件事中查找答案：
 	-
