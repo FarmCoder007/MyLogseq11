@@ -333,5 +333,21 @@
 		- 1.POSITION    2.MAIN  3.MAIN_ORDERED 4.BACKGROUND  5.ASYNC
 	- ## RxBus
 		- RxBus以Rxjava的模式实现线程切换，例如：
-		-
--
+		  collapsed:: true
+			- ```
+			  RxBus.getInstance()
+			          .toObservable(MessageEvent.class)
+			          .observeOn(AndroidSchedulers.mainThread())
+			          .subscribe(new Consumer<MessageEvent>() {
+			              @Override
+			              public void accept(MessageEvent event) throws Exception {
+			                  Toast.makeText(RxBusDemo.this, "receive massage: " + event.msg, Toast.LENGTH_SHORT).show();
+			              }
+			          }));
+			  ```
+	- ## LiveEventBus
+		- LiveEventBus基于LiveData实现，接收消息只能在主线程完成，发送消息可以在主线程或者后台线程发送。
+	- ## 跨进程/跨APP发送消息
+		- EventBus和Rxbus不可跨进程发送消息。
+		  LiveEventBus实现原理，广播实现跨进程发消息
+		- ![image.png](../assets/image_1684421799336_0.png)
