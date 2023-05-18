@@ -46,6 +46,7 @@
 	- ![image.png](../assets/image_1684432903111_0.png)
 - # 接下来我们进一步探索 KMM 的 shared 模块是如何工作的。
 	- ### 共享代码库编译过程
+	  collapsed:: true
 		- 首选我们看一下 KMM 的编译过程。shared 模块下的 build.gradle.kts 文件中在 plugins 闭包下加载了 multiplatform 插件，并把 shared module 作为 library 输出。在 kotlin 闭包中配置了需要编译的平台。
 		  collapsed:: true
 			- ```
@@ -108,3 +109,44 @@
 		  进程外编译：每次编译都是在不同的进程
 		  总结 Android aar 的编译过程是由 KotlinMultiplatformPlugin 发起 kotlinTask，再由 kotlinTask开启 KotlinCompile 编译任务，并交给 GradleCompilerRunnerWithWorkers 执行。在执行过程中调到了 Kotlin 编译器内部 org.jetbrains.kotlin.daemon.CompileServiceImpl 的 compile()方法，并交由 CodegenFactory 实现，最终使用 ASM 框架去生成字节码。
 		- iOS 平台的主要实现是在 KotlinNativeTargetConfigurator 类中，其中实现了该类继承的接口 KotlinTargetConfigurator 中的方法 configurePlatformSpecificModel。
+		  collapsed:: true
+			- ```
+			  override fun configurePlatformSpecificModel(target: T) {
+			      configureBinaries(target)
+			      configureFrameworkExport(target)
+			      configureCInterops(target)
+			  
+			      if (target.konanTarget.family.isAppleFamily) {
+			          registerEmbedAndSignAppleFrameworkTasks(target)
+			      }
+			  
+			      if (PropertiesProvider(target.project).ignoreIncorrectNativeDependencies != true) {
+			          warnAboutIncorrectDependencies(target)
+			      }
+			  }
+			  ```
+		- 可以看到其中先调用了 configureBinaries，跟进该方法的实现可以知道，其中创建了 LinkTask，并执行编译 Task，最终生成和导出 framework 文件，在 iOS 应用中就可以引用这里生成的 framework 文件了。
+	- ### 如何实现代码共享
+		- 跨平台复用公共的逻辑代码是基于 KMM 共享代码的一些机制实现的，主要分为全平台共享和部分平台共享。
+		- 如果有逻辑代码对所有平台是通用的，那么就不需要为每个平台写一份相同逻辑的代码，将这些具有相同逻辑的代码写到一个 common 原码集中，各平台都会默认依赖这个源码集。
+		  collapsed:: true
+			- ![image.png](../assets/image_1684433039688_0.png)
+		- 有一些代码可能只需要在部分平台共享，比如按芯片架构把 iosArm64 和 iosX64 看作两个平台，要在这两个平台上共享一些代码，而其他平台不需要共享。这种情况就需要用到代码集的层级结构，给需要共享代码的平台定义一个目标快捷方式。
+		  collapsed:: true
+			- ![image.png](../assets/image_1684433053405_0.png)
+		- 快捷方式依赖于 commonMain，各平台依赖于快捷方式，这样形成一种层级结构。目标快捷方式的源码集可以根据应用的需求进行自定义，这样的层级结构需要在 gradle 文件中手动设置：
+		  collapsed:: true
+			- ```
+			  kotlin {
+			      sourceSets{
+			          val commonMain by sourceSets.getting
+			          val iosX64Main by sourceSets.getting
+			          val iosArm64Main by sourceSets.getting
+			          val iosMain by sourceSets.creating {
+			              dependsOn(commonMain)
+			              iosX64Main.dependsOn(this)
+			              iosArm64Main.dependsOn(this)
+			          }
+			      }
+			  }
+			  ```
