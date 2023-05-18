@@ -213,6 +213,7 @@
 			  ```
 			- 通过ASM框架的 ClassVisitor 获取类的父类类名及所实现的接口名称，如果是IRouteRoot 的实现类即ARouter$Root$xxx，就把类名存入列表
 	- ## 3. 插入字节码
+	  collapsed:: true
 		- 代码：
 		  collapsed:: true
 			- ```
@@ -312,5 +313,80 @@
 			  ```
 		- 借助ClassVisitor，遍历所有方法，找到 loadRouterMap()方法。ClassWriter 生成一个 MethodVisitor 对象用来向方法里插入代码：‘ register（”name“）’，name 是 ARouter$Root$xxx的类名。修改完通过 visitMethod（）方法覆盖原loadRouterMap()方法。
 		- 修改完后反编译过来就像这样：
+		  collapsed:: true
 			- ```
+			  private static void loadRouterMap() {
+			      register("...ARouter$Root$xxx");
+			      register("...ARouter$Root$xxx");
+			      register("...ARouter$Root$xxx");
+			      ...
+			  }
 			  ```
+		- 最后再看看 LogisticsCenter 这个类
+		  collapsed:: true
+			- ```
+			  private static void init(){
+			  
+			          loadRouterMap();
+			  
+			          if (registerByPlugin) {
+			              logger.info(TAG, "Load router map by arouter-auto-register plugin.");
+			          } else {
+			  
+			              扫码dex
+			              ...
+			          }
+			  }
+			          
+			  private static void loadRouterMap() {
+			          registerByPlugin = false;
+			          
+			          //下面是插件生成的代码
+			          //register("...ARouter$Root$xxx");
+			          //register("...ARouter$Root$xxx");
+			          //register("...ARouter$Root$xxx");
+			            ...
+			  }
+			  
+			  private static void register(String className) {
+			          if (!TextUtils.isEmpty(className)) {
+			              try {
+			                  Class<?> clazz = Class.forName(className);
+			                  Object obj = clazz.getConstructor().newInstance();
+			                  if (obj instanceof IRouteRoot) {
+			                      registerRouteRoot((IRouteRoot) obj);
+			                  } else if (obj instanceof IProviderGroup) {
+			                      registerProvider((IProviderGroup) obj);
+			                  } else if (obj instanceof IInterceptorGroup) {
+			                      registerInterceptor((IInterceptorGroup) obj);
+			                  } else {
+			                  。。。
+			                  }
+			              } catch (Exception e) {
+			              。。。
+			              }
+			          }
+			      }
+			      
+			  private static void markRegisteredByPlugin() {
+			      if (!registerByPlugin) {
+			          registerByPlugin = true;
+			      }
+			  }
+			  
+			  private static void registerRouteRoot(IRouteRoot routeRoot) {
+			          markRegisteredByPlugin();
+			          if (routeRoot != null) {
+			              routeRoot.loadInto(Warehouse.groupsIndex);
+			          }
+			  }
+			  ```
+		- init（）方法里先调用了 loadRouterMap（） 方法，registerByPlugin 值 false;如果插件起作用，会在loadRouterMap（）插入代码调用 register()，根据参数反射创建对象ARouter$Root$xxx， 调用其 loadInto()方法。
+		- loadInto(）这个方法就很熟悉了，就是把 ARouter$$Group 类名加载到内存保存到Map集合 Warehouse.groupsIndex 里。完成group的映射关系的构建
+		- registerRouteRoot（）方法 里还调用了markRegisteredByPlugin()方法把 registerByPlugin设置成true，这样一来 init（）就不会再执行扫描dex的逻辑了。
+		- 到此整个流程就结束了。
+	- ## 4. 总结
+	- 1 定义Gradle插件，利用Transform 拿到编译后的class文件
+	- 2 利用ASM框架的 ClassVisitor 扫描 calss文件，收集所有的ARouter$Root$xxx 和 记录 LogisticsCenter 所在jar包的位置
+	- 利用ASM框架的 MethodVisitor 在 LogisticsCenter 中插入生成注册的代码
+	- 修改字节码并不是在修改原class文件，而是把class拷贝了一份到输出路径也就是下个Transform的输入数据，改完后从classWriter得到修改后的byte流，然后写入到输出路径,流向下一个Trasform达到在编译期操作字节码的目的。
