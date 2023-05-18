@@ -361,8 +361,72 @@ title:: 属性动画 ValueAnimator.ofInt运行原理
 				   }
 				  ```
 			- 稍微概括一下，这个方法内部其实就做了三件事：
-				- 是处理第一帧动画的一些工作；
-				- 是根据当前时间计算当前帧的动画进度，所以动画的核心应该就是在 animateBaseOnTime() 这个方法里（刚开始问题的答案，或许也在这里面;
-				- 是判断动画是否已经结束了，结束了就去调用 endAnimation();
+			  collapsed:: true
+				- 1 是处理第一帧动画的一些工作；
+				- 2 是根据当前时间计算当前帧的动画进度，所以动画的核心应该就是在 animateBaseOnTime() 这个方法里（刚开始问题的答案，或许也在这里面;
+				- 3 是判断动画是否已经结束了，结束了就去调用 endAnimation();
 				  我们重点在第二件事中查找答案：
+				- ```
+				  //ValueAnimator
+				  boolean animateBasedOnTime(long currentTime) {
+				          boolean done = false;
+				          if (mRunning) {
+				              final long scaledDuration = getScaledDuration();
+				              final float fraction = scaledDuration > 0 ?
+				                      (float)(currentTime - mStartTime) / scaledDuration : 1f;
+				              final float lastFraction = mOverallFraction;
+				              final boolean newIteration = (int) fraction > (int) lastFraction;
+				              final boolean lastIterationFinished = (fraction >= mRepeatCount + 1) &&
+				                      (mRepeatCount != INFINITE);
+				              if (scaledDuration == 0) {
+				                  // 0 duration animator, ignore the repeat count and skip to the end
+				                  done = true;
+				              } else if (newIteration && !lastIterationFinished) {
+				                  // Time to repeat
+				                  if (mListeners != null) {
+				                      int numListeners = mListeners.size();
+				                      for (int i = 0; i < numListeners; ++i) {
+				                          mListeners.get(i).onAnimationRepeat(this);
+				                      }
+				                  }
+				              } else if (lastIterationFinished) {
+				                  done = true;
+				              }
+				              mOverallFraction = clampFraction(fraction);
+				              float currentIterationFraction = getCurrentIterationFraction(
+				                      mOverallFraction, mReversing);
+				              animateValue(currentIterationFraction);
+				          }
+				          return done;
+				      }
+				  ```
+			- 根据当前时间以及动画第一帧时间还有动画持续的时长来计算当前的动画进度。
+			  确保这个动画进度的取值在 0-1 之间，这里调用了两个方法来辅助计算，我们就不跟进去了，之所以有这么多的辅助计算，那是因为，属性动画支持 setRepeatCount() 来设置动画的循环次数，而从始至终的动画第一帧的时间都是 mStrtTime 一个值，所以在第一个步骤中根据当前时间计算动画进度时会发现进度值是可能会超过 1 的，比如 1.5, 2.5, 3.5 等等，所以第二个步骤的辅助计算，就是将这些值等价换算到 0-1 之间。
+			- 我们首先fraction 是怎么计算的
+			  collapsed:: true
+				- ```
+				  final float fraction = scaledDuration > 0 ?
+				                      (float)(currentTime - mStartTime) / scaledDuration : 1f;
+				  ```
+			- 每个动画在处理当前帧的动画逻辑时，首先会先根据当前时间和动画第一帧时间以及动画的持续时长来初步计算出当前帧时动画所处的进度。
+			- ```
+			  //ValueAnimator
+			  void animateValue(float fraction) {
+			          fraction = mInterpolator.getInterpolation(fraction);
+			          mCurrentFraction = fraction;
+			          int numValues = mValues.length;
+			          for (int i = 0; i < numValues; ++i) {
+			              mValues[i].calculateValue(fraction);
+			          }
+			          if (mUpdateListeners != null) {
+			              int numListeners = mUpdateListeners.size();
+			              for (int i = 0; i < numListeners; ++i) {
+			                  mUpdateListeners.get(i).onAnimationUpdate(this);
+			              }
+			          }
+			      }
+			  ```
+			- mUpdateListeners.get(i).onAnimationUpdate(this); 这是不是我们刚开始给ValueAnimator设置的addUpdateListener。参数也是ValueAnimator,也就是在这个函数中，计算了当前属性动画所属于的区间，和经过的时长，然后通知动画的进度回调
+			- 终于找到了mValues是在这里使用计算的
+			  这部分工作主要就是调用了 mValues[i].calculateValue(fraction) 这一行代码来实现，mValues 是一个 PropertyValuesHolder 类型的数组，所以关键就是去看看这个类的 calculateValue() 做了啥：
 	-
