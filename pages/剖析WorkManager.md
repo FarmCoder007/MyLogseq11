@@ -184,3 +184,54 @@
 			- JobScheduler是android在5.0上针对于降低功耗而提出来的一种策略方案，所有的降耗策略与WorkManager完全一致。所以也可以这么理解WorkManager是对JobScheduler的兼容包装。
 			- JobScheduler特性不在我们这次研究范围大家可以自行了解。但是有个特性必须要在这里说明下：
 			- JobScheduler面对的是定时任务，系统内置了最小的周期事件，为15分钟。如果我们设置的周期小于15分钟，则会被强制设置为15分钟。
+		- ### SystemJobService
+		  collapsed:: true
+			- 最终JobScheduler会在SystemJobService的onStartJob()唤起我们的任务。然后调用mWorkManagerImpl.startWork()去开始任务的执行
+				- ```
+				  public boolean onStartJob(@NonNull JobParameters params) {
+				          if (mWorkManagerImpl == null) {
+				              jobFinished(params, true);
+				              return false;
+				          }
+				  
+				          String workSpecId = getWorkSpecIdFromJobParameters(params);
+				        ·······
+				          mWorkManagerImpl.startWork(workSpecId, runtimeExtras);
+				          return true;
+				      }
+				  
+				  ```
+		- ### GreedyScheduler
+		  collapsed:: true
+			- 刚我们提到schedulers调度器列表第二个调度器就是GreedyScheduler，一个贪心调度器。这个调度器的任务主要调度一些非周期性的任务。
+			- GreedyScheduler的schedule方法可以看到，对于非周期性任务没约束条件的任务会直接调用mWorkManagerImpl.startWork()执行任务。如果是有约束条件，24以下或者没有设置contentUriTriggers会加到constrainedWorkSpecs列表里。后续判断constrainedWorkSpecs列表不为空的时候就会调用mWorkConstraintsTracker.replace()方法。
+				- ```
+				  public void schedule(@NonNull WorkSpec... workSpecs) {
+				          ········
+				          for (WorkSpec workSpec: workSpecs) {
+				              if (workSpec.state == WorkInfo.State.ENQUEUED
+				                      && !workSpec.isPeriodic()
+				                      && workSpec.initialDelay == 0L
+				                      && !workSpec.isBackedOff()) {
+				                  if (workSpec.hasConstraints()) {
+				                      if (Build.VERSION.SDK_INT < 24
+				                              || !workSpec.constraints.hasContentUriTriggers()) {
+				                          constrainedWorkSpecs.add(workSpec);
+				                          constrainedWorkSpecIds.add(workSpec.id);
+				                      }
+				                  } else {
+				                mWorkManagerImpl.startWork(workSpec.id);
+				                  }
+				              }
+				          }
+				          synchronized (mLock) {
+				              if (!constrainedWorkSpecs.isEmpty()) {           mConstrainedWorkSpecs.addAll(constrainedWorkSpecs);
+				                  mWorkConstraintsTracker.replace(mConstrainedWorkSpecs);
+				              }
+				          }
+				      }
+				  ```
+		- ### WorkConstraintsTracker
+			- 上一步提到GreedyScheduler的schedule方法最终会调用WorkConstraintsTracker的replace方法。
+			- 这里会循环遍历ConstraintController重新设置callback
+				-
