@@ -180,28 +180,55 @@
 			- 思考：使用了AppContainer之后，我们需要重点关注：针对不同的业务场景如何管理AppContainer中的依赖项，并且为依赖项创建工厂
 	- ## 管理应用流程中的依赖项
 		- 如需在项目中添加更多功能，AppContainer会变得非常复杂。当应用变大并且可以引入不同功能流程时，还会出现更多问题：
-		  collapsed:: true
-		  官方示例业务场景：
+		- 官方示例业务场景：
 		  登录流程由一个Activity（LoginActivity）和多个Fragment（LoginUsernameFragment和LoginPasswordFragment），这些试图需要：
-		  1.访问需要共享的同一LoginUserData实例，直至登录流程完成。
-		  2.当登录流程再次开始，创建一个新的LoginUserData实例。
-		  使用登录流程容器实现这一目标，此容器需要能够在登陆流程开始时创建，在流程结束从内存中移除。
+			- 1.访问需要共享的同一LoginUserData实例，直至登录流程完成。
+			- 2.当登录流程再次开始，创建一个新的LoginUserData实例。
+			  collapsed:: true
+			  使用登录流程容器实现这一目标，此容器需要能够在登陆流程开始时创建，在流程结束从内存中移除。
+				- ```
+				  class LoginContainer(val userRepository: UserRepository) {
+				  
+				         val loginData = LoginUserData()
+				  
+				         val loginViewModelFactory = LoginViewModelFactory(userRepository)
+				     }
+				  
+				     // AppContainer contains LoginContainer now
+				     class AppContainer {
+				         ...
+				         val userRepository = UserRepository(localDataSource, remoteDataSource)
+				  
+				         // LoginContainer will be null when the user is NOT in the login flow
+				         var loginContainer: LoginContainer? = null
+				     }
+				  ```
+		- 拥有某个流程专用的容器后，必须决定何时创建和删除容器实例。由于登录流程在Activity（LoginActivity）中是独立的，因此该Activity是管理该容器生命周期的Activity。LoginActivity可以在onCreate()中创建实例并在onDestroy()中将其删除。
+		  collapsed:: true
 			- ```
-			  class LoginContainer(val userRepository: UserRepository) {
+			  class LoginActivity: Activity() {
 			  
-			         val loginData = LoginUserData()
+			         private lateinit var loginViewModel: LoginViewModel
+			         private lateinit var loginData: LoginUserData
+			         private lateinit var appContainer: AppContainer
 			  
-			         val loginViewModelFactory = LoginViewModelFactory(userRepository)
-			     }
+			         override fun onCreate(savedInstanceState: Bundle?) {
+			             super.onCreate(savedInstanceState)
+			             appContainer = (application as MyApplication).appContainer
 			  
-			     // AppContainer contains LoginContainer now
-			     class AppContainer {
-			         ...
-			         val userRepository = UserRepository(localDataSource, remoteDataSource)
+			             // Login flow has started. Populate loginContainer in AppContainer
+			             appContainer.loginContainer = LoginContainer(appContainer.userRepository)
 			  
-			         // LoginContainer will be null when the user is NOT in the login flow
-			         var loginContainer: LoginContainer? = null
+			             loginViewModel = appContainer.loginContainer.loginViewModelFactory.create()
+			             loginData = appContainer.loginContainer.loginData
+			         }
+			  
+			         override fun onDestroy() {
+			             // Login flow is finishing
+			             // Removing the instance of loginContainer in the AppContainer
+			             appContainer.loginContainer = null
+			             super.onDestroy()
+			         }
 			     }
 			  ```
-		- 拥有某个流程专用的容器后，必须决定何时创建和删除容器实例。由于登录流程在Activity（LoginActivity）中是独立的，因此该Activity是管理该容器生命周期的Activity。LoginActivity可以在onCreate()中创建实例并在onDestroy()中将其删除。
 	-
