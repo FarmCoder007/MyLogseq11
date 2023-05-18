@@ -1,4 +1,5 @@
 - # 一、 Arouter的组件注册
+  collapsed:: true
 	- ## 1. 自动注册插件
 	  collapsed:: true
 		- 在看ARouter源码的过程中看到，在初始化方法 init（），有个 boolean 变量 registerByPlugin, 表示是否用了插件注册组件。那么这个插件干了什么，为什么要用插件或者不用插件有啥问题吗？
@@ -65,4 +66,13 @@
 		- (3)跳转时，根据path加载对应的ARouter$Group$xxx.class类，构建一个group的映射表，然后根据path从映射表里找到目标组件，执行跳转
 			- 调用 navigation( path)，根据 groupName 从 groupsIndex 里取出 ARouter$Group$xxx.class，反射创建对象 ，调用loadInfo() , 把这个组的 RouteMate 装进 Map routes，完成group的映射表的构建加载。
 			- 根据path 从 routers 取出 RouteMate(保存注解的信息class、group、path、参数等) ，获取 Activity.class 构建 Intent ，startActivity() 跳转
+	- ## 3、早期版本或者不使用插件存在效率问题
+		- 会在一定程度上拖慢启动速度
+		- 为了构建组件映射表，APT生成ARouter$Root$xxx类用来构建group映射关系。构建组件映射表之前，要先调用所有ARouter$Root$xxx类的loadInfo()方法，完成group表的构建。也就是上面第二步，通过读取所有dex文件遍历每个entry收集指定包内的所有class类名，找到ARouter$Root$xxx类通过反射创建实例。这个过程效率显然是不高的，如果在Application.onCreate()方法里初始化，会在一定程度上拖慢启动速度。
+		- 插件的作用
+		- 在编译期扫描即将打包到apk中的所有类，将符合条件的类收集起来，并通过修改字节码生成注册代码到指定的方法中
+- # 二、 插件Auto-Register原理
+	- 前面说过，影响效率的是扫码dex的过程，扫描dex的目的是为了收集项目中所有的ARouter$Root$xxx类。这个过程发生在运行时，所以插件就是把收集的过程提前到编译期。
+	- 下面看看是怎么做的
+	- ## 1. 自定义插件，注册Transform
 	-
