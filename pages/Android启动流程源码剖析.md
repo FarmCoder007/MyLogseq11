@@ -350,6 +350,7 @@
 		      }
 		  ```
 	- ## 目标应用新进程
+	  collapsed:: true
 		- Process.start()创建进程。
 		  collapsed:: true
 			- ```
@@ -370,7 +371,132 @@
 			      }
 			  ```
 		- zygoteProcess通过socket通信告知Zygote创建fork子进程，创建新进程后将 ActivityThread 类加载到新进程，并调用 ActivityThread.main() 方法，该过程比较复杂，本节不做展开描述，如果大家感兴趣可以重点关注ZygoteInit、ZygoteConnection、RuntimeInit这几个类，便可找到详细答案.
+		  collapsed:: true
 		  看一下ActivityThread.main()是怎么被触发执行的？
 		  RuntimeInit类
 			- ```
+			  protected static Runnable applicationInit(int targetSdkVersion, String[] argv,
+			              ClassLoader classLoader) {
+			          // If the application calls System.exit(), terminate the process
+			          // immediately without running any shutdown hooks.  It is not possible to
+			          // shutdown an Android application gracefully.  Among other things, the
+			          // Android runtime shutdown hooks close the Binder driver, which can cause
+			          // leftover running threads to crash before the process actually exits.
+			          nativeSetExitWithoutCleanup(true);
+			  
+			          // We want to be fairly aggressive about heap utilization, to avoid
+			          // holding on to a lot of memory that isn\'t needed.
+			          VMRuntime.getRuntime().setTargetHeapUtilization(0.75f);
+			          VMRuntime.getRuntime().setTargetSdkVersion(targetSdkVersion);
+			  
+			          final Arguments args = new Arguments(argv);
+			  
+			          // The end of of the RuntimeInit event (see #zygoteInit).
+			          Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
+			  
+			          // Remaining arguments are passed to the start class\'s static main
+			          return findStaticMain(args.startClass, args.startArgs, classLoader);
+			      }
+			      protected static Runnable findStaticMain(String className, String[] argv,
+			              ClassLoader classLoader) {
+			          Class<?> cl;
+			  
+			          try {
+			              cl = Class.forName(className, true, classLoader);
+			          } catch (ClassNotFoundException ex) {
+			              throw new RuntimeException(
+			                      "Missing class when invoking static main " + className,
+			                      ex);
+			          }
+			  
+			          Method m;
+			          try {
+			              m = cl.getMethod("main", new Class[] { String[].class });
+			          } catch (NoSuchMethodException ex) {
+			              throw new RuntimeException(
+			                      "Missing static main on " + className, ex);
+			          } catch (SecurityException ex) {
+			              throw new RuntimeException(
+			                      "Problem getting static main on " + className, ex);
+			          }
+			  
+			          int modifiers = m.getModifiers();
+			          if (! (Modifier.isStatic(modifiers) && Modifier.isPublic(modifiers))) {
+			              throw new RuntimeException(
+			                      "Main method is not public and static on " + className);
+			          }
+			  
+			          /*
+			           * This throw gets caught in ZygoteInit.main(), which responds
+			           * by invoking the exception\'s run() method. This arrangement
+			           * clears up all the stack frames that were required in setting
+			           * up the process.
+			           */
+			          return new MethodAndArgsCaller(m, argv);
+			      }
 			  ```
+		- findStaticMain方法通过反射加载ActivityThread类并执行其静态main方法，是应用程序的主入口，并在其方法中执行相关操作。
+	- ## ActivityThread.main() 应用启动入口，创建主线程执行main方法
+	  collapsed:: true
+		- 代码
+		  collapsed:: true
+			- ```
+			  public static void main(String[] args) {
+			          Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, "ActivityThreadMain");
+			  
+			          // Install selective syscall interception
+			          AndroidOs.install();
+			  
+			          // CloseGuard defaults to true and can be quite spammy.  We
+			          // disable it here, but selectively enable it later (via
+			          // StrictMode) on debug builds, but using DropBox, not logs.
+			          CloseGuard.setEnabled(false);
+			  
+			          Environment.initForCurrentUser();
+			  
+			          // Make sure TrustedCertificateStore looks in the right place for CA certificates
+			          final File configDir = Environment.getUserConfigDirectory(UserHandle.myUserId());
+			          TrustedCertificateStore.setDefaultUserDirectory(configDir);
+			  
+			          // Call per-process mainline module initialization.
+			          initializeMainlineModules();
+			  
+			          Process.setArgV0("<pre-initialized>");
+			  
+			          Looper.prepareMainLooper();
+			  
+			          // Find the value for {@link #PROC_START_SEQ_IDENT} if provided on the command line.
+			          // It will be in the format "seq=114"
+			          long startSeq = 0;
+			          if (args != null) {
+			              for (int i = args.length - 1; i >= 0; --i) {
+			                  if (args[i] != null && args[i].startsWith(PROC_START_SEQ_IDENT)) {
+			                      startSeq = Long.parseLong(
+			                              args[i].substring(PROC_START_SEQ_IDENT.length()));
+			                  }
+			              }
+			          }
+			          ActivityThread thread = new ActivityThread();
+			          thread.attach(false, startSeq);
+			  
+			          if (sMainThreadHandler == null) {
+			              sMainThreadHandler = thread.getHandler();
+			          }
+			  
+			          if (false) {
+			              Looper.myLooper().setMessageLogging(new
+			                      LogPrinter(Log.DEBUG, "ActivityThread"));
+			          }
+			  
+			          // End of event ActivityThreadMain.
+			          Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
+			          Looper.loop();
+			  
+			          throw new RuntimeException("Main thread loop unexpectedly exited");
+			      }
+			  ```
+		- ActivityThread是主线程嘛？
+		  ActivityThread在Android中它就代表了Android的主线程，但是并不是一个Thread类。
+		  严格来说，UI主线程不是ActivityThread。ActivityThread类是Android APP进程的初始类，它的main函数是这个APP进程的入口。APP进程中UI事件的执行代码段都是由ActivityThread提供的。
+	- ## ActivityThread.attach()创建Instrumentation和Application
+	-
