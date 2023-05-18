@@ -19,6 +19,7 @@
 		- ![image.png](../assets/image_1684391066730_0.png)
 	- 多出了ViewLayerContainer，它包含了很多ViewLayer。后面再分析为什么会出现这么多ViewLayer。
 - ## 可重组方法执行流程
+  collapsed:: true
 	- Column方法，最后执行Layout方法
 	  collapsed:: true
 		- ![image.png](../assets/image_1684391338562_0.png)
@@ -33,3 +34,4 @@
 		- ![image.png](../assets/image_1684391380281_0.png)
 		- ![image.png](../assets/image_1684391388575_0.png)
 	- 最后所有的方法都执行到了ComposeNode方法，这里边进行创建LayoutNode并创建子LayoutNode。基本上可以确定compose ui由LayoutNode来组成
+- ##
