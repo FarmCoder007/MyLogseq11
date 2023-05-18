@@ -17,10 +17,22 @@
 	  继续往下执行Activity页面的创建方法，走完后续的启动流程。
 	- ![image.png](../assets/image_1684414346397_0.png)
 - # 具体实现
+  collapsed:: true
 	- 1、通过反射拿到 ActivityThread 的 sCurrentActivityThread 变量的值，然后再通过该实例变量拿到mInstrumentation 变量。再通过反射 将 mInstrumentation 变量设置为我们自定义的 CustomInstrumentation 对象。这样就实现了Hook Instrumentation。
 	  collapsed:: true
 		- ![image.png](../assets/image_1684414367336_0.png)
 	- 2、自定义Instrumentation。通过重写callApplicationOnCreate方法，将父类的callApplicationOnCreate方法暂时不要调用，以此屏蔽Application的初始化方法。
 	  collapsed:: true
 		- ![image.png](../assets/image_1684414380824_0.png)
-	-
+	- 3、同理，重写newActivity方法，在newActivity方法中可以直接获取到intent对象，它存放了启动参数。
+	- 4、取到启动参数后，交给自定义的Application，然后Application在初始化时就可以获得启动参数了。紧接着，通过重新调用父类的callApplicationOnCreate方法完成Application的初始化任务。
+	  collapsed:: true
+		- ![image.png](../assets/image_1684414401290_0.png)
+	- 5、可以看到，Application在初始化时已经可以获得启动参数Bundle对象了。获得启动参数后，不应该再重写newActivity方法了，这里需要将Hook取消。Hooker对象在自定义的Application中，通过调用它的resetInstrumentation方法可以把之前替换的Instrumentation还原回去。
+	- 6、最后通过调用父类的newActivity方法执行完创建启动页的流程，往下的启动流程则继续交由系统来完成。
+	- 基于Hook的思想，加之以上方法步骤的实现，便可以在Application初始化初期获得启动参数了。
+- # 特殊方法获得启动参数
+  collapsed:: true
+	- ![image.png](../assets/image_1684414432139_0.png)
+- # 总结
+	- Hook技术不会很大程度地去侵害原有的代码逻辑，可以看见，通过在自定义CustomApplication的attachBaseContext方法中一次挂入新的Instrumentation，便可在Application中获得Bundle启动参数对象。同理，还可以重写Instrumentation的newActivity方法实现更多的技术需求，比如：启动页的隐私授权弹窗逻辑等。
