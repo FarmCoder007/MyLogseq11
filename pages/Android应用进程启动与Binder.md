@@ -40,3 +40,13 @@
 		  2、读取请求参数拿到ActivityThread类并执行他的main函数，执行thread.attach告知AMS并回传自己的binder句柄；
 		  3、执行Looper.loop启动消息循环；
 	- ## 怎么启用binder机制
+	  collapsed:: true
+		- 依然是在handleChildProc中，从nativeZygoteInit方法中查看如何启动binder。启用binder机制的过程可以分为两部分。
+			- 第一部分：打开binder驱动，映射内存，分配缓冲区。
+			  collapsed:: true
+				- ![image.png](../assets/image_1684414046327_0.png)
+			- 第二部分：注册binder线程，进入binder loop。
+			  collapsed:: true
+				- ![image.png](../assets/image_1684414069027_0.png)
+- # 一张图做个了结
+-
