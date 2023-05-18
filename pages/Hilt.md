@@ -213,8 +213,8 @@
 				- 组件的生命周期限制了组件创建和销毁之间的作用域，其次生命周期指示何时可以使用成员注入的值。
 				- 组件生命周期通常受限于 Android 类的相应实例的创建和销毁。下表列出了每个组件的范围注释和有界生命周期。
 				- |  == Component ==   | ==注入对象==  | ==作用域==  | ==创建于==  |
-				  |  ApplicationComponent  | Application  |||
-				  |  ActivityRetainedComponent  | ViewModel  |2039.65|539.6|
+				  |  ApplicationComponent  | Application  |@Singleton|Application#onCreate()|
+				  |  ActivityRetainedComponent  | ViewModel  |@ActivityRetainedScoped|539.6|
 				  |  ViewModelComponent  | ViewModel  |2039.65|539.6| 
 				  |  ActivityComponent  | Activity  |2039.65|539.6|
 				  |  FragmentComponent  | Fragment  |2039.65|539.6|
