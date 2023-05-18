@@ -75,4 +75,32 @@
 	- 前面说过，影响效率的是扫码dex的过程，扫描dex的目的是为了收集项目中所有的ARouter$Root$xxx类。这个过程发生在运行时，所以插件就是把收集的过程提前到编译期。
 	- 下面看看是怎么做的
 	- ## 1. 自定义插件，注册Transform
-	-
+	  collapsed:: true
+		- Transform 是 Android 官方提供的在构建（.class -> .dex转换期间）阶段用来修改 .class 文件的一套标准 API。每个 Transform 都是一个 gradle task, 将 class 文件、本地依赖的 jar, aar 和 resource 资源统一处理。每个 Transform 在处理完之后交给下一个 Transform，用户自定义的 Transform 会插在队列的最前面。
+		- 图
+		  collapsed:: true
+			- ![image.png](../assets/image_1684413378672_0.png)
+		- PluginLaunch
+		  collapsed:: true
+			- ```
+			   @Override
+			      public void apply(Project project) {
+			              。。。
+			              def transformImpl = new RegisterTransform(project)
+			  
+			              //init arouter-auto-register settings
+			              ArrayList<ScanSetting> list = new ArrayList<>(3)
+			              list.add(new ScanSetting('IRouteRoot'))
+			              list.add(new ScanSetting('IInterceptorGroup'))
+			              list.add(new ScanSetting('IProviderGroup'))
+			              RegisterTransform.registerList = list
+			  
+			              //注册 RegisterTransform
+			              android.registerTransform(transformImpl)
+			              。。。
+			      }
+			  ```
+		- PluginLaunch 是自定义的gradle Plugin，RegisterTransform是自定义的Transform。apply(）方法先给 registerList 初始化了数据，这里只看IRouteRoot这个接口是怎么处理的，其他俩个流程也是一样的。IRouteRoot的实现类就是一个个的ARouter$Root$xxx
+	- ## 2. 扫描Jar文件 和 源码的class 文件
+		- 遍历TransformInput集合，扫描所有的jar文件和.class 文件
+		-
