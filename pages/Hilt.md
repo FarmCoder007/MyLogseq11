@@ -112,6 +112,7 @@
 				  }
 				  ```
 			- ### 接口注入
+			  collapsed:: true
 				- 接口注入和普通类注入不太相同，接口注入需要将Hilt模块类声明为抽象类，使用**@Binds**注解修饰获取对象的方法。以一个简单的View#OnClickListener为例，首先需要定义一个类实现OnClickListener接口，在默认构造函数中添加@Inject接口
 				- ```
 				  class CustomOnClickListener @Inject constructor() : View.OnClickListener {
@@ -122,7 +123,50 @@
 				  ```
 				- 创建一个抽象类模块，添加@Module和@InstallIn注释，将CustomOnClickListener设置到方法参数中，返回值为接口类，使用@Binds注解修饰
 				- ```
+				  @Module
+				  @InstallIn(ActivityComponent::class)
+				  abstract class AbsModule {
+				  
+				      @Binds
+				      abstract fun getOnClickListener(listener: CustomOnClickListener):View.OnClickListener
+				  }
 				  ```
+			- ### 第三方类的依赖注入
+			  collapsed:: true
+				- 一般我们在项目中，自定义的类可以直接使用@Inject注解直接修饰，如果是外部类无法修改他的源码添加注解，这时候做法和上面的注入带参数构造函数方法一致，也是使用**@Provides注解配合@Module**注解一起使用。以一个注入Retrofit为例：
+				- ```
+				  @Module
+				  @InstallIn(ApplicationComponent::class)
+				  class NetworkModule {
+				  
+				      @Singleton
+				      @Provides
+				      fun provideOkHttpClient(): OkHttpClient {
+				          return OkHttpClient.Builder()
+				              .connectTimeout(20, TimeUnit.SECONDS)
+				              .readTimeout(20, TimeUnit.SECONDS)
+				              .writeTimeout(20, TimeUnit.SECONDS)
+				              .build()
+				      }
+				  
+				      @Singleton
+				      @Provides
+				      fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+				          return Retrofit.Builder()
+				              .addConverterFactory(GsonConverterFactory.create())
+				              .baseUrl("https://app.website.com/")
+				              .client(okHttpClient)
+				              .build()
+				      }
+				  }
+				  ```
+				-
+			- ### 注入相同类的不同实例
+				- 如果现在需要获取同一个接口的不同实例。上面讲到了使用 @Binds 注入接口实例，但是现在需要多个不同的实例，不能通过设置不同的方法名来注入多个实例。
+				- 1、首先要使用**@Qualifier** 和**@Retention**注解来自定义注释的限定符，这个限定符用于模块的@Binds、@Provides注解
+					- ```
+					  ```
+			-
 		-
 		-
 	-
