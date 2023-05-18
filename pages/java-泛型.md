@@ -47,6 +47,7 @@
 	- “Plate<T>”整个称为泛型类型
 	- “Plate<Banana>” 整个称为参数化的类型ParameterizedType
 - # 五、泛型的类型擦除
+  collapsed:: true
 	- ## 5-1、什么是类型擦除？
 		- 泛型 ‘T’ 定义在 java 文件中比如 ‘T’ 定义为 ‘Banana’ 实际类型，编译成class字节码后，之前声明的实际类型 ‘Banana’ 被擦除
 	- ## 5-2、类型擦除具体做了哪些事情
@@ -318,7 +319,6 @@
 		- 通配符让泛型的转型，更灵活
 	-
 - # 九、系列文章
-  collapsed:: true
 	- ## [泛型一、泛型类型的创建](https://blog.csdn.net/xuwb123xuwb/article/details/115520243)
 	- ## [泛型二、泛型类型实例化的上界与下界](https://blog.csdn.net/xuwb123xuwb/article/details/115528458)
 	- ## [泛型三、泛型方法 和 类型推断](https://blog.csdn.net/xuwb123xuwb/article/details/115533636)
@@ -328,3 +328,5 @@
 	- ## [泛型七、泛型中的类型擦除](https://blog.csdn.net/xuwb123xuwb/article/details/115550699)
 	- ## [泛型八、Kotlin的泛型](https://blog.csdn.net/xuwb123xuwb/article/details/115553240)
 -
+- 参考
+	- [[泛型介绍]]
