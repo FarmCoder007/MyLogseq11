@@ -429,4 +429,108 @@ title:: 属性动画 ValueAnimator.ofInt运行原理
 			- mUpdateListeners.get(i).onAnimationUpdate(this); 这是不是我们刚开始给ValueAnimator设置的addUpdateListener。参数也是ValueAnimator,也就是在这个函数中，计算了当前属性动画所属于的区间，和经过的时长，然后通知动画的进度回调
 			- 终于找到了mValues是在这里使用计算的
 			  这部分工作主要就是调用了 mValues[i].calculateValue(fraction) 这一行代码来实现，mValues 是一个 PropertyValuesHolder 类型的数组，所以关键就是去看看这个类的 calculateValue() 做了啥：
+				- ```
+				  //PropertyValuesHolder
+				    @Override
+				          void calculateValue(float fraction) {
+				              mIntAnimatedValue = mIntKeyframes.getIntValue(fraction);
+				          }
+				  ```
+			- 我们在使用 ValueAnimator 时，注册了动画进度回调，然后在回调里取当前的值时其实也就是取到上面那个 mAnimatedValue 变量的值，而这个变量的值是通过 mKeyframes.getValue() 计算出来的，那么再继续跟进看看：
+			  collapsed:: true
+				- ```
+				  //KeyframeSet
+				      @Override
+				      public int getIntValue(float fraction) {
+				          if (fraction <= 0f) {
+				              final IntKeyframe prevKeyframe = (IntKeyframe) mKeyframes.get(0);
+				              final IntKeyframe nextKeyframe = (IntKeyframe) mKeyframes.get(1);
+				              int prevValue = prevKeyframe.getIntValue();
+				              int nextValue = nextKeyframe.getIntValue();
+				              float prevFraction = prevKeyframe.getFraction();
+				              float nextFraction = nextKeyframe.getFraction();
+				              final TimeInterpolator interpolator = nextKeyframe.getInterpolator();
+				              if (interpolator != null) {
+				                  fraction = interpolator.getInterpolation(fraction);
+				              }
+				              float intervalFraction = (fraction - prevFraction) / (nextFraction - prevFraction);
+				              return mEvaluator == null ?
+				                      prevValue + (int)(intervalFraction * (nextValue - prevValue)) :
+				                      ((Number)mEvaluator.evaluate(intervalFraction, prevValue, nextValue)).
+				                              intValue();
+				          } else if (fraction >= 1f) {
+				              final IntKeyframe prevKeyframe = (IntKeyframe) mKeyframes.get(mNumKeyframes - 2);
+				              final IntKeyframe nextKeyframe = (IntKeyframe) mKeyframes.get(mNumKeyframes - 1);
+				              int prevValue = prevKeyframe.getIntValue();
+				              int nextValue = nextKeyframe.getIntValue();
+				              float prevFraction = prevKeyframe.getFraction();
+				              float nextFraction = nextKeyframe.getFraction();
+				              final TimeInterpolator interpolator = nextKeyframe.getInterpolator();
+				              if (interpolator != null) {
+				                  fraction = interpolator.getInterpolation(fraction);
+				              }
+				              float intervalFraction = (fraction - prevFraction) / (nextFraction - prevFraction);
+				              return mEvaluator == null ?
+				                      prevValue + (int)(intervalFraction * (nextValue - prevValue)) :
+				                      ((Number)mEvaluator.evaluate(intervalFraction, prevValue, nextValue)).intValue();
+				          }
+				          IntKeyframe prevKeyframe = (IntKeyframe) mKeyframes.get(0);
+				          for (int i = 1; i < mNumKeyframes; ++i) {
+				              IntKeyframe nextKeyframe = (IntKeyframe) mKeyframes.get(i);
+				              if (fraction < nextKeyframe.getFraction()) {
+				                  final TimeInterpolator interpolator = nextKeyframe.getInterpolator();
+				                  float intervalFraction = (fraction - prevKeyframe.getFraction()) /
+				                      (nextKeyframe.getFraction() - prevKeyframe.getFraction());
+				                  int prevValue = prevKeyframe.getIntValue();
+				                  int nextValue = nextKeyframe.getIntValue();
+				                  // Apply interpolator on the proportional duration.
+				                  if (interpolator != null) {
+				                      intervalFraction = interpolator.getInterpolation(intervalFraction);
+				                  }
+				                  return mEvaluator == null ?
+				                          prevValue + (int)(intervalFraction * (nextValue - prevValue)) :
+				                          ((Number)mEvaluator.evaluate(intervalFraction, prevValue, nextValue)).
+				                                  intValue();
+				              }
+				              prevKeyframe = nextKeyframe;
+				          }
+				          // shouldn't get here
+				          return ((Number)mKeyframes.get(mNumKeyframes - 1).getValue()).intValue();
+				      }
+				  ```
+			- ok，在这里就一步一步的取到了我们刚开始看到的值。
+			  当关键帧超过两帧时，分三种情况来处理：
+				- 第一帧的处理；
+				- 中间帧的处理；
+				- 最后一帧的处理；
+			- 分开来看一下吧，首先是第一帧的处理逻辑：
+			  collapsed:: true
+				- ```
+				  @Override
+				      public int getIntValue(float fraction) {
+				      	/*
+				      	*  第一帧的处理
+				      	* 
+				      	*/
+				          if (fraction <= 0f) {
+				              final IntKeyframe prevKeyframe = (IntKeyframe) mKeyframes.get(0);
+				              final IntKeyframe nextKeyframe = (IntKeyframe) mKeyframes.get(1);
+				              int prevValue = prevKeyframe.getIntValue();
+				              int nextValue = nextKeyframe.getIntValue();
+				              float prevFraction = prevKeyframe.getFraction();
+				              float nextFraction = nextKeyframe.getFraction();
+				              final TimeInterpolator interpolator = nextKeyframe.getInterpolator();
+				              if (interpolator != null) {
+				                  fraction = interpolator.getInterpolation(fraction);
+				              }
+				              float intervalFraction = (fraction - prevFraction) / (nextFraction - prevFraction);
+				              return mEvaluator == null ?
+				                      prevValue + (int)(intervalFraction * (nextValue - prevValue)) :
+				                      ((Number)mEvaluator.evaluate(intervalFraction, prevValue, nextValue)).
+				                              intValue();
+				          } 
+				          return ((Number)mKeyframes.get(mNumKeyframes - 1).getValue()).intValue();
+				      }
+				  ```
+		-
 	-
