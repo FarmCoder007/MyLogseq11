@@ -600,4 +600,78 @@
 			          }
 			      }
 			  ```
-	-
+	- ## ActivityManagerService.attachApplicationLocked()
+	  collapsed:: true
+		- 代码
+		  collapsed:: true
+			- ```java
+			  private final boolean attachApplicationLocked(IApplicationThread thread,
+			          int pid) {
+			      // 根据pid获取应用的ProcessRecord
+			      ProcessRecord app;
+			      if (pid != MY_PID && pid >= 0) {
+			          synchronized (mPidsSelfLocked) {
+			              app = mPidsSelfLocked.get(pid);
+			          }
+			      } else {
+			          app = null;
+			      }
+			      ...
+			          // 发起跨进程调用。绑定应用进程，发送一些参数给应用进程
+			          thread.bindApplication(processName, appInfo, providers, app.instrumentationClass,
+			                  profilerInfo, app.instrumentationArguments, app.instrumentationWatcher,
+			                  app.instrumentationUiAutomationConnection, testMode, enableOpenGlTrace,
+			                  isRestrictedBackupMode || !normalMode, app.persistent,
+			                  new Configuration(mConfiguration), app.compat,
+			                  getCommonServicesLocked(app.isolated),
+			                  mCoreSettingsObserver.getCoreSettingsLocked());
+			          updateLruProcessLocked(app, false, null);
+			          app.lastRequestedGc = app.lastLowMemory = SystemClock.uptimeMillis();
+			      } catch (Exception e) {
+			          // 绑定失败这里会重启进程
+			          app.resetPackageList(mProcessStats);
+			          app.unlinkDeathRecipient();
+			          startProcessLocked(app, "bind fail", processName);
+			          return false;
+			      }
+			      // 把进程从待启动进程列表中移除
+			      mPersistentStartingProcesses.remove(app);
+			      mProcessesOnHold.remove(app);
+			      boolean badApp = false;
+			      boolean didSomething = false;
+			     // 从这一步开始处理启动Activity
+			      if (normalMode) {
+			          try {
+			              if (mStackSupervisor.attachApplicationLocked(app)) {
+			                  didSomething = true;
+			              }
+			          } catch (Exception e) {
+			              badApp = true;
+			          }
+			      }
+			     // 处理Service
+			      if (!badApp) {
+			          try {
+			              didSomething |= mServices.attachApplicationLocked(app, processName);
+			          } catch (Exception e) {
+			              badApp = true;
+			          }
+			      }
+			      // 处理Broadcast
+			      if (!badApp && isPendingBroadcastProcessLocked(pid)) {
+			          try {
+			              didSomething |= sendPendingBroadcastsLocked(app);
+			          } catch (Exception e) {
+			              badApp = true;
+			          }
+			      }
+			  
+			      ...
+			      return true;
+			  }
+			  ```
+		- 以上方法体中两个重要的方法，将是后续讲解重点：
+		- thread.bindApplication(）这个方法开始创建Instrumentation和Application
+		  mStackSupervisor.attachApplicationLocked(app)开始启动Activity
+	- ## 创建Instrumentation和Application
+		-
