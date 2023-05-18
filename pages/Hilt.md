@@ -35,5 +35,13 @@
 				  ```
 			- Hilt支持的依赖注入注解有： @HiltAndroidApp、 @AndroidEntryPoint 、@Module、@InstallIn 、@Provides以及Java Inject包中的几个注解：Inject、Qualifier、Scope、Singleton
 		- ## 2. 使用步骤
-			-
+			- 1、在工程Application添加@HiltAndroidApp注解
+			  collapsed:: true
+				- ```
+				  @HiltAndroidApp
+				  public class ExampleApplication extends Application { ... }
+				  ```
+			- 2、确定哪个类使用依赖注入，添加@AndroidEntryPoint注解。Hilt支持的Android 入口类有：Activity、Fragment、View、Service、BroadcastReceiver
+				- 比如在Activity中注入某个类：
+		-
 	-
