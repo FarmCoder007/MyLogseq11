@@ -139,10 +139,103 @@
 	- RenderObjectElement  视图树的渲染
 	- 调用 Element 的 createRenderObject() 方法（当然不是每个widget的element都有renderObject）创建每个渲染对象，形成一个 Render Tree。
 - ## 视图树装载过程
+  collapsed:: true
 	- StatelessWidget
 	  collapsed:: true
 		- 首先它会调用StatelessWidget的 createElement 方法，并根据这个widget生成StatelesseElement对象。
 		- 将这个StatelesseElement对象挂载到element树上。
 		- StatelesseElement对象调用widget的build方法，并将element自身作为BuildContext传入
 	- of(context)方法
-		-
+	  collapsed:: true
+		- ```
+		  static ScaffoldState of(BuildContext context) {
+		      assert(context != null);
+		  //----------------------------
+		      final ScaffoldState? result = context.findAncestorStateOfType<ScaffoldState>();//查找祖先节点
+		      if (result != null)
+		        return result;
+		      throw FlutterError.fromParts(<DiagnosticsNode>[
+		        ErrorSummary(
+		          \'Scaffold.of() called with a context that does not contain a Scaffold.\',
+		        ),
+		        ErrorDescription(
+		          \'No Scaffold ancestor could be found starting from the context that was passed to Scaffold.of(). \'
+		          \'This usually happens when the context provided is from the same StatefulWidget as that \'
+		          \'whose build function actually creates the Scaffold widget being sought.\',
+		        ),
+		     //------------------------
+		        context.describeElement(\'The context used was\'),
+		      ]);
+		    }
+		  ```
+	- 关键代码通过context.findAncestorStateOfType，向上遍历Element tree找到最近匹配的 ScaffoldState。也就是说of实际上是对context跨组件获取数据的一个封装。
+	- 那么回顾问题，我们再来分析下视图树的构建查找过程
+	  collapsed:: true
+		- ```
+		  import \'package:flutter/material.dart\';
+		  
+		  void main() => runApp(MyApp());
+		  
+		  class MyApp extends StatelessWidget {
+		    @override
+		    Widget build(BuildContext context) {
+		      return MaterialApp( // ⑤
+		        home: MyHomePage(),
+		      );
+		    }
+		  }
+		  
+		  class MyHomePage extends StatefulWidget {
+		    @override
+		    _MyHomePageState createState() => _MyHomePageState();
+		  }
+		  
+		  class _MyHomePageState extends State<MyHomePage> {
+		    int _counter = 0;
+		  
+		    void _incrementCounter() {
+		      setState(() {
+		        _counter++;
+		      });
+		    }
+		  
+		    @override
+		    Widget build(BuildContext context) { // ④
+		      return Scaffold( // ③
+		        body: Center( // ②
+		          child: Text( // ① 
+		            \'$_counter\',
+		            style: Theme.of(context).textTheme.display1,
+		          ),
+		        ),
+		        floatingActionButton: FloatingActionButton(
+		          onPressed:(){
+		            Scaffold.of(context).showSnackBar(SnackBar(content: Text(\'message\')));//
+		           },
+		          child: Icon(Icons.add),
+		        ), // This trailing comma makes auto-formatting nicer for build methods.
+		      );
+		    }
+		  }
+		  ```
+	- showSnackBar是Scaffold的方法，通过_MyHomePageState传入的context向上遍历自然找不到Scaffold所以会报错。这就是没有理清楚context的父子关系，错用
+	- 不正确的context
+	-
+- ## 解决方案
+	- 1.使用Builder，增加一层widget，此时的context是Builder的context，向上查找可以找到Scaffold了
+	  collapsed:: true
+		- ```
+		  @override
+		     Widget build(BuildContext context) {
+		      return Scaffold(
+		        body: ・・・ ,
+		        floatingActionButton: Builder(builder: (context) {
+		          return FloatingActionButton(
+		            onPressed: () {
+		              Scaffold.of(context).showSnackBar(SnackBar(content: Text(\'message\')));
+		              _incrementCounter();
+		            },
+		            child: Icon(Icons.add),
+		          );
+		        }),
+		  ```
