@@ -1,0 +1,5 @@
+- 本文会由浅入深的为大家介绍 Jetpack 的成员之一：LiveData。内容包括 LiveData 的简介、基本使用，原理分析（如何感知宿主生命周期变化，消息分发流程等），在文章末尾会比较一下 LiveData 和 Flow 的一些区别。
+- ![image.png](../assets/image_1684422084156_0.png)
+- # 1. LiveData 简介
+	- ## 1.1 LivaData 是什么？
+	-
