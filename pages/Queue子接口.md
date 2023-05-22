@@ -1,0 +1,7 @@
+- 常用方法：增删改查方法是 add, offer, push, poll, pop, remove, set, get, peek。
+	- 增：add, offer, push。
+	- 删：poll, pop, remove。
+	- 改：set。
+	- 查：get, peek。当然还有很多变种的，结尾加 First, Last 即可。
+- poll 和 remove 有什么区别？
+	- 队列为空时，poll 返回 null，remove 报错。

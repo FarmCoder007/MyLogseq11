@@ -1,0 +1,6 @@
+- TreeSet 就是红黑树结构的 Set。在增删改查方面是 O(log n) 的二分法复杂度。
+- TreeSet 是基于 HashSet 实现的，同时又是基于 TreeMap 实现的。
+- 常用方法：floor, lower, ceiling, higher, first, last。
+	- 更小一点的：floor, lower。
+	- 更大一点的：ceiling, higher。
+	- 头尾：first, last。
