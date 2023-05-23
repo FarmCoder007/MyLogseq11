@@ -8,3 +8,6 @@
 	- [10/月](https://cp.greennode.info/)
 	- [90/年](https://naiko.cloud/auth/register?code=BNkf)
 - 四、[解决重连的插件](https://github.com/xcanwin/KeepChatGPT/#%E5%AE%89%E8%A3%85%E6%B8%A0%E9%81%93)
+- 五、[ 升级Ghatgpt4](https://juejin.cn/post/7214297762354659384)
+-
+-

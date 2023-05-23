@@ -1,4 +1,5 @@
 - 工作
+  collapsed:: true
 	- [[专利]]
 	- [[WBRouter]]
 	- [[职级评审]]
@@ -59,6 +60,7 @@
 	- [[WebView]]
 	- [[依赖注入]]
 - JAVA
+  collapsed:: true
 	- [[java-泛型]]
 	- [[集合]]
 	- [[设计模式]]
