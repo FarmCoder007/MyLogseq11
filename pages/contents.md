@@ -68,6 +68,7 @@
 	- [[java工具]]
 	- [[并发]]
 	- [[JVM]]
+	- [[序列化]]
 - Kotlin
   collapsed:: true
 	- [[基本语法]]

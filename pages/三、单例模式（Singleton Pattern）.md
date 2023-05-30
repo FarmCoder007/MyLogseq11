@@ -9,7 +9,6 @@
 	- 4.创建类的一个对象
 - # 三、八种创建方式
 	- ## 一、饿汉式（2种）
-	  collapsed:: true
 		- ## 实现原理
 		  collapsed:: true
 			- 这种方式[[#red]]==**基于classloder机制避免了多线程的同步问题**==，instance在类装载 时就实例化，在单例模式中大多数都是调用getInstance方法，但是导致类装载的原因有很多种，因此不能确定有其他的方式（或者其他的静态方法）导致类装载，这时候初始化instance就没有达到lazyloading的效果
@@ -24,7 +23,8 @@
 		  collapsed:: true
 			- 线程安全，但是可能造成内存浪费
 		- ## 写法
-			- ## 静态常量写法
+		  collapsed:: true
+			- ## 静态变量写法
 				- ## java
 					- ```java
 					  public class Singleton {
@@ -285,12 +285,11 @@
 				      }
 				  }
 				  ```
-	- ## [[#red]]==**四、枚举（1种）**==
-	  collapsed:: true
+	- ## 四、枚举（1种）
 		- ## 特点
 			- - 这借助JDK1.5中添加的枚举来实现单例模式。
-			- - 不仅能避免多线程同步问题，而且还能防止反序列化重新创建新的对象。 这种方式是Effective-Java作者Josh Bloch提倡的方式
-		- ## 结论:推荐使用
+			- - 不仅能避免多线程同步问题，而且还能防止反序列化和反射重新创建新的对象。 这种方式是Effective-Java作者Josh Bloch提倡的方式
+		- ## 结论:推荐使用，不过枚举方式也属于恶汉式
 		- ## java
 		  collapsed:: true
 			- ```java
@@ -315,3 +314,261 @@
 			      }
 			  }
 			  ```
+- # 四、破坏单例的两种场景（序列化和反射，枚举除外）
+	- ## 4-1、序列化反序列化方式破坏单例模式演示
+	  collapsed:: true
+		- ### Singleton类： 静态内部类方式
+		  collapsed:: true
+			- ```java
+			  public class Singleton implements Serializable {
+			  
+			      //私有构造方法
+			      private Singleton() {}
+			  
+			      private static class SingletonHolder {
+			          private static final Singleton INSTANCE = new Singleton();
+			      }
+			  
+			      //对外提供静态方法获取该对象
+			      public static Singleton getInstance() {
+			          return SingletonHolder.INSTANCE;
+			      }
+			  }
+			  ```
+		- ### test类
+		  collapsed:: true
+			- ```java
+			  public class Test {
+			      public static void main(String[] args) throws Exception {
+			          //往文件中写对象
+			          //writeObject2File();
+			          //从文件中读取对象
+			          Singleton s1 = readObjectFromFile();
+			          Singleton s2 = readObjectFromFile();
+			  
+			          //判断两个反序列化后的对象是否是同一个对象
+			          System.out.println(s1 == s2);
+			      }
+			  
+			      private static Singleton readObjectFromFile() throws Exception {
+			          //创建对象输入流对象
+			          ObjectInputStream ois = new ObjectInputStream(new FileInputStream("C:\\Users\\Think\\Desktop\\a.txt"));
+			          //第一个读取Singleton对象
+			          Singleton instance = (Singleton) ois.readObject();
+			  
+			          return instance;
+			      }
+			  
+			      public static void writeObject2File() throws Exception {
+			          //获取Singleton类的对象
+			          Singleton instance = Singleton.getInstance();
+			          //创建对象输出流
+			          ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream("C:\\Users\\Think\\Desktop\\a.txt"));
+			          //将instance对象写出到文件中
+			          oos.writeObject(instance);
+			      }
+			  }
+			  ```
+			- 运行结果为false,已经破坏了单例
+		- ## [[#red]]==**解决方案**==
+			- 在Singleton类中添加readResolve()方法，在反序列化时被反射调用，如果定义了这个方法，就返回这个方法的值，如果没有定义，则返回新new出来的对象。
+			- Singleton类
+			  collapsed:: true
+				- ```java
+				  public class Singleton implements Serializable {
+				  
+				      //私有构造方法
+				      private Singleton() {}
+				  
+				      private static class SingletonHolder {
+				          private static final Singleton INSTANCE = new Singleton();
+				      }
+				  
+				      //对外提供静态方法获取该对象
+				      public static Singleton getInstance() {
+				          return SingletonHolder.INSTANCE;
+				      }
+				      
+				      /**
+				       * 下面是为了解决序列化反序列化破解单例模式
+				       */
+				      private Object readResolve() {
+				          return SingletonHolder.INSTANCE;
+				      }
+				  }
+				  ```
+			- ## ObjectInputStream类源码解析
+			  collapsed:: true
+				- ```java
+				  public final Object readObject() throws IOException, ClassNotFoundException{
+				      ...
+				      // if nested read, passHandle contains handle of enclosing object
+				      int outerHandle = passHandle;
+				      try {
+				          Object obj = readObject0(false);//重点查看readObject0方法
+				      .....
+				  }
+				      
+				  private Object readObject0(boolean unshared) throws IOException {
+				      ...
+				      try {
+				          switch (tc) {
+				              ...
+				              case TC_OBJECT:
+				                  return checkResolve(readOrdinaryObject(unshared));//重点查看readOrdinaryObject方法
+				              ...
+				          }
+				      } finally {
+				          depth--;
+				          bin.setBlockDataMode(oldMode);
+				      }    
+				  }
+				      
+				  private Object readOrdinaryObject(boolean unshared) throws IOException {
+				      ...
+				      //isInstantiable 返回true，执行 desc.newInstance()，通过反射创建新的单例类，
+				      obj = desc.isInstantiable() ? desc.newInstance() : null; 
+				      ...
+				      // 在Singleton类中添加 readResolve 方法后 desc.hasReadResolveMethod() 方法执行结果为true
+				      if (obj != null && handles.lookupException(passHandle) == null && desc.hasReadResolveMethod()) {
+				          // 通过反射调用 Singleton 类中的 readResolve 方法，将返回值赋值给rep变量
+				          // 这样多次调用ObjectInputStream类中的readObject方法，继而就会调用我们定义的readResolve方法，所以返回的是同一个对象。
+				          Object rep = desc.invokeReadResolve(obj);
+				          ...
+				      }
+				      return obj;
+				  }
+				  ```
+	- ## 4-2、反射方式破坏单例模式演示
+	  collapsed:: true
+		- ### Singleton类：
+		  collapsed:: true
+			- ```java
+			  public class Singleton {
+			      //私有构造方法
+			      private Singleton() {}
+			      
+			      private static volatile Singleton instance;
+			      //对外提供静态方法获取该对象
+			      public static Singleton getInstance() {
+			          if(instance != null) {
+			              return instance;
+			          }
+			          synchronized (Singleton.class) {
+			              if(instance != null) {
+			                  return instance;
+			              }
+			              instance = new Singleton();
+			              return instance;
+			          }
+			      }
+			  }
+			  ```
+		- ### test
+		  collapsed:: true
+			- ```java
+			  public class Test {
+			      public static void main(String[] args) throws Exception {
+			          //获取Singleton类的字节码对象
+			          Class clazz = Singleton.class;
+			          //获取Singleton类的私有无参构造方法对象
+			          Constructor constructor = clazz.getDeclaredConstructor();
+			          //取消访问检查
+			          constructor.setAccessible(true);
+			  
+			          //创建Singleton类的对象s1
+			          Singleton s1 = (Singleton) constructor.newInstance();
+			          //创建Singleton类的对象s2
+			          Singleton s2 = (Singleton) constructor.newInstance();
+			  
+			          //判断通过反射创建的两个Singleton对象是否是同一个对象 为false
+			          System.out.println(s1 == s2);
+			      }
+			  }
+			  ```
+		- ## 解决方案
+			- Singleton:这种方式比较好理解。当通过反射方式调用构造方法进行创建创建时，直接抛异常。不运行此中操作。
+			  collapsed:: true
+				- ```java
+				  public class Singleton {
+				  
+				      //私有构造方法
+				      private Singleton() {
+				          /*
+				             反射破解单例模式需要添加的代码
+				          */
+				          if(instance != null) {
+				              throw new RuntimeException();
+				          }
+				      }
+				      
+				      private static volatile Singleton instance;
+				  
+				      //对外提供静态方法获取该对象
+				      public static Singleton getInstance() {
+				  
+				          if(instance != null) {
+				              return instance;
+				          }
+				  
+				          synchronized (Singleton.class) {
+				              if(instance != null) {
+				                  return instance;
+				              }
+				              instance = new Singleton();
+				              return instance;
+				          }
+				      }
+				  }
+				  ```
+	- >注意：枚举方式实现的单例模式不会出现这两个问题。
+	-
+- # 五、JDK源码解析-Runtime类
+  collapsed:: true
+	- Runtime类使用的是恶汉式（静态属性）方式来实现单例模式的
+	  collapsed:: true
+		- ```java
+		  public class Runtime {
+		      private static Runtime currentRuntime = new Runtime();
+		  
+		      /**
+		       * Returns the runtime object associated with the current Java application.
+		       * Most of the methods of class <code>Runtime</code> are instance
+		       * methods and must be invoked with respect to the current runtime object.
+		       *
+		       * @return  the <code>Runtime</code> object associated with the current
+		       *          Java application.
+		       */
+		      public static Runtime getRuntime() {
+		          return currentRuntime;
+		      }
+		  
+		      /** Don't let anyone else instantiate this class */
+		      private Runtime() {}
+		      ...
+		  }
+		  ```
+		-
+	- >使用Runtime类中的方法
+		- ```java
+		  public class RuntimeDemo {
+		      public static void main(String[] args) throws IOException {
+		          //获取Runtime类对象
+		          Runtime runtime = Runtime.getRuntime();
+		  
+		          //返回 Java 虚拟机中的内存总量。
+		          System.out.println(runtime.totalMemory());
+		          //返回 Java 虚拟机试图使用的最大内存量。
+		          System.out.println(runtime.maxMemory());
+		  
+		          //创建一个新的进程执行指定的字符串命令，返回进程对象
+		          Process process = runtime.exec("ipconfig");
+		          //获取命令执行后的结果，通过输入流获取
+		          InputStream inputStream = process.getInputStream();
+		          byte[] arr = new byte[1024 * 1024* 100];
+		          int b = inputStream.read(arr);
+		          System.out.println(new String(arr,0,b,"gbk"));
+		      }
+		  }
+		  ```
+-
