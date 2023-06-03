@@ -1,4 +1,5 @@
 - # 一、常用命令
+  collapsed:: true
 	- 1 空目录 初始化git    git init
 	  2 初始化后可以配置用户名和邮箱  
 	     git config --global user.name "name"
@@ -8,3 +9,161 @@
 	  4 将本地仓库关联远程仓库
 	  git remote add origin   url
 	  5 克隆  git clone  url
+	- # 一、获取仓库
+	  collapsed:: true
+		- 1、在现有的项目里初始化仓库
+			- 进入项目目录  git  init
+		- 2、从服务器里克隆一个现有的git仓库  clone
+			- 克隆是该git仓库服务器上的所有数据
+			- $ git  clone  url     会在本地当前目录默认创建一个对应远程仓库名字的目录仓库
+			- $ git  clone  url  myPro   会在本地创建名字为myPro的仓库
+	- # 二、使用add命令跟踪文件
+	  collapsed:: true
+		- 可添加单个文件  目录  后缀名添加
+		- $git add src    //添加整个文件目录的跟踪
+	- # 三、add完毕后提交文件
+	  collapsed:: true
+		- $ git commit -m “第一次初始化”   //-m后是提交备注必须的
+		- 作用：git  add
+		- 1、跟踪新文件
+		- 2、或者把已跟踪的文件放入暂存区
+		- 3、还能用于合并时把有冲突的文件标记为已解决的状态
+		- 可理解为添加内容到下一次提交中
+	- # 四、添加版本控制后本地仓库文件的状态 git**** status**
+	  collapsed:: true
+		- 已修改： 添加版本控制后更改过      一般变蓝色
+		- 未修改： 添加版本控制后没有做过修改
+		- 已放入暂存区：修改过存入暂存区等待提交
+		- $git  status  查看当前文件的状态
+		- **例如1：跟踪新文件   add后会放入暂存区**
+		- $git add readme     使用add添加一个文件的跟踪
+		- 然后查看状态
+		- $git status
+		- On branch master
+		- Changes to be committed;
+		- (….)
+		- New file readme
+		- New file readme在Changes to be committed; 这行下是该文件存入暂存状态的
+		- **2暂存已修改文件**
+		- 修改已被跟踪的文件【文件contribut.md】后
+		- $git  status
+		- Changes not staged  for commit;
+		- (..提示操作...)
+		- modified: contribut.md
+		- 当modified: contribut.md  在Changes not staged  for commit;之后时时已跟踪的文件发生变化但是还没有放到暂存区
+		- 可以使用git  add命令将文件放入暂存区里     可理解为添加内容到下一次提交中
+	- # 五、git  status -s   或者git  status  --short 使状态输出更为简洁紧凑
+		- **$git**** status -s**
+		- M  readme
+		- MM  Rakefile
+		- A  lib/git.rb
+		- M  lib/simplegit.rb
+		- ??  Licse.txt
+		- 符号解释：
+		- 1??新添加的未跟踪的文件【新文件没有执行add】如Licse.txt
+		- 2A 新添加到暂存区中的文件    如lib/git.rb
+		- 3M  添加跟踪后修改过的文件有M   如readme   lib/simplegit.rb
+		- 4MM两个M   右边的表示文件被修改没有放入暂存区   左边的表示该文件被修改了并放入的暂存区   Rakefile在工作区被修改后提交到暂存区后  又在工作区修改了所以有两个
+	- # 六、提交更新commit
+		- **每次提交commit前查看状态git****  ****status是否所有的文件都存入了暂存区**
+		- Add命令存入暂存区后可以执行commit提交了
+		- 每次commit都是对项目作一次快照  ，，以后可以回到这个状态，或者进行比较
+		- 1$git  commit  -m “提交说明”  这个只提交添加到暂存区里的文件
+		- 2$git  commit  -a  -m “说明”  -a跳过暂存区会把所有添加已跟踪的文件暂存起来一并提交
+	- # 七、移除文件
+		- 从git中移除文件，要从已跟踪的文件清单中移除【暂存区移除】然后提交
+		- 1git  rm从暂存区移除 并且在工作目录中删除
+		- 2删除之前修改过并放在暂存区里的，要用强制删除选项-f【force的首字母】,这样不能被git恢复
+		- 3想把文件从git仓库中删除（从暂存区中移除），单仍然希望保存在当前目录中，就是不想被git跟踪，但仍然保存在磁盘，场景不小心误加入一堆日志，想把他们脱离版本控制
+		- 使用—cached
+		- $git  rm  --cached  readMe     //rm后接删除的目录   文件名字 或者扩展名
+		- $ git rm log/\*.log
+		- 注意*前边是反斜杠\,因为git有它自己的文件模式扩展匹配方式
+		- 此命令删除  log/目录下   扩展名为.log的所有文件
+		- $ git rm \*~   是删除以~结尾的所有文件
+	- # 八、移动文件
+		- 在git中对文件改名字  mv命令
+		- $git mv  file_old  file_new
+		- 例如
+		- $git  mv readMe.md  readme
+		- 查看状态
+		- $git status
+		- On branch  master
+		- Changes to be committed
+		- (….)
+		- Renamed: readMe.md->readme  //一次改名的操作
+		- 本质相当于
+		- $mv readMe.md  readme
+		- $git rm readMe.md
+		- $git add readme
+- # 二、分支创建、切换、合并
+  collapsed:: true
+	- Git每次提交会保存一系列不同时刻的文件快照。
+	- 每次进行提交操作时，Git会保存一个提交对象（commit Object）里边包含作者的姓名邮箱，提交输入的信息以及指向它的父对象的指针
+	- # 一、创建分支
+		- Git的分支：本质上仅仅是指向提交对象的可变指针，默认分支是master主干
+		- 创建新分支：就是创建一个可以移动的新的指针
+		- $git  branch  testing    //创建一个新的分支
+		- 这会在当前所在的提交对象上创建一个指针。
+		- 查看当前处于哪个分支：
+		- $git  log –oneline 或 –decorate
+		- 注：git怎么知道当前是在哪个分支上，它有个HEAD特殊指针指向当前分支
+	- # 二、切换分支
+		- $git checkout testing   从当前分支切换到已存在的testing分支这时HEAD就指向了testing分支
+		- 想要新建一个分支并且切换到这个分支上时
+		- $git checkout -b  ver6      创建分支ver6并切换到此分支上
+	- # 三、合并分支到主线
+		- 1、先切换到主分支
+		- $git checkout master
+		- 2将分支ver6合并回主线
+		- $git merge  ver6
+		- 会出现
+		- Updating f42c…
+		- Fast-forward
+		- Index.html|2++
+		- 1 file changed,2 insertion(+)
+		- 合并的时候fast-forward  代表合并的时候没有分歧
+	- # 四、删除分支
+		- $git branch  -d hotfix  删除指定分支hotfix
+	- # 五、合并分支时的冲突
+	- 在两个不同的分支中，对同一文件的同一部分进行了不同的修改，git就没法干净的合并他们
+	- # 六、常用命令：
+		- $git  branch      会列出所有分支的列表   *分支前有该表示代表当前的分支
+		- $git  branch  -v   查看每一个分支的最后一次提交
+		- $git  branch  --merged    查看哪些分支合并到当前分支
+		- $git  branch  --no-merged     查看哪些分支还没合并到当前分支
+		- $git  branch   -d  testing   删除指定的分支
+	-
+	-
+	- # 远程分支
+	- # 七、远程分支
+		- 1$git ls-remote   显示的获得远程引用的完整列表
+		- 2$git remote show  获得远程分支的更多的信息
+		- 本地分支master是本地    git  init时默认生成的分支
+		- Origin  是执行git  clone时  默认的远程仓库的名字
+		- 3如果想本地分支和远程分支设置成不同的名字
+		- $git checkout  --track  origin/serverfix
+		- 4查看设置的所有的跟踪分支
+		- $git branch  -vv  将所有的本地分支列出来并且包含更多信息
+	- # 八、远程拉取数据
+		- $git  pull数据  在commit后  在push前
+		- 本质是git  fetch   和 git  merge命令
+	- # 九、删除远程分支
+		- $git push origin -delete serverfix      删除服务器的serverfix的分支   短时间可以恢复
+	- # 十、远程分支合并
+		- 1变基
+		- $git  checkout  experiment
+		- $git  rebase  master
+		- 2merge合并
+		- $git checkout master
+		- $git  merge experiment
+- # 三、配置smartgit才可以使用公司仓库拉取和提交     要用企业的邮箱
+  collapsed:: true
+	- 一 在git bash里
+	- 1$git ssh-keygen -t rsa  -C “公司邮箱地址”
+	- 回车后输入秘钥的名字即生成秘钥的文件名和路径
+	- 2不输入按回车是在默认目录以默认名字生成    输入 c:\\mykey\\key  在指定目录指定名字生成
+	- 3输入密码  输入时光标不变化直接输入即可  输入完毕按回车
+	- 4确认密码  输入刚才的密码回车  然后在指定目录下生成秘钥
+	- 到该目录下Key是私钥    key.pub是公钥     公钥打开后全选配置在服务器秘钥认证里
+	- 私钥配置在smartGit的里  【应该是配置私钥的路径】

@@ -24,13 +24,7 @@
 		- [[Binder 线程池启动过程]]
 		- [[消息循环创建过程]]
 		- [[Android应用进程启动与Binder]]
-	- RecyclerView
-	  collapsed:: true
-		- 动画
-		  collapsed:: true
-			- [[ItemAnimator源码分析]]
-		- [[优化]]
-		- [[相关知识]]
+	- [[RecyclerView]]
 	- [[ViewPager2]]
 	- 自定义view
 	  collapsed:: true
@@ -47,7 +41,6 @@
 	- [[AST抽象语法树]]
 	- [[AOP]]
 	- [[启动流程]]
-	- [[Android版本适配]]
 	- [[Android开发架构]]
 	- [[单元测试]]
 	- [[AndroidX适配]]
@@ -57,6 +50,7 @@
 	- [[Rxjava]]
 	- [[WebView]]
 	- [[依赖注入]]
+	- [[Android版本特性]]
 - JAVA
 	- [[java-泛型]]
 	- [[集合]]
