@@ -58,7 +58,6 @@
 	- [[WebView]]
 	- [[依赖注入]]
 - JAVA
-  collapsed:: true
 	- [[java-泛型]]
 	- [[集合]]
 	- [[设计模式]]
@@ -78,7 +77,6 @@
 	- [[协程]]
 	- [[kotlin相关]]
 - AndroidStudio
-  collapsed:: true
 	- AS插件
 	  collapsed:: true
 		- 常用插件- [[AS插件]]
@@ -91,7 +89,6 @@
 		- [[编译报错集]]
 	- [[IDEA找不到Local Changes]]
 - [[算法]]
-  collapsed:: true
 - [[数据结构]]
 - 开源库整理
   collapsed:: true

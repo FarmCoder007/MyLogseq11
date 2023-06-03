@@ -1,7 +1,17 @@
-- 常用方法：增删改查方法是 add, offer, push, poll, pop, remove, set, get, peek。
+- # 一、特点：
+	- 队列。子接口有 BlockingQueue（普通队列） 和 Deque（双端队列）。注意，`Stack` 是 List 的实现类，而 `Queue` 是接口。
+- # 二、常用方法：
+	- 增删改查方法是 add, offer, push, poll, pop, remove, set, get, peek。
 	- 增：add, offer, push。
 	- 删：poll, pop, remove。
 	- 改：set。
 	- 查：get, peek。当然还有很多变种的，结尾加 First, Last 即可。
-- poll 和 remove 有什么区别？
+- # 三、常用实现类：
+	- LinkedList：队列。（常用）
+	- PriorityQueue：不支持多线程的优先队列。
+	- ArrayBlockingQueue：固定大小多线程阻塞式队列。
+	- LinkedBlockingQueue：非固定大小多线程阻塞式队列。
+	- ArrayBlockingDeque：类似 ArrayBlockingQueue 不过是双端队列。
+	- LinkedBlockingDeque：类似 LinkedBlockingQueue 不过是双端队列。
+- # 四、poll 和 remove 有什么区别？
 	- 队列为空时，poll 返回 null，remove 报错。
