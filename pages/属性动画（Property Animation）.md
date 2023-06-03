@@ -13,6 +13,8 @@
 	- ### [[KeyFrame关键帧]]控制动画速率
 	- ### [[AnimatorSet]] 用于控制一组动画的执行：线性，一起，每个动画的先后执行等。
 	- ### [[AnimatorInflater]] 用户加载属性动画的xml文件
+	- ### [[layoutAnimation普通容器的动画比如listView]]
+	- ### [[animateLayoutChanges属性]]
 	- **TypeEvaluator  **类型估值，主要用于设置动画操作属性的值。
 	- **TimeInterpolator **时间插值，上面已经介绍。
 	- **总的来说，**属性动画就是，**动画的执行类**来设置**动画操作的对象**的属性、持续时间，开始和结束的属性值，时间差值等，然后系统会根据设置的参数动态的变化对象的属性。
