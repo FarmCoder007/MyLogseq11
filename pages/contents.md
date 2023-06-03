@@ -6,6 +6,7 @@
 	- [[项目解析]]
 	- [[面试]]
 - Android
+	- [[四大组件]]
 	- [[开发常用工具]]
 	- [[Android架构]]
 	- [[系统架构]]
@@ -34,9 +35,6 @@
 	  collapsed:: true
 		- [clipChildren](http://www.cncsto.com/article/58643)
 		- [[layer-list]]
-	- 序列化
-	  collapsed:: true
-		- [[Parcelable与Serializable对比]]
 	- [[动画]]
 	- [[AST抽象语法树]]
 	- [[AOP]]
@@ -51,6 +49,7 @@
 	- [[WebView]]
 	- [[依赖注入]]
 	- [[Android版本特性]]
+	- [[谷歌学习网址]]
 - JAVA
 	- [[java-泛型]]
 	- [[集合]]
@@ -71,6 +70,7 @@
 	- [[协程]]
 	- [[kotlin相关]]
 - AndroidStudio
+  collapsed:: true
 	- AS插件
 	  collapsed:: true
 		- 常用插件- [[AS插件]]
