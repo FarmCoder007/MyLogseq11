@@ -6,6 +6,7 @@
 	- [[项目解析]]
 	- [[面试]]
 - Android
+  collapsed:: true
 	- [[四大组件]]
 	- [[开发常用工具]]
 	- [[Android架构]]

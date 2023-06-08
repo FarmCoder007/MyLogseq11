@@ -24,11 +24,11 @@
 			- ```java
 			  public void setAnimator(int transitionType, Animator animator)
 			  ```
-			- 第一个参数****int transitionType：表示当前应用动画的对象范围，取值有：
-			- **    APPEARING —— 元素在容器中出现时所定义的动画。**
-			- **    DISAPPEARING —— 元素在容器中消失时所定义的动画。**
-			- **    CHANGE_APPEARING —— 由于容器中要显现一个新的元素，其它需要变化的元素所应用的动画**
-			- **CHANGE_DISAPPEARING —— 当容器中某个元素消失，其它需要变化的元素所应用的动画**
+			- 第一个参数int transitionType：表示当前应用动画的对象范围，取值有：
+				- APPEARING —— 元素在容器中出现时所定义的动画。
+				- DISAPPEARING —— 元素在容器中消失时所定义的动画。
+				- CHANGE_APPEARING —— 由于容器中要显现一个新的元素，其它需要变化的元素所应用的动画
+				- CHANGE_DISAPPEARING —— 当容器中某个元素消失，其它需要变化的元素所应用的动画
 	- ## 第三部：将LayoutTransaction设置进ViewGroup
 		- ```java
 		  linearLayout.setLayoutTransition(mTransitioner);
