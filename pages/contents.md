@@ -52,6 +52,7 @@
 	- [[Android版本特性]]
 	- [[谷歌学习网址]]
 - JAVA
+  collapsed:: true
 	- [[java-泛型]]
 	- [[集合]]
 	- [[设计模式]]
