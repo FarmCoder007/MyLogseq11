@@ -7,6 +7,16 @@
 - # java-虚拟机（[[JVM]]）面试题
 	-
 - # java-面向对象面试题
+	- 1、final、finally、finallize区别
+		- final不可变修饰符
+		- finally，try catch finally 异常处理最后执行的方法,用于资源关闭等
+		- finalize：
+			- 垃圾回收器确定该对象没有更多引用，由对象的垃圾回收器调用此方法
+	- 2、throw和throws区别
+		- 1，throws使用在函数上。
+		     throw使用在函数内。
+		- 2，throws抛出的是异常类，可以抛出多个，用逗号隔开。
+		     throw抛出的是异常对象。
 - # java-设计模式面试题
 - # java-集合面试题
 - # java-IO面试题
