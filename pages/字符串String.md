@@ -125,7 +125,10 @@
 		  ```
 - # 六、
 - # [[StringBuffer]]
--
+- # [[StringBuilder]]
+- # 七、StringBuffer和StringBuilder区别
+	- StringBuffer是线程同步的。通常用于多线程。
+	- StringBuilder是线程不同步的。通常用于单线程。 它的出现提高效率。
 -
 - # 面试题
 	- [[字符串内存上的面试题]]
