@@ -65,6 +65,8 @@
 	- [[序列化]]
 	- [[io]]
 	- [[java面试题]]
+	- [[数据结构]]
+	- [[算法]]
 - Kotlin
   collapsed:: true
 	- [[基本语法]]
@@ -86,15 +88,12 @@
 		- [[AS新建工程时，修改模板]]
 		- [[编译报错集]]
 	- [[IDEA找不到Local Changes]]
-- [[算法]]
-- [[数据结构]]
 - 开源库整理
   collapsed:: true
 	- [动效开源库整理博主](https://juejin.cn/user/1204720443862887/posts)
 	-
 	-
 - 生活
-  collapsed:: true
 	- [[理财]]
 	- [[家庭保险]]
 	- [[开销总结]]
@@ -132,12 +131,11 @@
 - shell
   collapsed:: true
 	- [[shell命令]]
-- [[Flutter]]
 - 跨平台
-  collapsed:: true
 	- [[H5-Hybrid]]
 	- [[RN-Modules]]
 	- [[KMM]]
+	- [[Flutter]]
 - [[ChatGPT]]
 - [[Flipper]]
 - [[Repo]]
