@@ -11,12 +11,10 @@
 	- 1、方法插入代码：通过 接口中的 invoke 方法进行业务的调用和增强等处理，InvocationHandler是一个拦截器类
 	- 2、api实现类的差异化，用代理类新实现替换旧实现
 - ## 四、动态代理执行过程
-  collapsed:: true
 	- ![image.png](../assets/image_1659671333414_0.png)
 	- RD无法直接创建 “目标接口代理实现类对象”，通过创建Proxy.newInstance创建 “代理类对象”，调用invoke来访问目标对象的方法
 	- 在 JDK 动态代理中，实现了 InvocationHandler 的类可以看作是 代理类
 - ## 五、相关类
-  collapsed:: true
 	- ### 5-1、InvocationHandler接口 (实现该接口作为代理类)
 	  collapsed:: true
 		- ```java
@@ -55,7 +53,6 @@
 		   }
 		  ```
 - ## 六、封装使用
-  collapsed:: true
 	- 一般组件化在api库定义 `api接口`，实现库定义接口 `实现类impl`。对外暴露的api会用 `接口包装类` 获取接口 `实现类` 去调用api，而不是直接去拿`实现类`去调用，后期底层换api，或者实现类，对外暴露的`接口包装类`的api不会变，上层业务也不需要改变。
 	- 动态代理也可以在接口包装类中，拿到代理对象，替换原实现类对象，这样对外暴露的接口包装类，用的实际上是代理类
 	- 接口api:
@@ -393,7 +390,6 @@
 		  }
 		  ```
 - ## 七、动态代理原理(反射)
-  collapsed:: true
 	- 1、JavaDoc 告诉我们，InvocationHandler 是一个接口，实现这个接口的类就表示该类是一个代理实现类，也就是代理类
 	- 2、动态代理的优势在于能够很方便的对代理类中方法进行集中处理，而不用修改每个被代理的方法。因为所有被代理的方法（真正执行的方法）都是通过在 InvocationHandler 中的 invoke 方法调用的。所以我们只需要对 invoke 方法进行集中处理
 	- ## Proxy.newInstance 方法分析

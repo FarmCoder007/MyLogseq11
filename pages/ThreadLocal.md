@@ -1,0 +1,6 @@
+- # 一、概念
+	- 多线程，线程上下文的存储变量
+	- ThreadLocal 线程隔离工具类
+- # 二、静态内部类[[ThreadLocalMap]]才是存储数据的
+	- ThreadLocal中的静态内部类
+-
