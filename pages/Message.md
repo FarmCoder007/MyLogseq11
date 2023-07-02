@@ -1,2 +1,6 @@
 - # [[Message怎么实现从子线程到主线程的切换]]
 - # [[Message怎么获取？享元设计模式]]
+- # [[设置异步消息]]
+- # message变量解读
+	- target，设置当前handler引用，即调用sendMessage的那个handler
+	- callback:是一个runnable对象，即Handler.post(runnable（）)传入的

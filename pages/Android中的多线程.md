@@ -1,0 +1,10 @@
+- # [[IntentService]]底层还是HandlerThread
+- # [[HandlerThread]]
+- AsyncTask 类：
+	- AsyncTask 是一个简化了多线程编程的工具类，它提供了在后台执行任务、进度更新和结果返回到主线程的便利方法
+- ThreadPoolExecutor 类：
+	- ThreadPoolExecutor 是一个线程池类，它管理着多个线程，可以并发地执行多个任务
+- RxJava
+	- RxJava 是一个基于观察者模式和响应式编程思想的库，它提供了丰富的操作符和线程调度器，使得多线程编程更加简洁和易于管理。
+- Kotlin 协程：
+	- Kotlin 协程是一种轻量级的并发编程机制，它允许你以顺序的方式编写异步代码，而无需显式地创建线程。

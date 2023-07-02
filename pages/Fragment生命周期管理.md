@@ -1,0 +1,1 @@
+- [[FragmentPagerAdapter]]中的FragmentTransaction，管理Fragment 事物commit的时候 之前的attach 早于detach执行。也是靠Handler的消息队列顺序

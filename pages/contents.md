@@ -6,8 +6,8 @@
 	- [[项目解析]]
 	- [[面试]]
 - Android
-  collapsed:: true
 	- [[四大组件]]
+	- [[Binder机制-Android的进程间通信]]
 	- [[开发常用工具]]
 	- [[Android架构]]
 	- [[系统架构]]

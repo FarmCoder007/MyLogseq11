@@ -1,0 +1,15 @@
+- ![image.png](../assets/image_1688305012691_0.png)
+- # 1.启动servicemanager进程
+	- ServiceManager是由init进程通过解析init.rc文件而创建的，其所对应的可执行程序servicemanager，
+	- 所对应的源文件是service_manager.c，进程名为servicemanager。
+	-
+- # 2.main
+	- ## 2-1.binder_open
+	- ## 2-2.binder_become_context_manager
+		- ### 2-2-1.binder_ioctl
+		- ### 2-2-2.binder_ioctl_set_ctx_mgr
+			- ### 2-2-2-1.binder_new_node
+	- ## 2-3.binder_loop
+		- ### 2-3-1.binder_write
+		- ### 2-3-2.binder_thread_write
+		- ### 2-3-3.binder_thread_read

@@ -4,6 +4,15 @@
 	- ![image.png](../assets/image_1688118003387_0.png)
 - # 数据结构
 	- 单链表
+- # 构造方法
+	- ```java
+	  MessageQueue(boolean quitAllowed) {
+	  //mQuitAllowed决定队列是否可以销毁 主线程的队列不可以被销毁需要传入false, 
+	    //在MessageQueue的quit()方法
+	  	mQuitAllowed = quitAllowed;
+	  	mPtr = nativeInit();
+	  }
+	  ```
 - # 存消息
 	- MessageQueue.enqueueMessage()向消息队列添加消息，会对比时间
 - # 取消息
