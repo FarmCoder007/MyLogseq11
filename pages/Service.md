@@ -99,14 +99,14 @@
 		      }
 		  }
 		  ```
-- # 两种启动方式的场景
+- # 七、两种启动方式的场景
 	- ## startService
 		- 适合那种启动之后不显式停止它就永远在后台运行，并且不需要客户端与服务端交互的service
 	- ## bindService
 		- 就适合那种可以交互的，可以掌控它什么时候停什么时候开始的。
 		- 另外，如果有IPC的需求，那当然bindService是必不可少的了。
-- # BindService与AIDL
--
+- # 八、BindService与AIDL
+- # 九、[[绑定服务中 ServiceConnection的参数解析]]
 - # [[Service面试题]]
 - # 参考
 	- # [Android中的Service：默默的奉献者 (1)](https://blog.csdn.net/luoyanglizi/article/details/51586437)
