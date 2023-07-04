@@ -1,0 +1,9 @@
+- 1、获取Service Manager是通过defaultServiceManager()方法来完成
+- 2、打开binder驱动
+	- 1、打开 /dev/binder设备，建立与内核的 Binder驱动的交互通道
+	- 2、通过 ioctl设置 binder驱动，能支持的最大线程数  15个
+	- 3、用mmap，给 binder驱动和服务端Service （普通服务） 的共享内存大小 ： (1M-8K)的虚拟地址空间,用来接收事务
+- 3、创建一个BpBinder(客户端对象)
+- 4、 创建BpServiceManager传入一个传入这个BpBinder 对象
+	- new BpServiceManager（new BpBinder）
+- 5、remote.transact (remote就是BpBinder ，通过BpBinder 进行 远程调用)

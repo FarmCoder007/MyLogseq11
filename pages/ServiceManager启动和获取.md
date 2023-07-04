@@ -1,4 +1,6 @@
 - ![20.8.27-binder预习资料.pdf](../assets/20.8.27-binder预习资料_1688304965318_0.pdf)
+- # 这部分都是Native层代码
 - # 一、[[ServiceManager的启动]]
-- # 二、ServiceManager的获取
--
+- # 二、[[ServiceManager的获取]]
+- # 三、Native层获取SM的情况
+	- ## 1、注册服务到SM

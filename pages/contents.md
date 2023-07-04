@@ -8,6 +8,7 @@
 - Android
 	- [[四大组件]]
 	- [[Binder机制-Android的进程间通信]]
+	- [[AIDL]]
 	- [[开发常用工具]]
 	- [[Android架构]]
 	- [[系统架构]]
@@ -76,7 +77,6 @@
 	- [[协程]]
 	- [[kotlin相关]]
 - AndroidStudio
-  collapsed:: true
 	- AS插件
 	  collapsed:: true
 		- 常用插件- [[AS插件]]

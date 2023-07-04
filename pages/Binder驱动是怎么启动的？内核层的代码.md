@@ -7,7 +7,6 @@
 	- ![image.png](../assets/image_1688287260666_0.png)
 - ## 在linux中一切皆文件，binder驱动也是文件
 - # 一、通过init()，创建/dev/binder设备节点
-  collapsed:: true
 	- kernel/drivers/staging/android/binder.c
 	- ```c
 	  //4290设备驱动入口函数
@@ -56,7 +55,6 @@
 		- 第二部、拿到binder 设备后 初始化设备
 		- 第三步、将binder设备 放到 设备链表里
 - # 二、通过open()获取Binder Driver的文件描述符
-  collapsed:: true
 	- kernel/drivers/staging/android/binder.c
 	- ```c
 	  //3454
@@ -89,7 +87,6 @@
 		- 3、添加到binder_proc链表中
 		- 4、将这个binder_proc与filp关联起来，这样下次通过filp就能找到这个proc了
 - # 三、通过mmap()，在内核分配一块内存，用于存放数据
-  collapsed:: true
 	- ## kernel/drivers/staging/android/binder.c
 	  collapsed:: true
 		- ```c
@@ -170,7 +167,6 @@
 		  }  
 		  ```
 	- ## 3-1、**binder_insert_free_buffer**
-	  collapsed:: true
 		- kernel/drivers/staging/android/binder.c
 		- ```c
 		  //494

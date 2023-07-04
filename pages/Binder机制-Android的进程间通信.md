@@ -1,9 +1,10 @@
 - # 一、什么是Binder机制
   title:: Binder机制-Android的进程间通信
 	- 1、是Android进程间通信机制
-	  collapsed:: true
 		- Binder框架
 			- ![image.png](../assets/image_1688269631168_0.png){:height 657, :width 718}
+		- 类图
+			- ![image.png](../assets/image_1688360884472_0.png)
 	- 2、内核层有一个[[Binder驱动]]设备
 	- 3、Binder.java 是实现了Ibinder接口-实现了跨进程能力
 - # 二、什么时候用到多进程？
@@ -54,4 +55,6 @@
 - # 十、 [[Binder驱动]]内核层
 - # 十一、[[Binder的Jni方法注册流程，JNI层代码]]
 - # 十二、[[为什么Intent传输不能大于1M？]]
+- # 十三、[[ServiceManager]]
 - # 十三、[[ServiceManager启动和获取]]框架的native层
+- # 十四、[[普通服务的内存大小和SM的内存大小分别是多少？]]

@@ -1,0 +1,13 @@
+- # 详细见 [[ServiceManager的启动]]
+- # 1、首先由init进程通过解析init.rc文件，启动SM进程
+- # 2、service_manager.c 中的main()方法具体的操作为
+	- ## 2-1、binder_open（native层的，逐层调用到内核层的对应方法启动binder驱动）
+		- 1、打开内核层的binder驱动（设置内存大小128k）
+		- 2、通过mmap，将内核驱动空间虚拟内存和 SM虚拟内存 映射同一块 物理内存
+	- ## 2-2、设为守护进程，成为 binder大管理者-
+		- 1、==创建SM对应的binder_node( binder_context_mgr_node) 结构体对象==（相当于代表的SM,主要存储SM进程相关信息）
+		- 2、proc -> 指向 binder_node
+		- 3、创建 work 和 todo的队列。类似MessageQueue 客户端来消息存里，服务端轮训处理这2个队列
+	- ## 2-3、开启循环监听
+		- 1、写入状态为Loop，开启for循环
+		- 2、从循环队列里去读数据，binder_thread_read（）wait_event_freezable_exclusive 方法 没有数据就进入等待。相当于AM注册完成 准备好了
