@@ -1,0 +1,11 @@
+- 在 Binder 机制中，`binder_node` 是指==代表 Binder 对象的数据结构==。它是在 Linux 内核中定义的一个结构体，用于管理和维护 Binder 对象的相关信息。
+- `binder_node` 结构体中包含了以下重要的字段：
+- -
+	- `struct list_head entry`：该字段用于将 `binder_node` 结构体链接到 `Binder_proc` 结构体的 Binder 对象列表中。通过这个字段，可以将多个 Binder 对象链接到同一个进程的 `Binder_proc` 结构体中。
+- -
+	- `struct binder_work work`：该字段用于将需要处理的工作项（比如方法调用请求）链接到 `binder_node` 结构体。Binder 机制通过这个字段将需要处理的工作项链接到相应的 Binder 对象中。
+- 通过管理 `binder_node` 结构体，==Binder 机制能够跟踪和管理每个 Binder 对象的状态和相关信息==。它允许系统在进程间进行通信和交互，并在需要处理的工作项到达时进行相应的处理。
+-
+- # binder_proc 和 binder_node关系
+	- `Binder_proc` 和 `binder_node` 之间有着紧密的关系。`Binder_proc` 是代表进程的数据结构，而 `binder_node` 是代表 Binder 对象的数据结构。在 Binder 机制中，一个进程可以拥有多个 Binder 对象，每个 Binder 对象都对应一个 `binder_node` 结构体。通过 `Binder_proc` 的 Binder 对象列表中的 `binder_node`，可以管理和调度进程中的所有 Binder 对象。
+	- 因此，`Binder_proc` 和 `binder_node` 是在 Binder 机制中用于管理进程和 Binder 对象的关键数据结构，它们共同协作来实现进程间通信和交互的功能。

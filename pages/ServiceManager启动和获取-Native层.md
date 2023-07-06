@@ -1,0 +1,11 @@
+- ![20.8.27-binder预习资料.pdf](../assets/20.8.27-binder预习资料_1688304965318_0.pdf)
+- # 这部分都是Native层代码
+- # [[ServiceManager]]是binder的管家
+	- 管理系统服务（AMS,PMS,WMS），每个系统服务之间也是跨进程的
+	-
+- # 一、[[ServiceManager的启动]]
+- # 二、[[ServiceManager-注册服务到SM时Native层SM的获取]]
+-
+- # 三、获取SM的情况
+	- ## 1、注册服务到SM-Native层
+	- ## 2、获取注册到SM的服务，也需要先获取到SM-JAVA层

@@ -3,7 +3,6 @@
 	- ![image.png](../assets/image_1688272914814_0.png){:height 320, :width 718}
 	- ![image.png](../assets/image_1688279612222_0.png)
 	- 我们实际操作的是虚拟内存，数据真正存在物理内存上
-	  collapsed:: true
 		- ![image.png](../assets/image_1688279690761_0.png)
 		- 类似于我们操作的快捷方式相当于虚拟内存，而实际的文件夹存在的是物理内存
 	- ## Binder机制是

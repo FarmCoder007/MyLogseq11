@@ -22,7 +22,8 @@
 	  	return gDefaultServiceManager;
 	  }
 	  ```
-	- ## 1-1.ProcessState::self
+	- ## 1-1.ProcessState::self： 实例化 ProcessState
+	  collapsed:: true
 		- ```c
 		  frameworks/native/libs/binder/ProcessState.cpp
 		  // 70
@@ -37,7 +38,6 @@
 		  }
 		  ```
 		- ## 1-1-1.ProcessState::ProcessState
-		  collapsed:: true
 			- ```c
 			  frameworks/native/libs/binder/ProcessState.cpp
 			  // 339
@@ -62,15 +62,17 @@
 				  ```
 		- # 总结
 			- 1、打开 /dev/binder设备，建立与内核的 Binder驱动的交互通道
-			- 2、通过 ioctl设置 binder驱动，能支持的最大线程数  15个
-			- 3、用mmap，给 binder驱动和服务端Service （普通服务） 的共享内存大小 ： (1M-8K)的虚拟地址空间,用来接收事务
+			- 2、通过 ioctl设置 binder驱动，1个进程有一个Binder线程池，能支持的最大线程数  15个
+			- 3、用mmap，给 binder驱动和服务端Service （普通服务,） 的共享内存大小 ： (1M-8K)的虚拟地址空间,用来接收事务
+				- 这个普通服务是用来 获取SM用的
 	- ## 1-2.ProcessState::getContextObject
+	  collapsed:: true
 		- ```c
 		  frameworks/native/libs/binder/ProcessState.cpp
 		  // 85
 		  sp<IBinder> ProcessState::getContextObject(const sp<IBinder>& /*caller*/)
 		  {
-		      // 参数为0，获取service_manager服务
+		      // 参数为0，获取service_manager服务  SM 的Handle  = 0
 		      return getStrongProxyForHandle(0);
 		  }
 		  ```
@@ -108,9 +110,9 @@
 			    }
 			  ```
 		- # 总结
-			- 1、创建一个BpBinder(客户端对象) [[Native层怎么获取BpBinder的]]
+			- 1、创建一个BpBinder(客户端对象)SM的代理对象 [[Native层怎么获取BpBinder的]]
 	- ## 1-3.interface_cast,相当于传入了BpBinder对象
-	  collapsed:: true
+	  id:: 64a22081-7704-4ccb-b85a-7f11a85e73a9
 		- ```c
 		  frameworks/native/include/binder/IInterface.h
 		  // 41
@@ -161,7 +163,6 @@
 			    I##INTERFACE::~I##INTERFACE() { }
 			  ```
 		- ### 1-3-2.DECLARE_META_INTERFACE 相当于java接口的声明
-		  collapsed:: true
 			- ```c
 			  frameworks/native/include/binder/IServiceManager.h
 			  // 33
@@ -178,7 +179,6 @@
 			  ```
 			- 该过程主要是声明asInterface(),getInterfaceDescriptor()方法。
 		- ### 1-3-3.IMPLEMENT_META_INTERFACE
-		  collapsed:: true
 			- ```c
 			  frameworks/native/libs/binder/IServiceManager.cpp
 			  // 185
@@ -210,7 +210,6 @@
 			  IServiceManager::~ IServiceManager() { }
 			  ```
 	- ## 1-4.BpServiceManager
-	  collapsed:: true
 		- ```c
 		  frameworks/native/libs/binder/IServiceManager.cpp
 		  // 126
@@ -235,8 +234,8 @@
 			  ```
 		-
 	- # 1.3和1.4总结（Native层的流程）
-		- 1、new BpServiceManager（new BpBinder） 创建BpServiceManager传入一个BpBinder
-		- 2、remote.transact (remote就是BpBinder ，通过BpBinder 进行 远程调用)
+		- 1、asInterface（BpBinder）相当于 new BpServiceManager（new BpBinder） 创建BpServiceManager传入一个BpBinder
+		- 2、remote.transact (remote就是BpBinder ，通过BpBinder  和binder内核  进行远程调用)
 	- # java层大概流程
 		- 1、new ServiceManagerProxy(new BinderProxy)
 		- 2、mRomote = BinderProxy

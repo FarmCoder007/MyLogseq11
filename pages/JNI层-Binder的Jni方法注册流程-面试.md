@@ -1,0 +1,15 @@
+- ## 详细见 [[Binder的Jni方法注册流程，JNI层代码]]
+-
+- ## 前言
+	- java层调用Native层。需要注册Jni方法
+	- Native层调用内核层，需要systemCall 注册对应的方法映射
+- # 大概流程
+	- 本流程是java层binder调用native层，需要借助binder相关的jni方法。先介绍这些方法的注册流程，以便java可以和native  binder通信
+	- ## 1、init进程通过解析 ==init.zygote.rc== 文件来创建和启动zygote进程
+		- 就是启动app_main.cpp中的main方法
+	- ## 2、在zygote初始化的时候，会调用AndroidRuntime的startReg方法来完成jni方法的注册
+		- Android系统启动的时候，完成jni方法的注册。这样java层才能调用Native层的方法
+	- ## 3、注册的jni方法包括REG_JNI(register_android_os_Binder)，我们需要的注册的binder相关的jni方法
+	- ## 4、register_android_os_Binder中，完成java 层 与 native 方法的映射关系，互相调用
+		- gBinderOffsets结构体，保存Java层Binder类的信息，为JNI层访问Java层提供通道
+		- 通过RegisterMethodsOrDie，将为gBinderMethods数组完成映射关系，从而为Java层访问JNI层提供通道

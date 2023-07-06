@@ -1,7 +1,6 @@
 - ![image.png](../assets/image_1688298061369_0.png)
 - # 一、zygote启动
 	- ## **1-1.****启动****zygote****进程**
-	  collapsed:: true
 		- zygote是由init进程通过解析 ==init.zygote,rc== 文件而创建的，zygote所对应的可执行程序 ==app_process==,所对应的源文件是==app_main.cpp==,进程名为==zygote==。
 		- //system/core/rootdir/init.zygote32.rc
 			- ```c
@@ -15,7 +14,6 @@
 			      writepid /dev/cpuset/foreground/tasks
 			  ```
 	- ## 1-2.执行app_main.cpp中的main方法.入口函数
-	  collapsed:: true
 		- 启动zygote的入口函数是app_main.cpp中的main方法。
 		- frameworks/base/cmds/app_process/app_main.cpp
 		- ```c
@@ -35,10 +33,9 @@
 		  }    
 		  ```
 	- ## 1-3.AndroidRuntime::start
-	  collapsed:: true
-		- 调用startReg方法来完成jni方法的注册。
-		- frameworks/base/core/jni/AndroidRuntime.cpp
-		- ```
+		- android系统启动的时候  调用startReg方法来完成jni方法的注册。这样java层才能调用jni的方法
+		- frameworks/base/core/jni/==AndroidRuntime.==cpp
+		- ```c
 		  
 		  //1007
 		  void AndroidRuntime::start(const char* className,const Vector<String8>& options,bool zygote)
@@ -77,13 +74,12 @@
 		  	REG_JNI(register_android_os_Binder),
 		  }    
 		  ```
-- # 二、register_android_os_Binder。binder的jni注册
-  collapsed:: true
+- # 二、register_android_os_Binder。binder的jni方法的注册（方法先注册这样java层才可以调用jni）
 	- frameworks/base/core/jni/android_util_Binder.cpp
 	- ```java
 	  //1282
 	  int register_android_os_Binder(JNIEnv* env)
-	  {
+	  {   
 	    	if(int_register_android_os_Binder(env)<0)
 	        	return-1;
 	    	if(int_register_android_os_BinderInternal(env)<0)
@@ -93,7 +89,7 @@
 	  }  
 	  ```
 	- ## **2-1.int_register_android_os_Binder**
-		- frameworks/base/core/jni/android_util_Binder.cpp
+		- frameworks/base/core/jni/==android_util_Binder==.cpp
 		- ```c
 		  //843  java 层 与 native 方法的映射关系，互相调用
 		  static const JNINativeMethod gBinderMethods[]={

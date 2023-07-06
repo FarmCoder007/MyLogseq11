@@ -1,0 +1,45 @@
+- ## 详细见
+	- ## [[以AMS为例注册服务到SM的流程-Java层]]
+- ## 流程
+	- ## 1、注册AMS到SM，首先先从系统服务（SystemServer）获取到AMS实例==(AMS相当于客户端)==
+		- 1、SystemServer反射创建ActivityManagerService.Lifecycle.class的实例，进而在构造函数创建AMS实例
+	- ## 2、调用AMS的setSystemProcess，添加AMS到SM中
+	  collapsed:: true
+		- 1、内部调用到getIServiceManager().addService()
+		- 2、通过ProcessState创建BpBinder对象
+		- 3、javaObjectForIBinder：创建BinderProxy 并和 BpBinder互相绑定
+		- 4、ServiceManagerNative.asInterface 创建ServiceManagerProxy，并传入BinderProxy
+		- ## 那么
+		- 5、getIServiceManager()相当于 new ==ServiceManagerProxy==(new BinderProxy);
+			- BinderProxy和 BpBinder
+	- ## 3、实际执行的是ServiceManagerProxy.addService()
+		- 内部
+		- ==1、==Parcel.writeStrongBinder：相当于==把AMS 放入 Parcel data（ 输入数据）里边去==
+		- ==2==、==执行BinderProxy.transact(ADD_SERVICE_TRANSACTION, data, reply, 0);进行远程调用==
+		  id:: 64a6c005-b841-484f-af2e-fea7acccb8c2
+			- 大致流程
+			- ==2-1，BinderProxy.transact会逐层调用到IPCThreadState::transact==
+				- 链条
+				  collapsed:: true
+					- java层 BinderProxy.transact  调用到
+					- native层 BpBinder.transact
+					- native IPCThreadState::transact
+				- ==2-2-1、将BC_TRANSACTION 写入命令放入out中==
+				- ==2-2-2、waitForResponse的talkwithDriver中 Binder驱动1、将SM唤醒，2、将客户端挂起==
+					- 1、通过handle = 0 找到SM通过BINDER_WORK_TRANSACTION唤醒，去添加服务
+						- 其实就是BR_TRANSACTION，内部执行的do_add_service方法添加AMS到 svclist（保存所有已注册的服务）
+						- 添加完服务后给binder驱动发送BC_REPLY命令。见下边命令图，
+						- binder驱动发送2个消息，一个给客户端回复数据，一个让服务端休眠
+					- 2、BINDER_WORK_TRANSACTION_COMPLETE 将客户端挂起
+					-
+	- ## [[#red]]==命令流程 AMS添加服务举例，左侧客户端AMS 右侧服务端SM==
+	  collapsed:: true
+		- 1、客户端想添加服务，给Binder驱动发送BC_TRANSACTION命令
+		- 2、Binder驱动收到这个命令后
+			- 给Client发送消息BR_TRANSACTION_COMPLETE，让它休眠
+			- 给Service发送消息BR_TRANSACTION,唤醒SM,让SM添加服务处理addService
+		- 3、Service SM添加完服务AMS后，给Binder驱动发命令BC_REPLY
+		- 4、Binder驱动收到这个命令后
+			- 给Client发命令 BR_REPLY，唤醒客户端继续执行,客户端拿到BR_REPLY
+			- 给Service SM发命令BR_TRANSACTION_COMPLETE,让它休眠
+		-

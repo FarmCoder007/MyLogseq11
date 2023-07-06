@@ -1,61 +1,60 @@
 - # 一、什么是Binder机制
   title:: Binder机制-Android的进程间通信
-  collapsed:: true
-	- 1、是Android进程间通信机制
-		- Binder框架
+	- ## 1、是Android进程间通信机制
+		- ## Binder框架
 			- ![image.png](../assets/image_1688269631168_0.png){:height 657, :width 718}
-		- 类图
-			- ![image.png](../assets/image_1688360884472_0.png)
-	- 2、内核层有一个[[Binder驱动]]设备
-	- 3、Binder.java 是实现了Ibinder接口-实现了跨进程能力
-- # 二、什么时候用到多进程？
-  collapsed:: true
-	- ## 自己创建的进程场景
-		- webView 视频播放 音乐 大图浏览 推送
-	- ## 系统服务场景
-		- 打电话 闹钟 AMS
-- # 三、多进程优点？
-  collapsed:: true
-	- 1、开辟更多内存，为一个app，一个进程分配的内存是有限的，多开一个进程，开辟的内存就会翻倍
-	- 2、风险隔离：危险动作放在单独进程里，崩溃也不会影响主进程
-- # 四、进程间通信为了什么？目的
-  collapsed:: true
-	- A进程 和 B进程之间通信是为了
-		- A进程 调用 B进程的方法
-		- A进程拿到B进程的数据
-		- A进程传递数据给B进程
-	- **==传递数据就需要拷贝==**
-- # 五、[[Android中的Binder有什么优势？字节面试]]
-- # 六、虚拟内存和物理内存的理解
-  collapsed:: true
-	- 虚拟内存是虚拟的
-	- 物理内存是实际存在的
-		- 内存条 磁盘
-	-
-	- 买房场景
-		- 虚拟内存类似买房子的沙盘，是个假的不是真实的房子，看房选房时操作这个
-		- 物理内存相当于真正的楼房
-	- 或者说地球和地球仪的关系
-		- 虚拟内存是地球仪，可以实际操作的
-		- 物理内存是地球：放东西还是放在地球上
+			- # 客户端
+				- ## Java层
+					- BinderProxy 为binder代理对象
+				- ## native 层
+					- BpBinder 也为binder的代理对象
+			- # 服务端
+				- ## Java层
+					- Binder 为binder对象
+				- ## native 层
+					- BBinder 也为binder的对象
+			- # 驱动层
+				- 也有一个代表Binder的代理对象，一个代表binder对象。用结构体表示的
+				- binder_node:  代表Binder对象
+				- binder_ref:      代表binder引用
 		-
-- # 六、进程间怎么通信的？
+	- ## 2、内核层有一个[[Binder驱动]]设备
+	- ## 3、Java里有个Binder.java 是实现了Ibinder接口-实现了跨进程能力
+- # 二、Binder机制的核心组件
   collapsed:: true
-	- 进程间，用户空间内存是隔离的，内核空间是共享的。  不能直接拿到类 去new对象
-	- ![image.png](../assets/image_1688272361964_0.png)
-	- ## 传统IPC2次拷贝形象比喻
-	  collapsed:: true
-		- ![image.png](../assets/image_1688272719853_0.png)
-		- ![image.png](../assets/image_1688272773413_0.png)
-	- ## Bander的一次拷贝：[[Binder怎么做到一次拷贝的？腾讯面试]]
-- # 七、[[Binder怎么做到一次拷贝的？腾讯面试]]
-- # 八、[[Mmap原理讲解=腾讯面试]]
-- # 九、Binder涉及到的类
+	- ## Binder：
+		- Binder 是一个基于驱动和内核的机制，用于进程间通信。它通过进程间的共享内存和句柄传递等方式实现数据的传输和共享。
+	- ## [[Binder驱动]]：
+		- Binder 驱动是 Android 系统的内核驱动程序，负责管理和处理进程间通信的底层细节。它提供了进程间通信所需的底层机制，包括内存映射、句柄传递等。
+	- ## [[Binder通信线程池]]：
+		- Binder 通信线程池是一个系统级的线程池，负责处理进程间通信的请求和响应。它通过多线程的方式处理并发的通信请求，提高了通信的效率。
+	- ## BinderProxy:Binder 代理对象：
+		- Binder 代理对象是在客户端进程中生成的，用于代表服务端进程的对象。它封装了跨进程通信的细节，包括数据的封装和解析、方法的调用等。通过代理对象，客户端可以方便地调用服务端的方法。
+	- ## [[AIDL]]（Android Interface Definition Language）：
+		- AIDL 是用于定义跨进程通信接口的语言。它提供了一种类似于接口定义语言（IDL）的方式，用于描述进程间通信接口中的方法和数据类型。AIDL 文件会被编译为 Java 接口和相应的代理类，以便在不同的进程间进行通信。
+- # 三、Binder 机制的工作流程如下
+  id:: 64a3d01e-70d9-4848-b90c-65f40939475f
   collapsed:: true
-	- ![image.png](../assets/image_1688285372324_0.png)
-- # 十、 [[Binder驱动]]内核层
-- # 十一、[[Binder的Jni方法注册流程，JNI层代码]]
-- # 十二、[[为什么Intent传输不能大于1M？]]
-- # 十三、[[ServiceManager]]
-- # 十三、[[ServiceManager启动和获取]]框架的native层
-- # 十四、[[普通服务的内存大小和SM的内存大小分别是多少？]]
+	- 服务端进程创建一个 Binder 对象，并将其作为服务的实例返回给客户端进程。
+	- 客户端进程通过绑定服务的方式获取到服务端的 Binder 对象，并生成相应的代理对象。
+	- 客户端通过代理对象调用服务端的方法，实际上是调用了代理对象中的方法。
+	- 代理对象将方法调用封装成一个请求，并通过 Binder 机制将请求发送给服务端进程。
+	- 服务端进程接收到请求后，Binder 机制将请求解析并转发给实际的服务对象进行处理。
+	- 服务对象处理完请求后，将结果通过 Binder 机制返回给客户端进程。
+	- 客户端进程接收到结果后，代理对象将结果解析并返回给调用方。
+- # 四、[[Binder类图方法关系]]
+- # 五、Binder框架分层介绍
+	- ![image.png](../assets/image_1688269631168_0.png){:height 657, :width 718}
+	- # [[JAVA层服务的注册和获取]]Java层以AMS举例
+	- # [[Binder的Jni方法注册流程，JNI层代码]]JNI层
+	- # [[ServiceManager启动和获取-Native层]]native层
+	- #  [[Binder驱动]]内核层
+- # 六、[[ServiceManager]]
+-
+-
+- # [[Binder机制面试题]]
+	- # [[Binder怎么做到一次拷贝的？腾讯面试]]
+	- # [[为什么Intent传输不能大于1M？]]
+	- # [[Mmap原理讲解=腾讯面试]]
+	- # [[Android中的Binder有什么优势？字节面试]]
+	- # [[Binder传输数据的大小限制]]

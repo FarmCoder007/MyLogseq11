@@ -1,5 +1,7 @@
-- ![image.png](../assets/image_1688305012691_0.png)
+- ## SM注册启动流程图
+	- ![image.png](../assets/image_1688305012691_0.png)
 - # 1.启动servicemanager进程
+  collapsed:: true
 	- ==ServiceManager是由init进程通过解析init.rc文件而创建的==，其所对应的可执行程序servicemanager，
 	- 所对应的源文件是service_manager.c，进程名为servicemanager。
 	- system/core/rootdir/init.rc
@@ -31,6 +33,7 @@
 	  }  
 	  ```
 	- ## 2-1.binder_open
+	  collapsed:: true
 		- ```c
 		  frameworks/native/cmds/servicemanager/binder.c
 		  // 96
@@ -58,6 +61,7 @@
 		  }
 		  ```
 		- ### 2-2-1.binder_ioctl，进入内核层代码
+		  collapsed:: true
 			- ```c
 			  kernel/drivers/staging/android/binder.c
 			  // 3241
@@ -67,11 +71,17 @@
 			  	ret = binder_ioctl_set_ctx_mgr(filp);
 			  ```
 		- ### 2-2-2.binder_ioctl_set_ctx_mgr
+		  collapsed:: true
 			- ```c
 			  kernel/drivers/staging/android/binder.c
 			  // 3200
 			  static int binder_ioctl_set_ctx_mgr(struct file *filp)
 			  {  
+			      // 根据binder驱动注册流程可知  在binder_open时会创建 当前进程的结构体对象binder_proc.
+			      // 存储调用binder_open进程信息。并把binder_proc.引用存入了filp->private_data
+			    
+			      // 所以这里proc获取的 当前进程信息的 结构体对象
+			      struct binder_proc *proc = filp->private_data
 			      // 3208 保证只创建一次 mgr_node对象，不为 null就直接返回
 			      if (context->binder_context_mgr_node) {xxx}
 			      // 3216
@@ -121,9 +131,14 @@
 			  }   
 			  ```
 		- # 总结
-			- 1、创建SM对应的binder_node( binder_context_mgr_node) 结构体对象（相当于代表的SM,主要存储SM进程相关信息）
-			- 2、proc -> 指向 binder_node
-			- 3、创建 work 和 todo的队列。类似MessageQueue 客户端来消息存里，服务端轮训处理这2个队列
+			- 1、==创建SM对应的binder_node==( binder_context_mgr_node) 结构体对象
+			  collapsed:: true
+				- binder_node 代表 Binder 对象的数据结构
+				- 这里相当于代表的SM,主要存储SM这个binder对象相关信息）
+			- 2、binder_node.proc = proc
+				- ==将binder_node.proc 指向 binder_proc（当前进程信息结构体==）
+			- 3、==为binder_node 创建 work 和 todo的队列==。
+				- 类似MessageQueue 客户端来消息存里，服务端轮训处理这2个队列
 	- ## 2-3.binder_loop：循环监听
 		- ```c
 		  frameworks/native/cmds/servicemanager/binder.c
@@ -153,7 +168,6 @@
 		  
 		  ```
 		- ### 2-3-1.binder_write
-		  collapsed:: true
 			- ```c
 			  frameworks/native/cmds/servicemanager/binder.c
 			  
@@ -183,7 +197,6 @@
 			  binder_ioctl_write_read 这个方法里 调用的就是下边的方法
 			  ```
 		- ### 2-3-2.binder_thread_write
-		  collapsed:: true
 			- ```c
 			  kernel/drivers/staging/android/binder.c
 			  // 2250
@@ -228,5 +241,5 @@
 			  }      
 			  ```
 		- # 总结
-			- 1、写入状态为Loop，开启for循环
-			- 2、从循环队列里去读数据，binder_thread_read（）wait_event_freezable_exclusive 方法 没有数据就进入等待。相当于AM注册完成 准备好了
+			- 1、执行BC_ENTER_LOOPER命令，设置写入状态为Loop，开启for循环
+			- 2、从循环队列里去读数据，binder_thread_read（）wait_event_freezable_exclusive 方法 没有数据就进入等待。相当于SM注册完成 准备好了

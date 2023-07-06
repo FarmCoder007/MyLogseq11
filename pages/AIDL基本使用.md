@@ -1,9 +1,9 @@
 - # 需求
 	- 进程A : 客户端ClientActivity  和 进程B  RmoteService 通信
-- # 背景
-  collapsed:: true
+	-
+- # 首先
 	- # 普通类与类之间的调用，模块化都是需要提供接口的
-	- # AIDL也是如此
+	- # AIDL也是如此，先定义通信的AILD接口
 - # 示例1、AIDL支持的默认数据类型
   collapsed:: true
 	- # 进程B服务端

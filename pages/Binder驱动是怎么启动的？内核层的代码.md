@@ -1,12 +1,14 @@
 - # 一、本文都为内核层的代码
+  collapsed:: true
 	- ![image.png](../assets/image_1688297869681_0.png)
 - # binder驱动图
 	- ![image.png](../assets/image_1688287538783_0.png)
 	- Binder是启动的misc设备(binder是没有硬件的，binder就相当于一块内存)
 - # 内核空间启动Binder驱动
-	- ![image.png](../assets/image_1688287260666_0.png)
-- ## 在linux中一切皆文件，binder驱动也是文件
+	- ![image.png](../assets/image_1688287260666_0.png){:height 461, :width 749}
+- ## 在linux中一切皆文件，binder驱动也是文件，都是可读写的
 - # 一、通过init()，创建/dev/binder设备节点
+  collapsed:: true
 	- kernel/drivers/staging/android/binder.c
 	- ```c
 	  //4290设备驱动入口函数
@@ -14,7 +16,10 @@
 	  
 	  
 	  
-	  //4213
+	  // 函数作用：
+	  // 1、创建名为binder的单线程的工作队列
+	  // 2、从配置文件读取binder devices 信息 到device_names
+	  // 3、初始化binder设备
 	  static int __init binder_init(void)
 	  {
 	  	//4220创建名为binder的单线程的工作队列
@@ -25,9 +30,10 @@
 	      //4269 初始化binder设备
 	  	ret = init_binder_device(device_name);
 	  }	
-	    
 	  
-	  //4186 初始化binder 设备的方法，binder是一个内存 借助misc设备 为binder分配内存
+	  
+	  //4186 具体怎么初始化binder 设备的方法，binder是一个内存 借助misc设备 为binder分配内存
+	  
 	  static int __init init_binder_device(const char *name){
 	    	int ret;
 	    	struct binder_device *binder_device;
@@ -48,13 +54,14 @@
 	      //4208  第三步、将binder设备 放到 设备链表里   将hlist节点添加到binder_devices为表头的设备链表
 	  	hlist_add_head(&binder_device->hlist,&binder_devices);
 	      return ret;
-	  }    
+	  }
 	  ```
 	- ## 初始化总结
 		- 第一步、为binder设备分配内存
 		- 第二部、拿到binder 设备后 初始化设备
 		- 第三步、将binder设备 放到 设备链表里
 - # 二、通过open()获取Binder Driver的文件描述符
+  collapsed:: true
 	- kernel/drivers/staging/android/binder.c
 	- ```c
 	  //3454
@@ -82,11 +89,12 @@
 	  }  
 	  ```
 	- ## 打开binder设备总结
-		- 1、创建binder_proc对象
-		- 2、当前进程信息保存到binder_proc
+		- 1、创建[[binder_proc]]对象
+		- 2、当前client调用binder的进程，的信息保存到binder_proc
 		- 3、添加到binder_proc链表中
 		- 4、将这个binder_proc与filp关联起来，这样下次通过filp就能找到这个proc了
 - # 三、通过mmap()，在内核分配一块内存，用于存放数据
+  collapsed:: true
 	- ## kernel/drivers/staging/android/binder.c
 	  collapsed:: true
 		- ```c
@@ -197,7 +205,6 @@
 				- 因为现在还没开始通信，等实际使用的时候再添加
 		- 3、把这块物理内存分别映射到  用户空间的虚拟内存和内核的虚拟内存
 - # 四、通过ioctl()，将IPC数据作为参数传递给Binder Driver
-  collapsed:: true
 	- ## kernel/drivers/staging/android/binder.c
 		- ```c
 		  //主要做读写操作的
@@ -218,6 +225,9 @@
 		- kernel/drivers/staging/android/binder.c
 		- ```c
 		  //3136
+		  // 把用户空间数据ubuf拷贝到内核空间 bwr  其实是数据头
+		  // //当写缓存中有数据，则执行binder写操作
+		  //当读缓存中有数据，则执行binder读操作
 		  static int binder_ioctl_write_read(struct file *filp,unsigned int cmd,unsigned long arg,struct binder_thread *thread)
 		  {
 		      //3150 把用户空间数据ubuf拷贝到内核空间 bwr  其实是数据头
@@ -245,7 +255,6 @@
 		  }      
 		  ```
 - # **数据结构**
-  collapsed:: true
 	- ## **file_operations**：这个是native 层怎么进入内核层的 方法映射关系
 	  collapsed:: true
 		- ```c
@@ -261,7 +270,7 @@
 		    .release=binder_release,
 		  };
 		  ```
-	- ## **binder_proc**
+	- ## **[[binder_proc]]**:管理当前进程信息
 	  collapsed:: true
 		- 每个进程调用open()打开binder驱动都会创建该结构体，用于管理IPC所需的各种信息。
 		- ```c
@@ -298,7 +307,7 @@
 		      structbinder_context*context;
 		  };  
 		  ```
-	- ## **binder_node**
+	- ## **[[binder_node]]**
 	  collapsed:: true
 		- ```c
 		  struct binder_node{

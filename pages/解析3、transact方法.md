@@ -1,5 +1,4 @@
 - # 一、参数解读
-  collapsed:: true
 	- ```java
 	  mRemote.transact(Stub.TRANSACTION_addPerson, _data, _reply, 0);
 	  ```
@@ -18,11 +17,10 @@
 			- 当客户端通过Proxy（IPersonManaer.java）接口的代理对象，调用addPerson方法时，实际上通过传递标号1（Stub.TRANSACTION_addPerson）来告诉服务端的Stub，
 			- Stub来根据1去匹配方法，得知客户端调用的addPerson，去具体处理
 		- ## 优点
-			- 更加方便简单，发送1比发送字符串简单
+			- 节约内存，更加方便简单，发送1比发送字符串简单
 - # 二、客户端调用transact方法后会被挂起
 - # 三、然后进入服务端的Stub的onTransact()方法，处理客户端的具体请求
 	- 代码
-	  collapsed:: true
 		- ```java
 		      @Override
 		      protected boolean onTransact(int code, Parcel data, Parcel reply, int flags) throws RemoteException {

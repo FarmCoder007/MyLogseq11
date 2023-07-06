@@ -9,5 +9,13 @@
 	- 4、那么我们获取SM,这个大管家 就可以获取AMS PMS等，通过Binder机制进行进程间通信
 - # 二、机制
 	- ServiceManager 使用了 Binder IPC（Inter-Process Communication）机制，允许不同的进程之间进行通信。它维护一个全局的服务列表，并为每个服务分配一个唯一的标识符（token）。其他进程可以使用这个标识符通过 Binder IPC 与对应的服务进行交互。
-- # 三、 [[ServiceManager启动和获取]]
+- # 三、ServiceManager 的主要作用有两个：
+	- ## Service服务注册：（如注册Android系统服务ActivityManagerService）
+		- 服务可以通过调用 `defaultServiceManager().addService(String name, IBinder service)` 方法来向 ServiceManager 注册自己的实例。注册时，服务需要提供一个唯一的名称和对应的 Binder 对象。这样，其他组件可以通过名称来查找和获取该服务的实例。
+	- ## Service服务查找：
+		- 其他组件可以通过调用 `defaultServiceManager().getService(String name)` 方法来根据名称从 ServiceManager 获取对应的服务实例。获取到服务实例后，可以进行进一步的操作和通信。
+	-
+	- Service服务(如AMS)的注册和查找，都需要先获取ServiceManager,如上所示通过defaultServiceManager()，拿到ServiceManager()才可以去获取具体服务
+- # 三、 [[ServiceManager启动和获取-Native层]]
+	- 这里主要介绍Native层 怎么先启动SM，和获取SM
 -

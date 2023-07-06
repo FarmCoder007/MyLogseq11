@@ -1,5 +1,19 @@
+- # Binder机制框架流程相关
+	- # [[内核层-Binder驱动启动流程]]
+	- # [[Binder机制大管家-SM的启动和获取流程-面试]]
+	- # [[JNI层-Binder的Jni方法注册流程-面试]]
+	- # [[Java层-AMS为例系统服务注册到SM流程-面试]]
 - # [[Android中的Binder有什么优势？字节面试]]
 - # [[Binder怎么做到一次拷贝的？腾讯面试]]
 - # [[Mmap原理讲解=腾讯面试]]
 - # [[ServiceManager怎么注册的？]]Native层
-- # [[普通服务的内存大小和SM的内存大小分别是多少？]]
+- # [[Binder传输数据的大小限制]]
+- # [[为什么Intent传输不能大于1M？]]
+- # [[系统服务与bindService等启动的服务的区别]]
+- # [[Binder线程、Binder主线程、Client请求线程的概念与区别]]
+- # [[Binder协议中BC与BR的区别]]
+-
+-
+-
+- # 参考
+	- https://juejin.cn/post/6844903469971685390

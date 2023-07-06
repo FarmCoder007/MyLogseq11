@@ -2,10 +2,13 @@
 - # 说明
 	- ## Stub上述自动生成 继承了 Binder 实现了 IPersonManager接口
 		- 相当于AMS中的[[ActivityManagerNative]]，也是相当于一个Binder
+- ## AIDL中
+	- Stub.Proxy是客户端拿到的Stub代理对象
+	- Stub是服务端
 - # 客户端解析
-	- ## [[#red]]==解析1、asInterface==
+	- ## [[#red]]==解析1、Stub.asInterface==
 	  collapsed:: true
-		- 使用地方：将服务端Service IBinder对象通过asInterface 转成 服务端定义的接口，这样就可以调用服务端进程的方法详见 [[绑定服务中 ServiceConnection的参数解析]]
+		- 使用地方：[[#red]]==将服务端Service IBinder对象通过asInterface 转成 服务端定义的接口，这样就可以调用服务端进程的方法==详见 [[绑定服务中 ServiceConnection的参数解析]]
 		  collapsed:: true
 			- ```java
 			      private ServiceConnection connection = new ServiceConnection() {
@@ -25,29 +28,32 @@
 		- asInterface，位于Stub类中，方法如下
 			- ```java
 			  
-			  public static com.lemonydbook.IPersonManager asInterface(android.os.IBinder obj)
+			  public static com.lemonydbook.IPersonManager asInterface(android.os.IBinder binder)
 			  {
-			    if ((obj==null)) {
+			    if ((binder==null)) {
 			      return null;
 			    }
 			    // 1、判断是否和客户端同进程，如果同进程有接口实现 直接返回
-			    android.os.IInterface iin = obj.queryLocalInterface(DESCRIPTOR);
+			    // 2、跨进程的话 执行的是BinderProxy.queryLocalInterface 方法 返回null 
+			    android.os.IInterface iin = binder.queryLocalInterface(DESCRIPTOR); 
 			    if (((iin!=null)&&(iin instanceof com.lemonydbook.IPersonManager))) {
 			      return ((com.lemonydbook.IPersonManager)iin);
 			    }
-			    // 2，跨进程返回代理对象 
-			    return new com.lemonydbook.IPersonManager.Stub.Proxy(obj);
+			    // 2，跨进程返回代理对象   跨进程传入的binder就是BinderProxy类
+			    return new com.lemonydbook.IPersonManager.Stub.Proxy(binder);
 			  }
 			  ```
 			- ## ==方法作用==
+			  collapsed:: true
 				- 1、判断是否和客户端同进程，如果同进程有接口实现类 直接返回
-				- 2、否则非同进程，返回IPersonManager的代理类Stub.Proxy，给客户端用，实现跨进程
+				- 2、跨进程，返回IPersonManager的代理类Stub.Proxy，给客户端用，实现跨进程
+					- 解释：BinderProxy能底层跨进程通信，外边包一层Stub.Proxy是为了调用定义的接口方法
 			- ## 详细解析
 			  collapsed:: true
-				- 看java层获取SM示例图
+				- 看java层获取SM示例图，这里只是个比喻
 					- ![image.png](../assets/image_1688443434035_0.png)
-				- .Stub.Proxy(IBinder) 相当于ServiceManagerProxy(binderProxy)
-				- [[ServiceManager的获取]]之前Binder机制Native层获取SM步骤中，Proxy(IBinder)相当于
+				- Stub.Proxy(IBinder) 相当于ServiceManagerProxy(BinderProxy)
+				- [[ServiceManager-注册服务到SM时Native层SM的获取]]之前Binder机制Native层获取SM步骤中，Proxy(IBinder)相当于
 				- Native层的new BpServiceManager（new BpBinder）等价 Proxy(IBinder 等价 BinderProxy)
 	- ## [[#red]]==解析2==、通过1方法拿到了，服务端进程的IPersonManager接口代理对象，现看[[#red]]==代理类Proxy==中具体跨进程实现
 		- 客户端用代理对象，调用远程服务的接口方法，addPerson，传入person对象
@@ -88,11 +94,11 @@
 				- BpBinder 再去调用 内核层的Binder。实现跨进程的传输
 			- ##  [[#red]]==代理类中方法调用 addPerson做的事情==
 				- 1、将 客户端数据 和 服务端数据 打包
-				- 2、检测
-				- 3、调用transact，执行跨进程
+				- 2、调用transact，通过命令TRANSACTION_addPerson传递，告诉服务端调用的哪个方法执行跨进程
 					- （同步的情况，客户端调用后，当前线程会挂起，等服务器返回数据）
 					- 异步情况，不会挂起
 	- ## [[解析3、transact方法]]
+	  collapsed:: true
 		- ## 需要讲
 			- ### code就是那个第一个参数常量
 			- ### 服务端的OnTransact方法

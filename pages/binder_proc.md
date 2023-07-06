@@ -1,0 +1,12 @@
+- 在 Binder 机制中，`Binder_proc` 是指==代表进程的数据结构。它是在 Linux 内核中定义的一个结构体，用于管理和维护进程的相关信息和状态。==
+- `Binder_proc` 结构体中包含了以下重要的字段：
+- -
+- `struct hlist_node binder_procs`：该字段用于将 `Binder_proc` 结构体链接到一个哈希链表中，以便系统可以快速查找和管理所有的 `Binder_proc` 结构体。
+- -
+- `struct hlist_node binder_pending_thread`：该字段用于将等待响应的线程链接到 `Binder_proc` 结构体，以便在响应到达时能够唤醒等待的线程。
+- -
+- `struct list_head todo`：该字段用于将需要处理的 Binder 事务链接到 `Binder_proc` 结构体，以便在 Binder 线程中处理。
+- -
+- `struct list_head pending_death`：该字段用于将等待进程死亡的死亡通知链接到 `Binder_proc` 结构体。当进程死亡时，Binder 机制会发送死亡通知给所有等待的进程。
+- 通过管理 `Binder_proc` 结构体，Binder 机制能够跟踪和管理每个进程的状态和相关信息。它允许系统在进程间进行通信和交互，并在进程死亡或请求到达时进行相应的处理。
+- 需要注意的是，`Binder_proc` 是在 Linux 内核中定义的数据结构，开发者一般不需要直接操作它。它在 Binder 机制的内部使用，用于实现进程间通信的管理和调度。
