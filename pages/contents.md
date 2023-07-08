@@ -6,26 +6,11 @@
 	- [[项目解析]]
 	- [[面试]]
 - Android
+  collapsed:: true
 	- [[四大组件]]
-	- [[多进程相关]]
+	- [[Android-Framework]]
 	- [[开发常用工具]]
 	- [[Android架构]]
-	- [[系统架构]]
-	- Android系统启动
-	  collapsed:: true
-		- [[Android 系统启动流程]]
-		- [[init进程启动过程]]
-		- [[Zygote 进程启动过程]]
-		- [[SystemServer 处理过程]]
-		- [[Launcher （系统桌面）启动过程]]
-		- [[启动流程整合]]
-		- [[Android启动流程源码剖析]]
-	- 应用程序进程启动过程
-	  collapsed:: true
-		- [[应用程序进程启动过程]]
-		- [[Binder 线程池启动过程]]
-		- [[消息循环创建过程]]
-		- [[Android应用进程启动与Binder]]
 	- [[RecyclerView]]
 	- [[ViewPager2]]
 	- 自定义view
@@ -39,7 +24,6 @@
 	- [[动画]]
 	- [[AST抽象语法树]]
 	- [[AOP]]
-	- [[启动流程]]
 	- [[Android开发架构]]
 	- [[单元测试]]
 	- [[AndroidX适配]]
@@ -76,6 +60,7 @@
 	- [[协程]]
 	- [[kotlin相关]]
 - AndroidStudio
+  collapsed:: true
 	- AS插件
 	  collapsed:: true
 		- 常用插件- [[AS插件]]

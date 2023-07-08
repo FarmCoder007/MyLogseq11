@@ -1,5 +1,4 @@
 - # 一、应用进程启动
-  collapsed:: true
 	- ## linux进程启动的方式
 	  collapsed:: true
 		- 启动进程有两种方式。调用fork函数启动子进程，pid为0时代表在子进程返回值，否则是父进程。左边启动方式，默认继承父进程的系统资源。右边execve方式传入启动参数，父进程资源全被清空掉。Android系统采用了Linux内核，因此，Android应用进程的创建与Linux如出一辙。
