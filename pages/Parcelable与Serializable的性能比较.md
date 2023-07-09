@@ -1,0 +1,17 @@
+- ## Serializable性能分析
+	- Serializable是Java中的序列化接口，其使用起来简单但开销较大（因为Serializable在序列化过程中使用了反射机制，故而会产生大量的临时变量，从而导致频繁的GC），并且在读写数据过程中，它是通过IO流的形式将数据写入到硬盘或者传输到网络上。
+- ## Parcelable性能分析
+	- Parcelable则是以IBinder作为信息载体，在内存上开销比较小，因此在内存之间进行数据传递时，推荐使用Parcelable,而Parcelable对数据进行持久化或者网络传输时操作复杂，一般这个时候推荐使用Serializable。
+- ## 性能比较总结描述
+	- 首先Parcelable的性能要强于Serializable的原因我需要简单的阐述一下
+	- 在内存的使用中,前者在性能方面要强于后者
+	- 后者在序列化操作的时候会产生大量的临时变量,(原因是使用了反射机制)从而导致GC的频繁调用,因此在性能上会稍微逊色
+	- Parcelable是以Ibinder作为信息载体的.在内存上的开销比较小,因此在内存之间进行数据传递的时候,Android推荐使用Parcelable,既然是内存方面比价有优势,那么自然就要优先选择.
+	- 在读写数据的时候,Parcelable是在内存中直接进行读写,而Serializable是通过使用IO流的形式将数据读写入在硬盘上.但是：虽然Parcelable的性能要强于Serializable,但是仍然有特殊的情况需要使用Serializable,而不去使用Parcelable,因为Parcelable无法将数据进行持久化,因此在将数据保存在磁盘的时候,仍然需要使用后者,因为前者无法很好的将数据进行持久化.(原因是在不同的Android版本当中,Parcelable可能会不同,因此数据的持久化方面仍然是使用Serializable)
+- ## 性能测试方法分析
+	- 通过将一个对象放到一个bundle里面然后调用Bundle writeToParcel(Parcel, int)方法来模拟传递对象给一个activity的过程，然后再把这个对象取出来。
+	- 在一个循环里面运行1000 次。
+	- 两种方法分别运行10次来减少内存整理，cpu被其他应用占用等情况的干扰。
+	- 参与测试的对象就是上面的相关代码
+	- 在多种Android软硬件环境上进行测试
+- ## [[两种序列化如何选择]]
