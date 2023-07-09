@@ -167,3 +167,6 @@
 	- 4确认密码  输入刚才的密码回车  然后在指定目录下生成秘钥
 	- 到该目录下Key是私钥    key.pub是公钥     公钥打开后全选配置在服务器秘钥认证里
 	- 私钥配置在smartGit的里  【应该是配置私钥的路径】
+-
+- # github报错
+	- 1、[Failed to connect to github.com port 443: Connection refused](https://blog.csdn.net/qq_38204686/article/details/123444765)

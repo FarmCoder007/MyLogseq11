@@ -10,3 +10,6 @@
 	- ![image.png](../assets/image_1688714540005_0.png)
 - ## API28重构之后
 	- ![image.png](../assets/image_1688714574221_0.png){:height 279, :width 749}
+-
+- # 参考
+	- [Activity启动流程](http://gityuan.com/2016/03/12/start-activity/)
