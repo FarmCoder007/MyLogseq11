@@ -1,44 +1,43 @@
+- # 流程图
+	- ![image.png](../assets/image_1688881426102_0.png)
 - ## 1、AMS是在SystemServer中被添加的， 所以先到SystemServer中查看初始化
   collapsed:: true
 	- SystemServer.java
-	- ```java
-	  public static void main(String[] args) {
-	  	new SystemServer().run();
-	  }
-	  
-	  private void run() {
-	            ...
-	            createSystemContext();
-	            // Create the system service manager.
-	            mSystemServiceManager = new SystemServiceManager(mSystemContext);
-	            mSystemServiceManager.setStartInfo(mRuntimeRestart,
-	            mRuntimeStartElapsedTime, mRuntimeStartUptime);
-	            LocalServices.addService(SystemServiceManager.class,
-	            mSystemServiceManager);
-	            // Prepare the thread pool for init tasks that can be parallelized
-	            SystemServerInitThreadPool.get();
-	      } finally {
-	      	  traceEnd(); // InitBeforeStartServices
-	      }
-	      // Start services. 启动服务
-	      try {
-	          traceBeginAndSlog("StartServices");
-	          startBootstrapServices();
-	          startCoreServices();
-	          startOtherServices();
-	          SystemServerInitThreadPool.shutdown();
-	      } catch (Throwable ex) {
-	      	throw ex;
-	      } finally {
-	      	traceEnd();
-	      }
-	      // Loop forever.
-	      Looper.loop();
-	      throw new RuntimeException("Main thread loop unexpectedly exited");
-	  }
-	  ```
-	- ```java
-	  ```
+		- ```java
+		  public static void main(String[] args) {
+		  	new SystemServer().run();
+		  }
+		  
+		  private void run() {
+		            ...
+		            createSystemContext();
+		            // Create the system service manager.
+		            mSystemServiceManager = new SystemServiceManager(mSystemContext);
+		            mSystemServiceManager.setStartInfo(mRuntimeRestart, mRuntimeStartElapsedTime, mRuntimeStartUptime);
+		            LocalServices.addService(SystemServiceManager.class,mSystemServiceManager);
+		            // Prepare the thread pool for init tasks that can be parallelized
+		            SystemServerInitThreadPool.get();
+		      } finally {
+		      	  traceEnd(); // InitBeforeStartServices
+		      }
+		      // Start services. 启动服务
+		      try {
+		          traceBeginAndSlog("StartServices");
+		          startBootstrapServices();
+		          startCoreServices();
+		          startOtherServices();
+		          SystemServerInitThreadPool.shutdown();
+		      } catch (Throwable ex) {
+		      	throw ex;
+		      } finally {
+		      	traceEnd();
+		      }
+		      // Loop forever.
+		      Looper.loop();
+		      throw new RuntimeException("Main thread loop unexpectedly exited");
+		  }
+		  ```
+	-
 - ## 2、在SystemServer中，在startBootstrapServices()中去启动了AMS
   collapsed:: true
 	- SystemServer.java
@@ -49,7 +48,7 @@
 	        traceBeginAndSlog("StartActivityManager");
 	        //启动了AMS
 	        mActivityManagerService = mSystemServiceManager.startService(
-	        ActivityManagerService.Lifecycle.class).getService();
+	  							ActivityManagerService.Lifecycle.class).getService();
 	        mActivityManagerService.setSystemServiceManager(mSystemServiceManager);
 	        mActivityManagerService.setInstaller(installer);
 	        traceEnd();
@@ -66,8 +65,8 @@
 	  }
 	  ```
 - ## 3、AMS是通过SystemServiceManager.startService去启动的，参数是ActivityManagerService.Lifecycle.class， 首先看看startService方法
+  collapsed:: true
 	- SystemServiceManager.startService
-	  collapsed:: true
 		- ```java
 		      public SystemService startService(String className) {
 		          final Class<SystemService> serviceClass;
@@ -534,12 +533,13 @@
 		  }
 		  ```
 - ## 5、然后来看看setSystemProcess 干了什么事情
+  collapsed:: true
 	- ```java
 	  public void setSystemProcess() {
 	      try {
 	            ServiceManager.addService(Context.ACTIVITY_SERVICE, this, /*
-	            allowIsolated= */ true,
-	            DUMP_FLAG_PRIORITY_CRITICAL | DUMP_FLAG_PRIORITY_NORMAL | DUMP_FLAG_PROTO);
+	                    allowIsolated= */ true,
+	                    DUMP_FLAG_PRIORITY_CRITICAL | DUMP_FLAG_PRIORITY_NORMAL | DUMP_FLAG_PROTO);
 	            ServiceManager.addService(ProcessStats.SERVICE_NAME, mProcessStats);
 	            ServiceManager.addService("meminfo", new MemBinder(this), /*
 	            allowIsolated= */ false, DUMP_FLAG_PRIORITY_HIGH);
@@ -586,10 +586,9 @@
 	              });
 	      }
 	  ```
-- 注册服务。首先将ActivityManagerService注册到ServiceManager中，其次将几个与系统性能调试相关
-- 的服务注册到ServiceManager。
-- •查询并处理ApplicationInfo。首先调用PackageManagerService的接口，查询包名为android的应用程
-- 序的ApplicationInfo信息，对应于framework-res.apk。然后以该信息为参数调用ActivityThread上的
-- installSystemApplicationInfo方法。
-- •创建并处理ProcessRecord。调用ActivityManagerService上的newProcessRecordLocked，创建一个
-- ProcessRecord类型的对象，并保存该对象的信息
+	- 注册服务。首先将ActivityManagerService注册到ServiceManager中，其次将几个与系统性能调试相关的服务注册到ServiceManager。
+	-
+	- 查询并处理ApplicationInfo。首先调用PackageManagerService的接口，查询包名为android的应用程序的ApplicationInfo信息，对应于framework-res.apk。然后以该信息为参数调用ActivityThread上的installSystemApplicationInfo方法。
+	-
+	- 创建并处理ProcessRecord。调用ActivityManagerService上的newProcessRecordLocked，创建一个ProcessRecord类型的对象，并保存该对象的信息
+- # [[AMS启动流程-粗略]]
