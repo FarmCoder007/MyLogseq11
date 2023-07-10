@@ -1,5 +1,8 @@
 - # 一、概念
+  collapsed:: true
 	- Android ServiceManager（服务管理器）是 Android 系统中的一个重要组件，==它充当了系统服务的注册和查找中心==。它负责管理和提供系统级服务给应用程序和其他系统组件使用
+	-
+	- [[#red]]==**Framework 层的ServiceManager 和 c++ 层 service_manager 实际上最终都对应handle = 0的 binder**==
 	-
 	- Android 系统中的许多核心服务都通过 ServiceManager 进行注册和提供，例如 ActivityManagerService、WindowManagerService、PowerManager、PackageManagerService 等。应用程序可以通过 ServiceManager 获取这些系统服务的实例，并调用相应的方法来完成特定的功能。
 	- ![image.png](../assets/image_1688356064667_0.png)

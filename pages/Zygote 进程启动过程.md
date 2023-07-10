@@ -6,6 +6,8 @@
 		- init.zygote32_64.rc：表示既支持 32 位程序也支持 64 位程序，
 		- init.zygote64.rc
 		- init.zygote64_32.rc
+- # 启动流程
+	- ![image.png](../assets/image_1688875292680_0.png)
 - # 三、启动过程时序图
 	- init 启动 Zygote 时主要是调用叩 main.cpp main 的函数中的AppRuntime start 方陆来启动 Zygote 进程的，我们就先从 app_ main .cpp main 数开始分析，Zygote 程启动过程的时序图
 	- ![image.png](../assets/image_1660119534006_0.png){:height 587, :width 746}

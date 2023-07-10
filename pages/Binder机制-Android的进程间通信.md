@@ -1,5 +1,6 @@
 - # 一、什么是Binder机制
   title:: Binder机制-Android的进程间通信
+  collapsed:: true
 	- ## 1、是Android进程间通信机制
 		- ## Binder框架
 			- ![image.png](../assets/image_1688269631168_0.png){:height 657, :width 718}

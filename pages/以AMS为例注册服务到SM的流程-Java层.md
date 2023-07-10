@@ -21,9 +21,7 @@
 	- ##  3、执行SM.addService，注册
 	-
 - # 一、SytemServer
-  collapsed:: true
 	- ## 入口函数
-	  collapsed:: true
 		- ```java
 		  frameworks/base/services/java/com/android/server/SystemServer.java
 		  // 167
@@ -31,8 +29,7 @@
 		  	new SystemServer().run();
 		  }
 		  ```
-	- ## 1-1.run
-	  collapsed:: true
+	- ## 1-1.run创建 [[SystemServiceManager]]管理各种服务启动
 		- ```java
 		  frameworks/base/services/java/com/android/server/SystemServer.java
 		  // 176
@@ -46,7 +43,6 @@
 		  }    
 		  ```
 	- ## 1-2.startBootstrapServices
-	  collapsed:: true
 		- ```java
 		  frameworks/base/services/java/com/android/server/SystemServer.java
 		  // 322
@@ -61,7 +57,6 @@
 		  
 		  ```
 		- ## 反射创建ActivityManagerService.Lifecycle.class的实例，进而在构造函数创建AMS实例
-		  collapsed:: true
 			- ```java
 			  SystemServiceManager.java
 			  

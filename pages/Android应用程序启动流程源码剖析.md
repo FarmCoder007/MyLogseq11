@@ -1,14 +1,18 @@
 - # 一、背景
+  collapsed:: true
 	- 近期应工信部要求整改，其中一项是的整改要求是隐私弹窗之前不允许收集个人信息，个人信息包括设备和个人的敏感信息，这个条款按照需求理解就是隐私弹框之前不允许有任何业务逻辑有采集信息行为，代码层理解就是隐私弹窗弹出前不允许调用任何其他逻辑，包括我们程序的初始化操作。因为我们程序的初始化之前是放在隐私弹窗之前开始执行的，那为迎合本次整改，需要将我们的初始化延迟到隐私政策同意之后执行，如何能快速实现，这个改造呢？借鉴了同城hook Instrumentation 的方案（朝彬、曾老师开发），实现方案不是本次要讲的内容，大家可以自行下来查看代码实现（PrivacyInstrumentation类），本次要讲的是app应用的启动流程，当你理解了本次所讲的内容，你再看实现方案就能更好的理解，从源码逐步分析启动流程的每个环节，涉及到每个类的作用，带大家一一了解。
 - # 二、问题
 	- 1、应用的进程是什么时机创建的，进程如何和application绑定？
 	- 2、app 应用启动过程中关键核心类的作用以及他们之间的关系？
 	- 3、Application是什么时候创建的，谁管理他的生命周期？
+		- Instrumentation
 	- 4、Activity的创建和生命周期是由谁管理？
+		- Instrumentation
 	- 5、AMS的通信机制和作用？
 	- 6、ContentProvider的onCreate()是有系统调用的，那什么时机执行呢？
 	  若以上内容都已理解，那接下来的内容就当温习和探讨吧 ：）
 - # 三、应用启动流程所涉及的核心类及作用
+  collapsed:: true
 	- 先简述一下启动过程中关键类及作用，便于大家理解下面的内容：
 	- ## ActivityManagerService：
 		- Framework层，Android核心服务,简称AMS,负责调度各应用进程,管理四大组件.实现了IActivityManager接口,应用进程能通过Binder机制调用系统服务，以下简称AMS；
@@ -26,7 +30,8 @@
 		- Stack的管理者，用来管理TaskRecord的，包含了多个TaskRecord
 	- ## ActivityStackSupervisor：
 		- ActivityStack的管理者，早期的Android版本是没有这个类的，直到Android 6.0才出现。
-- # 三、启动流程-上
+- # 四、启动流程**[[#red]]==第一阶段Launcher->AMS请求创建进程==**
+  collapsed:: true
 	- ## 本次分析的环境条件：
 	  collapsed:: true
 		- 1. 源码基于android 28
@@ -41,8 +46,10 @@
 		          3.3.4 若只阅读Android platform 源码，可以从科大上clone：
 		  git clone git://mirrors.ustc.edu.cn/aosp/platform/frameworks/base --depth=1
 		  因为AOSP资源较大，本次采用在线方式阅读分析
+	- ![image.png](../assets/image_1684416960546_0.png)
 	- ## 启动入口Launcher.StartActivity
-		- Launcher,我们安卓桌面,他也是一个应用.只不过他有些特殊属性,特殊在于它是系统开机后第一个启动的应用,并且该应用常驻在系统中,不会被杀死,用户一按home键就会回到桌面(回到该应用).桌面上面放了很多很多我们自己安装的或者是系统自带的APP,我们通过点击这个应用的快捷方法可以打开我们的应用，桌面Launcher也是一个Activity，也是通过startActivity打开我们的应用的，可以认为我们的应用都是通过其他应用打开的。
+	  collapsed:: true
+		- Launcher,我们安卓桌面,他也是一个应用.只不过他有些特殊属性,特殊在于它是系统开机后第一个启动的应用,并且该应用常驻在系统中,不会被杀死,用户一按home键就会回到桌面(回到该应用).桌面上面放了很多很多我们自己安装的或者是系统自带的APP,我们通过点击这个应用的快捷方法可以打开我们的应用，[[#red]]==**桌面Launcher也是一个Activity，也是通过startActivity打开我们的应用的**==，可以认为我们的应用都是通过其他应用打开的。
 	- ## Activity的startActivity方法
 	  collapsed:: true
 		- 代码
@@ -73,7 +80,8 @@
 			    // 现在被Fragment替代，一般情况为空  
 			    if (mParent == null) {
 			          options = transferSpringboardActivityOptions(options);
-			          //调用Instrumentation.execStartActivity()启动新的Activity。mMainThread类型为ActivityThread, 在attach()函数被回调时被赋值
+			          //调用Instrumentation.execStartActivity()启动新的Activity。
+			          //mMainThread类型为ActivityThread, 在attach()函数被回调时被赋值
 			          Instrumentation.ActivityResult ar =
 			              mInstrumentation.execStartActivity(
 			                  this, mMainThread.getApplicationThread(), mToken, this,
@@ -135,13 +143,14 @@
 			      return null;
 			  }
 			  ```
-		- IApplicationThread是一个Binder接口,继承自android.os.IInterface接口，IInterface接口是Binder的基础类
+		- IApplicationThread是一个Binder接口,继承自android.os.IInterface接口，IInterface接口是Binder的基础类。[[#red]]==**它相当于app进程的binder的代理类。传给ams后 ams可以通过这个代理类调用app进程的方法。**==
 		- ApplicationThread是继承了IApplicationThread.Stub(由Android SDK工具会生成以IApplicationThread.aidl 文件命名的 .java 接口文件，生成的接口包含一个名为 Stub 的子类),实现了IApplicationThread的,所以可以转成IApplicationThread.由ApplicationThread和AMS通信进一步执行启动流程。
 	- ## ServiceManager获取ActivityManagerService（AMS）并继续启动startActivity
 	  collapsed:: true
 		- 在Instrumentacion的execStartActivity方法中ActivityManager.getService()获取ActivityManagerService（AMS）实例,调用AMS的startActivity方法，看一下ActivityManagerService的获取方式，通过ServiceManager.getService(Context.ACTIVITY_SERVICE)
-		  collapsed:: true
-			- ```
+			- ```java
+			  ActivityManager.java
+			  
 			  @UnsupportedAppUsage
 			  public static IActivityManager getService() {
 			      return IActivityManagerSingleton.get();
@@ -238,11 +247,10 @@
 			  
 			      }
 			  ```
-		- 执行顺序：startActivity()->startActivityAsUser()->ActivityStart.execute()
-	- ## ActivityStart的execute()方法
+		- 执行顺序：startActivity()->startActivityAsUser()->ActivityStarter.execute()
+	- ## ActivityStarter的execute()方法
 	  collapsed:: true
 		- 代码
-		  collapsed:: true
 			- ```java
 			  /**
 			       * Starts an activity based on the request parameters provided earlier.
@@ -286,11 +294,14 @@
 			      ......
 			  }
 			  
+			  // 1、根据启动的intent 识别启动模式，并处理
+			  // 2、判断启动模式并在flags上追加对应的标记
 			  private int startActivityUnchecked(final ActivityRecord r, ActivityRecord sourceRecord,
 			          IVoiceInteractionSession voiceSession, IVoiceInteractor voiceInteractor,
 			          int startFlags, boolean doResume, ActivityOptions options, TaskRecord inTask,
 			          ActivityRecord[] outActivity) {
 			      .......
+			        // 从这里resume mainactivity
 			      mSupervisor.resumeFocusedStackTopActivityLocked(mTargetStack, mStartActivity, mOptions);
 			  
 			      return START_SUCCESS;
@@ -302,23 +313,24 @@
 			  void startSpecificActivityLocked(ActivityRecord r,
 			              boolean andResume, boolean checkConfig) {
 			      ....
-			      //进程存在则启动
+			      //进程存在则启动，热启动，进程和主线程都存活
 			      if (app != null && app.thread != null) {
 			          realStartActivityLocked(r, app, andResume, checkConfig);
 			          return;
 			      }
 			  
-			      //进程不存在则创建
+			      //进程不存在则创建,冷启动
 			      mService.startProcessLocked(r.processName, r.info.applicationInfo, true, 0,
 			              "activity", r.intent.getComponent(), false, false, true);
 			  }
 			  ```
 		- 这里会判断一下进程是否存在,如果不存在则创建.这里的mService是AMS,会调用AMS的startProcessLocked方法.
-		  以上流程是[[#red]]==**Launcher应用和System Server进程的通信交互过程，就是在目标应用进程启动之前的执行流程**==，可以用流程图总结一下，便于我们加深认识。
+		  以上流程是[[#red]]==**Launcher应用和System Server进程的通信交互过程，就是在目标应用进程启动之前的执行流程**==，可以用时序图总结一下，便于我们加深认识。
 		- ![image.png](../assets/image_1684416960546_0.png)
 	-
 	- ## 以上流程是==**Launcher应用和System Server进程的通信交互过程，就是在目标应用进程启动之前的执行流程**==
-	-
+- # 五、启动流程**[[#red]]==第二阶段启动目标应用程序进程==**
+	- ![image.png](../assets/image_1660124618412_0.png){:height 561, :width 716}
 	- ## AMS中启动目标应用进程
 	  collapsed:: true
 		- ### 目标应用的进程具体是如何创建的呢？
@@ -333,6 +345,7 @@
 		                      app.processName);
 		              checkTime(startTime, "startProcess: asking zygote to start proc");
 		              final ProcessStartResult startResult;
+		              // 是不是web进程
 		              if (hostingType.equals("webview_service")) {
 		                  startResult = startWebView(entryPoint,
 		                          app.processName, uid, uid, gids, runtimeFlags, mountExternal,
@@ -353,7 +366,7 @@
 		          }
 		      }
 		  ```
-	- ## 目标应用新进程
+	- ## Process.start()创建目标应用进程
 	  collapsed:: true
 		- Process.start()创建进程。
 			- ```java
@@ -373,9 +386,74 @@
 			                      abi, instructionSet, appDataDir, invokeWith, zygoteArgs);
 			      }
 			  ```
-		- zygoteProcess通过socket通信告知Zygote创建fork子进程，创建新进程后将 ActivityThread 类加载到新进程，并调用 ActivityThread.main() 方法，该过程比较复杂，本节不做展开描述，如果大家感兴趣可以重点关注ZygoteInit、ZygoteConnection、RuntimeInit这几个类，便可找到详细答案.
-		  看一下ActivityThread.main()是怎么被触发执行的？
-		  RuntimeInit类
+		- zygoteProcess通过socket通信告知Zygote创建fork子进程，（该过程比较复杂，本节不做展开描述，如果大家感兴趣可以重点关注ZygoteInit、ZygoteConnection、RuntimeInit这几个类，便可找到详细答案）
+			- 具体流程见进阶解密第三章
+	- ## [[#red]]==**创建新进程后将 ActivityThread 类加载到新进程，并调用 ActivityThread.main() 方法：**==
+	  collapsed:: true
+		- ## fork(）函数fork()子进程后，会判断pid=0，在子进程（应用程序进程）执行handleChildProc处理应用程序进程
+		  collapsed:: true
+			- ```java
+			  boolean runOnce(ZygoteServer zygoteServer) throws Zygote MethodA dArgsCaller { 
+			          String args[] ; 
+			          Arguments parsedArgs = null ; 
+			          leDescriptor[] descriptors; 
+			          try { 
+			          ／／获取应用程序进程的启动参数
+			          args = readArgumentList () ; //1 
+			          descriptors = mSocket. getAncillaryFileDescriptors (); 
+			          } catch (IOExceptio ex) { 
+			          Log .w(TAG,”IOException on command socket ” + ex . getMessage () ) ; 
+			          closeSocket(); 
+			          return true ; 
+			          try {
+			            parsedArgs =new Arguments(args) ;//2 
+			          ／**
+			            创建应用程序进程
+			          */ 
+			          pid =Zygote.forkAndSpecialize(parsedArgs.uid, parsedArgs.gid, parsedArgs.gids，
+			          parsedArgs. debugFlags, rlimi ts, parsedArgs .mountExternal, parsedArgs. seinfo, 
+			          parsedArgs . niceName， fdsToClose, fdsToIgnore, parsedArgs.instructionSet, 
+			          parsedArgs.appDataDir) ; 
+			          } catch (ErrnoException ex) { 
+			          try { 
+			          ／／当前代码逻辑运行在子进程中
+			          if (pid == 0) { 
+			              zygoteServer.closeServerSocket() ; 
+			              IoUtils.closeQuietly(serverPipeFd) ; 
+			              serverPipeFd = null ; 
+			              ／／处理应用程序进程
+			              handleChildProc(parsedArgs, descriptors, childP peFd newStderr) ; 
+			              return true ; 
+			          } else { 
+			              IoUtils closeQu etly(childPipeFd)
+			              ch ldP peFd = null ; 
+			              return handleParentProc(pid, descriptors, serverPipeFd, pa r sedArgs) ; 
+			          } finally { 
+			              IoUtils.closeQu etly (childPipeFd) ; 
+			              IoUtils . closeQuietly(serverPipeFd) ;
+			         }
+			  }
+			  ```
+		- ## handleChildProc 执行Zygoteinit.zygotelnit方法
+		  collapsed:: true
+			- > frameworks/base/core/java/com/android/internal/os/ZygoteConnection.java
+				- ```java
+				  private vo handleChildProc(Arguments parsedArgs,FileDescriptor[] descriptors, FileDescr pt or peFd PrintStream 
+				  newStderr)  throws Zygote .MethodAndArgsCaller { 
+				      if parsedArgs invokeW th != null) { 
+				                WrapperInit.execApplication(parsedArgs invokeWithparsedArgs . niceName ,
+				                    parsedArgs . targetSdkVersion , 
+				                VMRuntime . getCurrentinstructionSet () , 
+				                pipeFd, parsedArgs . remainingArgs) ; 
+				      } else { 
+				            Zygoteinit . zygotelnit (parsedArgs . targetSdkVersi on , 
+				            parsedArgs . remainingArgs, null/* classLoader */);
+				            }
+				  ```
+		- ## zygoteinit执行到Runtimelnit.applicationlnit()
+		- ## 看一下ActivityThread.main()是怎么被触发执行的？
+		  collapsed:: true
+			- RuntimeInit类applicationInit
 			- ```java
 			  protected static Runnable applicationInit(int targetSdkVersion, String[] argv,
 			              ClassLoader classLoader) {
@@ -437,7 +515,7 @@
 			          return new MethodAndArgsCaller(m, argv);
 			      }
 			  ```
-		- findStaticMain方法通过反射加载ActivityThread类并执行其静态main方法，是应用程序的主入口，并在其方法中执行相关操作。
+		- [[#red]]==**findStaticMain方法通过反射加载ActivityThread类并执行其静态main方法，是应用程序的主入口，**==并在其方法中执行相关操作。
 	- ## ActivityThread.main() 应用启动入口，创建主线程执行main方法
 	  collapsed:: true
 		- 代码
@@ -499,491 +577,18 @@
 		- ActivityThread是主线程嘛？
 		  ActivityThread在Android中它就代表了Android的主线程，但是并不是一个Thread类。
 		  严格来说，UI主线程不是ActivityThread。ActivityThread类是Android APP进程的初始类，它的main函数是这个APP进程的入口。APP进程中UI事件的执行代码段都是由ActivityThread提供的。
-	- ## ActivityThread.attach()创建Instrumentation和Application
-	  collapsed:: true
-		- 代码：
-			- ```java
-			  private void attach(boolean system) {
-			      sCurrentActivityThread = this;
-			      // 是否是系统进程
-			      mSystemThread = system;
-			      if (!system) {
-			          ViewRootImpl.addFirstDrawHandler(new Runnable() {
-			              @Override
-			              public void run() {
-			                  ensureJitEnabled();
-			              }
-			          });
-			          // 暂时设置进程的名字为<pre-initialized>
-			          android.ddm.DdmHandleAppName.setAppName("<pre-initialized>",
-			                                                  UserHandle.myUserId());
-			          RuntimeInit.setApplicationObject(mAppThread.asBinder());
-			          // 调用AMS
-			          final IActivityManager mgr = ActivityManagerNative.getDefault();
-			          try {
-			              mgr.attachApplication(mAppThread);
-			          } catch (RemoteException ex) {}
-			          // GC检测
-			          BinderInternal.addGcWatcher(new Runnable() {
-			              @Override public void run() {
-			                  if (!mSomeActivitiesChanged) {
-			                      return;
-			                  }
-			                  Runtime runtime = Runtime.getRuntime();
-			                  long dalvikMax = runtime.maxMemory();
-			                  long dalvikUsed = runtime.totalMemory() - runtime.freeMemory();
-			                  if (dalvikUsed > ((3*dalvikMax)/4)) {
-			                      //当已用内存超过最大内存的3/4,则请求释放内存空间
-			                      mSomeActivitiesChanged = false;
-			                      try {
-			                          mgr.releaseSomeActivities(mAppThread);
-			                      } catch (RemoteException e) {
-			                      }
-			                  }
-			              }
-			          });
-			      } else {
-			          // 如果是系统进程，设置名称为system_process
-			          android.ddm.DdmHandleAppName.setAppName("system_process",
-			                  UserHandle.myUserId());
-			          // 初始化mInstrumentation和mInitialApplication
-			          // 非系统进程这些对象的初始化在handleBindApplication()中进行
-			          try {
-			              mInstrumentation = new Instrumentation();
-			              ContextImpl context = ContextImpl.createAppContext(
-			                      this, getSystemContext().mPackageInfo);
-			              mInitialApplication = context.mPackageInfo.makeApplication(true, null);
-			              mInitialApplication.onCreate();
-			          } catch (Exception e) {...}
-			      }
-			      DropBox.setReporter(new DropBoxReporter());
-			      // 这里要快速的设置Config回调
-			      ViewRootImpl.addConfigCallback(new ComponentCallbacks2() {
-			          @Override
-			          public void onConfigurationChanged(Configuration newConfig) {
-			              synchronized (mResourcesManager) {
-			                  // 快速响应onConfigurationChanged
-			                  if (mResourcesManager.applyConfigurationToResourcesLocked(newConfig, null)) {
-			                      if (mPendingConfiguration == null ||
-			                              mPendingConfiguration.isOtherSeqNewer(newConfig)) {
-			                          mPendingConfiguration = newConfig;
-			                          sendMessage(H.CONFIGURATION_CHANGED, newConfig);
-			                      }
-			                  }
-			              }
-			          }
-			          @Override
-			          public void onLowMemory() {
-			          }
-			          @Override
-			          public void onTrimMemory(int level) {
-			          }
-			      });
-			  }
-			  ```
-		- ActivityThread.attach()的方法调用ActivityManagerService的attchApplication方法，创建Instrumentation和Application，Instrumentation的作用是监视应用程序和系统的所有交互，文章一开始已经介绍，所以我们一定要了解到它的创建和执行流程；
-	- ## ActivityManagerService.attachApplication()
-	  collapsed:: true
-		- 代码
-			- ```java
-			  @Override
-			      public final void attachApplication(IApplicationThread thread, long startSeq) {
-			          if (thread == null) {
-			              throw new SecurityException("Invalid application interface");
-			          }
-			          synchronized (this) {
-			              int callingPid = Binder.getCallingPid();
-			              final int callingUid = Binder.getCallingUid();
-			              final long origId = Binder.clearCallingIdentity();
-			              attachApplicationLocked(thread, callingPid, callingUid, startSeq);
-			              Binder.restoreCallingIdentity(origId);
-			          }
-			      }
-			  ```
-	- ## ActivityManagerService.attachApplicationLocked()
-	  collapsed:: true
-		- 代码
-			- ```java
-			  private final boolean attachApplicationLocked(IApplicationThread thread,
-			          int pid) {
-			      // 根据pid获取应用的ProcessRecord
-			      ProcessRecord app;
-			      if (pid != MY_PID && pid >= 0) {
-			          synchronized (mPidsSelfLocked) {
-			              app = mPidsSelfLocked.get(pid);
-			          }
-			      } else {
-			          app = null;
-			      }
-			      ...
-			          // 发起跨进程调用。绑定应用进程，发送一些参数给应用进程
-			          thread.bindApplication(processName, appInfo, providers, app.instrumentationClass,
-			                  profilerInfo, app.instrumentationArguments, app.instrumentationWatcher,
-			                  app.instrumentationUiAutomationConnection, testMode, enableOpenGlTrace,
-			                  isRestrictedBackupMode || !normalMode, app.persistent,
-			                  new Configuration(mConfiguration), app.compat,
-			                  getCommonServicesLocked(app.isolated),
-			                  mCoreSettingsObserver.getCoreSettingsLocked());
-			          updateLruProcessLocked(app, false, null);
-			          app.lastRequestedGc = app.lastLowMemory = SystemClock.uptimeMillis();
-			      } catch (Exception e) {
-			          // 绑定失败这里会重启进程
-			          app.resetPackageList(mProcessStats);
-			          app.unlinkDeathRecipient();
-			          startProcessLocked(app, "bind fail", processName);
-			          return false;
-			      }
-			      // 把进程从待启动进程列表中移除
-			      mPersistentStartingProcesses.remove(app);
-			      mProcessesOnHold.remove(app);
-			      boolean badApp = false;
-			      boolean didSomething = false;
-			     // 从这一步开始处理启动Activity
-			      if (normalMode) {
-			          try {
-			              if (mStackSupervisor.attachApplicationLocked(app)) {
-			                  didSomething = true;
-			              }
-			          } catch (Exception e) {
-			              badApp = true;
-			          }
-			      }
-			     // 处理Service
-			      if (!badApp) {
-			          try {
-			              didSomething |= mServices.attachApplicationLocked(app, processName);
-			          } catch (Exception e) {
-			              badApp = true;
-			          }
-			      }
-			      // 处理Broadcast
-			      if (!badApp && isPendingBroadcastProcessLocked(pid)) {
-			          try {
-			              didSomething |= sendPendingBroadcastsLocked(app);
-			          } catch (Exception e) {
-			              badApp = true;
-			          }
-			      }
-			  
-			      ...
-			      return true;
-			  }
-			  ```
-		- 以上方法体中两个重要的方法，将是后续讲解重点：
-		- thread.bindApplication(）这个方法开始创建Instrumentation和Application
-		  mStackSupervisor.attachApplicationLocked(app)开始启动Activity
-	- ## 创建Instrumentation和Application
-	  collapsed:: true
-		- 1.（ApplicationThread）thread.bindApplication()，ApplicationTread是ActivityThread的内部类
-			- ```java
-			  private class ApplicationThread extends IApplicationThread.Stub {
-			      private static final String DB_INFO_FORMAT = "  %8s %8s %14s %14s  %s";
-			  
-			      @Override
-			      public final void bindApplication(String processName, ApplicationInfo appInfo,
-			              ProviderInfoList providerList, ComponentName instrumentationName,
-			              ProfilerInfo profilerInfo, Bundle instrumentationArgs,
-			              IInstrumentationWatcher instrumentationWatcher,
-			              IUiAutomationConnection instrumentationUiConnection, int debugMode,
-			              boolean enableBinderTracking, boolean trackAllocation,
-			              boolean isRestrictedBackupMode, boolean persistent, Configuration config,
-			              CompatibilityInfo compatInfo, Map services, Bundle coreSettings,
-			              String buildSerial, AutofillOptions autofillOptions,
-			              ContentCaptureOptions contentCaptureOptions, long[] disabledCompatChanges) {
-			          if (services != null) {
-			              if (false) {
-			                  // Test code to make sure the app could see the passed-in services.
-			                  for (Object oname : services.keySet()) {
-			                      if (services.get(oname) == null) {
-			                          continue; // AM just passed in a null service.
-			                      }
-			                      String name = (String) oname;
-			  
-			                      // See b/79378449 about the following exemption.
-			                      switch (name) {
-			                          case "package":
-			                          case Context.WINDOW_SERVICE:
-			                              continue;
-			                      }
-			  
-			                      if (ServiceManager.getService(name) == null) {
-			                          Log.wtf(TAG, "Service " + name + " should be accessible by this app");
-			                      }
-			                  }
-			              }
-			  
-			              // Setup the service cache in the ServiceManager
-			              ServiceManager.initServiceCache(services);
-			          }
-			  
-			          setCoreSettings(coreSettings);
-			  
-			          AppBindData data = new AppBindData();
-			          data.processName = processName;
-			          data.appInfo = appInfo;
-			          data.providers = providerList.getList();
-			          data.instrumentationName = instrumentationName;
-			          data.instrumentationArgs = instrumentationArgs;
-			          data.instrumentationWatcher = instrumentationWatcher;
-			          data.instrumentationUiAutomationConnection = instrumentationUiConnection;
-			          data.debugMode = debugMode;
-			          data.enableBinderTracking = enableBinderTracking;
-			          data.trackAllocation = trackAllocation;
-			          data.restrictedBackupMode = isRestrictedBackupMode;
-			          data.persistent = persistent;
-			          data.config = config;
-			          data.compatInfo = compatInfo;
-			          data.initProfilerInfo = profilerInfo;
-			          data.buildSerial = buildSerial;
-			          data.autofillOptions = autofillOptions;
-			          data.contentCaptureOptions = contentCaptureOptions;
-			          data.disabledCompatChanges = disabledCompatChanges;
-			          sendMessage(H.BIND_APPLICATION, data);
-			      }
-			  }
-			  ```
-			- sendMessage(H.BIND_APPLICATION, data)，发送给内部类Handler处理
-				- ```java
-				  class H extends Handler {
-				  public void handleMessage(Message msg) {
-				          if (DEBUG_MESSAGES) Slog.v(TAG, ">>> handling: " + codeToString(msg.what));
-				          switch (msg.what) {
-				              case BIND_APPLICATION:
-				                  Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, "bindApplication");
-				                  AppBindData data = (AppBindData)msg.obj;
-				                  handleBindApplication(data);
-				                  Trace.traceEnd(Trace.TRACE_TAG_ACTIVITY_MANAGER);
-				                  break;
-				          }
-				          ......
-				  }
-				  }
-				  ```
-		- 2. 调用ActivityThread.handleBindApplication()最终创建Instrumentacion和Application
-			- 代码
-				- ```java
-				  private void handleBindApplication(AppBindData data) {
-				          // Register the UI Thread as a sensitive thread to the runtime.
-				          VMRuntime.registerSensitiveThread();
-				          // In the case the stack depth property exists, pass it down to the runtime.
-				          String property = SystemProperties.get("debug.allocTracker.stackDepth");
-				          if (property.length() != 0) {
-				              VMDebug.setAllocTrackerStackDepth(Integer.parseInt(property));
-				          }
-				          if (data.trackAllocation) {
-				              DdmVmInternal.enableRecentAllocations(true);
-				          }
-				          // Note when this process has started.
-				          Process.setStartTimes(SystemClock.elapsedRealtime(), SystemClock.uptimeMillis());
-				  
-				          AppCompatCallbacks.install(data.disabledCompatChanges);
-				          // Let libcore handle any compat changes after installing the list of compat changes.
-				          AppSpecializationHooks.handleCompatChangesBeforeBindingApplication();
-				  
-				          mBoundApplication = data;
-				          mConfiguration = new Configuration(data.config);
-				          mCompatConfiguration = new Configuration(data.config);
-				  
-				          mProfiler = new Profiler();
-				      // 创建Context上下文
-				          final ContextImpl appContext = ContextImpl.createAppContext(this, data.info);
-				          if (!Process.isIsolated()) {
-				              ......
-				          }
-				  
-				          .....
-				  
-				          // Instrumentation info affects the class loader, so load it before
-				          // setting up the app context.
-				          final InstrumentationInfo ii;
-				          if (data.instrumentationName != null) {
-				              try {
-				                  ii = new ApplicationPackageManager(
-				                          null, getPackageManager(), getPermissionManager())
-				                          .getInstrumentationInfo(data.instrumentationName, 0);
-				              } catch (PackageManager.NameNotFoundException e) {
-				                  throw new RuntimeException(
-				                          "Unable to find instrumentation info for: " + data.instrumentationName);
-				              }
-				  
-				              // Warn of potential ABI mismatches.
-				              if (!Objects.equals(data.appInfo.primaryCpuAbi, ii.primaryCpuAbi)
-				                      || !Objects.equals(data.appInfo.secondaryCpuAbi, ii.secondaryCpuAbi)) {
-				                  Slog.w(TAG, "Package uses different ABI(s) than its instrumentation: "
-				                          + "package[" + data.appInfo.packageName + "]: "
-				                          + data.appInfo.primaryCpuAbi + ", " + data.appInfo.secondaryCpuAbi
-				                          + " instrumentation[" + ii.packageName + "]: "
-				                          + ii.primaryCpuAbi + ", " + ii.secondaryCpuAbi);
-				              }
-				  
-				              mInstrumentationPackageName = ii.packageName;
-				              mInstrumentationAppDir = ii.sourceDir;
-				              mInstrumentationSplitAppDirs = ii.splitSourceDirs;
-				              mInstrumentationLibDir = getInstrumentationLibrary(data.appInfo, ii);
-				              mInstrumentedAppDir = data.info.getAppDir();
-				              mInstrumentedSplitAppDirs = data.info.getSplitAppDirs();
-				              mInstrumentedLibDir = data.info.getLibDir();
-				          } else {
-				              ii = null;
-				          }
-				  
-				          .....
-				  
-				          // Continue loading instrumentation.
-				          if (ii != null) {
-				              ApplicationInfo instrApp;
-				              try {
-				                  instrApp = getPackageManager().getApplicationInfo(ii.packageName, 0,
-				                          UserHandle.myUserId());
-				              } catch (RemoteException e) {
-				                  instrApp = null;
-				              }
-				              if (instrApp == null) {
-				                  instrApp = new ApplicationInfo();
-				              }
-				              ii.copyTo(instrApp);
-				              instrApp.initForUser(UserHandle.myUserId());
-				              final LoadedApk pi = getPackageInfo(instrApp, data.compatInfo,
-				                      appContext.getClassLoader(), false, true, false);
-				  
-				              // The test context\'s op package name == the target app\'s op package name, because
-				              // the app ops manager checks the op package name against the real calling UID,
-				              // which is what the target package name is associated with.
-				              final ContextImpl instrContext = ContextImpl.createAppContext(this, pi,
-				                      appContext.getOpPackageName());
-				  
-				              try {
-				                  final ClassLoader cl = instrContext.getClassLoader();
-				                  // 创建Instrumentation 
-				                  mInstrumentation = (Instrumentation)
-				                      cl.loadClass(data.instrumentationName.getClassName()).newInstance();
-				              } catch (Exception e) {
-				                  throw new RuntimeException(
-				                      "Unable to instantiate instrumentation "
-				                      + data.instrumentationName + ": " + e.toString(), e);
-				              }
-				  
-				              final ComponentName component = new ComponentName(ii.packageName, ii.name);
-				              mInstrumentation.init(this, instrContext, appContext, component,
-				                      data.instrumentationWatcher, data.instrumentationUiAutomationConnection);
-				  
-				              if (mProfiler.profileFile != null && !ii.handleProfiling
-				                      && mProfiler.profileFd == null) {
-				                  mProfiler.handlingProfiling = true;
-				                  final File file = new File(mProfiler.profileFile);
-				                  file.getParentFile().mkdirs();
-				                  Debug.startMethodTracing(file.toString(), 8 * 1024 * 1024);
-				              }
-				          } else {
-				              // 初始化mInstrumentation
-				              mInstrumentation = new Instrumentation();
-				              mInstrumentation.basicInit(this);
-				          }
-				          .....
-				  
-				          // Allow disk access during application and provider setup. This could
-				          // block processing ordered broadcasts, but later processing would
-				          // probably end up doing the same disk access.
-				          Application app;
-				          final StrictMode.ThreadPolicy savedPolicy = StrictMode.allowThreadDiskWrites();
-				          final StrictMode.ThreadPolicy writesAllowedPolicy = StrictMode.getThreadPolicy();
-				          try {
-				  
-				              //创建Application
-				              app = data.info.makeApplication(data.restrictedBackupMode, null);
-				  
-				              // Propagate autofill compat state
-				              app.setAutofillOptions(data.autofillOptions);
-				  
-				              // Propagate Content Capture options
-				              app.setContentCaptureOptions(data.contentCaptureOptions);
-				  
-				              mInitialApplication = app;
-				  
-				              // 装载Providers
-				              if (!data.restrictedBackupMode) {
-				                  if (!ArrayUtils.isEmpty(data.providers)) {
-				                      installContentProviders(app, data.providers);
-				                  }
-				              }
-				  
-				              // Do this after providers, since instrumentation tests generally start their
-				              // test thread at this point, and we don\'t want that racing.
-				              try {
-				                  mInstrumentation.onCreate(data.instrumentationArgs);
-				              }
-				              catch (Exception e) {
-				                  throw new RuntimeException(
-				                      "Exception thrown in onCreate() of "
-				                      + data.instrumentationName + ": " + e.toString(), e);
-				              }
-				              try {
-				                  mInstrumentation.callApplicationOnCreate(app);
-				              } catch (Exception e) {
-				                  if (!mInstrumentation.onException(app, e)) {
-				                      throw new RuntimeException(
-				                        "Unable to create application " + app.getClass().getName()
-				                        + ": " + e.toString(), e);
-				                  }
-				              }
-				          } finally {
-				              // If the app targets < O-MR1, or doesn\'t change the thread policy
-				              // during startup, clobber the policy to maintain behavior of b/36951662
-				              if (data.appInfo.targetSdkVersion < Build.VERSION_CODES.O_MR1
-				                      || StrictMode.getThreadPolicy().equals(writesAllowedPolicy)) {
-				                  StrictMode.setThreadPolicy(savedPolicy);
-				              }
-				          }
-				  
-				          // Preload fonts resources
-				          FontsContract.setApplicationContextForResources(appContext);
-				          if (!Process.isIsolated()) {
-				              try {
-				                  final ApplicationInfo info =
-				                          getPackageManager().getApplicationInfo(
-				                                  data.appInfo.packageName,
-				                                  PackageManager.GET_META_DATA /*flags*/,
-				                                  UserHandle.myUserId());
-				                  if (info.metaData != null) {
-				                      final int preloadedFontsResource = info.metaData.getInt(
-				                              ApplicationInfo.METADATA_PRELOADED_FONTS, 0);
-				                      if (preloadedFontsResource != 0) {
-				                          data.info.getResources().preloadFonts(preloadedFontsResource);
-				                      }
-				                  }
-				              } catch (RemoteException e) {
-				                  throw e.rethrowFromSystemServer();
-				              }
-				          }
-				      }
-				  ```
-			- 在ActivityThread.handleBindApplication()方法体中创建了我们的Instrumentation,然后是创建Application，Application由Instrumentaion的newApplication()方法创建。
-				- ```java
-				  public Application newApplication(ClassLoader cl, String className, Context context)
-				              throws InstantiationException, IllegalAccessException, 
-				              ClassNotFoundException {
-				          Application app = getFactory(context.getPackageName())
-				                  .instantiateApplication(cl, className);
-				          app.attach(context);
-				          return app;
-				      }
-				  ```
-			- Application.attach()会触发其attachBaseContext(context)方法，Application的生命周期由Instrumentation触发。
-			- Instrumentation和Application的创建流程图：
-				- ![image.png](../assets/image_1684417331262_0.png)
-	- ## ContentProvider的onCreate执行时机
-	  collapsed:: true
-		- 通过深入分析ActivityThread.handleBindApplication()方法分析，我们可以发现ContentProvider的执行时机，不再带大家看源码了，直接将时序图分享给大家
-			- ![image.png](../assets/image_1684417355006_0.png)
-		- 以上时序图不难看出ContentProvider的OnCreate方法是在Application的attachBaseContext方法和onCreate之间执行的。
-		- 到此目标应用进程创建成功，application创建成功并执行了onCreate方法，==**整个过程共涉及3个进程Launcher进程、AMS进程、目标应用的进程。**==
-		- 那Activity的是如何创建和执行生命周期的呢？
+	- ## **[[#red]]==由此进入了==**[[Instrumentation和Application创建流程]]
+	- ## 延伸[[ContentProvider的onCreate执行时机]]
 	- ## [[#red]]==到此看完了从Launcher启动到Instrumentation、Application的创建时机==
-- # 四、启动流程-下-Activity创建启动和生命周期管理
+- # 六、启动流程[[#red]]==第三阶段Activity创建启动和生命周期管理==
+  collapsed:: true
+	- ![image.png](../assets/image_1684417556248_0.png)
 	- 我们熟悉了启动流程的上半部流程，从Launcher启动到Instrumentation、Application的创建时机，本篇为上篇的下半部分，重点讲解启动过程中Activity的创建和生命周期的回调，包括中间过程中涉及到的重要类作用的说明
-	- ## AMS通知App创建Activity并回调相关生命周期
-		- 回到AMS.attachApplicationLocked()，AMS通知客户端进程创建完Application之后，调用mStackSupervisor.attachApplicationLocked()处理Activity：
-	- ### ActivityStackSupervisor.attachApplicationLocked
+	- ## AMS通知App创建Activity并回调相关生命周期（api 29未发现这块)
+	  collapsed:: true
+		- 回到AMS.attachApplicationLocked()（第二阶段有见application创建过程），AMS通知客户端进程创建完Application之后，调用mStackSupervisor.attachApplicationLocked()处理Activity：
+	- ## ActivityStackSupervisor.attachApplicationLocked
+	  collapsed:: true
 		- ```java
 		  boolean attachApplicationLocked(ProcessRecord app) throws RemoteException {
 		      final String processName = app.processName;
@@ -1136,8 +741,12 @@
 		  TransactionExecutor先后处理ClientTransaction的mActivityCallbacks和mLifecycleStateRequest，其中mActivityCallbacks便是LaunchActivityItem，作用是创建Activity并回调onCreate()方法；
 		  先看LaunchActivityItem：
 	- ## LaunchActivityItem.execute
+	  collapsed:: true
 		- 代码：
 			- ```java
+			  // client：ActivityThread父类，定义了抽象方法由ActivityThread实现；
+			  // token：AMS进程中，是代表Activity的ActivityRecord所保存的Token(Binder)
+			  // 在客户端进程的本地代理，
 			  public void execute(ClientTransactionHandler client, IBinder token,
 			          PendingTransactionActions pendingActions) {
 			      ActivityClientRecord r = new ActivityClientRecord(token, mIntent, mIdent, mInfo,
@@ -1147,10 +756,9 @@
 			      client.handleLaunchActivity(r, pendingActions, null /* customIntent */);
 			  }
 			  ```
-		- client：ActivityThread父类，定义了抽象方法由ActivityThread实现；
-		  token：AMS进程中，是代表Activity的ActivityRecord所保存的Token(Binder)在客户端进程的本地代理，
-		  构造ActivityClientRecord，调用ActivityThread.handleLaunchActivity()。
+		- 构造ActivityClientRecord，调用ActivityThread.handleLaunchActivity()。
 	- ## ActivityThread.handleLaunchActivity
+	  collapsed:: true
 		- ```java
 		  public Activity handleLaunchActivity(ActivityClientRecord r ,
 		          PendingTransactionActions pendingActions, Intent customIntent) {
@@ -1175,8 +783,8 @@
 		  }
 		  ```
 	- ## ActivityThread.performLaunchActivity
+	  collapsed:: true
 		- 代码
-		  collapsed:: true
 			- ```java
 			  private Activity performLaunchActivity(ActivityClientRecord r, Intent customIntent) {
 			      ActivityInfo aInfo = r.activityInfo;
@@ -1269,20 +877,26 @@
 			      return activity;
 			  }
 			  ```
-		- Instrumentation.newActivity()：类似Application的创建，最终调用AppComponentFactory.instantiateActivity()反射构造Activity；
-		  activity.attach()：Activity自己的初始化；
-		  mInstrumentation.callActivityOnCreate()：先调用activity.performCreate()，再回调Activity.onCreate()。
-		- 分析完了LaunchActivityItem如何创建Activity并回调onCreate()方法后，再看TransactionExecutor如何处理ClientTransaction的mLifecycleStateRequest。
-		  通过前面的文章分析知道，TransactionExecutor再处理ClientTransaction时，会通过cycleToPath()以及performLifecycleSequence()方法，处理当前声明周期状态到目标声明周期中间的声明周期，在LaunchActivityItem处理完毕后，当前状态是ON_CREATE，而目标状态是ON_RESUME，所以cycleToPath()会在处理ResumeActivityItem前先调用ActivityThread.handleStartActivity()完成Activity的onStart()方法的回调。处理完cycleToPath()以后，TransactionExecutor再处理ResumeActivityItem，ResumeActivityItem最终回调Activity的onResume()方法，具体的流程不在分析。
-		- ![image.png](../assets/image_1684417556248_0.png)
+		- 1、Instrumentation.newActivity()：
+			- 类似Application的创建，最终调用AppComponentFactory.instantiateActivity()反射构造Activity；
+			- activity.attach()：Activity自己的初始化；
+			- mInstrumentation.callActivityOnCreate()：先调用activity.performCreate()，再回调Activity.onCreate()。
+		- 分析完了LaunchActivityItem如何创建Activity并回调onCreate()方法后，
+	- ## 再看TransactionExecutor如何处理ClientTransaction的mLifecycleStateRequest。
+	  collapsed:: true
+		- 通过前面的文章分析知道，TransactionExecutor再处理ClientTransaction时，会通过cycleToPath()以及performLifecycleSequence()方法，处理当前声明周期状态到目标声明周期中间的声明周期，在LaunchActivityItem处理完毕后，当前状态是ON_CREATE，而目标状态是ON_RESUME，所以cycleToPath()会在处理ResumeActivityItem前先调用ActivityThread.handleStartActivity()完成Activity的onStart()方法的回调。处理完cycleToPath()以后，TransactionExecutor再处理ResumeActivityItem，ResumeActivityItem最终回调Activity的onResume()方法，具体的流程不在分析。
+		-
 		- AMS跨进程和客户端进程通信有关Activity的重要的生命周期，均由ClientLifecycleManager.scheduleTransaction()完成。
-		  把Activity准备执行的行为抽象到ActivityLifecycleItem中，根据不同的场景编写相应代码；把Activity准备执行必备参数和ActivityLifecycleItem封装到ClientTransaction中。
+		- 把Activity准备执行的行为抽象到ActivityLifecycleItem中，根据不同的场景编写相应代码；把Activity准备执行必备参数和ActivityLifecycleItem封装到ClientTransaction中。
 		  AMS跨进程传输ClientTransaction，客户端进程ApplicationThread接收，然后发送到主线程ActivityThread，最后由TransactionExecutor统一解析。
-		  AMS封装并传输ClientTransaction，统一接口；客户端进程接收ClientTransaction并使用TransactionExecutor解析AMS的请求，再根据ActivityLifecycleItem执行不同的代码。
-		  ActivityLifecycleItem的实现在“…/android-28/android/app/servertransaction/”目录下，Activity生命周期相关的方法LaunchActivityItem、ResumeActivityItem、PauseActivityItem、StopActivityItem、DestroyActivityItem，Activity的Configuration变化的回调、ActivityResult、onNewIntent等等。基本上其他的ActivityLifecycleItem是一样的原理。均在execute()方法中调用ActivityThread相关方法的；
-		  ActivityThread方法执行最终是调用Instrumentation的相应生命周期方法执行Activity的生命周期回调；
+		- AMS封装并传输ClientTransaction，统一接口；客户端进程接收ClientTransaction并使用TransactionExecutor解析AMS的请求，再根据ActivityLifecycleItem执行不同的代码。
+		  ActivityLifecycleItem的实现在“…/android-28/android/app/servertransaction/”目录下，
+		- [[#red]]==**Activity生命周期相关的方法LaunchActivityItem、ResumeActivityItem、PauseActivityItem、StopActivityItem、DestroyActivityItem，Activity的Configuration变化的回调、ActivityResult、onNewIntent等等**==。基本上其他的ActivityLifecycleItem是一样的原理。均在execute()方法中调用ActivityThread相关方法的；
+		  [[#red]]==**ActivityThread方法执行最终是调用Instrumentation的相应生命周期方法执行Activity的生命周期回调**==；
 		  这个时候Activity便显示出来并执行相关生命周期回调。
 	- ## 总结
+	  collapsed:: true
 		- Android的整个启动过程链路较长，在目标应用启动过程中涉及3个进程Launcher进程、System Service进程、目标应用进程，进程间通信使用Binder机制，由AMS负责调度，调度进程创建、绑定应用等核心逻辑，目标应用在接收到调度任务后执行相应操作，AMS通知App创建Activity并回调相关生命周期，整个链路虽然长，但类之间各司其职，还是比较容易理解的。熟悉了这个启动流程，对于我们对今后的启动优化和代码理解都是有益的。
 	-
+-
 -

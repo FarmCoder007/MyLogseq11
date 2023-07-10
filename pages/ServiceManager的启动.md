@@ -1,7 +1,6 @@
 - ## SM注册启动流程图
 	- ![image.png](../assets/image_1688305012691_0.png)
 - # 1.启动servicemanager进程
-  collapsed:: true
 	- ==ServiceManager是由init进程通过解析init.rc文件而创建的==，其所对应的可执行程序servicemanager，
 	- 所对应的源文件是service_manager.c，进程名为servicemanager。
 	- system/core/rootdir/init.rc

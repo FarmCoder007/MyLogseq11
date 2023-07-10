@@ -1,0 +1,7 @@
+- # 一、ActivityThread.systemMain
+	- ResourcesManager.getInstance() 获取资料管理实例
+	- 创建Instrumentation
+	- 创建LoadedApk对象，及对应的classLoader
+	- instantiateApplication 创建Application对象
+- # 二、mSystemContext.setTheme 设置系统主题
+-
