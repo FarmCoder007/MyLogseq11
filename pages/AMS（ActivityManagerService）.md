@@ -60,7 +60,8 @@
 	- [[ maxAdj]]：杀进程相关
 - # 六、[[Activity启动流程]]
 - # 七、[[Instrumentation]]
--
+- # 八、[[哪里判断Activity是否在清单文件注册？]]
+- # 八、[[HookActivity]]
 - # 面试题
 	- # [[AMS面试题]]
 	- [Android面试题——高级开发面试题一](https://blog.csdn.net/Calvin_zhou/article/details/128123302)
