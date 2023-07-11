@@ -32,7 +32,9 @@
 	- 3、调用到ActivityThread.handleBindApplication()，先创建Instrumentation,然后他反射创建Application，管理其生命周期、
 - # 8、AMS的通信机制和作用？
 	- binder通信机制
-	- 安全性考虑，binder机制中天然的带有调用者身份信息，uid
--
+	- 作用：
+		- 安全性考虑，binder机制中天然的带有调用者身份信息，uid
+	- ##  [[AMS权限验证流程]]
+		-
 - [Android面试题——高级开发面试题一](https://blog.csdn.net/Calvin_zhou/article/details/128123302)
 -
