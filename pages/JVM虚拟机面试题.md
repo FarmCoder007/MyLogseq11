@@ -4,15 +4,13 @@
 			- ### 组成图
 				- ![jvm组成.png](../assets/jvm组成_1684819371991_0.png)
 			- ### JVM包含两个子系统和两个组件。
-			  collapsed:: true
-				- 两个子系统为Class loader(类装载)、Execution engine(执行引擎)；
+				- 两个子系统为[[ClassLoader]](类装载)、Execution engine(执行引擎)；
 					- Class loader(类装载)：根据给定的全限定名类名(如：java.lang.Object)来装载class文件到Runtime data area中的method area。
 					- Execution engine（执行引擎）：执行classes中的指令。
 				- 两个组件为Runtime data area(运行时数据区)、Native Interface(本地接口)。
 					- Native Interface(本地接口)：与native libraries交互，是其它编程语言交互的接口。
 					- Runtime data area(运行时数据区域)：这就是我们常说的JVM的内存。
 		- ### 各部分的作用
-		  collapsed:: true
 			- 1、首先通过编译器把 Java 代码转换成字节码.class
 			- 2、[[#red]]==类加载器（ClassLoader）==再把字节码加载到内存中，将其放在运行时数据区（Runtime data area）的方法区内，而字节码文件只是 JVM 的一套指令集规范，并不能直接交给底层操作系统去执行，因此需要
 			- 3、[[#red]]==特定的命令解析器执行引擎（Execution Engine），将字节码翻译成底层系统指令，再交由 CPU 去执行==
@@ -27,7 +25,6 @@
 					- 4-1、[[#red]]==类的加载==指的是[[#red]]==将类的.class文件中的二进制数据读入到内存中==，将其[[#red]]==放在运行时数据区的方法区==内
 					- 4-2、然后在[[#red]]==堆区创建一个 java.lang.Class对象==，[[#red]]==用来封装类在方法区内的数据结构。==
 	- ## 1-2、说一下 JVM 运行时数据区
-	  collapsed:: true
 		- **Java 虚拟机在执行 Java 程序的过程中会把它所管理的内存区域划分为若干个不同的数据区域**。
 			- ![运行时数据区.png](../assets/运行时数据区_1684819299279_0.png)
 			- 不同虚拟机的运行时数据区可能略微有所不同，但都会遵从 Java 虚拟机规范， Java 虚拟机规范规定的区域分为以下 5 个部分：
