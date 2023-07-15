@@ -85,6 +85,7 @@
 		- Message消息回收
 - # 五、同步消息，异步消息 [[Message]]
 - # 六、[[同步消息屏障]]
+- # 七、[[Handler().runWithScissors 同步等待]]
 - # Handler应用场景
 	- # 七、[[HandlerThread]]
 	- # 八、[[IntentService]]

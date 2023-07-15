@@ -1,0 +1,3 @@
+- App进程通过建立Session代理对象和Session对象通信，进而和WMS建立连接
+-
+- windowManager   链接  window   和  WMS就是 通过 这个

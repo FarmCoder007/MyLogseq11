@@ -1,0 +1,7 @@
+- 1、当Activity调用attach时创建了PhoneWindow和WindowManager对象
+- 2、在ActivityThread.handleResumeActivity 中
+- 3、activity.makeVisible里[[#red]]==**会判断如果window还没添加，会调用 viewManager添加mDecor**==
+- 4、创建ViewRootImpl，（链接view和wms的桥梁）setView
+- 5、最终利用Session.addToDisplay  和  WMS通信，将view相关参数传递，
+- 6、然后调用到WMS.addWindow   创建 WindowState （和要添加的window一一对应的）调用attach方法，和底层通信具体绘制
+-

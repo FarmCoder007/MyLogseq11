@@ -1,0 +1,4 @@
+- [[#red]]==**第一步：MainActivity会调用checkSelfPermission方法检测是否具有权限**==（红色区域）
+- 第二步：[[#red]]==**通过实现类ContextImpl的checkPermission方法经由ActivityManager和ActivityManagerService处理**==（紫色区域）
+- 第三步：[[#red]]==**经过ActivityManager处理后会调用PKMS的checkUidPermission方法把数据传递给PermissionManagerService处理**==（蓝色）
+- 第四步：[[#red]]==**在PermissionManagerService.checkUidPermission中经过一系列查询返回权限授权的状态**==（绿色区域）

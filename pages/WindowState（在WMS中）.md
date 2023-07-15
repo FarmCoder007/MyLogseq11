@@ -1,0 +1,1 @@
+- 描述窗口的状态信息以及和WindowManagerService进行通信，一般一个窗口对应一个WindowState。它用来表示一个窗口的所有属性

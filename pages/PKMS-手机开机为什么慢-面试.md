@@ -1,0 +1,8 @@
+- 手机开机启动Linux驱动，
+- 驱动启动init进程
+- init进程启动Zygote进程
+- Zygote进程启动SystemServer进程
+- 在SystemServer中启动PKMS
+- 在PKMS的构造函数中执行5个阶段会耗时
+- 之后还会进行Dex优化也会耗时
+-

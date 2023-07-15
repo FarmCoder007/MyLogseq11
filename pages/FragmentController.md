@@ -1,0 +1,1 @@
+- FragmentActivity通过这个controller 链接到 Fragment

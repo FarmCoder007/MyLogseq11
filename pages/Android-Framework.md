@@ -5,5 +5,7 @@
 - # 三、[[DalvikVM进程安卓系统]]
 - # 四、系统服务
 	- # [[AMS（ActivityManagerService）]]
-	- # [PKMS](https://www.mdnice.com/writing/0d1ee2b2768e40f682ae10a3349c3efe)
+	- # [[PKMS(PackageManagerService)]]
+	- # [[WMS(WIndowManagerService)]]
+- # 五、 [[Fragment]]
 -

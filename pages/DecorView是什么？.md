@@ -1,0 +1,8 @@
+- # 一、概念
+	- 在PhoneWindow类中，mDecor的类型是DecorView，当调用setContentView时，如果mDecor还没有创建，则会调用installDecor方法来创建Activity中的DecorView和其他框架的View
+- # 二、大概流程
+	- Activity.setContentView
+	- PhoneWindow.setContentView
+	- installDecor
+	- generateDecor
+	- class DecorView extends FrameLayout

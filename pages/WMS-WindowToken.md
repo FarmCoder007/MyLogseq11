@@ -1,0 +1,4 @@
+- 这里提到的Token主是指窗口令牌（Window Token），[[#red]]==**是一种特殊的Binder令牌**==，Wms用它[[#red]]==**唯一标识**==系统中的一个窗口。
+- [[#red]]==**一个作用是给window分组**==
+- 子类 APPWIndowToken 持有了[[AMS-Token]]，相当于
+-

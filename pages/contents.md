@@ -60,7 +60,7 @@
 	- [[协程]]
 	- [[kotlin相关]]
 - AndroidStudio
-  collapsed:: true
+	- [[AS不同系统快捷键]]
 	- AS插件
 	  collapsed:: true
 		- 常用插件- [[AS插件]]
@@ -117,6 +117,7 @@
   collapsed:: true
 	- [[shell命令]]
 - 跨平台
+  collapsed:: true
 	- [[H5-Hybrid]]
 	- [[RN-Modules]]
 	- [[KMM]]

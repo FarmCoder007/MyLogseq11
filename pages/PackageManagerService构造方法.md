@@ -1,0 +1,551 @@
+- # 重点图
+	- ![image.png](../assets/image_1689150864630_0.png)
+	- ![image.png](../assets/image_1689165413364_0.png){:height 349, :width 749}
+- # **EventLog**代码
+  collapsed:: true
+	- ```java
+	  public PackageManagerService(Context context, Installer installer,
+	  											boolean factoryTest, boolean onlyCore) {
+	        ...
+	        // 阶段1：BOOT_PROGRESS_PMS_START
+	        EventLog.writeEvent(EventLogTags.BOOT_PROGRESS_PMS_START,SystemClock.uptimeMillis());
+	        // 阶段2：BOOT_PROGRESS_PMS_SYSTEM_SCAN_START
+	        EventLog.writeEvent(EventLogTags.BOOT_PROGRESS_PMS_SYSTEM_SCAN_START, startTime);
+	          // 阶段3：BOOT_PROGRESS_PMS_DATA_SCAN_STAR
+	        if (!mOnlyCore) {
+	            EventLog.writeEvent(EventLogTags.BOOT_PROGRESS_PMS_DATA_SCAN_START,
+	           														 SystemClock.uptimeMillis());
+	        }
+	        ...
+	        // 阶段4：BOOT_PROGRESS_PMS_SCAN_END
+	        EventLog.writeEvent(EventLogTags.BOOT_PROGRESS_PMS_SCAN_END,SystemClock.uptimeMillis());
+	        ...
+	        // 阶段5：BOOT_PROGRESS_PMS_READY
+	        EventLog.writeEvent(EventLogTags.BOOT_PROGRESS_PMS_READY, SystemClock.uptimeMillis());
+	  }
+	  ```
+- # 一、两个重要的锁(mInstallLock、mPackages)（rom开发才会关注）
+  collapsed:: true
+	- ## mInstallLock ：
+		- **[[#red]]==用来保护所有安装apk的访问权限==**，此操作通常涉及繁重的磁盘数据读写等操作，并且是单线程操作，故有时候会处理很慢,
+		- 此锁不会在已经持有mPackages锁的情况下火的，反之，在已经持有mInstallLock锁的情况下，立即获取mPackages是安全的
+	- ## mPackages：
+		- [[#red]]==**用来解析内存中所有apk的package信息及相关状态**==
+- # 二、5个阶段构成
+- ## 阶段1：BOOT_PROGRESS_PMS_START：PMS启动工作
+	- ## 细节
+		- (1) [[#red]]==构造 DisplayMetrics ，保存分辨率等相关信息==；
+		- (2) 保存installer对象，与installd交互；
+		- (3) 创建[[#red]]==**mPermissionManager对象，进行权限管理**==；
+		- (4) [[#red]]==**构造Settings类，保存安装包信息**==主要涉及/data/system/目录的[[packages.xml]]，packages-backup.xml，packages.list，packages-stopped.xml，packages-stopped backup.xml等文件,，清除路径不存在的孤立应用，==开机会把所有的应用都安装一遍==
+		- (5) [[#red]]==**构造PackageDexOptimizer及DexManager类，处理dex优化**==；
+		- (6) 创建SystemConfig实例，获取系统配置信息，配置共享lib库；
+		- (7) 创建PackageManager的handler线程，循环处理外部安装相关消息。
+	- ## 代码
+	  collapsed:: true
+		- ```java
+		  public PackageManagerService(...) {
+		      LockGuard.installLock(mPackages, LockGuard.INDEX_PACKAGES);
+		      EventLog.writeEvent(EventLogTags.BOOT_PROGRESS_PMS_START,
+		      SystemClock.uptimeMillis());
+		      mContext = context;
+		      mFactoryTest = factoryTest; // 一般为false，即非工厂生产模式
+		      mOnlyCore = onlyCore; //标记是否只加载核心服务
+		      // 【同学们注意】(1) 构造 DisplayMetrics ，保存分辨率等相关信息；
+		      mMetrics = new DisplayMetrics(); // 分辨率配置
+		      // 【同学们注意】(2)创建Installer对象，与installd交互；
+		      mInstaller = installer; //保存installer对象
+		      //创建提供服务/数据的子组件。这里的顺序很重要,使用到了两个重要的同步锁：
+		      // mInstallLock、mPackages
+		      synchronized (mInstallLock) {
+		          synchronized (mPackages) {
+		          // 公开系统组件使用的私有服务
+		          // 本地服务
+		          LocalServices.addService(PackageManagerInternal.class, newPackageManagerInternalImpl());
+		          // 多用户管理服务
+		          sUserManager = new UserManagerService(context, this,
+		                                      new UserDataPreparer(mInstaller, mInstallLock, mContext,
+		                                      mOnlyCore), mPackages);
+		          mComponentResolver = new ComponentResolver(sUserManager,
+		                                      LocalServices.getService(PackageManagerInternal.class),
+		                                      mPackages);
+		          // 【同学们注意】 (3)创建mPermissionManager对象，进行权限管理；
+		          // 权限管理服务
+		          mPermissionManager = PermissionManagerService.create(context,mPackages /*externalLock*/);
+		          mDefaultPermissionPolicy =mPermissionManager.getDefaultPermissionGrantPolicy();
+		          //创建Settings对象
+		          mSettings = new Settings(Environment.getDataDirectory(),
+		                                      mPermissionManager.getPermissionSettings(), mPackages);
+		          }
+		      }
+		      // 【同学们注意】(4)构造Settings类，保存安装包信息，清除路径不存在的孤立应用，主要涉
+		      //及/data/system/目录的packages.xml，packages-backup.xml， packages.list，
+		      // packages-stopped.xml，packages-stopped-backup.xml等文件。
+		      // 添加system, phone, log, nfc, bluetooth, shell，se，networkstack 这8种
+		      // shareUserId到mSettings；
+		      mSettings.addSharedUserLPw("android.uid.system", Process.SYSTEM_UID,
+		      ApplicationInfo.FLAG_SYSTEM,
+		      ApplicationInfo.PRIVATE_FLAG_PRIVILEGED);
+		      mSettings.addSharedUserLPw("android.uid.phone", RADIO_UID,
+		      ApplicationInfo.FLAG_SYSTEM,
+		      ApplicationInfo.PRIVATE_FLAG_PRIVILEGED);
+		      mSettings.addSharedUserLPw("android.uid.log", LOG_UID,
+		      ApplicationInfo.FLAG_SYSTEM,
+		      ApplicationInfo.PRIVATE_FLAG_PRIVILEGED);
+		      mSettings.addSharedUserLPw("android.uid.nfc", NFC_UID,
+		      ApplicationInfo.FLAG_SYSTEM,
+		      ApplicationInfo.PRIVATE_FLAG_PRIVILEGED);
+		      mSettings.addSharedUserLPw("android.uid.bluetooth", BLUETOOTH_UID,
+		      ApplicationInfo.FLAG_SYSTEM,
+		      ApplicationInfo.PRIVATE_FLAG_PRIVILEGED);
+		      mSettings.addSharedUserLPw("android.uid.shell", SHELL_UID,
+		      ApplicationInfo.FLAG_SYSTEM,
+		      ApplicationInfo.PRIVATE_FLAG_PRIVILEGED);
+		      mSettings.addSharedUserLPw("android.uid.se", SE_UID,
+		      ApplicationInfo.FLAG_SYSTEM,
+		      ApplicationInfo.PRIVATE_FLAG_PRIVILEGED);
+		      mSettings.addSharedUserLPw("android.uid.networkstack", NETWORKSTACK_UID,
+		      ApplicationInfo.FLAG_SYSTEM,
+		      ApplicationInfo.PRIVATE_FLAG_PRIVILEGED);
+		      ...
+		      // 【同学们注意】(5)构造PackageDexOptimizer及DexManager类，处理dex优化；
+		      // DexOpt优化
+		      mPackageDexOptimizer = new PackageDexOptimizer(installer, mInstallLock,context,"*dexopt*");
+		      mDexManager = new DexManager(mContext, this, mPackageDexOptimizer, installer, mInstallLock);
+		      // ART虚拟机管理服务
+		      mArtManagerService = new ArtManagerService(mContext, this, installer,mInstallLock);  
+		      mMoveCallbacks = new MoveCallbacks(FgThread.get().getLooper());
+		      mViewCompiler = new ViewCompiler(mInstallLock, mInstaller);
+		      // 权限变化监听器
+		      mOnPermissionChangeListeners = new OnPermissionChangeListeners(FgThread.get().getLooper());
+		      mProtectedPackages = new ProtectedPackages(mContext);
+		      mApexManager = new ApexManager(context);
+		      // 获取默认分辨率
+		      getDefaultDisplayMetrics(context, mMetrics);
+		      // 【同学们注意】(6)创建SystemConfig实例，获取系统配置信息，配置共享lib库；
+		      //拿到SystemConfig()的对象，其中会调用SystemConfig的readPermissions()完成权限的读取
+		      // SystemConfig systemConfig = SystemConfig.getInstance();
+		      synchronized (mInstallLock) {
+		          // writer
+		          synchronized (mPackages) {
+		          // 【同学们注意】(7)创建PackageManager的handler线程，循环处理外部安装相 关消息。
+		          // 启动"PackageManager"线程，负责apk的安装、卸载
+		          mHandlerThread = new ServiceThread(TAG,
+		                                      Process.THREAD_PRIORITY_BACKGROUND, true /*allowIo*/);
+		          mHandlerThread.start();
+		          // 应用handler
+		          mHandler = new PackageHandler(mHandlerThread.getLooper());
+		          // 进程记录handler
+		          mProcessLoggingHandler = new ProcessLoggingHandler();
+		          // Watchdog监听ServiceThread是否超时：10分钟
+		          Watchdog.getInstance().addThread(mHandler, WATCHDOG_TIMEOUT);
+		          // Instant应用注册
+		          mInstantAppRegistry = new InstantAppRegistry(this);
+		          // 共享lib库配置
+		          ArrayMap<String, SystemConfig.SharedLibraryEntry> libConfig
+		                                                          = systemConfig.getSharedLibraries();
+		          final int builtInLibCount = libConfig.size();
+		          for (int i = 0; i < builtInLibCount; i++) {
+		                String name = libConfig.keyAt(i);
+		                SystemConfig.SharedLibraryEntry entry = libConfig.valueAt(i);
+		                addBuiltInSharedLibraryLocked(entry.filename, name);
+		          }
+		          ...
+		          // 读取安装相关SELinux策略
+		          SELinuxMMAC.readInstallPolicy();
+		          // 返回栈加载
+		          FallbackCategoryProvider.loadFallbacks();
+		          // 【【同学们注意：这段代码 等下下面会分析】】
+		          //读取并解析/data/system下的XML文件
+		          mFirstBoot = !mSettings.readLPw(sUserManager.getUsers(false));
+		            // 清理代码路径不存在的孤立软件包
+		          final int packageSettingCount = mSettings.mPackages.size();
+		          for (int i = packageSettingCount - 1; i >= 0; i--) {
+		              PackageSetting ps = mSettings.mPackages.valueAt(i);
+		              if (!isExternal(ps) && (ps.codePath == null || !ps.codePath.exists())
+		                                            && mSettings.getDisabledSystemPkgLPr(ps.name) !=
+		                                            null) {
+		                  mSettings.mPackages.removeAt(i);
+		                  mSettings.enableSystemPackageLPw(ps.name);
+		              }
+		          }
+		          // 如果不是首次启动，也不是CORE应用，则拷贝预编译的DEX文件
+		          if (!mOnlyCore && mFirstBoot) {
+		                  requestCopyPreoptedFiles();
+		          }
+		          ...
+		          } // synchronized (mPackages)
+		      }
+		  }
+		  ```
+	- ## 其中**mSettings.readLPw**
+	  collapsed:: true
+		- ## readLPw()会扫描下面5个文件
+			- ```java
+			  1) "/data/system/packages.xml" 所有安装app信息
+			  2) "/data/system/packages-backup.xml" 所有安装app信息之备份的信息记录
+			  3) "/data/system/packages.list" 所有安装app信息
+			  4) "/data/system/packages-stopped.xml" 所有强制停止app信息
+			  5) "/data/system/packages-stopped-backup.xml" 所有强制停止app信息之备份的信息记录
+			  ```
+		- ## 5个文件分三组简单的作用描述如下：
+			- packages.xml：PKMS 扫描完目标文件夹后会创建该文件。当系统进行程序安装、卸载和更新等操作时，均会更新该文件。该文件保存了系统中与 package 相关的一些信息。
+			- packages.list：描述系统中存在的所有非系统自带的 APK 的信息。当这些程序有变动时，PKMS 就会更新该文件。
+			- packages-stopped.xml：从系统自带的设置程序中进入应用程序页面，然后在选择强制停止
+			  （ForceStop）某个应用时，系统会将该应用的相关信息记录到此文件中。也就是该文件保存系统中被用户强制停止的 Package 的信息。
+		- ## 看Settings构造函数[Settings.java]
+		  collapsed:: true
+			- ```java
+			  Settings(File dataDir, PermissionSettings permission,Object lock) {
+			      mLock = lock;
+			      mPermissions = permission;
+			      mRuntimePermissionsPersistence = new RuntimePermissionPersistence(mLock);
+			      mSystemDir = new File(dataDir, "system"); //mSystemDir指向目录"/data/system"
+			      mSystemDir.mkdirs(); //创建 "/data/system"
+			      //设置权限
+			      FileUtils.setPermissions(mSystemDir.toString(),
+			      FileUtils.S_IRWXU|FileUtils.S_IRWXG
+			                               |FileUtils.S_IROTH|FileUtils.S_IXOTH, -1, -1);
+			      //(1)指向目录"/data/system/packages.xml"
+			      mSettingsFilename = new File(mSystemDir, "packages.xml");
+			      //(2)指向目录"/data/system/packages-backup.xml"
+			      mBackupSettingsFilename = new File(mSystemDir, "packages-backup.xml");
+			      //(3)指向目录"/data/system/packages.list"
+			      mPackageListFilename = new File(mSystemDir, "packages.list");
+			      FileUtils.setPermissions(mPackageListFilename, 0640, SYSTEM_UID, PACKAGE_INFO_GID);
+			      //(4)指向目录"/data/system/packages-stopped.xml"
+			      mStoppedPackagesFilename = new File(mSystemDir, "packages-stopped.xml");
+			      //(5)指向目录"/data/system/packages-stopped-backup.xml"
+			      mBackupStoppedPackagesFilename = new File(mSystemDir, "packages-stoppedbackup.xml");
+			  }
+			     
+			  // 同学们：在看readLPw函数
+			  boolean readLPw(@NonNull List<UserInfo> users) {
+			      FileInputStream str = null;
+			      ...
+			      if (str == null) {
+			      	str = new FileInputStream(mSettingsFilename);
+			      }
+			      //解析"/data/system/packages.xml"
+			      XmlPullParser parser = Xml.newPullParser();
+			      parser.setInput(str, StandardCharsets.UTF_8.name());
+			      int type;
+			      while ((type = parser.next()) != XmlPullParser.START_TAG
+			  							&& type != XmlPullParser.END_DOCUMENT) {
+			      ;
+			      }
+			      int outerDepth = parser.getDepth();
+			      while ((type = parser.next()) != XmlPullParser.END_DOCUMENT
+			                              && (type != XmlPullParser.END_TAG || parser.getDepth() >
+			                              outerDepth)) {
+			          if (type == XmlPullParser.END_TAG || type == XmlPullParser.TEXT) {
+			                  continue;
+			          }
+			          //根据XML的各个节点进行各种操作，例如读取权限、shared-user等
+			          String tagName = parser.getName();
+			          if (tagName.equals("package")) {
+			              readPackageLPw(parser);
+			          } else if (tagName.equals("permissions")) {
+			              mPermissions.readPermissions(parser);
+			          } else if (tagName.equals("permission-trees")) {
+			              mPermissions.readPermissionTrees(parser);
+			          } else if (tagName.equals("shared-user")) {
+			              readSharedUserLPw(parser);
+			          }...
+			      }
+			      str.close();
+			      ...
+			      return true;
+			  }
+			  ```
+- ## 阶段2：BOOT_PROGRESS_PMS_SYSTEM_SCAN_START：
+  collapsed:: true
+	- ## 扫描系统应用：
+	- ## 细节
+		- (1) 从init.rc中获取环境变量BOOTCLASSPATH和SYSTEMSERVERCLASSPATH；
+		- (2) 对于旧版本升级的情况，将安装时获取权限变更为运行时申请权限；
+		- (3) [[#red]]==**扫描system/vendor/product/odm/oem等目录的priv-app、app、overlay包**==；
+		- (4) 清除安装时临时文件以及其他不必要的信息。
+	- ## 代码
+		- ```java
+		  public PackageManagerService(Context context, Installer installer,
+		  												boolean factoryTest, boolean onlyCore) {
+		    synchronized (mInstallLock) {
+		      synchronized (mPackages) {
+		      // 记录扫描开始时间
+		      long startTime = SystemClock.uptimeMillis();
+		      EventLog.writeEvent(EventLogTags.BOOT_PROGRESS_PMS_SYSTEM_SCAN_START,startTime);
+		      // 【同学们注意】 (1)从init.rc中获取环境变量BOOTCLASSPATH和 SYSTEMSERVERCLASSPATH；
+		      //获取环境变量，init.rc
+		      final String bootClassPath = System.getenv("BOOTCLASSPATH");
+		      final String systemServerClassPath = System.getenv("SYSTEMSERVERCLASSPATH");
+		      ...
+		      // 获取system/framework目录
+		      File frameworkDir = new File(Environment.getRootDirectory(), "framework");
+		      // 获取内部版本
+		      final VersionInfo ver = mSettings.getInternalVersion();
+		      // 判断fingerprint是否有更新
+		      mIsUpgrade = !Build.FINGERPRINT.equals(ver.fingerprint);
+		      ...
+		      // 【同学们注意】 (2)对于旧版本升级的情况，将安装时获取权限变更为运行时申请权限；
+		      // 对于Android M之前版本升级上来的情况，需将系统应用程序权限从安装升级到运行时
+		      mPromoteSystemApps =mIsUpgrade && ver.sdkVersion <= Build.VERSION_CODES.LOLLIPOP_MR1;
+		      // 对于Android N之前版本升级上来的情况，需像首次启动一样处理package
+		      mIsPreNUpgrade = mIsUpgrade && ver.sdkVersion < Build.VERSION_CODES.N;
+		      mIsPreNMR1Upgrade = mIsUpgrade && ver.sdkVersion < Build.VERSION_CODES.N_MR1;
+		      mIsPreQUpgrade = mIsUpgrade && ver.sdkVersion <  Build.VERSION_CODES.Q;
+		      // 在扫描之前保存预先存在的系统package的名称，不希望自动为新系统应用授予运行时权限
+		      if (mPromoteSystemApps) {
+		        Iterator<PackageSetting> pkgSettingIter =  mSettings.mPackages.values().iterator();
+		        while (pkgSettingIter.hasNext()) {
+		          PackageSetting ps = pkgSettingIter.next();
+		          if (isSystemApp(ps)) {
+		                mExistingSystemPackages.add(ps.name);
+		          }
+		        }
+		      }
+		      // 准备解析package的缓存
+		      mCacheDir = preparePackageParserCache();
+		      // 设置flag，而不在扫描安装时更改文件路径
+		      int scanFlags = SCAN_BOOTING | SCAN_INITIAL;
+		      ...
+		      // 【同学们注意：】(3)扫描system/vendor/product/odm/oem等目录的priv-app、app、overlay包；
+		      /**扫描以下路径：
+		      /vendor/overlay、/product/overlay、/product_services/overlay、/odm/overlay、/oem/
+		      overlay、/system/framework
+		      /system/priv-app、/system/app、/vendor/privapp、/vendor/app、/odm/priv-app、/odm/app、/oem/app、/oem/priv-app、
+		      /product/priv-app、/product/app、/product_services/privapp、/product_services/app、/product_services/priv-app
+		      */
+		      // [ PMSapk的安装]
+		      scanDirTracedLI(new File(VENDOR_OVERLAY_DIR),...);
+		      scanDirTracedLI(new File(PRODUCT_OVERLAY_DIR),...);
+		      scanDirTracedLI(new File(PRODUCT_SERVICES_OVERLAY_DIR),...);
+		      scanDirTracedLI(new File(ODM_OVERLAY_DIR),...);
+		      scanDirTracedLI(new File(OEM_OVERLAY_DIR),...);
+		      ...
+		      final List<String> possiblyDeletedUpdatedSystemApps = new ArrayList<>();
+		      final List<String> stubSystemApps = new ArrayList<>();
+		      // 删掉不存在的package
+		      if (!mOnlyCore) {
+		      final Iterator<PackageParser.Package> pkgIterator =mPackages.values().iterator();
+		      while (pkgIterator.hasNext()) {
+		          final PackageParser.Package pkg = pkgIterator.next();
+		          if (pkg.isStub) {
+		                stubSystemApps.add(pkg.packageName);
+		          }
+		      }
+		      final Iterator<PackageSetting> psit = mSettings.mPackages.values().iterator();
+		      while (psit.hasNext()) {
+		        PackageSetting ps = psit.next();
+		        // 如果不是系统应用，则不被允许disable
+		        if ((ps.pkgFlags & ApplicationInfo.FLAG_SYSTEM) == 0) {
+		        continue;
+		        }
+		        // 如果应用被扫描，则不允许被擦除
+		        final PackageParser.Package scannedPkg =
+		        mPackages.get(ps.name);
+		        if (scannedPkg != null) {
+		          // 如果系统应用被扫描且存在disable应用列表中，则只能通过OTA升级添加
+		          if (mSettings.isDisabledSystemPackageLPr(ps.name)) {
+		              ...
+		              removePackageLI(scannedPkg, true);
+		              mExpectingBetter.put(ps.name, ps.codePath);
+		          }
+		          continue;
+		        }
+		      ...
+		      }
+		      }
+		      // 【同学们注意】(4)清除安装时临时文件以及其他不必要的信息。
+		      // 删除临时文件
+		      deleteTempPackageFiles();
+		      // 删除没有关联应用的共享UID标识
+		      mSettings.pruneSharedUsersLPw();
+		      ...
+		      }
+		    ...
+		    }
+		    ...
+		  }
+		  ```
+- ## 阶段3：BOOT_PROGRESS_PMS_DATA_SCAN_START
+  collapsed:: true
+	- 对于不仅仅解析核心应用的情况下，还处理[[#red]]==data目录的应用信息==，及时更新，祛除不必要的数据。
+	- ## 代码
+	  collapsed:: true
+		- ```java
+		  public PackageManagerService(Context context, Installer installer,
+		  												boolean factoryTest, boolean onlyCore) {
+		      synchronized (mInstallLock) {
+		          synchronized (mPackages) {
+		              ...
+		              if (!mOnlyCore) {
+		                  EventLog.writeEvent(EventLogTags.BOOT_PROGRESS_PMS_DATA_SCAN_START,
+		                  SystemClock.uptimeMillis());
+		                  scanDirTracedLI(sAppInstallDir, 0, scanFlags | SCAN_REQUIRE_KNOWN, 0);
+		                  ...
+		                  // 移除通过OTA删除的更新系统应用程序的禁用package设置
+		                  // 如果更新不再存在，则完全删除该应用。否则，撤消其系统权限
+		                  for (int i = possiblyDeletedUpdatedSystemApps.size() - 1; i >= 0; --i) {
+		                  final String packageName = possiblyDeletedUpdatedSystemApps.get(i);
+		                  final PackageParser.Package pkg = mPackages.get(packageName);
+		                  final String msg;
+		                  mSettings.removeDisabledSystemPackageLPw(packageName);
+		                  ...
+		              }
+		              // 确保期望在userdata分区上显示的所有系统应用程序实际显示
+		              // 如果从未出现过，需要回滚以恢复系统版本
+		              for (int i = 0; i < mExpectingBetter.size(); i++) {
+		                  final String packageName = mExpectingBetter.keyAt(i);
+		                  if (!mPackages.containsKey(packageName)) {
+		                      final File scanFile = mExpectingBetter.valueAt(i);
+		                      ...
+		                      mSettings.enableSystemPackageLPw(packageName);
+		                      try {
+		                          //扫描APK
+		                          scanPackageTracedLI(scanFile, reparseFlags,rescanFlags, 0, null);
+		                      } catch (PackageManagerException e) {
+		                            Slog.e(TAG, "Failed to parse original system package: " + e.getMessage());
+		                      }
+		                  }
+		              }
+		              // 解压缩并安装任何存根系统应用程序。必须最后执行此操作以确保替换或禁用所有存根
+		              installSystemStubPackages(stubSystemApps, scanFlags);
+		              ...
+		              // 获取storage manager包名
+		              mStorageManagerPackage = getStorageManagerPackageName();
+		              // 解决受保护的action过滤器。只允许setup wizard（开机向导）为这些action
+		              // 设置高优先级过滤器
+		              mSetupWizardPackage = getSetupWizardPackageName();
+		              ...
+		              // 更新客户端以确保持有正确的共享库路径
+		              updateAllSharedLibrariesLocked(null,Collections.unmodifiableMap(mPackages));
+		              ...
+		              // 读取并更新要保留的package的上次使用时间
+		              mPackageUsage.read(mPackages);mCompilerStats.read();
+		          }
+		      }
+		  }
+		  }
+		  ```
+- ## 阶段4：BOOT_PROGRESS_PMS_SCAN_END
+	- ## 作用：OTA升级后首次启动要清除不必要的缓存数据，权限等默认项更新后要清理相关数据，更新package.xml
+	- ## 细节
+		- (1) sdk版本变更，更新权限；
+		- (2) OTA升级后首次启动，清除不必要的缓存数据；
+		- (3) 权限等默认项更新完后，清理相关数据；
+		- (4) 更新package.xml
+	- ## 代码
+	  collapsed:: true
+		- ```java
+		  public PackageManagerService(Context context, Installer installer,
+		  											boolean factoryTest, boolean onlyCore) {
+		      synchronized (mInstallLock) {
+		          synchronized (mPackages) {
+		          ...
+		          EventLog.writeEvent(EventLogTags.BOOT_PROGRESS_PMS_SCAN_END,SystemClock.uptimeMillis());
+		          // 【同学们注意】 (1) sdk版本变更，更新权限；
+		          // 如果自上次启动以来，平台SDK已改变，则需要重新授予应用程序权限以捕获出现的任何新权限
+		          final boolean sdkUpdated = (ver.sdkVersion != mSdkVersion);
+		          mPermissionManager.updateAllPermissions(
+		            StorageManager.UUID_PRIVATE_INTERNAL, sdkUpdated,mPackages.values(),mPermissionCallback);
+		          ...
+		          // 如果这是第一次启动或来自Android M之前的版本的升级，并且它是正常启动，那需要在
+		          // 所有已定义的用户中初始化默认的首选应用程序
+		          if (!onlyCore && (mPromoteSystemApps || mFirstBoot)) {
+		              for (UserInfo user : sUserManager.getUsers(true)) {
+		                  mSettings.applyDefaultPreferredAppsLPw(user.id);
+		                  primeDomainVerificationsLPw(user.id);
+		              }
+		          }
+		          // 在启动期间确实为系统用户准备存储，因为像SettingsProvider和SystemUI这样的核
+		          // 心系统应用程序无法等待用户启动
+		          final int storageFlags;
+		          if (StorageManager.isFileEncryptedNativeOrEmulated()) {
+		              storageFlags = StorageManager.FLAG_STORAGE_DE;
+		          } else {
+		              storageFlags = StorageManager.FLAG_STORAGE_DE | StorageManager.FLAG_STORAGE_CE;
+		          }
+		          ...
+		          // 【同学们注意】(2) OTA升级后首次启动，清除不必要的缓存数据；
+		          // 如果是在OTA之后首次启动，并且正常启动，那需要清除代码缓存目录，但不清除应用程序配置文件
+		          if (mIsUpgrade && !onlyCore) {
+		              Slog.i(TAG, "Build fingerprint changed; clearing code caches");
+		              for (int i = 0; i < mSettings.mPackages.size(); i++) {
+		                  final PackageSetting ps = mSettings.mPackages.valueAt(i);
+		                  if (Objects.equals(StorageManager.UUID_PRIVATE_INTERNAL,ps.volumeUuid)) {
+		                      // No apps are running this early, so no need to freeze
+		                      clearAppDataLIF(ps.pkg, UserHandle.USER_ALL,FLAG_STORAGE_DE | FLAG_STORAGE_CE |
+		                                      FLAG_STORAGE_EXTERNAL
+		                                      | Installer.FLAG_CLEAR_CODE_CACHE_ONLY);
+		                  }
+		              }
+		              ver.fingerprint = Build.FINGERPRINT;
+		          }
+		          //安装Android-Q前的非系统应用程序在Launcher中隐藏他们的图标
+		          if (!onlyCore && mIsPreQUpgrade) {
+		              Slog.i(TAG, "Whitelisting all existing apps to hide their icons");
+		              int size = mSettings.mPackages.size();
+		              for (int i = 0; i < size; i++) {
+		                  final PackageSetting ps = mSettings.mPackages.valueAt(i);
+		                  if ((ps.pkgFlags & ApplicationInfo.FLAG_SYSTEM) != 0) {
+		                      continue;
+		                  }
+		                  ps.disableComponentLPw(PackageManager.APP_DETAILS_ACTIVITY_CLASS_NAME, 
+		                                                                              UserHandle.USER_SYSTEM);
+		              }
+		          }
+		          // 【同学们注意】 (3) 权限等默认项更新完后，清理相关数据；
+		                 // 仅在权限或其它默认配置更新后清除
+		          mExistingSystemPackages.clear();
+		          mPromoteSystemApps = false;
+		          ...
+		          // 所有变更均在扫描过程中完成
+		          ver.databaseVersion = Settings.CURRENT_DATABASE_VERSION;
+		          // 【同学们注意】(4) 更新package.xml
+		          //降级去读取
+		          mSettings.writeLPr();
+		          }
+		  	}
+		  }
+		  ```
+- ## 阶段5：BOOT_PROGRESS_PMS_READY
+  collapsed:: true
+	- GC回收内存 和一些细节而已
+	- ## 代码
+		- ```java
+		  public PackageManagerService(Context context, Installer installer,
+		  												boolean factoryTest, boolean onlyCore) {
+		      synchronized (mInstallLock) {
+		          synchronized (mPackages) {
+		            ...
+		            EventLog.writeEvent(EventLogTags.BOOT_PROGRESS_PMS_READY,
+		            SystemClock.uptimeMillis());
+		            ...
+		            //PermissionController 主持 缺陷许可证的授予和角色管理，所以这是核心系统的一个关键部分。
+		            mRequiredPermissionControllerPackage = getRequiredPermissionControllerLPr();
+		            ...
+		            updateInstantAppInstallerLocked(null);
+		            // 阅读并更新dex文件的用法
+		            // 在PM init结束时执行此操作，以便所有程序包都已协调其数据目录
+		            // 此时知道了包的代码路径，因此可以验证磁盘文件并构建内部缓存
+		            // 使用文件预计很小，因此与其他活动（例如包扫描）相比，加载和验证它应该花费相当小的时间
+		            final Map<Integer, List<PackageInfo>> userPackages = new HashMap<> ();
+		            for (int userId : userIds) {
+		                userPackages.put(userId, getInstalledPackages(/*flags*/ 0, userId).getList());
+		            }
+		            mDexManager.load(userPackages);
+		            if (mIsUpgrade) {
+		                MetricsLogger.histogram(null, "ota_package_manager_init_time",
+		                                                    (int) (SystemClock.uptimeMillis() - startTime));
+		            }
+		          }
+		      }
+		      ...
+		      // 【同学们注意】GC回收内存
+		      // 打开应用之后，及时回收处理
+		      Runtime.getRuntime().gc();
+		      // 上面的初始扫描在持有mPackage锁的同时对installd进行了多次调用
+		      mInstaller.setWarnIfHeld(mPackages);
+		    }
+		  ```

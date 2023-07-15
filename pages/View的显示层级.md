@@ -1,0 +1,8 @@
+- ![image.png](../assets/image_1689042881543_0.png){:height 351, :width 538}
+- activity
+- -> PhoneWindow
+- -> DecorView extends FrameLayout
+- -> contentView
+-
+- 提示：
+	- 将view 放在 window里，再交由WMS管理window统一管理view相关

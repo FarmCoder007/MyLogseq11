@@ -208,4 +208,5 @@
 - # 16、Handler+Thread 和 HandlerThread的区别
 	- Handler+Thread是消息机制
 	- HandlerThread是线程，他帮我们创建好了looper，提供创建Handler的方法，保证创建loop的线程安全
--
+- # 17、handler.post()消息执行之后，回调回来再继续往下执行，同步等待的效果？
+	- getHandler().runWithScissors 同步等待

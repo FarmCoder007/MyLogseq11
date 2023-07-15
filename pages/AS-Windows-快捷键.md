@@ -1,0 +1,2 @@
+- 进入指定类:Ctrl+N
+- 回退到上一步:Ctrl+Alt+left
