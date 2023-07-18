@@ -1,0 +1,3 @@
+- **cglib是一个强大的，高性能，高质量的Code生成类库，它可以在运行期扩展Java类与实现Java接口****。**
+- **CGLIB包的底层是通过使用一个小而快的**[**字节码**](https://baike.baidu.com/item/%E5%AD%97%E8%8A%82%E7%A0%81)**处理框架ASM，来转换字节码并生成新的类。除了CGLIB包，**[**脚本语言**](https://baike.baidu.com/item/%E8%84%9A%E6%9C%AC%E8%AF%AD%E8%A8%80)**例如Groovy和BeanShell，也是使用ASM来生成java的字节码。当然不鼓励直接使用ASM，因为它要求你必须对JVM内部结构包括class文件的格式和指令集都很熟悉。**
+-

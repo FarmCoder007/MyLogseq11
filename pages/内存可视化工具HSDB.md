@@ -1,0 +1,42 @@
+- 1、进入jdk1.8，lib目录下
+  collapsed:: true
+	- ![image.png](../assets/image_1689434116278_0.png)
+- 2、右键，进入命令行，执行
+  collapsed:: true
+	- ```
+	  java -cp ./sa-jdi.jar sun.jvm.hotspot.HSDB
+	  ```
+- 3、出现可视化工具
+  collapsed:: true
+	- ![image.png](../assets/image_1689434414317_0.png)
+- 4、命令行执行jps，可以查看当前java进程
+	- ![image.png](../assets/image_1689434500525_0.png)
+	- 找到自己运行程序的进程，前边是进程号
+- 5、工具绑定进程号
+  collapsed:: true
+	- ![image.png](../assets/image_1689434581249_0.png){:height 560, :width 749}
+	- ![image.png](../assets/image_1689434598883_0.png)
+- 6、绑定后会出现线程
+	- ![image.png](../assets/image_1689434619691_0.png)
+- 7、查看main方法，的栈
+  collapsed:: true
+	- ![image.png](../assets/image_1689434693629_0.png)
+	- 虚拟机栈：
+		- ![image.png](../assets/image_1689434715834_0.png)
+- 8、查看类
+  collapsed:: true
+	- ![image.png](../assets/image_1689434930573_0.png)
+	- ![image.png](../assets/image_1689434961092_0.png)
+- 9、查看对象
+  collapsed:: true
+	- ![image.png](../assets/image_1689435065684_0.png)
+	- ![image.png](../assets/image_1689435091894_0.png)
+- 10、点击查看对象结构
+  collapsed:: true
+	- ![image.png](../assets/image_1689435113832_0.png)
+	- ![image.png](../assets/image_1689435141509_0.png)
+	- ![image.png](../assets/image_1689435174698_0.png)
+	- 可以看到堆中进行了，分代划分，而且内存是连续的，上边地址
+		- ![image.png](../assets/image_1689435348252_0.png)
+	- 对象上边有地址值，142证明在堆里存放
+		- ![image.png](../assets/image_1689435476209_0.png)

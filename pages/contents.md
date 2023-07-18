@@ -8,6 +8,7 @@
 - Android
 	- [[四大组件]]
 	- [[Android-Framework]]
+	- [[Android虚拟机与类加载]]
 	- [[开发常用工具]]
 	- [[Android架构]]
 	- [[RecyclerView]]
@@ -60,7 +61,7 @@
 	- [[协程]]
 	- [[kotlin相关]]
 - AndroidStudio
-	- [[AS不同系统快捷键]]
+  collapsed:: true
 	- AS插件
 	  collapsed:: true
 		- 常用插件- [[AS插件]]

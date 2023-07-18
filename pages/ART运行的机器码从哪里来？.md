@@ -1,0 +1,3 @@
+- 安装的时候
+- ART 引入了[[预先编译机制（Ahead Of Time）]]，在安装时，ART 使用设备自带的 dex2oat 工具来编译应用，dex中的字节码将被编译成本地机器码
+- ![image.png](../assets/image_1689667835133_0.png)

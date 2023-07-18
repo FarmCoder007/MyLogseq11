@@ -1,0 +1,7 @@
+- 1、Dalvik虚拟机执行的是dex字节码，[[解释执行]]。
+- 2、从Android 2.2版本开始，支持[[JIT即时编译（Just In Time）]]在程序运行的过程中进行选择热点代码（经常执行的代码）进行编译或者优化。
+- > Dalvik：解释执行+JIT即时编译
+- 3、DVM也是实现了JVM规范的一个虚拟器，默认使用CMS垃圾回收器
+	- 但是与****JVM****运行**** Class ****字节码不同，****DVM****执行 **Dex(Dalvik Executable Format)** ——专为 Dalvik 设计的一种压缩格式。Dex 文件是很多 .class 文件处理压缩后的产物，最终可以在 Android 运行时环境执行。**
+- 4、安装时，进行Dexopt操作
+	- Dalvik下应用在安装的过程，会执行一次优化，[[#red]]==**将dex字节码进行优化生成odex文件**==。

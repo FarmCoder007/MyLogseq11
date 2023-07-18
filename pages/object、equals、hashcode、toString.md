@@ -44,7 +44,6 @@
 	- hashcode协定：想等的对象必须具备想等的哈希码
 	-
 - # 四、getClass
-  collapsed:: true
 	- getClass获取当前对象，所属字节码文件对象。
 	- 比如创建类，jvm先加载Class对象进堆中
 	- ![image.png](../assets/image_1687160189898_0.png)
