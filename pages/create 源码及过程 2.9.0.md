@@ -1,0 +1,88 @@
+title:: create 源码及过程 2.9.0
+
+- # 背景代码
+	- ```java
+	  //step2
+	  ISharedListService sharedListService = retrofit.create(ISharedListService.class);
+	  ```
+- # create作用：
+	- [[#red]]==**创建了一个ISharedListService 接口类的对象**==，create函数内部使用了动态代理来创建接口对象，这样的设计可以让所有的访问请求都被代理
+	- ## [[Retrofit动态代理的好处]]
+- # create源码
+	- ```java
+	   public <T> T create(final Class<T> service) {
+	      validateServiceInterface(service);
+	      return (T)
+	          Proxy.newProxyInstance(
+	              service.getClassLoader(),
+	              new Class<?>[] {service},
+	              new InvocationHandler() {
+	                private final Platform platform = Platform.get();
+	                private final Object[] emptyArgs = new Object[0];
+	  
+	                @Override
+	                public @Nullable Object invoke(Object proxy, Method method, @Nullable Object[] args)
+	                    throws Throwable {
+	                  // If the method is a method from Object then defer to normal invocation.
+	                  if (method.getDeclaringClass() == Object.class) {
+	                    return method.invoke(this, args);
+	                  }
+	                  args = args != null ? args : emptyArgs;
+	                  return platform.isDefaultMethod(method)
+	                      ? platform.invokeDefaultMethod(method, service, proxy, args)
+	                      : loadServiceMethod(method).invoke(args);
+	                }
+	              });
+	    }
+	  
+	  ```
+	- 旧版本
+	  collapsed:: true
+		- ```java
+		  public <T> T create(final Class<T> service) {
+		          Utils.validateServiceInterface(service);
+		          if (validateEagerly) {
+		              eagerlyValidateMethods(service);
+		          }
+		          return (T) Proxy.newProxyInstance(service.getClassLoader(), new Class<?>[]{service},
+		  				// 通过动态代理的方式生成具体的网络请求实体对象
+		                  new InvocationHandler() { // 统一处理所有的请求方法
+		                      private final Platform platform = Platform.get();
+		  
+		                      @Override
+		                      public Object invoke(Object proxy, Method method, @Nullable Object[] args)
+		                              throws Throwable {
+		  				// If the method is a method from Object then defer to normal invocation.
+		                          if (method.getDeclaringClass() == Object.class) {
+		                              return method.invoke(this, args);
+		                          }
+		                          if (platform.isDefaultMethod(method)) {
+		                              return platform.invokeDefaultMethod(method, service, proxy, args);
+		                          }
+		                    // 根据方法生成一个ServiceMethod对象（内部会将生成的ServiceMethod放入在缓存中，
+		                    //如果已经生成过则直接从缓存中获取）
+		                          ServiceMethod<Object, Object> serviceMethod =
+		                                  (ServiceMethod<Object, Object>) loadServiceMethod(method);
+		                    // 根据ServiceMethod对象和请求参数生成一个OkHttpCall对象，这个OkHttpCall能够
+		                    //调用OkHttp的接口发起网络请求
+		                          OkHttpCall<Object> okHttpCall = new OkHttpCall<>(serviceMethod, args);
+		                    // 调用serviceMethod的callAdapter的adapt方法，并传入okHttpCall，返回一个对象，
+		                    //这个的目的主要是为了适配返回类型，其内部会对OkhttpCall对象进行包装
+		                          return serviceMethod.callAdapter.adapt(okHttpCall);
+		                      }
+		                  });
+		      }
+		  ```
+- # 相关解释
+	- ## [[OkHttpCall]]
+	- ## [[CallAdapter.adapt方法作用]]
+	- ## 动态代理的invoke方法：每次代理对象执行方法请求，都会调用到这里返回一个ExecutorCallBackCall
+- # 主线流程：里边invoke方法源码解析
+	- 整体是动态代理创建一个代理对象返回了，那么invoke方法，拦截到方法调用后怎么执行的返回的
+	  [[ExecutorCallbackCall]]
+	- ## 1、[[loadServiceMethod，2.9.0版本]]返回ServiceMethod
+		- 实际返回了CallAdapted 对象
+			- CallAdapted 继承 HttpServiceMethod，
+			- HttpServiceMethod 继承了ServiceMethod
+	- ## 2、[[loadServiceMethod(method).invoke(args)]]，相当于调用了CallAdapted 的 invoke方法，但是没有这个方法，是在父类HttpServiceMethod 实现的
+		- 对 OkhttpCall，进行包装，返回的是ExecutorCallBackCall

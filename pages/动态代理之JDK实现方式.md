@@ -1,5 +1,4 @@
 - ## 一、什么是动态代理
-  collapsed:: true
 	- 首先，动态代理是代理模式的一种实现方式，代理模式除了动态代理还有 静态代理，只不过静态代理能够在编译时期确定类的执行对象，而动态代理只有在运行时才能够确定执行对象是谁。代理可以看作是对最终调用目标的一个封装，我们能够通过操作代理对象来调用目标类，这样就可以实现调用者和目标对象的解耦合。
 	- 动态代理的应用场景有很多，最常见的就是 AOP 的实现、RPC 远程调用、Java 注解对象获取、日志框架、全局性异常处理、事务处理等。
 	- 动态代理的实现有很多，但是 JDK 动态代理是很重要的一种
@@ -11,11 +10,14 @@
 	- 1、方法插入代码：通过 接口中的 invoke 方法进行业务的调用和增强等处理，InvocationHandler是一个拦截器类
 	- 2、api实现类的差异化，用代理类新实现替换旧实现
 - ## 四、动态代理执行过程
+  collapsed:: true
 	- ![image.png](../assets/image_1659671333414_0.png)
 	- RD无法直接创建 “目标接口代理实现类对象”，通过创建Proxy.newInstance创建 “代理类对象”，调用invoke来访问目标对象的方法
 	- 在 JDK 动态代理中，实现了 InvocationHandler 的类可以看作是 代理类
+	-
 - ## 五、相关类
-	- ### 5-1、InvocationHandler接口 (实现该接口作为代理类)
+  collapsed:: true
+	- ### 5-1、InvocationHandler接口 (实际上作为代理类的 方法回调接口用)
 	  collapsed:: true
 		- ```java
 		  public interface InvocationHandler {
@@ -53,6 +55,7 @@
 		   }
 		  ```
 - ## 六、封装使用
+  collapsed:: true
 	- 一般组件化在api库定义 `api接口`，实现库定义接口 `实现类impl`。对外暴露的api会用 `接口包装类` 获取接口 `实现类` 去调用api，而不是直接去拿`实现类`去调用，后期底层换api，或者实现类，对外暴露的`接口包装类`的api不会变，上层业务也不需要改变。
 	- 动态代理也可以在接口包装类中，拿到代理对象，替换原实现类对象，这样对外暴露的接口包装类，用的实际上是代理类
 	- 接口api:
@@ -389,7 +392,8 @@
 		      }
 		  }
 		  ```
-- ## 七、动态代理原理(反射)
+- ## 七、[[动态代理原理(反射)]]
+  collapsed:: true
 	- 1、JavaDoc 告诉我们，InvocationHandler 是一个接口，实现这个接口的类就表示该类是一个代理实现类，也就是代理类
 	- 2、动态代理的优势在于能够很方便的对代理类中方法进行集中处理，而不用修改每个被代理的方法。因为所有被代理的方法（真正执行的方法）都是通过在 InvocationHandler 中的 invoke 方法调用的。所以我们只需要对 invoke 方法进行集中处理
 	- ## Proxy.newInstance 方法分析
@@ -470,12 +474,12 @@
 	- ## getProxyClass0() 获取代理类分析：
 	  collapsed:: true
 		- ```java
-		  
-		      /**
+		  /**
 		       * a cache of proxy classes
 		       */
 		      private static final WeakCache<ClassLoader, Class<?>[], Class<?>>
-		          proxyClassCache = new WeakCache<>(new KeyFactory(), new ProxyClassFactory());
+		          proxyClassCache =
+		        new WeakCache<>(new KeyFactory(), new ProxyClassFactory());
 		  ```
 		- ```java
 		      private static Class<?> getProxyClass0(ClassLoader loader,
@@ -498,6 +502,7 @@
 		- proxyClassCache 是如何进行缓存的，
 			- 只需要知道它的缓存时机就可以了：即在类加载的时候进行缓存。
 	- ## ProxyClassFactory 创建代理类工厂
+	  id:: 64895c4c-83e4-4b81-bdb1-a8d3fe52fab2
 	  collapsed:: true
 		- ```java
 		  
@@ -605,8 +610,7 @@
 	- ## 总结：
 		- 1、JDK 为我们的生成了一个叫 $Proxy0 的代理类，这个类文件放在内存中的，我们在创建代理对象时，就是通过反射获得这个类的构造方法，然后创建的代理实例。
 		- 2、我们看到代理类继承了 Proxy 类，所以也就决定了 Java 动态代理只能对接口进行代理。
-- ## 八、样例2,火车站卖票动态代理实现
-  collapsed:: true
+- ## 八、样例2,火车站卖票动态代理实现，有代理类具体长什么样？
 	- 接下来我们使用动态代理实现静态代理例子的火车站抢票
 	- 先说说JDK提供的动态代理。
 	- **[[#red]]==Java中提供了一个动态代理类Proxy==**，Proxy并不是我们上述所说的代理对象的类，而是提供了一个创建代理对象的静态方法（newProxyInstance方法）来**[[#red]]==获取代理对象==**。
@@ -839,3 +843,6 @@
 		- 2）根据多态的特性，执行的是代理类（$Proxy0）中的sell()方法
 		- 3）代理类（$Proxy0）中的sell()方法中又调用了`InvocationHandler`接口的子实现类对象的`invoke`方法
 		- 4）`invoke`方法通过反射执行了真实对象所属类(TrainStation)中的`sell()`方法
+- ## 十、动态代理可以代理实现接口下的所有对象，那么怎么实现代理具体哪个对象？
+  collapsed:: true
+	- ![image.png](../assets/image_1689760235519_0.png)

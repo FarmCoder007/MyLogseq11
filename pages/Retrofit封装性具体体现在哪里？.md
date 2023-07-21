@@ -1,0 +1,2 @@
+- 1、Retrofit采用外观模式对Okhttp 表层使用进行了简化封装
+- 2、而ServiceMethod是将okhttp网络请求信息的，比如参数拼接，数据回调等封装成了call

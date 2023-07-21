@@ -1,0 +1,5 @@
+- ### 1、调用代理类方法时，会返回一个call。使用call进行网络请求时
+- ### 2、 ExecutorCallBackCall.enqueue,实际调用的是OkhttpCall的enqueue，
+- ### 3、OkhttpCall里会利用OkhttpClient创建一个 真正的Okhttp的realCall。进行网络请求
+- ### 4、网络请求回来，parseResponse解析Okhttp的数据
+- ### 5、寻找添加的ResponseBodyConverter进行解析转换，一般是GsonConverterFactory返回的

@@ -1,20 +1,19 @@
-- 一、简介
+- # 一、简介
 	- HTTP是现代应用程序用来交换数据和媒体的网络方式。高效地执行HTTP能让资源加载更快并节省带宽。
 	  OkHttp是一个高效的HTTP客户端，具有一下默认特性：
-	- 支持HTTP/2，允许请求共用同一个socket连接
-	  连接池可以减少请求延迟
-	  透明的GZIP压缩减小了响应数据的大小
-	  缓存响应内容，避免完全重复的请求
-- 二、OkHttpClient
+		- 支持HTTP/2，允许请求共用同一个socket连接
+		  连接池可以减少请求延迟
+		  透明的GZIP压缩减小了响应数据的大小
+		  缓存响应内容，避免完全重复的请求
+- # 二、OkHttpClient
   collapsed:: true
 	- OkHttp对外提供了 OkHttpClient 类来配置网络请求的参数以及执行网络请求
 	- 在使用中，[[#red]]==OkHttpClient 可以使用单例也可以不使用单例==，对此官方并未有特别的指导说明
 	- 这两种方式的主要区别在于 OkHttpClient 对象的创建，对于单例模式，每个请求都使用同一个 OkHttpClient 对象，毫无疑问在构建 OkHttpClient 对象的速度上单例模式更有优势，当然这种速度上的优势并不明显。
 	- 除此之外，主要在于线程的开销上面，创建多个 OkHttpClient 对象是否会加大线程开销？
 	- 带着这个疑问我们来看下 OkHttp 中的线程
-- 三、OkHttp的线程池
+- # 三、OkHttp的线程池
 	- 网络请求的示例代码如下：
-	  collapsed:: true
 		- ```kotlin
 		  OkHttpClient client = new OkHttpClient();
 		  Request request = new Request.Builder()
@@ -40,11 +39,9 @@
 	- ### OkHttp的异步请求的线程池
 	  collapsed:: true
 		- OkHttp的异步请求流程如下图：
-		  collapsed:: true
 			- ![image.png](../assets/image_1684314059277_0.png)
 		- 从请求流程中可以看出，OkHttp提供了 Dispatcher 类来对请求进行调度，Dispatcher 默认提供了一个线程池，请求会在该线程池中执行，同时 OkHttpClient 提供了一个指定 Dispatcher 的API，调用方可以指定线程池
 		- Dispatcher 类进行请求调度的关键代码如下：
-		  collapsed:: true
 			- ```kotlin
 			  private boolean promoteAndExecute() {
 			    List<AsyncCall> executableCalls = new ArrayList<>();
@@ -76,7 +73,6 @@
 			  ```
 		- Dispatcher 类使用 maxRequests、maxRequestsPerHost 这两个参数来限制同时执行的请求的数量
 		- 默认的线程池配置如下：
-		  collapsed:: true
 			- ```java
 			  public synchronized ExecutorService executorService() {
 			    if (executorService == null) {
@@ -86,9 +82,8 @@
 			  }
 			  ```
 		- Dispatcher 在 OkHttpClient 中进行创建，也就是每一个 OkHttpClient 对象对应一个 Dispatcher，因此我们可以得出结论：
-		- 在直接使用 OkHttpClient 执行请求的场景下，如果创建多个 OkHttpClient 对象，会生成对应数量的线程池，对应着也会生成相应数量的线程，每个请求都在自己的线程池中执行，实际上线程池也就失去了意义
+			- 在直接使用 OkHttpClient 执行请求的场景下，如果创建多个 OkHttpClient 对象，会生成对应数量的线程池，对应着也会生成相应数量的线程，每个请求都在自己的线程池中执行，实际上线程池也就失去了意义
 		- 我们可以写个简单的代码进行下验证：
-		  collapsed:: true
 			- ```java
 			  // 创建OkHttpClient对象
 			  private OkHttpClient createOkHttpClient() {
@@ -117,16 +112,13 @@
 			  }
 			  ```
 		- OkHttpClient使用单例时线程如下：
-		  collapsed:: true
 			- ![image.png](../assets/image_1684314133142_0.png)
 		- OkHttpClient创建多个时线程如下：
-		  collapsed:: true
 			- ![image.png](../assets/image_1684314145964_0.png)
 	- ### 58网络库的线程池
 	  collapsed:: true
 		- 58网络库基于 OkHttp、RxJava 实现，由于 OkHttpClient 实例唯一，因此不存在创建多个 OkHttpClient 的场景
 		- 58网络库执行请求的关键代码如下：
-		  collapsed:: true
 			- ```java
 			  // 生成请求的Observable
 			  public <T> rx.Observable<T> exec(RxRequest<T> request) {
@@ -168,7 +160,7 @@
 		- 而 RxJava 的线程池是单例对象，可以推断出，在使用 RxJava 执行请求时，即使创建多个 OkHttpClient 的实例也不会存在过多的线程开销
 		- 事实是否如此，我们再写个代码进行下验证：
 		  collapsed:: true
-			- ```
+			- ```java
 			  // 使用58网络库执行请求
 			  private void executeRequest() {
 			    RxRequest<String> request = new RxRequest<>();
@@ -191,10 +183,8 @@
 		- 通过线程的名称可以看出，所有线程都执行在 RxJava 的 io 线程池中。这里需要注意的是，由于 RxJava 的 io 线程池对线程数量无限制，短时间内有大量请求时也会造成线程数暴增
 		-
 	- ### Retrofit中的线程池
-	  collapsed:: true
 		- Retrofit 官方提供了多种异步框架，也支持自定义，这里我们基于 RxJava1 来进行分析
 		- 先看下相关的关键代码：
-		  collapsed:: true
 			- ```java
 			  final class RxJavaCallAdapter<R> implements CallAdapter<R, Object> {
 			    @Override
@@ -260,22 +250,17 @@
 			- 当使用 createAsync() 方法创建 RxJavaCallAdapter 时，由于在OkHttp的线程池中执行请求，因此创建多个 OkHttpClient 对象会导致生成对应数量的线程池，线程会过度开销
 		- 接下来还是通过代码进行下验证，结果如下：
 		- 使用create()创建RxJavaCallAdapter：
-		  collapsed:: true
 			- ![image.png](../assets/image_1684314332137_0.png)
 		- 使用createAsync()创建RxJavaCallAdapter：
-		  collapsed:: true
 			- ![image.png](../assets/image_1684314343858_0.png)
 		- 从上面运行的结果可以看出，当使用 createAsync() 方法时，如果创建多个 OkHttpClient 对象，不仅会创建 RxJava 的io线程，还会创建同样数量的 OkHttp 的 Dispatcher 线程
 		-
-- 四、OkHttp的ConnectionPool
-  collapsed:: true
+- # 四、OkHttp的ConnectionPool
 	- 看到这里，我们似乎能得出结论，在使用 RxJava 时，由于 OkHttp 执行在 RxJava 的 io 线程池中，即使创建多个 OkHttpClient 对象也不会引起过多的内存开销
 	- 我们再仔细看下在这种场景下的线程列表，会发现除了创建大量的 RxJava 的 io 线程之外，还存在同样数量的 OkHttp ConnectionPool 线程：
-	  collapsed:: true
 		- ![image.png](../assets/image_1684314376615_0.png)
 	- Okhttp 将客户端和服务端之间通信的链接抽象成 Connection 类，ConnectionPool 就是用来管理这些链接复用的，作用是在一定时间内可以复用 Connection
 	- ConnectionPool 类的源码注释中已经很详细的进行了说明：
-	  collapsed:: true
 		- ```java
 		  /**
 		   * 管理HTTP和HTTP/2连接的重用，以减少网络延迟。相同Address的HTTP请求可以共享同一个Connection。
@@ -300,6 +285,6 @@
 		  ```
 	- 从源码中我们可以知道，每一个 OkHttpClient 对象都会生成一个链接池的管理类：ConnectionPool，ConnectionPool 类里面有一个线程池，这个线程池用来执行清除过期链接的任务
 	- 创建过多的 OkHttpClient 对象会导致创建很多 ConnectionPool 的线程池，增大线程开销
-- 五、总结
+- # 五、总结
 	- 在使用 RxJava 或 Retrofit 时，尽量要将 OkHttpClient 做成单例，避免过多的线程开销，同时在短时间内执行大量请求时要注意 RxJava 的 io 线程池的特性。
 	- ![image.png](../assets/image_1684314432761_0.png)

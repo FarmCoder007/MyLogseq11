@@ -140,11 +140,11 @@
 		   }
 		  ```
 		  ```
-	-
-- ## 11. Fragment的View重复添加导致的崩溃问题？
-  collapsed:: true
-	- 如果把该view添加到父view那么也会引起重复添加而导致崩溃
-		- ```java
+		  -
+		  - ## 11. Fragment的View重复添加导致的崩溃问题？
+		  collapsed:: true
+		  - 如果把该view添加到父view那么也会引起重复添加而导致崩溃
+		  - ```java
 		  @Override
 		  public View onCreateView(LayoutInflater inflater, ViewGroup container,
 		    Bundle savedInstanceState) {
@@ -236,3 +236,4 @@
 - # 17、hide,show 和 addremove 区别？
 	- hide和show 不会执行 Fragment相应的生命周期
 - ## 18、[[事务操作Fragment主流程？]]
+- # 19 [Fragment相关 面试题](https://blog.csdn.net/xuwb123xuwb/article/details/116199192)
