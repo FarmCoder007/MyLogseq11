@@ -1,8 +1,7 @@
 - # 一  简介：
-  collapsed:: true
 	- ThreadLocalMap类的定义在ThreadLocal类中，是ThreadLocal类的静态内部类，属于threadLocal类，而不是属于threadLocal对象
 	- 在ThreadLocal类中的方法创建threadLoalMap对象，赋予给Thread对象(若thread对象中已有threadLocalMap对象，则直接取即可)
-	- 每个Thread对象都持有一个ThreadLocalMap引用
+	- [[#red]]==**每个Thread对象都持有一个ThreadLocalMap引用，不同Thread类的 map不同**==
 		- ```java
 		  class Thread implements Runnable {
 		        /* ThreadLocal values pertaining to this thread. This map is maintained
@@ -12,7 +11,6 @@
 		  }
 		  ```
 - # 二、内部数据结构
-  collapsed:: true
 	- 内部是一个数组   存的值是叫做 Entry  是一个key  value 的形式    key是 ThreadLocal的 弱引用  value 就是你存的值
 	- ![image.png](../assets/image_1688119520111_0.png)
 - # 三、用途

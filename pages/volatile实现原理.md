@@ -1,0 +1,14 @@
+- ## **volatile特性**
+  collapsed:: true
+	- 可以把对volatile变量的单个读/写，看成是使用同一个锁对这些单个读/写操作做了同步
+	- ![](file:///C:\Users\wbxu\AppData\Local\Temp\ksohtml6668\wps21.jpg)
+	- 可以看成
+	- ![](file:///C:\Users\wbxu\AppData\Local\Temp\ksohtml6668\wps22.jpg)
+	- 所以volatile变量自身具有下列特性：
+	- 可见性。对一个volatile变量的读，总是能看到（任意线程）对这个volatile变量最后的写入。
+	- 原子性：对任意单个volatile变量的读/写具有原子性，但类似于volatile++这种复合操作不具有原子性。
+	- volatile虽然能保证执行完及时把变量刷到主内存中，但对于count++这种非原子性、多指令的情况，由于线程切换，线程A刚把count=0加载到工作内存，线程B就可以开始工作了，这样就会导致线程A和B执行完的结果都是1，都写到主内存中，主内存的值还是1不是2
+- ### **volatile的实现原理**
+	- volatile关键字修饰的变量会存在一个“lock:”的前缀。
+	- Lock前缀，Lock不是一种内存屏障，但是它能完成类似内存屏障的功能。Lock会对CPU总线和高速缓存加锁，可以理解为CPU指令级的一种锁。
+	- 同时该指令会将当前处理器缓存行的数据直接写会到系统内存中，且这个写回内存的操作会使在其他CPU里缓存了该地址的数据无效。

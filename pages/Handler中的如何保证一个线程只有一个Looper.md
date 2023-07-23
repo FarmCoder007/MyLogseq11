@@ -1,4 +1,4 @@
-- 1、每个Thread都有个[[ThreadLocalMap]]的成员变量
+- 1、每个Thread都有个[[ThreadLocalMap]]的成员变量，不同线程 map不同
 - 2、ThreadLocalMap是存储Entry（key value的）key 为ThreadLocal的弱引用
 - 3、Looper中持有static final 修饰的ThreadLocal 对象引用，[[#red]]==保证全局唯一==、
 	- ```java

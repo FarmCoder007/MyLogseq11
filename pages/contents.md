@@ -6,6 +6,7 @@
 	- [[项目解析]]
 	- [[面试]]
 - Android
+  collapsed:: true
 	- [[四大组件]]
 	- [[Android-Framework]]
 	- [[Android虚拟机与类加载]]
@@ -55,7 +56,6 @@
 	- [[数据结构]]
 	- [[算法]]
 - Kotlin
-  collapsed:: true
 	- [[kotlin语法学习思路]]
 	- [[基本语法]]
 	- [[注意事项]]

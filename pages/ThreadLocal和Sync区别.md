@@ -1,0 +1,5 @@
+- ThreadLocal和Synchonized都用于解决多线程并发訪问。可是ThreadLocal与synchronized有本质的差别。
+- ## synchronized是利用锁的机制，
+	- 使变量或代码块在某一时该仅仅能被一个线程訪问。
+- ## ThreadLocal为每个线程都有一个ThreadLocalMap，存储本线程内的变量
+	- 使得每个线程在某一时间訪问到的并非同一个对象，这样就隔离了多个线程对数据的数据共享。

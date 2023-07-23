@@ -1,0 +1,15 @@
+- CLH队列锁即Craig, Landin, and Hagersten (CLH) locks。
+- CLH队列锁也是一种基于链表的可扩展、高性能、公平的自旋锁，申请线程仅仅在本地变量上自旋，它不断轮询前驱的状态，假设发现前驱释放了锁就结束自旋。
+- 当一个线程需要获取锁时：
+- 1、创建一个的QNode，将其中的locked设置为true表示需要获取锁，myPred表示对其前驱结点的引用
+	- ![](file:///C:\Users\wbxu\AppData\Local\Temp\ksohtml6668\wps11.jpg)
+- 2、线程A对tail域调用getAndSet方法，使自己成为队列的尾部，同时获取一个指向其前驱结点的引用myPred
+	- ![](file:///C:\Users\wbxu\AppData\Local\Temp\ksohtml6668\wps12.jpg)
+	- 线程B需要获得锁，同样的流程再来一遍
+	- ![](file:///C:\Users\wbxu\AppData\Local\Temp\ksohtml6668\wps13.jpg)
+- 3.线程就在前驱结点的locked字段上旋转，直到前驱结点释放锁(前驱节点的锁值 locked == false)
+- 4.当一个线程需要释放锁时，将当前结点的locked域设置为false，同时回收前驱结点
+	- ![](file:///C:\Users\wbxu\AppData\Local\Temp\ksohtml6668\wps14.jpg)
+- 如上图所示，前驱结点释放锁，线程A的myPred所指向的前驱结点的locked字段变为false，线程A就可以获取到锁。
+- CLH队列锁的优点是空间复杂度低（如果有n个线程，L个锁，每个线程每次只获取一个锁，那么需要的存储空间是O（L+n），n个线程有n个myNode，L个锁有L个tail）。CLH队列锁常用在SMP体系结构下。
+- Java中的AQS是CLH队列锁的一种变体实现。
