@@ -1,8 +1,9 @@
 - ##  一、学习AQS的必要性
 	- 队列同步器AbstractQueuedSynchronizer（以下简称同步器或AQS），是用来构建锁或者其他同步组件的基础框架，它使用了一个int成员变量表示同步状态，通过内置的FIFO队列来完成资源获取线程的排队工作。并发包的大师（Doug Lea）期望它能够成为实现大部分同步需求的基础。
 - ## 二、**AQS使用方式和其中的设计模式 **
+  collapsed:: true
 	- AQS的主要使用方式是继承，子类通过继承AQS并实现它的抽象方法来管理同步状态，在AQS里由一个int型的state来代表这个状态，在抽象方法的实现过程中免不了要对同步状态进行更改，这时就需要使用同步器提供的3个方法（getState()、setState(int newState)和compareAndSetState(int expect,int update)）来进行操作，因为它们能够保证状态的改变是安全的。
-	- ![](file:///C:\Users\wbxu\AppData\Local\Temp\ksohtml6668\wps1.jpg)
+	- ![image.png](../assets/image_1690123572851_0.png)
 	- 在实现上，子类推荐被定义为自定义同步组件的静态内部类，AQS自身没有实现任何同步接口，它仅仅是定义了若干同步状态获取和释放的方法来供自定义同步组件使用，同步器既可以支持独占式地获取同步状态，也可以支持共享式地获取同步状态，这样就可以方便实现不同类型的同步组件（ReentrantLock、ReentrantReadWriteLock和CountDownLatch等）。
 	- 同步器是实现锁（也可以是任意同步组件）的关键，在锁的实现中聚合同步器。可以这样理解二者之间的关系：
 	- 锁是面向使用者的，它定义了使用者与锁交互的接口（比如可以允许两个线程并行访问），隐藏了实现细节；
@@ -13,17 +14,18 @@
 	- 同步器的设计基于模板方法模式。[[#red]]==**模板方法**==模式的意图是，[[#red]]==**定义一个操作中的算法的骨架，而将一些步骤的实现延迟到子类中**==。模板方法使得子类可以不改变一个算法的结构即可重定义该算法的某些特定步骤。我们最常见的就是Spring框架里的各种Template。
 	- ## 实际例子
 		- 我们开了个蛋糕店，蛋糕店不能只卖一种蛋糕呀，于是我们决定先卖奶油蛋糕，芝士蛋糕和慕斯蛋糕。三种蛋糕在制作方式上一样，都包括造型，烘焙和涂抹蛋糕上的东西。所以可以定义一个抽象蛋糕模型
-		- ![](file:///C:\Users\wbxu\AppData\Local\Temp\ksohtml6668\wps2.jpg)
+		- ![image.png](../assets/image_1690123597909_0.png)
 		- 然后就可以批量生产三种蛋糕
-			- ![](file:///C:\Users\wbxu\AppData\Local\Temp\ksohtml6668\wps3.jpg)
+			- ![image.png](../assets/image_1690123618211_0.png)
 			- ![image.png](../assets/image_1690118084097_0.png)
 			-
-			- ![](file:///C:\Users\wbxu\AppData\Local\Temp\ksohtml6668\wps6.jpg)
+			- ![image.png](../assets/image_1690123632248_0.png)
 		- 这样一来，不但可以批量生产三种蛋糕，而且如果日后有扩展，只需要继承抽象蛋糕方法就可以了，十分方便，我们天天生意做得越来越赚钱。突然有一天，我们发现市面有一种最简单的小蛋糕销量很好，这种蛋糕就是简单烘烤成型就可以卖，并不需要涂抹什么食材，由于制作简单销售量大，这个品种也很赚钱，于是我们也想要生产这种蛋糕。但是我们发现了一个问题，抽象蛋糕是定义了抽象的涂抹方法的，也就是说扩展的这种蛋糕是必须要实现涂抹方法，这就很鸡儿蛋疼了。怎么办？我们可以将原来的模板修改为带钩子的模板。
-		- ![](file:///C:\Users\wbxu\AppData\Local\Temp\ksohtml6668\wps7.jpg)
+		- ![image.png](../assets/image_1690123650763_0.png)
 		- 做小蛋糕的时候通过flag来控制是否涂抹，其余已有的蛋糕制作不需要任何修改可以照常进行。
-			- ![](file:///C:\Users\wbxu\AppData\Local\Temp\ksohtml6668\wps8.jpg)
+			- ![image.png](../assets/image_1690123662178_0.png)
 - ## 四、AQS 中的方法
+  collapsed:: true
 	- ## ***模板方法***
 		- 实现自定义同步组件时，将会调用同步器提供的模板方法，
 		- 这些模板方法同步器提供的模板方法基本上分为3类：
@@ -32,9 +34,11 @@
 			- 同步状态和查询同步队列中的等待线程情况。
 		- ![image.png](../assets/image_1690110002339_0.png)
 	- ## 独占式获取与释放同步状态:***可重写的方法***
-		- ![](file:///C:\Users\wbxu\AppData\Local\Temp\ksohtml6668\wps9.jpg) ![](file:///C:\Users\wbxu\AppData\Local\Temp\ksohtml6668\wps10.jpg)
+		- ![image.png](../assets/image_1690123703331_0.png)
+		- ![image.png](../assets/image_1690123709709_0.png)
 	- ## ***访问或修改同步状态的方法***
 		- 重写同步器指定的方法时，需要使用同步器提供的如下3个方法来访问或修改同步状态。
 		- •getState()：获取当前同步状态。
 		- •setState(int newState)：设置当前同步状态。
 		- •compareAndSetState(int expect,int update)：使用CAS设置当前状态，该方法能够保证状态设置的原子性。
+- ## [[AQS面试题]]

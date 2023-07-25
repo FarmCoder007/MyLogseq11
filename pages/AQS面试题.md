@@ -1,0 +1,7 @@
+- ## 1、AQS是什么
+	- 1、队列同步器AbstractQueuedSynchronizer（以下简称同步器或AQS），是用来[[#red]]==**构建锁或者其他同步组件**==的基础框架，比如ReentrantLock,ReentrantReadWriteLock
+	- ![image.png](../assets/image_1690167164256_0.png)
+- ## 2、使用方式：继承它使用模板方法实现，AQS内部通过state成员变量来保存同步状态的
+- ## 3、原理 [[CLH思想]]
+-
+-

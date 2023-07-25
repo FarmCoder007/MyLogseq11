@@ -58,6 +58,7 @@
 		  }
 		  ```
 - ## 二、return
+  collapsed:: true
 	- ## 1、return@forEachIndexed 和 return@forEach 代替java中循环的continue
 		- java循环与中断：
 		  collapsed:: true
@@ -94,4 +95,29 @@
 					  
 					  ```
 		- [参考资料](https://blog.csdn.net/Nicholas1hzf/article/details/123621523)
--
+- ## 三、[[lateinit]]
+- ## 四、is 类型判断
+  collapsed:: true
+	- is 对应 instanceof         as对应强转类型   但是在kotlin  如下 先用as判断类型    不用像java那样强转  直接认定就是那种类型
+	- 类class获取：例如activity跳转  中
+		- ```java
+		  //kotlin  获取kotlin里的类名  类名::.class
+		  //        获取java里的类名    类名::.class.java
+		   
+		  // java 
+		  startActivity(new Intent(this,MainActivity.class));
+		  // kotlin
+		  startActivity(Intent(this,MainActivity::class.java))
+		  ```
+		- ```java
+		     override fun onClick(v: View?) {
+		          //  java  v instanceof ImageView   kotlin  使用 is  代替  instanceof
+		          if (v is EditText) {
+		              // java  强制类型转换   EditText e = (EditText)v;
+		              
+		              // 优化点  java 判断完类型  还需要强制转换 成  后边判断的类型   kotlin 不需要
+		   
+		              // val editText = v as EditText         可直接用
+		          }
+		      }
+		  ```

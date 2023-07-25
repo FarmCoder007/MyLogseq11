@@ -1,0 +1,4 @@
+- 1、synchronized在jvm里实现基于进入和退出Monitor对象来实现方法同步和代码块同步
+- 2、进入同步代码块之前，执行MonitorEnter指令，尝试拿Monitor对象的所有权，拿到就相当于拿到锁，拿不到就等待（上下文切换比较耗性能进行了[[synchronized 做的优化]]）
+- 3、在方法结束处和异常处，执行monitorExit执行，释放锁。
+- 4、同步方法在字节码上虽然没加这两个指令，加了ACC_SYNCHRONIZED访问标志，底层也是通过这两个指令的

@@ -155,6 +155,8 @@
 	- 2个
 	- 字符串常量池 一个
 	- 堆中一个
+- ## 29、Stop the world stw现象，停止一切用户线程。
+	- 垃圾回收机制，开启垃圾回收线程，进行GC时，需要stw，停止用户线程，先进行清理，防止一边清理一边产生垃圾。
 - # 参考：
 	- [Java虚拟机(JVM)面试题（2020最新版）](https://thinkwon.blog.csdn.net/article/details/104390752)
 -

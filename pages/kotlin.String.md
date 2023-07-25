@@ -1,6 +1,6 @@
 title:: kotlin.String
 
-- 1、字符串大小写转换
+- ## 1、字符串大小写转换
   collapsed:: true
 	- ```
 	      var abc = "AbCdEfG"
@@ -25,7 +25,8 @@ title:: kotlin.String
 	      // 首字母转小写
 	      var str =  abc.replaceFirstChar { if (it.isLowerCase()) it.lowercase(Locale.getDefault() else it.toString() }
 	  ```
-- 2、ifEmpty：  如果是空则使用默认的值，否则返回自身
+- ## 2、ifEmpty：  如果是空则使用默认的值，否则返回自身
+  collapsed:: true
 	- ```kotlin
 	  原
 	   val primaryValue:String =
@@ -34,5 +35,18 @@ title:: kotlin.String
 	- ```kotlin
 	  // {里默认值}
 	  val primaryValue:String = myAnnotation.primaryKey.des.ifEmpty { "" }  
+	  ```
+- ## 3、字符串模式
+  collapsed:: true
+	- ![image.png](../assets/image_1690207898123_0.png)
+- ## 4、换行 """ """
+	- ![image.png](../assets/image_1690208055757_0.png)
+	- ![image.png](../assets/image_1690208129293_0.png)
+	- ```kotlin
+	  var ss = """
+	  sss
+	  sss
+	  sss
+	  """
 	  ```
 -
