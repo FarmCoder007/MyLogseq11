@@ -1,0 +1,14 @@
+- ## 大体原理
+	- 1个最简单的map流程，包含几个角色
+		- 1、上游观察者以Single为例，SingJust
+		- 2、转换对象SingMap
+		- 3、订阅函数subscribe
+		- 4、下游观察者SingleObserver
+	- Map操作符转换的具体原理是，
+		- 1、map操作符会创建了中间桥梁对象[[#red]]==**SingMap**==，然后[[#red]]==**订阅下游**==自定义观察者SingleObserver
+		- 2、在SingMap的订阅方法subscribeActual，会先创新MapSingleObserver包装观察者
+		- 3、让[[#red]]==**上游SingJust订阅包装观察者MapSingleObserver**==
+		- 4、上游SingJust订阅了中游SingMap内部的包装观察者，SingMap又订阅了下游的自定义观察者，实现了收尾的订阅链条
+		- 5、所有SingMap相对于桥梁，接受上游发送数据，做转换处理后，交给下游观察者
+	- 即使加了多个map，也是中间多个桥梁相连，让顶层订阅中间层，中间层订阅下层
+- ## 具体代码原理见[[map转换过程]]

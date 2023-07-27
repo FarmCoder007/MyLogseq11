@@ -1,4 +1,5 @@
 - 工作
+  collapsed:: true
 	- [[专利]]
 	- [[WBRouter]]
 	- [[职级评审]]
@@ -6,7 +7,6 @@
 	- [[项目解析]]
 	- [[面试]]
 - Android
-  collapsed:: true
 	- [[四大组件]]
 	- [[Android-Framework]]
 	- [[Android虚拟机与类加载]]
@@ -39,6 +39,7 @@
 	- [[谷歌学习网址]]
 	- [[在线工具]]
 - JAVA
+  collapsed:: true
 	- [[基本对象]]
 	- [[面向对象]]
 	- [[java-泛型]]
@@ -57,7 +58,6 @@
 	- [[数据结构]]
 	- [[算法]]
 - Kotlin
-  collapsed:: true
 	- [[kotlin语法学习思路]]
 	- [[Kotlin基础]]
 	- [[官方文档]]

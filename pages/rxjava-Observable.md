@@ -17,6 +17,7 @@
 	  
 	  在其它的文档和场景里，有时我们也将**Observer**叫做*Subscriber*、*Watcher*、*Reactor*。这个模型通常被称作*Reactor模式*。
 - ## 创建观察者
+  collapsed:: true
 	- 本文使用类似于Groovy的伪代码举例，但是ReactiveX有多种语言的实现。
 	  
 	  普通的方法调用（不是某种异步方法，也不是Rx中的并行调用），流程通常是这样的：

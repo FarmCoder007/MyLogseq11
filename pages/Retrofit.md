@@ -20,7 +20,6 @@
 - # 四、[[Retrofit 优点]]
 - # 五、[[Retrofit封装性具体体现在哪里？]]
 - # 六、源码
-  collapsed:: true
 	- ## 代码
 		- ```java
 		  //step1

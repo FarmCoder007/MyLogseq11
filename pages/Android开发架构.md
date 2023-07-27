@@ -1,4 +1,5 @@
 - # MVC
+  collapsed:: true
 	- ![image.png](../assets/image_1662434079490_0.png)
 	- ## 1、简介
 		- MVC是模型(model)－视图(view)－控制器(controller)的缩写
@@ -20,10 +21,12 @@
 	  适合功能较少，业务逻辑简单，界面不复杂的小型项目
 - # MVP
 	- ![image.png](../assets/image_1662434111516_0.png){:height 435, :width 746}
+	- ![image.png](../assets/image_1690369134271_0.png)
 	- ## 1、MVP是模型(model)－视图(view)－协调者(presenter)的缩写。
-		- 模型层（M）：负责存储，检索以及操纵数据。
-		  视图层（V）：负责绘制UI，与用户进行交互（在Android中体现为Activity）
-		  协调者（P）：作为View与Model交互的中间纽带，处理与用户交互的负责逻辑。
+		- 模型层（M）：负责存储，检索以及操纵数据，网络请求等。
+		- 视图层（V）：负责绘制UI，与用户进行交互（在Android中体现为Activity）
+		- 协调者（P）：作为View与Model交互的中间纽带，处理与用户交互的负责逻辑校验等。
+			- 持有module 和 view 层的 实例，
 	- ## 2、优点
 		- MVP的优点：
 		  1）复杂的逻辑处理放在presenter进行处理，减少了activity的臃肿。
@@ -33,6 +36,7 @@
 	- ## 3、缺点
 		- 由于对视图的渲染放在了Presenter中，所以视图和Presenter的交互会过于频繁，视图需要改变，一般presenter也需要跟着改变。
 - # MVVM
+  collapsed:: true
 	- ![image.png](../assets/image_1662434225858_0.png){:height 439, :width 746}
 	- ## 1、简介
 		- MVP的升级版本，VM是ViewModel的缩写，VM可以理解为View的数据模型和Presenter的合体，ViewModel和View之间的交互通过data binding完成。

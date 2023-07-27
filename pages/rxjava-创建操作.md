@@ -1,5 +1,4 @@
 - ## Create
-  collapsed:: true
 	- 使用一个函数从头开始创建一个Observable
 	  
 	  ![create](https://mcxiaoke.gitbooks.io/rxdocs/content/images/operators/create.c.png)

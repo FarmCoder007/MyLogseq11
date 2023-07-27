@@ -8,24 +8,20 @@
 	- 为了让开发导航的成本更简单，Google 引入了 Navigation 组件。使用这个导航组件，可以轻松编写 Fragment 之间的导航以及处理返回堆栈、异常情况等情况。
 	- 让我们开始探索 Navigation 组件。
 - # 什么是 Navigation 组件？
-  collapsed:: true
 	- Navigation 组件是一组用于简化 Android 导航的库、插件和工具。 Android Jetpack 的 Navigation 组件帮助我们实现导航，从简单的按钮点击到更复杂的模式，例如应用栏和导航抽屉。 导航组件还通过遵守一套既定的原则来确保一致且可预测的用户体验。
 	- 导航组件由三个关键部分组成。
 	- ## Navigation graph (导航图)
-	  collapsed:: true
 		- 这是一种新的资源类型——包含所有与导航相关的信息的 XML 文件。包括应用程序中所有单独的内容区域（称为目的地），以及应用中可以导航的路径。
 		  collapsed:: true
 			- ![image.png](../assets/image_1684414666466_0.png){:height 675, :width 716}
 		- 导航编辑器中的 Navgraph 可以如上所示进行可视化编辑。上面的每一个 Fragment 被称为 目的地，这些 目的地 之间的箭头称之为 操作 —— 定义了用户可以导航的路径。
 	- ## NavHost
-	  collapsed:: true
 		- NavHost 是一个空的容器，用于显示导航图中的目的地。 Navigation 组件包含一个默认的 NavHost 实现：NavHostFragment，它显示片段目的地。
 		-
 		-
 		-
 		-
 	- ## NavController
-	  collapsed:: true
 		- NavController 是通过 NavHost 来管理应用中的导航。当用户在应用中执行页面导航时，NavController 会协调 NavHost 中目标内容的交换。
 		- 注意：Android Studio 3.3 提供了导航编辑器中用来展示导航图。这个很棒的功能让我们可以在一个地方看到所有的导航。
 - # 好处
@@ -38,15 +34,12 @@
 		- Safe Args — 一个 Gradle 插件，在目的地之间导航和传递数据时提供类型安全。
 		- 支持 ViewModel —— 实现在不同的目的地之间共享 UI 相关的数据
 - # 示例
-  collapsed:: true
 	- 让我们通过创建一个简单的例子来看看 Navigation 组件是如何工作的。 接下来将创建一个带有两个 Fragment 的简单 Activity 来看看如何使用 Navigation 组件实现
 	  Fragment 之间的导航。
 	- ## 第1步
 		- 创建一个基于 AndroidX 的新项目。AndroidX 是 Android 团队用于在 Jetpack 中开发、测试、打包、版本和发布库的开源项目。可以在 AndroidX 概览 中查看更多信息。
 	- ## 第2步
-	  collapsed:: true
 		- 在 build.gradle 中添加依赖
-		  collapsed:: true
 			- ```
 			  dependencies {
 			    def nav_version = "2.3.0-alpha02"
@@ -68,16 +61,13 @@
 			  ```
 		- 这些是针对不同需求的不同依赖项。根据需求进行选择。
 	- ## 第3步 - 1
-	  collapsed:: true
 		- 创建导航图。
 		- 要将导航图添加到您的项目：
-		  collapsed:: true
 			- 右键单击 res 目录并选择 New > Android Resource File，出现 New Resource File 对话框
 			- 输入文件名，例如：nav_graph
 			- 在 Resource type 的下拉列表中选择 Navigation，然后单击确定
 				- ![image.png](../assets/image_1684414877484_0.png)
 		- 当添加第一个导航图时，Android Studio 会在 res 目录中创建一个导航资源文件夹，该文件夹中包含导航图资源文件。创建的文件看起来像这样：
-		  collapsed:: true
 			- ```
 			  <?xml version="1.0" encoding="utf-8"?>
 			  <navigation xmlns:android="http://schemas.android.com/apk/res/android"
@@ -87,30 +77,25 @@
 			  ```
 		- <navigation> 元素是导航图的根元素。当向图表添加目的地和连接操作时，会添加相应的 <destination> 和 <action> 元素作为子元素。如果有嵌套的图形，将显示为子 <navigation> 元素。
 	- ## 第3步 - 2
-	  collapsed:: true
 		- 添加 NavHost 到 Activity 的 XML 文件中。
 		- nav_host_fragment 中包含：
 			- android:name：NavHost 的类名。
 			- app:navGraph：将 NavHostFragment 与导航图相关联。导航图指定了此 NavHostFragment 中用户可以导航到的所有目的地。
 			- app:defaultNavHost="true"：确保 NavHostFragment 拦截系统后退按钮。 请注意，只有一个NavHost 可以是默认值。 如果在同一布局中有多个 NavHost（例如双窗格布局），请确保仅指定一个默认 NavHost。
 	- ## 第4步
-	  collapsed:: true
 		- 在 nav_graph 中添加目的地和路径。
 		  在添加目的地之前创建两个 Fragment 及其 XML：
 		- ![image.png](../assets/image_1684414981596_0.png)
 		- 接下来为 FragmentOne、FragmentTwo 类创建 XML 文件。
 		- 现在让我们将目的地添加到 nav_graph 中
 		- 目的地 destination 包含如下属性：
-		  collapsed:: true
 			- Type：指示目标是作为 Fragment、Activity 还是其他自定义类。
 			- Label：包含目的地的 XML 布局文件的名称。
 			- ID：目的地的 ID，用于在代码中引用。
 			- Class：显示与目标关联的类的名称，可以通过下拉列表将关联的类更改为其他目标类型。
-			  collapsed:: true
 			  在导航编辑器中，视图将如下所示：
 				- ![image.png](../assets/image_1684415018984_0.png)
 		- 现在将 NavHost 添加到 activity_main XML 文件中：
-		  collapsed:: true
 			- ```
 			  <androidx.constraintlayout.widget.ConstraintLayout
 			      xmlns:android="http://schemas.android.com/apk/res/android"
@@ -131,7 +116,6 @@
 			  </androidx.constraintlayout.widget.ConstraintLayout>
 			  ```
 		- MainActivity 的代码如下：
-		  collapsed:: true
 			- ```
 			  package com.example.navigationsample
 			  
@@ -149,7 +133,6 @@
 			  ```
 		- 就是这样 - 我们完成了。
 		- 点击运行按钮并查看 Navigation 组件的神奇之处：
-		  collapsed:: true
 			- ![edb06220-89c6-4492-8698-4fac75b7ba4bnav_demo.gif](../assets/edb06220-89c6-4492-8698-4fac75b7ba4bnav_demo_1684415094860_0.gif)
 		- 通过按钮的点击事件实现 Fragment 的跳转，可以看到没有使用 Fragment transaction：
 			- ```
@@ -161,7 +144,6 @@
 		- 我们需要找到 NavController 并为其提供我们在 XML 中指定的操作 ID。
 	-
 - # 其他须知
-  collapsed:: true
 	- 对于每个导航操作，都会将一个目的地添加到返回堆栈中。
 	- 在前面的实现中，当我们从 FragmentOne 移动到 FragmentTwo 并单击返回按钮时，返回到了 FragmentOne。
 	- 假如从 FragmentTwo 点击返回不希望切换回 FragmentOne，这时需要在 nav_graph 中为 action 添加其他属性，或者我们可以选择使用 NavOptions 以代码的方式添加这些属性。NavOptions 存储了用于导航操作的特殊选项。
@@ -241,7 +223,6 @@
 			  ```
 		- 了解有关 [NavOptions](https://developer.android.google.cn/reference/androidx/navigation/NavOptions) 的更多信息。
 - # 如何在 Fragment 之间传递参数
-  collapsed:: true
 	- 在 Fragment 之间共享数据的需求很常见。最简单的方法之一是使用共享的 ViewModel。当我们使用 Navigation 组件时，让我们看看如何使用 safe args 插件在两个 Fragment 之间共享数据。
 	- ## Safe Args
 		- Safe Args 插件生成的代码允许我们进行类型安全的导航和参数传递。
@@ -340,7 +321,6 @@
 		  collapsed:: true
 			- ![image.png](../assets/image_1684415519570_0.png)
 	- ## 支持的参数类型
-	  collapsed:: true
 		- ![image.png](../assets/image_1684415534916_0.png){:height 462, :width 700}
 - # 参考资料
 	- [Navigation component](https://developer.android.google.cn/guide/navigation/navigation-getting-started?hl=zh-cn)

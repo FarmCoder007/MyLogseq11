@@ -38,7 +38,7 @@
 		  }
 		  ```
 - ## 一、[[kotlin方法中添加默认参数]]
-- ## 二、[[kotlin  扩展属性]]
+- ## 二、[[kotlin  扩展函数]]
 - ## 三、inline关键字   被称为 内联函数
   collapsed:: true
 	- 使用inline关键字声明的函数是「内联函数」，在「编译时」会将「内联函数」中的函数体直接插入到调用处。所以在写内联函数的时候需要注意，尽量将内联函数中的代码行数减少！
@@ -229,83 +229,8 @@
 	- let 适合配合空判断的时候 ( 最好是成员变量，⽽不是局部变量，局部变量更适合⽤ if )
 - ## 七、静态函数   kotlin没有static 关键字     三种方法实现 静态函数
   collapsed:: true
-	- ## 方法一 ： 将静态变量 或者 静态函数 写在 kotlin 文件里 而不是类里
-	  collapsed:: true
-		- kotlin会把这些 自动生成 属于这个类的静态变量  或者 静态函数
-		- ```java
-		  // utils.kt  文件里声明函数          这种称为包级函数 
-		  /**
-		   *  函数定义  有参数   有返回值
-		   *           关键字： fun
-		   *           函数名： doubleNumber
-		   *           （）里定义参数   （参数名：参数类型）
-		   *           返回值类型在函数定义的右边 ：Int
-		   */
-		  fun doubleNumber(x: Int): Int {
-		      return x * 2;
-		  }
-		   
-		   
-		  //1 这样在kotlin 文件里直接可调用
-		  //2.1 在 java文件里  也可直接调用   需要倒下包
-		  import static com.lazy.kotlinapplication.learnkotlin.FunKt.doubleNumber;
-		   
-		  public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-		      @Override
-		      protected void onCreate(Bundle savedInstanceState) {
-		          super.onCreate(savedInstanceState);
-		          setContentView(R.layout.activity_main);
-		      }
-		   
-		      @Override
-		      public void onClick(View v) {
-		          doubleNumber(2);
-		      }
-		  }
-		  // 2.2 kotlin文件名Kt.函数名调用
-		  import com.lazy.kotlinapplication.learnkotlin.FunKt;
-		   
-		  // 调用
-		  FunKt.doubleNumber(2);
-		   
-		  // 这个FunKt  这个文件名Kt  可以通过注解修改的   @file:JvmName("kotlinUtils")    file是针对文件的
-		   
-		  @file:JvmName("kotlinUtils")
-		  package com.lazy.kotlinapplication.learnkotlin
-		   
-		  /**
-		   *  函数定义  有参数   有返回值
-		   *           关键字： fun
-		   *           函数名： doubleNumber
-		   *           （）里定义参数   （参数名：参数类型）
-		   *           返回值类型在函数定义的右边 ：Int
-		   */
-		  fun doubleNumber(x: Int): Int {
-		      return x * 2;
-		  }
-		   
-		  //调用
-		  import com.lazy.kotlinapplication.learnkotlin.kotlinUtils;
-		  kotlinUtils.doubleNumber(2);
-		  ```
-	- ## 方式二：使用object  声明kotlin 类
-	  collapsed:: true
-		- 这个类会自动创建一个单例对象   就可以直接调用   成员变量 方法 属性
-		- 调用时  会使用   类名,方法名   调用
-		- ```java
-		  // kotlin  使用 object声明类
-		  object ToastUtils {
-		      fun toast(context: Context, str: String?) {
-		          Toast.makeText(context, str, Toast.LENGTH_LONG).show();
-		      }
-		  }
-		   
-		  // kotlin调用      直接类名.方法名
-		  ToastUtils.toast(this,"Kotlin 调用")
-		   
-		  // java里调用   
-		   ToastUtils.INSTANCE.toast(this,"java里调用 需要用INSTANCE实例");
-		  ```
+	- ## 方法一 ： [[将静态变量 或者 静态函数 写在 kotlin 文件里 而不是类里]]
+	- ## 方式二：[[使用object声明kotlin 类]]
 	- ## 方式三：伴生对象
 	  collapsed:: true
 		- 当我们想使用BaseApplication,方法名 调用  application 里的静态方法的时候    我们是不能用方法二 实现的   不能Object直接创建一个单例对象   application 需要framwork层创建  那么使用 伴生对象方法
@@ -438,3 +363,4 @@
 	         println(it)
 	      }
 	  ```
+- ## 十一、[[kotlin-高阶函数]]

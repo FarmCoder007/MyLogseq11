@@ -40,10 +40,9 @@
 - # [[rxjava-调度器 Scheduler]]
 - # [[rxjava-操作符分类]]
 - # [[rxjava-创建操作]]
-# [变换操作](https://mcxiaoke.gitbooks.io/rxdocs/content/)
-
-这个页面展示了可用于对Observable发射的数据执行变换操作的各种操作符。
-- [**map( )**](https://mcxiaoke.gitbooks.io/rxdocs/content/operators/Map.html) — 对序列的每一项都应用一个函数来变换Observable发射的数据序列
+- # [变换操作](https://mcxiaoke.gitbooks.io/rxdocs/content/)
+	- 这个页面展示了可用于对Observable发射的数据执行变换操作的各种操作符。
+	- [**map( )**](https://mcxiaoke.gitbooks.io/rxdocs/content/operators/Map.html) — 对序列的每一项都应用一个函数来变换Observable发射的数据序列
 - [**flatMap( ), concatMap( ), and flatMapIterable( )**](https://mcxiaoke.gitbooks.io/rxdocs/content/operators/FlatMap.html) — 将Observable发射的数据集合变换为Observables集合，然后将这些Observable发射的数据平坦化的放进一个单独的Observable
 - [**switchMap( )**](https://mcxiaoke.gitbooks.io/rxdocs/content/operators/FlatMap.html) — 将Observable发射的数据集合变换为Observables集合，然后只发射这些Observables最近发射的数据
 - [**scan( )**](https://mcxiaoke.gitbooks.io/rxdocs/content/operators/Scan.html) — 对Observable发射的每一项数据应用一个函数，然后按顺序依次发射每一个值

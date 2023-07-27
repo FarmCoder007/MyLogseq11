@@ -1,0 +1,7 @@
+- 1、[[使用object声明kotlin 类]]，怎么双方都类名.调用
+- 2、 [[将静态变量 或者 静态函数 写在 kotlin 文件里 而不是类里]]
+- 3、[[java里使用了kotlin的关键子，kotlin调用java的处理]]
+- 4、[[class类传参的问题-kotlin,java互调]]
+- 5、[[kt-java互调之callback]]
+- 6、[[kt方法对java隔离，不让其调用]]
+- 7、[[java使用扩展函数]]

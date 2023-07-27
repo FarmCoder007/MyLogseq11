@@ -1,0 +1,5 @@
+- ## 1、通配符java为？ kotlin为*
+- ## 2、kotlin泛型多范围定义
+	- ![image.png](../assets/image_1690370166662_0.png)
+- 参考
+	-
