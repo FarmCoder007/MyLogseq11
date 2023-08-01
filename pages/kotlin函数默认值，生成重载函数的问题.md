@@ -1,0 +1,4 @@
+- kotlin 使用默认值生成重载函数比如A类里，
+	- java调用A类的话 ，被生成的重载函数需要加@JvmOverloads 注解
+	- kotlin 调用加不加都行
+-

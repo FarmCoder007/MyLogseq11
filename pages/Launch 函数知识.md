@@ -1,0 +1,4 @@
+- 1、launch默认返回值为StandaloneCoroutine，job子类
+- 2、StandaloneCoroutine它就是后边一直传递的completion，重点，挂起后恢复用，resumeWith最终调用到这里
+- 3、反编译中`block`的实现类类型是继承至`ContinuationImpl`的，就是创建的Function2，继承suspendLamada
+- 4、Launch启动协程流程中，最终会调用到Function2中的 onCreate方法，传入 StandaloneCoroutine，包装一下 返回lFunction2类型的 第一个续体Continuation

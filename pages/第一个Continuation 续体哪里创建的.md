@@ -1,0 +1,3 @@
+- [[协程原理探究-整个执行流程最全]]
+- 1、通过launch函数启动协程的代码，反编译后发现会生成一个继承SuspendLamada函数，提供一个create方法根据 StandaloneCoroutine  创建Continuation
+- 2、StandaloneCoroutine 是 launch函数中默认创建的

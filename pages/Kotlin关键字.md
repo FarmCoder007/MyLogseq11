@@ -58,6 +58,7 @@
 		  }
 		  ```
 - ## 二、return
+  collapsed:: true
 	- ## 1、return@forEachIndexed 和 return@forEach 代替java中循环的continue
 		- java循环与中断：
 		  collapsed:: true
@@ -120,3 +121,13 @@
 		          }
 		      }
 		  ```
+- ## 五、@JvmOverloads+kotlin默认值：生成重载函数
+	- ## java重载函数写多个
+	  collapsed:: true
+		- ![image.png](../assets/image_1690432507688_0.png)
+	- ## kotlin写重载函数
+		- JvmOverloads java调用的时候需要加这个
+		- kotlin 加不加都行
+		- ![image.png](../assets/image_1690432568801_0.png)
+- ## 六、shl  和 shr  左移右移操作符
+	- ![image.png](../assets/image_1690432635049_0.png)

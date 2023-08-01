@@ -63,8 +63,9 @@
 	               fun inner(){}
 	          }
 	  ```
-- # 七、设置 变量不可被其他类改变
+- # 七、set函数私有化
   collapsed:: true
+	- 设置 变量不可被其他类改变
 	- ```java
 	  class MyApplication : Application() {
 	      companion object {

@@ -14,6 +14,9 @@
 - # [[Binder协议中BC与BR的区别]]
 - # [[SystemServiceManager和ServiceManager区别]]
 -
--
 - # 参考
+	- [听说你Binder机制学的不错，来面试下这几个问题](https://blog.csdn.net/idaretobe/article/details/128293503)
+	- [听说你Binder机制学的不错，来解决下这几个问题（一）](https://juejin.cn/post/6844903469971685390)
+	- [听说你 Binder 机制学的不错，来解决下这几个问题（二）](https://juejin.cn/post/6844903469984268296#heading-4)
+	- [听说你 Binder 机制学的不错，来解决下这几个问题（三）](https://juejin.cn/post/6844903469988446221)
 	- https://juejin.cn/post/6844903469971685390

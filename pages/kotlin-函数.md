@@ -39,7 +39,7 @@
 		  ```
 - ## 一、[[kotlin方法中添加默认参数]]
 - ## 二、[[kotlin  扩展函数]]
-- ## 三、inline关键字   被称为 内联函数
+- ## 三、内联函数:inline关键字
   collapsed:: true
 	- 使用inline关键字声明的函数是「内联函数」，在「编译时」会将「内联函数」中的函数体直接插入到调用处。所以在写内联函数的时候需要注意，尽量将内联函数中的代码行数减少！
 	-
@@ -51,6 +51,68 @@
 	- 注意：  尽量将内联函数中的代码行数减少
 	- ## 使用场景：
 		- 内联函数  适合 传入参数类型  是函数类型的参数
+- ## 五、内联函数+reified     实现具体化的类型参数   【设计base用到】
+  collapsed:: true
+	- 示例
+	  collapsed:: true
+		- ```java
+		  /**
+		   *  retrofit 定义 具体请求网络的接口
+		   */
+		  interface API {
+		      @GET("User")
+		      fun getUserInfo(): Call<Any>
+		  }
+		   
+		  val RETROFIT = Retrofit.Builder()
+		          .baseUrl("https://api.test.com/")
+		          .build()
+		   
+		  /**
+		   *  声明泛型T
+		   *  clazz ： 传入 某个类的class
+		   *  返回 一个代理对象  T
+		   */
+		  fun <T> create(clazz: Class<T>): T {
+		      return RETROFIT.create(clazz)
+		  }
+		   
+		  fun main() {
+		      /**
+		       *  传入接口的class对象  给retrofit
+		       *  使用的时候  总是得把 ::class.java对象传过去  但是有用的只有API
+		       *  而 又不能直接把 API接口 这个类型传过去  不能使用泛型获取class  不能T.class
+		       */
+		      val api = create(API::class.java)
+		  }
+		  ```
+	- inline + reified         由于 inline会把函数体的代码 插入到每个调用处     从而 可以知道 调用方的类型
+		- ```java
+		  /**
+		   *  retrofit 定义 具体请求网络的接口
+		   */
+		  interface API {
+		      @GET("User")
+		      fun getUserInfo(): Call<Any>
+		  }
+		   
+		  val RETROFIT = Retrofit.Builder()
+		          .baseUrl("https://api.test.com/")
+		          .build()
+		   
+		  /**
+		   *  inline  声明称内联函数
+		   *  reified 修饰泛型  这样 就可以 获取 泛型T的属性了
+		   */
+		  inline fun <reified T> create(): T {
+		      return RETROFIT.create(T::class.java)
+		  }
+		   
+		  fun main() {
+		      // 只需要声明 泛型类型即可
+		      val api = create<API>()
+		  }
+		  ```
 - ## 四、java中是不能将函数作为参数传递的    kotlin是可以声明函数 参数   也是可以传递函数的
   collapsed:: true
 	- 例如
@@ -134,99 +196,6 @@
 		          });
 		  ```
 	- 在 java中 需要传入 Function1 的接口   这是因为 在kotlin 定义声明函数类型的方法时    已经预设了很多 对应的接口  则      接收函数类型的方法  其实接收的是接口
-- ## 五、内联函数+reified     实现具体化的类型参数   【设计base用到】
-  collapsed:: true
-	- 示例
-	  collapsed:: true
-		- ```java
-		  /**
-		   *  retrofit 定义 具体请求网络的接口
-		   */
-		  interface API {
-		      @GET("User")
-		      fun getUserInfo(): Call<Any>
-		  }
-		   
-		  val RETROFIT = Retrofit.Builder()
-		          .baseUrl("https://api.test.com/")
-		          .build()
-		   
-		  /**
-		   *  声明泛型T
-		   *  clazz ： 传入 某个类的class
-		   *  返回 一个代理对象  T
-		   */
-		  fun <T> create(clazz: Class<T>): T {
-		      return RETROFIT.create(clazz)
-		  }
-		   
-		  fun main() {
-		      /**
-		       *  传入接口的class对象  给retrofit
-		       *  使用的时候  总是得把 ::class.java对象传过去  但是有用的只有API
-		       *  而 又不能直接把 API接口 这个类型传过去  不能使用泛型获取class  不能T.class
-		       */
-		      val api = create(API::class.java)
-		  }
-		  ```
-	- inline + reified         由于 inline会把函数体的代码 插入到每个调用处     从而 可以知道 调用方的类型
-		- ```java
-		  /**
-		   *  retrofit 定义 具体请求网络的接口
-		   */
-		  interface API {
-		      @GET("User")
-		      fun getUserInfo(): Call<Any>
-		  }
-		   
-		  val RETROFIT = Retrofit.Builder()
-		          .baseUrl("https://api.test.com/")
-		          .build()
-		   
-		  /**
-		   *  inline  声明称内联函数
-		   *  reified 修饰泛型  这样 就可以 获取 泛型T的属性了
-		   */
-		  inline fun <reified T> create(): T {
-		      return RETROFIT.create(T::class.java)
-		  }
-		   
-		  fun main() {
-		      // 只需要声明 泛型类型即可
-		      val api = create<API>()
-		  }
-		  ```
-- ## 六、kotlin标准函数
-  collapsed:: true
-	- 使⽤时可以通过简单的规则作出⼀些判断：
-	- 返回⾃身 -> 从 apply 和 also 中选
-	- 作⽤域中使⽤ this 作为参数 ----> 选择 apply
-	- 作⽤域中使⽤ it 作为参数 ----> 选择 also
-	- 不需要返回⾃身 -> 从 run 和 let 中选择
-	- 作⽤域中使⽤ this 作为参数 ----> 选择 run
-	- 作⽤域中使⽤ it 作为参数 ----> 选择 let
-	- apply 适合对⼀个对象做附加操作的时候
-	- with 适合对同⼀个对象进⾏多次操作的时候
-	- apply 做一些附加操作 示例：
-	  collapsed:: true
-		- ```java
-		  // 正常的初始化操作  
-		      // 声明变量
-		      val paint = Paint()
-		      // 再初始化
-		      init {
-		          paint.isAntiAlias = true
-		          paint.strokeWidth = 2f
-		      }
-		   
-		   
-		  // 通过apply操作符     this  也可以省略
-		      val paint = Paint().apply {
-		          this.isAntiAlias = true
-		          this.strokeWidth = 2f
-		      }
-		  ```
-	- let 适合配合空判断的时候 ( 最好是成员变量，⽽不是局部变量，局部变量更适合⽤ if )
 - ## 七、静态函数   kotlin没有static 关键字     三种方法实现 静态函数
   collapsed:: true
 	- ## 方法一 ： [[将静态变量 或者 静态函数 写在 kotlin 文件里 而不是类里]]
@@ -331,36 +300,5 @@
 	  fun save(key:String,value:String) =  SP.edit().putString(key,value).apply()
 	  ```
 - ## 九、[[vararg可变参数类型]]
-- ## 十 、[lambda 表达式](https://www.cnblogs.com/Jetictors/p/8647888.html)，定义函数
-  collapsed:: true
-	- 示例  ：循环遍历 使用lambad
-	- ```kotlin
-	  var strList = mutableListOf("22", "33", "55")
-	   // 正常遍历
-	      for (str in strList) {
-	          println(str)
-	      }
-	      // 使用lambda
-	      // lambda  1 声明在{}里
-	      //         2 des: String -> println(des)      格式 参数名：参数类型 ->  函数体
-	      strList.forEach({
-	          des: String -> println(des)
-	      })
-	      // 注1： 在kotlin中  如果函数 最后一个参数是lambda  需要把lambda移到最外边
-	      strList.forEach(){
-	          des: String -> println(des)
-	      }
-	      // 注2： 在kotlin中  如果函数传入参数 只有一个lambda的话  （）可以省略
-	      strList.forEach{
-	          des: String -> println(des)
-	      }
-	      // 由于kotlin 有类型推断  遍历的是string集合  类型可以省略
-	      strList.forEach{
-	          des -> println(des)
-	      }
-	      // 注3 ： lambda只有一个传入参数的话  参数可以省略  用隐式的it来访问这个参数
-	      strList.forEach{
-	         println(it)
-	      }
-	  ```
-- ## 十一、[[kotlin-高阶函数]]
+- ## 十一、[[高阶函数]]
+- ## 十二、[[匿名函数]]

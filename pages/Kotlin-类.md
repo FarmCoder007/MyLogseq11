@@ -1,6 +1,7 @@
 - > 1、类默认是final修饰的，需要加open/abstract才能被继承
      2、接口默认都是open的
 - # 1、类的继承  和  实现接口：
+  collapsed:: true
 	- ```kotlin
 	  /**
 	   *  kotlin  用 ： 代替 java里的 extend  类     继承类    类后需要有（）
@@ -35,6 +36,7 @@
 	          })
 	  ```
 - # 二、定义枚举类型
+  collapsed:: true
 	- ```java
 	  // java   只使用 enum
 	  public enum State{
@@ -73,6 +75,7 @@
 	  this@SoundFragment.position  = position
 	  ```
 - # 四、静态内部类   安卓是可以使用static   kotlin  里没有static 关键字的
+  collapsed:: true
 	- ```java
 	       *  kotlin 里 静态内部类是没有关键字的不写关键字 默认就是    而  java 里是使用 static的
 	       *  kotlin 里 嵌套内部类 是使用关键字的inner              而  java是不需要写的       这两个地方是相反的
