@@ -1,16 +1,3 @@
-- 面试题1、OnConfigurationChanged 的作用?
-	- 背景：
-		- 在一些情况下，我们希望当一种或者多种配置改变时避免重新启动你的activity。可以通过在manifest清单文件中设置 android:configChanges属性来实现
-	- 一、android:configChanges   activity里声名这个属性各种值代表activity可以处理这些声明配置的改变，
-		- 当这些改变时不会重启activity 而会调用activity里onConfigurationChanged(Resources.Configuration)方法
-		- 如果配置的改变没有被声明则仍然会执行onCreate()方法
-	- 二、常用值
-		- mcc  mnc  locale  touchscreen  keyboard  keboardHidden   navigation
-		- orientation  screenLayout   fontScale  uiMode
-	- 三、使用
-		- Android:configChanges=”orientation|keyboard|keyboardHidden”
-		- 表示：改变屏幕方向，弹出软键盘，隐藏软键盘时不会调用onCreate()方法
-		- 而执行activity中的onConfigurationChanged()方法
-	- 四、应用场景：
-		- 在搜索的界面用到了  弹出隐藏软键盘
-		- 折叠屏适配：主要设置ui尺寸
+-
+-
+- [[Activity面试题]]

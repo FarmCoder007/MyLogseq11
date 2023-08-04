@@ -20,6 +20,7 @@
 	- ## 5、适用场景
 	  适合功能较少，业务逻辑简单，界面不复杂的小型项目
 - # MVP
+  collapsed:: true
 	- ![image.png](../assets/image_1662434111516_0.png){:height 435, :width 746}
 	- ![image.png](../assets/image_1690369134271_0.png)
 	- ## 1、MVP是模型(model)－视图(view)－协调者(presenter)的缩写。
@@ -48,4 +49,5 @@
 		- 独立开发，开发人员可以专注于业务逻辑和数据的开发(ViewModel)，设计人员可以专注于页面设计，使用Expression Blend可以很容易设计界面并生成xml代码。
 		- 可测试，界面向来是比较难于测试的，而现在测试可以针对ViewModel来写。
 - # MVI
--
+- [Android架构演进](https://handsomeliuyang.github.io/2021/04/26/%E7%BB%8F%E9%AA%8C%E6%80%BB%E7%BB%93/Android%E7%AB%AF%E7%9A%84%E6%9E%B6%E6%9E%84%E8%AE%BE%E8%AE%A1%E7%9A%84%E6%BC%94%E8%BF%9B%E5%92%8C%E6%80%9D%E8%80%83/)
+- [[clean架构]]

@@ -6,19 +6,15 @@
 	- [[项目解析]]
 	- [[面试]]
 - Android
-  collapsed:: true
 	- [[四大组件]]
 	- [[Android-Framework]]
 	- [[Android虚拟机与类加载]]
 	- [[开源框架源码解读]]
 	- [[开发常用工具]]
-	- [[Android架构]]
-	- [[RecyclerView]]
-	- [[ViewPager2]]
-	- 自定义view
-	  collapsed:: true
-		- 一、[[从xml布局文件映射到自定义View的方法]]
-		- [[APP置灰]]
+	- [[Android-控件]]
+	- [[Android架构-插件化-组件化]]
+	- [[Android开发架构]]
+	- [[自定义view]]
 	- UI布局
 	  collapsed:: true
 		- [clipChildren](http://www.cncsto.com/article/58643)
@@ -26,10 +22,8 @@
 	- [[动画]]
 	- [[AST抽象语法树]]
 	- [[AOP]]
-	- [[Android开发架构]]
 	- [[单元测试]]
 	- [[AndroidX适配]]
-	- [[TextView]]
 	- [[jetpack]]
 	- [[性能优化]]
 	- [[Rxjava]]
@@ -39,6 +33,7 @@
 	- [[谷歌学习网址]]
 	- [[在线工具]]
 - JAVA
+  collapsed:: true
 	- [[基本对象]]
 	- [[面向对象]]
 	- [[java-泛型]]
@@ -57,6 +52,7 @@
 	- [[数据结构]]
 	- [[算法]]
 - Kotlin
+  collapsed:: true
 	- [[kotlin语法学习思路]]
 	- [[Kotlin基础]]
 	- [[官方文档]]

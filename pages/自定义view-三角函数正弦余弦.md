@@ -1,0 +1,9 @@
+- ​
+- ![](https://img-blog.csdnimg.cn/img_convert/935eaf4301cdd8e08e2803c68fc01fb7.png)![]
+- 在Rt△ABC（直角三角形）中，∠C=90°（如图所示），
+- ∠A的余弦是它的邻边比三角形的斜边，即cosA=b/c，也可写为cosa=AC/AB。
+- 余弦函数：f(x)=cosx（x∈R）。
+- ![](https://img-blog.csdnimg.cn/img_convert/85bf1323a6d9bc9f3eb53a10d040540a.png)![]
+- 正弦：在直角三角形中，任意一锐角∠A的对边与斜边的比叫做∠A的正弦，记作sinA（由英语sine一词简写得来），即sinA=∠A的对边/斜边。
+- sinA = BC/AB
+- ​

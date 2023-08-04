@@ -1,0 +1,15 @@
+- 1、 assets.addAssetPath(key.mResDir)
+	- 传入apk路径，就可以加载指定apk的 资源文件映射
+- 2、 native final int getResourceIdentifier(String name,String defType,String defPackage);
+	- 参数：资源名字、类型、和package
+	- 返回值：就是resources.arsc 二进制文件里返回资源的id
+	- 通过资源名 获取资源的信息
+- 3、通过id去取这二进制里的 对应的东西
+	- /*package*/ native final String getResourceName(int resid);
+		- 根据id  获取 名字
+	- /*package*/ native final String getResourcePackageName(int resid);
+		- 根据id  获取 包名
+	- package*/ native final String getResourceTypeName(int resid);
+		- 根据id 获取 资源类型
+	- /*package*/ native final String getResourceEntryName(int resid);
+		- 根据id获取键值对就是 二进制里的一行

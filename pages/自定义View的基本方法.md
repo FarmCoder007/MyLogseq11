@@ -1,0 +1,3 @@
+- 测量：onMeasure()决定View的大小；
+- 布局：onLayout()决定View在ViewGroup中的位置；
+- 绘制：onDraw()决定绘制这个View。

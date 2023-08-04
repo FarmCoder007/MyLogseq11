@@ -1,6 +1,6 @@
 - 法一、
+  collapsed:: true
 	- layout.xml
-	  collapsed:: true
 		- ```
 		  <?xml version="1.0" encoding="utf-8"?>
 		  <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -18,7 +18,6 @@
 		  ```
 		-
 	- Custom.java
-	  collapsed:: true
 		- ```
 		  import android.content.Context;
 		  import android.graphics.Color;

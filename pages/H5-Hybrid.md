@@ -8,9 +8,7 @@
 		- HybridCtrlInjector注册action
 - ## JSBridge
   background-color:: #793e3e
-  collapsed:: true
 	- ### 简介
-	  collapsed:: true
 		- JavaScript是运行在单独的JS Context中（Webview容器、JSCore等），与原生有运行环境的隔离，所以需要有一种机制实现Native端和Web端的双向通信，这就是JSBridge：以JavaScript引擎或Webview容器作为媒介，通过协定协议进行通信，实现Native端和Web端双向通信的一种机制。
 		- 通过JSBridge，Web端可以调用Native端的Java接口，同样Native端也可以通过JSBridge调用Web端的JavaScript接口，实现彼此的双向调用
 		- ![image.png](../assets/image_1665228399254_0.png)
@@ -19,7 +17,6 @@
 		  将Web端JavaScript接口封装成原生接口
 - ## 二、Android 与 JS交互传值
   background-color:: #793e3e
-  collapsed:: true
 	- ### Android 4.4之前只能用loadUrl来实现，并且无法执行回调：
 	  background-color:: #533e7d
 	  collapsed:: true
@@ -130,7 +127,6 @@
 		- 优缺点：兼容性很好，但是由于是基于URL的方式，长度受到限制而且不太直观，数据格式有限制，而且建立请求有时间耗时。
 - ## 四、带回调的调用 js回调
   background-color:: #793e3e
-  collapsed:: true
 	- 上面已经说到了Native、Web间双向通信的两种方法，但站在一端而言还是一个单向通信的过程 ，比如站在Web的角度：Web调用Native的方法，Native直接相关操作但无法将结果返回给Web，但实际使用中会经常需要将操作的结果返回，也就是JS回调。
 	- 解决方案：可以看到实际上还是通过两次单项通信实现的。
 	  collapsed:: true

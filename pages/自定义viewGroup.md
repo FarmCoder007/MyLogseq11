@@ -1,0 +1,13 @@
+- # 1、背景
+	- 自定义ViewGroup: 则只需要重写onMeasure()和onLayout()，也可以重新onDraw绘制分割线
+	- 解释参考[[自定义view需要重新的方法-面试]]
+- ## [[自定义viewGroup步骤]]
+- # 2、测量onMeasure（）
+	- 1、[[viewGroup的测量先测量自己还是先测量子view?]]
+- # 3、onLayout()
+	- 流式布局就是遍历子view，计算每个view摆放位置上下左右，然后传给子view
+- # 参考
+	- [自定义view-自定义viewGroup](https://blog.csdn.net/xuwb123xuwb/article/details/115174941)
+- # 面试题
+	- [[自定义viewGroup-面试题]]
+-
