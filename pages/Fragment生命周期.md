@@ -1,7 +1,8 @@
-- # 一、图
-  collapsed:: true
+# 一、图
+collapsed:: true
 	- ![fragment_lifecycle.png](../assets/fragment_lifecycle_1689238053290_0.png){:height 855, :width 317}
 - ## 1、**onAttach(Context)**
+  collapsed:: true
 	- onAttach() 是一个 Fragment 和它的 Context 关联时第一个调用的方法，这里我们可以获得对应的Context 或者 Activity ，可以看到这里拿到的 Activity 是 mHost.getActivity() ，后面我们介绍FragmentManager 时介绍这个方法。
 	- ```java
 	  @CallSuper
@@ -49,6 +50,7 @@
 	  }
 	  ```
 - ## 3、onCreateView(LayoutInflflater, ViewGroup, Bundle)
+  collapsed:: true
 	- 在 onCreate() 后就会执行 onCreatView() ，这个方法返回一个 View，默认返回为 null。
 	- 当我们需要在 Fragment 中显示布局时，需要重写这个方法，返回要显示的布局。
 	- 后面布局销毁时就会调用 onDestroyView() 。
@@ -110,6 +112,7 @@
 		- 旧的状态恢复时，获取状态 saveInstanceState 恢复状态，比如恢复一个 check box 的状态。
 		- 经过这四步，Fragment 创建完成，同步于 Activity 的创建过程。
 - ## 5、**onStart()**
+  collapsed:: true
 	- onStart() 当 Fragment 可见时调用，同步于 Activity 的 onStart() 。
 	- ```java
 	  @CallSuper
@@ -128,6 +131,7 @@
 	  }
 	  ```
 - ## 6、**onResume()**
+  collapsed:: true
 	- onResume() 当 Fragment 可见并且可以与用户交互时调用。
 	- 它和 Activity 的 onResume() 同步。
 	- ```java
@@ -137,6 +141,7 @@
 	  }
 	  ```
 - ## 7、**onPause()**
+  collapsed:: true
 	- onPause() 当 Fragment 不再可见时调用。
 	- 也和 Activity的 onPause() 同步
 	- ```java
@@ -146,6 +151,7 @@
 	  }
 	  ```
 - ## 8、onStop()
+  collapsed:: true
 	- onStop() 当 Fragment 不再启动时调用，和 Activity.onStop() 一致。
 	- ```java
 	  @CallSuper
@@ -154,6 +160,7 @@
 	  }
 	  ```
 - ## 9、onDestroyView()
+  collapsed:: true
 	- 当 onCreateView() 返回的布局（不论是不是 null）从 Fragment 中解除绑定时调用onDestroyView() 。
 	- 下次 Fragment 展示时，会重新创建布局。
 	- ```java
@@ -163,6 +170,7 @@
 	  }
 	  ```
 - ## 10、onDestroy()
+  collapsed:: true
 	- 当 Fragment 不再使用时会调用 onDestroy() ，它是一个 Fragment 生命周期的倒数第二步。
 	- 可以看到这里，调用了 mLoaderManager.doDestroy() ，后面介绍它。
 	- ```java

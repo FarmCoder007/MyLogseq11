@@ -1,7 +1,6 @@
-- # 前言
+# 前言
 	- 原生列表视图RecyclerView，最重要的亮点是其巧妙灵活的视图缓存策略，使其在渲染性能上体现出明显优势，这篇文章从源码的角度深入理解缓存机制以及和ListView相比较，优势体现在何处
 - # 缓存机制
-  collapsed:: true
 	- 首先使用时涉及几个核心类，LayoutManager、Adapter、ViewHolder、Recycler之间的关系，如何产生的关联
 	  分析RecyclerView的onMeasure和onLayout方法，RecyclerView的绘制交给了LayoutManager。以LinearLayoutManager为例
 		- ```
@@ -25,14 +24,11 @@
   collapsed:: true
 	- 第一次尝试:核心方法getScrapOrHiddenOrCachedHolderForPosition方法来获取ViewHolder，并检验holder的有效性，如果无效，则从mAttachedScrap中移除，并加入到mCacheViews或者Pool中，并且将holder至null，走下一级缓存判断
 		- ⚠️：没有获取type
-		  collapsed:: true
 			- ![image.png](../assets/image_1684430207390_0.png)
 	- 第二次尝试
-	  collapsed:: true
 		- 和第一次整体流程差不多，核心方法getScrapOrCachedViewForId，重点：内部调用了mAdapter.getItemViewType(offsetPosition)，多了对id和type的校验
 		- ![image.png](../assets/image_1684430228000_0.png)
 	- 第三次尝试，开发者可自定制的缓存，源码未做实现
-	  collapsed:: true
 		- ```
 		  public abstract static class ViewCacheExtension {
 		      public abstract View getViewForPositionAndType(Recycler recycler, int position, int type);
@@ -139,13 +135,14 @@
 			                      }
 			  ```
 - # RecyclerView局部刷新
-  collapsed:: true
-	- 以notifyItemChanged(1)为例，验证刷新之后执行的动作：最终会调用requestLayout()，使整个RecyclerView重新绘制，过程为：
-	- onMeasure()-->onLayout()-->onDraw()
+	- 以notifyItemChanged(1)为例，验证刷新之后执行的动作：最终会调用requestLayout()，使整个RecyclerView重新绘制，过程为：onMeasure()-->onLayout()-->onDraw()
 	- onLayout 方法执行关键步骤： dispatchLayoutStep1() ：预处理，记录各项状态数值。此时，修改了需要刷新的ViewHolder的cmd状态机标志位为ViewHolder.FLAG_UPDATE
-	- dispatchLayoutStep2()：真正测量布局大小，位置，核心函数为layoutChildren()，fill方法-> 执行layoutChunk->recycler.getViewForPosition，屏幕内无需刷新的ViewHolder缓存到mAttachScrap列表，而需要刷新的ViewHolder缓存到mChangedScrap，当调用到tryGetViewHolderForPositionByDeadline时，从mAttachScrap取出的ViewHolder无需
-	- 再次bind，从mChangedScrap取出的ViewHolder执行bind方法，使得bindview只调用一次
+	- dispatchLayoutStep2()：真正测量布局大小，位置，核心函数为layoutChildren()，fill方法-> 执行layoutChunk->recycler.getViewForPosition，
+	- 屏幕内无需刷新的ViewHolder缓存到mAttachScrap列表
+	- 而需要刷新的ViewHolder缓存到mChangedScrap，
+	- 当调用到tryGetViewHolderForPositionByDeadline时，从mAttachScrap取出的ViewHolder无需再次bind，从mChangedScrap取出的ViewHolder执行bind方法，使得bindview只调用一次
 - # 对比listView
+  collapsed:: true
 	- 两级缓存
 		- 负责缓存管理类是RecycleBin
 		- mActiveViews：缓存的是View而非ViewHolder，mActiveViews类比于mAttachedScrap，快速重用屏幕内View，无需createView和bindView

@@ -1,4 +1,4 @@
-- # 基础知识
+# 基础知识
 	- ## 1、[[Android坐标系总结-面试]]
 	- ## 2、[[getMeasuredWidth() 和 getWidth() 区别 和使用场景]]
 	- ## 3、[[自定义View的基本方法]]
@@ -10,13 +10,26 @@
 	- ## 5、[[View构造函数+使用场景]]
 	- ## 6、布局文件xml的键值对，在inflate函数解析的
 	- ## 8、[[自定义view的绘制流程-生命周期方法]]
-	- ## 9、[[自定义view-文字基线]]
 	- ## 4、[[onLayout和layout的区别？]]
 	- ## 8、自定义view中为什么要Measure？
 	  collapsed:: true
 		- 为了给子view分配空间，子view要显示，需要结合自己layoutParams设置的大小，和父view规定的测量模式。去计算测量
+	- ## 9、invalidate和 requestLayout区别？
+		- invalidate布局没变化，刷新数据Ondraw
+		- requestLayout,布局有变化，重新布局onMeasure onLayout onDraw
+- # 绘制文字
+	- ## 绘制文字，纵向起始位置
+		- 纵向上设置的起始点位于文字的基线上 baseline、
+		- 所以你drawText（“xxx”,0,0,paint）想从00 开始绘制时，实际baseline在 00 那条线，实际文字就在屏幕上方外部了
+	- ## 9、[[自定义view-文字基线]]
+	- ## 5、[[静态文字-纵向修正文字]]：找出偏移   -  偏移
+	- ## 6、[[动态文字-纵向校正]]
 - # 原理流程
 	- ## [[自定义viewGroup-面试题]]
 	- ## 7、[[MeasureSpec-面试题]]
 	- ## 3、[[view的布局流程（测量 布局）]]，绘制就是调用canvas api了
+- # 嵌套滑动
+	- ## [[模仿淘宝首页滑动]]
+- # 滑动冲突
+	- ## [[滑动事件冲突]]
 -

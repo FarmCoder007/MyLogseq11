@@ -1,6 +1,6 @@
-- # 四、[自定义view-图形的位置和尺寸测量+Path](https://blog.csdn.net/xuwb123xuwb/article/details/114707660)
+# 四、[自定义view-图形的位置和尺寸测量+Path](https://blog.csdn.net/xuwb123xuwb/article/details/114707660)
 - # 五、[自定义view-Xfermode 转换模式](https://blog.csdn.net/xuwb123xuwb/article/details/114952357)-可实现圆形图片
-- # 六、[自定义view-文字测量](https://blog.csdn.net/xuwb123xuwb/article/details/114991330)
+- # 六、[[自定义view-文字绘制]]
 - # 七、[自定义view-范围裁切和几何变换](https://blog.csdn.net/xuwb123xuwb/article/details/115024859)-可实现圆形图片
 - # 八、[自定义view-属性动画 和硬件加速](https://blog.csdn.net/xuwb123xuwb/article/details/115048646)
 - # 九、[自定义view-Bitmap和Drawable](https://blog.csdn.net/xuwb123xuwb/article/details/115057281)

@@ -1,0 +1,5 @@
+- hide: 对应Fragment的view的 隐藏
+- show:对应Fragment的view的 显示
+-
+- ## 特点
+	- 不会走Fragment的生命周期方法

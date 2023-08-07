@@ -1,4 +1,4 @@
-- # 一、[动画实现](https://www.cnblogs.com/guanxinjing/p/13528962.html)
+# 一、[动画实现](https://www.cnblogs.com/guanxinjing/p/13528962.html)
 - # 二、两个重叠的viewPager,实现联动引导页
   collapsed:: true
 	- xml:
@@ -60,7 +60,7 @@
 	  ```
 - # 三、切换动画，淡入淡出
   collapsed:: true
-	- ```
+	- ```kotlin
 	  
 	  bgBanner.setPageTransformer(NGGuidePageTransformer())
 	  class NGGuidePageTransformer : BasePageTransformer() {

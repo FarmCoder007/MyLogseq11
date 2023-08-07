@@ -1,10 +1,12 @@
-- # 一、Fragment概述
+# 一、Fragment概述
+collapsed:: true
 	- 代码
 		- ```java
 		  public class Fragment implements ComponentCallbacks,OnCreateContextMenuListener {...}
 		  ```
 	- 可以看到，Fragment 没有继承任何类，只是实现了这两个接口，第二个不太重要，第一个是在内存不足时可以收到回调。没有什么特别信息，我们还是去看看它的主要成员。
 - # 二、Fragment整体结构图
+  collapsed:: true
 	- ![image.png](../assets/image_1689251968457_0.png)
 	- ## FragmentActivity
 		- ## 持有[[FragmentController]] mFragments
@@ -90,6 +92,7 @@
 	- 看到这里，结合前面的，我们就清晰了一个 Fragment 的创建、添加过程：在 onCreateView() 中返回一个 布局，然后在 FragmentManager 中拿到这个布局，添加到要绑定容器（Activity/Fragment）的 ViewGroup 中，然后设置相应的状态值。
 - # 三、[[Fragment生命周期]]
 - # 四、简单使用
+  collapsed:: true
 	- 实现很简单，创建一个的布局，然后在 Activity 里点击时替换 Fragment。
 	- ```java
 	  FragmentManager mFragmentManager = getSupportFragmentManager();
@@ -105,4 +108,8 @@
 - # 六、[[Fragment事务]]
 - # 七、[[回退栈操作addToBackStack(事务内存管理)]]
 - # 八、[[状态保存与恢复]]
+- # 九、[[Activity和Fragment生命周期匹配]]
 - # [[Fragment面试题]]
+-
+- # 参考
+	- https://zhuanlan.zhihu.com/p/423163367

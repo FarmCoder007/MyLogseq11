@@ -2,8 +2,13 @@
 	- [[ItemAnimator源码分析]]
 - [[优化]]
 - [ConcatAdapter](https://juejin.cn/post/7064856244125138952)
-- [[RecyclerView缓存机制]]
+- # [[回收复用]]-就是缓存机制
+- # [[ItemDecoration分割线]]-自定义吸顶
+- # [[自定义LayoutManager]]-实现探探卡片左滑右滑
+- # [[NotifyDataSetChanged]]
+- # [[outRect]]
 - # 常见报错
+  collapsed:: true
 	- 1、刷新数据源时报错recyclerView报IndexOutOfBoundsException解决办法
 		- 原因：
 			- 这是因为在刷新页面时，一般会清空之前的数据，然后再装填新的数据，并且在装填新数据完毕的时候NotifyItemRangeChanged
@@ -23,3 +28,5 @@
 			       notifyItemRangeChanged(startPosition,newItems.size);  //必须调用
 			  }
 			  ```
+-
+- # [[RecyclerVIew-面试题]]

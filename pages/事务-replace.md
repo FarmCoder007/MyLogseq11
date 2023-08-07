@@ -1,0 +1,13 @@
+# 最终转为remove 和 add
+- ## replace传递的Fragment实例和已存在的Fragment实例一样，replace无效果
+- # 概念
+	- 通过replace 添加 的 Fragment
+	- 当前已存在的Fragment被替换时走生命周期销毁流程
+		- 旧的Fragment执行 onPause->onStop->onDestoryView->onDestory->onDetach
+	- 传递给replace方法的Fragment走生命周期创建流程。
+		- 新的Fragment执行 onAttach->onCreate->onCreateView->onActivityCreated->onStart-onResume
+- # 场景
+	- 当Fragment不可见时，你不需要保留Fragment中的数据以及View的显示状态，那么可以使用replace。
+	- 优点：节省内存，不需要的数据能立即释放掉
+	- 缺点：频繁创建Fragment,也就是频繁走Fragment生命周期创建和销毁流程，造成性能开销。
+-

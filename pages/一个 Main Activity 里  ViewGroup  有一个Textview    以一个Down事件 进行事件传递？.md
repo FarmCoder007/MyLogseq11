@@ -1,0 +1,27 @@
+## 1、一个Down事件触发时，先进入[[Activity的dispatchTouchEvent]]，然后
+	- PhoneWindow的superDispatchTouchEvent实际是 调用
+	- DecorView.superDispatchTouchEvent(event), DecorView又交给了根ViewGroup，所以才有以后的事件分发
+- ## 2、ViewGroup的 dispatchTouchEvent()
+	- 1、首先disallowIntercept变量，判断子view有没有要求父view不允许拦截它的事件（默认为false的，因为down事件会重置标记。Down里 这标记一定为false）
+		- false:就是没有说不拦截。可以继续看下边ViewGroup的拦截事件onInterceptTouchEvent
+		- true: 要求父view不拦截 和 onInterceptTouchEvent返回false一致
+- ## 3、下面看viewGroup重写的onInterceptTouchEvent
+	- ### [[#red]]==**返回ture:.拦截**==
+		- 最终会调用到super.dispatchTouchEvent()。viewGroup的父类为view.java即[[View.java的dispatchTouchEvent]],具体流程见内
+		- 最终会调用到viewGroup 重写了 onTouchListener,onTouchEvent，等方法，判断该事件是否在VIewGroup这里消费。将返回值返回。
+	- ### [[#red]]==**返回false:不拦截**==
+		- 1、遍历所有子view进行分发：找到一个能接受事件的child：子view。
+		  collapsed:: true
+			- 可见|| 执行animation动画
+			- view 在点击范围内
+		- 2、最终调用[[#red]]==**child 的dispatchTouchEvent**==，看子view是否消费
+		  collapsed:: true
+			- 如果child是viewGroup。那么viewGroup的 dispatchTouchEvent整个流程再走一遍
+			- 如果是view,那么进入view的dispatchTouchEvent，看touchListener,onTouchevent  等
+		- 3、[[#red]]==**子view消费了**==，那这个viewGroup 也不处理这个事件了
+		- 4、如果所有子view全部不处理返回false的话，那么ViewGroup会按照拦截走 调用super.dispatchTouchEvent。最终执行自己重写的onTouchListener,onTouchEvent等。
+		- 5、最终将事件是否消费向上传递
+-
+- ## 总图
+  collapsed:: true
+	- ![image.png](../assets/image_1691200375216_0.png)
