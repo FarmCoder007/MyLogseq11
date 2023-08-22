@@ -1,7 +1,6 @@
 - [[嵌套滑动流程图]]
 - > [[#red]]==**这里的子view为最里层的recyclerview.父view为 NestedScrollview**==
 - 1、嵌套滑动主动者是孩子，由孩子触发的，所以子view先得开启支持嵌套滑动
-  collapsed:: true
 	- 子view初始化时，调用setNestedScrollingEnabled。开启支持嵌套滑动
 	- recyclerView初始化时，默认打开。这边打log可以看到
 		- ```java
@@ -18,7 +17,6 @@
 		  ```
 - > onTouchevent触发时，Action_Down事件触发就开始下边
 - 2、子view走开始滑动的回调[[#red]]==**startNestedScroll**==：逐层向上找到第一个支持嵌套滑动的父view。
-  collapsed:: true
 	- ```java
 	      // axes是滑动的方向
 	      @Override
@@ -155,7 +153,6 @@
 - > [[#red]]==**以上手动嵌套滑动+吸顶处理完毕了。下边看惯性滑动**==
 - 4、下边处理惯性滑动，惯性滑动不属于嵌套滑动里的。嵌套滑动是父亲带着孩子一起滑动
 	- 4-1、惯性滑动在父亲里叫fling.传入一个速度
-	  collapsed:: true
 		- ```java
 		      /**
 		       * 惯性滑动的时候回调

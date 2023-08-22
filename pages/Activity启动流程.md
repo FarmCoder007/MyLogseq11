@@ -1,4 +1,4 @@
-- # [[Android应用程序启动流程源码剖析]]
+# [[Android应用程序启动流程源码剖析]]
 - ![image.png](../assets/image_1688714403714_0.png)
 - # 第一阶段：Launcher请求AMS阶段
   collapsed:: true
@@ -17,6 +17,7 @@
 		- 进程存在则继续启动Activity
 		- 否则执行AMS的startProcessLocked方法启动目标app进程
 - # 第二阶段：创建应用程序进程阶段
+  collapsed:: true
 	- ![image.png](../assets/image_1688714514352_0.png)
 	- ## 1、AMS调用startProcessLocked方法最终都会调用startProcess方法,然后通过Process调用start方法，开始创建进程
 	- ## 2、Process.start()中会通过zygoteProcess.利用socket通信告知Zygote创建fork子进程

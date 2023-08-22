@@ -46,7 +46,6 @@
 			                  );
 			  ```
 		- 3、demo模块
-		  collapsed:: true
 			- 1、服务接口
 			  collapsed:: true
 				- ```

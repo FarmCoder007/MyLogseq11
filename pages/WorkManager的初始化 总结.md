@@ -1,0 +1,6 @@
+- 1、WorkManager的[[#red]]==**初始化是**==由WorkManagerInitializer这个[[#red]]==**ContentProvider**==执行的，
+- 2、会创建WorkManagerImpl.在 初始化时
+	- 1、创建ROOM数据库 来保存你的任务信息 （持久性保存的） 手机重启，APP被杀掉 没关系 保证任务一定执行
+	- 2、创建贪婪执行器 GreedyScheduler
+	- 3、会初始化 Configuration配置信息，WorkManagerTaskExecutor线程池，WorkDatabase数据库，Processor
+- 3、发现了未完成的，需要重新执行的任务（之前 意外 中断 的继续执行）

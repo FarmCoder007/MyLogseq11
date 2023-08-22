@@ -1,7 +1,6 @@
-- # Fresco全流程
-  collapsed:: true
+# Fresco全流程
+collapsed:: true
 	- fresco图层
-	  collapsed:: true
 		- ```
 		  o RootDrawable (top level drawable)
 		  |
@@ -26,16 +25,12 @@
 		        +--o Drawable (failure image)
 		  ```
 	- 以下流程图分别从UI到网络请求层
-	  collapsed:: true
 		- ![image.png](../assets/image_1684418307220_0.png)
 	- 获得dataSource，该dataSource是通过网络、内存、磁盘返回的数据
-	  collapsed:: true
 		- ![image.png](../assets/image_1684418318618_0.png)
 	- dataSource是一个数据观察模式，用于将请求到的数据分发给订阅者
-	  collapsed:: true
 		- ![image.png](../assets/image_1684418329616_0.png)
 	- dataSource创建一个Consumer，通过传入的producer进行转换数据
-	  collapsed:: true
 		- ![image.png](../assets/image_1684418341275_0.png)
 	- 网络请求fresco提供了两个，默认的是UrlConnection,还提供了一个okhttp的。
 	  producer内部通过设置的数据请求级别，依次判断用哪个级别的数据请求，内存-磁盘-网络

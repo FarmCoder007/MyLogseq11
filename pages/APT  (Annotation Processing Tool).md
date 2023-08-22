@@ -1,17 +1,18 @@
-- # 一、简介
+# 一、简介
+collapsed:: true
 	- APT(Annotation Processing Tool) 是一个编译期的注解处理工具, 它对源代码文件进行检测找出其中的 Annotation，使用 Annotation 进行额外的处理。
 	  Annotation 处理器在处理 Annotation 时可以根据源文件中的 Annotation 生成额外的源文件和其它的文件 (文件具体内容由 Annotation 处理器的编写者决定),APT 还会编译生成的源文件和原来的源文件，将它们一起生成 class 文件。一些主流的三方库，如 ButterKnife、EventBus 等都用到了这个技术来生成代码。
 	- ![image.png](../assets/image_1680491867597_0.png)
 - # 二、原理
+  collapsed:: true
 	- 为什么我们定义一个Processor配置就可以被gradle自动处理到呢？
 	- APT技术是SPI(Service Provider Interface 服务动态提供接口)的一种应用，核心类是ServiceLoader，在所有的java项目中都可以使用。具体流程为：进行javac编译时java Compiler会执行ServiceLoader.load(XXX.class)方法，内部会固定去resource/META-INF/services路径下查找指定XXX.class的全包名文件，并反射构建文件内部声明的所有子类，然后分别执行XXX.class内的唯一接口方法。
 	- 对于SPI的特殊应用APT来说，这些步骤是在名为kaptKotlin的gradle task中执行的。
 - # 三、多轮处理机制
+  collapsed:: true
 	- APT处理在同一个Processor对象中会执行多轮process方法，通过RoundEnvironment指定具体待处理元素，例如第一轮会传入该module下所有的待检测元素
-	  collapsed:: true
 		- ![image.png](../assets/image_1684310274179_0.png)
 	- 最后一轮会传入空，并且通过processingOver标记为已经处理完毕
-	  collapsed:: true
 		- ![image.png](../assets/image_1684310289417_0.png)
 	- 为什么要设计多轮处理机制？因为我们第一步生成的文件有时候可能也需要通过该Processor处理一下，如果process的返回值配置false表明需要处理，那么第二轮的rootElements就会收到我们第一轮生成的类。
 - # 四、AutoService
@@ -23,6 +24,7 @@
 	- 为什么AutoService内APT处理完成后还会继续处理我们自定义的APT呢？是因为APT会执行很多遍的原因么？
 	- gradle的编译顺序是按照依赖顺序依次处理，AutoService作为被依赖的三方库会优先编译，其生成的Processor后续会在依赖AutoService的APT-module的kapt task中自行被调用到。
 - # 二、[[自定义注解的元注解介绍]]
+  collapsed:: true
 - # 三、[[自定义注解的写法]]
 - # [[javapoe和kotlinpoet使用]]
 - # 二、使用
@@ -75,6 +77,7 @@
 			  ```
 	- ## 3、
 - # 四、apt通过javapoet 和 kotlinpoet编写代码
+  collapsed:: true
 	- ## 1、process方法中获取指定带有指定注解的元素(如果注解作用在class即class，如果是method则获取的是method的元素)
 	  collapsed:: true
 		- ```
@@ -325,6 +328,7 @@
 		  }
 		  ```
 - # 五、常见问题
+  collapsed:: true
 	- A failure occurred while executing org.jetbrains.kotlin.gradle.internal.KaptExecution
 	  collapsed:: true
 		- 从jdk1.8改成11
@@ -333,6 +337,7 @@
 		- 解决：使用javabean
 - # 六、调试process
 	- ## 6-1、方案一借助buildSrc
+	  collapsed:: true
 		- 新建buildSrc文件夹->
 		- task中 右键选择debug这个task,即可
 			- ![image.png](../assets/image_1652933357263_0.png)
@@ -614,3 +619,4 @@
 	- 生成java文件
 -
 - [[Contents]]
+- # [[APT-面试]]

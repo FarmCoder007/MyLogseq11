@@ -1,6 +1,4 @@
-- # 序言
-	- 之前对于lifecycle三件套的理解只存在与CV使用和看了几篇文章的层面上。这次在开发达人版app的时候尝试使用了下，发下的确好用，所以在此从源码角度上总结学习一下。
-- # 为什么用Lifecycle组件
+# 为什么用Lifecycle组件
 	- Lifecycle生命周期可感知，可以大大降低开发成本和内存泄漏的风险。试想MVP那套框架，你需要把Activity或fragment的生命周期一步步的注入到你的框架里是多么痛苦。
 	- LiveData替换Rxbus的利器。LiveData也可以进行事件传递，在结合了Lifecycle的生命周期感知之后，你的开发难度将大大降低。你将不用考虑事件接收方已经被销毁这种边界问题。
 	- viewModel数据存储共享好帮手。如果没有viewModel要实现数据共享无非以下几种方式，写全局静态类静态方法、搞SP存储。这些方法各有优缺，但是都有一个蛋疼的问题就是内存的管理。而使用viewModel则会帮你解决这些烦恼。
@@ -8,13 +6,13 @@
 	- ## ViewModel解析
 	  collapsed:: true
 		- 对于activty或fragment很简单，直接用ViewModelProviders就可以构造出来。看参数大概可以知道传入activity那么就跟activity生命周期绑定，传入fragment就跟fragment绑定。
-		- ```
+		- ```java
 		   MyViewModel model = ViewModelProviders.of(activity).get(MyViewModel.class);
 		  或
 		   MyViewModel model = ViewModelProviders.of(fragment).get(MyViewModel.class);
 		  ```
 		- 我们点进去看下源码这几个方法做了什么。
-		- ```
+		- ```java
 		  @MainThread
 		  public static ViewModelProvider of(@NonNull FragmentActivity activity,@Nullable Factory factory) {
 		    Application application = checkApplication(activity);
@@ -26,7 +24,7 @@
 		  ```
 		  可以看到构造ViewModelProvider的时候传递了activity/fragment的ViewModelStore和factory两个东西。
 		- 那ViewModelStore是如何实现的，activity又是如何管理的呢？查看ViewModelStore的源码，发现内部只是创建了一个map集合构造了，用于存储和管理。所以逻辑很简单。
-		- ```
+		- ```java
 		  public class ViewModelStore {
 		  
 		      private final HashMap<String, ViewModel> mMap = new HashMap<>();
@@ -53,6 +51,8 @@
 		      }
 		  }
 		  ```
+		  
+		  
 		  在接着在activty里查看ViewModelStore的调用，一共有三处。我们先从最简单的来。
 		  
 		  第一处：
@@ -111,6 +111,7 @@
 		  NonConfigurationInstance可以保存实例对象，甚至之前的activity，onSaveInstanceState只能保存数据Bundle
 		  
 		  我们接着看构造ViewModelProvider的另一个东西factory。
+		  
 		  ```
 		  /**
 		   * Simple factory, which calls empty constructor on the give class.
@@ -182,20 +183,15 @@
 		      }
 		  }
 		  ```
-		  看代码我们可以知道这是对传入的字节码进行实例化构造。如果是AndroidViewModel，那么会调用带application的构造方法进行实例化，否则就用默认的构造函数实例化。
-		  
-		  那么问题又来了
-		  
-		  1. AndroidViewModel和ViewModel有什么区别，什么时候用AndroidViewModel什么时候用AndroidViewModel?
+		- 看代码我们可以知道这是对传入的字节码进行实例化构造。如果是AndroidViewModel，那么会调用带application的构造方法进行实例化，否则就用默认的构造函数实例化。
+		- 那么问题又来了
+		- 1. AndroidViewModel和ViewModel有什么区别，什么时候用AndroidViewModel什么时候用AndroidViewModel?
 		  
 		  由于 ViewModel 生命周期可能长与 activity 生命周期，所以为了避免内存泄漏 Google 禁止在 ViewModel 中持有 Context 或 activity 或 view 的引用。
-		  
-		  
-		  2. 思考下，如果我想要个跟application生命周期绑定的viewModel怎么办？
+		- 2. 思考下，如果我想要个跟application生命周期绑定的viewModel怎么办？
 		  
 		  能不能直接new一个全局的ViewModel
-		  
-		  下边来张图我们总结下刚才学到的这些。
+			- 下边来张图我们总结下刚才学到的这些。
 			- ![image.png](../assets/image_1684294445431_0.png)
 	- ## LiveData解析
 	  collapsed:: true
@@ -502,10 +498,9 @@
 		      }
 		  ```
 	- ## LifecycleOwner解析
-	  collapsed:: true
 		- LifecycleOwner是一个接口，用于回调相关生命周期。目前fragment和FragmentActivity已经实现了该接口，并且在自己相关生命周期状态的时候将状态返回了。这块比较简单就不在赘述了。
 - # 总结
 	- Lifecycle组件开发的确比传统的MVP模式开发省事省心，它将繁琐的事件传递存储与生命周期相结合大大降低了开发难度。
-	  比如：本地版首页的结构是Activity里有4个replace的fragment（重点replace的），首页fragment里有viewpager，viewpager里又有多个fragment，fragment里有recycleView。
+	- 比如：本地版首页的结构是Activity里有4个replace的fragment（重点replace的），首页fragment里有viewpager，viewpager里又有多个fragment，fragment里有recycleView。
 	  这时候如果你有个需求，需要从item里发出一个事件通知最外层Activity去做相关事件，是不是就疯了。要么你就得老老实实搞接口做层层传递，要么你就得用RXBus去发送事件。
 	  但是无论哪种方案你都逃脱不了生命周期的处理。

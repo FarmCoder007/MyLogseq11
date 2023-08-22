@@ -1,5 +1,5 @@
-- # 一、介绍
-  collapsed:: true
+# 一、介绍
+collapsed:: true
 	- 任何一个 Java 程序都是由一个或多个 class 文件组成，在程序运行时，需要将 class 文件加载到 JVM 中才可以使用，负责加载这些 class 文件的就是 [[#red]]==**Java 的类加载机制**==。ClassLoader 的作用简单来说就是加载 class 文件，提供给程序运行时使用。每个 Class 对象的内部都有一个 classLoader 字段来标识自己是由哪个 ClassLoader 加载的。
 		- ```java
 		  class Class<T> {
@@ -12,12 +12,10 @@
   collapsed:: true
 	- 加载class文件 到 运行时数据区，供程序运行时使用
 - # 三、具体实现类
-  collapsed:: true
 	- ![image.png](../assets/image_1689670073894_0.png){:height 434, :width 749}
 	- ## BootClassLoader
 		- 用于加载Android[[#red]]==**Framework层class文件**==
 	- ## PathClassLoader
-	  collapsed:: true
 		- 用于[[#red]]==**Android应用程序类加载器**==。可以加载指定的dex，以及jar、zip、apk中的classes.dex
 		- > 很多博客里说PathClassLoader只能加载已安装的apk的dex，其实这说的应该是在dalvik虚拟机上。但现在一般不用关心dalvik了。
 		- 源码

@@ -141,7 +141,6 @@
 	- LiveEventBus不需要为每一个事件都定义一个Java Object，只需要维护一个String类型的消息名字即可，每一个消息可以携带任何类型的Java Object作为消息的payload，十分灵活。
 	- 并且如果是在Activity这种LifecycleOwner中使用LiveEventBus，只需要订阅消息，不需要手动取消订阅，消息会在观察者生命周期结束的时候自动取消订阅。
 	- ## 2.订阅消息
-	  collapsed:: true
 		- ```
 		  @Override
 		  protected void onCreate(Bundle savedInstanceState) {

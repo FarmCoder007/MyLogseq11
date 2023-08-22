@@ -1,0 +1,4 @@
+- LiveData 是一种具有生命周期（如 Activity、Fragment 或 Service）感知能力的、可被观察的数据存储器类。
+- LiveData 仅更新处于活跃生命周期状态的应用组件观察者。
+- 所以LiveData 既是观察者，观察Activity的生命周期，又是被观察者，数据变化时，通知数据的观察者。具体绑定到ui还得自己操作。databinding 是数据变了直接绑定到ui
+- ![image.png](../assets/image_1684422110817_0.png)

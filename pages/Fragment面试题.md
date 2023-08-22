@@ -188,6 +188,7 @@ collapsed:: true
 		- 也比较简单，Fragment 内部有一个 childFragmentManager，通过它管理子 Fragment。
 		- 在添加子 Fragment 时，把子 Fragment 的布局 add 到父 Fragment 即可
 - # 常问题
+  collapsed:: true
 	- ## 3. 简述Fragment生命周期，常用的回调方法有几个？
 	  collapsed:: true
 		- ![image.png](../assets/image_1691387732957_0.png)
@@ -246,4 +247,9 @@ collapsed:: true
 		- hide和show 不会执行 Fragment相应的生命周期
 	- ## 18、[[事务的四种提交方式]]
 	- ### [[Fragment中add、attach、detach、remove、hide、show、replace等方法的区别与使用]]
+- # 和Jetpack相关的
+	- Jetpack一般都是单Activity，多Fragment的场景。因为Fragment切换，不需要AMS和底层交互
+	- ## 1、Fragment之间怎么传值？
+		- 那么可以Activity创建ViewModel,多个Fragment共享。
+	- ## 2、Navigation 插件传值
 - # 19 [Fragment相关 面试题](https://blog.csdn.net/xuwb123xuwb/article/details/116199192)

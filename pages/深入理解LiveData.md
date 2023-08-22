@@ -2,33 +2,15 @@
 - ![image.png](../assets/image_1684422084156_0.png)
 - # 1. LiveData 简介
   collapsed:: true
-	- ## 1.1 LivaData 是什么？
-	  collapsed:: true
-		- LiveData 是一种具有生命周期（如 Activity、Fragment 或 Service）感知能力的、可观察的数据存储器类。LiveData 仅更新处于活跃生命周期状态的应用组件观察者。
-		- ![image.png](../assets/image_1684422110817_0.png)
-	- ## 1.2 LivaData 的优势
-	  collapsed:: true
-		- LiveData 能确保 UI 和数据状态相符
-		  LiveData 遵循观察者模式。当底层数据发生变化时，LiveData 会通知 Observer 对象来更新界面。
-		- 不会发生内存泄漏
-		  观察者和 Lifecycle 对象绑定，能在销毁时自动解除注册。
-		- 不会给已经停止的 Activity 发送事件
-		  如果观察者处于非活跃状态，LiveData 不会再发送任何事件给这些 Observer 对象。
-		- 不再需要手动处理生命周期
-		  UI 组件仅仅需要对相关数据进行观察，LiveData 自动处理生命周期状态改变后，需要处理的代码。
-		- 数据始终保持最新状态
-		  一个非活跃的组件进入到活跃状态后，会立即获取到最新的数据，不用担心数据问题。
-		- LiveData 在横竖屏切换等 Configuration 改变时，也能保证获取到最新数据
-		  例如 Acitivty、Fragment 因为屏幕选装导致重建, 能立即接收到最新的数据。
-		- LiveData 能资源共享
-		  如果将 LiveData 对象扩展，用单例模式将系统服务进行包裹。这些服务就可以在 APP 中共享。
-- # 2 LiveData 的使用
+	- ## 1.1 [[LivaData 是什么？]]
+	- ## 1.2 [[LivaData 的优势]]
+- # 2 LiveData 的使用，配合ViewModel一起用，很少单独用
   collapsed:: true
 	- ## 2.1 MutableLiveData 的使用
 	  collapsed:: true
 		- 在 ViewModel 中创建一个实例 LiveData 来保存某种类型的数据。
 		  collapsed:: true
-			- ```
+			- ```kotlin
 			  class NameViewModel : ViewModel() {
 			  
 			           // 创建一个字符串类型的LiveData
@@ -40,8 +22,7 @@
 			  }
 			  ```
 		- 注册观察者 Observer 并实现 onChanged 方法，该方法在 LiveData 对象持有的数据变化的时候回调，来更新 UI
-		  collapsed:: true
-			- ```
+			- ```kotlin
 			  class NameActivity : AppCompatActivity() {
 			  
 			      // Use the 'by viewModels()' Kotlin property delegate
@@ -64,8 +45,7 @@
 			  }
 			  ```
 		- 更新 LiveData 对象
-		  collapsed:: true
-			- ```
+			- ```kotlin
 			  button.setOnClickListener {
 			      val anotherName = "Hello"
 			      model.currentNameLiveData.setValue(anotherName)
@@ -81,7 +61,7 @@
 			- map 函数：基于原 LiveData，对其值进行改变然后生成一个新的 LiveData 返回。
 			- ## api:
 			  collapsed:: true
-				- ```
+				- ```java
 				  /**
 				   * @param  source:用于转换的LiveData原始对象
 				   * @param  mapFunction: 转换函数
@@ -104,10 +84,11 @@
 				  ```
 			- ![image.png](../assets/image_1684422256231_0.png)
 		- ## 2.2.2 Transformations.switchMap()
+		  collapsed:: true
 			- switchMap() 函数： 传入LiveData对象，当此LivaData中值变化时，调用转换函数生成新的LiveData对象返回。
 			- ## api:
 			  collapsed:: true
-				- ```
+				- ```java
 				  /**
 				   * @param  source:传入待观察的LiveData对象
 				   * @param  switchMapFunction: 转换函数
@@ -115,7 +96,7 @@
 				  public static LiveData<Y> switchMap (LiveData<X> source, Function<X,LiveData<Y>> switchMapFunction)
 				  ```
 			- ## 示例：
-				- ```
+				- ```kotlin
 				  // 条件结果liveDataA
 				  val liveDataA = MutableLiveData<String>("1001")
 				  // 条件结果liveDataB
@@ -147,13 +128,13 @@
 				- ![image.png](../assets/image_1684422308102_0.png)
 		-
 	- ## 2.3MediatorLiveData 的使用
+	  collapsed:: true
 		- MediatorLiveData可以作为中介观察或调度多个 LiveData 数据源；
 		  同时也可以做为一个liveData，被其他 Observer 观察。
 		- ## 2.3.1 示例
 		  collapsed:: true
 			- 监听多个不同类型数据源，map() 和 switchMap() 也应用了 MediatorLiveData 中介功能
-			  collapsed:: true
-				- ```
+				- ```kotlin
 				   // String 类型的liveData
 				      private val liveData1 = MutableLiveData<String>()
 				      // Int类型的liveData
@@ -187,43 +168,38 @@
 		- 使用多个MutableLiveData 单独观察数据，更新UI也能实现以上功能，但MutableLiveData需要分别要设置 LifecycleOwner 而 MediatorLiveData 能统一管理添加到它内部所有 LiveData 的生命周期， MediatorLiveData 重写了 LiveData 的 onActive 和 onInactive 方法统一去添加和移除它内部 LiveData 的 Observer
 		- ## 2.3.2 可用点
 			- MediatorLiveData监听不同来源（缓存、内置、网络）LiveData，更新UI数据
+	- ## 2.4 [[自定义livedataBus,总线，操作livedata的发送个接受]]
+	  collapsed:: true
+	-
 - #  3LiveData 原理解析
-  collapsed:: true
 	- 在分析 LiveData 的原理之前，我们先来回顾一下 Handler、EventBus、RxjavaBus 的消息分发机制，它们不会关心当前页面是否可见，只要有消息就会进行转发。
 	- 这样做的后果就是，即便应用在后台，页面处于不可见的情况下，还在进行一些无用的工作抢占资源。甚至可能造成 NPE。
 	- 而 LiveData 的出现，完美地解决了以往使用 callback 回调可能带来的 NPE，生命周期越界，后台任务抢占资源等问题。
 	- 我们从代码的角度，来看一看 LiveData 与传统消息分发组件的不同：
-	  collapsed:: true
 		- ![image.png](../assets/image_1684422411727_0.png){:height 530, :width 716}
 	- ## 3.1 那么 LiveData 是如何解决这些问题的呢？下面我们从源码角度来分析一下。
 	  collapsed:: true
 		- 我们想要使用 LiveData 去观察数据，会用到 observe 方法，观察者可以在收到 onChanged 事件时更新界面：
-		  collapsed:: true
 			- ![image.png](../assets/image_1684422443140_0.png){:height 335, :width 716}
 		- 而与宿主生命周期的绑定，也是在 observe 里进行的：
-		  collapsed:: true
 			- ![image.png](../assets/image_1684422462736_0.png)
 		- 可将上面的源码总结为图：
-		  collapsed:: true
 			- ![image.png](../assets/image_1684422476700_0.png)
 		- 结论
 		- 所以，LiveData 之所以能够感知到宿主的生命周期，是借助了 Lifecycle 的能力。
 	- ## 3.2 LiveData 的反注册和消息分发
+	  collapsed:: true
 		- 在上一节中，我们分析了，LiveData 是借助 Lifecycle 的能力实现了对宿主生命周期的监听，每当宿主的生命周期变化的时候，都会回调 LifecycleBoundObserver 的 onStateChanged 方法，那么，可以在 onStateChanged 方法里判断宿主当前的生命周期，从而做一些操作。
 		- ## 3.2.1 反注册
 		  collapsed:: true
 			- 在 onStateChanged 方法里，首先会判断宿主当前的状态是否为 DESTROYED，即销毁状态，如果条件成立，则会主动移除掉观察者，即反注册，从而避免了内存泄露。
 			- ![image.png](../assets/image_1684422513099_0.png)
 		- ## 3.2.2 宿主生命周期变化的消息分发规则
-		  collapsed:: true
 			- 宿主生命周期变化的消息分发，起点依然是在onStateChanged里：
-			  collapsed:: true
 				- ![image.png](../assets/image_1684422528939_0.png)
 			- 下面通过一张图来给大家展示具体的消息分发流程：
-			  collapsed:: true
-				- ![image.png](../assets/image_1684422541882_0.png)
+				- ![image.png](../assets/image_1684422541882_0.png){:height 326, :width 657}
 			- 特别说明一下，第4 步中的关键逻辑：
-			  collapsed:: true
 				- ![image.png](../assets/image_1684422554782_0.png)
 			- 这就是为什么 LiveData 支持黏性事件的原因，即先发送一条数据，后注册一个观察者，也是能够收到之前发送的那条数据的。
 		- ## 3.2.3 普通消息分发规则
@@ -231,21 +207,15 @@
 				- ![image.png](../assets/image_1684422590790_0.png)
 	-
 - # 4. LiveData 和 Flow 该如何选择？
+  collapsed:: true
 	- ## 4.1 LiveData 历史
-	  collapsed:: true
 		- 我们先来了解一下 LiveData 的历史。
 		- LiveData 是 Android 官方在 2017 年推出的一系列架构组件中的一个。当时 RxJava 正是火热的时候，不过 RxJava 虽然功能强大，但是对于新手而言太过复杂，且并不是 Google 自己家的框架。
 		- 为此，Google 架构组件团队打造了 LiveData，一个专用于 Android 的具备自主生命周期感知能力的可观察的数据存储器类。LiveData 被有意简化设计，这使得开发者很容易上手。
 		- 不过，事物都有两面性，LiveData 的简单易用，是它的优点，也是它的缺点。因为它面对比较复杂的交互数据流场景时，处理起来比较麻烦。
-		- 具体来说，LiveData 有如下缺点：
-		- LiveData 只能在主线程转换更新数据
-		  postValue 也是需要切换到到主线程的，当我们想要更新 LiveData 对象时，我们会经常更改线程（工作线程→主线程），如果在修改 LiveData 后又要切换回到工作线程那就更麻烦了。
-		- postValue 可能会有丢数据的问题
-		  在一段时间内发送数据的速度 > 接受数据的速度，可能导致数据丢失，LiveData 无法正确的处理这些请求。
-		- LiveData 的操作符也不够强大
-		  面对比较复杂的交互数据流场景时，处理起来比较麻烦。
+		- 具体来说，
+		- ## [[LiveData 有如下缺点]]：
 	- ## 4.2 Flow 解决了什么问题
-	  collapsed:: true
 		- 使用 RxJava 又有些过于麻烦了，入门门槛较高，同时需要自己处理生命周期。而使用 LiveData 又无法满足复杂场景。
 		- ![image.png](../assets/image_1684422639049_0.png)
 	- 而 Flow 是介于 LiveData 与 RxJava 之间的一个解决方案，它有以下特点：

@@ -1,0 +1,5 @@
+- 1、首先Activity上只添加一个空白Fragment，感知Activity的生命周期
+- 2、空白Fragment持有Lifecycle接口 子类ActivityFragmentLifecycle（生命周期监听LifecycleListener的管理者）。当生命周期回调是。会调用ActivityFragmentLifecycle的对应生命周期方法  通知 所有观察者。回调相关生命周期函数
+- 2、RequestManager用于管理请求的，实现了LifecycleListener生命周期监听接口，有onStart onStop等函数，就会被通知到
+	- onStart时可以执行请求
+	- onStop停止请求

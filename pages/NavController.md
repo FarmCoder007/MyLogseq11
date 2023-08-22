@@ -1,0 +1,3 @@
+- NavController 是通过 NavHost 来管理应用中的导航。
+- 当用户在应用中执行页面导航时，NavController 会协调 NavHost 中目标内容的交换。
+- 注意：Android Studio 3.3 提供了导航编辑器中用来展示导航图。这个很棒的功能让我们可以在一个地方看到所有的导航。

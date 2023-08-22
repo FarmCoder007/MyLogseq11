@@ -1,0 +1,4 @@
+- 1、添加dx.bat的环境变量
+- 2、执行命令
+	- dx --dex --output=output.dex input.class
+	- ![image.png](../assets/image_1692671256072_0.png)

@@ -1,11 +1,9 @@
-- # 一、 Arouter的组件注册
-  collapsed:: true
+# 一、 Arouter的组件注册
 	- ## 1. 自动注册插件
 	  collapsed:: true
 		- 在看ARouter源码的过程中看到，在初始化方法 init（），有个 boolean 变量 registerByPlugin, 表示是否用了插件注册组件。那么这个插件干了什么，为什么要用插件或者不用插件有啥问题吗？
 		- LogisticsCenter
-		  collapsed:: true
-			- ```
+			- ```java
 			  init（）{
 			           ...
 			         //load by plugin first
@@ -34,12 +32,10 @@
 	- ## 2. arouter的工作流程：
 	  collapsed:: true
 		- 流程
-		  collapsed:: true
-			- ![image.png](../assets/image_1684413203491_0.png)
+			- ![image.png](../assets/image_1684413203491_0.png){:height 1174, :width 688}
 		- 回顾ARouter的流程，分三个步骤
 		- （1）利用APT 编译期生成构建映射表的类和方法
-		  collapsed:: true
-			- ```
+			- ```java
 			  public class ARouter$$Root$$MainBusiness implements IRouteRoot {
 			      @Override
 			      public void loadInto(Map<String, Class<? extends IRouteGroup>> routes) {
@@ -59,31 +55,27 @@
 			- ARouter$Root$xxx ： 收集当前模块所有的Group信息，loadInto（）方法 参数传入一个map，把所有ARouter$Group$xxx 放进这个map；
 			- ARouter$Group$xxx：用于收集相同group的所有组件，loadInto（）方法参数传入一个map，把所有RouteMeta（保存注解的信息，class、group、path、参数等） 放进这个map；
 		- (2)加载ARouter$Root$xxx类，收集一个module的所有的group映射表
-		  collapsed:: true
-			- 初始化ARout时读取每个dex文件，遍历com.alibaba.android.arouter.routes目录下的文件，收集所有的 ARouter$Root$xxx 类名
+			- 初始化ARouter时读取每个dex文件，遍历com.alibaba.android.arouter.routes目录下的文件，收集所有的 ARouter$Root$xxx 类名
 			- 反射创建 ARouter$Root$xxx 对象，调用loadInfo()，把 ARouter$Group&xxx.class 装进 Map groupsIndex 保存到内存里
 			-
 		- (3)跳转时，根据path加载对应的ARouter$Group$xxx.class类，构建一个group的映射表，然后根据path从映射表里找到目标组件，执行跳转
 			- 调用 navigation( path)，根据 groupName 从 groupsIndex 里取出 ARouter$Group$xxx.class，反射创建对象 ，调用loadInfo() , 把这个组的 RouteMate 装进 Map routes，完成group的映射表的构建加载。
 			- 根据path 从 routers 取出 RouteMate(保存注解的信息class、group、path、参数等) ，获取 Activity.class 构建 Intent ，startActivity() 跳转
 	- ## 3、早期版本或者不使用插件存在效率问题
+	  collapsed:: true
 		- 会在一定程度上拖慢启动速度
 		- 为了构建组件映射表，APT生成ARouter$Root$xxx类用来构建group映射关系。构建组件映射表之前，要先调用所有ARouter$Root$xxx类的loadInfo()方法，完成group表的构建。也就是上面第二步，通过读取所有dex文件遍历每个entry收集指定包内的所有class类名，找到ARouter$Root$xxx类通过反射创建实例。这个过程效率显然是不高的，如果在Application.onCreate()方法里初始化，会在一定程度上拖慢启动速度。
 		- 插件的作用
 		- 在编译期扫描即将打包到apk中的所有类，将符合条件的类收集起来，并通过修改字节码生成注册代码到指定的方法中
 - # 二、 插件Auto-Register原理
-  collapsed:: true
 	- 前面说过，影响效率的是扫码dex的过程，扫描dex的目的是为了收集项目中所有的ARouter$Root$xxx类。这个过程发生在运行时，所以插件就是把收集的过程提前到编译期。
 	- 下面看看是怎么做的
 	- ## 1. 自定义插件，注册Transform
-	  collapsed:: true
 		- Transform 是 Android 官方提供的在构建（.class -> .dex转换期间）阶段用来修改 .class 文件的一套标准 API。每个 Transform 都是一个 gradle task, 将 class 文件、本地依赖的 jar, aar 和 resource 资源统一处理。每个 Transform 在处理完之后交给下一个 Transform，用户自定义的 Transform 会插在队列的最前面。
 		- 图
-		  collapsed:: true
 			- ![image.png](../assets/image_1684413378672_0.png)
 		- PluginLaunch
-		  collapsed:: true
-			- ```
+			- ```java
 			   @Override
 			      public void apply(Project project) {
 			              。。。
@@ -103,10 +95,8 @@
 			  ```
 		- PluginLaunch 是自定义的gradle Plugin，RegisterTransform是自定义的Transform。apply(）方法先给 registerList 初始化了数据，这里只看IRouteRoot这个接口是怎么处理的，其他俩个流程也是一样的。IRouteRoot的实现类就是一个个的ARouter$Root$xxx
 	- ## 2. 扫描Jar文件 和 源码的class 文件
-	  collapsed:: true
 		- 遍历TransformInput集合，扫描所有的jar文件和.class 文件
-		  collapsed:: true
-			- ```
+			- ```java
 			   void transform(Context context, Collection<TransformInput> inputs
 			               , Collection<TransformInput> referencedInputs
 			               , TransformOutputProvider outputProvider
@@ -150,8 +140,7 @@
 		  然后outputProvider 获取到输出路径dest，所有的jar和class文件都copy一份到dest，交给下个Transform。
 		- ScanUtil 是一个工具类， scanJar(src, dest) 和 scanClass(file) 分别是用来扫描jar文件和源码class文件的。扫描的原理是利用 ASM 的 ClassVisitor 来查看每个类的父类类名及所实现的接口名称，与指定的类名进行比较，如果符合我们的过滤条件，则记录下来。也就是 IRouteRoot 接口的实现类：ARouter$Root$xxx。
 		- 扫描 jar文件
-		  collapsed:: true
-			- ```
+			- ```java
 			  static void scanJar(File jarFile, File destFile) {
 			          if (jarFile) {
 			              def file = new JarFile(jarFile)
@@ -179,7 +168,7 @@
 			- 遍历每个jar 文件包下的.class文件，如果包名是“com.alibaba.android.arouter.routes”则调用 scanClass（）方法
 			- 如果遍历到com.alibaba.android.arouter.core.LogisticsCenter.class ，把这个jar路径记录下来。
 		- 扫描.class文件
-			- ```
+			- ```java
 			  static void scanClass(InputStream inputStream) {
 			            ClassReader cr = new ClassReader(inputStream)
 			            ClassWriter cw = new ClassWriter(cr, 0)
@@ -214,10 +203,8 @@
 			  ```
 			- 通过ASM框架的 ClassVisitor 获取类的父类类名及所实现的接口名称，如果是IRouteRoot 的实现类即ARouter$Root$xxx，就把类名存入列表
 	- ## 3. 插入字节码
-	  collapsed:: true
 		- 代码：
-		  collapsed:: true
-			- ```
+			- ```java
 			  private File insertInitCodeIntoJarFile(File jarFile) {
 			          if (jarFile) {
 			           。。。
@@ -232,11 +219,12 @@
 			                  InputStream inputStream = file.getInputStream(jarEntry)
 			                  jarOutputStream.putNextEntry(zipEntry)
 			  
-			                 // GENERATE_TO_CLASS_FILE_NAME = com/alibaba/android/arouter/core/LogisticsCenter.class
+			  // GENERATE_TO_CLASS_FILE_NAME = 
+			  //                  com/alibaba/android/arouter/core/LogisticsCenter.class
 			  
-			                  遍历到 LogisticsCenter 类
+			  //                遍历到 LogisticsCenter 类
 			                  if (ScanSetting.GENERATE_TO_CLASS_FILE_NAME == entryName) {
-			                       插入字节码，并转化成bytes数组
+			  //                     插入字节码，并转化成bytes数组
 			                      def bytes = referHackWhenInit(inputStream)
 			                      jarOutputStream.write(bytes)
 			                  } else {
@@ -251,8 +239,7 @@
 			  ```
 		- 前面提到，扫码到 LogisticsCenter 记录下了jar路径。上面这个方法，就是遍历这个jar包里的所有文件找到 LogisticsCenter 。
 		- 下面开始动LogisticsCenter 的字节码了
-		  collapsed:: true
-			- ```
+			- ```java
 			  private byte[] referHackWhenInit(InputStream inputStream) {
 			          ClassReader cr = new ClassReader(inputStream)
 			          ClassWriter cw = new ClassWriter(cr, 0)
@@ -314,7 +301,6 @@
 			  ```
 		- 借助ClassVisitor，遍历所有方法，找到 loadRouterMap()方法。ClassWriter 生成一个 MethodVisitor 对象用来向方法里插入代码：‘ register（”name“）’，name 是 ARouter$Root$xxx的类名。修改完通过 visitMethod（）方法覆盖原loadRouterMap()方法。
 		- 修改完后反编译过来就像这样：
-		  collapsed:: true
 			- ```
 			  private static void loadRouterMap() {
 			      register("...ARouter$Root$xxx");
@@ -324,8 +310,7 @@
 			  }
 			  ```
 		- 最后再看看 LogisticsCenter 这个类
-		  collapsed:: true
-			- ```
+			- ```java
 			  private static void init(){
 			  
 			          loadRouterMap();

@@ -1,105 +1,134 @@
-- # 概念
+# 概念
 	- Room是对SQLite的封装，流畅的访问数据库
 - # 优点
 	- 1、内部做优化，性能提升
 	- 2、使用简单
-- # 一、Room数据库结构
-	- 如下图，Room数据库包含三个对象：
-	  1. Entity : 对应数据库中的表，可以使用Entity注解将一个类变成数据库中的一张表结构。
-	  2. DAO : 全称Database Access Object,定义了对数据库中数据的读写等操作，DAO中可以使用SQL语句来操作数据库。
-	  3. RoomDatabase : 数据库持有类，用于创建数据库或者连接到数据库。内部包含DAO和Entity。
-	- ![image.png](../assets/image_1684224407502_0.png)
-# 二、示例：
-	- ## 定义表结构Entity
-	  ```kotlin
-	  @Entity
-	  class Person(
-	              @PrimaryKey(autoGenerate = true) var id: Int,
-	              @ColumnInfo(name = "name") // 加别名优先级更高
-	     			var name: String,
-	              var value: String,
-	              var age : Int
-	      ) {
-	  
-	   override fun toString(): String {
-	   	 return "Person(id=$id,name=$name,value=$value)"
-	   }
-	  }
-	  ```
-	- ## 定义数据库操作 Dao
-		- 查询：返回 LiveData 或 Flowable，无需放在工作线程，此类查询Room会会根据需要在后台线程上异步运行查询。 
-		  插入、删除、更改等操作需要借助协程、rxjava等切换线程操作
-		  ```kotlin
+- # 一、[[Room数据库结构]]
+- # 二、示例：
+	- ## [[定义表结构Entity]]
+	- ## [[定义数据库操作 Dao]]
+	- ## [[定义RoomDatabase抽象类]]
+	- ## [[使用上边定义的数据库]]
+- # 三、基本使用
+  collapsed:: true
+	- ## 返回例的子集
+	  collapsed:: true
+		- ```java
+		  public class NameTuple {
+		      @ColumnInfo(name="first_name")
+		      public String firstName;
+		  
+		      @ColumnInfo(name="last_name")
+		      public String lastName;
+		  }
+		  
 		  @Dao
-		  public interface PersonDao{
-		      @Query("SELECT * FROM Person")
-		      fun loadAllPersons(): LiveData<List<Person>>
-		  
-		      @Insert(onConflict = OnConflictStrategy.REPLACE)
-		      suspend fun insertAll(products: List<Person>)
-		  
-		      @Query("select * from Person where id = :id")
-		      fun loadPerson(id: Int): LiveData<Person>
-		  
-		      @Insert(onConflict = OnConflictStrategy.IGNORE)
-		      suspend fun insert(person: Person)
-		  
-		      @Query("DELETE FROM Person")
-		      suspend fun deleteAll()
+		  public interface MyDao {
+		      @Query("SELECT first_name, last_name FROM user")
+		      public List<NameTuple> loadFullName();
 		  }
 		  ```
-	- ## 定义RoomDatabase
-		- 1. 单例提供 数据库的实例
-		  2. 设置数据库 的名字
-		  3. 提供各个表的Dao
-		  4. 数据库的升级
-		  5. entities定义表
-		- ```kotlin
-		  @Database(entities = [TestEntity::class, Person::class], version = 2,exportSchema = false)
-		  abstract class MasonDatabase : RoomDatabase() {
+	- ## 表与表之间的实体联系
+	  collapsed:: true
+		- ```java
+		  设置外键
+		  @Entity(foreignKeys = @ForeignKey(entity = User.class,
+		                                    parentColumns = "id",
+		                                    childColumns = "user_id"))
+		  public class Book {
+		      @PrimaryKey
+		      public int bookId;
 		  
-		  abstract fun getTestDao(): TestDao
+		      public String title;
 		  
-		  abstract fun getPersonDao():PersonDao
-		  
-		  companion object {
-		      /**
-		       *  数据库从版本1 -> 迁移到版本2 ：Person表添加1列last_update
-		       */
-		      private val MIGRATION_1_2: Migration = object : Migration(1, 2) {
-		          override fun migrate(database: SupportSQLiteDatabase) {
-		              database.execSQL(
-		                  "ALTER TABLE Person ADD COLUMN age INTEGER"
-		              )
-		          }
-		      }
-		  
-		      private const val DB_NAME = "MasonDatabase.db"
-		  
-		      @Volatile
-		      private var masonDatabase: MasonDatabase? = null
-		  
-		      /**
-		       *  创建数据库实例
-		       */
-		      @Synchronized
-		      fun getInstance(context: Context): MasonDatabase {
-		          if (masonDatabase == null) {
-		              masonDatabase = create(context)
-		          }
-		          return masonDatabase!!
-		      }
-		  
-		  
-		      fun create(context: Context): MasonDatabase {
-		          return Room.databaseBuilder(context, MasonDatabase::class.java, DB_NAME)
-		              .addMigrations(MIGRATION_1_2).build()
-		      }
-		  }
+		      @ColumnInfo(name = "user_id")
+		      public int userId;
 		  }
 		  ```
-# 三、踩坑指南
+	- ## 创建嵌套对象@ Embedded
+		- ```java
+		  public class Address {
+		      public String street;
+		      public String state;
+		      public String city;
+		  
+		      @ColumnInfo(name = "post_code")
+		      public int postCode;
+		  }
+		  
+		  @Entity
+		  public class User {
+		      @PrimaryKey
+		      public int id;
+		  
+		      public String firstName;
+		  
+		      @Embedded
+		      public Address address;
+		  }
+		  ```
+	- ## 传递参数集合
+	  collapsed:: true
+		- ```java
+		  @Dao
+		  public interface MyDao {
+		      @Query("SELECT first_name, last_name FROM user WHERE region IN (:regions)")
+		      public List<NameTuple> loadUsersFromRegions(List<String> regions);
+		  }
+		  ```
+	- ## 可观察的查询
+	  collapsed:: true
+		- ```java
+		  @Dao
+		  public interface MyDao {
+		      @Query("SELECT first_name, last_name FROM user WHERE region IN (:regions)")
+		      public LiveData<List<User>> loadUsersFromRegionsSync(List<String> regions);
+		  }
+		  ```
+	- ## 可观察的查询
+	  collapsed:: true
+		- ```java
+		  @Dao
+		  public interface MyDao {
+		     @Query("SELECT user.name AS userName, pet.name AS petName "
+		            + "FROM user, pet "
+		            + "WHERE user.id = pet.user_id")
+		     public LiveData<List<UserPet>> loadUserAndPetNames();
+		  
+		  
+		     // You can also define this class in a separate file, as long as you add the
+		     // "public" access modifier.
+		     static class UserPet {
+		         public String userName;
+		         public String petName;
+		     }
+		  }
+		  ```
+	- ## 支持Rxjava
+	  id:: 64d5f4c6-ed9e-4d1a-acfa-8e90a7ffc962
+	  collapsed:: true
+		- ```java
+		  @Dao
+		  public interface MyDao {
+		      @Query("SELECT * from user where id = :id LIMIT 1")
+		      public Flowable<User> loadUserById(int id);
+		  }
+		  ```
+	- ## 返回Cursor
+	  collapsed:: true
+		- ```java
+		  @Dao
+		  public interface MyDao {
+		      @Query("SELECT * FROM user WHERE age > :minAge LIMIT 5")
+		      public Cursor loadRawUsersOlderThan(int minAge);
+		  }
+		  ```
+	- ## [[Room数据库迁移]]
+	  collapsed:: true
+	- ## [[ViewModel+livedata+database使用]]
+- # 四、踩坑指南
 	- ## 问题一：
+	  collapsed:: true
 		- 按照官方文档集成
 		  
 		  ```
@@ -116,7 +145,6 @@
 		  Caused by: java.lang.RuntimeException: cannot find implementation for com.wuba.wuxian.wubamason.room.MasonDatabase. MasonDatabase_Impl does not exist
 		  ```
 		- ## 解决方案
-		  collapsed:: true
 			- ### 第一步：检查注释是否添加
 			  确保注释是否都已经添加，并且确保注释内容是否正确.
 			  @Database：表示数据库.
@@ -154,6 +182,7 @@
 			  }
 			  ```
 	- ## 问题二：
+	  collapsed:: true
 		- AS： M1预览版不兼容
 		  
 		  room:根目录gradle:
@@ -180,3 +209,4 @@
 		  implementation "androidx.room:room-runtime:2.4.0-alpha03"
 		  kapt "androidx.room:room-compiler:2.4.0-alpha03"
 		  ```
+- # [[Room-面试题]]

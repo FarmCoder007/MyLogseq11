@@ -5,8 +5,7 @@
 - ## 一、从使用说起
   collapsed:: true
 	- 1、我们按照文档使用ARouter 的时候注意到， 使用@Route注解的模块，需要在modeule 的build.gradle里添加：
-	  collapsed:: true
-		- ```
+		- ```xml
 		  defaultConfig {
 		     javaCompileOptions {
 		         annotationProcessorOptions {
@@ -18,13 +17,11 @@
 		- 没有这段代码会在build项目时爆错：
 		  These no module name, at ‘build.gradle’, like : …
 	- 2、必须在每个使用@Route 注解的模块里都引入ARouter的注解处理器，否则这个模块里注解不会被处理
-	  collapsed:: true
 		- ```
 		  annotationProcessor 'com.alibaba:arouter-compiler:1.5.2'
 		  ```
 	- 3、@Route 注解的path 至少需要有两级
-	  collapsed:: true
-		- ```
+		- ```java
 		  @Route(path = "/test/activity")
 		  public class YourActivity extend Activity {
 		      ...
@@ -32,22 +29,16 @@
 		  ```
 		- 否则toast提示：“There’s no route matched! Path = [/xxx/xxx] Group = [xxxx]”
 		- 编译生成的类：
-		  collapsed:: true
 			- ![image.png](../assets/image_1684399289080_0.png)
 		- root
 		  collapsed:: true
-			- ![image.png](../assets/image_1684399297749_0.png)
+			- ![image.png](../assets/image_1684399297749_0.png){:height 232, :width 688}
 		- group
-		  collapsed:: true
 			- ![image.png](../assets/image_1684399307028_0.png)
 		- ARouter$Root$$xxx(modulename) 把所有的组(ARouter$Group$xxx) put到Map集合里（routers）
-		  
-		  * ARouter$Group$$xxx(groupname) 把一个分组下的所有路径(RouteMeta)存入map
-		  
-		  * ARouter$Providers$$xxx(modulename) 把注册的接口存入map
-	-
-	-
-- ## 二.ARouter 注解处理器:RouteProcessor
+		- ARouter$Group$$xxx(groupname) 把一个分组下的所有路径(RouteMeta)存入map
+		- ARouter$Providers$$xxx(modulename) 把注册的接口存入map
+- ## 二、ARouter 注解处理器:RouteProcessor
   collapsed:: true
 	- 有注解就有注解处理器，ARouter也是基于APT+ Javapoat，构建路由表的逻辑就在RouteProcessor，也是在RouteProcessor里生成了上面的那些类
 	- APT 和 javapoat 有同学分享过，这也是APT 和 javapoat应用很好的一个例子
@@ -55,7 +46,7 @@
 	  collapsed:: true
 		- RouteProcessor 继承了 BaseProcessor
 		  collapsed:: true
-			- ```
+			- ```java
 			  public abstract class BaseProcessor extends AbstractProcessor {
 			       ...
 			       // 模块名
@@ -121,7 +112,7 @@
 	- 2、RouteProcessor
 		- 1
 		  collapsed:: true
-			- ```
+			- ```java
 			  public class RouteProcessor extends BaseProcessor {
 			      private Map<String, Set<RouteMeta>> groupMap = new HashMap<>(); // ModuleName and routeMeta.
 			      private Map<String, String> rootMap = new TreeMap<>();  // Map of root metas, used for generate class file in order.
@@ -157,7 +148,7 @@
 		- process（）方法调用了parseRoutes（）方法，处理注解的逻辑在这个方里
 		- 先从类名获取activity/fragment/service 的类型，用于后面的类型判断
 		  collapsed:: true
-			- ```
+			- ```java
 			  private void parseRoutes(Set<? extends Element> routeElements) throws IOException {
 			      if (CollectionUtils.isNotEmpty(routeElements)) {
 			          // prepare the type an so on.
@@ -183,7 +174,7 @@
 			  ```
 		- 创建 RouteMeta 对象，RouteMeta主要存放的是路径信息，包含了Rout注解的值（path，name，group…），安卓activity/fragment/service类名，Element（只要用来获取注解类的className），以及跳转参数信息。
 		  collapsed:: true
-			- ```
+			- ```java
 			  for (Element element : routeElements) {
 			          TypeMirror tm = element.asType();
 			          Route route = element.getAnnotation(Route.class);
@@ -225,7 +216,7 @@
 			  ```
 		- 1.先验证路径path是否合规；合规就把RouteMeta按groupName分组存入 groupMap
 		  collapsed:: true
-			- ```
+			- ```java
 			  private void categories(RouteMeta routeMete) {
 			      //验证routeMete
 			      if (routeVerify(routeMete)) {
@@ -256,7 +247,7 @@
 		- 从这个判断方法 里，知道了
 		  collapsed:: true
 		  path 必须“/”开头，并且第一段作为默认 group 名；
-			- ```
+			- ```java
 			  private boolean routeVerify(RouteMeta meta) {
 			      String path = meta.getPath();
 			  
@@ -284,7 +275,7 @@
 			  ```
 		- 接着生成代码的过程
 		  collapsed:: true
-			- ```
+			- ```java
 			  for (Map.Entry<String, Set<RouteMeta>> entry : groupMap.entrySet()) {
 			              //组名
 			              String groupName = entry.getKey();
@@ -363,7 +354,7 @@
 			  ```
 		- 上面这段代码生成类 ARouter$$Group$login，groupname = login；
 		  collapsed:: true
-			- ```
+			- ```java
 			  public class ARouter$$Group$xxx（groupname） implements IRouteGroup {
 			      @Override
 			      public void loadInto(Map<String, RouteMeta> atlas) {
@@ -374,7 +365,7 @@
 			  ```
 		- 有多少group就有多少这样的类，然后把这些类名存入rootMap
 		  collapsed:: true
-			- ```
+			- ```java
 			  if (MapUtils.isNotEmpty(rootMap)) {
 			              // Generate root meta by group name, it must be generated before root, then I can find out the class of group.
 			              for (Map.Entry<String, String> entry : rootMap.entrySet()) {
@@ -395,7 +386,7 @@
 			  ```
 		- 上面这段代码，我们看到了moduleName,也就是gradle里的project.getName()，这段代码生成下面这个类， moduleName =“LoginSDK”
 		  collapsed:: true
-			- ```
+			- ```java
 			  public class ARouter$$Providers$$LoginSDK implements IProviderGroup {
 			      @Override
 			      public void loadInto(Map<String, RouteMeta> providers) {
@@ -408,8 +399,7 @@
 		  Grouphome文件，这会导致编译报错
 		- WBRouter 这里做类优化，把moduleName拼接了进去，这样就不会报错了。
 		- 接着生成root
-		  collapsed:: true
-			- ```
+			- ```java
 			  String rootFileName = NAME_OF_ROOT + SEPARATOR + moduleName;
 			          JavaFile.builder(PACKAGE_OF_GENERATE_FILE,
 			                  TypeSpec.classBuilder(rootFileName)
@@ -422,8 +412,7 @@
 			  ```
 		- rootFileName =“ARouter$$Root$LoginSDK”，其中moduleName = LoginSDK
 		- 最终生成的类是：
-		  collapsed:: true
-			- ```
+			- ```java
 			  public class ARouter$$Root$$LoginSDK implements IRouteRoot {
 			      @Override
 			      public void loadInto(Map<String, Class<? extends IRouteGroup>> routes) {
@@ -592,33 +581,16 @@
 		  }
 		  ```
 		- ```
-		  可以看到init（）里加载了 ARouter
-		  �
-		  �
-		  �
-		  �
-		  �
-		  �
-		  �
-		  �
-		  �
-		  Providers、ARouter
-		  �
-		  �
-		  �
-		  �
-		  Root、ARouterInterceptors，但是没有加载任何一个ARouterGroup;那group是什么时候加载的呢
+		  可以看到init（）里加载了 ARouter Providers、ARouter Root、ARouterInterceptors，
+		  但是没有加载任何一个ARouterGroup;那group是什么时候加载的呢
 		  ```
 - ## 四、navigation()
-  collapsed:: true
 	- 如何根据path找到跳转目标（寻址）？
-	  collapsed:: true
-		- ```
+		- ```java
 		  ARouter.getInstance().build("login/loginX").navigation();
 		  ```
 	- build（）会进入 _ARouter.build(String path)
-	  collapsed:: true
-		- ```
+		- ```java
 		  protected Postcard build(String path) {
 		      if (TextUtils.isEmpty(path)) {
 		          throw new HandlerException(Consts.TAG + "Parameter is invalid!");
@@ -632,8 +604,7 @@
 		  }
 		  ```
 	- 这里有个方法，可以看到path 必须以“/”开头且至少两段，否则会抛异常
-	  collapsed:: true
-		- ```
+		- ```java
 		  private String extractGroup(String path) {
 		          if (TextUtils.isEmpty(path) || !path.startsWith("/")) {
 		              throw new HandlerException(Consts.TAG + "Extract the default group failed, the path must be start with '/' and contain more than 2 '/'!");
@@ -653,8 +624,7 @@
 		      }
 		  ```
 	- build()方法创建了Postcard对象，然后看Postcard.navigation()
-	  collapsed:: true
-		- ```
+		- ```java
 		  protected Object navigation(final Context context, final Postcard postcard, final int requestCode, final NavigationCallback callback) {
 		          PretreatmentService pretreatmentService = ARouter.getInstance().navigation(PretreatmentService.class);
 		          if (null != pretreatmentService && !pretreatmentService.onPretreatment(context, postcard)) {
@@ -669,8 +639,7 @@
 		              LogisticsCenter.completion(postcard);
 		  ```
 	- 这里调用了 LogisticsCenter.completion(postcard) ，找到跳转目标，给postcart赋值
-	  collapsed:: true
-		- ```
+		- ```java
 		  public synchronized static void completion(Postcard postcard) {
 		      if (null == postcard) {
 		          throw new NoRouteFoundException(TAG + "No postcard!");
@@ -706,9 +675,8 @@
 		  }
 		  ```
 	- Warehouse.routes如果已经加载了path，直接赋值给postcard，如果没找到但是在Warehouse.groupsIndex里有这个group（Warehouse.groupsIndex是在init（）里添加元素的，ARouter$$Root$xxx这个类的loadInto(）方法里） 就会执行
-	  collapsed:: true
 	  addRouteGroupDynamic(postcard.getGroup(), null)方法
-		- ```
+		- ```java
 		  public synchronized static void addRouteGroupDynamic(String groupName, IRouteGroup group) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
 		      if (Warehouse.groupsIndex.containsKey(groupName)){
 		          // If this group is included, but it has not been loaded
@@ -725,17 +693,10 @@
 		  ```
 	- Warehouse.groupsIndex.get(groupName).getConstructor().newInstance().loadInto(Warehouse.routes);
 	  加载一个ARouter$$Group$xxx 类，调用其loadInto（）方法给Warehouse.routes添加元素 ，寻址完成。
-	- 看到这里我们就知道了ARouter
-	  �
-	  �
-	  �
-	  �
-	  �
-	  Groupxxx是在第一次调用这个builde（“/group/path”).navigation()时候加载，使用时才加载。
+	- 看到这里我们就知道了ARouterGroupxxx是在第一次调用这个builde（“/group/path”).navigation()时候加载，使用时才加载。
 	- 跳转：
-	  collapsed:: true
 	  _ARouter._navigation().startActivity()
-		- ```
+		- ```java
 		  private Object _navigation(final Postcard postcard, final int requestCode, final NavigationCallback callback) {
 		      final Context currentContext = postcard.getContext();
 		  

@@ -1,0 +1,10 @@
+- dataBinding,采用了观察者模式。
+- 1、观察者。ActivityMainBindingImpl,ViewDataBinding子类。APT生成的，持有属性变换的监听
+	- 被观察者 ViewModel  或者 User 这个实现BaseObservable接口的数据类，持有属性变换监听的注册引用
+- 2、初始化的时候将observer（ActivityMainBindingImpl ）和 observable （ ViewModel  或者 User ）绑定起来
+- 3、当被观察者observable （ ViewModel  或者 User ） 发通知改信息的时候。会通过属性变化监听器，回调到观察者ViewDataBinding.对应的onPropertyChanged方法收到属性变化的通知
+- 4、Handler切换到主线程更新ui
+	- 找到APT 生成的ViewDataBinding子类ActivityMainBindingImpl。去执行executeBindings方法
+	- 按照传入的BR.id。去执行BindingAdapter对应方法更新ui
+	- 比如TextView 设置文本，就是执行SetText方法
+-

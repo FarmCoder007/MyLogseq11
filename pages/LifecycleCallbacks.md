@@ -1,0 +1,2 @@
+- LifecycleCallbacks是Application.ActivityLifecycleCallbacks的实现类
+- ReportFragment 在SDK29以上注册了LifecycleCallbacks回调，这是29以上才有的api, 在ReportFragment中主要做的任务也是调用dispatch方法，分发生命周期事件。
