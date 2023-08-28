@@ -1,3 +1,4 @@
 - [[Android版本适配]]
 - [[Android5.0]]
--
+- # 参考
+	- [各个版本适配](https://blog.csdn.net/qq_17766199/category_7174141.html)

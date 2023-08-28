@@ -1,5 +1,5 @@
-- # 一、什么是单例设计模式
-  collapsed:: true
+# 一、什么是单例设计模式
+collapsed:: true
 	- 确保某一个类在整个项目中只有一个实例，并且自行创建实例化对象，并向整个系统提供这个实例。
 - # 二、创建流程
   collapsed:: true
@@ -209,26 +209,7 @@
 				- ## 缺点：
 					- 实现较复杂，需要使用 volatile 关键字和双重检查来保证线程安全。
 			- ## 代码示例
-				- ## java
-				  collapsed:: true
-					- ```java
-					  public class Singleton {
-					      private static volatile Singleton instance;
-					      
-					      private Singleton() {}
-					      
-					      public static Singleton getInstance() {
-					          if (instance == null) {
-					              synchronized (Singleton.class) {
-					                  if (instance == null) {
-					                      instance = new Singleton();
-					                  }
-					              }
-					          }
-					          return instance;
-					      }
-					  }
-					  ```
+				- ## [[DCL-单例-java]]
 				- ## kotlin
 					- ```kotlin 
 					  class SingletonDemo private constructor() {	
@@ -238,9 +219,12 @@
 					  }
 					  ```
 	- ## 三、[[#red]]==**静态内部类（1种）【推荐】**==
+	  collapsed:: true
 		- ## 原理
+		  collapsed:: true
 			- - 静态内部类方式在Singleton类被装载时**并不会立即实例化**，而是在需要实例化时，调用getInstance方法，才会装载singletonInstance类，从而完成Singleton的实例化。
 		- ## 如何保证线程安全的原理、
+		  collapsed:: true
 			- 类加载机制，一个类的加载，虚拟机只允许执行一次，内部加锁了
 		- ## 特点
 		  collapsed:: true
@@ -253,6 +237,7 @@
 		- ## 代码示例
 		  collapsed:: true
 			- ## Java
+			  collapsed:: true
 				- ```java
 				  public class Singleton {
 				      private Singleton() {}
@@ -267,6 +252,7 @@
 				  }
 				  ```
 			- ## kotlin
+			  collapsed:: true
 				- ```kotlin
 				  class Singleton  private constructor(){
 				      companion object {

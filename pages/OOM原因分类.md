@@ -1,0 +1,6 @@
+- ![image.png](../assets/image_1692755360220_0.png){:height 382, :width 437}
+- oom,不一定是内存不够
+- ## case1、JAVA堆内存确实不够了
+- ## case2、申请10M空间，没有连续的内存了
+- ## case3、文件句柄FD超出限制
+- ## case4、线程数量超过最大限制

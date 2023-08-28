@@ -1,4 +1,4 @@
-- # 一、定义：
+# 一、定义：
 	- 又被称为发布-订阅（Publish/Subscribe）模式，它定义了一种一对多的依赖关系，让多个观察者对象同时监听某一个主题对象。这个主题对象在状态变化时，会通知所有的观察者对象，使他们能够自动更新自己。
 - # 二、结构
 	- ### 抽象被观察者
@@ -15,21 +15,18 @@
 	  collapsed:: true
 		- ![观察者模式类图](https://www.panziye.com/wp-content/uploads/2022/06/2022060508504262.png)
 	- **代码如下：**
-	  collapsed:: true
-		- ### 抽象观察者类：定义更新的方法
-		  collapsed:: true
+		- ### 抽象观察者接口：定义更新的方法
 			- ```java
 			  public interface Observer {
 			      void update(String message);
 			  }
 			  ```
 		- ### 具体观察者类：微信用户是观察者
-		  collapsed:: true
 			- ```java
 			  public class WeixinUser implements Observer {
 			      // 微信用户名
 			      private String name;
-			  ​
+			  
 			      public WeixinUser(String name) {
 			          this.name = name;
 			      }
@@ -40,12 +37,11 @@
 			  }
 			  ```
 		- ### 抽象主题类被观察者，提供了attach、detach、notify三个方法
-		  collapsed:: true
 			- ```java
-			  public interface Subject {
+			  public interface Observable{
 			      //增加订阅者
 			      public void attach(Observer observer);
-			  ​
+			  
 			      //删除订阅者
 			      public void detach(Observer observer);
 			      
@@ -54,22 +50,21 @@
 			  }
 			  ```
 		- ### 具体被观察者:里面存储了订阅该公众号的微信用户，并实现了抽象主题中的方法
-		  collapsed:: true
 			- ```java
-			  public class SubscriptionSubject implements Subject {
+			  public class SubscriptionSubject implements Observable {
 			      //储存订阅公众号的微信用户
 			      private List<Observer> weixinUserlist = new ArrayList<Observer>();
-			  ​
+			  
 			      @Override
 			      public void attach(Observer observer) {
 			          weixinUserlist.add(observer);
 			      }
-			  ​
+			  
 			      @Override
 			      public void detach(Observer observer) {
 			          weixinUserlist.remove(observer);
 			      }
-			  ​
+			  
 			      @Override
 			      public void notify(String message) {
 			          for (Observer observer : weixinUserlist) {
@@ -79,7 +74,6 @@
 			  }
 			  ```
 		- ### 测试代码
-		  collapsed:: true
 			- ```java
 			  public class Client {
 			      public static void main(String[] args) {
@@ -125,12 +119,9 @@
 	- ## 【例】警察抓小偷
 		- 警察抓小偷也可以使用观察者模式来实现，警察是观察者，小偷是被观察者。代码如下：
 		- ### 1）小偷是一个被观察者，所以需要继承Observable类
-		  collapsed:: true
 			- ```java
 			  public class Thief extends Observable {
-			  ​
 			      private String name;
-			  ​
 			      public Thief(String name) {
 			          this.name = name;
 			      }
@@ -138,37 +129,33 @@
 			      public void setName(String name) {
 			          this.name = name;
 			      }
-			  ​
 			      public String getName() {
 			          return name;
 			      }
-			  ​
 			      public void steal() {
 			          System.out.println("小偷：我偷东西了，有没有人来抓我！！！");
 			          super.setChanged(); //changed  = true
 			          super.notifyObservers();
 			      }
 			  }
-			  ​
 			  ```
 		- ### 2）警察是一个观察者，所以需要让其实现Observer接口
-		  collapsed:: true
 			- ```java
 			  public class Policemen implements Observer {
-			  ​
+			  
 			      private String name;
-			  ​
+			  
 			      public Policemen(String name) {
 			          this.name = name;
 			      }
 			      public void setName(String name) {
 			          this.name = name;
 			      }
-			  ​
+			  
 			      public String getName() {
 			          return name;
 			      }
-			  ​
+			  
 			      @Override
 			      public void update(Observable o, Object arg) {
 			          System.out.println("警察：" + ((Thief) o).getName() + "，我已经盯你很久了，你可以保持沉默，但你所说的将成为呈堂证供！！！");

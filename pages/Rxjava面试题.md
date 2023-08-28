@@ -1,5 +1,5 @@
-- ## 1、Rxjava 框架结构
-  collapsed:: true
+## 1、Rxjava 框架结构
+collapsed:: true
 	- RxJava 的整体结构是⼀条链，其中：
 	  1. 链的最上游：⽣产者 Observable
 	  2. 链的最下游：观察者 Observer
@@ -44,7 +44,6 @@
 	- # observeOn(AndroidSchedulers.mainThread())
 		- 作用： 观察切回前台线程，将生产者在io线程的数据      切到主线程回调
 - ## 3、rxjava订阅机制是怎样的？
-  collapsed:: true
 	- ## 下面以Single.just为例来说明一个最简单的完整的订阅机制：
 	- 1、首先最简单的订阅机制包含3个概念
 		- 上游被观察者：

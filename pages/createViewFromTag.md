@@ -1,5 +1,4 @@
 - 1、将setContentView 的 xml 创建view对象。但是xml里根布局的属性是没有添加进去的。
-  collapsed:: true
 	- 比如：
 		- ![image.png](../assets/image_1691128647095_0.png)
 	- 如果xml为这个，则创建出来的只为Linearlayout的对象，这些参数没有添加

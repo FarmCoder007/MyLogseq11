@@ -6,9 +6,11 @@ collapsed:: true
 	- # 3、[[那什么是基于栈的虚拟机，什么又是基于寄存器的虚拟机？]]
 	- # 4、[[ART和Dalvik区别]]
 - # 类加载器面试题
+	- # [[类的生命周期]]
 	- # 5、ClassLoader的分类
 	  collapsed:: true
 		- ## BootClassLoader
+		  collapsed:: true
 			- 用于加载Android[[#red]]==**Framework层class文件**==
 		- ## PathClassLoader（平时我们操作的是这个）
 		  collapsed:: true
@@ -40,6 +42,7 @@ collapsed:: true
 	- # 6、什么是双亲委托机制？类加载机制的流程？
 		- ## [[双亲委托+类加载流程-面试]]
 	- # 7、热修复的原理？
+	  collapsed:: true
 		- 需要讲述类加载的完整流程 + 热修复的插入点
 		- 根据 [[双亲委托+类加载流程-面试]]类加载完整流程，
 		- 1、获取当前应用的PathClassLoader
@@ -47,5 +50,6 @@ collapsed:: true
 			- 1、把补丁包patch.dex 转换为 Element[]数组，插入到原 pathList 的dexElements最前边
 	- # 8、[[双亲委托机制好处]]
 	- # 9、ClassLoader使用场景
+	  collapsed:: true
 		- 1、插件化，加载插件apk中的类
 		- 2、热修复，加载补丁.dex中的类

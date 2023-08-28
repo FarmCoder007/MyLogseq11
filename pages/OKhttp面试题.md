@@ -1,5 +1,5 @@
-- # 1、同步请求和异步请求的区别？
-  collapsed:: true
+# 1、同步请求和异步请求的区别？
+collapsed:: true
 	- ## 同步请求
 		- 同步会阻塞当前线程，
 		- 场景，一次请求的响应结果是下次请求的参数。自己开线程去处理
@@ -22,7 +22,6 @@
 		    }
 		  ```
 - # 3、分发器Dispatcher
-  collapsed:: true
 	- ## 1、分发器dispatch干嘛的？
 		- 内部维护队列与线程池，完成请求调配
 	- ## 2、[[调度器异步请求流程]]
@@ -44,7 +43,6 @@
 		- 无等待 最大并发。核心线程0 普通线程最大 无容量等待队列。全靠Runing队列64个限制
 	- ## 8、 [[OkhttpClient可设置单例，也可不使用单例，带来的线程池问题？]]
 - # 4、拦截器
-  collapsed:: true
 	- ## 1、拦截器干嘛的？
 	  collapsed:: true
 		- 五大默认拦截器完成整个请求过程
@@ -70,9 +68,9 @@
 	- ## 5、[[缓存拦截器面试题]]
 	- ## 6、[[连接拦截器面试题]]连接池的复用与清理
 - # 5、OKhttp中一次异步请求是怎样的？
-  collapsed:: true
 	- 1、okhttpClient.newCall(request)  返回的是一个 RealCall 对象
 	- 2、然后执行realCall.enqueue  实际里边调用的是  dispatcher .enqueue  将网络请求放到后台线程执行
 	- 3、在后台线程  通过  getResponseWithInterceptorChain()  获取返回的响应response 放在callback 里回调回来
 	- ## 参考整体流程
 		- ![image.png](../assets/image_1689851761928_0.png){:height 877, :width 555}
+- # 6、[[okhttp里的源码怎么处理Https证书的]]

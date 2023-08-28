@@ -5,8 +5,9 @@
 	- ## [[AIDL]]
 - # 三、[[DalvikVM进程安卓系统]]
 - # 四、系统服务
+  collapsed:: true
 	- # [[AMS（ActivityManagerService）]]
 	- # [[PKMS(PackageManagerService)]]
 	- # [[WMS(WIndowManagerService)]]
 - # 五、 [[Fragment]]
--
+- # 六、[[Dialog]]

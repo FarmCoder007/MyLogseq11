@@ -1,0 +1,21 @@
+## 1、Intent传值数据大小限制128k.看binder
+- ## 2、ntent类型的匹配：
+	- ** 在启动Activity、Service或者广播时，使用的Intent要匹配目标组件的意图过滤器。否则，可能会导致无法找到合适的组件或者启动失败。
+- ## 3、**序列化：** 如果要传递自定义的Java对象，需要确保这些对象是可序列化的，或者使用Parcelable接口来实现高效的对象传递。
+- ## 4、**隐式Intent的处理：** 当使用隐式Intent启动Activity、Service或者广播时，要确保系统中有合适的组件可以处理该Intent，否则可能会出现`ActivityNotFoundException`等问题。
+-
+- **数据传递：** 使用Intent可以传递数据到目标组件。注意数据类型的一致性，避免传递错误的数据类型，以及确保数据的有效性和安全性。
+-
+-
+- -
+- **权限和安全性：** 在发送和接收广播、启动Service等场景，需要注意相关的权限和安全性问题。确保只有合适的组件可以响应你的Intent。
+- -
+- **Intent过滤器的配置：** 当你创建一个可以响应隐式Intent的组件时（比如Activity），在清单文件中正确配置Intent过滤器，确保可以匹配到预期的Intent。
+- -
+- **返回数据：** 当通过`startActivityForResult`方法启动一个Activity时，可以设置返回结果。在目标Activity中通过`setResult`方法设置返回数据，在调用`finish`方法结束Activity。在调用方Activity中通过`onActivityResult`方法获取返回的数据。
+- -
+- **应用内跳转和外部跳转：** Intent可以用于应用内的组件之间跳转，也可以用于打开其他应用的Activity。在外部跳转时，要注意可能会遇到没有安装目标应用、目标应用的Activity不存在等问题。
+- -
+- **Activity启动模式：** Intent可以通过设置启动模式来影响Activity的创建和销毁行为，例如`standard`、`singleTop`、`singleTask`、`singleInstance`等。
+- -
+- **参数传递和获取：** 通过Intent传递参数时，可以使用`putExtra`方法设置参数，然后在目标组件中使用`getXXXExtra`方法获取参数。

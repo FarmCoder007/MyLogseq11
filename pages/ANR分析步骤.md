@@ -1,0 +1,5 @@
+- 1. 定位发生ANR时间点
+- 2. 查看trace信息
+- 3. 分析是否有耗时的message,binder调用，锁的竞争，CPU资源的抢占
+- 4. 结合具体的业务场景的上下文来分析
+- ![image.png](../assets/image_1692883057051_0.png)

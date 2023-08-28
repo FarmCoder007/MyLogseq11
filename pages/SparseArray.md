@@ -1,0 +1,11 @@
+# 数据结构
+	- 双数组结构，key  和 value 都是一个数组存储
+	- key : 该数组存放int:
+		- 按大小排序，二分查找，新的存放位置的下标
+	- value :该数组存放object
+		- 直接通过key拿到的下标。去存放value就行了
+- # 优点
+	- 插入：二分查找
+	- 删除：不会真的删除，不会数组向前移动，只标记del
+- # 缺点：key只能是int
+	- ## [[ArrayMap]]应运而生，为hashmap+SparseArray.key可以为任意类型

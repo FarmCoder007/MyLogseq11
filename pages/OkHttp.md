@@ -1,5 +1,5 @@
-- # 一、简介
-  collapsed:: true
+# 一、简介
+collapsed:: true
 	- OkHttp是当下Android使用最频繁的网络请求框架，由Square公司开源。Google在Android4.4以后开始将源码中的HttpURLConnection底层实现替换为OKHttp，同时现在流行的Retrofifit框架底层同样是使用OKHttp的。
 - # 二、优点:
   collapsed:: true
@@ -56,4 +56,4 @@
 	- [[OkHttp线程池相关源码分析]]
 	- [[五大拦截器]]
 	- [Okhttp源码解析一](https://blog.csdn.net/xuwb123xuwb/article/details/114639411)
--
+	- [怎么处理https的证书的](https://www.6hu.cc/archives/72873.html)

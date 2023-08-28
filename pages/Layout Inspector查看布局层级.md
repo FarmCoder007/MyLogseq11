@@ -1,0 +1,5 @@
+- ![image.png](../assets/image_1692864953794_0.png)
+- 然后选择需要查看的进程与Activity：
+- ![image.png](../assets/image_1692864965231_0.png)
+- 在左侧id为content之下的就是我们写在XML中的布局。可以明显看出，我们的布局中是一个LinearLayout ,其中又包含两个LinearLayout 。我们应该尽量减少其层级，可以使用ConstraintLayout 约束布局使得布局尽量扁平化，移除非必需的UI组件。
+- ![image.png](../assets/image_1692864984805_0.png)

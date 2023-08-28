@@ -17,7 +17,6 @@
 		- 进程存在则继续启动Activity
 		- 否则执行AMS的startProcessLocked方法启动目标app进程
 - # 第二阶段：创建应用程序进程阶段
-  collapsed:: true
 	- ![image.png](../assets/image_1688714514352_0.png)
 	- ## 1、AMS调用startProcessLocked方法最终都会调用startProcess方法,然后通过Process调用start方法，开始创建进程
 	- ## 2、Process.start()中会通过zygoteProcess.利用socket通信告知Zygote创建fork子进程
@@ -28,7 +27,6 @@
 	- ## 6、最终在ActivityThread.handleBindApplication()最终创建Instrumentacion，Instrumentacion再利用反射创建Application，执行其attach方法
 	- ## 7、最终执行到Application 的 attachBaseContext。应用程序进程启动完成
 - # 第三阶段：ApplicationThread到Activity阶段
-  collapsed:: true
 	- ## API28重构之后
 		- ![image.png](../assets/image_1688714574221_0.png){:height 271, :width 727}
 	- ## 1、ActivityStackSupervisor调用realStartActivityLocked去执行创建Activity的流程

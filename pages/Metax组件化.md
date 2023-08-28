@@ -1,10 +1,12 @@
-- # 一、框架
-  collapsed:: true
-	- ![image.png](../assets/image_1668755542218_0.png)
+# 一、框架
+	- ![image.png](../assets/image_1668755542218_0.png){:height 596, :width 749}
 - # 二、九大规范
 	- ## 工程结构规范
 	- ## [[API变动规范]]
-		-
+	- ## 组件依赖规范
+		- api 库使用其他组件的能力：依赖其他组件的 api 库，而不能依赖其实现库
+		- lib 库使用其他组件的能力：依赖其他组件的 api 库，而不能依赖其实现库
+		- 打包工程依赖于各组件的 lib 库
 - # 三、工具
 -
--
+- # [文章](https://blog.csdn.net/u014294681/article/details/125010717)

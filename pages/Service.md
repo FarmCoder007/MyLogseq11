@@ -1,4 +1,4 @@
-- # 一、概念
+# 一、概念
 	- Service是Android实现程序后台运行的解决方案
 	- 它非常适合去执行那些不需要和用户交互而且还要长期运行的任务。
 - # 二、代码运行在主线程
@@ -26,7 +26,6 @@
 		- android:permission : 其他组件必须具有所填的权限才能启动这个service。
 		- android:process : service运行的进程的name。默认启动的service是运行在主进程中的。
 - # 四、Service的两种启动方式
-  collapsed:: true
 	- ## startService();
 		- startService(new Intent(context,MyService.class))
 	- ## [[BindService]]
@@ -34,28 +33,13 @@
 		  Intent intent = new Intent(this, LocalService.class);
 		  bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
 		  ```
-- # 五、startService和bindService区别
-	- ![image.png](../assets/image_1688375323902_0.png)
+- # 五、[[startService和bindService区别]]
 - # 六、Service的生命周期
   collapsed:: true
 	- ![](https://upload-images.jianshu.io/upload_images/1291453-fe8597f87c8443c9.jpg?imageMogr2/auto-orient/strip|imageView2/2/w/389/format/webp)
 	- ## onCreate()
 		- 服务创建的时候调用
-	- ## onStartCommand()
-		- 每次服务启动的时候调用
-		- ## 返回值的区别，服务被系统杀死后，怎么操作
-			- ## 1、START_NOT_STICKY（常量值：2）
-				- - 默认情况下，系统不会重新创建服务。除非有将要传递来的Intent时，系统重新创建服务，并调用`onStartCommand()`，传入此Intent。
-				- ==车祸后再也没有苏醒==
-				- - 这是最安全的选项，可以避免在不必要的时候运行服务。
-			- ## 2、START_STICKY（常量值：1）
-				- 系统重新创建服务，并调用`onStartCommand()`，默认是传入空Intent。除非存在将要传递来的Intent，那么就传递这些Intent。
-				- ==特点：车祸后自己苏醒，但是失忆==
-				- 适合：播放器一类的服务。独立运行，但无需执行命令，只等待任务。
-			- ## 3、START_REDELIVER_INTENT（常量值：3）
-				- - 系统重新创建服务，并调用`onStartCommand()`，传入上次传递给服务执行过的Intent。
-				- ==车祸后自己苏醒，依然保持记忆==。
-				- - 适合像下载一样的服务。立即恢复，积极执行。
+	- ## [[onStartCommand()的三种返回值]]
 	- ## onBind()
 		- 当其他组件通过bindService()方法与service相绑定之后，此方法将会被调用。这个方法有一个IBinder的返回值，这意味着在重写它的时候必须返回一个IBinder对象，它是用来支撑其他组件与service之间的通信的——另外，如果你不想让这个service被其他组件所绑定，可以通过在这个方法返回一个null值来实现。
 	- ## onDestory()

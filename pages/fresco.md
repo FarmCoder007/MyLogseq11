@@ -1,2 +1,5 @@
 - [[fresco框架分析]]
 - [[Fresco对象池]]
+-
+- # 参考
+	- https://blog.csdn.net/qq_43351888/article/details/126500258

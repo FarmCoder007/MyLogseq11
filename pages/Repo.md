@@ -140,7 +140,6 @@
 			  ```
 		-
 	- ## 使用场景
-	  collapsed:: true
 		- ### 场景1：管理58App相关的所有Git仓库
 			- 58App相关的所有Git仓库，不仅仅代码仓库，还有很多的工具仓库，如doc文档、CodeTure、Python比对脚本等等
 			- 统一配置到manifest之后，可带来如下好处：

@@ -1,3 +1,5 @@
-- volatile,只能保证可见性，不能保证原子性
-- Synchronized，既能保证可见性，又能保证原子性
+- 1、volatile,只能保证内存可见性，不能保证原子性
+	- Synchronized，既能保证内存可见性，又能保证原子性
+- 2、volatile标记的变量不会被编译器优化,而synchronized标记的变量可以被编译器优化（如编译器重排序的优化）
+- 3、volatile是变量修饰符，仅能用于变量，而synchronized是一个方法或块的修饰符。
 -

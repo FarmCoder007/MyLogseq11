@@ -1,7 +1,6 @@
 title:: Activity没有在AndroidManifest.xml注册-面试
 
 - # 1、错误在哪里检测的？
-  collapsed:: true
 	- 1、启动activity的时候会执行到execStartActivity里，然后执行AMS的startActivity方法
 	- 2、检测上面返回结果checkStartActivityResult
 		- ActivityManager.START_INTENT_NOT_RESOLVED:

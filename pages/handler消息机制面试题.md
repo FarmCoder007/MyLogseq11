@@ -1,7 +1,7 @@
-- # [[Handler]]
+# [[Handler]]
 - # [handler相关面试题](https://blog.csdn.net/xuwb123xuwb/article/details/115918849?spm=1001.2014.3001.5502)
 - #   [handler  消息机制 原理](https://blog.csdn.net/xuwb123xuwb/article/details/115377306)
-- # 1、简单介绍下Handler消息机制
+- ## 1、简单介绍下Handler消息机制
   collapsed:: true
 	- ![image.png](../assets/image_1688094803699_0.png){:height 370, :width 749}
 	- ### Handler: 发送消息和处理消息
@@ -9,18 +9,18 @@
 		- Looper.loop()死循环
 	- ### MessageQueue：优先级消息队列，按时间when来存放Handler发送过来的消息
 	- ### Message: 消息的载体
-- # 2、Handler中SendMessage 和 Post区别
+- ## 2、Handler中SendMessage 和 Post区别
   collapsed:: true
 	- ## SendMessage:
 		- 1、发送消息对象
 	- ## post() 它不叫异步消息
 		- 1、发送的可执行代码（runnable）
-- # 3、[[Handler中的如何保证一个线程只有一个Looper]]
-- # 4、[[MessageQueue，属于哪个线程？问队列创建流程]]
-- # 5、一个线程有几个Handler？
+- ## 3、[[Handler中的如何保证一个线程只有一个Looper]]
+- ## 4、[[MessageQueue，属于哪个线程？问队列创建流程]]
+- ## 5、一个线程有几个Handler？
   collapsed:: true
 	- 可以有任意多个 ，因为在每个activity 里都可以new  而 他们都是在主线程的 ；所以就创建了多个
-- # 6、Handler内存泄漏的原因？为什么其他的内部类没有说过这个问题？
+- ## 6、Handler内存泄漏的原因？为什么其他的内部类没有说过这个问题？
   collapsed:: true
 	- 因为 使用Handler 时 是[[匿名内部类]]， 内部类持有外部类的引用
 	- Handler 持有 activity的引用，而 Message 持有target(handler)的引用
@@ -44,7 +44,7 @@
 	- 导致Handler 和 Activity生命周期不同步，导致内存泄漏
 	- （RecyclerView adapter ViewHolder 也是匿名内部类，生命周期同步，不会泄漏）
 	- # [[Handler怎么避免内存泄漏]]
-- # 7、为何 主线程可以new handler?  如果想要在子线程中new Handler() 要做哪些准备？
+- ## 7、为何 主线程可以new handler?  如果想要在子线程中new Handler() 要做哪些准备？
   collapsed:: true
 	- ## 问题一、主线程的looper已经在ActivityThread的 main函数中创建了
 	  collapsed:: true
@@ -124,7 +124,7 @@
 		- 3、Looper.loop();  // 开启无线循环
 		- 4、用完 looper 为了性能 调用关闭方法 他会让messagequeue清空内部消息，停止轮训
 			- Looper.myLooper()?.quit()
-- # 8、子线程中维护的Looper,消息队列无消息的时候的处理方案是什么？ 有什么作用？
+- ## 8、子线程中维护的Looper,消息队列无消息的时候的处理方案是什么？ 有什么作用？
   collapsed:: true
 	- ### 前言背景
 		- 1、[[Looper]].loop()函数，调用 [[MessageQueue.next()]]取消息
@@ -167,8 +167,7 @@
 					              。。。。。。
 					           }
 					  ```
-- # 9、Looper死循环 为什么不会导致 应用卡死？
-  collapsed:: true
+- ## 9、Looper死循环 为什么不会导致 应用卡死ANR？
 	- 由第8题可知，消息队列无消息默认进入休眠（无论子主线程），为啥不会卡死app呢
 	- ## 1、ANR发生的原因
 		- 1：   5s内没有响应输入 事件  【触摸啊什么的】
@@ -178,15 +177,15 @@
 		- 1  触摸事件会变成msg， 同时唤醒looper循环
 		- 2  往looper里添加消息 也会唤醒
 		- 产生Anr是因为 输入事件没有响应，，但是 输入事件 会唤醒 looper循环；  所以两个概念
-- # 10、既然可以存在多个Handler往MessageQueue中添加数据（发送消息时各个Handler可能处于不同线程），那么内部怎么保证线程安全的？
+- ## 10、既然可以存在多个Handler往MessageQueue中添加数据（发送消息时各个Handler可能处于不同线程），那么内部怎么保证线程安全的？
   collapsed:: true
 	- MessageQueue.enqueueMessage()添加消息方法和取消息里添加了同步代码块
 	- synchronized (this) {}锁是这个messageQueue对象，一个线程中looper是唯一的那么就导致messageQueue唯一的
 	- 同一个messageQueue对象中，被同一个锁，锁住的所有函数和方法，同一个时刻只能执行一个
 	- 所以一个线程，只有一个可以操作MessageQueue的地方
-- # 11、[[Message怎么获取？享元设计模式]]
+- ## 11、[[Message怎么获取？享元设计模式]]
 	- 使用Message应该使用obtain  方法  因为里边维护了一个消息复用的池子,避免内存抖动，频繁创建销毁对象
-- # 12、[[Message怎么实现从子线程到主线程的切换]]
+- ## 12、[[Message怎么实现从子线程到主线程的切换]]
 - # 13、[[同步消息屏障]]
 - # 14、怎么发送异步消息？
 	- 详见[[设置异步消息]]
@@ -208,5 +207,24 @@
 - # 16、Handler+Thread 和 HandlerThread的区别
 	- Handler+Thread是消息机制
 	- HandlerThread是线程，他帮我们创建好了looper，提供创建Handler的方法，保证创建loop的线程安全
+- # 17、HandlerThread 能更新ui吗
+	- 不可以，
+	- 它是一个==**子线程具有了 looper和handler这样的机制**==
+	- 当这个子线程创建了handler的时候，[[#red]]==**别的线程可以通过handler来发送信息**==，
+	- 并且可以[[#red]]==**在这个handler里面执行耗时的操作**==
 - # 17、handler.post()消息执行之后，回调回来再继续往下执行，同步等待的效果？
 	- getHandler().runWithScissors 同步等待
+- # Android中的多线程
+	- ## 1、[[HandlerThread]]
+		- 继承自thread ， 是一个Android的线程类  作用： 主线程发送消息到子线程来处理【给handlerThread 创建一个handler 【构造里传入handlerThread的looper 】  在主线程 使用子线程创建的handler 发送消息 就行了   就是主线程给子线程发消息】
+	- ## 2、AsyncTask
+		- 有内存泄漏问题，静态内部类 + 外部类的弱引用的方式 解决
+	- ## 3、IntentService ：执⾏单个任务后⾃动关闭的 Service
+	- ## 4、Executor线程池
+- # Android多线程的应用场景
+	- 4-1 能⽤ Executor 就⽤ Executor【多线程】
+	- 4-2 需要⽤到「后台线程推送任务到 UI 线程」时，再考虑 AsyncTask 或者 Handler
+	- 4-3 HandlerThread 的使⽤场景很少基本可以用 Executor 替代 【单线程的】：
+	- 4-4 IntentService ：⾸先，它是⼀个 Service ；另外，它在处理线程本身，没有⽐ Executor 有任何优势
+	- 注意：  关于 Executor 和 HandlerThread 的关闭
+	  如果在界⾯组件⾥创建 Executor 或者 HandlerThread ，记得要在关闭的时候（例如 Activity.onDestroy() ）关闭 Executor【executor.shutdown();】 和 HandlerThread【handlerThread.quit(); // 这个其实就是停⽌ Looper 的循环】 。

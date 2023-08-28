@@ -1,3 +1,3 @@
 - [千图网模板](https://designer-ppt.58pic.com/?template_type=3&upicId=151964617)
 - [优品网](https://www.ypppt.com/)
--
+- [述职ppt(2).pptx](../assets/述职ppt(2)_1693196192901_0.pptx)

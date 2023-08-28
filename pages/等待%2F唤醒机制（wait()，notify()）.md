@@ -1,5 +1,4 @@
-- # api
-  collapsed:: true
+# api
 	- ![image.png](../assets/image_1687773796533_0.png)
 - ## [[#red]]==**涉及的方法（由object锁调用）**==
 	- 1，wait(): 让线程处于冻结状态，被wait的线程会被存储到线程池中。

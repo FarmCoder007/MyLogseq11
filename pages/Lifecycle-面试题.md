@@ -6,7 +6,6 @@
 	- 1、自定义观察者，实现 DefaultLifecycleObserver接口重写需要的生命周期方法
 	- 2、在Activity/Fragment里注册就可以
 - # 3、原理
-  collapsed:: true
 	- ## 总体来说
 		- 利用无页面ReportFragment，感知生命周期，计算出下一状态和事件后，经过适配器转换找到观察者的生命周期回调方法
 	- ## 详细

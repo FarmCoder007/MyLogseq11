@@ -5,7 +5,8 @@
 	- [[PPT]]
 	- [[项目解析]]
 	- [[面试]]
-- Android
+	- [[简历]]
+- ## Android
 	- [[四大组件]]
 	- [[Android-Framework]]
 	- [[Android虚拟机与类加载]]
@@ -31,7 +32,7 @@
 	- [[Android版本特性]]
 	- [[谷歌学习网址]]
 	- [[在线工具]]
-- JAVA
+- ## JAVA
 	- [[基本对象]]
 	- [[面向对象]]
 	- [[java-泛型]]
@@ -49,7 +50,8 @@
 	- [[java面试题]]
 	- [[数据结构]]
 	- [[算法]]
-- Kotlin
+- ## [[网络]]
+- ## Kotlin
   collapsed:: true
 	- [[kotlin语法学习思路]]
 	- [[Kotlin基础]]
@@ -57,6 +59,16 @@
 	- [[协程]]
 	- [[高阶函数]]
 	- [[kotlin相关]]
+- ## Gradle
+	- [[Gradle文档]]
+	- [[buildConfig相关]]
+	- [[gradle/apt调试]]
+	- [[配置相关]]
+	- [[gradle命令]]
+	- [[maven发布]]
+	- [[代码覆盖率在buildsrc配置]]
+	- [[gradle升级]]
+	- [[hookGradleTask]]
 - AndroidStudio
   collapsed:: true
 	- AS插件
@@ -93,16 +105,6 @@
 	- [[常见命令]]
 	- [[React]]
 	- [[JavaScript]]
-- Gradle
-  collapsed:: true
-	- [[Gradle文档]]
-	- [[buildConfig相关]]
-	- [[gradle/apt调试]]
-	- [[配置相关]]
-	- [[gradle命令]]
-	- [[maven发布]]
-	- [[代码覆盖率在buildsrc配置]]
-	- [[gradle升级]]
 - Mac
   collapsed:: true
 	- [charles关闭后不能上网](https://blog.csdn.net/minmin_bufucisheng/article/details/89025601)

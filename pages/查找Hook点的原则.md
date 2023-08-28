@@ -1,0 +1,5 @@
+- Hook点选择，这些修饰符，修饰的hook点比较好
+- public
+- static
+- 单例
+- ![image.png](../assets/image_1692684868866_0.png)

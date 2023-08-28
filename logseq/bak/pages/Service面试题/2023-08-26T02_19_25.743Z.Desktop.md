@@ -1,0 +1,6 @@
+- # 1、Broadcast receiver不能启动和绑定Service
+- # 2、startService()与bindService()可以同时执行吗，怎么结束？
+	- 并不冲突，同一个service可能既有组件调用了startService()启动它，又有组件与它进行了绑定。
+	- 当同一个service与其他组件同时存在这两种联系时，其生命周期会发生变化，必须从两种方法的角度看service均停止才能真正停止。
+	- stopService()+UnbinderService
+-

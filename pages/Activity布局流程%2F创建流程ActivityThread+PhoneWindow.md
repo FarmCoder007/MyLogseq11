@@ -2,9 +2,7 @@
   collapsed:: true
 	- ![image.png](../assets/image_1691071466517_0.png)
 - ## 1、ActivityThread调用performLaunchActivity启动Activity时
-  collapsed:: true
 	- 1、[[#red]]==**创建上下文**==
-	  collapsed:: true
 		- ```java
 		   ContextImpl appContext = createBaseContextForActivity(r);
 		  ```
@@ -18,7 +16,6 @@
 	  collapsed:: true
 		- mInstrumentation.callActivityOnCreate(activity, r.state, r.persistentState);
 - ## 2、Activity-onCreate-走setContentView
-  collapsed:: true
 	- ```java
 	      protected void onCreate(Bundle savedInstanceState) {
 	          super.onCreate(savedInstanceState);
@@ -26,7 +23,6 @@
 	  
 	  ```
 - ## 3、PhoneWindow（由上，调用到PhoneWindow的setContentView）
-  collapsed:: true
 	- ## 1、installDecor 初始化[[#red]]==**DecorView（FrameLayout）**==
 		- 1、往DecorView添加默认布局LinerLayout,
 		- 2、从上边默认布局中，根据[[#red]]==**id = content 初始化mContentParent变量**==

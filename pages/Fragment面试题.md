@@ -1,5 +1,4 @@
 # 概念题
-collapsed:: true
 	- ## 1. 请简述Fragment的意义？
 	  collapsed:: true
 		- 1.1 Fragment是Activity界面的一部分，Fragment是依附于Activity之上的；
@@ -188,7 +187,6 @@ collapsed:: true
 		- 也比较简单，Fragment 内部有一个 childFragmentManager，通过它管理子 Fragment。
 		- 在添加子 Fragment 时，把子 Fragment 的布局 add 到父 Fragment 即可
 - # 常问题
-  collapsed:: true
 	- ## 3. 简述Fragment生命周期，常用的回调方法有几个？
 	  collapsed:: true
 		- ![image.png](../assets/image_1691387732957_0.png)
@@ -252,4 +250,5 @@ collapsed:: true
 	- ## 1、Fragment之间怎么传值？
 		- 那么可以Activity创建ViewModel,多个Fragment共享。
 	- ## 2、Navigation 插件传值
+- # [[Fragment的懒加载]]
 - # 19 [Fragment相关 面试题](https://blog.csdn.net/xuwb123xuwb/article/details/116199192)

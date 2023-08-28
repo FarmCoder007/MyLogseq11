@@ -1,0 +1,15 @@
+# ANR分析
+	- ### 1. 前台ANR发生后，系统会马上去抓取现场的信息，用于调试分析，收集的信息如下:
+		- 将am_anr信息输出到EventLog，也就是说ANR触发的时间点最接近的就是EventLog中输出的am_anr信息
+		- 收集以下重要进程的各个线程调用栈trace信息，保存在data/anr/traces.txt文件
+			- 当前发生ANR的进程，system_server进程以及所有persistent进程
+			- audioserver, cameraserver, mediaserver, surfaceflinger等重要的native进程
+			- CPU使用率排名前5的进程
+		- 将发生ANR的reason以及CPU使用情况信息输出到main log
+		- 将traces文件和CPU使用情况信息保存到dropbox，即data/system/dropbox目录
+		- 对用户可感知的进程则弹出ANR对话框告知用户，对用户不可感知的进程发生ANR则直接杀掉
+	- ## 2、[[ANR分析步骤]]（看这个）
+- # [[trace.txt文件解读]]
+- # [[ ANR分析技巧]]
+- # 实战
+	- ## [[ANR案例分析]]

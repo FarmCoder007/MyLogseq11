@@ -1,0 +1,12 @@
+- case1、ViewPager1
+	- 借助setUserVisibleHint 和 Fragment onCreate初始化标记，从可见不可见切换标记，onResume onPause等
+- case2、事务管理的Fragment：`add+show+hide` 模式下控制 Fragment 的懒加载
+	- onHiddenChanged
+	  当 Fragment 隐藏的状态发生改变时，该函数将会被调用
+	- onResume 和 onHiddenChanged 判断初始化，进行懒加载
+- case3、ViewPager2
+	- 本质也是借助LifeCycle
+- case4、[[Androidx 下的懒加载]]
+	- 构造FragmentPagerAdapter时传入**BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT**，将加载数据的逻辑放到Fragment的`onResume()`方法中即可
+	- `FragmentTransaction` 中增加了 `setMaxLifecycle` 方法来控制 Fragment 所能调用的最大的生命周期函数
+	-

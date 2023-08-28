@@ -1,0 +1,14 @@
+# 1、哪里创建activity对象 来调用他的生命周期方法
+	- ## 答案：在ActivityThread的performLaunchActivity中通过mInstrumentation创建的
+	- 根据Activity启动的大流程[[Activity启动流程]]得知，应用程序进程创建后AMS通知App创建Activity并回调相关生命周期
+	- # 具体流程
+	- ## 1-1、从ActivityThread的handleLaunchActivity开始
+	- ## 1-2、调用到performLaunchActivity
+	- ## 1-3、内部调用mInstrumentation.newActivity创建Activity
+	- ## 1-4、最终调用AppComponentFactory.instantiateActivity()反射构造Activity；
+	- ## 1-5、然后调用activity.attach()：Activity自己的初始化；
+	- ## 1-6、mInstrumentation.callActivityOnCreate()：先调用activity.performCreate()，再回调Activity.onCreate()。
+		-
+- # 2、其他生命周期方法在哪里调用的
+	- onCreate（）-> ActivityThread 通过 performLaunchActivity，调用mInstrumentation.callActivityOnCreate()
+	- onResume()-> ActivityThread 的 performResumeActivity
