@@ -1,5 +1,4 @@
-- # 一、常用命令
-  collapsed:: true
+# 一、常用命令
 	- 1 空目录 初始化git    git init
 	  2 初始化后可以配置用户名和邮箱  
 	     git config --global user.name "name"

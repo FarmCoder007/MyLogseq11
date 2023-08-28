@@ -1,8 +1,7 @@
-- # 一、Object
+# 一、Object
 	- Object:所有类的根类。
 	- Object是不断抽取而来，具备着所有对象都具备的共性内容。
 - # 二、equals
-  collapsed:: true
 	- ![image.png](../assets/image_1687156904453_0.png)
 	- ## object默认底层调用的也是==：
 		- == 比较的地址，这里 调用的==。则默认还是比较的地址
@@ -14,7 +13,6 @@
 	- ## 一般都复写
 		- 一般都会覆盖此方法，根据对象的特有内容，建立判断对象是否相同的依据。
 - # 三、重新equals同时也应该重新hashcode
-  collapsed:: true
 	- ## hashcode源码,Object的hashcode 默认调用的native方法
 	  collapsed:: true
 		- ```java
@@ -48,7 +46,6 @@
 	- 比如创建类，jvm先加载Class对象进堆中
 	- ![image.png](../assets/image_1687160189898_0.png)
 - # 五、toString
-  collapsed:: true
 	- 概述：默认这个
 		- ![image.png](../assets/image_1687160479323_0.png)
 	- ## 一般重写，输出自己想要的

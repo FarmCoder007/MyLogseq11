@@ -1,4 +1,4 @@
-- # 一、概念
+# 一、概念
 	- StringBuffer:就是字符串缓冲区。
 	- 用于存储数据的容器。
 - # 二、特点
@@ -122,7 +122,6 @@
 	  
 	  ```
 - # 六、怎么同步发
-  collapsed:: true
 	- ```java
 	  class StringBuffer jdk1.0
 	  {

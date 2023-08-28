@@ -1,9 +1,8 @@
-- # 一、字符串的特点
+# 一、字符串的特点
 	- 字符串对象一旦被初始化就不会被改变。
--
 - # 二、字符串的创建方式与区别
-  collapsed:: true
 	- ## 1、字面量创建:存储在字符串常量池中
+	  collapsed:: true
 		- ```java
 		  	/**
 		  	 * 演示字符串定义的第一种方式，并明确字符串常量池的特点.
@@ -26,6 +25,7 @@
 		- 2、new 会在堆中，根据传入的字面量对象，创建一个新对象，并返回
 		- 传入的“abc”不会存在常量池中，而是在new 的这个新对象内维护的
 - # 三、String重写了object equals
+  collapsed:: true
 	- 比较内容
 - # 四、常用方法
   collapsed:: true
@@ -88,13 +88,11 @@
 	- ![image.png](../assets/image_1687860697551_0.png)
 	- ![07-常用对象API(String类-常-00_01_48-2023_06_27_18_12_03.jpg](../assets/07-常用对象API(String类-常-00_01_48-2023_06_27_18_12_03_1687860734978_0.jpg)
 - # 五、intern()
-  collapsed:: true
 	- Api
 		- ![08-常用对象API(String类-i-00_01_02-2023_06_27_18_16_29.jpg](../assets/08-常用对象API(String类-i-00_01_02-2023_06_27_18_16_29_1687860998752_0.jpg)
 	- ## 作用
 		- 对字符串池进行操作的
 	- ## 示例
-	  collapsed:: true
 		- ```java
 		  package cn.itcast.p1.string.demo;
 		  

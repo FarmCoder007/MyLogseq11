@@ -1,11 +1,11 @@
-# 1、java内存区域
+## 1、java内存区域
 collapsed:: true
 	- ## 1-1、说一下 JVM 的主要组成部分及其作用？
+	  collapsed:: true
 		- ### 首先JVM的组成：
 			- ### 组成图
 				- ![jvm组成.png](../assets/jvm组成_1684819371991_0.png)
 			- ### JVM包含两个子系统和两个组件。
-			  collapsed:: true
 				- 两个子系统为[[ClassLoader]](类装载)、Execution engine(执行引擎)；
 					- Class loader(类装载)：根据给定的全限定名类名(如：java.lang.Object)来装载class文件到Runtime data area中的method area。
 					- Execution engine（执行引擎）：执行classes中的指令。
@@ -13,7 +13,6 @@ collapsed:: true
 					- Native Interface(本地接口)：与native libraries交互，是其它编程语言交互的接口。
 					- Runtime data area(运行时数据区域)：这就是我们常说的JVM的内存。
 		- ### 各部分的作用
-		  collapsed:: true
 			- 1、首先通过编译器把 Java 代码转换成字节码.class
 			- 2、[[#red]]==类加载器（ClassLoader）==再把字节码加载到内存中，将其放在运行时数据区（Runtime data area）的方法区内，而字节码文件只是 JVM 的一套指令集规范，并不能直接交给底层操作系统去执行，因此需要
 			- 3、[[#red]]==特定的命令解析器执行引擎（Execution Engine），将字节码翻译成底层系统指令，再交由 CPU 去执行==
@@ -28,7 +27,6 @@ collapsed:: true
 					- 4-1、[[#red]]==类的加载==指的是[[#red]]==将类的.class文件中的二进制数据读入到内存中==，将其[[#red]]==放在运行时数据区的方法区==内
 					- 4-2、然后在[[#red]]==堆区创建一个 java.lang.Class对象==，[[#red]]==用来封装类在方法区内的数据结构。==
 	- ## 1-2、说一下 JVM 运行时数据区（或者说内存结构）
-	  collapsed:: true
 		- **Java 虚拟机在执行 Java 程序的过程中会把它所管理的内存区域划分为若干个不同的数据区域**。
 			- ![运行时数据区.png](../assets/运行时数据区_1684819299279_0.png)
 			- 不同虚拟机的运行时数据区可能略微有所不同，但都会遵从 Java 虚拟机规范， Java 虚拟机规范规定的区域分为以下 5 个部分：
@@ -37,12 +35,10 @@ collapsed:: true
 				- 3、**本地方法栈（Native Method Stack）：**与虚拟机栈的作用是一样的，只不过虚拟机栈是服务 Java 方法的，而[[#red]]==本地方法栈是为虚拟机调用 Native 方法服务的==；
 				- **4、Java 堆（Java Heap）：**Java 虚拟机中内存最大的一块，是被所有线程共享的，几乎所有的[[#red]]==**对象实例都在这里分配内存；**==
 				- 5、**方法区（Methed Area）：**用于存储已被虚拟机[[#red]]==加载的类信息、常量、静态变量==、即时编译后的代码等数据。
-- # 2、HotSpot虚拟机对象探秘
-- # 3、JVM虚拟机和Android虚拟机的区别
+- ## 2、JVM虚拟机和Android虚拟机的区别
 	- [[#red]]==**1、jdk默认的HotSpot，以及android的Dalvik、ART都是虚拟机**==
 	- [[#red]]==**2、java虚拟机都是基于栈的，android虚拟机是基于寄存器，**==。
-- # 4、成员变量，局部变量，静态变量在内存中哪一块？
-  collapsed:: true
+- ## 3、成员变量，局部变量，静态变量在内存中哪一块？
 	- 1、成员变量（也叫实例变量）跟随对象，在堆内存中
 	- 2、局部变量跟随方法，在虚拟机栈中
 	- 3、静态变量（也叫类变量，可以被类直接调用）在方法区（永久代，JDK1.8以后叫元空间）
