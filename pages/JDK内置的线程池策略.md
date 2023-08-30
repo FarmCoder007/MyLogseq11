@@ -1,5 +1,5 @@
-- ## 1、newCachedThreadPool
-	- 可缓存线程池，核心线程池为0。如果线程池长度超过存活时间，可回收空闲线程。容量为int的最大值，使用时要特别注意
+## 1、newCachedThreadPool
+	- 可缓存线程池，核心线程池为0。如果空闲线程超过存活时间，可回收空闲线程。容量为int的最大值，使用时要特别注意
 	- ```java
 	  // 参数一 线程池的默认数 【也是空闲线程回收到默认数就不再回收了，也是这个数】  
 	  参数二 线程池线程最大数   
@@ -17,7 +17,6 @@
 	  ```
 	- 最大线程核心线程都是1，只会创建1个线程去干活。可以保证按顺序执行
 - ## 3、newFixedThreadPool（） 创建固定线程个数的线程池
-  collapsed:: true
 	- ```java
 	      public static ExecutorService newFixedThreadPool(int nThreads) {
 	          return new ThreadPoolExecutor(nThreads, nThreads,

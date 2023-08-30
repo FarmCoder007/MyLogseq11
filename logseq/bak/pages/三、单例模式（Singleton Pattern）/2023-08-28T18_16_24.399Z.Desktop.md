@@ -201,18 +201,16 @@
 					- ```kotlin
 					  ```
 		- ## [[#red]]==**懒汉式（双重检查，线程安全）【推荐】**==
-		  collapsed:: true
 			- ## 特点
 				- ## 优点：
-				  collapsed:: true
 					- - **延迟加载**，只有在需要时才会实例化对象。
 					- - **效率高**：在多线程环境下保持了较好的性能。
 					- - 线程安全
 				- ## 缺点：
 					- 实现较复杂，需要使用 volatile 关键字和双重检查来保证线程安全。
 			- ## 代码示例
-			  collapsed:: true
 				- ## java
+				  collapsed:: true
 					- ```java
 					  public class Singleton {
 					      private static volatile Singleton instance;
@@ -240,10 +238,10 @@
 					  }
 					  ```
 	- ## 三、[[#red]]==**静态内部类（1种）【推荐】**==
-	  collapsed:: true
 		- ## 原理
-		  collapsed:: true
 			- - 静态内部类方式在Singleton类被装载时**并不会立即实例化**，而是在需要实例化时，调用getInstance方法，才会装载singletonInstance类，从而完成Singleton的实例化。
+		- ## 如何保证线程安全的原理、
+			- 类加载机制，一个类的加载，虚拟机只允许执行一次，内部加锁了
 		- ## 特点
 		  collapsed:: true
 			- ## 优点：
@@ -253,8 +251,8 @@
 			- ## 缺点：
 				- 暂无
 		- ## 代码示例
+		  collapsed:: true
 			- ## Java
-			  collapsed:: true
 				- ```java
 				  public class Singleton {
 				      private Singleton() {}
@@ -269,7 +267,6 @@
 				  }
 				  ```
 			- ## kotlin
-			  collapsed:: true
 				- ```kotlin
 				  class Singleton  private constructor(){
 				      companion object {
@@ -286,6 +283,7 @@
 				  }
 				  ```
 	- ## 四、枚举（1种）
+	  collapsed:: true
 		- ## 特点
 			- - 这借助JDK1.5中添加的枚举来实现单例模式。
 			- - 不仅能避免多线程同步问题，而且还能防止反序列化和反射重新创建新的对象。 这种方式是Effective-Java作者Josh Bloch提倡的方式

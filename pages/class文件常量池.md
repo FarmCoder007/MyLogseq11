@@ -5,7 +5,6 @@
 	- 所以class 文件常量池(非运行时常量池)，其在**编译阶段**就已经确定
 	- java的源代码`.java`文件在编译之后会生成`.class`文件，class文件需要严格遵循JVM规范才能被JVM正常加载，字节码class它是一个**二进制字节流文件，里面包含了class文件常量池的内容**。
 - # 二、查看一个class文件中的class文件常量池
-  collapsed:: true
 	- [[java编译命令行]]
 	- 举例：
 		- Student.java
@@ -157,8 +156,10 @@
 		- 是该class编译后即知的，在运行时将会用到的各个“常量”。
 		- 注意这个常量不是编程中所说的`final`修饰的变量，而是`字面量`和`符号引用`，如下图所示：
 	- 图
+	  collapsed:: true
 		- ![class文件常量池.png](../assets/class文件常量池_1684836026711_0.png)
 	- ## 3-1 字面量
+	  collapsed:: true
 		- 字面量大约相当于Java代码中的双引号字符串和常量的实际的值，包括：
 		- ### 1、文本字符串
 			- 即代码中用双引号包裹的字符串部分的值。例如刚刚的例子中，有三个字符串：`"张三"`，`"优秀"`，`"+"`，它们在class文件常量池中分别对应：
@@ -191,6 +192,7 @@
 			  #41 = Utf8               (I)V
 			  ```
 			- 以及这种对其他类的方法的引用：
+			  collapsed:: true
 				- ```
 				  #8 = Methodref          #55.#56        // java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
 				  
@@ -214,6 +216,7 @@
 			  #21 = Utf8               Ljava/lang/String;
 			  ```
 			- 以及这种局部变量：
+			  collapsed:: true
 				- ```
 				  #64 = Utf8               base:10
 				  ```
