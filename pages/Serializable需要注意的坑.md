@@ -1,4 +1,4 @@
-- # 一、多引用写入
+# 一、多引用写入
 	- ```java
 	  public class Course implements Serializable {
 	      private static final long serialVersionUID = 667279791530738499L;
@@ -34,7 +34,6 @@
 	- 在默认情况下， 对于一个实例的多个引用，为了节省空间，只会写入一次，后面会追加几个字节代表某个实例的引用。
 	- ## [[#red]]==一个对象，序列化一次，中间改值了，再写入需要调用reset 或者writeUnshared==。要不然同一个实例多引用只会写入一次
 - # 二、子类实现序列化，父类不实现序列化/ 对象引用
-  collapsed:: true
 	- ```java
 	  public class Person {
 	      private String name;
@@ -71,7 +70,7 @@
 	  }
 	  ```
 	- 在readObject时抛出java.io.NotSerializableException异常。
-- # 三、类的演化
+- # 三、类的演化:反序列化目标类多一个字段(height)时
 	- ```java
 	  //反序列化目标类多一个字段(height)
 	  public class Student implements Serializable {

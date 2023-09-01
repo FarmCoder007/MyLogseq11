@@ -1,6 +1,5 @@
-- ## 定义callBack
+## 定义callBack
 	- ## java
-	  collapsed:: true
 		- JavaCallback
 		- ``` java
 		  public interface JavaCallback {
@@ -19,7 +18,6 @@
 			  ```
 	- ## kotlin
 		- KTCallback
-		  collapsed:: true
 			- ```kotlin
 			  interface KTCallback {
 			  
@@ -28,7 +26,6 @@
 			  }
 			  ```
 		- KtManager
-		  collapsed:: true
 			- ```kotlin
 			  class KtManager {
 			  
@@ -39,7 +36,6 @@
 			  }
 			  ```
 - ## kt使用java cb
-  collapsed:: true
 	- ```kotlin
 	  fun main() {
 	  

@@ -1,10 +1,9 @@
-- ## Dispatchers.Default：
+## Dispatchers.Default：
 	- 默认调度器，用于**CPU密集型任务的线程池**，一般来说它内部的线程个数与机器CPU核心数量保持一致。**共享线程池**
 - ## Dispatchers.IO：
 	- 用于**IO密集型任务的线程池**，内部线程数量较多，一般为64个。
 	- 适用于执行I/O密集型的工作，使用专门的线程池执行协程。
 - ## Dispatchers.Main：
-  collapsed:: true
 	- 用于Android平台上的主线程，用于更新UI或执行短时间的计算操作。
 	- Main
 		- ```kotlin

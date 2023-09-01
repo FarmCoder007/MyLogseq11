@@ -8,4 +8,4 @@
 	- 插入：二分查找
 	- 删除：不会真的删除，不会数组向前移动，只标记del
 - # 缺点：key只能是int
-	- ## [[ArrayMap]]应运而生，为hashmap+SparseArray.key可以为任意类型
+	- ## [[ArrayMap]]应运而生.key可以为任意类型

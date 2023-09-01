@@ -1,9 +1,9 @@
-- ## 分析
+## 分析
 	- [[#red]]==栈：特点先进后出==  【子弹梭子】，
 	- [[#red]]==队列：先进先出==【管子】
 - ## 模拟堆栈（Stack）
+  collapsed:: true
 	- ### 先进后出、子弹梭子从头进从头取，涉及方法addFirst()  removeFirst
-	  collapsed:: true
 		- addFirst会一直在第一个位置上添加元素，之前添加的后移
 		- removeFirst 移除的是后来添加的
 		- ```java
@@ -60,7 +60,9 @@
 		  
 		  ```
 - ## 模拟队列（Queue）
+  collapsed:: true
 	- ### 先进先出，管子，从后进前出，涉及方法addLast，removeFirst
+	  collapsed:: true
 		- ```java
 		  import java.util.LinkedList;
 		  

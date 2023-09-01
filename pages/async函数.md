@@ -1,5 +1,4 @@
-- ## 1、方法介绍
-  collapsed:: true
+## 1、方法介绍
 	- ```kotlin
 	  public fun <T> CoroutineScope.async(
 	      context: CoroutineContext = EmptyCoroutineContext,
@@ -36,10 +35,8 @@
 		-
 		-
 - ## 2、async执行流程图解
-  collapsed:: true
 	- ![async.webp](../assets/async_1690635007682_0.webp)
 - ## 3、例子
-  collapsed:: true
 	- ```kotlin
 	  fun main() = runBlocking {
 	      println("coroutine start ${Thread.currentThread().name}")

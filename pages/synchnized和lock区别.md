@@ -1,6 +1,9 @@
-- 1、synchnized对锁的操作是隐式的
-  collapsed:: true
-	- lock将同步和锁封装成对象，将操作锁变成了显示的
-	- ![28-多线程(线程间通信-多生产者多消费-00_15_16-2023_06_26_20_30_09.jpg](../assets/28-多线程(线程间通信-多生产者多消费-00_15_16-2023_06_26_20_30_09_1687782619957_0.jpg)
-- 2、synchnized，锁上只能有一组wait notify
+- 1、一个显示锁，一个隐式锁
+- 2、lock是对象，sync是关键字
+  id:: 64be3511-833c-4aa4-b138-9e6e96bad306
+- 3、ReentrantLock 还提供了尝试拿锁的方法，，
+  id:: 64be3521-0a8d-4b35-960a-c9f6af4efc7d
+- 4、Synchronied为非公平锁
+	- ReentrantLock 除了非公平锁 还提供了公平锁的实现
+- 5、synchnized，锁上只能有一组wait notify
 	- condition能有多组

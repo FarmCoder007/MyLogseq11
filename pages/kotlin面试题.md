@@ -1,13 +1,26 @@
-- # 1、var和val区别？
+# 1、var和val区别？
 	- var修饰的为变量，会生成setget方法可读可改
 	- val修饰的为常量，只有get方法 可读
 - # 2、kotlin比java相比优势和区别？
-  collapsed:: true
 	- ## kotlin优势
 		- 1、kotlin提供很多扩展函数
 		- 2、空安全检查
 	- ## kotlin 比 java编译速度更慢，需要先生成java 再编译成字节码
 - ## 3、[[kotlin和java方法互调，有没有遇到什么问题？]]
+	- 1、Kotlin使用**[[#red]]==Object声明单例==**
+		- kotlin可以直接使用类名.方法名调用
+		- java也想要类名.方法名的话，方法上需要@JvmStatic注解
+	- 2、Kotlin使用==**kt文件**==声明的静态变量和方法
+		- kotlin可以直接调用
+		- java需要文件名.方法名/变量 调用。当然可以修改文件名
+	- 3、java 使用 [[#red]]==**kotlin关键字**==定义了变量 等
+		- kotlin调用时 使用 单引号处理``
+	- 4、[[#red]]==**class类型**==参数定义
+		- kotlin 使用 kClass
+		- java使用 class
+	- 5、kotlin定义**==方法时，参数使用默认值==**
+		- kotlin 调用会自动生成 重载方法
+		- java要想调用到，需要JvmOverloads 注解
 - ## 4、kotlin调用java方法 返回值是否可为空？
 	- java的方法可以返回null,
 	- [[kotlin调用java带返回值的函数，具体处理]]

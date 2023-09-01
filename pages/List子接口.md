@@ -1,7 +1,6 @@
 - [list对象复制](https://blog.csdn.net/qq_40542534/article/details/112566277)
   title:: List子接口
 - ## list的常用方法
-  collapsed:: true
 	- 1，添加
 	  	void add(index,element);
 	  	void add(index,collection);

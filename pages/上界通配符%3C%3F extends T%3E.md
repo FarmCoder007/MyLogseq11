@@ -2,7 +2,7 @@
   collapsed:: true
 	- ![image.png](../assets/image_1688035180763_0.png)
 	- 可以存入指定类型及其子类
-### 覆盖范围：
+- ### 覆盖范围：
 	- ![上界通配符.png](../assets/上界通配符_1644484964095_0.png)
 - ### 泛型实例化：(和操作存取不是一个概念)
 	- ？ extends Fruit 是 接受 Fruit子类的 列表

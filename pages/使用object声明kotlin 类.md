@@ -1,6 +1,5 @@
 - 这个类会自动创建一个单例对象   就可以直接调用   成员变量 方法 属性
 - ## 调用时  会使用   类名,方法名   调用
-  collapsed:: true
 	- ```java
 	  // kotlin  使用 object声明类
 	  object ToastUtils {
