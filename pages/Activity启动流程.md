@@ -1,7 +1,6 @@
 # [[Android应用程序启动流程源码剖析]]
 - ![image.png](../assets/image_1688714403714_0.png)
 - # 第一阶段：Launcher请求AMS阶段
-  collapsed:: true
 	- ![image.png](../assets/image_1688714438299_0.png){:height 432, :width 780}
 	- ![image.png](../assets/image_1684416960546_0.png)
 	- ## 1、启动入口Launcher.StartActivity

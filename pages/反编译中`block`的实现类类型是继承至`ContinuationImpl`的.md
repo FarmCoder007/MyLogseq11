@@ -1,4 +1,4 @@
-- ## 如果是挂起函数，做CPS变换后，将block转换成
-	- ![CPS.gif](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fcf5b8eead81466bb7eacc017f0c1377~tplv-k3u1fbpfcp-zoom-in-crop-mark:4536:0:0:0.awebp?){:height 413, :width 720}
+## 如果是挂起函数，做CPS变换后，将block转换成
+	- ![Continuationimpl.gif](../assets/Continuationimpl_1693577169364_0.gif)
 - ## 如果是Launch函数，
 	- 将launch里的协程体block反编译为继承SuspendLambda 实现Function2，[[Continuation继承关系图]]得出结论

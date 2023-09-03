@@ -1,4 +1,4 @@
-- ![image.png](../assets/image_1685853596842_0.png)
+- ![image.png](../assets/image_1685853596842_0.png){:height 126, :width 532}
 - # 一、优点
 	- ## 1、构建数组简单
 	- ## 2、能让我们在O(1)时间里根据数组下标（index）查询某个元素

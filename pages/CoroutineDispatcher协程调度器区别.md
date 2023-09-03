@@ -4,6 +4,7 @@
 	- 用于**IO密集型任务的线程池**，内部线程数量较多，一般为64个。
 	- 适用于执行I/O密集型的工作，使用专门的线程池执行协程。
 - ## Dispatchers.Main：
+  collapsed:: true
 	- 用于Android平台上的主线程，用于更新UI或执行短时间的计算操作。
 	- Main
 		- ```kotlin

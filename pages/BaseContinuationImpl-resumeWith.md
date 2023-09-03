@@ -1,5 +1,4 @@
-- # 源码
-  collapsed:: true
+# 源码
 	- ```kotlin
 	  internal abstract class BaseContinuationImpl(
 	      // This is `public val` so that it is private on JVM and cannot be modified by untrusted code, yet
@@ -47,7 +46,7 @@
 	  }
 	  ```
 	- ## 注释1：var current = this，
-		- 即哪个挂起函数的`continuation实现类continuationImpl`调用的resumeWith，进行就是哪个Continuation，详细看完成流程里的
+		- 即哪个挂起函数的`continuation实现类continuationImpl`调用的resumeWith，进行就是哪个Continuation，详细看完整流程里的
 	- ## 注释2：val completion = completion
 		- 取出当前continuationImpl里，包裹的上层的Continuation。递归传值用。可以实现子协程向上层 的continuationImpl的转换。达到结果传递
 	- ## 注释3：invokeSuspend(param)
@@ -63,7 +62,6 @@
 - # [[BaseContinuationImpl-resumeWith作用]]：
 - # 1、BaseContinuationImpl源码看resumeWith流程
   title:: BaseContinuationImpl-resumeWith
-  collapsed:: true
 	- 我们接着回到BaseContinuationImpl这个类上来。
 	- ## 1、while (true)死循环，查询协程已经进入了可resume状态
 		- 这个死循环干啥的上边有个注释写的很清楚。‘This loop unrolls recursion in current.resumeWith(param) to make saner and shorter stack traces on resume’这个循环是为了确保协程已经进入了可resume状态。那啥时候resume？不知道我们接着往后看。

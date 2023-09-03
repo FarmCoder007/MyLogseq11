@@ -8,21 +8,25 @@ title:: 剑指 Offer 21. 调整数组顺序使奇数位于偶数前面-简单
 		  输出：[1,3,2,4] 
 		  注：[3,1,2,4] 也是正确的答案之一。
 		  ```
-	- ## 思路：
-		- 1、新建数组，左边存奇数，右边存偶数，遍历完 也存完了
-		- 2、双指针存左右
+	- ## [[#red]]==**思路：**==
+		- 1、定义新数组
+		- 2、定义数组左右两端 双指针
+		- 3、遍历数组一遍
+		- 4、%2取余 遍历数组奇数存左，否则存右
 		- ```java
 		  class Solution {
 		      public int[] exchange(int[] nums) {
 		          int n = nums.length;
+		          // 1、定义新数组
 		          int[] res = new int[n];
-		          // 双指针存左右
-		          int left = 0, right = n - 1;
-		          for (int num : nums) {
-		              if (num % 2 == 1) {
+		          // 2、定义数组左右两端 双指针
+		          int left = 0,right = n-1;
+		          for(int num:nums){
+		              // 3、%2取余 遍历数组奇数存左
+		              if(num%2 ==1){
 		                  res[left++] = num;
-		              } else {
-		                  res[right--] = num;
+		              }else{
+		                   res[right--] = num;
 		              }
 		          }
 		          return res;

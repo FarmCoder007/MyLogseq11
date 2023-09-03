@@ -1,8 +1,8 @@
-- # 1、[[Activity启动流程]]
+# 1、[[Activity启动流程]]
 - # 2、[[AMS的启动流程-面试]]
 - # 3、Activity的启动模式和flags在哪里设置的？
+  collapsed:: true
 	- Activity的启动流程中（第一阶段）ActivityStarter的 startActivityUnchecked方法中
-	  collapsed:: true
 		- ```java
 		  
 		  // 1、根据启动的intent 识别启动模式，并处理
@@ -26,7 +26,6 @@
 	- ActivityThread类是Android APP进程的初始类，它的main函数是这个APP进程的入口。APP进程中UI事件的执行代码段都是由ActivityThread提供的。
 - # 6、 [[ContentProvider的onCreate执行时机]]
 - # 7、Application是什么时候创建的，谁管理他的生命周期？
-  collapsed:: true
 	- 1、AMS向Zygote进程socket通信，创建应用程序进程后
 	- 2、反射调用ActivityThread.main方法，经过进程间通信，和一系列调用会到
 	- 3、调用到ActivityThread.handleBindApplication()，先创建Instrumentation,然后他反射创建Application，管理其生命周期、
