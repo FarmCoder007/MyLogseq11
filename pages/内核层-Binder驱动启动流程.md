@@ -1,9 +1,9 @@
-- ## 详细见 [[Binder驱动是怎么启动的？内核层的代码]]
+## 详细见 [[Binder驱动是怎么启动的？内核层的代码]]
 -
 - # 前言
-	- 1、在linux中一切皆文件，binder驱动也是文件，都是可读写的
+	- 1、[[#red]]==**在linux中一切皆文件，binder驱动也是文件，都是可读写的**==
 	- 2、而mmap就是将虚拟内存和文件联系起来的，打开binder驱动，涉及mmap为binder驱动开辟虚拟内存空间
-	- 3、Binder是启动的misc（注册简单）设备(binder是没有硬件的，binder就相当于一块内存)
+	- 3、[[#red]]==**Binder是启动的misc（注册简单）设备(binder是没有硬件的，binder就相当于一块内存)**==
 - # 大概流程
 	- ### 1、通过 (内核层的binder.c)  binder_init（），创建初始化/dev/binder设备节点
 	  collapsed:: true
@@ -21,7 +21,7 @@
 			  filp.private_data = proc
 			  ```
 		- 4、添加到binder_proc链表中
-	- ### 3、通过binder_mmap()，在内核分配一块内存，用于存放数据
+	- ### 3、通过binder_mmap()，在内核分配一块内存，分别映射到  用户空间和内核的虚拟内存，用于存放数据
 	  collapsed:: true
 		- 1、通过用户空间的虚拟内存大小 ——>分配一块内核的虚拟内存
 		  collapsed:: true
@@ -29,10 +29,9 @@
 		- 2、分配了一块物理内存 4kb
 		  collapsed:: true
 			- 4k够用吗，为啥只分配4kb?
-			  collapsed:: true
 				- 因为现在还没开始通信，等实际使用的时候再添加
 		- 3、把这块物理内存分别映射到  用户空间的虚拟内存和内核的虚拟内存
-	- ### 4、binder_ioctl（）根据传入的命令 BINDER_WRITE_READ，进行读写操作
+	- ### 4、在binder_ioctl（）将IPC数据通过参数和BINDER_WRITE_READ读写命令 传递给binder驱动
 	  collapsed:: true
 		- 流程是native层调用 ioctl(BINDER_WRITE_READ),进入内核层binder_ioctl 根据传入的命令 读写操作
 		- binder_thread_write: 内核写操作

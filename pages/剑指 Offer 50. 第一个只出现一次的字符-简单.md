@@ -1,6 +1,6 @@
 title:: 剑指 Offer 50. 第一个只出现一次的字符-简单
 
-- ## 题目
+- ## [题目](https://leetcode.cn/problems/di-yi-ge-zhi-chu-xian-yi-ci-de-zi-fu-lcof/solutions/664350/di-yi-ge-zhi-chu-xian-yi-ci-de-zi-fu-by-3zqv5/)
 	- 在字符串 s 中找出第一个只出现一次的字符。如果没有，返回一个单空格。 s 只包含小写字母。
 	- ## 示例1
 		- ```java
@@ -38,7 +38,9 @@ title:: 剑指 Offer 50. 第一个只出现一次的字符-简单
 		  ```
 		- 复杂度
 			- 时间 O(N)
-			-
-	- ## 方法二：hash表映射索引
-	- ## 方法三：队列
+			- 空间O(1)
+	- ####  其他
+	  collapsed:: true
+		- ## 方法二：hash表映射索引
+		- ## 方法三：队列
 	-

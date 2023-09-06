@@ -1,6 +1,7 @@
 # 一、字符串的特点
 	- 字符串对象一旦被初始化就不会被改变。
 - # 二、字符串的创建方式与区别
+  collapsed:: true
 	- ## 1、字面量创建:存储在字符串常量池中
 	  collapsed:: true
 		- ```java
@@ -88,11 +89,13 @@
 	- ![image.png](../assets/image_1687860697551_0.png)
 	- ![07-常用对象API(String类-常-00_01_48-2023_06_27_18_12_03.jpg](../assets/07-常用对象API(String类-常-00_01_48-2023_06_27_18_12_03_1687860734978_0.jpg)
 - # 五、intern()
+  collapsed:: true
 	- Api
 		- ![08-常用对象API(String类-i-00_01_02-2023_06_27_18_16_29.jpg](../assets/08-常用对象API(String类-i-00_01_02-2023_06_27_18_16_29_1687860998752_0.jpg)
 	- ## 作用
 		- 对字符串池进行操作的
 	- ## 示例
+	  collapsed:: true
 		- ```java
 		  package cn.itcast.p1.string.demo;
 		  

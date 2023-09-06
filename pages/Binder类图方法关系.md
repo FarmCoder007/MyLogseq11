@@ -1,7 +1,6 @@
 - ![image.png](../assets/image_1688546998965_0.png){:height 517, :width 780}
 -
 - # Framework
-  collapsed:: true
 	- ## 1、ServiceManager
 	- ## 客户端
 		- ## 3、ServiceManagerProxy
@@ -17,7 +16,6 @@
 			- 服务端侧
 			- Framework层 binder对象
 - # Native层
-  collapsed:: true
 	- ## 客户端
 		- ## 1、BpBinder，
 			- native层中客户端的binder代理对象
@@ -36,18 +34,21 @@
 	- ## 4、IPCThreadState
 		- 线程相关
 - # 内核层
-  collapsed:: true
 	- ## dev/binder
 		- Binder驱动
 -
 - # [[#red]]==比较绕的流程==
 	- ![8 进程间通信机制 Binder原理讲解-02_19_54-2023_07_05_17_47_03.jpg](../assets/8_进程间通信机制_Binder原理讲解-02_19_54-2023_07_05_17_47_03_1688550434013_0.jpg)
-	- # 举例1、Framework层 使用服务流程（Framework层使用服务）
+	- # 举例1、Framework层 使用服务流程（Framework层使用服务）比如从SM获取AMS
 		- ## 客户端和Binder驱动通信（反之一样）
-			- ServiceManagerProxy  携带 BinderProxy 寻找 BpBinder，BpBinder和内核层 Binder驱动通信
+			- FramWork层ServiceManagerProxy  携带 BinderProxy 寻找
+			- Native层的BpBinder，
+			- Native层的BpBinder再和内核层 Binder驱动通信
 		- ## Binder驱动和服务端通信
-			- Binder驱动 和 服务端的 BBinder 通过jni层 JavaBBinder 到达 Framework层 Binder
+			- Binder驱动 和 服务端的 Native层 BBinder通信
+			- 通过jni层 JavaBBinder 到达 Framework层 Binder
 	- # 举例2、Native层 使用服务流程（Native层也有该层服务）
+	  collapsed:: true
 		- ## 客户端和Binder驱动
 			- Native层 同层的，不需要封装 BinderProxy，BpServiceManager 直接 携带 BpBinder，和内核通信
 		- ## 服务端和Binder驱动

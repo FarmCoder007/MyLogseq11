@@ -1,7 +1,7 @@
 title:: 剑指 Offer 05. 替换空格-简单
 
 - ## 数据结构-字符串
-- ## 题目
+- ## [题目](https://leetcode.cn/problems/ti-huan-kong-ge-lcof/)
 	- 请实现一个函数，把字符串 `s` 中的每个空格替换成"%20"。
 	- ### **示例 1：**
 		- ```java

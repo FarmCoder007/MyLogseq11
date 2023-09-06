@@ -1,4 +1,4 @@
-- # 一、api
+# 一、api
 	- 参数一、Intent
 		- 它和startService()里面那个intent是一样的，用来指定启动哪一个service以及传递一些数据过去。
 	- 参数二、ServiceConnection
@@ -100,7 +100,6 @@
 			  }
 			  ```
 	- 二是在服务端里面实现onBind()方法的重写，返回一个用做信息交互的IBinder接口
-	  collapsed:: true
 		- 获取IBinder三种方式：继承Binder类，使用Messenger类，使用AIDL
 		- 服务端代码
 			- ```java

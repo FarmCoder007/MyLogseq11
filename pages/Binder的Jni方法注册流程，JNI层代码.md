@@ -1,5 +1,6 @@
 - ![image.png](../assets/image_1688298061369_0.png)
 - # 一、zygote启动
+  collapsed:: true
 	- ## **1-1.****启动****zygote****进程**
 		- zygote是由init进程通过解析 ==init.zygote,rc== 文件而创建的，zygote所对应的可执行程序 ==app_process==,所对应的源文件是==app_main.cpp==,进程名为==zygote==。
 		- //system/core/rootdir/init.zygote32.rc
@@ -33,6 +34,7 @@
 		  }    
 		  ```
 	- ## 1-3.AndroidRuntime::start
+	  collapsed:: true
 		- android系统启动的时候  调用startReg方法来完成jni方法的注册。这样java层才能调用jni的方法
 		- frameworks/base/core/jni/==AndroidRuntime.==cpp
 		- ```c
@@ -75,6 +77,7 @@
 		  }    
 		  ```
 - # 二、register_android_os_Binder。binder的jni方法的注册（方法先注册这样java层才可以调用jni）
+  collapsed:: true
 	- frameworks/base/core/jni/android_util_Binder.cpp
 	- ```java
 	  //1282

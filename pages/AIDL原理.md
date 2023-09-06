@@ -3,8 +3,8 @@
 	- ## Stub上述自动生成 继承了 Binder 实现了 IPersonManager接口
 		- 相当于AMS中的[[ActivityManagerNative]]，也是相当于一个Binder
 - ## AIDL中
-	- Stub.Proxy是客户端拿到的Stub代理对象
-	- Stub是服务端
+	- Stub.Proxy是客户端拿到的Stub代理对象（Binder的代理对象）
+	- Stub是服务端具体的Binder对象
 - # 客户端解析
 	- ## [[#red]]==解析1、Stub.asInterface==
 	  collapsed:: true
@@ -39,15 +39,14 @@
 			    if (((iin!=null)&&(iin instanceof com.lemonydbook.IPersonManager))) {
 			      return ((com.lemonydbook.IPersonManager)iin);
 			    }
-			    // 2，跨进程返回代理对象   跨进程传入的binder就是BinderProxy类
+			    // 2，跨进程返回代理对象   传入的binder 就是 Binder子类 Stub
 			    return new com.lemonydbook.IPersonManager.Stub.Proxy(binder);
 			  }
 			  ```
 			- ## ==方法作用==
-			  collapsed:: true
 				- 1、判断是否和客户端同进程，如果同进程有接口实现类 直接返回
-				- 2、跨进程，返回IPersonManager的代理类Stub.Proxy，给客户端用，实现跨进程
-					- 解释：BinderProxy能底层跨进程通信，外边包一层Stub.Proxy是为了调用定义的接口方法
+				- 2、跨进程，返回IPersonManager的[[#red]]==**代理类Stub.Proxy**==，==**持有Stub这个继承Binder的类。给客户端用，实现跨进程**==
+					- 解释：Stub继承了Binder类能底层跨进程通信，外边包一层Stub.Proxy是为了调用定义的接口方法
 			- ## 详细解析
 			  collapsed:: true
 				- 看java层获取SM示例图，这里只是个比喻
@@ -56,6 +55,7 @@
 				- [[ServiceManager-注册服务到SM时Native层SM的获取]]之前Binder机制Native层获取SM步骤中，Proxy(IBinder)相当于
 				- Native层的new BpServiceManager（new BpBinder）等价 Proxy(IBinder 等价 BinderProxy)
 	- ## [[#red]]==解析2==、通过1方法拿到了，服务端进程的IPersonManager接口代理对象，现看[[#red]]==代理类Proxy==中具体跨进程实现
+	  collapsed:: true
 		- 客户端用代理对象，调用远程服务的接口方法，addPerson，传入person对象
 			- ```java
 			  iPersonManager.addPerson(new Personon("xxx", 3));
@@ -87,18 +87,16 @@
 			      }
 			  ```
 			- ## 加深理解
-			  collapsed:: true
 				- ![image.png](../assets/image_1688446289309_0.png)
 				- java 层 调用 Proxy
 				- Proxy 调用Native 层 的  BinderProxy/BpBinder
 				- BpBinder 再去调用 内核层的Binder。实现跨进程的传输
 			- ##  [[#red]]==代理类中方法调用 addPerson做的事情==
 				- 1、将 客户端数据 和 服务端数据 打包
-				- 2、调用transact，通过命令TRANSACTION_addPerson传递，告诉服务端调用的哪个方法执行跨进程
+				- 2、调用Ibinder的transact，通过命令TRANSACTION_addPerson传递，告诉服务端调用的哪个方法执行跨进程
 					- （同步的情况，客户端调用后，当前线程会挂起，等服务器返回数据）
 					- 异步情况，不会挂起
 	- ## [[解析3、transact方法]]
-	  collapsed:: true
 		- ## 需要讲
 			- ### code就是那个第一个参数常量
 			- ### 服务端的OnTransact方法

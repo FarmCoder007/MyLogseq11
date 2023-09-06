@@ -1,7 +1,7 @@
 title:: 剑指 Offer 53 - II. 0～n-1中缺失的数字-简单
 
 - # [题目原文](https://leetcode.cn/problems/que-shi-de-shu-zi-lcof/description/)
-	- 一个长度为n-1的递增排序数组中的所有数字都是唯一的，并且每个数字都在范围0～n-1之内。在范围0～n-1内的n个数字中有且只有一个数字不在该数组中，请找出这个数字。
+	- 一个长度为n-1的[[#red]]==**递增排序数组**==中的所有数字都是唯一的，并且每个数字都在范围0～n-1之内。在范围0～n-1内的n个数字中有且只有一个数字不在该数组中，请找出这个数字。
 	- ## **示例 1:**
 		- ```java
 		  输入: [0,1,3]
@@ -22,13 +22,17 @@ title:: 剑指 Offer 53 - II. 0～n-1中缺失的数字-简单
 		- ```java
 		  class Solution {
 		      public int missingNumber(int[] nums) {
-		          int i = 0, j = nums.length - 1;
-		          while(i <= j) { // 跳出循环条件：直到下标相遇
-		              int m = (i + j) / 2; //1、取中间下标 
-		              if(nums[m] == m) i = m + 1;// 2、根据条件判断  相等说明得右移
-		              else j = m - 1; // 3、不相等 往左移找第一个
+		          int left = 0, right = nums.length - 1;
+		          while(left <= right){
+		              int mid = (left + right) / 2;
+		              // 值和下标相等，说明缺失的位于右侧
+		              if(nums[mid] == mid){
+		                  left = mid + 1;
+		              }else { // 值和下标不等，缺失的位于左侧区间
+		                  right = mid - 1;
+		              }
 		          }
-		          return i;
+		          return left;
 		      }
 		  }
 		  ```

@@ -1,5 +1,5 @@
-- # 一、本文都为内核层的代码
-  collapsed:: true
+# 一、本文都为内核层的代码
+collapsed:: true
 	- ![image.png](../assets/image_1688297869681_0.png)
 - # binder驱动图
 	- ![image.png](../assets/image_1688287538783_0.png)

@@ -1,4 +1,5 @@
-- # ==命令流程==
+# ==命令流程==
+collapsed:: true
 	- ![image.png](../assets/image_1688455998822_0.png)
 	- ## 命令的记法
 		- 向Binder驱动发送的命令就是，BinderCommond即 BC开头的
@@ -192,7 +193,6 @@
 		  }
 		  ```
 - # 二、getIServiceManager->ServiceManagerProxy
-  collapsed:: true
 	- ## 代码
 		- ```java
 		  frameworks/base/core/java/android/os/ServiceManager.java

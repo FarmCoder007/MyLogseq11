@@ -1,4 +1,5 @@
-- # 一、参数解读
+# 一、参数解读
+collapsed:: true
 	- ```java
 	  mRemote.transact(Stub.TRANSACTION_addPerson, _data, _reply, 0);
 	  ```
@@ -10,7 +11,6 @@
 		      static final int TRANSACTION_getPersonList = (android.os.IBinder.FIRST_CALL_TRANSACTION + 2);
 		  ```
 		- ## 解读
-		  collapsed:: true
 			- Proxy类相当于客户端侧的去调用
 			- Stub相当于 服务端类的去调用
 			- ![image.png](../assets/image_1688451441178_0.png)
@@ -54,7 +54,6 @@
 	- 客户端挂起
 	- 服务端进入onTransact（）方法，匹配TRANSACTION_addPerson，调用this.addPerson(arg0)
 		- this，就是服务端RomeService中的 那个new Stub()对象,
-		  collapsed:: true
 			- ```java
 			  package com.lemonydbook.server;
 			  

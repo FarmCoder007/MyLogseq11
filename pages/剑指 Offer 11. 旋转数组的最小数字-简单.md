@@ -22,13 +22,18 @@ title:: 剑指 Offer 11. 旋转数组的最小数字-简单
 	      public int minArray(int[] numbers) {
 	          int i = 0, j = numbers.length - 1;
 	          while (i < j) {
+	              // 1、取中点
 	              int m = (i + j) / 2;
-	              // 位于右侧
+	              // 左侧是升序数组，右侧降序数组，
+	               
+	              // 2、中位值比最右侧大，说明m在升序数组中，而要查旋转点x在 中位值右侧  缩小范围 i取中位值 右侧
 	              if (numbers[m] > numbers[j]) i = m + 1;
-	              // 位于左侧
+	              // 3、中位值小于右侧，说明m在降序数组中，应该j向左移取m位置  
 	              else if (numbers[m] < numbers[j]) j = m;
+	              // 4、中位数numbers[m] 和 j相等 j左移一个 再看
 	              else j--;
 	          }
+	          // i = j 跳出循环 返回值
 	          return numbers[i];
 	      }
 	  }

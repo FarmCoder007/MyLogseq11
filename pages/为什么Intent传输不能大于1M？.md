@@ -1,2 +1,2 @@
-- 因为Intent传输数据是通过 binder进行传输的
+- 因为Intent传输数据是通过 binder进行传输的（传输对象需要序列化）
 - 应用层设置的 最大  1M-8k  binder通信最大不超过1M

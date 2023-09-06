@@ -26,6 +26,7 @@
 		- android:permission : 其他组件必须具有所填的权限才能启动这个service。
 		- android:process : service运行的进程的name。默认启动的service是运行在主进程中的。
 - # 四、Service的两种启动方式
+  collapsed:: true
 	- ## startService();
 		- startService(new Intent(context,MyService.class))
 	- ## [[BindService]]
@@ -36,12 +37,13 @@
 - # 五、[[startService和bindService区别]]
 - # 六、Service的生命周期
   collapsed:: true
-	- ![](https://upload-images.jianshu.io/upload_images/1291453-fe8597f87c8443c9.jpg?imageMogr2/auto-orient/strip|imageView2/2/w/389/format/webp)
+	- ![image.png](../assets/image_1693898347377_0.png)
 	- ## onCreate()
 		- 服务创建的时候调用
 	- ## [[onStartCommand()的三种返回值]]
 	- ## onBind()
 		- 当其他组件通过bindService()方法与service相绑定之后，此方法将会被调用。这个方法有一个IBinder的返回值，这意味着在重写它的时候必须返回一个IBinder对象，它是用来支撑其他组件与service之间的通信的——另外，如果你不想让这个service被其他组件所绑定，可以通过在这个方法返回一个null值来实现。
+	- ## onUnbind()
 	- ## onDestory()
 		- 服务销毁的时候调用
 	- # 示例
@@ -84,6 +86,7 @@
 		  }
 		  ```
 - # 七、两种启动方式的场景
+  collapsed:: true
 	- ## startService
 		- 适合那种启动之后不显式停止它就永远在后台运行，并且不需要客户端与服务端交互的service
 	- ## bindService

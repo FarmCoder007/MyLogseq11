@@ -1,3 +1,3 @@
-- ## BC与BR主要是标志数据及Transaction流向
+## BC与BR主要是标志数据及Transaction流向
 	- 其中BC（BinderCommond）是从用户空间流向内核，而BR(BinderReply)是从内核流线用户空间，
-	- ![](https://p1-jj.byteimg.com/tos-cn-i-t2oaga2asx/gold-user-assets/2017/3/15/dbd314524e7e7adb62c5079d87d0b493~tplv-t2oaga2asx-zoom-in-crop-mark:4536:0:0:0.image)
+	- ![image.png](../assets/image_1693917976112_0.png)

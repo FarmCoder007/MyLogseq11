@@ -1,15 +1,14 @@
-- # 需求
+# 需求
 	- 进程A : 客户端ClientActivity  和 进程B  RmoteService 通信
 	-
 - # 首先
+  collapsed:: true
 	- # 普通类与类之间的调用，模块化都是需要提供接口的
 	- # AIDL也是如此，先定义通信的AILD接口
 - # 示例1、AIDL支持的默认数据类型
   collapsed:: true
 	- # 进程B服务端
-	  collapsed:: true
 		- ## 1、==创建AIDL 文件来定义接口规范==，创建名为 `IMyService.aidl`
-		  collapsed:: true
 			- ```aidl
 			  // IMyService.aidl
 			  
@@ -55,7 +54,6 @@
 			  </service>
 			  ```
 	- # 进程A客户端：绑定服务的方式获取远程服务的实例并调用其中的方法。
-	  collapsed:: true
 		- ```java
 		  // MainActivity.java
 		  
@@ -153,7 +151,6 @@
 				  }
 				  ```
 			- ## 用到的java类
-			  collapsed:: true
 				- 作用：这个文件的作用是引入了一个序列化对象 Personon 供其他的AIDL文件使用
 				- Personon.aidl
 				  collapsed:: true
@@ -171,21 +168,17 @@
 					  parcelable Test;
 					  ```
 			- ## ==注意点：==
-			  collapsed:: true
 				- 导入所需要使用的非默认支持数据类型的包
 				- 对外提供的接口方法，入参还需要添加定向tag
-				  collapsed:: true
 					- 入参时除了Java基本类型以及String，CharSequence之外的类型都需要在前面加上定向tag，具体加什么量需而定
 				- 用到的java类，也需要aidl声明
 					- 这个文件的作用是引入了一个序列化对象 Personon 供其他的AIDL文件使用
 		- ## 2-3,build后IPersonManager.aidl会自动生成IPersonManager.java类
 			- 路径：
-			  collapsed:: true
 				- ![image.png](../assets/image_1688391132682_0.png)
 			- 自动生成的[[IPersonManager.java]]代码：
 		- ## 2-4、新建远程Service，onBind（）方法返回IPersonManager.Stub的子类对象（是一个Ibinder），实现IPersonManager.aidl定义的接口方法
 			- RemoteService.java
-			  collapsed:: true
 				- ```java
 				  package com.lemonydbook.server;
 				  
@@ -261,7 +254,8 @@
 		- ## 非同一个项目需要：
 			- 1：将服务端的IPersonManager.aidl文件拷贝到main文件夹下，
 			- 2：重建一下项目检查一下IPersonManager.aidl是否构建成功
-		- ## 3：连接绑定服务，定义ICompute对象aaa，通过绑定服务连接成功的asInteface接口返回对象赋值给aaa。之后就可以随意调用服务端接口了
+		- ## 3：连接绑定服务，定义IPersonManager对象iPersonManager，通过绑定服务连接成功的asInteface接口返回对象赋值给iPersonManager。之后就可以随意调用服务端接口了
+		  collapsed:: true
 			- activitybind服务
 				- ```java
 				  package com.lemonydbook;

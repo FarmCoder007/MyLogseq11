@@ -8,7 +8,6 @@
 		- case2、他们都调用了unBindService
 	- ## 注意：同时使用startService和 bindService 启动。停止时需要unBindService 和 stopService都调用
 - # 2、生命周期不同
-  collapsed:: true
 	- ## startService
 		- onCreate -> onStartCommand -> onDestory ，在多次调用startService的时候，onCreate不重复执行，但是onStartCommand会执行。startService调用了这后，会一直存在，直到其调用了stopService。
 	- ## bindService :
@@ -16,7 +15,6 @@
 		- 多次调用bindService，onCreate及onBind都只执行一次。
 		- 它生命周期跟随其调用者，调用者释放的时候，必须对该Service解绑，当所有绑定全部取消后，系统即会销毁该服务。
 - # 3、通信方式
-  collapsed:: true
 	- ## startService
 		- 没有提供默认的通信方式，启动Service后就处于独立运行状态
 	- ## bindService

@@ -1,5 +1,5 @@
-- # 一、概念
-	- AIDL（Android Interface Definition Language）是 Android 系统中用于定义跨进程通信（IPC）接口的语言。它允许不同进程间的组件（如应用程序和系统服务）定义和共享接口，以便彼此之间进行通信和交互。
+# 一、概念
+	- AIDL（Android Interface Definition Language）是 [[#red]]==**Android 系统中用于跨进程通信（IPC）接口定义语言。**==它允许不同进程间的组件（如应用程序和系统服务）定义和共享接口，以便彼此之间进行通信和交互。
 - # 作用
 	- 使用Binder通信机制的时候，需要符合一些规则。AIDL就是帮我们遵循这些规则去实现通信。简化流程
 	- 相当于黄牛等
@@ -8,7 +8,6 @@
 	- # 1、文件类型
 		- 用AIDL书写的文件的后缀是 .aidl，而不是 .java。
 	- # 2、数据类型：
-	  collapsed:: true
 		- AIDL默认支持一些数据类型，在使用这些数据类型的时候是不需要导包的，但是除了这些类型之外的数据类型，在使用之前必须导包，就算目标文件与当前正在编写的 .aidl 文件在同一个包下——在 Java 中，这种情况是不需要导包的。比如，现在我们编写了两个文件，一个叫做 Book.java ，另一个叫做 BookManager.aidl，它们都在 com.lypeer.aidldemo 包下 ，现在我们需要在 .aidl 文件里使用 Book 对象，那么我们就必须在 .aidl 文件里面写上 import com.lypeer.aidldemo.Book; 哪怕 .java 文件和 .aidl 文件就在一个包下。
 		- ## 默认支持的数据类型包括：
 			- Java中的八种基本数据类型，包括 byte，short，int，long，float，double，boolean，char。
@@ -17,7 +16,6 @@
 			- List类型：List中的所有元素必须是AIDL支持的类型之一，或者是一个其他AIDL生成的接口，或者是定义的parcelable（下文关于这个会有详解）。List可以使用泛型。
 			- Map类型：Map中的所有元素必须是AIDL支持的类型之一，或者是一个其他AIDL生成的接口，或者是定义的parcelable。Map是不支持泛型的。
 	- # 3、定向tag：（in，out,inout）
-	  collapsed:: true
 		- AIDL中的定向 tag 表示了在跨进程通信中数据的流向，
 			- in 表示数据只能由客户端流向服务端
 				- in 为定向 tag 的话表现为服务端将会接收到一个那个对象的完整数据，但是客户端的那个对象不会因为服务端对传参的修改而发生变动
@@ -32,7 +30,6 @@
 			- Java 中的基本类型和 String ，CharSequence 的定向 tag 默认且只能是 in
 			- 还有，请注意，请不要滥用定向 tag ，而是要根据需要选取合适的——要是不管三七二十一，全都一上来就用 inout ，等工程大了系统的开销就会大很多——因为排列整理参数的开销是很昂贵的。
 	- # 4、两种AIDL文件：
-	  collapsed:: true
 		- ## 一类是用来定义parcelable对象，以供其他AIDL文件使用AIDL中非默认支持的数据类型的。
 			- 注：所有的非默认支持数据类型必须通过第一类AIDL文件定义才能被使用。
 			- *Book.aidl*

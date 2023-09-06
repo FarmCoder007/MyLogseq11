@@ -12,7 +12,6 @@ collapsed:: true
 	- 6、ContentProvider的onCreate()是有系统调用的，那什么时机执行呢？
 	  若以上内容都已理解，那接下来的内容就当温习和探讨吧 ：）
 - # 三、应用启动流程所涉及的核心类及作用
-  collapsed:: true
 	- 先简述一下启动过程中关键类及作用，便于大家理解下面的内容：
 	- ## ActivityManagerService：
 		- Framework层，Android核心服务,简称AMS,负责调度各应用进程,管理四大组件.实现了IActivityManager接口,应用进程能通过Binder机制调用系统服务，以下简称AMS；
@@ -31,7 +30,6 @@ collapsed:: true
 	- ## ActivityStackSupervisor：
 		- ActivityStack的管理者，早期的Android版本是没有这个类的，直到Android 6.0才出现。
 - # 四、启动流程**[[#red]]==第一阶段Launcher->AMS请求创建进程==**
-  collapsed:: true
 	- ## 本次分析的环境条件：
 	  collapsed:: true
 		- 1. 源码基于android 28
@@ -48,8 +46,10 @@ collapsed:: true
 		  因为AOSP资源较大，本次采用在线方式阅读分析
 	- ![image.png](../assets/image_1684416960546_0.png)
 	- ## 启动入口Launcher.StartActivity
+	  collapsed:: true
 		- Launcher,我们安卓桌面,他也是一个应用.只不过他有些特殊属性,特殊在于它是系统开机后第一个启动的应用,并且该应用常驻在系统中,不会被杀死,用户一按home键就会回到桌面(回到该应用).桌面上面放了很多很多我们自己安装的或者是系统自带的APP,我们通过点击这个应用的快捷方法可以打开我们的应用，[[#red]]==**桌面Launcher也是一个Activity，也是通过startActivity打开我们的应用的**==，可以认为我们的应用都是通过其他应用打开的。
 	- ## Activity的startActivity方法
+	  collapsed:: true
 		- 代码
 			- ```java
 			  @Override
@@ -111,6 +111,7 @@ collapsed:: true
 			  ```
 		- mParent是ActivityGroup，之前的组合模式，已经不推荐使用了，现在被Fragment替代，一般情况为空，所以都会进入为空判断分支，随后调用了Instrumentation的execStartActivity方法,其中mMainThread是ActivityThread(就是从这里开始启动一个应用的),mMainThread.getApplicationThread()是获取ApplicationThread，ApplicationThread是ActivityThread的内部类,下文介绍。
 	- ## Instrumentation执行execStartActivity方法
+	  collapsed:: true
 		- Instrumentation.java代码
 			- ```java
 			  @UnsupportedAppUsage	
@@ -143,6 +144,7 @@ collapsed:: true
 		- IApplicationThread是一个Binder接口,继承自android.os.IInterface接口，IInterface接口是Binder的基础类。[[#red]]==**它相当于app进程的binder的代理类。传给ams后 ams可以通过这个代理类调用app进程的方法。**==
 		- ApplicationThread是继承了IApplicationThread.Stub(由Android SDK工具会生成以IApplicationThread.aidl 文件命名的 .java 接口文件，生成的接口包含一个名为 Stub 的子类),实现了IApplicationThread的,所以可以转成IApplicationThread.由ApplicationThread和AMS通信进一步执行启动流程。
 	- ## ServiceManager获取ActivityManagerService（AMS）并继续启动startActivity
+	  collapsed:: true
 		- 在Instrumentacion的execStartActivity方法中ActivityManager.getService()获取ActivityManagerService（AMS）实例,调用AMS的startActivity方法，看一下ActivityManagerService的获取方式，通过ServiceManager.getService(Context.ACTIVITY_SERVICE)
 			- ```java
 			  ActivityManager.java
@@ -206,6 +208,7 @@ collapsed:: true
 			  ```
 		- sCache中存放所有的IBinder系统服务。
 	- ## AMS的startActivity方法解析
+	  collapsed:: true
 		- 通过ServiceManager获取到AMS，让AMS执行startActivity方法；
 			- ```java
 			  @Override
@@ -244,6 +247,7 @@ collapsed:: true
 			  ```
 		- 执行顺序：startActivity()->startActivityAsUser()->ActivityStarter.execute()
 	- ## ActivityStarter的execute()方法
+	  collapsed:: true
 		- 代码
 			- ```java
 			  /**
@@ -324,6 +328,7 @@ collapsed:: true
 	-
 	- ## 以上流程是==**Launcher应用和System Server进程的通信交互过程，就是在目标应用进程启动之前的执行流程**==
 - # 五、启动流程**[[#red]]==第二阶段启动目标应用程序进程==**
+  collapsed:: true
 	- ![image.png](../assets/image_1660124618412_0.png){:height 561, :width 716}
 	- ## AMS中启动目标应用进程
 	  collapsed:: true
@@ -575,11 +580,14 @@ collapsed:: true
 	- ## 延伸[[ContentProvider的onCreate执行时机]]
 	- ## [[#red]]==到此看完了从Launcher启动到Instrumentation、Application的创建时机==
 - # 六、启动流程[[#red]]==第三阶段Activity创建启动和生命周期管理==
+  collapsed:: true
 	- ![image.png](../assets/image_1684417556248_0.png)
 	- 我们熟悉了启动流程的上半部流程，从Launcher启动到Instrumentation、Application的创建时机，本篇为上篇的下半部分，重点讲解启动过程中Activity的创建和生命周期的回调，包括中间过程中涉及到的重要类作用的说明
 	- ## AMS通知App创建Activity并回调相关生命周期（api 29未发现这块)
+	  collapsed:: true
 		- 回到AMS.attachApplicationLocked()（第二阶段有见application创建过程），AMS通知客户端进程创建完Application之后，调用mStackSupervisor.attachApplicationLocked()处理Activity：
 	- ## ActivityStackSupervisor.attachApplicationLocked
+	  collapsed:: true
 		- ```java
 		  boolean attachApplicationLocked(ProcessRecord app) throws RemoteException {
 		      final String processName = app.processName;
@@ -624,6 +632,7 @@ collapsed:: true
 		  activity：客户端进程中待启动Activity对应的ActivityRecord。
 		  andResume：true，启动后进行resume操作。
 	- ## ActivityStackSupervisor.realStartActivityLocked
+	  collapsed:: true
 		- ```java
 		  final boolean realStartActivityLocked(ActivityRecord r, ProcessRecord app,
 		          boolean andResume, boolean checkConfig) throws RemoteException {
@@ -731,6 +740,7 @@ collapsed:: true
 		  TransactionExecutor先后处理ClientTransaction的mActivityCallbacks和mLifecycleStateRequest，其中mActivityCallbacks便是LaunchActivityItem，作用是创建Activity并回调onCreate()方法；
 		  先看LaunchActivityItem：
 	- ## LaunchActivityItem.execute
+	  collapsed:: true
 		- 代码：
 			- ```java
 			  // client：ActivityThread父类，定义了抽象方法由ActivityThread实现；
@@ -747,6 +757,7 @@ collapsed:: true
 			  ```
 		- 构造ActivityClientRecord，调用ActivityThread.handleLaunchActivity()。
 	- ## ActivityThread.handleLaunchActivity
+	  collapsed:: true
 		- ```java
 		  public Activity handleLaunchActivity(ActivityClientRecord r ,
 		          PendingTransactionActions pendingActions, Intent customIntent) {
@@ -771,6 +782,7 @@ collapsed:: true
 		  }
 		  ```
 	- ## ActivityThread.performLaunchActivity
+	  collapsed:: true
 		- 代码
 			- ```java
 			  private Activity performLaunchActivity(ActivityClientRecord r, Intent customIntent) {
@@ -882,6 +894,7 @@ collapsed:: true
 		  [[#red]]==**ActivityThread方法执行最终是调用Instrumentation的相应生命周期方法执行Activity的生命周期回调**==；
 		  这个时候Activity便显示出来并执行相关生命周期回调。
 	- ## 总结
+	  collapsed:: true
 		- Android的整个启动过程链路较长，在目标应用启动过程中涉及3个进程Launcher进程、System Service进程、目标应用进程，进程间通信使用Binder机制，由AMS负责调度，调度进程创建、绑定应用等核心逻辑，目标应用在接收到调度任务后执行相应操作，AMS通知App创建Activity并回调相关生命周期，整个链路虽然长，但类之间各司其职，还是比较容易理解的。熟悉了这个启动流程，对于我们对今后的启动优化和代码理解都是有益的。
 	-
 -

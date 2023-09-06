@@ -1,10 +1,11 @@
-- # 系统级线程池专门用于IPC通信，和程序的Thread不是一个东西
+# 系统级线程池专门用于IPC通信，和程序的Thread不是一个东西
 - # 一、线程池管理图解
 	- ![image.png](../assets/image_1688483018620_0.png)
 	- ## 名词解释
 		- ProcessState，相当于一个进程
 		- IPCThreadState,相当于一个线程
 - # 二、线程的创建过程
+  collapsed:: true
 	- app_main.cpp:
 	- 进程创建的时候，创建线程池
 		- ![image.png](../assets/image_1688483221471_0.png)
