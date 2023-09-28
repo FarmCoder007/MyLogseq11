@@ -29,9 +29,9 @@
 		  ```
 		- 否则toast提示：“There’s no route matched! Path = [/xxx/xxx] Group = [xxxx]”
 		- 编译生成的类：
+		  collapsed:: true
 			- ![image.png](../assets/image_1684399289080_0.png)
 		- root
-		  collapsed:: true
 			- ![image.png](../assets/image_1684399297749_0.png){:height 232, :width 688}
 		- group
 			- ![image.png](../assets/image_1684399307028_0.png)
@@ -39,13 +39,10 @@
 		- ARouter$Group$$xxx(groupname) 把一个分组下的所有路径(RouteMeta)存入map
 		- ARouter$Providers$$xxx(modulename) 把注册的接口存入map
 - ## 二、ARouter 注解处理器:RouteProcessor
-  collapsed:: true
 	- 有注解就有注解处理器，ARouter也是基于APT+ Javapoat，构建路由表的逻辑就在RouteProcessor，也是在RouteProcessor里生成了上面的那些类
 	- APT 和 javapoat 有同学分享过，这也是APT 和 javapoat应用很好的一个例子
 	- 1、BaseProcessor
-	  collapsed:: true
 		- RouteProcessor 继承了 BaseProcessor
-		  collapsed:: true
 			- ```java
 			  public abstract class BaseProcessor extends AbstractProcessor {
 			       ...
@@ -96,7 +93,6 @@
 			  ```
 		- 主要初始化工具类，从gradle 配置里获取 moduleName
 		- ### getSupportedOptions()
-		  collapsed:: true
 			- KEY_MODULE_NAME的值：
 			- // Options of processor
 			  public static final String KEY_MODULE_NAME = "AROUTER_MODULE_NAME";
@@ -104,14 +100,12 @@
 			  就是我们在build.gradle里配置的 AROUTER_MODULE_NAME
 			- ![image.png](../assets/image_1684399429922_0.png)
 		- ### init（）
-		  collapsed:: true
 			- 从 options 里获取 moduleName，如果moduleName为空抛出异常； 异常信息就是这段字符串：
 			- ![image.png](../assets/image_1684399453466_0.png)
 			- 这就是为什么如果不在build.gradle里配置AROUTER_MODULE_NAME，会异常的原因， moduleName有什么用？
 		-
 	- 2、RouteProcessor
 		- 1
-		  collapsed:: true
 			- ```java
 			  public class RouteProcessor extends BaseProcessor {
 			      private Map<String, Set<RouteMeta>> groupMap = new HashMap<>(); // ModuleName and routeMeta.
@@ -147,7 +141,6 @@
 		  private Map<String, String> rootMap = new TreeMap<>();
 		- process（）方法调用了parseRoutes（）方法，处理注解的逻辑在这个方里
 		- 先从类名获取activity/fragment/service 的类型，用于后面的类型判断
-		  collapsed:: true
 			- ```java
 			  private void parseRoutes(Set<? extends Element> routeElements) throws IOException {
 			      if (CollectionUtils.isNotEmpty(routeElements)) {
@@ -173,7 +166,6 @@
 			          ClassName routeTypeCn = ClassName.get(RouteType.class);
 			  ```
 		- 创建 RouteMeta 对象，RouteMeta主要存放的是路径信息，包含了Rout注解的值（path，name，group…），安卓activity/fragment/service类名，Element（只要用来获取注解类的className），以及跳转参数信息。
-		  collapsed:: true
 			- ```java
 			  for (Element element : routeElements) {
 			          TypeMirror tm = element.asType();
@@ -215,7 +207,6 @@
 			      }
 			  ```
 		- 1.先验证路径path是否合规；合规就把RouteMeta按groupName分组存入 groupMap
-		  collapsed:: true
 			- ```java
 			  private void categories(RouteMeta routeMete) {
 			      //验证routeMete
@@ -245,7 +236,6 @@
 			  }     
 			  ```
 		- 从这个判断方法 里，知道了
-		  collapsed:: true
 		  path 必须“/”开头，并且第一段作为默认 group 名；
 			- ```java
 			  private boolean routeVerify(RouteMeta meta) {
@@ -274,7 +264,6 @@
 			  }
 			  ```
 		- 接着生成代码的过程
-		  collapsed:: true
 			- ```java
 			  for (Map.Entry<String, Set<RouteMeta>> entry : groupMap.entrySet()) {
 			              //组名
@@ -353,7 +342,6 @@
 			          }
 			  ```
 		- 上面这段代码生成类 ARouter$$Group$login，groupname = login；
-		  collapsed:: true
 			- ```java
 			  public class ARouter$$Group$xxx（groupname） implements IRouteGroup {
 			      @Override
@@ -364,7 +352,6 @@
 			  }
 			  ```
 		- 有多少group就有多少这样的类，然后把这些类名存入rootMap
-		  collapsed:: true
 			- ```java
 			  if (MapUtils.isNotEmpty(rootMap)) {
 			              // Generate root meta by group name, it must be generated before root, then I can find out the class of group.
@@ -385,7 +372,6 @@
 			          ).build().writeTo(mFiler);
 			  ```
 		- 上面这段代码，我们看到了moduleName,也就是gradle里的project.getName()，这段代码生成下面这个类， moduleName =“LoginSDK”
-		  collapsed:: true
 			- ```java
 			  public class ARouter$$Providers$$LoginSDK implements IProviderGroup {
 			      @Override
@@ -585,6 +571,7 @@
 		  但是没有加载任何一个ARouterGroup;那group是什么时候加载的呢
 		  ```
 - ## 四、navigation()
+  collapsed:: true
 	- 如何根据path找到跳转目标（寻址）？
 		- ```java
 		  ARouter.getInstance().build("login/loginX").navigation();

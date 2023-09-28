@@ -1,5 +1,4 @@
-- ## HttpServiceMethod.java  parseAnnotations
-  collapsed:: true
+## HttpServiceMethod.java  parseAnnotations
 	- ```java
 	  static <ResponseT, ReturnT> HttpServiceMethod<ResponseT, ReturnT> parseAnnotations(
 	        Retrofit retrofit, Method method, RequestFactory requestFactory) {

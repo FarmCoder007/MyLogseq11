@@ -1,4 +1,4 @@
-- # 一、概述和构造函数
+# 一、概述和构造函数
 	- ```java
 	  public static ValueAnimator ofInt(int... values)  
 	  public static ValueAnimator ofFloat(float... values)  
@@ -9,7 +9,6 @@
 	- 所以我们传进去的数字越多，动画变化就越复杂。
 	- 从参数类型也可以看出ofInt与ofFloat的唯一区别就是传入的数字类型不一样，ofInt需要传入Int类型的参数，而ofFloat则表示需要传入Float类型的参数。
 - # 二、代码示例
-  collapsed:: true
 	- ```java
 	  		//获取ValueAnimator实例    设置持续时间
 	          ValueAnimator animator = ValueAnimator.ofFloat(0f,400f,50f,300f);
@@ -27,7 +26,6 @@
 	          animator.start();
 	  ```
 - # 三、常用函数
-  collapsed:: true
 	- ```java
 	   /** 
 	       * 设置动画时长，单位是毫秒 
@@ -65,7 +63,6 @@
 	        
 	  ```
 - # 四、两个监听器
-  collapsed:: true
 	- ### 监听器一：监听动画变化时的实时值
 		- ```java
 		  public static interface AnimatorUpdateListener {  
@@ -97,7 +94,6 @@
 		  void removeAllListeners();
 		  ```
 - # 五、时间插值器和自定义时间插值器
-  collapsed:: true
 	- **简单实用：**
 		- ```java
 		     ValueAnimator animator = ValueAnimator.ofInt(0,600);  
@@ -135,7 +131,6 @@
 		  ```
 		-
 - # 六、ValueAnimator的实现原理：
-  collapsed:: true
 	- ![image.png](../assets/image_1685785113583_0.png)
 	- 1)、ofInt(0,400)表示指定动画的数字区间，是从0运动到400； 
 	  (2)、加速器：上面我们讲了，在动画开始后，通过加速器会返回当前动画进度所对应的数字进度，但这个数字进度是百分制的，以小数表示，如0.2 
@@ -144,7 +139,6 @@
 	- 监听器：我们通过在AnimatorUpdateListener监听器使用animation.getAnimatedValue()函数拿到Evaluator中返回的数字值。 
 	  讲了这么多，**Evaluator其实就是一个转换器，他能把小数进度转换成对应的数值位置**
 - # 七、自定义Evaluator转换器
-  collapsed:: true
 	- **实现  **TypeEvaluator<Integer>   系统的也是实现这个
 	- 只有定义动画时的数值类型ofInt()与Evalutor的返回值类型一样时，才能使用这个Evalutor即系统的intEvaluator  或者自定义的泛型为interger的【实现TypeEvaluator<Integer>  】
 	- **看一下系统的计算公式    ****startInt****是of****Int****输入的第一个值   ****fraction****是插值器返回来的一个0到1的一个小数字     ****endValue****是of****Int****输入的尾部值**
@@ -152,7 +146,6 @@
 	- 100+（300-100）*0.2代表    ofInt(100,300)起始位置100终止位置300整体的时间上的进度为0.2
 	- **总结：我们可以通过重写加速器改变数值进度来改变数值位置，也可以通过改变****Evaluator中进度所对应的数值来改变数值位置。**
 	- **实现倒序输出的Eva****luator**
-	  collapsed:: true
 		- ```java
 		      public class ReverseEvaluator implements TypeEvaluator<Integer> {  
 		          @Override  
@@ -168,6 +161,7 @@
 - # 八、颜色转换器关于ArgbEvalutor
 	- ### 原理和前两个转换器大致一样       由输入  输出值和插值器返回来的进度计算并返回当前进度数值
 - # 九、valueAnimator的另一构造函数ofObject
+  collapsed:: true
 	- ```java
 	  - public static ValueAnimator ofObject(TypeEvaluator evaluator, Object... values);
 	  ```

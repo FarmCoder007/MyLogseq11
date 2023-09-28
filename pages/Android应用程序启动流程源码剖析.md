@@ -2,6 +2,7 @@
 collapsed:: true
 	- 近期应工信部要求整改，其中一项是的整改要求是隐私弹窗之前不允许收集个人信息，个人信息包括设备和个人的敏感信息，这个条款按照需求理解就是隐私弹框之前不允许有任何业务逻辑有采集信息行为，代码层理解就是隐私弹窗弹出前不允许调用任何其他逻辑，包括我们程序的初始化操作。因为我们程序的初始化之前是放在隐私弹窗之前开始执行的，那为迎合本次整改，需要将我们的初始化延迟到隐私政策同意之后执行，如何能快速实现，这个改造呢？借鉴了同城hook Instrumentation 的方案（朝彬、曾老师开发），实现方案不是本次要讲的内容，大家可以自行下来查看代码实现（PrivacyInstrumentation类），本次要讲的是app应用的启动流程，当你理解了本次所讲的内容，你再看实现方案就能更好的理解，从源码逐步分析启动流程的每个环节，涉及到每个类的作用，带大家一一了解。
 - # 二、问题
+  collapsed:: true
 	- 1、应用的进程是什么时机创建的，进程如何和application绑定？
 	- 2、app 应用启动过程中关键核心类的作用以及他们之间的关系？
 	- 3、Application是什么时候创建的，谁管理他的生命周期？
@@ -12,6 +13,7 @@ collapsed:: true
 	- 6、ContentProvider的onCreate()是有系统调用的，那什么时机执行呢？
 	  若以上内容都已理解，那接下来的内容就当温习和探讨吧 ：）
 - # 三、应用启动流程所涉及的核心类及作用
+  collapsed:: true
 	- 先简述一下启动过程中关键类及作用，便于大家理解下面的内容：
 	- ## ActivityManagerService：
 		- Framework层，Android核心服务,简称AMS,负责调度各应用进程,管理四大组件.实现了IActivityManager接口,应用进程能通过Binder机制调用系统服务，以下简称AMS；
@@ -390,7 +392,6 @@ collapsed:: true
 	- ## [[#red]]==**创建新进程后将 ActivityThread 类加载到新进程，并调用 ActivityThread.main() 方法：**==
 	  collapsed:: true
 		- ## fork(）函数fork()子进程后，会判断pid=0，在子进程（应用程序进程）执行handleChildProc处理应用程序进程
-		  collapsed:: true
 			- ```java
 			  boolean runOnce(ZygoteServer zygoteServer) throws Zygote MethodA dArgsCaller { 
 			          String args[] ; 
@@ -434,7 +435,6 @@ collapsed:: true
 			  }
 			  ```
 		- ## handleChildProc 执行Zygoteinit.zygotelnit方法
-		  collapsed:: true
 			- > frameworks/base/core/java/com/android/internal/os/ZygoteConnection.java
 				- ```java
 				  private vo handleChildProc(Arguments parsedArgs,FileDescriptor[] descriptors, FileDescr pt or peFd PrintStream 
@@ -580,11 +580,9 @@ collapsed:: true
 	- ## 延伸[[ContentProvider的onCreate执行时机]]
 	- ## [[#red]]==到此看完了从Launcher启动到Instrumentation、Application的创建时机==
 - # 六、启动流程[[#red]]==第三阶段Activity创建启动和生命周期管理==
-  collapsed:: true
 	- ![image.png](../assets/image_1684417556248_0.png)
 	- 我们熟悉了启动流程的上半部流程，从Launcher启动到Instrumentation、Application的创建时机，本篇为上篇的下半部分，重点讲解启动过程中Activity的创建和生命周期的回调，包括中间过程中涉及到的重要类作用的说明
 	- ## AMS通知App创建Activity并回调相关生命周期（api 29未发现这块)
-	  collapsed:: true
 		- 回到AMS.attachApplicationLocked()（第二阶段有见application创建过程），AMS通知客户端进程创建完Application之后，调用mStackSupervisor.attachApplicationLocked()处理Activity：
 	- ## ActivityStackSupervisor.attachApplicationLocked
 	  collapsed:: true
@@ -632,7 +630,6 @@ collapsed:: true
 		  activity：客户端进程中待启动Activity对应的ActivityRecord。
 		  andResume：true，启动后进行resume操作。
 	- ## ActivityStackSupervisor.realStartActivityLocked
-	  collapsed:: true
 		- ```java
 		  final boolean realStartActivityLocked(ActivityRecord r, ProcessRecord app,
 		          boolean andResume, boolean checkConfig) throws RemoteException {
@@ -740,7 +737,6 @@ collapsed:: true
 		  TransactionExecutor先后处理ClientTransaction的mActivityCallbacks和mLifecycleStateRequest，其中mActivityCallbacks便是LaunchActivityItem，作用是创建Activity并回调onCreate()方法；
 		  先看LaunchActivityItem：
 	- ## LaunchActivityItem.execute
-	  collapsed:: true
 		- 代码：
 			- ```java
 			  // client：ActivityThread父类，定义了抽象方法由ActivityThread实现；
@@ -757,7 +753,6 @@ collapsed:: true
 			  ```
 		- 构造ActivityClientRecord，调用ActivityThread.handleLaunchActivity()。
 	- ## ActivityThread.handleLaunchActivity
-	  collapsed:: true
 		- ```java
 		  public Activity handleLaunchActivity(ActivityClientRecord r ,
 		          PendingTransactionActions pendingActions, Intent customIntent) {
@@ -782,7 +777,6 @@ collapsed:: true
 		  }
 		  ```
 	- ## ActivityThread.performLaunchActivity
-	  collapsed:: true
 		- 代码
 			- ```java
 			  private Activity performLaunchActivity(ActivityClientRecord r, Intent customIntent) {
@@ -882,7 +876,6 @@ collapsed:: true
 			- mInstrumentation.callActivityOnCreate()：先调用activity.performCreate()，再回调Activity.onCreate()。
 		- 分析完了LaunchActivityItem如何创建Activity并回调onCreate()方法后，
 	- ## 再看TransactionExecutor如何处理ClientTransaction的mLifecycleStateRequest。
-	  collapsed:: true
 		- 通过前面的文章分析知道，TransactionExecutor再处理ClientTransaction时，会通过cycleToPath()以及performLifecycleSequence()方法，处理当前声明周期状态到目标声明周期中间的声明周期，在LaunchActivityItem处理完毕后，当前状态是ON_CREATE，而目标状态是ON_RESUME，所以cycleToPath()会在处理ResumeActivityItem前先调用ActivityThread.handleStartActivity()完成Activity的onStart()方法的回调。处理完cycleToPath()以后，TransactionExecutor再处理ResumeActivityItem，ResumeActivityItem最终回调Activity的onResume()方法，具体的流程不在分析。
 		-
 		- AMS跨进程和客户端进程通信有关Activity的重要的生命周期，均由ClientLifecycleManager.scheduleTransaction()完成。

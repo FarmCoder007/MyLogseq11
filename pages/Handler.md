@@ -1,5 +1,4 @@
-- # 一、前言：Handler进行线程间通信
-  collapsed:: true
+# 一、前言：Handler进行线程间通信
 	- ## Handler通信实现方案实际上是内存共享的方案
 		- 在android开发中，经常会在子线程中进行一些操作，当操作完毕后会通过handler发送一些数据给主线程，通知主
 		- 线程做相应的操作。 **探索其背后的原理**：子线程 handler 主线程 其实构成了线程模型中的经典问题 生产者-消费者
@@ -8,7 +7,6 @@
 	- ![image.png](../assets/image_1688095441418_0.png)
 	-
 	- ##  Handler介绍
-	  collapsed:: true
 		- 在 Handler 的使用中，通常会在主线程中创建一个 Handler 对象，并在其他线程中通过该 Handler 对象发送消息到主线程进行处理。为了实现这种异步通信，主线程的 Looper 会不断地从消息队列中获取消息，并将其分发给相应的 Handler 进行处理。
 		- Handler表面看是一个线程间通信（子线程（bean） ->主线程（显示）），实际是一个管理机制（管理所有的消息）
 		- 消息：（android里所有的事物）包括点击，屏幕亮暗，滑动操作等
@@ -17,12 +15,11 @@
 - # 三、[[Handler发送消息的整个流程]]
 - # 四、[[Message怎么实现从子线程到主线程的切换]]
 - # 二、源码
-  collapsed:: true
 	- ## 工作流程
 		- Launcher -> Zygote -> JVM -> ActivityThread-> main函数
 		- ### ActivityThread：Main入口函数
+		  collapsed:: true
 			- 代码
-			  collapsed:: true
 				- ```java
 				      public static void main(String[] args) {
 				          Trace.traceBegin(Trace.TRACE_TAG_ACTIVITY_MANAGER, "ActivityThreadMain");

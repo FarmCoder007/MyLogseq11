@@ -1,7 +1,6 @@
 title:: Observable.interval取消原理
 
 - 代码使用
-  collapsed:: true
 	- ```java
 	  Observable.interval(1,2, TimeUnit.SECONDS) // 返回 ObservableInterval，看他的订阅
 	                  .subscribe(new Observer<Long>() {
@@ -27,7 +26,6 @@ title:: Observable.interval取消原理
 	                  });
 	  ```
 - ## 1、看返回的对象interval，谁调用的订阅方法subscribe
-  collapsed:: true
 	- Observable.interval
 		- ```java
 		      @CheckReturnValue
@@ -51,7 +49,6 @@ title:: Observable.interval取消原理
 		      }
 		  ```
 - ## 2、看订阅流程，ObservableInterval的订阅最终调用
-  collapsed:: true
 	- ObservableInterval  subscribeActual
 		- ```java
 		   @Override
@@ -76,7 +73,6 @@ title:: Observable.interval取消原理
 		- 1、工作原理是线程池执行定时任务，任务就是IntervalObserver，具体工作看其run方法就行
 		- 2、包装成IntervalObserver  为 一个 Disposable 和 Runnable 。取消看其dispose方法就行
 - ## 3、看其IntervalObserver，dispose
-  collapsed:: true
 	- ```java
 	          @Override
 	          public void dispose() {
@@ -99,7 +95,6 @@ title:: Observable.interval取消原理
 	      }
 	  ```
 - ## 4、看其run方法
-  collapsed:: true
 	- ```java
 	          @Override
 	          public void run() {

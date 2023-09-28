@@ -3,5 +3,5 @@
 	- HashMap的Node基础上又增加了after和before字段，相当有又是一个双向链表来维护有序性。
 	- after指向后一个，before指向前一个
 	- 结构如下
-	- ![](https://img-blog.csdnimg.cn/img_convert/6344510cb4669745b8f66485832117af.png)
+	- ![image.png](../assets/image_1694952428253_0.png)
 - # [参考](https://blog.csdn.net/qq_40194399/article/details/109726783)：

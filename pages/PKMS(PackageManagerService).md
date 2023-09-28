@@ -1,6 +1,5 @@
 - ![20.9.13-PKMS Android10.0 第一节课的预习资料.pdf](../assets/20.9.13-PKMS_Android10.0_第一节课的预习资料_1689151086015_0.pdf)
 - # 一、概述
-  collapsed:: true
 	- ## 包的理解：
 		- 每一个应用的唯一标识 package
 		- 每一个应用 == 一个包
@@ -22,7 +21,6 @@
 			- **在****Android****系统中****, ****系统启动时由****SystemServer****启动****PKMS****服务****, ****启动该服务后会执行应用程序的安装**过程
 		- ### [[PKMS核心功能职责]]
 - # 二、一部曲-PKMS角色位置
-  collapsed:: true
 	- **PKMS****是属于****Binder**机制的服务端角色
 	- ==客户端程序想和PKMS通信，需要借助IPackageManager.aidl这个桥梁 进行binder通信==
 	- ![image.png](../assets/image_1689147332147_0.png)

@@ -1,4 +1,4 @@
-- # 1、单参构造函数
+# 1、单参构造函数
 	- 场景：如果View是在Java代码里面new的，则调用第一个构造函数
 	- ```java
 	      public CarsonView(Context context) {
@@ -6,7 +6,7 @@
 	      }
 	  ```
 - # 2、双参
-	- 场景：如果View是在.xml里声明的，则调用第二个构造函数
+	- 场景：如果View是在.xml里声明的，则调用第二个构造函数，layoutInfalter反射创建view调用的这个方法
 	- ```java
 	      // 自定义属性是从AttributeSet参数传进来的
 	      public CarsonView(Context context, AttributeSet attrs) {

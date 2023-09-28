@@ -1,16 +1,31 @@
 # [[Handler]]
 - # [handler相关面试题](https://blog.csdn.net/xuwb123xuwb/article/details/115918849?spm=1001.2014.3001.5502)
 - #   [handler  消息机制 原理](https://blog.csdn.net/xuwb123xuwb/article/details/115377306)
-- ## 1、简单介绍下Handler消息机制
-  collapsed:: true
+- # 1、简单介绍下Handler消息机制
 	- ![image.png](../assets/image_1688094803699_0.png){:height 370, :width 749}
-	- ### Handler: 发送消息和处理消息
-	- ###  Looper: 不断轮询从MessageQueue中获取Message，然后交给Handler处理
-		- Looper.loop()死循环
-	- ### MessageQueue：优先级消息队列，按时间when来存放Handler发送过来的消息
-	- ### Message: 消息的载体
-- ## 2、Handler中SendMessage 和 Post区别
-  collapsed:: true
+	- ## 1、各个部分作用
+		- ### Handler: 发送消息和处理消息
+		- ###  Looper: 不断轮询从MessageQueue中获取Message，然后交给Handler处理
+			- Looper.loop()死循环
+		- ### MessageQueue：优先级消息队列，按时间when来存放Handler发送过来的消息（这个应该是发送消息的时间）
+		- ### Message: 消息的载体
+	- ## 2、机制流程
+		- ### 1、发送消息
+			- handler.sendMsg->MessageQueue.enqueueMessage，加入到消息队列
+		- ### 2、取消息
+			- Looper.loop中不断循环，调用MessageQueue.next（）方法取消息，取到再进行分发
+		- ### 3、分发消息
+			- msg.target.dispatchMessage->msg.target 就是发送该消息的 Handler，这样消息最终会回调到**Handler的`dispatchMessage`**方法
+		- ### 4、处理消息
+			- Handler的dispatchMessage 里会判断  首先msg.callback是否为空 这个是个runnable  如果不为空就会执行这个runnable   否则 ,回调mCallback.[[#red]]==**handleMessage**==方法   就可以处理消息了
+- # 2、各个地方创建时机
+	- 1、Handler->直接new的
+	- 2、Looper->
+		- ==**主线程的Looper**==是ActivityThread中Looper.==**prepareMainLooper**==（）
+		- ==**子线程的Looper**==需要Looper.==**prepare**==（）
+	- 3、MessageQueue-> Looper 构造函数创建的
+	- 4、Message-> 可以直接new 也可以Message.obtain()。享元模式获取
+- # 2、Handler中SendMessage 和 Post区别
 	- ## SendMessage:
 		- 1、发送消息对象
 	- ## post() 它不叫异步消息
@@ -22,9 +37,8 @@
 	- 可以有任意多个 ，因为在每个activity 里都可以new  而 他们都是在主线程的 ；所以就创建了多个
 - ## 6、Handler内存泄漏的原因？为什么其他的内部类没有说过这个问题？
   collapsed:: true
-	- 因为 使用Handler 时 是[[匿名内部类]]， 内部类持有外部类的引用
+	- 1、因为 使用Handler 时 是[[匿名内部类]]， 内部类持有外部类的引用
 	- Handler 持有 activity的引用，而 Message 持有target(handler)的引用
-	  collapsed:: true
 		- msg.target = this;  msg 持有了handler
 		- ```java
 		  Handler.java
@@ -168,6 +182,7 @@
 					           }
 					  ```
 - ## 9、Looper死循环 为什么不会导致 应用卡死ANR？
+  collapsed:: true
 	- 由第8题可知，消息队列无消息默认进入休眠（无论子主线程），为啥不会卡死app呢
 	- ## 1、ANR发生的原因
 		- 1：   5s内没有响应输入 事件  【触摸啊什么的】
@@ -177,10 +192,9 @@
 		- 1  触摸事件会变成msg， 同时唤醒looper循环
 		- 2  往looper里添加消息 也会唤醒
 		- 产生Anr是因为 输入事件没有响应，，但是 输入事件 会唤醒 looper循环；  所以两个概念
-- ## 10、既然可以存在多个Handler往MessageQueue中添加数据（发送消息时各个Handler可能处于不同线程），那么内部怎么保证线程安全的？
-  collapsed:: true
+- ## 10、既然可以存在多个Handler往==**MessageQueue中添加数据**==（发送消息时各个Handler可能处于不同线程），那么==**内部怎么保证线程安全的？**==
 	- MessageQueue.enqueueMessage()添加消息方法和取消息里添加了同步代码块
-	- synchronized (this) {}锁是这个messageQueue对象，一个线程中looper是唯一的那么就导致messageQueue唯一的
+	- [[#red]]==**synchronized (this) {}锁是这个messageQueue对象**==，一个线程中looper是唯一的那么就导致messageQueue唯一的
 	- 同一个messageQueue对象中，被同一个锁，锁住的所有函数和方法，同一个时刻只能执行一个
 	- 所以一个线程，只有一个可以操作MessageQueue的地方
 - ## 11、[[Message怎么获取？享元设计模式]]
@@ -196,7 +210,6 @@
 	  mHandler.sendMessageAtTime(msg, dueTime);
 	  ```
 - # 15、同步消息和异步消息的区别
-  collapsed:: true
 	- 同步消息：
 		- sendmsg发送的
 		- 按时间顺序排队执行

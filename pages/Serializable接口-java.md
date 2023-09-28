@@ -1,5 +1,5 @@
-- # 一、背景
-  collapsed:: true
+# 一、背景
+collapsed:: true
 	- 是 Java 提供的序列化接口，它是一个空接口：
 		- ```java
 		  public interface Serializable {
@@ -53,7 +53,6 @@
 			- 因此这个属性的无参构造函数必须可以访问，否者运行时会报错
 	- 2、一个实现序列化的类，它的子类也是可序列化的
 - # 四、serialVersionUID与兼容性
-  collapsed:: true
 	- serialVersionUID的作用
 		- serialVersionUID 用来表明[[#red]]==**类的不同版本间的兼容性**==。如果你修改了此类, 要修改此值。否则以前用老版本的类序列化的类恢复时会报错: InvalidClassException
 	- 设置方式

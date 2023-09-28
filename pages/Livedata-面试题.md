@@ -1,7 +1,33 @@
 ## 1 [[LivaData 是什么？]]
+	- LiveData 是一种具有生命周期（如 Activity、Fragment 或 Service）感知能力的、可被观察的数据存储器类。
+	- LiveData 仅更新处于活跃生命周期状态的应用组件观察者。
+	- 所以==**LiveData 既是观察者**==，观察Activity的生命周期==**，又是被观察者**==，数据变化时，通知数据的观察者。具体绑定到ui还得自己操作。databinding 是数据变了直接绑定到ui
 - ## 2 [[LivaData 的优势]]
+	- ### 1、LiveData 能确保 UI 和数据状态相符
+		- LiveData 遵循观察者模式。当底层数据发生变化时，LiveData 会通知 Observer 对象来更新界面。
+	- ### 2、不会发生内存泄漏
+		- 观察者和 Lifecycle 对象绑定，能在界面销毁时自动解除注册。
+	- ### 3、不会给已经停止的 Activity 发送事件
+		- 如果观察者处于非活跃状态，LiveData 不会再发送任何事件给这些 Observer 对象。
+	- ### 4、不再需要手动处理生命周期
+		- UI 组件仅仅需要对相关数据进行观察，LiveData 自动处理生命周期状态改变后，需要处理的代码。
 - ## 3 [[LiveData 有如下缺点]]
-- ## 4 [[Livedata和Flow怎么选]]
+	- ### LiveData 只能在主线程转换更新数据（postValue也是handler切到主线程）
+	  collapsed:: true
+		- postValue 也是需要切换到到主线程的，当我们想要更新 LiveData 对象时，我们会经常更改线程（工作线程→主线程），如果在修改 LiveData 后又要切换回到工作线程那就更麻烦了。
+	- ### postValue 可能会有丢数据的问题(背压现象)
+		- 在一段时间内发送数据的速度 > 接受数据的速度，可能导致数据丢失，LiveData 无法正确的处理这些请求。
+	- ### LiveData 的操作符也不够强大
+	  collapsed:: true
+		- 面对比较复杂的交互数据流场景时，处理起来比较麻烦。
+- ## 4 [[Livedata和协程Flow怎么选]]
+	- 1、由livedata的缺点：主线程更新数据、数据可能丢失（背压问题）、操作符不强大
+	- Flow介于livedata 和 rxjava之间
+		- 1、Flow 支持线程切换、背压;
+		- 2、入门门槛低，有一些列操作符如map等，但没有rxjava那么复杂;
+			- 简单的数据转换与操作符，如 map 等等；
+		- 3、支持冷数据流，不消费则不生产数据。这一点与 LiveData 不同：LiveData 的发送端并不依赖于接收端；
+	- 对于项目已经采用 Kotlin 进行开发的，推荐使用 Flow。
 - ## 5、原理
 	- ## [[livedatabus的粘性问题]]
 	- ## [[LiveData怎么解决内存泄漏的问题]]lifecycle监听Activity生命周期

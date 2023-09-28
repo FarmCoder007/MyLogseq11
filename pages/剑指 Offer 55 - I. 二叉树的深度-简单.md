@@ -1,6 +1,6 @@
 title:: 剑指 Offer 55 - I. 二叉树的深度-简单
 
-- ## 题目
+- ## [题目](https://leetcode.cn/problems/er-cha-shu-de-shen-du-lcof/)
 	- 输入一棵二叉树的根节点，求该树的深度。从根节点到叶节点依次经过的节点（含根、叶节点）形成树的一条路径，最长路径的长度为树的深度。
 	- 例如：
 	- 给定二叉树 `[3,9,20,null,null,15,7]`，
@@ -13,7 +13,8 @@ title:: 剑指 Offer 55 - I. 二叉树的深度-简单
 		  ```
 	- 返回它的最大深度 3 。
 - ## [思路](https://leetcode.cn/problems/er-cha-shu-de-shen-du-lcof/solutions/159058/mian-shi-ti-55-i-er-cha-shu-de-shen-du-xian-xu-bia/)
-- ## 方法一、后续遍历
+- ###### 方法一、后续遍历
+  collapsed:: true
 	- ```java
 	  class Solution {
 	      public int maxDepth(TreeNode root) {
@@ -24,21 +25,35 @@ title:: 剑指 Offer 55 - I. 二叉树的深度-简单
 	  ```
 - ## 方法二、层序遍历
 	- ```java
-	  class Solution {
-	      public int maxDepth(TreeNode root) {
-	          if(root == null) return 0;
-	          List<TreeNode> queue = new LinkedList<>() {{ add(root); }}, tmp;
-	          int res = 0;
-	          while(!queue.isEmpty()) {
-	              tmp = new LinkedList<>();
-	              for(TreeNode node : queue) {
-	                  if(node.left != null) tmp.add(node.left);
-	                  if(node.right != null) tmp.add(node.right);
-	              }
-	              queue = tmp;
-	              res++;
+	  public int maxDepth(TreeNode root) {
+	          // 1、容错
+	          if(root == null){
+	              return 0;
 	          }
-	          return res;
+	          // 2、记录个数
+	          int result = 0;
+	          // 3、声明队列加入root
+	          Queue<TreeNode> queue = new LinkedList<>();
+	          queue.offer(root);
+	  
+	          // 4、遍历队列
+	          while (!queue.isEmpty()){
+	              // 声明层Count
+	              int levelCount = queue.size();
+	              // 该层有多少个节点，遍历多少次
+	              while (levelCount > 0){
+	                  TreeNode levelRoot = queue.poll();
+	                  if(levelRoot.left != null){
+	                      queue.offer(levelRoot.left);
+	                  }
+	                  if(levelRoot.right != null){
+	                      queue.offer(levelRoot.right);
+	                  }
+	                  levelCount -- ;
+	              }
+	              // 每遍历一层 深度数++
+	              result ++;
+	          }
+	          return result;
 	      }
-	  }
 	  ```

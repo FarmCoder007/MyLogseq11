@@ -5,7 +5,6 @@ title:: lifeCycle源码详细说-2.5.1版本
 	- ![lifecy.png](../assets/lifecy_1691570012177_0.png)
 	- mState,取值就是取最上层五个，Initialized,Destroyed,created,started,resumed
 	- 不过是根据Events事件来决定分别取哪个。详细见
-	  collapsed:: true
 		- 代码
 			- ```java
 			   @NonNull

@@ -69,7 +69,6 @@
 	  locked <0x017095d5> (a java.lang.Class<com.xxxx.video.common.data.DataBaseORM>)
 	  ```
 - # 三、binder数据量过大
-  collapsed:: true
 	- ```text
 	  07-21 04:43:21.573  1000  1488 12756 E Binder  : Unreasonably large binder reply buffer: on android.content.pm.BaseParceledListSlice$1@770c74f calling 1 size 388568 (data: 1, 32, 7274595)
 	  07-21 04:43:21.573  1000  1488 12756 E Binder  : android.util.Log$TerribleFailure: Unreasonably large binder reply buffer: on android.content.pm.BaseParceledListSlice$1@770c74f calling 1 size 388568 (data: 1, 32, 7274595)
@@ -78,7 +77,6 @@
 	  07-21 04:43:21.662  1000  1488  6258 E Binder  : Unreasonably large binder reply buffer: on android.content.pm.BaseParceledListSlice$1@770c74f calling 1 size 259300 (data: 1, 33, 7274595)
 	  ```
 - # 四、binder 通信失败
-  collapsed:: true
 	- ```text
 	  07-21 06:04:35.580 <6>[32837.690321] binder: 1698:2362 transaction failed 29189/-3, size 100-0 line 3042
 	  07-21 06:04:35.594 <6>[32837.704042] binder: 1765:4071 transaction failed 29189/-3, size 76-0 line 3042

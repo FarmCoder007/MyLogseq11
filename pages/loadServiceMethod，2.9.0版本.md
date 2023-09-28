@@ -25,6 +25,7 @@ title:: loadServiceMethod，2.9.0版本
 	  ```
 	- ## 1、loadServiceMethod首先会从缓存中获取ServiceMethod对象，有就返回，没有则创建，然后添加到缓存里
 	- ## 2、ServiceMethod.parseAnnotations去创建
+	  collapsed:: true
 		- ServiceMethod.java
 			- ```java
 			    static <T> ServiceMethod<T> parseAnnotations(Retrofit retrofit, Method method) {
@@ -49,8 +50,8 @@ title:: loadServiceMethod，2.9.0版本
 			- > 对我们写的网络请求接口里发方法 做分析 记录   分析 所有的注解  方法   然后分析出完整的拼装方案存在 RequestFactory这里
 		- ### 2-2、HttpServiceMethod.parseAnnotations去获取ServiceMethod,见下文
 	- ## 3、内部调用的HttpServiceMethod的方法
+	  collapsed:: true
 		- HttpServiceMethod.java 继承ServiceMethod
-		  collapsed:: true
 			- ```java
 			  static <ResponseT, ReturnT> HttpServiceMethod<ResponseT, ReturnT> parseAnnotations(
 			        Retrofit retrofit, Method method, RequestFactory requestFactory) {

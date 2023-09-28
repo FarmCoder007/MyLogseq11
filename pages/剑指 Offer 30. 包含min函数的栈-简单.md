@@ -1,6 +1,6 @@
 title:: 剑指 Offer 30. 包含min函数的栈-简单
 
-- ## 题目
+- ## [题目](https://leetcode.cn/problems/bao-han-minhan-shu-de-zhan-lcof/)
 	- 定义栈的数据结构，请在该类型中实现一个能够得到栈的最小元素的 min 函数在该栈中，调用 min、push 及 pop 的时间复杂度都是 O(1)。
 	- ## 示例
 		- ```java
@@ -26,9 +26,9 @@ title:: 剑指 Offer 30. 包含min函数的栈-简单
 	- ```java
 	  class MinStack {
 	      // 普通栈
-	      Deque<Integer> xStack;
+	      LinkedList<Integer> xStack;
 	      // 辅助栈 也是最小栈
-	      Deque<Integer> minStack;
+	      LinkedList<Integer> minStack;
 	  
 	      public MinStack() {
 	          xStack = new LinkedList<Integer>();

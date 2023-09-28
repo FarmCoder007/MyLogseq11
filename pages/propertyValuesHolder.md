@@ -1,4 +1,4 @@
-- # 一、构造,ValueAnimator和ObjectAnimator
+# 一、构造,ValueAnimator和ObjectAnimator
 	- 【ValueAnimator和ObjectAnimator】的api中除了ofInt(),ofFloat(),ofObject()函数还有另外一个构造ofPropertyValuesHolder
 	- ```java
 	    /** 
@@ -22,7 +22,6 @@
 	  id:: 647b0c32-ea0c-4fa8-a5bc-7b1c75b4e658
 	  参数二 属性对应的一系列值，可变长度，如果只指定了一个，那么ObjectAnimator会通过查找getProperty()方法来获得初始值。不理解的同学请参看
 - # 三、ObjectAnimator设置ofPropertyValuesHolder方法
-  collapsed:: true
 	- ```java
 	  public static ObjectAnimator ofPropertyValuesHolder(Object target,PropertyValuesHolder... values) 
 	  ```

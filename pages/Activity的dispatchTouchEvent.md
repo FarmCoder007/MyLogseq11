@@ -1,5 +1,4 @@
 ## 1、首先看 MainActivity里有没有 重写 dispatchTouchEvent()
-collapsed:: true
 	- 如果重写了返回值不是super.dispatchTouchEvent(ev) ,
 		- 那么不会继续分发down事件   因为 super.dispatchTouchEvent(ev) 也就是Activity.dispatchTouchEvent()
 			- ```java

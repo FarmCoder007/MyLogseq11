@@ -24,7 +24,6 @@
 	  ```
 - ## 3、ActivityThread.attach()的方法调用ActivityManagerService的attchApplication方法，创建Instrumentation和Application
 	- Activityt.Attach
-	  collapsed:: true
 		- ```java
 		  private void attach(boolean system) {
 		      sCurrentActivityThread = this;
@@ -106,7 +105,6 @@
 		  ```
 	- ActivityThread.attach()的方法调用ActivityManagerService的attchApplication方法，来去创建Instrumentation和Application，[[Instrumentation]]的作用是监视应用程序和系统的所有交互，文章一开始已经介绍，所以我们一定要了解到它的创建和执行流程；
 - ## 4、AMS.attchApplication,进行binder通信，出于安全考虑会校验uid权限
-  collapsed:: true
 	- ```java
 	  @Override
 	      public final void attachApplication(IApplicationThread thread, long startSeq) {
@@ -123,7 +121,6 @@
 	      }
 	  ```
 - ## 5、AMS.attachApplicationLocked进入 thread.bindApplication(）发起跨进程调用。绑定应用进程，发送一些参数给应用进程
-  collapsed:: true
 	- ```java
 	  private final boolean attachApplicationLocked(IApplicationThread thread,
 	          int pid) {
@@ -191,7 +188,6 @@
 	  }
 	  ```
 - ## 6、从此进入app进程：1.（ApplicationThread）thread.bindApplication()
-  collapsed:: true
 	- 1、ApplicationTread是ActivityThread的内部类
 	  collapsed:: true
 		- ```java
@@ -279,7 +275,6 @@
 		  }
 		  ```
 - ## 7、进入ActivityThread.handleBindApplication()最终创建Instrumentacion和Application
-  collapsed:: true
 	- ActivityThread.handleBindApplication
 		- ```java
 		  private void handleBindApplication(AppBindData data) {
@@ -485,7 +480,6 @@
 	- 5、mInstrumentation.callApplicationOnCreate
 		- app.onCreate 常见的application的oncreate就是这里调用的
 - ## 8、data.info.makeApplication Instrumentation 通过反射创建目标应用Application对象
-  collapsed:: true
 	- Instrumentation
 	- ```java
 	  public Application newApplication(ClassLoader cl, String className, Context context)

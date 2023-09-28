@@ -1,8 +1,7 @@
-- ## 一、概念
+## 一、概念
 	- 存一些之前建立好的Socket，Socket会和服务器ip/Port绑定
 	- 每次请求过来，判断有没有与我要建立链接的服务器，相同的Socket
 - ## 二、构造函数：默认多闲置连接是5个，保持时间是5分钟
-  collapsed:: true
 	- ```java
 	    constructor(
 	      maxIdleConnections: Int,  // 最大闲置的链接  相当于线程池的核心线程数
@@ -22,7 +21,6 @@
 	- keepAliveDuration: Long,  // 最大保存时间 5分钟
 	- timeUnit // 判断为闲置连接的单位  分钟
 - ## 三、添加新链接，可以一直加，空闲的超过5个的会被清理
-  collapsed:: true
 	- RealConnectionPool
 	- ```kotlin
 	    fun put(connection: RealConnection) {
@@ -34,7 +32,6 @@
 	    }
 	  ```
 - ## 清理连接池任务
-  collapsed:: true
 	- ## 连接池会创建一个线程池，去执行清理任务(和调度器的一样高并发)
 		- ```java
 		      private val executor = ThreadPoolExecutor(
@@ -55,7 +52,6 @@
 	    }
 	  ```
 	- cleanup
-	  collapsed:: true
 		- ```java
 		   fun cleanup(now: Long): Long {
 		      var inUseConnectionCount = 0

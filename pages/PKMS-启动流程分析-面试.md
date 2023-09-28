@@ -1,13 +1,13 @@
-- ## 一、启动引导服务中**startBootstrapServices**()
+## 一、启动引导服务中**startBootstrapServices**()
 	- **startBootstrapServices**()首先启动Installer服务，也就是安装器，随后判断当前的设备是否处于加密状态，如果是则只是解析核心应用，接着调用PackageManagerService的静态方法main来创建pms对象
 	- **[[#red]]==第一步==**：[[#red]]==**启动Installer服务**==
 	- **[[#red]]==第二步==**：获取设备是否加密(手机设置密码)，如果[[#red]]==**设备加密了，则只解析"core"应用**==
 	- **[[#red]]==第三步==**： 调用PKMS main方法初始化PackageManagerService，其中调用PackageManagerService()[[#red]]==**构造函数创建了PKMS对象**==
 		- [[#red]]==**五个阶段**==
-			- 1、启动前初始化工作，构建Settings和SystemConfig
-			- 2、扫描系统分区目录，加载相关app信息保存到Package对象，存入PKMS中
-			- 3、扫描data分区目录，加载相关app信息保存到Package对象，存入PKMS中，同时删除一些不存在的信息
-			- 4、清除不必要的缓存数据，更新package.xml
+			- 1、启动前初始化工作，==**构建Settings和SystemConfig**==
+			- 2、扫描[[#red]]==**系统分区目录**==，加载相关app信息保存到Package对象，存入PKMS中
+			- 3、扫描[[#red]]==**data分区目录**==，加载相关app信息保存到Package对象，存入PKMS中，同时删除一些不存在的信息
+			- 4、清除不必要的缓存数据，[[#red]]==**更新package.xml**==
 			- 5、进行gc收尾工作
 	- **[[#red]]==第四步==**： 如果[[#red]]==**设备没有加密**==，[[#red]]==**操作它**==。管理A/B OTA dexopting
 	-
@@ -47,7 +47,7 @@
 		      ...
 		  }
 		  ```
-## 二、**startOtherServices**
+- ## 二、**startOtherServices**
 	- **[[#red]]==第五步==**： 执行 updatePackagesIfNeeded ，[[#red]]==**完成dex优化**==；
 	- **[[#red]]==第六步==**： 执行 performFstrimIfNeeded ，[[#red]]==**完成磁盘维护**==；
 	- **[[#red]]==第七步==**： 调用[[#red]]==**systemReady，准备就绪**==。

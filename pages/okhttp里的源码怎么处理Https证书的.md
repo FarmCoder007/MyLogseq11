@@ -1,11 +1,11 @@
 - [怎么处理https的证书的](https://www.6hu.cc/archives/72873.html)
-- ## 1、具体在ConnectInterceptor连接拦截器中。在调用完connectSocket后，就开端进行SSL的握手
-- ## 2、经过sslSocketFactory创立能够直接进行执行SSL的握手SSLSocket
-- ## 3、传入TSL版本和密码套件
-- ## 4、装备SSL的扩展，并判别是否运用Http2.0版别。
+- ## 1、具体在ConnectInterceptor连接拦截器中。在调用完connectSocket后，就开始进行SSL的握手
+- ## 2、sslSocketFactory[[#red]]==创建==能进行SSL的握手[[#green]]==SSLSocket==
+- ## 3、传入TSL版本和密码套件，配置SSL的扩展，并判别是否运用Http2.0版本。
 - ## 4、调用sslSocket.startHandshake()，进行握手。
+  collapsed:: true
 	- 这时一个同步的操作，会堵塞当时线程，直到握手成功，假如中间出了什么问题，那么会直接抛出异常。
 - ## 5、握手完成后会获取Handshake数据，说明服务器的证书已经被信赖了。证书的信息就在Handshake中。
-- ## 6、address.hostnameVerifier().verify进行证书域名确认，host和ip的值。假如不共同，或许证书被替换了
-- ## 7、certificatePinner检测是否安装固定证书
+- ## 6、address.hostnameVerifier().verify[[#green]]==**进行证书域名确认，host和ip的值对比**==。假如不相同，或许证书被替换了
+- ## 7、certificatePinner检测[[#blue]]==**是否安装固定证书**==
 - ## 8、握手成功，获取Http协议

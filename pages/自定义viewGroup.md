@@ -1,6 +1,6 @@
-- # 1、背景
+# 1、背景
 	- 自定义ViewGroup: 则只需要重写onMeasure()和onLayout()，也可以重新onDraw绘制分割线
-	- 解释参考[[自定义view需要重新的方法-面试]]
+	- 解释参考[[自定义view需要重写的方法-面试]]
 - ## [[自定义viewGroup步骤]]
 - # 2、测量onMeasure（）
 	- 1、[[viewGroup的测量先测量自己还是先测量子view?]]

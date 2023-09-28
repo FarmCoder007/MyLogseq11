@@ -1,5 +1,4 @@
-- # Native端
-  collapsed:: true
+# Native端
 	- ## 1、addJavascriptInterface添加对象映射
 		- js使用的时候先通过Window获取xiangxuewebview，拿到对象 才能调方法
 		- ```kotlin
@@ -28,9 +27,7 @@
 		      }
 		  ```
 - # JS
-  collapsed:: true
 	- ## 1、js声明方法 ，根据不同客户端去获取映射对象，调用Native
-	  collapsed:: true
 		- ```kotlin
 		  /**
 		   *  声明 js 调用 Native 方法，不带回调的
@@ -54,7 +51,6 @@
 		  }
 		  ```
 	- ## 2、js方法应用到Html中处理点击事件，调用js代码 去获取Native功能
-	  collapsed:: true
 		- ```html
 		  <!DOCTYPE html>
 		  <html lang="en">

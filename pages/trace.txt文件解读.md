@@ -4,6 +4,7 @@ title:: trace.txt文件解读
 	- adb shell kill -3 888 //可指定进程pid
 	- 执行完该命令后traces信息的结果保存到文件/data/anr/traces.txt
 - ## 2、trace文件解读
+  collapsed:: true
 	- ```java
 	  ----- pid 888 at 2016-11-11 22:22:22 -----
 	  Cmd line: system_server

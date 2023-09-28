@@ -1,5 +1,5 @@
-- ## 代码
-  collapsed:: true
+## 代码
+collapsed:: true
 	- ```java
 	   Observable.create(
 	  
@@ -198,7 +198,6 @@
 		  ```
 	- 了解了参数后，再看整个流程
 - ## 三、看订阅怎么触发的subscribe
-  collapsed:: true
 	- subscribeOn 返回的ObservableSubscribeOn
 	- 则看ObservableSubscribeOn的subscribe
 	  id:: 64bfd1dc-8503-462b-a75b-e2ea0ffb7eba

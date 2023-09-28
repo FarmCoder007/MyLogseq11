@@ -1,5 +1,4 @@
 # 8.0以上运行使用产生图表
-collapsed:: true
 	- 1. 依次选择 Run > Edit Configurations。
 		- ![image.png](../assets/image_1692854056273_0.png)
 	- collapsed:: true
@@ -25,7 +24,7 @@ collapsed:: true
 	  5. 依次选择 Run > Profile，将您的应用部署到搭载 Android 8.0（API 级别 26）或更高版本的设备上。
 		- ![image.png](../assets/image_1692854189968_0.png)
 	- 点击Stop，结束跟踪后显示：
-		- ![image.png](../assets/image_1692856819063_0.png)
+		- ![image.png](../assets/image_1692856819063_0.png){:height 399, :width 719}
 - # 8.0以下使用
 	- 除了直接使用 Profile 启动之外，我们还可以借助Debug API生成trace文件。
 	- ```java

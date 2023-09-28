@@ -1,8 +1,10 @@
 - [[嵌套滑动流程图]]
 - > [[#red]]==**这里的子view为最里层的recyclerview.父view为 NestedScrollview**==
 - 1、嵌套滑动主动者是孩子，由孩子触发的，所以子view先得开启支持嵌套滑动
+  collapsed:: true
 	- 子view初始化时，调用setNestedScrollingEnabled。开启支持嵌套滑动
 	- recyclerView初始化时，默认打开。这边打log可以看到
+	  collapsed:: true
 		- ```java
 		      /**
 		       * 开启支持嵌套滑动
@@ -17,6 +19,7 @@
 		  ```
 - > onTouchevent触发时，Action_Down事件触发就开始下边
 - 2、子view走开始滑动的回调[[#red]]==**startNestedScroll**==：逐层向上找到第一个支持嵌套滑动的父view。
+  collapsed:: true
 	- ```java
 	      // axes是滑动的方向
 	      @Override
@@ -102,7 +105,6 @@
 - > move的时候，我要父亲能滑动的时候，先让她滑动，它滑不动了。我再滑动
 - 3、[[#red]]==**重点**==子view滑动前，调用dispatchNestedPreScroll，先问父亲能不能滑，父view回调onNestedPreScroll。去处理自己能不能滑动
 	- 子view的dispatchNestedPreScroll
-	  collapsed:: true
 		- ```java
 		      @Override
 		      public boolean dispatchNestedPreScroll(int dx, int dy, int[] consumed, int[] offsetInWindow) {
@@ -112,7 +114,6 @@
 		  ```
 	- 会调用到NestedScrollView的onNestedPreScroll。因为NestedScrollView即可以当孩子也可以当父亲（看实现嵌套的接口）。它这个函数。还是去问他的父亲。我们淘宝首页滑动。明确知道布局里它就是父亲。所以我们重写这个方法。直接处理。不用再让NestedScrollView问他的父亲
 	- onNestedPreScroll源码
-	  collapsed:: true
 		- ```java
 		      @Override
 		      public void onNestedPreScroll(@NonNull View target, int dx, int dy, @NonNull int[] consumed) {
@@ -125,7 +126,6 @@
 		      }
 		  ```
 	- 直接重写处理。我能滑动我先滑动。不能滑动再让子view滑动
-	  collapsed:: true
 		- ```java
 		      /**
 		       *  子view 让我先滑动。我划不动它再滑

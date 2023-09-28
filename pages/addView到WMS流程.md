@@ -1,7 +1,6 @@
-- ## 入口函数ActivityThread.handleResumeActivity
+## 入口函数ActivityThread.handleResumeActivity
 - # 一、activity.makeVisible
 	- ## 1、activity.makeVisible
-	  collapsed:: true
 		- 会判断如果window还没添加，
 		- 1、[[#red]]==**拿到windowManager（父类 viewManager）添加mDecor**==
 			- 继承关系
@@ -42,8 +41,7 @@
 		- new SurfaceComposerClient
 		- IGraphicBufferProducer
 - # 二、WindowState implements WindowManagerPolicy.WindowState
-  collapsed:: true
 	- ![image.png](../assets/image_1689129908224_0.png)
 - # 三、Session extends IWindowSession.Stub
 -
-- [[addView到WMS流程-面试]]
+- [[Activity启动后addView到WMS流程-面试]]

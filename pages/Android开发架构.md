@@ -4,7 +4,6 @@
   collapsed:: true
 	- ![image.png](../assets/image_1662434079490_0.png)
 	- ## 1、简介
-	  collapsed:: true
 		- MVC是模型(model)－视图(view)－控制器(controller)的缩写
 		- 用一种业务逻辑、数据、界面显示分离的方法组织代码。
 		- M层处理数据，业务逻辑等；
@@ -13,7 +12,11 @@
 	- ## 2、Android中的MVC
 		- 模型层（M）：[[#red]]==**各种bean,类**==
 		- 视图层（V）：Android中的[[#red]]==**xml文件**==可以理解为视图层。
-		- 控制层（C）：Android中的逻辑处理在[[#red]]==**Activity中体现**==。
+		- 控制层（C）：Android中的逻辑处理在[[#red]]==**Activity中体现**==。也包括网络请求等
+		- ### 流程关系，单向流程关系
+			- 1、View接收到用户的操作，调用Controller 处理
+			- 2、Controller完成具体业务逻辑。
+			- 3、得到结果封装Model，再进行View更新。
 	- ## 3、MVC相比一个文件的优点：
 		- 1：分工明确，各司所职。
 		  2：[[#red]]==**抽离出了model 层**==，一定程度上降低了代码间的耦合性。

@@ -1,4 +1,4 @@
-- ## 面试答
+## 面试答
 	- 1、Schedulers.io：创建了一个IoScheduler的线程池
 	- 2、看订阅流程
 		- 1、subscribeOn的创建了SingleSubscribeOn中间桥梁，内部传入IoScheduler线程池
@@ -7,9 +7,7 @@
 			- 则此时已经切换成了子线程。上游订阅后发送消息到桥梁包装观察者就都在子线程了
 		- ![image.png](../assets/image_1690357749393_0.png)
 - ## 详细流程rxjava3的SingleJust,subscribeOn举例：
-  collapsed:: true
 	- 代码
-	  collapsed:: true
 		- ```java
 		          Single.just(1) //SingJust
 		                  .subscribeOn(Schedulers.io()) // SingleSubscribeOn
@@ -32,7 +30,6 @@
 		  ```
 		-
 	- ## 1、subscribeOn创建的对象SingleSubscribeOn
-	  collapsed:: true
 		- ```java
 		      @SchedulerSupport(SchedulerSupport.CUSTOM)
 		      public final Single<T> subscribeOn(@NonNull Scheduler scheduler) {
@@ -41,7 +38,6 @@
 		      }
 		  ```
 	- ## 2、SingleSubscribeOn.subscribe  实际看他订阅方法
-	  collapsed:: true
 		- ```java
 		      @Override
 		      protected void subscribeActual(final SingleObserver<? super T> observer) {
@@ -56,7 +52,6 @@
 		  ```
 		- scheduler 为传入的线程池。parent为Runnable 看SubscribeOnObserver 的run
 	- ## 3、SubscribeOnObserver 的run
-	  collapsed:: true
 		- ```java
 		  
 		           @Override

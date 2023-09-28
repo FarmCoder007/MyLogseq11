@@ -1,4 +1,4 @@
-- # 中文文档
+# 中文文档
 	- https://mcxiaoke.gitbooks.io/rxdocs/content/topics/How-To-Use-RxJava.html
 - ## 依赖
 	- ```java
@@ -13,7 +13,6 @@
 - # 二、Observer观察者
   collapsed:: true
 	- 观察者
-	  collapsed:: true
 		- ```java
 		  .subscribe(new Observer<String>() {
 		              // 订阅开始
@@ -64,9 +63,7 @@
 - # 十四、[[订阅发生时，流转过程]]
 - # [[Rxjava面试题]]
 - # 资料
-  collapsed:: true
 	- ## 入门相关的资料与博客
-	  collapsed:: true
 		- https://www.jianshu.com/p/cd3557b1a474
 		  https://www.cnblogs.com/lyysz/p/6344507.html
 		  https://www.cnblogs.com/liushilin/p/7058302.html

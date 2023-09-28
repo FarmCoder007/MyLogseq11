@@ -1,5 +1,5 @@
-- ## 背景
-  collapsed:: true
+## 背景
+collapsed:: true
 	- 在构建获取ServiceMethod时，调用了ServiceMethod.parseAnnotations，先解析了注解
 -
 - ## RequestFactory.parseAnnotations，创建RequestFactory实例
@@ -9,7 +9,6 @@
 	    }
 	  ```
 - ## 看build()函数：分析方法和参数的注解
-  collapsed:: true
 	- ```java
 	  RequestFactory build() {
 	        for (Annotation annotation : methodAnnotations) {
@@ -59,7 +58,6 @@
 	      }
 	  ```
 - ## 核心方法1：parseMethodAnnotation:分析方法的注解
-  collapsed:: true
 	- ```java
 	  private void parseMethodAnnotation(Annotation annotation) {
 	        if (annotation instanceof DELETE) {
@@ -131,7 +129,6 @@
 		      }
 		  ```
 - ## 核心方法2：解析参数注解parseParameter
-  collapsed:: true
 	- ```java
 	   private @Nullable ParameterHandler<?> parseParameter(
 	          int p, Type parameterType, @Nullable Annotation[] annotations, boolean allowContinuation) {

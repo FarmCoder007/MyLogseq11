@@ -15,9 +15,8 @@
 			- 可见|| 执行animation动画
 			- view 在点击范围内
 		- 2、最终调用[[#red]]==**child 的dispatchTouchEvent**==，看子view是否消费
-		  collapsed:: true
 			- 如果child是viewGroup。那么viewGroup的 dispatchTouchEvent整个流程再走一遍
-			- 如果是view,那么进入view的dispatchTouchEvent，看touchListener,onTouchevent  等
+			- 如果是view,那么进入view的dispatchTouchEvent，看onTouchListener,onTouchevent  等
 		- 3、[[#red]]==**子view消费了**==，那这个viewGroup 也不处理这个事件了
 		- 4、如果所有子view全部不处理返回false的话，那么ViewGroup会按照拦截走 调用super.dispatchTouchEvent。最终执行自己重写的onTouchListener,onTouchEvent等。
 		- 5、最终将事件是否消费向上传递

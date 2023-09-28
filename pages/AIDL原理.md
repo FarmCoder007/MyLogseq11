@@ -55,7 +55,6 @@
 				- [[ServiceManager-注册服务到SM时Native层SM的获取]]之前Binder机制Native层获取SM步骤中，Proxy(IBinder)相当于
 				- Native层的new BpServiceManager（new BpBinder）等价 Proxy(IBinder 等价 BinderProxy)
 	- ## [[#red]]==解析2==、通过1方法拿到了，服务端进程的IPersonManager接口代理对象，现看[[#red]]==代理类Proxy==中具体跨进程实现
-	  collapsed:: true
 		- 客户端用代理对象，调用远程服务的接口方法，addPerson，传入person对象
 			- ```java
 			  iPersonManager.addPerson(new Personon("xxx", 3));

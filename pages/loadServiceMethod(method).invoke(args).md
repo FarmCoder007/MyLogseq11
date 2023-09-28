@@ -3,7 +3,6 @@ title:: loadServiceMethod(method).invoke(args)
 - ## 背景
 	- 由上一步可知相当于调用了CallAdapted 的 invoke方法，查看源码[[CallAdapted]]（上一步有） 没有invoke方法，则是在父类HttpServiceMethod 实现的
 - ## 1、查看HttpServiceMethod.invoke方法
-  collapsed:: true
 	- ```java
 	    @Override
 	    final @Nullable ReturnT invoke(Object[] args) {

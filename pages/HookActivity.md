@@ -3,7 +3,6 @@
 	- 1，一个注册在清单的[[#red]]==**占位activity**==：StubActivity
 	- 2、一个目标activity（比如插件APK里的Activity），偷梁换柱待启动这个
 - # 思路：比如startActivity简单流程，寻找hook点
-  collapsed:: true
 	- ![image.png](../assets/image_1692684276463_0.png)
 	- -> AMS(验证activity是否注册)
 		- 由Activity的启动流程

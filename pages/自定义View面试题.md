@@ -4,17 +4,15 @@ collapsed:: true
 	- ## 2、[[getMeasuredWidth() 和 getWidth() 区别 和使用场景]]
 	- ## 3、[[自定义View的基本方法]]
 	- ## 4、自定义view和ViewGroup需要重新的方法
-	  collapsed:: true
 		- 自定义View: 只需要重写onMeasure()和onDraw()
 		- 自定义ViewGroup: 则只需要重写onMeasure()和onLayout()，也可以重新onDraw绘制分割线
-		- [[自定义view需要重新的方法-面试]]
+		- [[自定义view需要重写的方法-面试]]
 	- ## 5、[[View构造函数+使用场景]]
 	- ## 6、布局文件xml的键值对，在inflate函数解析的
 	- ## 8、[[自定义view的绘制流程-生命周期方法]]
 	- ## 4、[[onLayout和layout的区别？]]
 	- ## 8、自定义view中为什么要Measure？
-	  collapsed:: true
-		- 为了给子view分配空间，子view要显示，需要结合自己layoutParams设置的大小，和父view规定的测量模式。去计算测量
+		- 为了给子view分配空间，需要结合==**自己layoutParams设置的大小**==，和[[#red]]==**父view规定的测量模式**==。去计算测量
 	- ## 9、invalidate和 requestLayout区别？
 		- invalidate布局没变化，刷新数据Ondraw
 		- requestLayout,布局有变化，重新布局onMeasure onLayout onDraw
@@ -22,24 +20,102 @@ collapsed:: true
 		- invalidate只能在ui线程使用
 		- postInvalidate可以在子线程中使用，内部也是用了handler
 	- ## 11、 invalidate()和requestLayout()触发的生命周期
+	  collapsed:: true
 		- ![](https://img-blog.csdn.net/20160826104112634?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center)
 - # 绘制文字
+  collapsed:: true
 	- ## 绘制文字，纵向起始位置
-		- 纵向上设置的起始点位于文字的基线上 baseline、
+		- 纵向上设置的起始点位于文字的[[#red]]==**基线上 baseline**==、
 		- 所以你drawText（“xxx”,0,0,paint）想从00 开始绘制时，实际baseline在 00 那条线，实际文字就在屏幕上方外部了
 	- ## 9、[[自定义view-文字基线]]
-	- ## 5、[[静态文字-纵向修正文字]]：找出偏移   -  偏移
-	- ## 6、[[动态文字-纵向校正]]
+	- ## 5、[[静态文字-纵向修正文字]]：getTextBounds获取文字绘制时的边界，找出偏移   -  偏移
+	- ## 6、[[动态文字-纵向校正]]：(descent - accent)/2修正
 - # 原理流程
 	- ## [[自定义viewGroup-面试题]]
 	- ## 7、[[MeasureSpec-面试题]]
 	- ## 3、[[view的布局流程（测量 布局）]]，绘制就是调用canvas api了
-	- ## [[View的绘制流程]]触发从setCopntetnView
 	- ## [[Activity布局流程/创建流程ActivityThread+PhoneWindow]]
-- # 嵌套滑动
-	- ## [[模仿淘宝首页滑动]]
-- # 滑动冲突
+	- ## [[View的绘制流程]]触发从setCopntetnView
+- # 嵌套滑动-解决问题：父子联动
+	- ## 1、淘宝嵌套吸顶解决方法
+		- 吸顶问题方案：将tabLayout+RecyclerView 算成ScrollView的最后一个子view。且合起来高度 = 屏幕高度
+	- ## 2、嵌套滑动:NestedScrollingChild、NestedScrollingParent配合
+		- ### 思路：滑动开始时，先看父view还可以滑动吗，不可以滑动，子view再滑动
+		- ## 流程
+			- 1、嵌套滑动主动者、触发者是子view，所以子view先得开启支持嵌套滑动setNestedScrollingEnabled = true （recyclerView 默认开启）
+			- >2、然后手指按下onTouchevent的==**Action_Down事件**==触发嵌套滑动回调
+			- 3、子view走开始滑动的回调[[#red]]==**startNestedScroll**==：逐层向上找到第一个支持嵌套滑动的父view。
+				- 它会逐层调用父view的[[#red]]==**onStartNestedScroll**==询问是否支持嵌套滑动，如果父view支持嵌套滑动的话会调用[[#red]]==**onNestedScrollAccepted**==，作为标识支持
+			- > 4、Action_move事件，开始父子联动配合，父view能滑动就先滑，滑不动再子view滑
+			- 5、[[#red]]==**重点**==子view滑动前，调用[[#green]]==**dispatchNestedPreScroll**==，先问父亲能不能滑
+			- 6、父view回调[[#green]]==**onNestedPreScroll**==。根据业务需求去处理自己能不能滑动，
+				- 比如判断吸顶了，父view就不滑动了，不吸顶就滑动。滑动了需要将滑动距离赋值到consumed参数标识消费了滑动距离。省的子view在父view滑动时也滑动
+	- ## 参考
+	  collapsed:: true
+		- ## [[模仿淘宝首页滑动]]
+		- [[嵌套滑动父子view联动]]
+- # 滑动冲突-解决问题：内部拦截外部拦截
 	- ## [[滑动事件冲突]]
+	- 比如ViewPager嵌套ListView。不让系统处理冲突。自己实现的话解决思路
+	- ## 法1、内部拦截法：ListView自己处理冲突
+		- ## 1、自定义ListView,重写 dispatchTouchEvent方法
+			- 1、down事件请求父view不拦截：getParent().requestDisallowInterceptTouchEvent(true);
+			- 2、move事件判断横向滑动 请求父view viewPager 拦截  getParent().requestDisallowInterceptTouchEvent(false);
+			- viewgroup的源码。disPacthTouchEvent里。Down事件会清除标记。上边请求父view不拦截的标记 会被清除那么 viewPager也要做下处理
+			- 代码
+			  collapsed:: true
+				- ```java
+				  public class MyListView extends ListView {
+				  
+				      public MyListView(Context context) {
+				          super(context);
+				      }
+				  
+				      public MyListView(Context context, AttributeSet attrs) {
+				          super(context, attrs);
+				      }
+				  
+				      // 内部拦截法：子view处理事件冲突
+				      private int mLastX, mLastY;
+				  
+				      @Override
+				      public boolean dispatchTouchEvent(MotionEvent event) {
+				          int x = (int) event.getX();
+				          int y = (int) event.getY();
+				  
+				          switch (event.getAction()) {
+				              // down事件请求父view不拦截
+				              case MotionEvent.ACTION_DOWN: {
+				                  getParent().requestDisallowInterceptTouchEvent(true);
+				                  break;
+				              }
+				              case MotionEvent.ACTION_MOVE: {
+				                  int deltaX = x - mLastX;
+				                  int deltaY = y - mLastY;
+				                  if (Math.abs(deltaX) > Math.abs(deltaY)) {
+				                      // move事件判断横向滑动 运行 viewPager 拦截
+				                      getParent().requestDisallowInterceptTouchEvent(false);
+				                  }
+				                  break;
+				              }
+				              case MotionEvent.ACTION_UP: {
+				                  break;
+				  
+				              }
+				              default:
+				                  break;
+				          }
+				  
+				          mLastX = x;
+				          mLastY = y;
+				          return super.dispatchTouchEvent(event);
+				      }
+				  }
+				  ```
+		- ## 2、ViewPager，需设置onInterceptTouchEvent DOWN事件不拦截就是return false
+	- ## 法2、外部拦截法：：父容器处理冲突，我想要把事件分发给谁就分发给谁
+		- ListView不处理
+		- 自定义ViewPager，重写onInterceptTouchEvent拦截方法。判断Move事件 横向滑动才拦截，其他不拦截
 - # 怎么实现图片圆角
 	- ## 1、使用Xfermode 转换模式SRC_IN
 	  collapsed:: true

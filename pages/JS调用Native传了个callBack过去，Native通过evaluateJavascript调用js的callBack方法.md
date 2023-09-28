@@ -1,9 +1,7 @@
 - 假设第一步收到了callbackName为：xiangxuejs.callback
 - # Native
-  collapsed:: true
 	- 1、通过webView执行 evaluateJavascript("javascript:xiangxuejs.callback('" + 参数1+ "'," + 参数2+ ")", null);
 - # JS，需要声明这个方法,内容是js内容，重点看方法
-  collapsed:: true
 	- ```html
 	  /**
 	   *  定义给Native调用的回调方法

@@ -4,6 +4,7 @@
 	- 线程是不同步的
 	- 对==数据增删速度快    适合频繁增删==
 - # 常用方法
+  collapsed:: true
 	- ![13-常用对象API(集合框架-Link-00_01_34-2023_06_28_18_31_42.jpg](../assets/13-常用对象API(集合框架-Link-00_01_34-2023_06_28_18_31_42_1687948315097_0.jpg)
 	- - 增：add,addFirst,addLast offer, push。
 	- - 删：poll, pop, remoe。

@@ -14,11 +14,22 @@ collapsed:: true
   collapsed:: true
 	- Bitmap对象存放在 java  heap堆中
 	- 像素数据  存放在 Native heap中
-- # 3、[[获取Bitmap的大小]]的API
+- # 3. 获取Bitmap大小api :getByteCount()与getAllocationByteCount()的区别
+	- 一般情况下两者是相等的
+	- 通过[[#green]]==**复用Bitmap来解码图片，**==如果被复用的Bitmap的内存比待分配内存的Bitmap大,那么
+	- getByteCount()表示[[#red]]==**新解码图片占用内存的大小**==（并非实际内存大小,实际大小是复用的那个
+	  Bitmap的大小），
+	- getAllocationByteCount()表示[[#red]]==**被复用Bitmap真实占用的内存大小**==（即mBuffer
+	  的长度）
+	- 参考：[[获取Bitmap的大小]]的API
 - # 4、怎么计算Bitmap占的内存大小
-  collapsed:: true
-	- >Bitmap内存占用 ≈ 像素数据总大小 = 图片宽 × 图片高× (设备分辨率/资源目录分辨率)^2 × 每个像素的字节大小
-	- ## [[单个像素的字节大小]]
+	- ## 参考
+		- Bitamp 占用内存大小 = 宽度像素 x （inTargetDensity / inDensity） x 高度像素 x （inTargetDensity / inDensity）x 一个像素所占的内存
+		- 注：这里inDensity表示目标图片的dpi（放在哪个资源文件夹下），inTargetDensity表示目标屏幕的dpi，所以你可以发现inDensity和inTargetDensity会对Bitmap的宽高
+		  进行拉伸，进而改变Bitmap占用内存的大小。
+		- 在Bitmap里有两个获取内存占用大小的方法。
+	- >Bitmap内存占用 ≈ 像素数据总大小 = 图片宽 × 图片高× (设备屏幕密度/资源目录屏幕密度)^2 × 每个像素的字节大小
+	- ## [[单个像素的字节大小]]RGB-565 2字节，ARGB888 1像素4字节
 	- 1. 图片放在drawable中，等同于放在drawable-mdpi中，原因为：drawable目录不具有屏幕密度特
 	  性，所以采用基准值，即mdpi
 	- 2. 图片放在某个特定drawable中，比如drawable-hdpi，如果设备的屏幕密度高于当前drawable目
@@ -26,7 +37,6 @@ collapsed:: true
 	  放大或缩小比例 = 设备屏幕密度 / drawable目录所代表的屏幕密度
 - # 5、Bitmap加载大图片怎么分块加载
 	- ## BitmapRegionDecoder，具体没用过
-	-
 - # 6、bitmap 和 drawable的区别?
 	- ## Bitmap
 		- 是把实际像素数据，映射到内存的对象里【就是  图片信息的存储工具】

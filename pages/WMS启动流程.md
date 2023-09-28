@@ -1,4 +1,4 @@
-- ## 1、入口SystemServer的Run(）方法，调用startOtherServices();
+## 1、入口SystemServer的Run(）方法，调用startOtherServices();
 - ## 2、startOtherServices创建WMS，执行main方法
   collapsed:: true
 	- ```java
@@ -12,6 +12,7 @@
 	  ```
 - ## 3、WindowManagerService.main()初始化的时候，注意区分不同线程
   id:: 64acd3db-b1ff-4eb0-a4b8-d62595afb67a
+  collapsed:: true
 	- 1、Display
 	- 2、ui 线程
 	- 3、systemServer主线程
@@ -31,8 +32,8 @@
 		- 详细见[[Handler().runWithScissors 同步等待]]
 		-
 - ## 4、WMS构造函数的初始化工作
+  collapsed:: true
 	- api29源码
-	  collapsed:: true
 		- ```java
 		      private WindowManagerService(Context context, InputManagerService inputManager,
 		              boolean showBootMsgs, boolean onlyCore, WindowManagerPolicy policy,
@@ -213,7 +214,6 @@
 		  mActivityManagerService.setWindowManager(wm);
 		  ```
 - ## 6、然后执行  wms.onInitReady();
-  collapsed:: true
 	- initPolicy->UiThread.runWithScissors
 		- ```java
 		      private void initPolicy() {

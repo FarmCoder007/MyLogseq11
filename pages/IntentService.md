@@ -1,4 +1,4 @@
-- # 一、IntentService存在的意义
+# 一、IntentService存在的意义
 	- ![image.png](../assets/image_1688262531697_0.png)
 - # 二、源码:里边创建了HandlerThread
   collapsed:: true

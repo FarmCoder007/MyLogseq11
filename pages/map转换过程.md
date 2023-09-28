@@ -1,4 +1,4 @@
-- ## 代码
+## 代码
 	- ```java
 	  Single.just("1")// SingleJust.map
 	                  .map(new Function<String, Integer>() {
@@ -81,7 +81,6 @@
 		  ```
 		- 传入的observer为包装的里边包裹者 转换函数，和 自定义观察者
 		- 1、调用MapSingleObserver的 开始订阅方法onSubscribe
-		  collapsed:: true
 			- ```java
 			         @Override
 			          public void onSubscribe(Disposable d) {
@@ -90,7 +89,6 @@
 			  ```
 			- t就是创建对象时，传入的自定义观察者，这里由此回调回去
 		- 2、调用MapSingleObserver. onSuccess回调参数
-		  collapsed:: true
 			- ```java
 			   @Override
 			          public void onSuccess(T value) {

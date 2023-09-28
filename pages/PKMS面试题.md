@@ -1,14 +1,44 @@
-- # 一、[[PKMS核心功能职责]]
+# 一、PKMS简介
+	- PackageManagerService，对所有的应用（包）的管理服务，负责程序的安装、卸载、信息查询。
+	- ## 职责
+		- 1.解析AndroidNanifest.xml清单文件，解析清单文件中的所有节点信息
+			- 四大组件，权限等
+		- 2.扫描.apk文件，安装系统应用，安装本地应用等
 - # 二、[[PKMS-启动流程分析-面试]]
+	- ## 1、System server进程启动引导服务中，创建PKMS对象，执行构造函数初始化
+		- **[[#red]]==第一步==**：[[#red]]==**启动Installer服务**==
+		- **[[#red]]==第二步==**：获取设备是否加密(手机设置密码)，如果[[#red]]==**设备加密了，则只解析"core"应用**==
+		- **[[#red]]==第三步==**： 调用PKMS main方法初始化PackageManagerService，其中调用PackageManagerService()[[#red]]==**构造函数创建了PKMS对象**==
+			- [[#red]]==**五个阶段**==
+				- 1、启动前初始化工作，==**构建Settings和SystemConfig**==
+				- 2、==**扫描系统分区目录**==，解析清单加载相关app信息保存到Package对象，存入PKMS中
+				- 3、==**扫描data分区目录**==，解析清单加载相关app信息保存到Package对象，存入PKMS中，同时删除一些不存在的信息
+				- 4、==**清除不必要的缓存数据**==，==**更新package.xml**==
+				- 5、进行==**gc收尾工作**==
+		- **[[#red]]==第四步==**： 如果[[#red]]==**设备没有加密**==，[[#red]]==**操作它**==。管理A/B OTA dexopting
+	- ## 2、在启动其他服务中，PKMS完成后续优化工作
+		- **[[#red]]==第五步==**： 执行 updatePackagesIfNeeded ，[[#red]]==**完成dex优化**==；
+		- **[[#red]]==第六步==**： 执行 performFstrimIfNeeded ，[[#red]]==**完成磁盘维护**==；
+		- **[[#red]]==第七步==**： 调用[[#red]]==**systemReady，准备就绪**==。
 - # 三、[[PKMS-手机开机为什么慢-面试]]
 - # 四、MainActivity通过startActivity 跳转到LoginActivity(设置了launchMode = singleTask)这个启动模式什么时候解析的？
 	- PKMS在系统启动的时候就解析了，扫描手机中所有apk，解析清单文件，不是跳转才解析的
-- # 五、[[PKMS-扫描APK及清单文件解析]]
 - # 六、静态广播什么时候注册的
-	- 开机的时候-》PKMS初始化构造函数中，扫描APK解析清单文件，把静态广播扫描进来保存到 Package，再进行注册
+	- 开机的时候->PKMS初始化构造函数中，[[#red]]==**扫描APK解析清单文件，把静态广播扫描进来保存到 Package，再进行注册**==
+- # 五、[[PKMS-扫描APK及清单文件解析]]
 - # 七、[[PKMS-APK安装过程-面试]]
-- # 八、[[PKMS-权限扫描-面试]]
-- # 九、为什么开机的时候，要把所有的应用全部安装一遍？
+- ## 九、为什么开机的时候，要把所有的应用全部安装一遍？
 	- 保证与上次开机时状态一致，上次安装5个应用这次也需要5个扫描所有的apk安装
-- # 十、[[权限申请源码流程总结]]
-- # 十一、[[checkPermission权限检测流程]]
+- # 八、PKMS-权限扫描
+	- 1、时机：PackageManagerService执行[[#red]]==**systemReady**==()时
+	- 2、方法：[[#red]]==**SystemConfig的readPermissionsFromXml()**==来扫描读取/system/etc[[#red]]==**/permissions中的xml文件**==,保存到指定的结构体中
+- # 十一、PKMS-权限检测
+	- [[#red]]==**1、MainActivity会调用checkSelfPermission方法检测是否具有权限**==
+	- 2、经由AMS、PKMS.checkUidPermission处理
+	- 3、最终交由PermissionManagerService.checkUidPermission进行权限检测
+- # 十、PKMS-权限申请
+	- **[[#red]]==第一步：MainActivity 调用 requestPermissions 进行动态权限申请==**；
+	- [[#red]]==**第二步：requestPermissions函数通过隐式意图，调用系统的权限申请界面，让用户选择是否授权**==；
+	- **[[#red]]==第三步：经过PKMS把相关信息传递给PermissionManagerService处理==**；
+	- 第四步：**==PermissionManagerService处理结束后==**[[#red]]==**回调给---->PKMS中的onPermissionGranted**==方法把处理结果返回；
+	- 第五步：[[#red]]==**PKMS通知授权过程中权限变化**==，==**并通过settings将授 权信息记录到动态权限的.xm**==

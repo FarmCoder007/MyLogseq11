@@ -36,6 +36,7 @@ title:: 剑指 Offer 27. 二叉树的镜像-简单
 	  class Solution {
 	      public TreeNode mirrorTree(TreeNode root) {
 	          if(root == null) return null;
+	          // 1、定义辅助  递归翻转左右
 	          TreeNode tmp = root.left;
 	          root.left = mirrorTree(root.right);
 	          root.right = mirrorTree(tmp);

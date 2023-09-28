@@ -1,6 +1,7 @@
 - 首先：==内存是没有线程之分的==，比如Activity中new一个集合，在子线程可以用在主线程也可以用
 	- 子线程：执行run里的函数，就是在子线程运行的
 - ## 示例代码
+  collapsed:: true
 	- ```java
 	    // 主线程的handler
 	    Handler mHandler = new Handler(){

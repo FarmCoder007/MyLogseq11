@@ -1,4 +1,4 @@
-- ### 源码
+### 源码
 	- ```java
 	   void quit(boolean safe) {
 	          if (!mQuitAllowed) {
@@ -28,7 +28,6 @@
 		- （标记作用后期循环醒了可以让 next()方法返回null，终止loop循环）
 	- 2、移除所有消息【释放内存】
 	- 3、唤醒当前线程nativeWake(mPtr);    通知messageQueue里的next()里的  nativePollOnce  唤醒  继续取数据，判断mQuitting：true,next（） 返回msg为null。从而终止Loop()
-	  collapsed:: true
 		- Looper.java的 loop函数
 			- ```java
 			      for (;;) {

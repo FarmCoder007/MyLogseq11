@@ -1,6 +1,6 @@
 title:: 剑指 Offer 28. 对称的二叉树-简单
 
-- ## 题目
+- ## [题目](https://leetcode.cn/problems/dui-cheng-de-er-cha-shu-lcof/)
 	- 请实现一个函数，用来判断一棵二叉树是不是对称的。如果一棵二叉树和它的镜像一样，那么它是对称的。
 	- 例如，二叉树 [1,2,2,3,4,4,3] 是对称的。
 		- 1
@@ -44,7 +44,7 @@ title:: 剑指 Offer 28. 对称的二叉树-简单
 	      boolean recur(TreeNode L, TreeNode R) {
 	          // 1、左右都为null  true
 	          if(L == null && R == null) return true;
-	          // 又一个为null 或者 值不等 false
+	          // 有一个为null 或者 值不等 false
 	          if(L == null || R == null || L.val != R.val) return false;
 	          // 递归
 	          return recur(L.left, R.right) && recur(L.right, R.left);

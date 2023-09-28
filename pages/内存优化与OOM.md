@@ -1,5 +1,4 @@
 # 一、内存管理基础
-collapsed:: true
 	- ## 1、[[查看Android设备对APP的内存限制]]
 	- ## 2、内存指标概念
 	  collapsed:: true
@@ -8,6 +7,7 @@ collapsed:: true
 		- [[JVM运行时数据区详解]]
 		- [[对象与垃圾回收机制]]
 	- ## 4、Android低内存杀进程机制
+	  collapsed:: true
 		- Anroid基于进程中运行的组件及其状态规定了默认的五个回收优先级：
 			- ![image.png](../assets/image_1692754910999_0.png)
 		- 最顶层优先回收
@@ -44,6 +44,7 @@ collapsed:: true
 		- 4. free 适用场景： 只查看系统的可用内存；
 		- 5. showmap 适用场景： 查看进程的虚拟地址空间的内存分配情况；
 - # 四、内存泄漏分析工具
+  collapsed:: true
 	- ## 1、[[MAT-Memory Analyzer Tool]]
 	- ## 2、[Android Studio Memory-profiler](https://developer.android.com/studio/profile/memory-profiler#performance)
 	- ## 3、[[LeakCanary]]

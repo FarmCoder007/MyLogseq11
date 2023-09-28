@@ -10,10 +10,10 @@ public:: true
 		- ### 1、通过SystemServiceManager.startService，一系列调用，最终反射初始化[[#red]]==**AMS.Lifecycle对象**==
 		- ### 2、Lifecycle的构造函数中初始化AMS对象
 - # 二、AMS启动及相关配置
-	- ## 3、SystemService.onStart()启动AMS
+	- ## 3、==**SystemService.onStart()**==启动AMS
 	- ## 4、通过setSystemServiceManager设置AMS的[[#red]]==**系统服务管理器**==
 	- ## 5、通过setInstaller设置AMS的[[#red]]==**APP安装器**==
 	- ## 6、初始化[[#red]]==**WMS**==(WindowsManagerService)、==**PMS**==(PowerManagerService)等和AMS相关的服务
-	- ## 7、通过setSystemProcess将AMS、PMS、WMS等服务注册到ServiceManager中，以便其他组件通过SM获取 注册这些服务对应的Binder对象，进行IPC通信
+	- ## 7、通过==**setSystemProcess**==将[[#green]]==**AMS、PMS、WMS等服务注册到ServiceManager中**==，以便其他组件通过SM获取 注册这些服务对应的Binder对象，进行IPC通信
 	- ## 8、AMS.==**systemReady**==初始化完成
 -

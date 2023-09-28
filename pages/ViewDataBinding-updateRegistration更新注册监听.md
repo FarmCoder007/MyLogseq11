@@ -1,5 +1,4 @@
 - 源码
-  collapsed:: true
 	- ```java
 	  private boolean updateRegistration(int localFieldId, Object observable,
 	              CreateWeakListener listenerCreator) {
@@ -20,9 +19,7 @@
 	      }
 	  ```
 - 参数
-  collapsed:: true
 	- localFieldId: 为BR 文件里的id.类里每生成一个属性，就会带一个这个id
-	  collapsed:: true
 		- ![image.png](../assets/image_1691657414272_0.png)
 	- observable:为被观察者。上边传入的User
 	- 传入了一个 CREATE_PROPERTY_LISTENER 创建属性的监听器

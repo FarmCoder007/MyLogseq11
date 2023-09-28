@@ -1,6 +1,5 @@
 ## 类型一、新创建的被观察者【没有上游】
 	- ## 1、无延迟（比如有几秒延迟执行）无 后续（后续的其他事件 ）
-	  collapsed:: true
 		- ## SingleJust：
 			- 取消订阅 是在 subscribeActual  里 自动取消Disposable.disposed(
 				- ```java
@@ -11,7 +10,6 @@
 				      }
 				  ```
 	- ## 2 有延迟 或者 有后续：[[Observable.interval取消原理]]
-	  collapsed:: true
 		- api:
 			- ```java
 			  Observable.interval(0, 1, TimeUnit.SECONDS)    // 每隔多久发一次消息

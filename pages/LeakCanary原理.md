@@ -19,8 +19,9 @@ collapsed:: true
 		- 弱引用队列：创建弱引用的时候可以使用双参数构造，第一个具体的引用   第二个参数是弱引用队列
 		- 在gc开始的时候，如果垃圾处理器发现，这个对象的引用 只被弱引用引用到，没有被其他强引用所引用到，那么在垃圾回收前，把弱引用本身添加到 这个队列中，注意是弱引用这个对象WeakReference  而不是他引用的那个this 。 所以可以通过队列中是否有对应的弱引⽤来判断    被弱引用所引用的那个对象是否将被垃圾回收了
 	- # Watch一个object具体流程
-	  collapsed:: true
+		- 顺口溜：清理-新建-添加-移动-倒信息-交分析
 		- 代码：会传入待检测的object
+		  collapsed:: true
 			- ![image.png](../assets/image_1692801300171_0.png)
 		- > 它会创建一个KeyWeakReference.
 		  将uuid生成的唯一key与 弱引用以及 弱引用持有的对象 三者关联起来
@@ -31,7 +32,7 @@ collapsed:: true
 			- 如果[[#red]]==**有的话就移除**== 因为弱引用队列里有的弱引用都是其持有的对象已经被回收的，不需要跟踪分析了 就移除
 				- 代码在removeWeaklyReachableObjects()
 			- ==**如果map.remove 返回null 说明该弱引用已经从观察列表里，移到怀疑列表里。再从怀疑列表移除**==
-		- ## 2、为被检测对象生成一个唯一的UUid作为key
+		- ## 2、为检测对象生成唯一的UUid作为key,并创建KeyedWeakReference，将key和被检测对象、弱引用队列进行关联
 		  collapsed:: true
 			- 然后将key和被检测对象、弱引用队列进行关联。创建KeyedWeakReference
 			- ```java
@@ -75,10 +76,10 @@ collapsed:: true
 			  ```
 			- 1  使用的是  AndroidHeapDumper.dumpHeap  方法 导出堆信息的
 			- 2 里边导出堆信息的代码： Debug.dumpHprofData(heapDumpFile.absolutePath)   传入文件的绝对路径  就导出到文件了
-		- ## 7、将导出的文件   交给分析进程里的分析服务进行堆信息的分析
+		- ## 7、将导出的文件   交给分析进程处理，借助shark三方库进行堆信息分析
 		  collapsed:: true
 			- ```java
 			  // 交给分析进程里的分析服务进行堆信息的分析
 			      HeapAnalyzerService.runAnalysis(application, heapDumpFile)
 			  ```
-			- 老版本使用一个叫haha的库进行分析的，，新版本使用   shark 第三⽅库进⾏堆⽂件分析，内存占⽤⼤幅度减少， 分析速度⼤幅度提⾼
+			- 老版本使用一个叫haha的库进行分析的，，新版本使用   [[#red]]==**shark 第三⽅库进⾏堆⽂件分析**==，内存占⽤⼤幅度减少， 分析速度⼤幅度提⾼

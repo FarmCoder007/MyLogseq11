@@ -1,5 +1,4 @@
-- # 一、基础
-  collapsed:: true
+# 一、基础
 	- ## [基础知识](https://mp.weixin.qq.com/s/5Hs9Bg93IbY2uRUMeIqAJQ)
 	  collapsed:: true
 		- ![image.png](../assets/image_1690948949406_0.png)

@@ -1,7 +1,6 @@
 ## 1、通过logcat日志或者traces文件确认anr发生时间点
 	- ## 文件所在目录data/anr/traces.txt
 - ## 2、通过traces文件判断CPU使用率，看是不是CPU忙不过来
-  collapsed:: true
 	- ![image.png](../assets/image_1692885548161_0.png)
 	- ![image.png](../assets/image_1692886469453_0.png)
 - ## 3、可以继续向下看下内存使用情况
@@ -14,7 +13,6 @@
 - ## 5、如果是开发阶段可以借助logcat搜索ANR对应类型的关键字
 	- ![image.png](../assets/image_1692886275878_0.png)
 - ## 4、也可查看线程状态
-  collapsed:: true
 	- 主线程状态
 	- 其他线程状态
 	- ```java
@@ -30,4 +28,4 @@
 	     THREAD_VMWAIT = 8, /* waiting on a VM resource */ vm的 wait状态
 	     THREAD_SUSPENDED = 9, /* suspended, usually by GC or debugger*/  gc和 debug的
 	  ```
-- ![image.png](../assets/image_1692884445666_0.png)
+- ![image.png](../assets/image_1692884445666_0.png){:height 262, :width 381}

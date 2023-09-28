@@ -26,24 +26,32 @@ title:: 剑指 Offer 55 - II. 平衡二叉树-简单
 		  ```
 		- 返回 `false` 。
 - ## [思路](https://leetcode.cn/problems/ping-heng-er-cha-shu-lcof/solutions/159235/mian-shi-ti-55-ii-ping-heng-er-cha-shu-cong-di-zhi/)
-- ## 方法一、后序遍历 + 剪枝 （从底至顶）
+- ## 方法一、自底向上的递归
 	- ```java
 	  class Solution {
-	      public boolean isBalanced(TreeNode root) {
-	          return recur(root) != -1;
+	  	public boolean isBalanced(TreeNode root) {
+	          return height(root) >= 0;
 	      }
 	  
-	      private int recur(TreeNode root) {
-	          if (root == null) return 0;
-	          int left = recur(root.left);
-	          if(left == -1) return -1;
-	          int right = recur(root.right);
-	          if(right == -1) return -1;
-	          return Math.abs(left - right) < 2 ? Math.max(left, right) + 1 : -1;
+	      public int height(TreeNode root) {
+	          if (root == null) {
+	              return 0;
+	          }
+	          // 2、递归左高度
+	          int leftHeight = height(root.left);
+	          // 3、递归右高度
+	          int rightHeight = height(root.right);
+	          // 4、左右 -1  差值 大于1 返回 -1 非平衡
+	          if (leftHeight == -1 || rightHeight == -1 || Math.abs(leftHeight - rightHeight) > 1) {
+	              return -1;
+	          } else { // 5、否则返回最大值 +1
+	              return Math.max(leftHeight, rightHeight) + 1;
+	          }
 	      }
 	  }
 	  ```
-- ## 方法二、先序遍历 + 判断深度 （从顶至底）
+- ##### 方法二、先序遍历 + 判断深度 （从顶至底）
+  collapsed:: true
 	- ```java
 	  class Solution {
 	      public boolean isBalanced(TreeNode root) {

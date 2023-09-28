@@ -1,40 +1,60 @@
-- # 1、WMS相关类概念
-  collapsed:: true
-	- ## 相关概念
-		- ## [[WMS-Window]]
-		- ## [[Surface]]
-		- ## [[WMS-WindowManager]]
-		- ## [[WindowState（在WMS中）]]
-		- ## [[WMS概念]]
-		- ## [[WMS-WindowToken]][[AMS-Token]]
-		- ## [[窗口类型]]
-		- ## [[ViewRootImpl]]
-		- ## [[WindowContainer]]
-	- ## 1、Activity与Window关系
-	  collapsed:: true
-		- Activity只负责生命周期和事件处理
-		- Windowwindow表示一个窗口的概念，是所有View的直接管理者，任何视图都通过Window呈现
-		- 一个Activity包含一个Window，如果Activity没有Window，那就相当于Service
-		- > 通常情况下Activity展示页面只有一个window，除了分屏，弹窗等
-		- AMS统一调度所有应用程序的Activity
-		- WMS控制所有Window的显示与隐藏以及要显示的位置
+# 1、简单介绍下WMS
+	- 1、WindowManagerService,Framework层的窗口管理服务，它运行在System_server进程,
+	- 2、职责：管理Android系统中的[[#red]]==**所有的Window创建、更新和删除，显示顺序等不管实际绘制**==
+	- 3、WMS，**==继承IWindowManager.Stub，是Binder服务端==**，因此WM与WMS的交互也是一个IPC的过程
+- # 2、概念题
+	- ## 1、Window：窗口
+		- 1、代表一个**[[#red]]==窗口的概念，手机上一块显示区域==**，是所有==**View的直接管理者**==，==**window操作view实际是通过ViewRootImpl实现**==
+		- 3、Window是一个抽象类，[[#red]]==**具体实现是PhoneWindow，**==
+		- 4、WindowManager提供了window的创建和对外访问方法。
+		- > (点击事件由Window->DecorView->View; Activity的setContentView底层通过Window完成)
+	- ## 2、WindowManager接口：窗口管理者
+		- 1、实现类是WindowManagerImpl,WindowManagerImpl持有WindowManagerGlobal
+		- 2、WindowManagerGlobal 持有了 ViewRootImpl
+		- 3、[[#red]]==**window 通过WMGlobal中的Session 和WMS通信的**==
+	- ## 4、Session：用于window和WMS IPC通信用的
+	- ## 4、ViewRootImpl
+		- 1、是view 和 wms的桥梁
+		- 2、一个phoneWindow只对应一个ViewRootImpl
+		- 3、window操作view实际是通过ViewRootImpl实现
+	- ## 3、WindowState，在WMS内的
+		- 1、app层面是window ，[[#red]]==**从WMS角度来看，它是一个WIndowState，用于管理和界面有关的状态**==。
+		- 2、一般一个window 对应一个WindowState。它用来表示一个窗口的所有属性
+	- ## Window Token
+		- 是一种特殊的Binder令牌，WMS将它[[#red]]==**作为窗口的唯一标识。给window分组用**==
+	- ## Surface
+		- 每个显示界面的窗口都是一个Surface，为应用程序提供一个可绘制的区域
+	- ## WindowContainer
+		- 管理我们的窗口：显示的次序
+- # 3、Activity与Window关系
+	- 1、==**Activity只负责生命周期和事件处理**==
+	- 2、[[#red]]==**Window表示窗口，负责管理所有View**==
+	- 3、通常情况下一个Activity包含一个Window，除了分屏，弹窗
+	- 4、AMS统一调度所有应用程序的Activity，WMS控制所有Window的显示与隐藏以及要显示的位置
 - # 2、[[WMS启动流程]]
-- # 3、[[addView到WMS流程-面试]]
+	- 1、==**SystemServer**==的Run()方法，调用[[#red]]==**startOtherServices**==(),启动其他服务
+	- 2、在startOtherServices中，执行==**WMS.main方法**==，在main方法创建WMS实例==**，然后将WMS注册到SM中，并和AMS进行关联**==
+	- 3、[[#red]]==**构造函数**==进行一些初始化配置工作，比如初始化显示尺寸信息。
+	- 4、初始化完成调用wm.==**systemReady**==()
 - # 8、[[Activity的Window创建以及addView到WMS]]
 - # 4、[[View的显示层级]]
 - # 5、[[DecorView是什么？]]
-- # 6、窗口WIndow显示次序分析
+- collapsed:: true
+- # 先不看
   collapsed:: true
-	- app添加view的时候，最终会调用到 WMS.addWindow
-	- 然后会创建 WindowState，在构造函数中，WindowManagerPolicy 根据窗口类型划分不同层级。层级低的展示在下边，高的展示在上边
-- # 7、启动窗口window的添加流程
-  collapsed:: true
-	- 1、Activity启动流程执行到 ActivityStarter.startActivityUnchecked
-	- 2、调用 ActivityStack.startActivityLocked
-		- 2-1、把TaskRecord插入到mTaskHistory中
-		- 2-2、通过ActivityRecord.createWindowContainer创建一个AppWindowToken。并且添加到DisplayContent的mTokenMap中
-		- 2-3、ActivityRecord.showStartingWindow 添加第一个启动的启动Window
-			- 通过PhoneWindowManager.addSplashScreen 创建一个PhoneWindow 填充内容
-			- 通过WindowManager.addView 添加到WMS中
+	- # 6、窗口WIndow显示次序分析
+	  collapsed:: true
+		- app添加view的时候，最终会调用到 WMS.addWindow
+		- 然后会创建 WindowState，在构造函数中，WindowManagerPolicy 根据窗口类型划分不同层级。层级低的展示在下边，高的展示在上边
+	- # 7、启动窗口window的添加流程
+	  collapsed:: true
+		- 1、Activity启动流程执行到 ActivityStarter.startActivityUnchecked
+		- 2、调用 ActivityStack.startActivityLocked
+			- 2-1、把TaskRecord插入到mTaskHistory中
+			- 2-2、通过ActivityRecord.createWindowContainer创建一个AppWindowToken。并且添加到DisplayContent的mTokenMap中
+			- 2-3、ActivityRecord.showStartingWindow 添加第一个启动的启动Window
+				- 通过PhoneWindowManager.addSplashScreen 创建一个PhoneWindow 填充内容
+				- 通过WindowManager.addView 添加到WMS中
+	- # 3、[[Activity启动后addView到WMS流程-面试]]
 - # 参考
 	- https://juejin.cn/post/6857457525764620302#heading-8

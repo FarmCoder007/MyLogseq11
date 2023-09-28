@@ -1,6 +1,6 @@
 title:: 剑指 Offer 54. 二叉搜索树的第k大节点-简单
 
-- ## 题目
+- ## [题目](https://leetcode.cn/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/)
 	- 给定一棵二叉搜索树，请找出其中第 `k` 大的节点的值。
 	- ## 示例
 	  collapsed:: true
@@ -29,23 +29,25 @@ title:: 剑指 Offer 54. 二叉搜索树的第k大节点-简单
 - ## [思路](https://leetcode.cn/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/solutions/184216/mian-shi-ti-54-er-cha-sou-suo-shu-de-di-k-da-jie-d/)
 	- 根据以上性质，易得二叉搜索树的 中序遍历倒序 为 递减序列 。
 	- 因此，求 “二叉搜索树第 k 大的节点” 可转化为求 “此树的中序遍历倒序的第 k 个节点
-	- ![Picture1.png](https://pic.leetcode-cn.com/4ebcaefd4ecec0d76bfab98474dfed323fb86bfcd685d1a5bf610200fdca4405-Picture1.png)
+	- ![image.png](../assets/image_1694868453037_0.png)
 - ## 代码
 	- ```java
+	  1、中序遍历的 倒序遍历 右根左  --k = 0 赋值result
 	  class Solution {
-	      int res, k;
+	      // 1、定义返回结果 和 循环k
+	      int result, k;
 	      public int kthLargest(TreeNode root, int k) {
 	          this.k = k;
 	          dfs(root);
-	          return res;
+	          return result;
 	      }
 	      void dfs(TreeNode root) {
 	          if(root == null) return;
+	          if(k == 0) return;
 	          // 右遍历
 	          dfs(root.right);
-	          if(k == 0) return;
 	          // 根
-	          if(--k == 0) res = root.val;
+	          if(--k == 0) result = root.val;
 	          // 左遍历
 	          dfs(root.left);
 	      }

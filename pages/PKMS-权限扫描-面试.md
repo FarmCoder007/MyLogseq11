@@ -1,2 +1,3 @@
-- PackageManagerService执行systemReady()时，通过SystemConfig的readPermissionsFromXml()来扫描读取/system/etc/permissions中的xml文件,包括platform.xml和系统支持的各种硬件模块的feature
+- PackageManagerService执行[[#red]]==**systemReady**==()时，通过[[#red]]==**SystemConfig的readPermissionsFromXml()**==来扫描读取/system/etc/permissions中的xml文件,包括platform.xml和系统支持的各种硬件模块的feature
 - 存入相应的结构体中，供之后权限管理使用
+-

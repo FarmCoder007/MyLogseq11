@@ -19,7 +19,7 @@ title:: 剑指 Offer 68 - I. 二叉搜索树的最近公共祖先-简单
 		  解释: 节点 2 和节点 4 的最近公共祖先是 2, 因为根据定义最近公共祖先节点可以为节点本身。
 		  ```
 - ## [思路](https://leetcode.cn/problems/er-cha-sou-suo-shu-de-zui-jin-gong-gong-zu-xian-lcof/solutions/216894/mian-shi-ti-68-i-er-cha-sou-suo-shu-de-zui-jin-g-7/)
-- ## 方法一、迭代
+- #### 方法一、迭代
 	- ```java
 	  class Solution {
 	      public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
@@ -38,7 +38,8 @@ title:: 剑指 Offer 68 - I. 二叉搜索树的最近公共祖先-简单
 	- ```java
 	  class Solution {
 	      public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-	          if(root.val < p.val && root.val < q.val)
+	         // 1、root值 小于 pq,递归right  开口向谁  递归谁 
+	         if(root.val < p.val && root.val < q.val)
 	              return lowestCommonAncestor(root.right, p, q);
 	          if(root.val > p.val && root.val > q.val)
 	              return lowestCommonAncestor(root.left, p, q);

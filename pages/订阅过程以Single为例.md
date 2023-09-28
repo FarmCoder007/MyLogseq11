@@ -1,5 +1,4 @@
-- ## 示例代码
-  collapsed:: true
+## 示例代码
 	- ```java
 	          Single.just("1").subscribe(new SingleObserver<String>() {
 	              @Override
@@ -20,7 +19,6 @@
 	  ```
 - ## 角色分三部分
 	- ## 被观察者observable
-	  collapsed:: true
 		- ## 1、Single.just("1")
 			- ```java
 			      @CheckReturnValue
@@ -51,7 +49,6 @@
 			  }
 			  ```
 	- ## 自定义观察者SingleObserver
-	  collapsed:: true
 		- 就是传入了接口实现类
 		- ```java
 		  public interface SingleObserver<@NonNull T> {
@@ -89,7 +86,6 @@
 		  }
 		  ```
 	- ## 订阅过程subscribe
-	  collapsed:: true
 		- 那么看订阅过程
 		- ## 1、Single.just("1").subscribe其实调用的是SingleJust.subscribe
 		  collapsed:: true

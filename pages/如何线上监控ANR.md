@@ -4,6 +4,7 @@ collapsed:: true
 	- 作用：监控某个目录/文件 状态发生改变 创建 删除文件
 	- 原理：自定义ANRFileObserver [[#red]]==**监控//data/anr/ 目录。捞到所有的ANR信息**==，有可能是别的应用的
 	- ANRFileObserver
+	  collapsed:: true
 		- ```java
 		  package com.xiangxue.arch_demo.anr;
 		  
@@ -74,7 +75,6 @@ collapsed:: true
 		  
 		  ```
 - # 方案二、Watchdog
-  collapsed:: true
 	- 系统有个Watchdog，监控系统有没有被死锁，挂掉情况
 	- ## 原理、
 	  collapsed:: true

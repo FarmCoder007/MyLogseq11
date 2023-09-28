@@ -6,7 +6,6 @@ title:: 剑指 Offer 52. 两个链表的第一个公共节点-简单
 		- ![](https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/14/160_statement.png)
 		- 在节点 c1 开始相交。
 - # 示例1：
-  collapsed:: true
 	- ![](https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/14/160_example_1.png)
 	- ```java
 	  输入：intersectVal = 8, listA = [4,1,8,4,5], listB = [5,0,1,8,4,5], skipA = 2, skipB = 3
@@ -36,31 +35,10 @@ title:: 剑指 Offer 52. 两个链表的第一个公共节点-简单
 	  解释：这两个链表不相交，因此返回 null。
 	  ```
 - # 思路
-	- ## 方法一：hash表    hashSet
-	  collapsed:: true
-		- ```java
-		  public class Solution {
-		      public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
-		          Set<ListNode> visited = new HashSet<ListNode>();
-		          // 遍历第一个链表 存在哈希表中
-		          ListNode temp = headA;
-		          while (temp != null) {
-		              visited.add(temp);
-		              temp = temp.next;
-		          }
-		          // 遍历第二个链表  
-		          temp = headB;
-		          while (temp != null) {
-		              if (visited.contains(temp)) {
-		                  return temp;
-		              }
-		              temp = temp.next;
-		          }
-		          return null;
-		      }
-		  }
-		  ```
-	- ## 方法二：双指针遍历
+	- ## 方法二：双指针遍历,
+		- ## 复杂度
+			- 时间：O(a+b)
+			- 空间：O(1)
 		- 思想是2种情况：
 			- 要么有相交:
 				- 不想交前个数相同，肯定同时相交
@@ -81,6 +59,30 @@ title:: 剑指 Offer 52. 两个链表的第一个公共节点-简单
 		              B = B != null ? B.next : headA;
 		          }
 		          return A;
+		      }
+		  }
+		  ```
+	- ##### 方法一：hash表    hashSet
+	  collapsed:: true
+		- ```java
+		  public class Solution {
+		      public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+		          Set<ListNode> visited = new HashSet<ListNode>();
+		          // 遍历第一个链表 存在哈希表中
+		          ListNode temp = headA;
+		          while (temp != null) {
+		              visited.add(temp);
+		              temp = temp.next;
+		          }
+		          // 遍历第二个链表  
+		          temp = headB;
+		          while (temp != null) {
+		              if (visited.contains(temp)) {
+		                  return temp;
+		              }
+		              temp = temp.next;
+		          }
+		          return null;
 		      }
 		  }
 		  ```

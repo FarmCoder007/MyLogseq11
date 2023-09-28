@@ -120,7 +120,6 @@
 	  
 	  ```
 - # 四、LifecycleOwner接口
-  collapsed:: true
 	-
 	- LifecycleOwner接口只有一个方法getLifecycle()，返回的是Lifecycle对象。实现了这个接口，就表示这个类是具有生命周期的。
 	- [[#red]]==**Activity和Fragment，已经默认实现了该接口，成为被观察者**==

@@ -30,14 +30,13 @@
 	  ```
 	- 1、创建空白Fragment实例
 	- 2、记录映射关系到map里[[#red]]==**（第一个保证）**==
-	  collapsed:: true
-		- 因为即使添加多次，第一次没有存缓存，第二次就从map里取了。所以不会事务添加多次的
+		- 因为即使添加多次，第一次没有存缓存，第二次就从map里取了。所以事务不会添加多次的
 		- ```java
 		  Glide.with(this).load("xx").into(ImageView(this))
 		    Glide.with(this).load("xx").into(ImageView(this))
 		    Glide.with(this).load("xx").into(ImageView(this))
 		  ```
-	- 3、提交事务commit
+	- 3、提交事务使用异步提交commitAllowingStateLoss
 	- 4、发送handler消息来移除map里存的空白Fragment
 	- > 这里为啥事务commit前先加到了map缓存。然后事务提交，再通过handler移除？
 		- 为了确保只添加一个Fragment，事务是通过handler实现的。handler messagequeue是按时间顺序等待队列。

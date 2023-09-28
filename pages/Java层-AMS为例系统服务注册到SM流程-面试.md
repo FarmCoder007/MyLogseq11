@@ -4,7 +4,7 @@
 	- ## 1、系统服务（SystemServer）会创建AMS实例==(AMS相当于客户端)==
 	  collapsed:: true
 		- 1、SystemServer反射创建ActivityManagerService.Lifecycle.class的实例，进而在构造函数创建AMS实例
-	- ## 2、调用AMS的setSystemProcess，将自身AMS添加到SM中（不需要看下边）
+	- ## 2、调用[[#red]]==**AMS的setSystemProcess**==，将自身AMS添加到SM中（不需要看下边）
 	  collapsed:: true
 		- 1、内部调用到getIServiceManager().addService()
 		- 2、通过ProcessState创建BpBinder对象
@@ -13,10 +13,10 @@
 		- ## 那么
 		- 5、getIServiceManager()相当于 new ==ServiceManagerProxy==(new BinderProxy);
 			- BinderProxy和 BpBinder
-	- ## 3、实际执行的是ServiceManagerProxy.addService()（需要讲下边详细的）
-		- 1、将AMS放入Binder机制的输入数据Parcel data中
-		- 2、执行BinderProxy.transact方法传入ADD_SERVICE_TRANSACTION 注册服务的命令，并传入data数据
-		- 3、Binder是通过命令封装来实现数据封装的。Native层会经过命令转换，让Binder驱动和服务端SM通信  处理添加服务，大致命令流程是
+	- ## 3、实际执行的是[[#green]]==**ServiceManagerProxy.addService()**==（需要讲下边详细的）
+		- 1、==**将AMS放入**==Binder机制的输入数据Parcel==**data中**==
+		- 2、执行==**BinderProxy.transact**==方法传入ADD_SERVICE_TRANSACTION ==**注册服务的命令**==和data数据
+		- 3、Binder是通过命令封装来实现数据封装的。Native层会经过[[#green]]==**命令转换，让Binder驱动和服务端SM通信  处理添加服务**==，大致命令流程是
 	- ## [[#red]]==命令流程 AMS添加服务举例，左侧客户端AMS 右侧服务端SM==
 		- 1、客户端想添加服务，给Binder驱动发送**==BC_TRANSACTION==**命令
 		- 2、Binder驱动收到这个命令后

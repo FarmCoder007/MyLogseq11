@@ -1,5 +1,4 @@
-- ## 1：初始化callFactory 为OkhttpClient。[[#red]]==**创建RealCall用**==
-  collapsed:: true
+## 1：初始化callFactory 为OkhttpClient。[[#red]]==**创建RealCall用**==
 	- 后边创建Okhttp realCall用
 - ## 2：用handler封装的Executor[[#red]]==**做线程切换用**==
 - ## 3：设置默认CallAdapterFactory，提供默认的CallAdapter转换器

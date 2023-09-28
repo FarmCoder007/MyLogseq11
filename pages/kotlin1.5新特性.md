@@ -1,9 +1,7 @@
 title:: kotlin1.5新特性
 
 - # 内联类
-  collapsed:: true
 	- 1.5.0版本后开始支持内联类，使用注解@JvmInline配合关键字value定义内联类，例子如下：
-	  collapsed:: true
 		- ```
 		  @JvmInline
 		  value class StationaryPhoneNumber(val number: String?){

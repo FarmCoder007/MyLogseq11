@@ -3,14 +3,14 @@ collapsed:: true
 	- # 一、[[ServiceManager的启动]]
 	- # 二、[[ServiceManager-注册服务到SM时Native层SM的获取]]
 - # 一、SM的启动或者注册流程
-	- ## 1、init进程通过解析init.rc文件，创建和启动ServiceManager进程
+	- ## 1、init进程通过解析[[#green]]==**init.rc**==文件，[[#green]]==**创建和启动ServiceManager进程**==
 	  id:: 64a677a2-f40e-420f-b715-0b41ae4f0174
 	- ## 2、在service_manager.c 中的main()入口函数，主要做如下几件事
 		- ## 2-1、通过[[#red]]==**binder_open**==()打开binder驱动
 		  collapsed:: true
 			- 1、通过open打开内核层的binder驱动（SM进程申请128k的内核空间）
 			- 2、通过mmap，将内核驱动空间虚拟内存和 SM虚拟内存 映射同一块 物理内存
-		- ## 2-2、设置守护进程，并设置SM成为Binder机制的大管家
+		- ## 2-2、设置守护进程，并[[#red]]==**设置SM成为Binder机制的大管家**==
 		  collapsed:: true
 			- 1、==创建SM对应的binder_node==( binder_context_mgr_node) 结构体对象
 				- binder_node 代表 驱动层的 Binder 对象 数据结构

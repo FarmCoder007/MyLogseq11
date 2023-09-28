@@ -1,4 +1,4 @@
-- # 父类：ValueAnimator
+# 父类：ValueAnimator
 - # 一、api
   collapsed:: true
 	- | [ObjectAnimator](http://www.android-doc.com/reference/android/animation/ObjectAnimator.html)  | [clone](#clone())() 创建并返回此对象的副本。 |
@@ -71,7 +71,6 @@
 	- 1、要使用ObjectAnimator来构造对画，[[#red]]==**要操作的控件中，必须存在对应的属性的set方法**== 
 	  2、setter 方法的命名必须以骆驼拼写法命名，即set后每个单词首字母大写，其余字母小写，即类似于setPropertyName所对应的属性为propertyName
 - # 四、原理解析
-  collapsed:: true
 	- ![image.png](../assets/image_1685782910590_0.png)
 - # 五、处理自定义view的属性动画，**该view的属性动画要自己写好set****ter****函数**
   collapsed:: true
@@ -113,7 +112,6 @@
 		          animator.start();
 		  ```
 	- ## 2、基本常用函数
-	  collapsed:: true
 		- ```java
 		  /** 
 		   * 设置动画时长，单位是毫秒 

@@ -1,9 +1,9 @@
 # 1、概念
-	- 编译器将挂起函数转换为Continuation函数（相当于回调CallBack）的过程，就叫做CPS转换
+	- 编译器将挂起函数转换为Continuation函数+switch（相当于回调CallBack）的过程，就叫做CPS转换
 	- ## 变换在哪
 		- 1、方法去掉Suspend关键字、返回值变为Any
 		- 2、方法入参添加Continuation
-		- 3、block代码块转变为：Continuation+switch代码块
+		- 3、block代码块转变为：Continuation（实际ContinuationImpl）+switch代码块
 - # 2、具体变换
   collapsed:: true
 	- 所以当我们定义的函数前面加了`suspend`关键字的时候，编译器在编译时就会对挂起函数做特殊处理，而这个特殊处理就是CPS，下面是一张动图来简单说明是如何变化的：

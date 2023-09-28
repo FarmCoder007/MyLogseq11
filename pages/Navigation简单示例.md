@@ -1,6 +1,5 @@
 - 让我们通过创建一个简单的例子来看看 Navigation 组件是如何工作的。 接下来将创建一个带有两个 Fragment 的简单 Activity 来看看如何使用 Navigation 组件实现Fragment 之间的导航。
 - ## 第1步：新建Androidx项目
-  collapsed:: true
 	- 创建一个基于 AndroidX 的新项目。AndroidX 是 Android 团队用于在 Jetpack 中开发、测试、打包、版本和发布库的开源项目。可以在 AndroidX 概览 中查看更多信息。
 - ## 第2步：添加配置
   collapsed:: true
@@ -28,7 +27,6 @@
 - ## 第3步：res里新建navigation目录，创建导航图XML
   collapsed:: true
 	- 要将导航图添加到您的项目：
-	  collapsed:: true
 		- 右键单击 res 目录并选择 New > Android Resource File，出现 New Resource File 对话框
 		- 输入文件名，例如：nav_graph
 		- 在 Resource type 的下拉列表中选择 Navigation，然后单击确定
@@ -112,6 +110,7 @@
 		              app:destination="@id/page2Fragment" />
 		  ```
 - ## 第4步：添加 NavHost 到 Activity 的 XML 文件中
+  collapsed:: true
 	- 使用示例
 		- ```xml
 		  <?xml version="1.0" encoding="utf-8"?>

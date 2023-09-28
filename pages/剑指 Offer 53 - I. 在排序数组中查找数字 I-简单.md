@@ -1,6 +1,6 @@
 title:: 剑指 Offer 53 - I. 在排序数组中查找数字 I-简单
 
-- ## 题目
+- ## [题目](https://leetcode.cn/problems/zai-pai-xu-shu-zu-zhong-cha-zhao-shu-zi-lcof/)
 	- 统计一个数字在排序数组中出现的次数。
 	- ## 示例
 		- ```java
@@ -15,7 +15,7 @@ title:: 剑指 Offer 53 - I. 在排序数组中查找数字 I-简单
 - # 排序数组：二分查找
 	- 排序数组 nums 中的所有数字 target 形成一个窗口，记窗口的 左 / 右边界 索引分别为 left和 right ，分别对应窗口左边 / 右边的首个元素。
 	- 本题要求统计数字 target的出现次数，可转化为：使用二分法分别找到 左边界 left 和 右边界 right ([[#red]]==**因为数组是有序的，找个数就是找左边界，右边界)，易得数字 target的数量为 right−left−1 。**==
-	- ![Picture1.png](https://pic.leetcode-cn.com/b4521d9ba346cad9e382017d1abd1db2304b4521d4f2d839c32d0ecff17a9c0d-Picture1.png)
+	- ![Picture1.png](https://pic.leetcode-cn.com/b4521d9ba346cad9e382017d1abd1db2304b4521d4f2d839c32d0ecff17a9c0d-Picture1.png){:height 570, :width 749}
 	- 复杂的
 	  collapsed:: true
 		- ```java

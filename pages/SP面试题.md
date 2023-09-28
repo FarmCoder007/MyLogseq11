@@ -7,9 +7,8 @@
 	- 3、使用不当导致ANR
 - ## 2、[[SP-ANR产生的原因]]
 - ## 3、数据的更新
-	- xml文件中的数据会缓存到内存的mMap中，每次在调用editor.putXXX()时，实际上会将新的数据存入在mMap，当调用commit()或apply()时，最终会将mMap的所有数据全量更新到xml文件里
+	- 每次在调用editor.putXXX()时，实际上会将新的数据缓存到内存的mMap中，当调用commit()或apply()时，最终会将mMap的所有数据全量更新到xml文件里
 - ## 4、线程安全的
-  collapsed:: true
 	- 读操作
 		- ```java
 		   public String getString(String key, @Nullable String defValue) {

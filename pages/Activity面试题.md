@@ -1,6 +1,6 @@
 # 生命周期相关面试题
+collapsed:: true
 	- # 1、Activity的生命周期
-	  collapsed:: true
 		- # 图
 		  collapsed:: true
 			- ![image.png](../assets/image_1693190220817_0.png)
@@ -8,6 +8,7 @@
 		  collapsed:: true
 			- 这是生命周期的第一个方法。在这个方法中我们可以做一些初始化工作,比如调用setContentView 去加载界面布局资源、初始化Activity所需数据等。
 		- ## 2、**[[#blue]]==onRestart==**-表示Activity 正在重新启动。
+		  collapsed:: true
 			- 一般情况下，当当前 Activity 从不可见重新变为可见状态时，onRestart 就会被调用。
 			- ### 首先
 				- 用户按Home键切换到桌面、用户打开了一个新的Activity、切换其他应用，这时当前的Activity 就会暂停也就是onPause 和onStop 被执行了
@@ -29,7 +30,6 @@
 		  collapsed:: true
 			- 这是Activity 生命周期中的最后一个回调在这里，我们可以做一些回收工作和最终的资源释放。
 	- # 2、成对划分
-	  collapsed:: true
 		- ==**Activity 的创建和销毁：onCreate 和onDestroy，并且只可能有一次调用。**==
 		- [[#red]]==**Activity 是否可见，onStart 和onStop 是配对的**==
 		  collapsed:: true
@@ -39,26 +39,22 @@
 			- 随着用户操作或者设备屏幕的点亮和熄灭这两个方法可能被调用多次。
 		- [[#blue]]==**onRestart->从不可见到可见，**==例如Home到桌面和打开新Activity（打开透明Activity除外）再回来
 	- # 3、生命周期回调时机
-	  collapsed:: true
 		- ## 1、第一次启动
 			- onCreate -> onStart->onResume
 		- ## 2、打开新的Activity、切换到桌面、切换到其他应用的时候
-		  collapsed:: true
 			- onPause ->onStop。
 			- ### 2-1、新Activity 采用了透明主题 或者 启动Dialog
 				- onPause
-				- 那么当前Activity 不会回调onStop。
+				- 那么当前Activity 不会回调onStop，因为onStop是不可见回调。
 			- ### 2-2、透明Activity、Dialog消失
 				- 只走onResume
 		- ## 3、当用户再次回到原Activity 时，回调如下:
 			- onRestart-> onStart->onResume
 		- ## 4、当用户按 back 键回退结束Activity时，回调如下:
-		  collapsed:: true
 			- onPause -> onStop-> onDestroy。
 		- ## 5、A启动B结合启动模式,说明生命周期
-		  collapsed:: true
 			- ![image.png](../assets/image_1693190880382_0.png)
-			- case1、B为标准  和 单例 生命周期应该一样只是任务栈不同
+			- case1、B为标准
 				- 启动时：
 					- A：onPause -> onStop
 					- B：onCreate  onStart onResume
@@ -79,8 +75,14 @@
 				- B不在栈内
 					- A：onPause -> onStop
 					- B：onCreate  onStart onResume
+			- case4、SingleInstance 单例，加强版的SingleTask ，独立任务栈
+				- B被创建过，位于独立任务栈
+					- A：onPause -> onStop
+					- B：onNewIntent   onResume
+				- B没有被创建过
+					- A：onPause -> onStop
+					- B：onCreate  onStart onResume
 		- ## 6、系统配置发生改变比如横竖屏切换：
-		  collapsed:: true
 			- 1、Activity会被杀死重建生命周期
 				- 杀死：onPause -> onStop-> onDestroy，
 				- 重建：onCreate -> onStart->onResume
@@ -115,12 +117,7 @@
 	- 四、应用场景：
 		- 在搜索的界面用到了  弹出隐藏软键盘
 		- 折叠屏适配：主要设置ui尺寸
-- ## [[Activity的创建和生命周期函数调用]]
-- ## [[Activity布局流程/创建流程ActivityThread+PhoneWindow]]
-- ## [[AndroidResource资源加载流程]]
-- ## [[LayoutInflater.inflate 第三个参数作用]]
 - # Activity启动模式面试题
-  collapsed:: true
 	- ## 1、**Standard 标准模式**
 	  collapsed:: true
 		- **说明：** Android创建Activity时的默认模式，
@@ -137,6 +134,7 @@
 		- 情况二：在C Activity中加入点击事件，须要跳转到还有一个A Activity。结果是创建一个新的Activity入栈。成为栈顶。
 		- ![栈2.png](../assets/栈2_1692969037746_0.png)
 	- ## 3、**SingleTask 栈内复用模式**-适用Home
+	  collapsed:: true
 		- **说明：**若须要创建的Activity已经处于栈中时，此时不会创建新的Activity，而是将存在栈中的Activity上面的其他Activity所有销毁，使它成为栈顶。
 		- **生命周期：**同SingleTop 模式中的情况一同样。仅仅会又一次回调Activity中的 **onNewIntent**方法
 		- **举例：**此时Activity 栈中以此有A、B、C三个Activity。此时C处于栈顶，启动模式为**SingleTask 模式**。
@@ -152,3 +150,8 @@
 - ## [[onDestory延迟10s调用，怎么排查问题？]]
 - ## [[Activity的onCreate到setContentVIew中间做了啥]]
 - ## [[使用Intent有什么问题]]
+- ## [[Activity的创建和生命周期函数调用]]
+-
+- ## [[Activity布局流程/创建流程ActivityThread+PhoneWindow]]
+- ## [[AndroidResource资源加载流程]]
+- ## [[LayoutInflater.inflate 第三个参数作用]]

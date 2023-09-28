@@ -1,3 +1,9 @@
+# 依赖
+	- ```java
+	  implementation 'com.squareup.retrofit2:retrofit:2.7.1'
+	  implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
+	  implementation 'com.squareup.retrofit2:adapter-rxjava2:2.7.1'
+	  ```
 - # 一、介绍
   collapsed:: true
 	- Retrofit 是一个 RESTful 的 HTTP 网络请求框架的封装，网络请求的工作本质上是 OkHttp 完成，而 Retrofit 仅负责网络请求接口的封装。
@@ -59,7 +65,6 @@
 - # 七、[[Retrofit设计模式的应用]]
 	-
 - # 七、请求数据准备
-  collapsed:: true
 	- ![image.png](../assets/image_1689764010498_0.png)
 - ##
 - # [[Retrofit面试题]]

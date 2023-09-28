@@ -1,4 +1,4 @@
 - [[协程原理探究-整个执行流程最全]]
 - 1、通过launch函数启动协程，反编译后发现会生成一个继承SuspendLamada实现类，提供一个create方法，这个方法会在launch函数启动流程中被调用到。
-- 2、launch函数根据==**协程上下文**==，会创建StandaloneCoroutine  对象，调用create时传入
+- 2、launch函数源码中根据==**协程上下文**==，会创建StandaloneCoroutine  对象，调用create时传入
 - 3、create根据传入的 StandaloneCoroutine  创建Continuation第一个续体，这里就相当于包装了一层

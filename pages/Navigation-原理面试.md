@@ -1,8 +1,8 @@
 - ![image.png](../assets/image_1691807914083_0.png)
 - ## 首先：Navigation有三个重要角色
-	- Navigation graph (导航图)，是定义了一些导航相关信息的xml。比如导航路径，跳转动画什么的
-	- NavHost，默认实现NavHostFragment是一个空的容器，主导航。会初始化一些导航相关的信息，持有了NavController，导航控制器
-	- NavController，导航控制器，解析类图，维护回退栈。
+	- Navigation graph (==**导航图**==)，是定义了一些导航相关信息的xml。比如导航路径，跳转动画什么的
+	- NavHost，默认实现NavHostFragment是一个空的容器，==**主导航**==。会初始化一些导航相关的信息，持有了NavController，导航控制器
+	- NavController，[[#red]]==**导航控制器**==，解析类图，维护回退栈。
 - 1、NavHostFragment作为主导航，先绑定到Activity，空容器，是实际显示内容的第一页，不过没数据，用户看不到
 - 2、NavHostFragment初始化的时候，
 	- 1、创建NavHostController，而NavHostController初始化的时候会创建导航器Navigator，真正的导航会交给他处理。

@@ -5,7 +5,6 @@
 	- 那么怎么实现共享物理内存技术，就是mmap
 - 需要先知道进程间怎么通信的
 - ## binder一次拷贝
-  collapsed:: true
 	- ![image.png](../assets/image_1688272914814_0.png){:height 320, :width 718}
 	- ![image.png](../assets/image_1688279612222_0.png)
 	- 我们实际操作的是虚拟内存，数据真正存在物理内存上

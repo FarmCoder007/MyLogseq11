@@ -1,4 +1,4 @@
-- # 一、数据结构
+# 一、数据结构
 	- TreeSet 就是==红黑树结构的 Set==。在增删改查方面是 O(log n) 的二分法复杂度。
 	- TreeSet 是基于 HashSet 实现的，同时又是基于 TreeMap 实现的。
 - # 二、常用方法：floor, lower, ceiling, higher, first, last。
@@ -6,7 +6,6 @@
 	- 更大一点的：ceiling, higher。
 	- 头尾：first, last。
 - # 三、对元素进行排序
-  collapsed:: true
 	- ## 方式1、[[#red]]==**让元素自身具备比较功能**==，元素需要实现Comparable接口重写comparaTo方法
 	  collapsed:: true
 		- ![22-常用对象API(集合框架-Tree-00_14_46-2023_06_29_15_20_18.jpg](../assets/22-常用对象API(集合框架-Tree-00_14_46-2023_06_29_15_20_18_1688023234676_0.jpg)
@@ -114,6 +113,7 @@
 			  	}
 			  ```
 	- ## 方式2、如果不要对象按照自然顺序进行排序，如果对象中不具备自然顺序。->[[#red]]==**让集合具备比较功能**==
+	  collapsed:: true
 		- 那么[[#red]]==**让集合具备比较功能**==。
 		- 先创建一个比较器实现comparator比较器接口   然后实现compare方法
 		- 在创建TreeSet集合时   TreeSet   ts=new TreeSet(new myComparator());

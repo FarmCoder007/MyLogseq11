@@ -1,5 +1,5 @@
-- ## 代码
-  collapsed:: true
+## 代码
+collapsed:: true
 	- ```java
 	   Observable.create(
 	  
@@ -57,6 +57,7 @@
 	                          });
 	  ```
 - ## 一、先看操作符都返回啥
+  collapsed:: true
 	- ## 1、AndroidSchedulers.mainThread()
 		- ```java
 		      public static Scheduler mainThread() {

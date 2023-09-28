@@ -1,6 +1,5 @@
 - ![image.png](../assets/image_1688375323902_0.png)
 - # 1、停止Service方式不同
-  collapsed:: true
 	- ## startService
 		- 自身调用stopSelf   或者  其他组件调用stopService可以停止
 	- ## bindService

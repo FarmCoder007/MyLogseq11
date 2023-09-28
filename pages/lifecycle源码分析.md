@@ -498,6 +498,7 @@
 		      }
 		  ```
 	- ## LifecycleOwner解析
+	  collapsed:: true
 		- LifecycleOwner是一个接口，用于回调相关生命周期。目前fragment和FragmentActivity已经实现了该接口，并且在自己相关生命周期状态的时候将状态返回了。这块比较简单就不在赘述了。
 - # 总结
 	- Lifecycle组件开发的确比传统的MVP模式开发省事省心，它将繁琐的事件传递存储与生命周期相结合大大降低了开发难度。

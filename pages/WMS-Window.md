@@ -2,6 +2,6 @@
 - 2、app层面是window ，[[#red]]==**从WMS角度来看，它是一个WIndowState，用于管理和界面有关的状态**==。
 - 3、window表示一个窗口的概念（在视图中不是实际存在，它以view的形式呈现），是所有View的直接管理者，任何视图都通过Window呈现，window操作view实际是通过ViewRootImpl实现
 	- > (点击事件由Window->DecorView->View; Activity的setContentView底层通过Window完成)
-- 4、Window是一个抽象类，具体实现是PhoneWindow，
+- 4、Window是一个抽象类，[[#red]]==**具体实现是PhoneWindow，**==
 - 5、创建Window需要通过WindowManager创建
 - 6、WindowManager是外界访问Window的入口

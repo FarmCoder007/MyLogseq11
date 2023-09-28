@@ -1,4 +1,4 @@
-- # 一、Activity.attach中创建PhoneWindow和windowManager
+# 一、Activity.attach中创建PhoneWindow和windowManager
 	- 1、Activity启动时会调用到 ActivityThread里的performLaunchActivity()==创建Activity实例，调用attach方法==
 	  collapsed:: true
 		- ```java
@@ -35,7 +35,9 @@
 		          mWindowManager = mWindow.getWindowManager();
 		  ```
 - # 二、DecorView的创建
-	- 1、Activity的setContentView会调用到PhoneWindow.setContentView
+	- 1、根据Activity的启动流程，得知Instrumentation创建Activity后会调用callActivityCreated方法。最终Activity的==**onCreate（）生命周期回调**==
+	  collapsed:: true
+	- 2、Activity的 onCreate()中 会调用setContentView，实际调用的是PhoneWindow.setContentView
 	  collapsed:: true
 		- ```java
 		    public void setContentView(@LayoutRes int layoutResID) {
@@ -65,10 +67,8 @@
 		          ...
 		      }
 		  ```
-	- 3、installDecor()
+	- 3、installDecor()-->A、创建DecorVIew，B、将设置的布局视图添加到DecorView的 FrameLayout中
 	  collapsed:: true
-		- 1、创建DecorVIew
-		- 2、将设置的布局视图添加到DecorView的 FrameLayout中
 		- ```java
 		  private void installDecor() {
 		  	if (mDecor == null) {
@@ -88,11 +88,13 @@
 		     ...
 		  }
 		  ```
-- # 三、在ActivityThred的handleResumeActivity()中
+- # 三、DecorVIew -> addView到WMS通知渲染
 	- 参考[[addView到WMS流程]]
-	- 1、activity.makeVisible 会判断 如果window还没有添加
-		- 会调用[[#red]]==ViewManager.addView==添加mDecorview
-			- 拿到windowManager（父类 viewManager）添加mDecor
-	- 2、最终会调用到WindowManagerGlobal.addView  创建ViewRootImpl实例，调用root.setView方法
-	- 3、最终通过 Session.addToDisplay  和  WMS  IPC通信，将view相关参数传递
-	- 4、创建 WindowState，以及通知底层绘制
+	- 1、在ActivityThred的[[#green]]==**handleResumeActivity**==()中，调用activity.makeVisible 内部判断 window是否添加
+	- 2、未添加的话，会调用[[#red]]==WindowManagerGlobal.addView==添加mDecorview
+	  collapsed:: true
+		- 拿到windowManager（父类 viewManager）添加mDecor
+	- 2、addView方法会创建ViewRootImpl实例，调用ViewRootImpl.setView方法
+		- ## 1、ViewRootImpl的setView里先调用了requestLayout触发渲染流程，
+	- 2、setView里 通过 Session.addToDisplay  和  WMS  IPC通信，传递view相关参数
+	- 4、WMS.addWindow创建 WindowState，以及通知底层绘制

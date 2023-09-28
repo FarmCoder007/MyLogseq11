@@ -4,7 +4,6 @@
 - # [[ANR触发场景]]
 - # [[超时检测机制]]
 - # 为什么出现ANR
-  collapsed:: true
 	- ![image.png](../assets/image_1692881436353_0.png)
 - # [[如何避免 ANR？]]
 - # [[如何分析ANR]]

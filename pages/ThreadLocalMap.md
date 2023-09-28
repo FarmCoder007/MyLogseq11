@@ -1,4 +1,4 @@
-- # 一  简介：
+# 一  简介：
 	- ThreadLocalMap类的定义在ThreadLocal类中，是ThreadLocal类的静态内部类，属于threadLocal类，而不是属于threadLocal对象
 	- 在ThreadLocal类中的方法创建threadLoalMap对象，赋予给Thread对象(若thread对象中已有threadLocalMap对象，则直接取即可)
 	- [[#red]]==**每个Thread对象都持有一个ThreadLocalMap引用，不同Thread类的 map不同**==
