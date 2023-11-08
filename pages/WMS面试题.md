@@ -1,19 +1,19 @@
-# 1、简单介绍下WMS
+# 1、简单介绍下WMS#card
 	- 1、WindowManagerService,Framework层的窗口管理服务，它运行在System_server进程,
 	- 2、职责：管理Android系统中的[[#red]]==**所有的Window创建、更新和删除，显示顺序等不管实际绘制**==
 	- 3、WMS，**==继承IWindowManager.Stub，是Binder服务端==**，因此WM与WMS的交互也是一个IPC的过程
 - # 2、概念题
-	- ## 1、Window：窗口
+	- ## 1、Window：窗口#card
 		- 1、代表一个**[[#red]]==窗口的概念，手机上一块显示区域==**，是所有==**View的直接管理者**==，==**window操作view实际是通过ViewRootImpl实现**==
 		- 3、Window是一个抽象类，[[#red]]==**具体实现是PhoneWindow，**==
 		- 4、WindowManager提供了window的创建和对外访问方法。
 		- > (点击事件由Window->DecorView->View; Activity的setContentView底层通过Window完成)
-	- ## 2、WindowManager接口：窗口管理者
+	- ## 2、WindowManager接口：窗口管理者#card
 		- 1、实现类是WindowManagerImpl,WindowManagerImpl持有WindowManagerGlobal
 		- 2、WindowManagerGlobal 持有了 ViewRootImpl
 		- 3、[[#red]]==**window 通过WMGlobal中的Session 和WMS通信的**==
 	- ## 4、Session：用于window和WMS IPC通信用的
-	- ## 4、ViewRootImpl
+	- ## 4、ViewRootImpl#card
 		- 1、是view 和 wms的桥梁
 		- 2、一个phoneWindow只对应一个ViewRootImpl
 		- 3、window操作view实际是通过ViewRootImpl实现
@@ -26,7 +26,7 @@
 		- 每个显示界面的窗口都是一个Surface，为应用程序提供一个可绘制的区域
 	- ## WindowContainer
 		- 管理我们的窗口：显示的次序
-- # 3、Activity与Window关系
+- # 3、Activity与Window关系#card
 	- 1、==**Activity只负责生命周期和事件处理**==
 	- 2、[[#red]]==**Window表示窗口，负责管理所有View**==
 	- 3、通常情况下一个Activity包含一个Window，除了分屏，弹窗

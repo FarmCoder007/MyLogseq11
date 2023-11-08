@@ -1,4 +1,4 @@
-# 1、怎么获取Bitmap尺寸
+# 1、怎么获取Bitmap尺寸#card
 collapsed:: true
 	- ## BitmapFactory的options
 		- ## public boolean inJustDecodeBounds
@@ -10,11 +10,10 @@ collapsed:: true
 		- ## public int outHeight //获取图片的高度值
 		  collapsed:: true
 			- 表示这个Bitmap 的宽和高，一般和inJustDecodeBounds 一起使用来获得Bitmap 的宽高，但是不加载到内存。
-- # 2、Bitmap内存模型
-  collapsed:: true
+- # 2、Bitmap内存模型#card
 	- Bitmap对象存放在 java  heap堆中
 	- 像素数据  存放在 Native heap中
-- # 3. 获取Bitmap大小api :getByteCount()与getAllocationByteCount()的区别
+- # 3. 获取Bitmap大小api :getByteCount()与getAllocationByteCount()的区别#card
 	- 一般情况下两者是相等的
 	- 通过[[#green]]==**复用Bitmap来解码图片，**==如果被复用的Bitmap的内存比待分配内存的Bitmap大,那么
 	- getByteCount()表示[[#red]]==**新解码图片占用内存的大小**==（并非实际内存大小,实际大小是复用的那个
@@ -22,7 +21,7 @@ collapsed:: true
 	- getAllocationByteCount()表示[[#red]]==**被复用Bitmap真实占用的内存大小**==（即mBuffer
 	  的长度）
 	- 参考：[[获取Bitmap的大小]]的API
-- # 4、怎么计算Bitmap占的内存大小
+- # 4、怎么计算Bitmap占的内存大小#card
 	- ## 参考
 		- Bitamp 占用内存大小 = 宽度像素 x （inTargetDensity / inDensity） x 高度像素 x （inTargetDensity / inDensity）x 一个像素所占的内存
 		- 注：这里inDensity表示目标图片的dpi（放在哪个资源文件夹下），inTargetDensity表示目标屏幕的dpi，所以你可以发现inDensity和inTargetDensity会对Bitmap的宽高
@@ -35,9 +34,9 @@ collapsed:: true
 	- 2. 图片放在某个特定drawable中，比如drawable-hdpi，如果设备的屏幕密度高于当前drawable目
 	  录所代表的密度，则图片会被放大，否则会被缩小
 	  放大或缩小比例 = 设备屏幕密度 / drawable目录所代表的屏幕密度
-- # 5、Bitmap加载大图片怎么分块加载
+- # 5、Bitmap加载大图片怎么分块加载#card
 	- ## BitmapRegionDecoder，具体没用过
-- # 6、bitmap 和 drawable的区别?
+- # 6、bitmap 和 drawable的区别?#card
 	- ## Bitmap
 		- 是把实际像素数据，映射到内存的对象里【就是  图片信息的存储工具】
 	- ## Drawable是绘制工具

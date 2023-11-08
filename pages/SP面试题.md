@@ -1,4 +1,5 @@
 ## 1、SP的缺点
+collapsed:: true
 	- 1、不支持多进程。就是一个进程修改了，另一个进程拿不到最新的
 	- 2、不支持增量更新
 		- 1、当修改一个键值对时，提交到内存后
@@ -9,6 +10,7 @@
 - ## 3、数据的更新
 	- 每次在调用editor.putXXX()时，实际上会将新的数据缓存到内存的mMap中，当调用commit()或apply()时，最终会将mMap的所有数据全量更新到xml文件里
 - ## 4、线程安全的
+  collapsed:: true
 	- 读操作
 		- ```java
 		   public String getString(String key, @Nullable String defValue) {
@@ -38,3 +40,10 @@
 			    writeToFile(mcr, isFromSyncCommit);
 			  }
 			  ```
+- ## 5、Commit和apply区别？
+	- ## Apply
+		- 1、Apply==**没有返回值**==
+		- 2、apply是异步写入磁盘，（虽然为了不在主线程执行io操作，Activity销毁前频繁调用也会触发）
+	- ## commit
+		- 1、commit==**返回boolean**==表明修改是否提交成功
+		- 2、commit是把内容同步提交到硬盘的，不适合大量数据提交，会ANR

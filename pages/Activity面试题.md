@@ -1,6 +1,7 @@
 # 生命周期相关面试题
 collapsed:: true
-	- # 1、Activity的生命周期
+	- # 1、Activity的生命周期#Card
+	  collapsed:: true
 		- # 图
 		  collapsed:: true
 			- ![image.png](../assets/image_1693190220817_0.png)
@@ -20,7 +21,7 @@ collapsed:: true
 		- ## 4、[[#green]]==**onResume**==-Activity 已经可见了，并且出现在前台并开始活动。
 		  collapsed:: true
 			- 要注意这个和onStart的对比,onStart和onResume 都表示Activity 已经可见,但是oStart 的时候Activity还在后台，onResume 的时候 Activity 才显示到前台。
-		- ## 5、[[#green]]==**onPause**==-表示Activity 正在停止，正常情况下，紧接着 onStop 就会被调用。
+		- ## 5、[[#green]]==**onPause**==-表示Activity 正在停止，失去焦点，正常情况下，紧接着 onStop 就会被调用。
 		  collapsed:: true
 			- 在特殊情况下，如果这个时候快速地再回到当前 Activity，那么onResume 会被调用。笔者的理解是，这种情况属于极端情况，用户操作很难重现这一场景。此时可以做一些存储数据、停止动画等工作，但是注意不能太耗时，因为这会影响到新 Activity 的显示，onPause必须先执行完，新Activity 的onResume 才会执行。
 		- ## 6、[[#red]]==**onStop**==-表示Activity 即将停止，
@@ -29,7 +30,7 @@ collapsed:: true
 		- ## 7、==**onDestroy**==-表示Activity 即将被销毁，
 		  collapsed:: true
 			- 这是Activity 生命周期中的最后一个回调在这里，我们可以做一些回收工作和最终的资源释放。
-	- # 2、成对划分
+	- # 2、Activity生命周期成对划分#Card
 		- ==**Activity 的创建和销毁：onCreate 和onDestroy，并且只可能有一次调用。**==
 		- [[#red]]==**Activity 是否可见，onStart 和onStop 是配对的**==
 		  collapsed:: true
@@ -38,7 +39,7 @@ collapsed:: true
 		  collapsed:: true
 			- 随着用户操作或者设备屏幕的点亮和熄灭这两个方法可能被调用多次。
 		- [[#blue]]==**onRestart->从不可见到可见，**==例如Home到桌面和打开新Activity（打开透明Activity除外）再回来
-	- # 3、生命周期回调时机
+	- # 3、Activity生命周期回调时机#Card
 		- ## 1、第一次启动
 			- onCreate -> onStart->onResume
 		- ## 2、打开新的Activity、切换到桌面、切换到其他应用的时候
@@ -52,49 +53,51 @@ collapsed:: true
 			- onRestart-> onStart->onResume
 		- ## 4、当用户按 back 键回退结束Activity时，回调如下:
 			- onPause -> onStop-> onDestroy。
-		- ## 5、A启动B结合启动模式,说明生命周期
-			- ![image.png](../assets/image_1693190880382_0.png)
-			- case1、B为标准
-				- 启动时：
-					- A：onPause -> onStop
-					- B：onCreate  onStart onResume
-				- 回退时：
-					- A：onRestart  onStart onResume
-					- B：onPause  onStop  onDestory
-			- case2、B为栈顶复用SingleTop
-				- B在栈顶时
-					- A：onPause -> onStop
-					- B：onNewIntent   onResume
-				- B不在栈顶时
-					- A：onPause -> onStop
-					- B：onCreate  onStart onResume
-			- case3、SingleTask 栈内复用
-				- B在栈内
-					- A：onPause -> onStop
-					- B：onNewIntent   onResume
-				- B不在栈内
-					- A：onPause -> onStop
-					- B：onCreate  onStart onResume
-			- case4、SingleInstance 单例，加强版的SingleTask ，独立任务栈
-				- B被创建过，位于独立任务栈
-					- A：onPause -> onStop
-					- B：onNewIntent   onResume
-				- B没有被创建过
-					- A：onPause -> onStop
-					- B：onCreate  onStart onResume
-		- ## 6、系统配置发生改变比如横竖屏切换：
-			- 1、Activity会被杀死重建生命周期
-				- 杀死：onPause -> onStop-> onDestroy，
-				- 重建：onCreate -> onStart->onResume
-			- 2、杀死时回调onSaveInstanceState
-				- 在onStop之前调用
-				- 和onPause没有既定的前后，谁先都可能。
-				- 只有在异常终止才会回调
-			- 3、Activity 被重新创建后，系统会调用 onRestoreInstanceState
-				- 并且把 Activity 销毁时onSaveInstanceState 方法所保存的 [[#red]]==**Bundle 对象作为参数同时传递给 onRestorelnstanceState和onCreate方法**==。因此,我们可以通过onRestoreInstanceState和onCreate 方法来判断Activity是否被重建了，如果被重建了，那么我们就可以取出之前保存的数据并恢复
-				- [[#red]]==**onRestoreInstanceState一旦被调用，其参数Bundle savedInstanceState一定有值，而onCreate需要额外判空。**==
-				- [[#red]]==**onRestoreInstanceState 的调用时机在onStart之后**==。
-			- 4、如果不希望横竖屏切换时Activity被销毁重建，可以在AndroidManifest.xml文件设置Activity的android:configChanges=“orientation|keyboardHidden|screenSize”，当设置了该属性之后，系统会调用Activity的onConfigurationChanged方法。
+	- ## 5、A启动B结合启动模式,说明生命周期#Card
+	  collapsed:: true
+		- ![image.png](../assets/image_1693190880382_0.png)
+		- case1、B为标准
+			- 启动时：
+				- A：onPause -> onStop
+				- B：onCreate  onStart onResume
+			- 回退时：
+				- A：onRestart  onStart onResume
+				- B：onPause  onStop  onDestory
+		- case2、B为栈顶复用SingleTop
+			- B在栈顶时
+				- A：onPause -> onStop
+				- B：onNewIntent   onResume
+			- B不在栈顶时
+				- A：onPause -> onStop
+				- B：onCreate  onStart onResume
+		- case3、SingleTask 栈内复用
+			- B在栈内
+				- A：onPause -> onStop
+				- B：onNewIntent   onResume
+			- B不在栈内
+				- A：onPause -> onStop
+				- B：onCreate  onStart onResume
+		- case4、SingleInstance 单例，加强版的SingleTask ，独立任务栈
+			- B被创建过，位于独立任务栈
+				- A：onPause -> onStop
+				- B：onNewIntent   onResume
+			- B没有被创建过
+				- A：onPause -> onStop
+				- B：onCreate  onStart onResume
+	- ## 6、系统配置发生改变比如横竖屏切换：#Card
+	  collapsed:: true
+		- 1、Activity会被杀死重建生命周期
+			- 杀死：onPause -> onStop-> onDestroy，
+			- 重建：onCreate -> onStart->onResume
+		- 2、杀死时回调onSaveInstanceState
+			- 在onStop之前调用
+			- 和onPause没有既定的前后，谁先都可能。
+			- 只有在异常终止才会回调
+		- 3、Activity 被重新创建后，系统会调用 onRestoreInstanceState
+			- 并且把 Activity 销毁时onSaveInstanceState 方法所保存的 [[#red]]==**Bundle 对象作为参数同时传递给 onRestorelnstanceState和onCreate方法**==。因此,我们可以通过onRestoreInstanceState和onCreate 方法来判断Activity是否被重建了，如果被重建了，那么我们就可以取出之前保存的数据并恢复
+			- [[#red]]==**onRestoreInstanceState一旦被调用，其参数Bundle savedInstanceState一定有值，而onCreate需要额外判空。**==
+			- [[#red]]==**onRestoreInstanceState 的调用时机在onStart之后**==。
+		- 4、如果不希望横竖屏切换时Activity被销毁重建，可以在AndroidManifest.xml文件设置Activity的android:configChanges=“orientation|keyboardHidden|screenSize”，当设置了该属性之后，系统会调用Activity的onConfigurationChanged方法。
 		-
 		- # 参考
 		  collapsed:: true
@@ -117,7 +120,8 @@ collapsed:: true
 	- 四、应用场景：
 		- 在搜索的界面用到了  弹出隐藏软键盘
 		- 折叠屏适配：主要设置ui尺寸
-- # Activity启动模式面试题
+- # Activity启动模式面试题#Card
+  collapsed:: true
 	- ## 1、**Standard 标准模式**
 	  collapsed:: true
 		- **说明：** Android创建Activity时的默认模式，

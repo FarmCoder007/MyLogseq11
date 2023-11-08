@@ -1,4 +1,4 @@
-- # 一、简介
+# 一、简介
 	- 任务是gradle的最小执行单元，一个build.gradle是由一系列的task组成
 - # 二、定义task
 	- ## 2-1、groovy定义task闭包
@@ -281,6 +281,7 @@
 		  
 		  ```
 	- ## 跨项目进行task的依赖，如果是跨项目的task依赖的话，需要指定task的路径：
+	  collapsed:: true
 		- ```groovy
 		  project('project-a') { 
 		      task taskX { 

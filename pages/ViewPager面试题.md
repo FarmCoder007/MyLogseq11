@@ -1,4 +1,4 @@
-## 1、viewPager和viewPager2的区别？
+## 1、viewPager和viewPager2的区别？#card
 	- 底层实现不一样
 		- 1、viewPager是自定义的viewgroup
 		- 2、viewPager2底层使用Recyclerview

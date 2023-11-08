@@ -1,6 +1,6 @@
-# 1、首先四级缓存的介绍
+# 1、recyclerView首先四级缓存的介绍#card
+collapsed:: true
 	- ## 1、一级缓存Scrap 缓存
-	  collapsed:: true
 		- [[#red]]==**用来缓存还在屏幕内的ViewHolder**==,Scrap 是 RecyclerView 中最轻量的缓存，它不参与滑动时的回收复用
 		- [[#green]]==**mAttachedScrap**==：负责保存将会[[#green]]==**原封不动的ViewHolder**==。
 			- 比如屏幕四个ABCD 删除一个B，那么AB存入 这里 CD上移 存入mChangedScrap
@@ -8,7 +8,6 @@
 			- 注意[[#red]]==**只是位置发生移动**==，内容仍原封不动。
 			- 比如（删除item后的上移）或者和动画相关的
 	- ## 2、二级缓存CachedViews缓存
-	  collapsed:: true
 		- 用来缓存移除屏幕外的viewHolder
 		- 默认[[#red]]==**最大值为2**==
 	- ## 3、三级缓存自定义缓存
@@ -17,7 +16,7 @@
 		- 1、pool 的数据结构他是个  SparseArray（key 只为int的 map）key 为 ViewType value 为 ArrayList
 		- 2、每个ArrayList[[#green]]==**最多存储5个**==。
 		- 3、RecyclerView提供了这种缓存形式，支持多个RecyclerView之间复用View，也就是说通过自定义Pool我们甚至可以实现整个应用内的RecyclerView的View的复用
-- # 2、取缓存的原理
+- # 2、recyclerView取缓存的原理#card
 	- ## 首先
 		- Recyclerview的缓存和复用入口有两种情况，
 		- 1、onTouchEvent [[#green]]==**move**==事件
@@ -31,7 +30,7 @@
 		- 4、四级缓存根据 ViewType 从缓存池里面获取
 		- 5、如果都没拿到，就创建走createViewHolder
 			- 6、判断是否需要绑定：tryBindViewHolderByDeadline
-- # 3、缓存的回收原理
+- # 3、recyclerView缓存的回收原理#card
 	- 入口在[[#blue]]==**onLayoutChildren**==
 	- ###  3-1、首先处理CacheView的缓存
 		- 如果CachedViews 条数未达到最大值，则直接缓存 ViewHolder。

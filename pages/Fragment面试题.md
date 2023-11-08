@@ -1,10 +1,9 @@
 # 概念题
 collapsed:: true
-	- ## 1. 请简述Fragment的意义？
+	- ## 1. 请简述Fragment的意义？#Card
 		- 1.5 ==**Fragment可以增强UI布局的灵活性**==，实现动态的改变UI布局；增删Fragment
 		- [[#red]]==**一个Activity可以有多个Fragment**==，一个Fragment也可以被多个Activity重复使用；
-	- ## 2. 将一个Fragment添加到Activity布局的方式有几种？
-	  collapsed:: true
+	- ## 2. 将一个Fragment添加到Activity布局的方式有几种？#Card
 		- 2.1 xml中通过fragment标签加入（静态加入）
 		- 2.2 通过代码动态的加入（动态加入）
 	- ## 4.怎么为Fragment绑定UI布局？
@@ -16,17 +15,16 @@ collapsed:: true
 		  参数2：绑定Layout布局的父视图
 		  参数3：是否将参数1的Layout资源依附于参数2的ViewGroup之上
 		  注意了：不管参数3是否为true都依附，系统默认已经将Layout插入至ViewGroup上如果为true，将添加一层冗余的视图
-	- ## 5.怎么去管理Fragment？
-	  collapsed:: true
+	- ## 5.怎么去管理Fragment？#Card
 		- 通过getFragmentManager()方法获取FragmentManager实例
 		- 1、manager.findFragmentById()或者findFragmentByTag()方法来[[#red]]==**获取一个Fragment**==
 		- 2、调用popBackStack方法将Fragment从后退站中弹出
 		- 3、调用addOnBackChangedListener()方法注册监听器，用于监听后退站的变化
-	- ## 6.执行Fragment的事务，事务有什么特点？
+	- ## 6.执行Fragment的事务，事务有什么特点？#Card
 		- 1、[[#red]]==**每个事务都表示执行一组变化**==，这些变化包括add()、remove()、replace（）、addToBackStack()、setCustomAnimations、setTransition
 		- 2、事务要生效必须调用commit,[[#red]]==**commit并不会立即执行，只能等待UI主线程空闲时才能执行**==
 		- 3、也可以调用==**executePendingTransactions立即生效提交事务**==，commit在调用时机是Activity状态保存之前进行，也就是说如果在离开Activity是进行提交事务的操作，系统就会抛出异常
-	- ## 10. Activity和Fragment 的 onActivityForResult 回调？
+	- ## 10. Activity和Fragment 的 onActivityForResult 回调？#Card
 		- ### 1、Fragment里面调用==**startActivityForResult**==
 			- Activity和Fragment里面的onActivityForResult都会回调，[[#red]]==**只不过Fragment里面回调的requestCode是正确的**==
 		- ### 2、Fragment里面调用==**getActivity().startActivityForResult**==的时候
@@ -131,7 +129,7 @@ collapsed:: true
 		  return view;
 		  }
 		  ```
-	- ## 14、Fragment、FragmentManager、FragmentTransaction关系
+	- ## 14、Fragment、FragmentManager、FragmentTransaction关系#Card
 		- ## Fragment
 			- 其实是对 View 的封装，它持有 view, containerView, fragmentManager,childFragmentManager 等信息
 		- ## FragmentManager
@@ -152,7 +150,8 @@ collapsed:: true
 		- 在添加子 Fragment 时，把子 Fragment 的布局 add 到父 Fragment 即可
 - # 常见问题
   collapsed:: true
-	- ## 3. 简述Fragment生命周期，常用的回调方法有几个？
+	- ## 3. 简述Fragment生命周期，常用的回调方法有几个？#Card
+	  collapsed:: true
 		- ![image.png](../assets/image_1691387732957_0.png)
 		- [[Activity和Fragment生命周期匹配]]
 		-
@@ -162,7 +161,8 @@ collapsed:: true
 		- onViewCreated：进行控件实例化操作
 		- onPause：在用户离开Fragment是所进行的一些数据持久化操作
 		  当Activity的onCreate方法被回调时会导致fragment方法的onAttach()、onCreate()、onCreateView()、onActivityCreate() 被连续回调
-	- ## 12. Fragment的getActivity方法返回null的原因：
+	- ## 12. Fragment的getActivity方法返回null的原因：#Card
+	  collapsed:: true
 		- ## getActivity = null原因
 			- 如果**==系统内存不足、或者切换横竖屏、或者app长时间在后台运行，Activity都可能会被系统回收==**，但是[[#red]]==**Fragment并不会随着Activity的回收而被回收，从而导致Fragment丢失对应的Activity。**==
 			- ## 详细
@@ -208,12 +208,11 @@ collapsed:: true
 		  }
 		  ```
 	- ## 18、[[事务操作Fragment主流程？]]
-	- ## 17、hide,show 和 add，remove 区别？
-	  collapsed:: true
+	- ## 17、hide,show 和 add，remove 区别？#card
 		- hide和show 不会执行 Fragment相应的生命周期
 	- ## 18、[[事务的四种提交方式]]
 	- ### [[Fragment中add、attach、detach、remove、hide、show、replace等方法的区别与使用]]
-- # 和Jetpack相关的
+- # Fragment和Jetpack相关的#Card
 	- Jetpack一般都是单Activity，多Fragment的场景。因为Fragment切换，不需要AMS和底层交互
 	- ## 1、Fragment之间怎么传值？
 		- 那么可以Activity创建ViewModel,多个Fragment共享。

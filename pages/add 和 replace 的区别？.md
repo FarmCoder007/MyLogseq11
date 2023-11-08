@@ -8,6 +8,7 @@
 			- onAttach->onCreate->onCreateView->onActivityCreated->onStart-onResume,
 			- Fragment所依附的Activity销毁时，执行onPause->onStop->onDestoryView->onDestory->onDetach
 	- ## 已有再添加
+	  collapsed:: true
 		- ## Add操作
 			- 如果FragmentA时通过add添加的，在将FragmentA替换为FragmentB时，可以通过hide FragmentA，add FragmentB  show FragmentB
 		- ## replace操作
@@ -17,7 +18,7 @@
 	- # [[事务-add()]]
 	- # [[事务-replace]]
 -
-- # add 和 replace 的区别-面试总结
+- # add 和 replace 的区别-面试总结#Card
 	- ## 1、首先add和replace都可以在Activity上添加Fragment
 	- ## 2、add添加Fragment后，再通过hide show 决定显示哪个
 		- 隐藏的Fragment会保留数据和view状态。

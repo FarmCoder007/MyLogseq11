@@ -1,6 +1,8 @@
 # 1、原子操作
+collapsed:: true
 	- 不可在拆分的操作
 - # 2、[[CAS机制原理]]
+  collapsed:: true
 - # 3、CAS问题
   collapsed:: true
 	- ABA问题

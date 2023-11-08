@@ -6,7 +6,6 @@
 	- 现在回到上文中的问题，如何依赖注入？
 		- ## 1. 添加依赖
 			- 在项目的根目录的build.gradle添加
-			  collapsed:: true
 				- ```
 				  buildscript {
 				      ...
@@ -17,7 +16,6 @@
 				  }
 				  ```
 			- 然后在app/build.gradle文件中添加以下依赖项：
-			  collapsed:: true
 				- ```
 				  ...
 				  apply plugin: 'kotlin-kapt'
@@ -34,22 +32,18 @@
 				  ```
 			- Hilt支持的依赖注入注解有： @HiltAndroidApp、 @AndroidEntryPoint 、@Module、@InstallIn 、@Provides以及Java Inject包中的几个注解：Inject、Qualifier、Scope、Singleton
 		- ## 2. 使用步骤
-		  collapsed:: true
 			- 1、在工程Application添加@HiltAndroidApp注解
-			  collapsed:: true
 				- ```
 				  @HiltAndroidApp
 				  public class ExampleApplication extends Application { ... }
 				  ```
 			- 2、确定哪个类使用依赖注入，添加@AndroidEntryPoint注解。Hilt支持的Android 入口类有：Activity、Fragment、View、Service、BroadcastReceiver
-			  collapsed:: true
 				- 比如在Activity中注入某个类：
 					- ```
 					  @AndroidEntryPoint
 					  public class ExampleActivity extends AppCompatActivity { ... }
 					  ```
 			- 3、注入类
-			  collapsed:: true
 				- 在组件中获取依赖项，需要使用@Inject注解标记字段注入，以上面的例子为例，在Activity中注入一个User对象，应该如下：
 				- ```
 				  @AndroidEntryPoint
@@ -78,7 +72,6 @@
 			- 按照以上步骤就可以实现Hilt简单的依赖注入了。我们在实际的使用中也不仅仅是这么简单的情况，下面介绍一下其他情况如何进行注入。
 		- ## 3. 进阶使用
 			- ### Hilt模块
-			  collapsed:: true
 				- 对于简单无参的构造函数类，可以直接使用@Inject注解进行注入对象，但对于有参数的类、接口或我们无法修改的第三方类，就需要自定义一个带有@Module注解的类来告知Hilt如何在外部进行初始化该类对象。同时需要对该模块类添加@InstallIn注解，告知Hilt这个模块类应用在哪个Android类中。
 				- ```
 				  @Module

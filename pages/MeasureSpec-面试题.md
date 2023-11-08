@@ -1,11 +1,11 @@
-## 1、什么是MeasureSpec
+## 1、什么是MeasureSpec#card
 	- 1、MeasureSpec是View中的内部类，标识测量规格，封装了父容器对 view 的布局上的限制
 	- 2、用高两位表示Specmode，低30位表示SpecSize(SpecSize是指在某种SpecMode下的参考尺寸)，MODE_SHIFT = 30的作用是移位
 	- 3、其中SpecMode 有如下三种：
 		- UNSPECIFIED：不对View大小做限制，主要用于系统内部多次Measure的情况
 		- EXACTLY：确切的大小，如：100dp
 		- AT_MOST：大小不可超过某数值，如：matchParent, 最大不能超过你爸爸
-- ## 2、测量流程中，根据父view的 模式，计算子view的模式算法getChildMeasureSpec？
+- ## 2、测量流程中，根据父view的 模式，计算子view的模式算法getChildMeasureSpec？#card
 	- ### 1、首先
 		- 对于应用层 View ，其 MeasureSpec 由父容器的 MeasureSpec 和自身的 LayoutParams 来共同决定，具体计算逻辑封装在getChildMeasureSpec()里
 	- ### 2、getChildMeasureSpec（）算法逻辑如下

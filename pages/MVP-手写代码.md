@@ -12,8 +12,7 @@
 - # **View:** 用户界面
 	- ```java
 	  public interface LoginView {
-	      void showLoading();
-	      void hideLoading();
+	  
 	      void showResult(boolean isSuccess);
 	  }
 	  
@@ -26,16 +25,6 @@
 	          String username = // 获取用户名输入
 	          String password = // 获取密码输入
 	          presenter.loginUser(username, password);
-	      }
-	  
-	      @Override
-	      public void showLoading() {
-	          // 显示加载中UI
-	      }
-	  
-	      @Override
-	      public void hideLoading() {
-	          // 隐藏加载中UI
 	      }
 	  
 	      @Override
@@ -60,10 +49,7 @@
 	      }
 	  
 	      public void loginUser(String username, String password) {
-	          view.showLoading();
-	  
 	          userModel.loginUser(username, password, isSuccess -> {
-	              view.hideLoading();
 	              view.showResult(isSuccess);
 	          });
 	      }

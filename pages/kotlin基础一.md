@@ -1,7 +1,8 @@
-- # 一、[[kotlin.String]]
+# 一、[[kotlin.String]]
 - # 四、kotlin 空安全问题
   collapsed:: true
 	- ### 1、声明   kotlin严格 区分 变量 可空 与 不可空（可null  和 不可为null）
+	  collapsed:: true
 		- 变量类型后 用？修饰  代表 可空 变量      没有修饰 即为 非空变量
 		- ```java
 		  // 1 正常定义的变量   没有？修饰就是非空变量
@@ -13,7 +14,9 @@
 		   private val usernameKey: String = null
 		  ```
 	- ### 2、？对应 java里的@Nullable    非空 对应@NonNull
+	  collapsed:: true
 		- java空安全问题 ：
+		  collapsed:: true
 			- 1 注解 @NonNull  @Nullable  这些 了解少的不会用
 			- 2 即使加上注解有提示报错  但是 依然可以编译通过
 			- kotlin 里 如果有变量可能为null  必须用？ 声明 为可空类型  要不然会报错
@@ -32,6 +35,7 @@
 		  et_name!!.setText("")
 		  ```
 	- ### 4、对于控件的初始化问题   lateinit  延迟初始化关键字
+	  collapsed:: true
 		- ## 背景
 		  collapsed:: true
 			- 1 声明变量必须初始化
@@ -50,6 +54,7 @@
 			   }
 			  ```
 		- ## [[lateinit]]
+		  collapsed:: true
 			-
 - # 五、平台类型
   collapsed:: true
@@ -62,7 +67,6 @@
 	  val bt_button = findViewById<Button>(R.id.btn_one)
 	  ```
 - # 八、kotlin  自定义view 等 调用this  或super方法
-  collapsed:: true
 	- ```java
 	  // java
 	  public class MyImageView extends AppCompatImageView {
@@ -88,7 +92,6 @@
 	  }
 	  ```
 - # 九、数组的声明
-  collapsed:: true
 	- ```java
 	      /**
 	       *  数据类型

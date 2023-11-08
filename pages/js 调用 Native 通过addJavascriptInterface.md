@@ -51,6 +51,7 @@
 		  }
 		  ```
 	- ## 2、js方法应用到Html中处理点击事件，调用js代码 去获取Native功能
+	  collapsed:: true
 		- ```html
 		  <!DOCTYPE html>
 		  <html lang="en">

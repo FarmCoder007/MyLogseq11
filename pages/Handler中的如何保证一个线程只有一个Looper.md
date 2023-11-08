@@ -1,14 +1,15 @@
-## 1、Looper是通过ThreadLocal存在当前线程的[[ThreadLocalMap]]私有变量中的
-	- 每个线程都有自己的ThreadLocalMap。存储Entry（key value的）key 为ThreadLocal的弱引用
-- ## 2、而Looper里有个static final修饰的 ThreadLocal ，==**全局唯一key**==作为 ThreadLocalMap存储的key
-	- ```java
-	   static final ThreadLocal<Looper> sThreadLocal = new ThreadLocal<Looper>();
-	  ```
-- ## 3、每个Looper都是通过prepare（）方法创建的（[[#red]]==**保证不重复创建**==）
-	- 1、首先[[#red]]==**sThreadLocal.get()获取Looper对象**==。实际是先获取当前线程，拿到当前线程的ThreadLocalMap，根据唯一keyThreadLocal 取对应的Looper，有就抛出异常
-	- 2、没有获取到调用 sThreadLocal.set(new Looper(quitAllowed));
-		- new 一个 looper对象，通过ThreadLoacl 存入当前线程的ThreadLoaclmap里。key是全局唯一的static final 修饰的。
-		- Looper唯一，MessageQueue在Looper构造函数里创建的也是唯一的
+# Handler中的如何保证一个线程只有一个Looper#Card
+	- ## 1、Looper是通过ThreadLocal存在当前线程的[[ThreadLocalMap]]私有变量中的
+		- 每个线程都有自己的ThreadLocalMap。存储Entry（key value的）key 为ThreadLocal的弱引用
+	- ## 2、而Looper里有个static final修饰的 ThreadLocal ，==**全局唯一key**==作为 ThreadLocalMap存储的key
+		- ```java
+		   static final ThreadLocal<Looper> sThreadLocal = new ThreadLocal<Looper>();
+		  ```
+	- ## 3、每个Looper都是通过prepare（）方法创建的（[[#red]]==**保证不重复创建**==）
+		- 1、首先[[#red]]==**sThreadLocal.get()获取Looper对象**==。实际是先获取当前线程，拿到当前线程的ThreadLocalMap，根据唯一keyThreadLocal 取对应的Looper，有就抛出异常
+		- 2、没有获取到调用 sThreadLocal.set(new Looper(quitAllowed));
+			- new 一个 looper对象，通过ThreadLoacl 存入当前线程的ThreadLoaclmap里。key是全局唯一的static final 修饰的。
+			- Looper唯一，MessageQueue在Looper构造函数里创建的也是唯一的
 -
 -
 -
@@ -16,6 +17,7 @@
   collapsed:: true
 	- 4、那么在Looper.prepare（）时,先通过当前线程，根据唯一key去ThreadLocalMap获取是否有looper，有就抛出异常，没有就创建一个存进去
 		- Looper.prepare()
+		  collapsed:: true
 			- ```java
 			      private static void prepare(boolean quitAllowed) {
 			          // 校验当前线程  是否存储过 looper
@@ -26,6 +28,7 @@
 			      }
 			  ```
 		- ThreadLocal.get:获取当前线程的ThreadLocalMap（key为第3步）中存的looper
+		  collapsed:: true
 			- ```java
 			      /**
 			       * Returns the value in the current thread's copy of this
@@ -50,6 +53,7 @@
 			      }
 			  ```
 		- ThreadLocal.set：会把创建的looper，存在当前线程的ThreadLocalMap中，key是上边的唯一key
+		  collapsed:: true
 			- ```java
 			      /**
 			       * Sets the current thread's copy of this thread-local variable

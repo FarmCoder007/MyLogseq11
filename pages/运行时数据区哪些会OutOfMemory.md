@@ -1,9 +1,11 @@
 ## 1. 虚拟机栈和本地方法栈溢出
+collapsed:: true
 	- 1、
 		- [[#red]]==**不断创建线程**==，如果虚拟机在扩展栈时无法申请到足够的内存空间，则抛出**==OutOfMemoryError异常==**
 	- 2、频繁入栈会栈溢出
 		- ![image.png](../assets/image_1689473625591_0.png)
 - ## 2.堆内存溢出
+  collapsed:: true
 	- Full GC后，若Survivor及Old区仍然无法存放从Eden复制过来的部分对象，导致JVM无法在Eden区为新对象创建内存区域，则出现outOfMemoryError：java heap space
 	- 1、虚拟机设置30M内存，申请35M数组，会oom
 		- ![image.png](../assets/image_1689473785563_0.png)

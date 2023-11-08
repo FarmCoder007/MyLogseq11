@@ -7,6 +7,7 @@
 	- ![image.png](../assets/image_1688095441418_0.png)
 	-
 	- ##  Handler介绍
+	  collapsed:: true
 		- 在 Handler 的使用中，通常会在主线程中创建一个 Handler 对象，并在其他线程中通过该 Handler 对象发送消息到主线程进行处理。为了实现这种异步通信，主线程的 Looper 会不断地从消息队列中获取消息，并将其分发给相应的 Handler 进行处理。
 		- Handler表面看是一个线程间通信（子线程（bean） ->主线程（显示）），实际是一个管理机制（管理所有的消息）
 		- 消息：（android里所有的事物）包括点击，屏幕亮暗，滑动操作等
@@ -15,6 +16,7 @@
 - # 三、[[Handler发送消息的整个流程]]
 - # 四、[[Message怎么实现从子线程到主线程的切换]]
 - # 二、源码
+  collapsed:: true
 	- ## 工作流程
 		- Launcher -> Zygote -> JVM -> ActivityThread-> main函数
 		- ### ActivityThread：Main入口函数
@@ -76,6 +78,7 @@
 			- 2、==主线程的looper.loop启动死循环，相当于Android所有代码全在这里运行==
 - # 三、设计思路
 - # 四、设计模式
+  collapsed:: true
 	- 生产者消费者
 		- MessageQueue消息队列
 	- 享元设计模式
@@ -83,7 +86,10 @@
 - # 五、同步消息，异步消息 [[Message]]
 - # 六、[[同步消息屏障]]
 - # 七、[[Handler().runWithScissors 同步等待]]
+- # 八、[[怎么将消息插入到第一的位置？]]
+	- ##
 - # Handler应用场景
+  collapsed:: true
 	- # 七、[[HandlerThread]]
 	- # 八、[[IntentService]]
 	- # 九、[[Fragment生命周期管理]]

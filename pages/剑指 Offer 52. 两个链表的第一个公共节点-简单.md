@@ -6,6 +6,7 @@ title:: 剑指 Offer 52. 两个链表的第一个公共节点-简单
 		- ![](https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/14/160_statement.png)
 		- 在节点 c1 开始相交。
 - # 示例1：
+  collapsed:: true
 	- ![](https://assets.leetcode-cn.com/aliyun-lc-upload/uploads/2018/12/14/160_example_1.png)
 	- ```java
 	  输入：intersectVal = 8, listA = [4,1,8,4,5], listB = [5,0,1,8,4,5], skipA = 2, skipB = 3

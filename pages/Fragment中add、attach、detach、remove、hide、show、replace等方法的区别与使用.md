@@ -2,7 +2,7 @@
 	- 使用add()加入fragment时将触发onAttach(),使用attach()不会触发onAttach()
 - # replace()
 	- 使用replace()替换后会将之前的fragment的view从viewtree中删除，不保存Fragment数据和view状态
-- # hide 和 show
+- # hide 和 show#Card
 	- 使用hide()方法只是隐藏了fragment的view并没有将view从viewtree中删除,随后可用show()方法将view设置为显示
 	- [[#red]]==**hide和show 不会执行 Fragment相应的生命周期**==
 -

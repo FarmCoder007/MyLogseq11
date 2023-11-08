@@ -22,6 +22,7 @@ collapsed:: true
 		      }
 		  ```
 - # 二、数据的更新
+  collapsed:: true
 	- xml文件中的数据会缓存到内存的mMap中，每次在调用editor.putXXX()时，实际上会将新的数据存入在mMap，当调用commit()或apply()时，最终会将mMap的所有数据全量更新到xml文件里
 - # 三、线程安全的
   collapsed:: true

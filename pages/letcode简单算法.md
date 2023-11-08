@@ -2,6 +2,7 @@
 	- 例如 输入 123  输出321  例如输入-123 输出-321 例如输入 120 输出21
 	- 注意：只能处理32位int范围内的整数，超过范围返回0
 - # 必须掌握的
+  collapsed:: true
 	- ## 数组
 		- 1、4种排序：选择、冒泡、快排、插入、
 		- 2、二分查找
@@ -28,6 +29,7 @@
 		- [[146. LRU 缓存-中等]]
 - # 剑指offer
 	- # [[#red]]==**第一天**==
+	  collapsed:: true
 		- ## [[数组]]
 			- ## 解决问题思路
 			  collapsed:: true
@@ -60,6 +62,7 @@
 			- ## 2、[[剑指 Offer 03. 数组中重复的数字-简单]]遍历-值与下标进行交换 ==字节 小米==
 			  collapsed:: true
 				- 遍历数组 nums ，设索引初始值为 i=0 :
+				  collapsed:: true
 					- 若 nums[i]=i ： 说明此数字已在对应索引位置，无需交换，因此跳过；
 					- 若 nums[nums[i]]=nums[i] ： 代表索引nums[i] 处和索引 i 处的元素值都为 nums[i] ，即找到一组重复值，返回此值 nums[i] ；
 					- 否则： 交换索引为 i 和 nums[i] 的元素值，将此数字交换至对应索引位置。
@@ -95,11 +98,12 @@
 			- ## 5、[[剑指 Offer 40. 最小的k个数-简单]]-[[#red]]==**快速排序 真题**==
 			- ## 6、[[删除有序数组中的重复项-简单]] 快慢指针，快指针找不同，慢指针负责存==字节 小米==
 			- ## 7、[[2023百度一面2441. 与对应负数同时存在的最大正整数]]
-			- [[一个巨大无序数组中，查找一个不连续的自然数的节点]]  插入排序 ==喜马拉雅==
-			- [[剑指 Offer 39. 数组中出现次数超过一半的数字-简单]]-摩尔投票法
+			- ## 8、[[一个巨大无序数组中，查找一个不连续的自然数的节点]]  插入排序 ==喜马拉雅==
+			- ## 9、[[剑指 Offer 39. 数组中出现次数超过一半的数字-简单]]-摩尔投票法
 			  collapsed:: true
 				- 1、初始众数和票数变量
 				- 2、foreach遍历
+				  collapsed:: true
 					- 1、当票数为0 初始当前值为假定的众数
 					- 2、当前值num 和 众数相等 则票数+1
 				- 3、返回众数x
@@ -117,20 +121,21 @@
 				          return x;
 				      }
 				  ```
+			- ## 10、[[剑指 Offer 57. 和为s的两个数字-简单]] 对撞双指针，字节 百度
+			- ## 11、[[剑指 Offer 61. 扑克牌中的顺子-简单]]遍历数组hashset去重  ==字节百度==
 			- [[剑指 Offer 11. 旋转数组的最小数字-简单]] 查找用二分，中位值和最右侧对比 再决定缩小范围，字节
-			- [[剑指 Offer 57. 和为s的两个数字-简单]] 对撞双指针，字节 百度
-			- [[剑指 Offer 61. 扑克牌中的顺子-简单]]遍历数组hashset去重  ==字节百度==
 			- [[剑指 Offer 53 - I. 在排序数组中查找数字 I-简单]]-二分查找右边界
 	- # [[#red]]==第二天==
 	  collapsed:: true
 		- ## 字符串
+		  collapsed:: true
 			- ## [[String算法-翻转字符串]] 碰撞指针交换
-			- [[557. 反转字符串中的单词]]
+			- ## [[557. 反转字符串中的单词]]
 			  collapsed:: true
 				- 1、按空格分组
 				- 2、每个字符串旋转
 				- 3、拼接
-			- [[剑指 Offer 58 - I. 翻转单词顺序-简单]] split+sb倒序拼接
+			- ## [[剑指 Offer 58 - I. 翻转单词顺序-简单]] split+sb倒序拼接
 			  collapsed:: true
 				- 1、split+倒序
 				- ```java
@@ -146,35 +151,36 @@
 				          return res.toString().trim(); // 转化为字符串，删除尾部空格，并返回
 				      }
 				  ```
+			- ## [[剑指 Offer 50. 第一个只出现一次的字符-简单]] hashmap 统计char 个数
+			  collapsed:: true
+				- 1、第一次遍历字符串  统计个数
+				- 2、第二次遍历字符串  map 按字符查找个数为1的
+			- ## [[剑指 Offer 58 - II. 左旋转字符串-简单]] sb或者 string遍历拼接
+			  collapsed:: true
+				- 遍历拼接
+			- ## [[242.有效的字母异位词]] hashmap 存储个数 两个串字符个数抵消
+			  collapsed:: true
+				- 1、foreach s map字符+1
+				- 2、foreach t map字符-1
+				- 3、foreach map.values  看值是否正负抵消 都为0
+			- ## [[剑指 Offer 05. 替换空格-简单]]  sb拼接
+			  collapsed:: true
+				- 1、遍历字符
+				- 2、sb拼接 遇到空格就拼接别的
 			- [[20.有效括号]]-hashmap+辅助栈linkedList
 			  collapsed:: true
 				- 1、hashmap存储 成对括号
 				- 2、遍历字符
 				- 3、左括号为map里指定的key，则加入栈
 				- 4、否则肯定为右括号。直接从栈弹出key map[key] = 右括号 看是否成对
-			- [[剑指 Offer 50. 第一个只出现一次的字符-简单]] hashmap 统计char 个数
-			  collapsed:: true
-				- 1、第一次遍历字符串  统计个数
-				- 2、第二次遍历字符串  map 按字符查找个数为1的
-			- [[剑指 Offer 58 - II. 左旋转字符串-简单]] sb或者 string遍历拼接
-			  collapsed:: true
-				- 遍历拼接
 			- [[125. 验证回文串-简单]] 左右碰撞指针 对比对应字符
 			  collapsed:: true
 				- 1、定义左右碰撞指针
 				- 2、从左右分别找到 是字母或者 数字的下标
 				- 3、转小写 对比 是否一样，不一样直接return false
 				- 4、left  right 向中间移动
-			- [[242.有效的字母异位词]] hashmap 存储个数 两个串字符个数抵消
-			  collapsed:: true
-				- 1、foreach s map字符+1
-				- 2、foreach t map字符-1
-				- 3、foreach map.values  看值是否正负抵消 都为0
-			- [[剑指 Offer 05. 替换空格-简单]]  sb拼接
-			  collapsed:: true
-				- 1、遍历字符
-				- 2、sb拼接 遇到空格就拼接别的
 		- ## 斐波那契数列
+		  collapsed:: true
 			- [[剑指 Offer 10- I. 斐波那契数列-简单]]
 			- [[剑指 Offer 10- II. 青蛙跳台阶问题-简单]]
 		- ## 数学/动态规划
@@ -202,22 +208,26 @@
 				      }
 				  ```
 	- # [[#red]]==第三天==
-	  collapsed:: true
 		- ## 链表（while遍历/递归）
 		  collapsed:: true
 			- 1、一个数组插入删除查找和链表的效率对比？如果一个数组要反复插入删除怎么优化降低时间复杂度？==腾讯==
+			  collapsed:: true
 				- 面试官提示其实就是垃圾回收的算法 原理就是“标记-查找”。
 				- 每次删除的时候元素不是真的被删除了，而是先标记，最后统一移动数组元素，减少移动次数）
 			- 2、ArrayList查询第一个跟最后一个复杂度一样么？（一样，下标取值）==腾讯==
+			  collapsed:: true
 				- 那LinkedList查询第一个跟最后一个复杂度一样么？（一样，linkedlist是双向链表 一样的）
 			- ## 1、[[如何得到单链表的长度?-单链表遍历while循环]]360
+			  collapsed:: true
 				- 获取头节点遍历 同时计数
 			- ## 2、[[206.反转链表（剑指 Offer II 024. 反转链表）-简单]]遍历双指针+递归
 			  collapsed:: true
 				- ### 遍历-双指针
+				  collapsed:: true
 					- 1、初始化双指针：prev = null、curr = head   。
 					- 2、while 迭代终止条件 curr != null
 					- 3、迭代遍历链表，每次迭代中执行以下操作：
+					  collapsed:: true
 						- 1、翻转前暂存后继节点 next。等翻转完更新curr继续后续翻转用
 						- 2、执行curr节点翻转，指向pre,完成翻转一次
 						- 3、向后更新双指针，等下次循环再翻转， prev = curr，curr = next
@@ -244,6 +254,7 @@
 					      return prev;  // 返回反转后的新头节点
 					  }
 					  ```
+			- ## 3、[[反转链表 II-x-y之间翻转]]-==**2023飞猪**==
 			- ## 3、[[剑指 Offer 06. 从尾到头打印链表-简单]]遍历+栈stack（后进先出）
 			  collapsed:: true
 				- 1、遍历链表 存Stack
@@ -469,14 +480,12 @@
 	-
 	- # [[#red]]==第四天==
 		- ## [[二叉树]]
-		  collapsed:: true
 			- ## 遍历
 				- ## 深度优先
 					- [[二叉树的前序遍历]]:根左右
 					- [[94. 二叉树的中序遍历]]：左根右
 					- [[二叉树的后序遍历]]：左右根
 				- ## 广度优先：层序遍历借助队列queue
-				  collapsed:: true
 					- ```java
 					  public List<List<Integer>> levelOrder(TreeNode root) {
 					          // 1、声明存储集合
@@ -516,12 +525,14 @@
 					  ```
 			- ## 考点：查找
 				- [[剑指 Offer 54. 二叉搜索树的第k大节点-简单]]
+				  collapsed:: true
 					- 二叉搜索树的中序遍历为 **递增序列**
 					- 反向遍历就是递减序列，再根据k--控制递归个数提前返回
 					- 1、定义返回结果result  循环k
 					- 2、反向中序遍历，直到k = 0
 			- ## 考点：层序遍历（广度优先，借助队列queue）
 				- [[剑指 Offer 32 - II. 从上到下打印二叉树 II-简单]]
+				  collapsed:: true
 					- ```java
 					  1、声明存储集合
 					  2、借助队列 先进先出，首先 压入root
@@ -531,8 +542,10 @@
 					  ```
 			- ## 考点：深度(层序遍历)
 				- [[剑指 Offer 55 - I. 二叉树的深度-简单]] 广度优先、层序遍历 每遍历一层就 计数++
+				  collapsed:: true
 					-
 			- [[剑指 Offer 27. 二叉树的镜像-简单]]  递归翻转左右
+			  collapsed:: true
 				- ```java
 				      public TreeNode mirrorTree(TreeNode root) {
 				          if(root == null) return null;
@@ -547,6 +560,7 @@
 			-
 			- ## 考点：递归
 				- [[剑指 Offer 28. 对称的二叉树-简单]] 递归
+				  collapsed:: true
 					- 递归判断左右
 					- 1、左右都为null  true
 					- 2、有一个为null || 值不等
@@ -569,9 +583,11 @@
 					  }
 					  ```
 			- [[剑指 Offer 68 - II. 二叉树的最近公共祖先-简单]]
+			  collapsed:: true
 				- 1、root == null || root = p || root = q  return root;
 				- 2、递归左 找左 递归右找右
 				- 3、左 null 返回 右
+				  collapsed:: true
 					- 右 null 返回 左
 					- 否则 返回root
 				- ```java
@@ -593,6 +609,7 @@
 				      }
 				  ```
 			- [[剑指 Offer 68 - I. 二叉搜索树的最近公共祖先-简单]]  2个if root和pq对比值 递归
+			  collapsed:: true
 				- ```java
 				      public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
 				         // 1、root值 小于 pq,递归right  开口向谁  递归谁 
@@ -604,14 +621,15 @@
 				      }
 				  ```
 			- [[剑指 Offer 55 - II. 平衡二叉树-简单]]
+			  collapsed:: true
 				- 1、定义求root高度函数  递归求左高度  递归求右高度
 				- 2、看是否 -1 || 差> 1   返回 -1
 				- 3、返回 最大高度+1
 	-
 	-
 	- # 放弃
-	  collapsed:: true
 		- ## [[位运算]]
+		  collapsed:: true
 			- [[剑指 Offer 65. 不用加减乘除做加法-简单]]
 			- [[剑指 Offer 15. 二进制中1的个数-简单]]
 		- ## 数组

@@ -1,6 +1,6 @@
 ## 1、[[RecyclerView缓存机制-面试]]
 - ## 2、[[自定义ItemDecoration实现吸顶-面试]]
-- ## 3、ConcatAdapter
+- ## 3、ConcatAdapter#card
 	- 作用：可以合并不同adapter，管理各自的数据源
 	- ## 1、怎么合并多个Adapter的
 		- ConcatAdapterController是操作多个Adapter聚合到一个RecyclerView的控制类

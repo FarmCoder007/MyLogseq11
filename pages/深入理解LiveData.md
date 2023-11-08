@@ -207,7 +207,6 @@
 				- ![image.png](../assets/image_1684422590790_0.png)
 	-
 - # 4. LiveData 和 Flow 该如何选择？
-  collapsed:: true
 	- ## 4.1 LiveData 历史
 		- 我们先来了解一下 LiveData 的历史。
 		- LiveData 是 Android 官方在 2017 年推出的一系列架构组件中的一个。当时 RxJava 正是火热的时候，不过 RxJava 虽然功能强大，但是对于新手而言太过复杂，且并不是 Google 自己家的框架。

@@ -1,7 +1,6 @@
 - > 1、类默认是final修饰的，需要加open/abstract才能被继承
      2、接口默认都是open的
 - # 1、类的继承  和  实现接口：
-  collapsed:: true
 	- ```kotlin
 	  /**
 	   *  kotlin  用 ： 代替 java里的 extend  类     继承类    类后需要有（）
@@ -293,7 +292,6 @@
 		- 如果类声明了主构造，和 次构造函数，次构造里必须调用主构造
 			- ![image.png](../assets/image_1690251556670_0.png)
 - # 六、data class 数据类
-  collapsed:: true
 	- 会自动生成 成员变量、set get、toString equals hashcode  copy(复制对象)。。。。等函数
 	- ```java
 	  /**
@@ -403,7 +401,6 @@
 			  
 			  ```
 - # 七、对象 set get方法
-  collapsed:: true
 	- > var 修饰的成员变量默认生成setget方法
 	      val 修饰的成员变量默认生成get方法
 	      如果不想外界访问，可以私有化

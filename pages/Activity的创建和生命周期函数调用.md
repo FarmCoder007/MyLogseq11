@@ -1,4 +1,4 @@
-# 1、哪里创建activity对象 来调用他的生命周期方法
+# 1、哪里创建activity对象 来调用他的生命周期方法#Card
 	- ## 答案：在ActivityThread的performLaunchActivity中通过mInstrumentation创建的
 	- 根据Activity启动的大流程[[Activity启动流程]]得知，应用程序进程创建后AMS通知App创建Activity并回调相关生命周期
 	- # 具体流程

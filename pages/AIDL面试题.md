@@ -1,6 +1,8 @@
 # 1、AIDL作用
 	- 使用Binder通信机制的时候，需要符合一些规则。AIDL就是帮我们遵循这些规则去实现通信。简化流程
-- # 2、定向tag：（in，out,inout）
+- # 2、定向tag：（in，out,inout）#card
+  id:: 64f6a62c-ca23-4f43-9e51-c0df5dc9c80c
+  collapsed:: true
 	- 定向 tag 表示[[#red]]==**跨进程通信中数据的流向**==，数据流向[[#red]]==**是针对在客户端中的调用AIDL中方法入参的那个对象**==而言的
 		- ==**in**== 表示数据只能由==**客户端流向服务端**==
 			- in 为定向 tag 的话表现为==**服务端将会接收到一个那个对象的完整数据**==，该对象服务端修改客户端不会得到同步
@@ -11,9 +13,11 @@
 	- ## 注意
 		- Java 中的基本类型和 String ，CharSequence 的定向 tag 默认且只能是 in
 		- 还有，请注意，请不要滥用定向 tag ，而是要根据需要选取合适的——要是不管三七二十一，全都一上来就用 inout ，等工程大了系统的开销就会大很多——因为排列整理参数的开销是很昂贵的。
-- # 3、[[AIDL和Binder的联系和区别]]
-	- AIDL 和 Binder 是 Android 系统中的两个关键组件，共同用于实现进程间通信。==**AIDL 定义了接口规范，**==而 [[#red]]==**Binder 提供了底层的通信机制**==，使得不同进程间的组件能够进行交互和通信。
-- # 4、[[AIDL基本使用]]
+- # 3、[[AIDL和Binder的联系和区别]]#card
+  id:: 64f6ac66-ffa5-4c12-afca-747d4b9cf41f
+	- AIDL 和 Binder 是 Android 系统中的两个关键组件，共同用于实现进程间通信。==**AIDL接口定义语言，定义了接口规范，**==而 [[#red]]==**Binder 提供了底层的通信机制**==，使得不同进程间的组件能够进行交互和通信。
+- # 4、[[AIDL基本使用]]#Card
+  id:: 03ddcef1-7b29-41d0-bb5f-99a09150dd19
 	- # 1、服务端
 		- 1、创建IPersonManager==**.aidl文件定义了暴露服务端的方法**==。
 		- 2、build后会生成对应IPersonManager.java文件里边==**包含IPersonManager.Stub类是个IBinder子类**==。==**相当于Binder对象**==。还有[[#red]]==**Stub.Proxy  Binder的代理对象**==
@@ -23,7 +27,8 @@
 		- 1、bindService 启动服务，传入ServiceConnection.
 		- 2、在onServiceConnected 方法中 可以拿到服务端onBind()方法返回的IBinder对象。可通过IPersonManager.Stub.asInterface(iBinder)，将Ibinder转换为IPersonManager接口。
 		- 其实就是 拿到服务端 binder的代理对象[[#green]]==**Stub.proxy**==。可通过代理对象调用服务端暴雷的方法的
-- # 1、讲解AIDL生成代码详细情况讲解[[AIDL原理]]
+- # 1、讲解AIDL生成代码详细情况讲解[[AIDL原理]]#card
+  id:: 64aa14c6-75c5-40fc-853d-243ff3993613
 	- ## 1、Stub.asInterface
 		- 1、==**判断是否和客户端同进程**==，如果==**同进程有接口实现类**== 直接返回
 		- 2、跨进程，返回IPersonManager的[[#red]]==**代理类Stub.Proxy**==，==**持有Stub这个继承Binder的类。给客户端用，实现跨进程**==

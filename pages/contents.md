@@ -120,7 +120,6 @@
   collapsed:: true
 	- [[shell命令]]
 - 跨平台
-  collapsed:: true
 	- [[H5-Hybrid]]
 	- [[RN-Modules]]
 	- [[KMM]]

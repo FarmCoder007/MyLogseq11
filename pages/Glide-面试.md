@@ -1,5 +1,4 @@
 # 一、概念题
-collapsed:: true
 	- ## 1、[[with函数多个重载->作用域]]
 		- ## 作用域总结：
 		  collapsed:: true
@@ -56,3 +55,6 @@ collapsed:: true
 		- ## [[怎么确保一个Activity只有一个Fragment]]
 	- ## 4、[[空白Fragment感知生命周期流程]]
 	- ## 10、[[Glide缓存机制]]
+- # 三、自定义一个图片框架都可以包含哪些内容
+	- 1、比如Glide基本的加载能力，监听宿主生命周期、缓存
+	- 2、提供监控，比如监控成功失败，Bitmap大小等

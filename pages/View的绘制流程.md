@@ -9,11 +9,12 @@
 		- 【PhoneWindow 和 View 通过DecorView联系起来的  】
 		- [[#red]]==**并添加默认布局**==：一个LinearLayout 里包含一个 标题栏 和 Framelayout（id为Content）
 		- ### 3、DecorVIew里  有个默认布局：
+		  collapsed:: true
 			- 我们 从 SetContentView传入的布局文件通过inflat  成view , 然后添加到这个id为content的 Framelayout里的
 			- ![绘制流程.png](../assets/绘制流程_1693041027183_0.png)
 	- ### 3、通过LayoutInflater.inflate实例化xml里的布局，实际调用到createaViewFromTag 反射创建view实例的，生成布局参数，通过addView方法添加到Framlayout上
 -
-- # View的首次绘制流程发生在ActivityThread的handleResumeActivity-答这个
+- # View的首次绘制流程发生在ActivityThread的handleResumeActivity-答这个#card
 	- 1、在ActivityThred的[[#green]]==**handleResumeActivity**==()中，调用activity.[[#green]]==**makeVisible**== 内部判断 window是否添加
 	- 2、未添加的话，会调用[[#red]]==**WindowManagerGlobal.addView**==添加mDecorview
 	  collapsed:: true

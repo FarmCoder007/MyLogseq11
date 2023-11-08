@@ -1,13 +1,11 @@
-- ## 背景
+## 背景
 	- 作为 Android 开发者，我们对 Activity、Service 等系统组件的生命周期非常熟悉，在日常开发中也会利用组件的生命周期特点开发业务逻辑。
 	- Flutter 中有“一切皆Widget”的说法，Widget 是 Flutter 功能的抽象描述，是视图的配置信息，也是数据的映射。Android 开发中的 View、Layout、Activity、Application等，对应到 Flutter 中都是 Widget。
 	- Flutter 的 Widget 有 StatelessWidget 和 StatefulWidget 两种类型，StatelessWidget 用于处理静态的、无状态变化的视图展示，而 StatefulWidget 应对有交互、需要动态变化视觉效果的场景。
 	- StatelessWidget 通过父 Widget 初始化时传入的静态配置就能完全控制其静态展示，而 StatefulWidget 需要借助于 State 对象，在特定阶段来处理用户交互或内部数据的变化，然后更新到 UI 上。这些特定的阶段涵盖了一个 Widget 从初始化到卸载的全过程，即生命周期。Flutter 中的生命周期即指的 StatefulWidget 的生命周期，并通过 State 对象来体现，StatelessWidget 的生命周期只有 build 过程，且只会执行一次。
 - ## 生命周期方法
-  collapsed:: true
 	- Flutter中的生命周期方法主要包括以下内容：
 	- createState
-	  collapsed:: true
 		- 该函数为 StatefulWidget 中创建 State 的方法，当 StatefulWidget 被调用时会立即执行 createState 。
 		- ```
 		  class MyPage extends StatefulWidget {
@@ -77,7 +75,6 @@
 	-
 	-
 - ## Widget生命周期流程
-  collapsed:: true
 	- Widget 的生命周期主要体现在 State 对象的回调方法中，主要执行流程如下图：
 	  collapsed:: true
 		- ![image.png](../assets/image_1684401529810_0.png){:height 712, :width 747}
@@ -94,7 +91,6 @@
 		- 当 State 被永久地从视图树中移除时，Flutter 会调用 dispose 函数。而一旦到这个阶段，组件就要被销毁了，所以我们可以在这里进行最终的资源释放、移除监听、清理环境等等。
 	- ![image.png](../assets/image_1684401585586_0.png)
 - ## App生命周期
-  collapsed:: true
 	- State 的生命周期定义了视图从加载到构建以及更新和销毁的全过程，根据其回调机制，我们可以在合适的回调方法中根据 Widget 的状态做相应的逻辑响应。在原生 Android 开发中，我们经常会处理 App 从后台进入前台、从前台切到后台，或者是 UI 绘制完成等时机的一些状态逻辑，通过重写 Activity 的生命周期回调方法或注册应用程序的相关通知，监听 App 的生命周期并做相应的处理。在 Flutter 中我们可以监听 WidgetsBindingObserver 的回调方法来实现同样的需求。
 	  collapsed:: true
 		- ```

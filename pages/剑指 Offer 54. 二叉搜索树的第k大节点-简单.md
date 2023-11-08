@@ -3,7 +3,6 @@ title:: 剑指 Offer 54. 二叉搜索树的第k大节点-简单
 - ## [题目](https://leetcode.cn/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/)
 	- 给定一棵二叉搜索树，请找出其中第 `k` 大的节点的值。
 	- ## 示例
-	  collapsed:: true
 		- ```java
 		  输入: root = [3,1,4,null,2], k = 1
 		     3
@@ -14,7 +13,6 @@ title:: 剑指 Offer 54. 二叉搜索树的第k大节点-简单
 		  输出: 4
 		  ```
 	- ## 示例
-	  collapsed:: true
 		- ```java
 		  输入: root = [5,3,6,2,4,null,null,1], k = 3
 		         5
@@ -29,7 +27,7 @@ title:: 剑指 Offer 54. 二叉搜索树的第k大节点-简单
 - ## [思路](https://leetcode.cn/problems/er-cha-sou-suo-shu-de-di-kda-jie-dian-lcof/solutions/184216/mian-shi-ti-54-er-cha-sou-suo-shu-de-di-k-da-jie-d/)
 	- 根据以上性质，易得二叉搜索树的 中序遍历倒序 为 递减序列 。
 	- 因此，求 “二叉搜索树第 k 大的节点” 可转化为求 “此树的中序遍历倒序的第 k 个节点
-	- ![image.png](../assets/image_1694868453037_0.png)
+	- ![image.png](../assets/image_1694868453037_0.png){:height 577, :width 749}
 - ## 代码
 	- ```java
 	  1、中序遍历的 倒序遍历 右根左  --k = 0 赋值result

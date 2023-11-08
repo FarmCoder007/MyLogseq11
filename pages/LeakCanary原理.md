@@ -11,7 +11,7 @@ collapsed:: true
 		- 在 onFragmentViewDestroyed  回调中  开始对  fragment.view的view 进行监测：
 		- 在  [[#red]]==**onFragmentDestroyed   中  对fragment  进行监测**==
 	- ![](https://img-blog.csdnimg.cn/20210410225143553.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3h1d2IxMjN4dXdi,size_16,color_FFFFFF,t_70)
-- # 2、2.x Watch 流程 及原理
+- # 2、LeakCanary2.x Watch 流程 及原理#card
 	- ## [[注意这三个弱一点的引用相同功能-gc前将弱引用本身加载队列里]]：
 	- # 大体原理
 	  collapsed:: true

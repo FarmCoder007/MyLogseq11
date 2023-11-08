@@ -1,9 +1,9 @@
 # 一、概念
 	- **HandlerThread****是****Thread****的子类，严格意义上来说就是一个线程，只是它在自己的线程里面帮我们创建了****Looper**
-- # 二、存在的意义
-  collapsed:: true
+- # 二、HandlerThread存在的意义#card
 	- ## 1、方便使用：a. 方便初始化，b，方便获取线程looper
 	- ## 2、==保证了线程安全==
+	  collapsed:: true
 		- 我们一般在Thread里面 线程Looper进行初始化的代码里面，必须要对Looper.prepare(),同时要调用Loop.loop（）；
 		- run方法
 			- ```java
@@ -40,6 +40,7 @@
 			- 2）依据多线程的工作原理，我们在上面的代码中，调用 thread.getLooper（）的时候，此时的looper可能还没有初始化，此时是不是可能会挂掉呢？
 		- HandlerThread 已经帮我们完美的解决了，这就是 handlerThread存在的必要性了。
 - # 三、源码
+  collapsed:: true
 	- ```java
 	  public void run() {
 	  	mTid = Process.myTid();

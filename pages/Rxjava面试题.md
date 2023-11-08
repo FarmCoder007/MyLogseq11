@@ -1,4 +1,5 @@
 # 概念题
+collapsed:: true
 	- ## 1、Rxjava 框架结构
 		- RxJava 的整体结构是⼀条链，其中：
 		  1. 链的最上游：⽣产者 Observable
@@ -55,7 +56,6 @@
 			- 的基本原理都是[[#red]]==**采用缓存或丢弃策略，**==来[[#red]]==**调节被观察者发射数据的频率**==
 - # 原理题
 	- ## 1、rxjava订阅机制是怎样的？
-	  collapsed:: true
 		- ### 下面以Single.just为例来说明一个最简单的完整的订阅机制：
 			- ```java
 			          Single.just("1").subscribe(new SingleObserver<String>() {
@@ -88,6 +88,7 @@
 			- 4、SingleObserver相应的方法进行接收。
 		- 整体流程从订阅函数开始向上传递订阅，一直到顶层被观察者
 		- 发送数据是向下从被观察者，到最下边的观察者。 {{cloze 整体U型}}
+		  id:: 64cc4f24-4b36-4613-936e-bbcf586967a9
 	- ## 2、map操作符原理
 		- 代码
 			- ```java

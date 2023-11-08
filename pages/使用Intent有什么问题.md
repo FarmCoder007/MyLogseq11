@@ -1,8 +1,9 @@
-## 1、Intent传值数据大小限制128k.看binder
-- ## 2、intent类型的匹配：
-	- ** 在启动Activity、Service或者广播时，使用的Intent要匹配目标组件的意图过滤器。否则，可能会导致无法找到合适的组件或者启动失败。
-- ## 3、**序列化：** 如果要传递自定义的Java对象，需要确保这些对象是可序列化的，或者使用Parcelable接口来实现高效的对象传递。
-- ## 4、**隐式Intent的处理：** 当使用隐式Intent启动Activity、Service或者广播时，要确保系统中有合适的组件可以处理该Intent，否则可能会出现`ActivityNotFoundException`等问题。
+# 使用Intent有什么问题？#Card
+	- ## 1、Intent传值数据大小限制1M.看binder
+	- ## 2、intent类型的匹配：
+		- ** 在启动Activity、Service或者广播时，使用的Intent要匹配目标组件的意图过滤器。否则，可能会导致无法找到合适的组件或者启动失败。
+	- ## 3、**序列化：** 如果要传递自定义的Java对象，需要确保这些对象是可序列化的，或者使用Parcelable接口来实现高效的对象传递。
+	- ## 4、**隐式Intent的处理：** 当使用隐式Intent启动Activity、Service或者广播时，要确保系统中有合适的组件可以处理该Intent，否则可能会出现`ActivityNotFoundException`等问题。
 -
 - **数据传递：** 使用Intent可以传递数据到目标组件。注意数据类型的一致性，避免传递错误的数据类型，以及确保数据的有效性和安全性。
 -

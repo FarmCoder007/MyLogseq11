@@ -8,7 +8,6 @@
 				- 2、循环取出Finishers 的Runnable数组，执行他的run方法。如果这时候有多个异步线程或者异步线程时间过长，同样会造成阻塞产生ANR。。
 			- >就是调用CountDownLatch对象的await方法，阻塞当前线程，将当前线程加入阻塞队列。所以如果过渡使用apply方法，则可能导致onpause，onStop执行时间较长从而导致ANR。
 	- ### 源码
-	  collapsed:: true
 		- handlePauseActivity
 		  collapsed:: true
 			- ```java

@@ -77,10 +77,8 @@ collapsed:: true
 - # 方案二、Watchdog
 	- 系统有个Watchdog，监控系统有没有被死锁，挂掉情况
 	- ## 原理、
-	  collapsed:: true
 		- ![image.png](../assets/image_1692887227260_0.png)
 	- ANRWatchDog
-	  collapsed:: true
 		- ```java
 		  package com.xiangxue.arch_demo.anr;
 		  
@@ -200,5 +198,4 @@ collapsed:: true
 		  
 		  ```
 	- ## 使用
-	  collapsed:: true
 		- ![image.png](../assets/image_1692887356550_0.png)

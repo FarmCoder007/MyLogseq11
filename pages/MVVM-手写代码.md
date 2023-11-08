@@ -11,17 +11,17 @@
 	  ```
 - ## **ViewModel:** 视图模型
 	- ```java
-	  public class LoginViewModel {
+	  public class LoginViewModel extends ViewModel{
 	      private UserModel userModel = new UserModel();
-	      private MutableLiveData<Boolean> loginResult = new MutableLiveData<>();
+	      private MutableLiveData<Boolean> loginResultLiveData = new MutableLiveData<>();
 	  
-	      public LiveData<Boolean> getLoginResult() {
-	          return loginResult;
+	      public LiveData<Boolean> getResultLiveData() {
+	          return loginResultLiveData;
 	      }
 	  
 	      public void loginUser(String username, String password) {
 	          userModel.loginUser(username, password, isSuccess -> {
-	              loginResult.postValue(isSuccess);
+	              loginResultLiveData.postValue(isSuccess);
 	          });
 	      }
 	  }
@@ -40,7 +40,7 @@
 	  
 	          viewModel.loginUser("name", "password");
 	  
-	          viewModel.getLoginResult().observe(this, isSuccess -> {
+	          viewModel.getResultLiveData().observe(this, isSuccess -> {
 	              if (isSuccess) {
 	                  // 登录成功的UI处理
 	              } else {

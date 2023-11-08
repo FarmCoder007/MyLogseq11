@@ -36,4 +36,9 @@
 		- 流程是native层调用 ioctl(BINDER_WRITE_READ),进入内核层binder_ioctl 根据传入的命令 读写操作
 		- binder_thread_write: 内核写操作
 		- binder_thread_read：内核读操作
--
+- # 卡片-Binder驱动启动流程#card
+  id:: 6507c6f1-7cbe-4db5-bfbc-783bfcfeeaa9
+	- 1、binder_init：创建初始化/dev/binder设备节点
+	- 2、binder_open()：打开binder设备
+	- 3、binder_mmap()：将binder驱动  和  接收端  映射同一块内存
+	- 4、binder_ioctl（）将IPC数据通过[[#blue]]==**参数和BINDER_WRITE_READ读写命令**== 传递给binder驱动
