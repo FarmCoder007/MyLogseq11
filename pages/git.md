@@ -1,4 +1,5 @@
 # 一、常用命令
+collapsed:: true
 	- 1 空目录 初始化git    git init
 	  2 初始化后可以配置用户名和邮箱  
 	     git config --global user.name "name"
@@ -169,3 +170,13 @@
 -
 - # github报错
 	- 1、[Failed to connect to github.com port 443: Connection refused](https://blog.csdn.net/qq_38204686/article/details/123444765)
+	- 2、bad config
+		- 1、删除config
+		- 2、报错 Can't update: no tracked branch
+		- 3、AS里登录github账号
+			- 1、git-clone-
+			  collapsed:: true
+				- ![image.png](../assets/image_1699444648589_0.png)
+			- 2、登录超时可开启，switch host
+		- 4、登录成功可push
+		- 5、同时可pull 选分支
