@@ -230,7 +230,6 @@
 - # 使用Hilt实现依赖项注入
 	- 添加依赖项
 		- 首先，将hilt-android-gradle-plugin插件添加到项目的根级build.gradle文件中：
-		  collapsed:: true
 			- ```
 			  buildscript {
 			     ...
@@ -241,7 +240,6 @@
 			  }
 			  ```
 		- 然后，应用Gradle插件并在app/build.gradle文件中添加以下依赖项：
-		  collapsed:: true
 			- ```
 			  ...
 			  apply plugin: 'kotlin-kapt'
@@ -264,13 +262,11 @@
 	  @Provides等
 	- ## 使用步骤
 		- ### 1.在工程Application添加@HiltAndroidApp注解
-		  collapsed:: true
 			- ```
 			  @HiltAndroidApp
 			  public class ExampleApplication extends Application { ... }
 			  ```
 		- 2.确定哪个类使用依赖注入，添加@AndroidEntryPoint注解。Hilt支持的Android入口类有：Activity、Fragment、View、Service、BroadcastReceiver
-		  collapsed:: true
 		  比如在Activity中注入某个类：
 			- ```
 			  @AndroidEntryPoint
@@ -279,14 +275,12 @@
 	- ## 如何实现注入
 		- ## 注入类
 			- 在组件中获取依赖项，需要使用@Inject注解标记构造函数注入：
-			  collapsed:: true
 				- ```
 				  class AnalyticsAdapter @Inject constructor(
 				   private val service: AnalyticsService
 				  ) { ... }
 				  ```
 		- ## 也可以使用字段注入：
-		  collapsed:: true
 			- ```
 			  @AndroidEntryPoint
 			  public class ExampleActivity extends AppCompatActivity {
@@ -297,9 +291,7 @@
 			  }
 			  ```
 		- ## Hilt模块
-		  collapsed:: true
 			- ​ 对于简单无参的构造函数类，可以直接使用@Inject注解进行注入对象，但对于有参数的类、接口或我们无法修改的第三方类，就需要自定义一个带有@Module注解的类来告知Hilt如何在外部进行初始化该类对象。同时需要对该模块类添加@InstallIn注解，告知Hilt这个模块类应用在哪个Android类中。
-			  collapsed:: true
 				- ```
 				  @Module
 				  @InstallIn(ApplicationComponent::class)
@@ -315,9 +307,7 @@
 				  }
 				  ```
 		- ## 接口注入
-		  collapsed:: true
 			- 接口注入和普通类注入不太相同，接口注入需要将Hilt模块类声明为抽象类，使用Binds注解修饰获取对象的方法。以一个简单的例子：
-			  collapsed:: true
 				- ```
 				  interface Driver {
 				     val name: String
@@ -333,7 +323,6 @@
 				  }
 				  ```
 			- 创建一个抽象类模块，添加@Module和@InstallIn注释，将DriverImp设置到方法参数中，返回值为接口类，使用@Binds注解修饰
-			  collapsed:: true
 				- ```
 				  @Module
 				  @InstallIn(ActivityComponent::class)
@@ -346,9 +335,7 @@
 			  1.函数返回类型会告知Hilt函数提供哪个接口的实例
 			  2.函数参数会告知Hilt要提供哪种实现
 		- ## Provides注入实例
-		  collapsed:: true
 			- 来自外部库，比如Retrofit，必须使用构造器模式创建实例。
-			  collapsed:: true
 				- ```
 				  @Module
 				  @InstallIn(ActivityComponent::class)
@@ -366,10 +353,8 @@
 				  }
 				  ```
 		- ## 为同一类型提供多个绑定
-		  collapsed:: true
 			- 获取同一个接口的不同实例，讲到了使用@Binds注入接口实例，需要多个不同的实例，不能通过设置不同的方法名来注入多个实例。
 			- 1.首先要使用@Qualifier和@Retention注解来自定义注释的限定符，这个限定符用于模块的@Binds、@Provides注解
-			  collapsed:: true
 				- ```
 				  @Qualifier
 				  @Retention(RetentionPolicy.RUNTIME)
@@ -380,7 +365,6 @@
 				  private annotation class OtherInterceptorOkHttpClient
 				  ```
 			- 2.然后，Hilt需要知道如何提供与每个限定符对应的类型的实例。限定符将它们标记为两个不同的绑定
-			  collapsed:: true
 				- ```
 				  @Module
 				  @InstallIn(ApplicationComponent::class)
@@ -404,9 +388,7 @@
 				  ```
 			-
 		- ## Hilt中的预定义限定符
-		  collapsed:: true
 			- Hilt提供了一些预定义的限定符，例如，需要来自应用或Activity的Context类，Hilt提供了@ApplicationContext和@ActivityContext限定符
-			  collapsed:: true
 				- ```
 				  public class AnalyticsAdapter {
 				  
@@ -424,21 +406,15 @@
 				  }
 				  ```
 		- ## 为Android类生成的组件
-		  collapsed:: true
 			- 字段注入的每个 Android 类，都有一个关联的 Hilt 组件，可以在 @InstallIn 注释中引用该组件。每个 Hilt 组件负责将其绑定注入相应的 Android 类。
 				- ![image.png](../assets/image_1684424293708_0.png)
 		- ## 组件生命周期
-		  collapsed:: true
 			- Hilt 会按照相应 Android 类的生命周期自动创建和销毁生成的组件类的实例。
-			  collapsed:: true
 				- ![image.png](../assets/image_1684424312367_0.png)
 		- ## 组件作用域
-		  collapsed:: true
 			- Hilt 允许将绑定的作用域限定为特定组件。Hilt 只为绑定作用域限定到的组件的每个实例创建一次限定作用域的绑定，对该绑定的所有请求共享同一实例。
-			  collapsed:: true
 				- ![image.png](../assets/image_1684424329685_0.png)
 			- Hilt 会在相应 Activity 的整个生命周期内提供 AnalyticsAdapter 的同一实例：
-			  collapsed:: true
 				- ```
 				  @ActivityScoped
 				  class AnalyticsAdapter @Inject constructor(
