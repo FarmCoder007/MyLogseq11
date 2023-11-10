@@ -16,7 +16,7 @@ collapsed:: true
 	- 从上面的表格中可以看到Hilt对于注入对象的作用域支持很多：有常见的全局唯一单例类型的对象，也有和ViewModel声明周期对应的作用域。不同的作用域这样就可解决多对象单例过多占用资源的问题。
 - # 组件及对应的生命周期
 	- Hilt 会按照相应 Android 类的生命周期自动创建和销毁生成的组件类的实例。
-	- |  == Component ==   | ==注入对象==  | ==作用域==  | ==创建于==  |
+	- |  == Component ==   | ==注入对象==  | ==作用域==  | ==创建于==  |==销毁时机==|
 	  |  SingletonComponent  | Application  |@Singleton|Application#onCreate()|
 	  |  ActivityRetainedComponent  | 不适用  |@ActivityRetainedScoped|Activity#onCreate()|
 	  |  ViewModelComponent  | ViewModel  |@ViewModelScoped|ViewModel created| 
