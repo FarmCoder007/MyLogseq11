@@ -84,6 +84,7 @@
 				  }
 				  ```
 			- ### 第三方类的依赖注入
+			  collapsed:: true
 				- 一般我们在项目中，自定义的类可以直接使用@Inject注解直接修饰，如果是外部类无法修改他的源码添加注解，这时候做法和上面的注入带参数构造函数方法一致，也是使用**@Provides注解配合@Module**注解一起使用。以一个注入Retrofit为例：
 				- ```
 				  @Module
@@ -116,7 +117,6 @@
 			  collapsed:: true
 				- 如果现在需要获取同一个接口的不同实例。上面讲到了使用 @Binds 注入接口实例，但是现在需要多个不同的实例，不能通过设置不同的方法名来注入多个实例。
 				- 1、首先要使用**@Qualifier** 和**@Retention**注解来自定义注释的限定符，这个限定符用于模块的@Binds、@Provides注解
-				  collapsed:: true
 					- ```
 					  @Qualifier
 					  @Retention(RetentionPolicy.RUNTIME)
@@ -127,7 +127,6 @@
 					  private annotation class OtherInterceptorOkHttpClient
 					  ```
 				- 2、然后，Hilt需要知道如何提供与每个限定符对应的类型的实例。下面的两个方法具有相同的返回值类型，但是限定符将它们标记为两个不同的绑定。
-				  collapsed:: true
 					- ```
 					  @Module
 					  @InstallIn(ApplicationComponent::class)
@@ -150,7 +149,6 @@
 					  }
 					  ```
 				- 3、在使用时也需要使用自定义的限定符来标记不同的实例
-				  collapsed:: true
 					- ```
 					  @AndroidEntryPoint
 					  class ExampleActivity : AppCompatActivity() {
@@ -162,7 +160,6 @@
 					  }
 					  ```
 			- ### 注入类的生命周期和作用域
-			  collapsed:: true
 				- 组件的生命周期限制了组件创建和销毁之间的作用域，其次生命周期指示何时可以使用成员注入的值。
 				- 组件生命周期通常受限于 Android 类的相应实例的创建和销毁。下表列出了每个组件的范围注释和有界生命周期。
 				- |  == Component ==   | ==注入对象==  | ==作用域==  | ==创建于==  |
