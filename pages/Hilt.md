@@ -32,6 +32,7 @@
 				  }
 				  ```
 			- Hilt支持的依赖注入注解有： @HiltAndroidApp、 @AndroidEntryPoint 、@Module、@InstallIn 、@Provides以及Java Inject包中的几个注解：Inject、Qualifier、Scope、Singleton
+		- ## 2、[[Hilt基本使用]]
 		- ## 3. 进阶使用
 			- ### Hilt模块
 				- 对于简单无参的构造函数类，可以直接使用@Inject注解进行注入对象，但对于有参数的类、接口或我们无法修改的第三方类，就需要自定义一个带有@Module注解的类来告知Hilt如何在外部进行初始化该类对象。同时需要对该模块类添加@InstallIn注解，告知Hilt这个模块类应用在哪个Android类中。
@@ -45,7 +46,6 @@
 				  }
 				  ```
 			- ### 带参数的对象注入
-			  collapsed:: true
 				- 一般类总会有带参数的构造函数，或者初始化类对象后需要再次设置一些成员变量。这时候我们就需要使用**@Provides**注解来告知Hilt如何构造当前类对象。
 				- ```
 				  //注入类，构造函数配合provides注解的话，不用添加@Inject注解
