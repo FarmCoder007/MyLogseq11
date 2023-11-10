@@ -20,6 +20,7 @@ collapsed:: true
 		- - Hilt 仅支持扩展 `androidx.Fragment` 的 Fragment。
 		- - Hilt 不支持保留的 fragment。
 	- ## 使用
+	  collapsed:: true
 		- 确定哪个类使用依赖注入，添加@AndroidEntryPoint注解
 		- 比如在Activity中注入AnalyticsAdapter类：
 			- 1、@AndroidEntryPoint 注解标记要注入的类2、@Inject标记字段注入
@@ -41,8 +42,8 @@ collapsed:: true
 					  ) { ... }
 					  ```
 - ## 3、注意
+  collapsed:: true
 	- 由 Hilt 注入的字段不能为私有字段。正确示例
-	  collapsed:: true
 		- ```kotlin
 		  @AndroidEntryPoint
 		  class ExampleActivity : AppCompatActivity() {
@@ -51,3 +52,4 @@ collapsed:: true
 		    ...
 		  }
 		  ```
+- ## 4、其他注入方式
