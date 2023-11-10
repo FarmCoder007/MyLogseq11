@@ -98,22 +98,25 @@ collapsed:: true
 			- - 函数返回类型会告知 Hilt 函数提供哪个类型的实例。``
 			- - 函数参数会告知 Hilt 相应类型的依赖项。
 			- - 函数主体会告知 Hilt 如何提供相应类型的实例。每当需要提供该类型的实例时，Hilt 都会执行函数主体。
-		- ```kotlin
-		  @Module
-		  @InstallIn(ActivityComponent::class)
-		  object AnalyticsModule {
-		  
-		    // 1、声明注入的类型：AnalyticsService
-		    // 2、函数体 具体创建实例的方式
-		    // 3、函数参数：可传入 构建实例时需要的依赖项/参数
-		    @Provides
-		    fun provideAnalyticsService(
-		      // 此类型的潜在依赖项，通过入参传入
-		    ): AnalyticsService {
-		        return Retrofit.Builder()
-		                 .baseUrl("https://example.com")
-		                 .build()
-		                 .create(AnalyticsService::class.java)
-		    }
-		  }
-		  ```
+		- ### 1、单一创建实例的方式
+		  collapsed:: true
+			- ```kotlin
+			  @Module
+			  @InstallIn(ActivityComponent::class)
+			  object AnalyticsModule {
+			  
+			    // 1、声明注入的类型：AnalyticsService
+			    // 2、函数体 具体创建实例的方式
+			    // 3、函数参数：可传入 构建实例时需要的依赖项/参数
+			    @Provides
+			    fun provideAnalyticsService(
+			      // 此类型的潜在依赖项，通过入参传入
+			    ): AnalyticsService {
+			        return Retrofit.Builder()
+			                 .baseUrl("https://example.com")
+			                 .build()
+			                 .create(AnalyticsService::class.java)
+			    }
+			  }
+			  ```
+		- ### 2、自定义注解
