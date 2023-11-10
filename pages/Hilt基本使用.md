@@ -105,7 +105,7 @@ collapsed:: true
 		  
 		    @Provides
 		    fun provideAnalyticsService(
-		      // Potential dependencies of this type
+		      // 此类型的潜在依赖项，通过入参传入
 		    ): AnalyticsService {
 		        return Retrofit.Builder()
 		                 .baseUrl("https://example.com")
