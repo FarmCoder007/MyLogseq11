@@ -100,7 +100,7 @@ collapsed:: true
 			- - 函数参数会告知 Hilt 相应类型的依赖项。
 			- - 函数主体会告知 Hilt 如何提供相应类型的实例。每当需要提供该类型的实例时，Hilt 都会执行函数主体。
 		- ### 1、单一创建实例的方式
-		  collapsed:: true
+			-
 			- ```kotlin
 			  @Module
 			  @InstallIn(ActivityComponent::class)
