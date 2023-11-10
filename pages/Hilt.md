@@ -5,6 +5,7 @@
 	- 为什么不直接去优化改进 Dagger，而要基于它做一个新库呢？因为 Hilt 做的事其实也并不是对 Dagger 进行优化，而是场景化：针对 Android 开发制定了一系列的规则，通过这些规则大大简化了这套工具的使用。比如Hilt 会自动找到 Android 的系统组件里面那些最佳的初始化位置——比如 Activity 的 onCreate() ——然后在这些位置注入依赖。而Dagger使用很繁琐且复杂。
 	- 现在回到上文中的问题，如何依赖注入？
 		- ## 1. 添加依赖
+		  collapsed:: true
 			- 在项目的根目录的build.gradle添加
 				- ```
 				  buildscript {
