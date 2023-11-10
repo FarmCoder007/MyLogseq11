@@ -28,21 +28,8 @@ collapsed:: true
 				  ```
 			- 3、定义注入类AnalyticsAdapter注入方式
 				- 为了执行字段注入，Hilt需要知道如何从组件中获得注入对象。这里以最简单的构造函数注入方式为例，需要在类的==**构造函数中添加@Inject注解**==：
-					-
-- 2、。Hilt支持的Android 入口类有：
-- ## 2. 基本使用
-	- 4、定义注入类注入方式
-		-
-			- ```
-			  class User{
-			    private String name;
-			    private int age;
-			    
-			    @Inject
-			    public User(){
-			      this.name = "Tom";
-			      this.age = 18;
-			    }
-			  }
-			  ```
-	- 按照以上步骤就可以实现Hilt简单的依赖注入了。我们在实际的使用中也不仅仅是这么简单的情况，下面介绍一下其他情况如何进行注入。
+					- ```kotlin
+					  class AnalyticsAdapter @Inject constructor(
+					    private val service: AnalyticsService
+					  ) { ... }
+					  ```
