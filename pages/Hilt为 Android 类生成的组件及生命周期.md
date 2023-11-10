@@ -21,10 +21,10 @@ collapsed:: true
 	  |  ActivityRetainedComponent  | 不适用  |@ActivityRetainedScoped|Activity#onCreate()|Activity#onDestroy()|
 	  |  ViewModelComponent  | ViewModel  |@ViewModelScoped|ViewModel created| `ViewModel` 已销毁|
 	  |  ActivityComponent  | Activity  |@ActivityScoped|Activity#onCreate()|Activity#onDestroy()|
-	  |  FragmentComponent  | Fragment  |@FragmentScoped|Fragment#onAttach()|
-	  |  ViewComponent  | View  |@ViewScoped|View#super()|
-	  |  ViewWithFragmentComponent  | View with @WithFragmentBindings  |@ViewScoped|View#super()|
-	  |  ServiceComponent  | Service  |@ServiceScoped|Service#onCreate()|
+	  |  FragmentComponent  | Fragment  |@FragmentScoped|Fragment#onAttach()|Fragment#onDestroy()|
+	  |  ViewComponent  | View  |@ViewScoped|View#super()|`View` 已销毁|
+	  |  ViewWithFragmentComponent  | View with @WithFragmentBindings  |@ViewScoped|View#super()|`View` 已销毁|
+	  |  ServiceComponent  | Service  |@ServiceScoped|Service#onCreate()|Service#onDestroy()|
 - # 注
 	- 1、Hilt 不会为广播接收器生成组件，因为 Hilt 直接从 `SingletonComponent` 注入广播接收器
 	- 2、`ActivityRetainedComponent` 在配置更改后仍然存在，因此它在第一次调用 `Activity#onCreate()` 时创建，在最后一次调用 `Activity#onDestroy()` 时销毁。
