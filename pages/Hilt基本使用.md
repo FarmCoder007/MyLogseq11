@@ -66,7 +66,10 @@ collapsed:: true
 				- 无法通过注入构造函数方式，接口没有构造函数，
 				- 1、@Module标记AnalyticsModule，作用：通过此模块提供注入方式
 				- 2、@InstallIn(ActivityComponent::class) 作用：该模块应用到 ExampleActivity 上对应组件就是ActivityComponent
-				- 3、Hilt 模块内创建一个带有 `@Binds` 注解的抽象函数 - 来注入接口实例
+				- 3、Hilt 模块内创建一个带有 `@Binds` 注解的抽象函数 - 来注入接口实例    `@Binds` 注解会告知 Hilt 在需要提供接口的实例时要使用哪种实现
+					- 带有注解的函数会向 Hilt 提供以下信息：
+					- 函数返回类型会告知 Hilt 该函数提供哪个接口的实例。
+					- 函数参数会告知 Hilt 要提供哪种实现
 			- 1、
 			- ```kotlin
 			  // 将该接口注入到
