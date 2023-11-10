@@ -31,8 +31,9 @@ collapsed:: true
 				  }
 				  ```
 			- 3、定义注入类AnalyticsAdapter注入方式
-				- 1、简单的构造函数
-				- 为了执行字段注入，Hilt需要知道如何从组件中获得注入对象。这里以最简单的构造函数注入方式为例，需要在类的==**构造函数中添加@Inject注解**==：
+				- 1、简单的构造函数注入
+				  collapsed:: true
+					- 为了执行字段注入，Hilt需要知道如何从组件中获得注入对象。这里以最简单的构造函数注入方式为例，需要在类的==**构造函数中添加@Inject注解**==：
 					- ```kotlin
 					  class AnalyticsAdapter @Inject constructor(
 					    private val service: AnalyticsService
