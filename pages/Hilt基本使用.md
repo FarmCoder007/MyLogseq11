@@ -17,7 +17,8 @@ collapsed:: true
 	- ## 使用
 		- 确定哪个类使用依赖注入，添加@AndroidEntryPoint注解
 		- 比如在Activity中注入AnalyticsAdapter类：
-			- 1、@AndroidEntryPoint 注解标记
+			- 1、@AndroidEntryPoint 注解标记要注入的类
+			- 2、@Inject标记字段注入
 			- ```kotlin
 			  @AndroidEntryPoint
 			  class ExampleActivity : AppCompatActivity() {
