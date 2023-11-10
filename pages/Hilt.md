@@ -32,7 +32,7 @@
 				  }
 				  ```
 			- Hilt支持的依赖注入注解有： @HiltAndroidApp、 @AndroidEntryPoint 、@Module、@InstallIn 、@Provides以及Java Inject包中的几个注解：Inject、Qualifier、Scope、Singleton
-		- ## 2. 使用步骤
+		- ## 2. 基本使用
 			- 1、在工程Application添加@HiltAndroidApp注解
 				- ```
 				  @HiltAndroidApp
