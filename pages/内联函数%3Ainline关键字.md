@@ -28,4 +28,5 @@
 		  
 		  ```
 		- `reified T` 允许在 `exampleFunction` 内部使用 `T::class.java` 来获取泛型参数 `T` 的实际类型，而不会在运行时丢失类型信息。
-	-
+	- ### 原理
+		-
