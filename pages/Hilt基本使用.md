@@ -26,22 +26,13 @@ collapsed:: true
 				    ...
 				  }
 				  ```
-			- 3、
+			- 3、定义注入类AnalyticsAdapter注入方式
+				- 为了执行字段注入，Hilt需要知道如何从组件中获得注入对象。这里以最简单的构造函数注入方式为例，需要在类的==**构造函数中添加@Inject注解**==：
+					-
 - 2、。Hilt支持的Android 入口类有：
 - ## 2. 基本使用
-	- 3、注入类
-		- 在组件中获取依赖项，需要使用@Inject注解标记字段注入，以上面的例子为例，在Activity中注入一个User对象，应该如下：
-		- ```
-		  @AndroidEntryPoint
-		  public class ExampleActivity extends AppCompatActivity {
-		  
-		    @Inject
-		    User currentUser;
-		    ...
-		  }
-		  ```
 	- 4、定义注入类注入方式
-		- 为了执行字段注入，Hilt需要知道如何从组件中获得注入对象。这里以最简单的构造函数注入方式为例，需要在类的构造函数中添加@Inject注解：
+		-
 			- ```
 			  class User{
 			    private String name;
