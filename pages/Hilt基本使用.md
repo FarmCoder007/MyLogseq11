@@ -53,6 +53,7 @@ collapsed:: true
 		  }
 		  ```
 - # 4、除构造函数注入方式外-Hilt模块
+  collapsed:: true
 	- ## 无法使用构造函数注入的场景
 		- 1、接口没有构造函数，不能通过构造函数注入接口
 		- 2、不能使用构造函数注入三方库的类，不属于你的类
@@ -194,3 +195,5 @@ collapsed:: true
 				    @Inject lateinit var okHttpClient: OkHttpClient
 				  }
 				  ```
+- # 5、Hilt 中的预定义限定符
+	-
