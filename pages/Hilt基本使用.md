@@ -17,17 +17,16 @@ collapsed:: true
 	- ## 使用
 		- 确定哪个类使用依赖注入，添加@AndroidEntryPoint注解
 		- 比如在Activity中注入AnalyticsAdapter类：
-			- 1、@AndroidEntryPoint 注解标记要注入的类
-			- 2、@Inject标记字段注入
-			- ```kotlin
-			  @AndroidEntryPoint
-			  class ExampleActivity : AppCompatActivity() {
-			  
-			    @Inject lateinit var analytics: AnalyticsAdapter
-			    ...
-			  }
-			  ```
-		-
+			- 1、@AndroidEntryPoint 注解标记要注入的类2、@Inject标记字段注入
+				- ```kotlin
+				  @AndroidEntryPoint
+				  class ExampleActivity : AppCompatActivity() {
+				  
+				    @Inject lateinit var analytics: AnalyticsAdapter
+				    ...
+				  }
+				  ```
+			- 3、
 - 2、。Hilt支持的Android 入口类有：
 - ## 2. 基本使用
 	- 3、注入类
