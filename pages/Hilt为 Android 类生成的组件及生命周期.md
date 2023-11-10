@@ -14,7 +14,8 @@ collapsed:: true
 		  ```
 	- 有ActivityScoped注解修饰的对象，在同一个Activity中的实例是唯一的，不同的Activity还是会创建新的对象。
 	- 从上面的表格中可以看到Hilt对于注入对象的作用域支持很多：有常见的全局唯一单例类型的对象，也有和ViewModel声明周期对应的作用域。不同的作用域这样就可解决多对象单例过多占用资源的问题。
-- # 组件
+- # 组件及对应的生命周期
+	- Hilt 会按照相应 Android 类的生命周期自动创建和销毁生成的组件类的实例。
 	- |  == Component ==   | ==注入对象==  | ==作用域==  | ==创建于==  |
 	  |  SingletonComponent  | Application  |@Singleton|Application#onCreate()|
 	  |  ActivityRetainedComponent  | 不适用  |@ActivityRetainedScoped|Activity#onCreate()|
@@ -24,4 +25,6 @@ collapsed:: true
 	  |  ViewComponent  | View  |@ViewScoped|View#super()|
 	  |  ViewWithFragmentComponent  | View with @WithFragmentBindings  |@ViewScoped|View#super()|
 	  |  ServiceComponent  | Service  |@ServiceScoped|Service#onCreate()|
--
+- # 注
+	- 1、Hilt 不会为广播接收器生成组件，因为 Hilt 直接从 `SingletonComponent` 注入广播接收器
+	- 2、`ActivityRetainedComponent` 在配置更改后仍然存在，因此它在第一次调用 `Activity#onCreate()` 时创建，在最后一次调用 `Activity#onDestroy()` 时销毁。
