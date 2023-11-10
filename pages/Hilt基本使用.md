@@ -95,6 +95,22 @@ collapsed:: true
 			  ```
 	- ## 4-2、使用 @Provides 注入外部三方库实例
 		- 如果 `AnalyticsService` 类不直接归您所有，您可以告知 Hilt 如何提供此类型的实例，方法是在 Hilt 模块内创建一个函数，并使用 `@Provides` 为该函数添加注解
-		- - 函数返回类型会告知 Hilt 函数提供哪个类型的实例。
-		  、- 函数参数会告知 Hilt 相应类型的依赖项。
-		  - 函数主体会告知 Hilt 如何提供相应类型的实例。每当需要提供该类型的实例时，Hilt 都会执行函数主体。
+			- - 函数返回类型会告知 Hilt 函数提供哪个类型的实例。``
+			- - 函数参数会告知 Hilt 相应类型的依赖项。
+			- - 函数主体会告知 Hilt 如何提供相应类型的实例。每当需要提供该类型的实例时，Hilt 都会执行函数主体。
+		- ```kotlin
+		  @Module
+		  @InstallIn(ActivityComponent::class)
+		  object AnalyticsModule {
+		  
+		    @Provides
+		    fun provideAnalyticsService(
+		      // Potential dependencies of this type
+		    ): AnalyticsService {
+		        return Retrofit.Builder()
+		                 .baseUrl("https://example.com")
+		                 .build()
+		                 .create(AnalyticsService::class.java)
+		    }
+		  }
+		  ```
