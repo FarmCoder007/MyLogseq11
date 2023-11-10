@@ -100,26 +100,46 @@ collapsed:: true
 			- - 函数参数会告知 Hilt 相应类型的依赖项。
 			- - 函数主体会告知 Hilt 如何提供相应类型的实例。每当需要提供该类型的实例时，Hilt 都会执行函数主体。
 		- ### 1、单一创建实例的方式
-			-
-			- ```kotlin
-			  @Module
-			  @InstallIn(ActivityComponent::class)
-			  object AnalyticsModule {
-			  
-			    // 1、声明注入的类型：AnalyticsService
-			    // 2、函数体 具体创建实例的方式
-			    // 3、函数参数：可传入 构建实例时需要的依赖项/参数
-			    @Provides
-			    fun provideAnalyticsService(
-			      // 此类型的潜在依赖项，通过入参传入
-			    ): AnalyticsService {
-			        return Retrofit.Builder()
-			                 .baseUrl("https://example.com")
-			                 .build()
-			                 .create(AnalyticsService::class.java)
-			    }
-			  }
-			  ```
+			- 示例1
+			  collapsed:: true
+				- ```kotlin
+				  @Module
+				  @InstallIn(ActivityComponent::class)
+				  object AnalyticsModule {
+				  
+				    // 1、声明注入的类型：AnalyticsService
+				    // 2、函数体 具体创建实例的方式
+				    // 3、函数参数：可传入 构建实例时需要的依赖项/参数
+				    @Provides
+				    fun provideAnalyticsService(
+				      // 此类型的潜在依赖项，通过入参传入
+				    ): AnalyticsService {
+				        return Retrofit.Builder()
+				                 .baseUrl("https://example.com")
+				                 .build()
+				                 .create(AnalyticsService::class.java)
+				    }
+				  }
+				  ```
+			- 示例2:构造函数配合provides注解的话，不用添加@Inject注解
+				- ```kotlin
+				  //注入类，构造函数配合provides注解的话，不用添加@Inject注解
+				  class OldDriver constructor(val name:String) {
+				  
+				  }
+				  -----
+				  
+				  @Module
+				  @InstallIn(ActivityComponent::class)
+				  class ProvideModule {
+				  
+				    	//使用Provides注解来初始化OldDriver类
+				      @Provides
+				      fun getDriver(): OldDriver {
+				          return OldDriver("Tony")
+				      }
+				  }
+				  ```
 		- ### 2、自定义注解标记[[#red]]==**多个创建实例的方式**==
 			- 背景
 				- 需要让 Hilt 以依赖项的形式提供同一类型的不同实现，必须向 Hilt 提供多个绑定
