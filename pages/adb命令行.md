@@ -6,4 +6,6 @@
 - 3、[adb logcat 命令](https://blog.csdn.net/zhaohuih/article/details/106905219)
 -
 - 4、
--
+- # mac zsh下配置adb
+	- 1、**添加路径到 PATH 环境变量**：
+		-
