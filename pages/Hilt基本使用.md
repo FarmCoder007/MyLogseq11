@@ -60,6 +60,7 @@ collapsed:: true
 		- 1、 `@Module` 注解标记模块类，它会告知 Hilt 如何提供某些类型的实例
 		- 2、使用 `@InstallIn` 为 Hilt 模块添加注解，以告知 Hilt 每个模块将用在或安装在哪个 Android 类中
 		- ##  4-1-1使用 @Binds 注入接口实例
+		  collapsed:: true
 			- 需求：
 				- 将AnalyticsService接口注入到ExampleActivity类中
 			- 实现：
@@ -77,7 +78,7 @@ collapsed:: true
 				    fun analyticsMethods()
 				  }
 				  
-				  // 
+				  // 构造函数被注入，因为Hilt需要知道如何 提供AnalyticsServiceImpl的实例
 				  class AnalyticsServiceImpl @Inject constructor(
 				    ...
 				  ) : AnalyticsService { ... }
@@ -92,3 +93,4 @@ collapsed:: true
 				    ): AnalyticsService
 				  }
 				  ```
+		- ##
