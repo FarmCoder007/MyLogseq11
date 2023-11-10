@@ -63,7 +63,8 @@ collapsed:: true
 			- 需求：
 				- 将AnalyticsService接口注入到ExampleActivity类中
 			- 实现：
-				- 无法通过注入
+				- 无法通过注入构造函数方式，接口没有构造函数，
+				- 1、@Module
 			- 1、
 			- ```kotlin
 			  // 将该接口注入到
