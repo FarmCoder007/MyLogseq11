@@ -133,4 +133,6 @@ collapsed:: true
 				  annotation class OtherInterceptorOkHttpClient
 				  ```
 			- ### 步骤2、带有 `@Provides` 的 Hilt 模块中声明不同的返回类型
+				- ```kotlin
+				  ```
 			- ### 步骤3、注入类中也通过自定义注解，使用对应类型
