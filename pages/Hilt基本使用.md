@@ -132,4 +132,5 @@ collapsed:: true
 				  @Retention(AnnotationRetention.BINARY)
 				  annotation class OtherInterceptorOkHttpClient
 				  ```
-			- ### 2-2、
+			- ### 2-2、带有 `@Provides` 的 Hilt 模块中声明不同的返回类型
+			- ### 2-3、注入类中也通过自定义注解，使用对应类型
