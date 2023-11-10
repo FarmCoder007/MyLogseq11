@@ -12,7 +12,8 @@
 			- ```
 			  open -e .zshrc
 			  ```
-		- 2、确保 Android SDK 的 `platform-tools` 目录被添加到 PATH 中。例如：
+		- 2、确保 Android SDK 的 `platform-tools` 目录被添加到 PATH 中。例如：注意/path/to/android-sdk/platform-tools替换成自己android-sdk的路径
 			- ```
 			  export PATH="$PATH:/path/to/android-sdk/platform-tools"
 			  ```
+		- 3、重启source ~/.zshrc
