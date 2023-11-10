@@ -17,10 +17,10 @@ collapsed:: true
 - # 组件及对应的生命周期
 	- Hilt 会按照相应 Android 类的生命周期自动创建和销毁生成的组件类的实例。
 	- |  == Component ==   | ==注入对象==  | ==作用域==  | ==创建于==  |==销毁时机==|
-	  |  SingletonComponent  | Application  |@Singleton|Application#onCreate()|
-	  |  ActivityRetainedComponent  | 不适用  |@ActivityRetainedScoped|Activity#onCreate()|
-	  |  ViewModelComponent  | ViewModel  |@ViewModelScoped|ViewModel created| 
-	  |  ActivityComponent  | Activity  |@ActivityScoped|Activity#onCreate()|
+	  |  SingletonComponent  | Application  |@Singleton|Application#onCreate()|`Application` 已销毁|
+	  |  ActivityRetainedComponent  | 不适用  |@ActivityRetainedScoped|Activity#onCreate()|Activity#onDestroy()|
+	  |  ViewModelComponent  | ViewModel  |@ViewModelScoped|ViewModel created| `ViewModel` 已销毁|
+	  |  ActivityComponent  | Activity  |@ActivityScoped|Activity#onCreate()|Activity#onDestroy()|
 	  |  FragmentComponent  | Fragment  |@FragmentScoped|Fragment#onAttach()|
 	  |  ViewComponent  | View  |@ViewScoped|View#super()|
 	  |  ViewWithFragmentComponent  | View with @WithFragmentBindings  |@ViewScoped|View#super()|
