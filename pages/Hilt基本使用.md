@@ -59,15 +59,14 @@ collapsed:: true
 		- 3、初始化类对象后需要[[#red]]==**再次设置一些成员变量**==
 	- ## 使用 Hilt 模块向 Hilt 提供绑定信息
 		- 1、 `@Module` 注解标记模块类，它会告知 Hilt 如何提供某些类型的实例
-		- 2、使用 `@InstallIn` 为 Hilt 模块添加注解，以告知 Hilt 每个模块将用在或安装在哪个 Android组件中
+		- 2、使用 `@InstallIn` 为 Hilt 模块添加注解，以告知 Hilt 每个模块将用在或安装在哪个 Android组件中，具体对应关系见[[Hilt为 Android 类生成的组件及生命周期]]
 	- ##  4-1、使用 @Binds 注入接口实例
-	  collapsed:: true
 		- 需求：
 			- 将AnalyticsService接口注入到ExampleActivity类中
 		- 实现：
 			- 无法通过注入构造函数方式，接口没有构造函数，
 			- 1、@Module标记AnalyticsModule，作用：通过此模块提供注入方式
-			- 2、@InstallIn(ActivityComponent::class) 作用：该模块应用到 ExampleActivity 上对应组件就是ActivityComponent
+			- 2、@InstallIn(ActivityComponent::class) 作用：该模块应用到 ExampleActivity 上对应组件就是ActivityComponent，具体对应关系见[[Hilt为 Android 类生成的组件及生命周期]]
 			- 3、Hilt 模块内创建一个带有 `@Binds` 注解的抽象函数 - 来注入接口实例    `@Binds` 注解会告知 Hilt 在需要提供接口的实例时要使用哪种实现
 				- 带有注解的函数会向 Hilt 提供以下信息：
 				- 函数返回类型会告知 Hilt 该函数提供哪个接口的实例。
