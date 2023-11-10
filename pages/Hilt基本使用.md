@@ -9,15 +9,12 @@ collapsed:: true
 		  ```
 - ## 2、依赖项注入Android类
 	- ## 支持的类
-		- - `Application`（通过使用 `@HiltAndroidApp`）
-		- - `ViewModel`（通过使用 `@HiltViewModel`）
-		- - `Activity`
-		- - `Fragment`
-		- - `View`
-		- - `Service`
-		- - `BroadcastReceiver`
-		- Activity、Fragment、View、Service、BroadcastReceiver(通过使用AndroidEntryPoint)
+	  collapsed:: true
+		- Application（通过使用 `@HiltAndroidApp`）
+		- ViewModel（通过使用 `@HiltViewModel`）
+		- Activity、Fragment、View、Service、BroadcastReceiver (通过使用@AndroidEntryPoint)
 	- ## 不支持的类
+	  collapsed:: true
 		- - Hilt 仅支持扩展 [`ComponentActivity`](https://developer.android.com/reference/kotlin/androidx/activity/ComponentActivity?hl=zh-cn) 的 activity，如 [`AppCompatActivity`](https://developer.android.com/reference/kotlin/androidx/appcompat/app/AppCompatActivity?hl=zh-cn)。
 		- - Hilt 仅支持扩展 `androidx.Fragment` 的 Fragment。
 		- - Hilt 不支持保留的 fragment。
@@ -34,6 +31,7 @@ collapsed:: true
 				  }
 				  ```
 			- 3、定义注入类AnalyticsAdapter注入方式
+				- 1、简单的构造函数
 				- 为了执行字段注入，Hilt需要知道如何从组件中获得注入对象。这里以最简单的构造函数注入方式为例，需要在类的==**构造函数中添加@Inject注解**==：
 					- ```kotlin
 					  class AnalyticsAdapter @Inject constructor(
