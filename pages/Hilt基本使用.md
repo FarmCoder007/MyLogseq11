@@ -8,7 +8,6 @@ collapsed:: true
 		  class ExampleApplication : Application() { ... }
 		  ```
 - ## 2、依赖项注入Android类
-  collapsed:: true
 	- ## 支持的类
 	  collapsed:: true
 		- Application（通过使用 `@HiltAndroidApp`）
