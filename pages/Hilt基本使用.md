@@ -122,7 +122,7 @@ collapsed:: true
 		- ### 2、自定义注解标记[[#red]]==**多个创建实例的方式**==
 			- 背景
 				- 需要让 Hilt 以依赖项的形式提供同一类型的不同实现，必须向 Hilt 提供多个绑定
-			- ### 2-1、@Qualifier声明`不同实现方式`的注解
+			- ### 步骤1、@Qualifier声明`不同实现方式`的注解
 				- ```kotlin
 				  @Qualifier
 				  @Retention(AnnotationRetention.BINARY)
@@ -132,5 +132,5 @@ collapsed:: true
 				  @Retention(AnnotationRetention.BINARY)
 				  annotation class OtherInterceptorOkHttpClient
 				  ```
-			- ### 2-2、带有 `@Provides` 的 Hilt 模块中声明不同的返回类型
-			- ### 2-3、注入类中也通过自定义注解，使用对应类型
+			- ### 步骤2、带有 `@Provides` 的 Hilt 模块中声明不同的返回类型
+			- ### 步骤3、注入类中也通过自定义注解，使用对应类型
