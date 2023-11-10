@@ -196,4 +196,8 @@ collapsed:: true
 				  }
 				  ```
 - # 5、Hilt 中的预定义限定符
-	-
+	- 获取context
+		- `@ApplicationContext` 和 `@ActivityContext` 限定符
+		- 示例
+			- 本例中的 `AnalyticsAdapter` 类需要 activity 的上下文。以下代码演示了如何向 `AnalyticsAdapter` 提供 activity 上下文：
+				-
