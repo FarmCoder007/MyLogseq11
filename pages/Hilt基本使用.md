@@ -65,7 +65,7 @@ collapsed:: true
 			- 实现：
 				- 无法通过注入构造函数方式，接口没有构造函数，
 				- 1、@Module标记AnalyticsModule，作用：通过此模块提供注入方式
-				- 2、
+				- 2、@InstallIn(ActivityComponent::class) 作用：该模块应用到
 			- 1、
 			- ```kotlin
 			  // 将该接口注入到
