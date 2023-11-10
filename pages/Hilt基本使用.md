@@ -119,8 +119,17 @@ collapsed:: true
 			    }
 			  }
 			  ```
-		- ### 2、自定义注解标记多个创建实例的方式
+		- ### 2、自定义注解标记[[#red]]==**多个创建实例的方式**==
 			- 背景
 				- 需要让 Hilt 以依赖项的形式提供同一类型的不同实现，必须向 Hilt 提供多个绑定
-			- ### @Qualifier声明`不同实现方式`的注解
-				-
+			- ### 2-1、@Qualifier声明`不同实现方式`的注解
+				- ```kotlin
+				  @Qualifier
+				  @Retention(AnnotationRetention.BINARY)
+				  annotation class AuthInterceptorOkHttpClient
+				  
+				  @Qualifier
+				  @Retention(AnnotationRetention.BINARY)
+				  annotation class OtherInterceptorOkHttpClient
+				  ```
+			- ### 2-2、
