@@ -9,11 +9,14 @@
 - ## 三、使用场景：
 	- 内联函数  适合 传入参数类型  是函数类型的参数
 - ## 四、reified关键字
-	- `reified` 主要用于内联函数（inline functions）中，以在运行时保留泛型类型信息。不加的话，正常泛型信息运行时会被擦除。
-	- 举例：
+	- ### 作用
+		- `reified` 主要用于内联函数（inline functions）中，以在运行时保留泛型类型信息。不加的话，正常泛型信息运行时会被擦除。
+	- ### 举例：
+	  collapsed:: true
 		- 典型的例子是在使用泛型函数中获取泛型类型的实际类。例如，以下是一个使用 `reified` 的例子：
 		- ```kotlin
 		  inline fun <reified T> exampleFunction(value: T) {
+		      // 这里运行时可以拿到泛型的具体类型，
 		      val type = T::class.java
 		      println("The actual type is: $type")
 		  }
@@ -24,4 +27,5 @@
 		  }
 		  
 		  ```
-		-
+		- `reified T` 允许在 `exampleFunction` 内部使用 `T::class.java` 来获取泛型参数 `T` 的实际类型，而不会在运行时丢失类型信息。
+	-
