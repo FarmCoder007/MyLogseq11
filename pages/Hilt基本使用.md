@@ -70,26 +70,25 @@ collapsed:: true
 					- 带有注解的函数会向 Hilt 提供以下信息：
 					- 函数返回类型会告知 Hilt 该函数提供哪个接口的实例。
 					- 函数参数会告知 Hilt 要提供哪种实现
-			- 1、
-			- ```kotlin
-			  // 将该接口注入到
-			  interface AnalyticsService {
-			    fun analyticsMethods()
-			  }
-			  
-			  // Constructor-injected, because Hilt needs to know how to
-			  // provide instances of AnalyticsServiceImpl, too.
-			  class AnalyticsServiceImpl @Inject constructor(
-			    ...
-			  ) : AnalyticsService { ... }
-			  
-			  @Module
-			  @InstallIn(ActivityComponent::class)
-			  abstract class AnalyticsModule {
-			  
-			    @Binds
-			    abstract fun bindAnalyticsService(
-			      analyticsServiceImpl: AnalyticsServiceImpl
-			    ): AnalyticsService
-			  }
-			  ```
+			- 代码示例
+				- ```kotlin
+				  // 将该接口注入到
+				  interface AnalyticsService {
+				    fun analyticsMethods()
+				  }
+				  
+				  // 
+				  class AnalyticsServiceImpl @Inject constructor(
+				    ...
+				  ) : AnalyticsService { ... }
+				  
+				  @Module
+				  @InstallIn(ActivityComponent::class)
+				  abstract class AnalyticsModule {
+				  
+				    @Binds
+				    abstract fun bindAnalyticsService(
+				      analyticsServiceImpl: AnalyticsServiceImpl
+				    ): AnalyticsService
+				  }
+				  ```
