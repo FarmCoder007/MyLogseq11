@@ -103,6 +103,9 @@ collapsed:: true
 		  @InstallIn(ActivityComponent::class)
 		  object AnalyticsModule {
 		  
+		    // 1、声明注入的类型：AnalyticsService
+		    // 2、函数体 具体创建实例的方式
+		    // 3、函数参数：可传入 构建实例时需要的依赖项/参数
 		    @Provides
 		    fun provideAnalyticsService(
 		      // 此类型的潜在依赖项，通过入参传入
