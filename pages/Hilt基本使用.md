@@ -132,7 +132,35 @@ collapsed:: true
 				  @Retention(AnnotationRetention.BINARY)
 				  annotation class OtherInterceptorOkHttpClient
 				  ```
-			- ### 步骤2、带有 `@Provides` 的 Hilt 模块中声明不同的返回类型
+			- ### 步骤2、自定义注解在带有 `@Provides` 的 Hilt 模块中声明不同的返回方式
+			  collapsed:: true
 				- ```kotlin
+				  @Module
+				  @InstallIn(SingletonComponent::class)
+				  object NetworkModule {
+				  
+				    // AuthInterceptorOkHttpClient注解标记提供方式1
+				    @AuthInterceptorOkHttpClient
+				    @Provides
+				    fun provideAuthInterceptorOkHttpClient(
+				      authInterceptor: AuthInterceptor
+				    ): OkHttpClient {
+				        return OkHttpClient.Builder()
+				                 .addInterceptor(authInterceptor)
+				                 .build()
+				    }
+				  
+				    // AuthInterceptorOkHttpClient注解 标记提供方式2
+				    @OtherInterceptorOkHttpClient
+				    @Provides
+				    fun provideOtherInterceptorOkHttpClient(
+				      otherInterceptor: OtherInterceptor
+				    ): OkHttpClient {
+				        return OkHttpClient.Builder()
+				                 .addInterceptor(otherInterceptor)
+				                 .build()
+				    }
+				  }
 				  ```
 			- ### 步骤3、注入类中也通过自定义注解，使用对应类型
+				-
