@@ -164,7 +164,7 @@ collapsed:: true
 				  ```
 			- ### 步骤3、注入类中字段或者参数 也通过自定义注解，使用对应注入类型
 				- ```kotlin
-				  // 示例1、作为另一个类的依赖项
+				  // 示例1、作为另一个类的依赖项，注入类OkHttpClient
 				  @Module
 				  @InstallIn(ActivityComponent::class)
 				  object AnalyticsModule {
@@ -181,12 +181,12 @@ collapsed:: true
 				    }
 				  }
 				  
-				  // As a dependency of a constructor-injected class.
+				  // 示例2、作为构造函数的依赖项 注入类OkHttpClient
 				  class ExampleServiceImpl @Inject constructor(
 				    @AuthInterceptorOkHttpClient private val okHttpClient: OkHttpClient
 				  ) : ...
 				  
-				  // At field injection.
+				  // 示例3、作为字段依赖项 注入OkHttpClient类
 				  @AndroidEntryPoint
 				  class ExampleActivity: AppCompatActivity() {
 				  
