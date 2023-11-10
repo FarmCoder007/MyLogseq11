@@ -1,4 +1,4 @@
-## 1、Application设置（必须）
+# 1、Application设置（必须）
 collapsed:: true
 	- 所有使用 Hilt 的应用都必须包含一个带有 `@HiltAndroidApp` 注解的 [`Application`](https://developer.android.com/reference/android/app/Application?hl=zh-cn) 类。
 	- `@HiltAndroidApp` 会触发 Hilt 的代码生成操作，生成的代码包括应用的一个基类，该基类充当应用级依赖项容器
@@ -7,7 +7,7 @@ collapsed:: true
 		  @HiltAndroidApp
 		  class ExampleApplication : Application() { ... }
 		  ```
-- ## 2、依赖项注入Android类
+- # 2、依赖项注入Android类
   collapsed:: true
 	- ## 支持的类
 	  collapsed:: true
@@ -41,7 +41,7 @@ collapsed:: true
 					    private val service: AnalyticsService
 					  ) { ... }
 					  ```
-- ## 3、注意
+- # 3、注意
   collapsed:: true
 	- 由 Hilt 注入的字段不能为私有字段。正确示例
 		- ```kotlin
@@ -52,8 +52,8 @@ collapsed:: true
 		    ...
 		  }
 		  ```
-- ## 4、除构造函数注入方式外-其他注入方式
-	- 无法使用构造函数注入的场景
+- # 4、除构造函数注入方式外-其他注入方式
+	- ## 无法使用构造函数注入的场景
 		- 1、接口没有构造函数，不能通过构造函数注入接口
 		- 2、不能使用构造函数注入三方库的类
 	- ## 1、使用 Hilt 模块向 Hilt 提供绑定信息
@@ -62,3 +62,4 @@ collapsed:: true
 		- 示例：
 			- ```kotlin
 			  ```
+		- ## ### 使用 @Binds 注入接口实例
