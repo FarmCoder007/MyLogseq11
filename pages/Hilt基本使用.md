@@ -200,4 +200,9 @@ collapsed:: true
 		- `@ApplicationContext` 和 `@ActivityContext` 限定符
 		- 示例
 			- 本例中的 `AnalyticsAdapter` 类需要 activity 的上下文。以下代码演示了如何向 `AnalyticsAdapter` 提供 activity 上下文：
-				-
+				- ```kotlin
+				  class AnalyticsAdapter @Inject constructor(
+				      @ActivityContext private val context: Context,
+				      private val service: AnalyticsService
+				  ) { ... }
+				  ```
