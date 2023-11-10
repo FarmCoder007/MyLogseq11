@@ -10,7 +10,10 @@ collapsed:: true
 - ## 2、依赖项注入Android类
 	- ## 支持的类
 		- Activity、Fragment、View、Service、BroadcastReceiver
-	-
+	- ## 不支持的类
+		- - Hilt 仅支持扩展 [`ComponentActivity`](https://developer.android.com/reference/kotlin/androidx/activity/ComponentActivity?hl=zh-cn) 的 activity，如 [`AppCompatActivity`](https://developer.android.com/reference/kotlin/androidx/appcompat/app/AppCompatActivity?hl=zh-cn)。
+		- - Hilt 仅支持扩展 `androidx.Fragment` 的 Fragment。
+		- - Hilt 不支持保留的 fragment。
 	- ## 使用
 		- 确定哪个类使用依赖注入，添加@AndroidEntryPoint注解
 		- 比如在Activity中注入AnalyticsAdapter类：
