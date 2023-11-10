@@ -164,13 +164,14 @@ collapsed:: true
 				  ```
 			- ### 步骤3、注入类中字段或者参数 也通过自定义注解，使用对应注入类型
 				- ```kotlin
-				  // 
+				  // 声明hilt module
 				  @Module
 				  @InstallIn(ActivityComponent::class)
 				  object AnalyticsModule {
 				  
 				    @Provides
 				    fun provideAnalyticsService(
+				      // 注解标记
 				      @AuthInterceptorOkHttpClient okHttpClient: OkHttpClient
 				    ): AnalyticsService {
 				        return Retrofit.Builder()
