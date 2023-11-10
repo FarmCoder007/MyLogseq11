@@ -10,12 +10,17 @@ collapsed:: true
 - ## 2、依赖项注入Android类
 	- ## 支持的类
 		- Activity、Fragment、View、Service、BroadcastReceiver
+	-
 	- ## 使用
 		- 确定哪个类使用依赖注入，添加@AndroidEntryPoint注解
-		- 比如在Activity中注入某个类：
+		- 比如在Activity中注入AnalyticsAdapter类：
 			- ```kotlin
 			  @AndroidEntryPoint
-			  class ExampleActivity : AppCompatActivity() { ... }
+			  class ExampleActivity : AppCompatActivity() {
+			  
+			    @Inject lateinit var analytics: AnalyticsAdapter
+			    ...
+			  }
 			  ```
 		-
 - 2、。Hilt支持的Android 入口类有：
