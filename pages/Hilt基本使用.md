@@ -59,7 +59,7 @@ collapsed:: true
 		- 3、初始化类对象后需要[[#red]]==**再次设置一些成员变量**==
 	- ## 使用 Hilt 模块向 Hilt 提供绑定信息
 		- 1、 `@Module` 注解标记模块类，它会告知 Hilt 如何提供某些类型的实例
-		- 2、使用 `@InstallIn` 为 Hilt 模块添加注解，以告知 Hilt 每个模块将用在或安装在哪个 Android 类中
+		- 2、使用 `@InstallIn` 为 Hilt 模块添加注解，以告知 Hilt 每个模块将用在或安装在哪个 Android组件中
 	- ##  4-1、使用 @Binds 注入接口实例
 	  collapsed:: true
 		- 需求：
