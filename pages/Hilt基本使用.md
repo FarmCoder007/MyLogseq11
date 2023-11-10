@@ -94,4 +94,4 @@ collapsed:: true
 			  }
 			  ```
 	- ## 4-3、使用 @Provides 注入外部三方库实例
-		-
+		- 如果 `AnalyticsService` 类不直接归您所有，您可以告知 Hilt 如何提供此类型的实例，方法是在 Hilt 模块内创建一个函数，并使用 `@Provides` 为该函数添加注解
