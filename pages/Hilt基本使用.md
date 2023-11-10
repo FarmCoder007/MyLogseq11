@@ -8,6 +8,7 @@ collapsed:: true
 		  class ExampleApplication : Application() { ... }
 		  ```
 - ## 2、依赖项注入Android类
+  collapsed:: true
 	- ## 支持的类
 	  collapsed:: true
 		- Application（通过使用 `@HiltAndroidApp`）
@@ -39,3 +40,14 @@ collapsed:: true
 					    private val service: AnalyticsService
 					  ) { ... }
 					  ```
+- ## 3、注意
+	- 由 Hilt 注入的字段不能为私有字段。正确示例
+	  collapsed:: true
+		- ```kotlin
+		  @AndroidEntryPoint
+		  class ExampleActivity : AppCompatActivity() {
+		  
+		    @Inject lateinit var analytics: AnalyticsAdapter
+		    ...
+		  }
+		  ```
