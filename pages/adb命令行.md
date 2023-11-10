@@ -8,4 +8,11 @@
 - 4、
 - # mac zsh下配置adb
 	- 1、**添加路径到 PATH 环境变量**：
-		-
+		- 1、打开shell配置
+			- ```
+			  open -e .zshrc
+			  ```
+		- 2、确保 Android SDK 的 `platform-tools` 目录被添加到 PATH 中。例如：
+			- ```
+			  export PATH="$PATH:/path/to/android-sdk/platform-tools"
+			  ```
