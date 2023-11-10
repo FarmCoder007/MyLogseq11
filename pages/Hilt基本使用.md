@@ -7,8 +7,11 @@ collapsed:: true
 		  @HiltAndroidApp
 		  class ExampleApplication : Application() { ... }
 		  ```
-- ## 2、
-- 2、确定哪个类使用依赖注入，添加@AndroidEntryPoint注解。Hilt支持的Android 入口类有：Activity、Fragment、View、Service、BroadcastReceiver
+- ## 2、依赖项注入Android类
+	- ## 支持的类
+		- Activity、Fragment、View、Service、BroadcastReceiver
+	-
+- 2、确定哪个类使用依赖注入，添加@AndroidEntryPoint注解。Hilt支持的Android 入口类有：
 	- 比如在Activity中注入某个类：
 		- ```
 		  @AndroidEntryPoint
