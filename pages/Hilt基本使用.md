@@ -59,8 +59,26 @@ collapsed:: true
 	- ## 4-1、使用 Hilt 模块向 Hilt 提供绑定信息
 		- 1、Hilt 模块是一个带有 `@Module` 注解的类，它会告知 Hilt 如何提供某些类型的实例
 		- 2、使用 `@InstallIn` 为 Hilt 模块添加注解，以告知 Hilt 每个模块将用在或安装在哪个 Android 类中
-		- 示例：
-			- ```kotlin
-			  ```
 		- ##  4-1-1使用 @Binds 注入接口实例
-			-
+			- ```kotlin
+			  // 将该接口注入到
+			  interface AnalyticsService {
+			    fun analyticsMethods()
+			  }
+			  
+			  // Constructor-injected, because Hilt needs to know how to
+			  // provide instances of AnalyticsServiceImpl, too.
+			  class AnalyticsServiceImpl @Inject constructor(
+			    ...
+			  ) : AnalyticsService { ... }
+			  
+			  @Module
+			  @InstallIn(ActivityComponent::class)
+			  abstract class AnalyticsModule {
+			  
+			    @Binds
+			    abstract fun bindAnalyticsService(
+			      analyticsServiceImpl: AnalyticsServiceImpl
+			    ): AnalyticsService
+			  }
+			  ```
