@@ -16,11 +16,12 @@ collapsed:: true
 	- 从上面的表格中可以看到Hilt对于注入对象的作用域支持很多：有常见的全局唯一单例类型的对象，也有和ViewModel声明周期对应的作用域。不同的作用域这样就可解决多对象单例过多占用资源的问题。
 - # 组件
 	- |  == Component ==   | ==注入对象==  | ==作用域==  | ==创建于==  |
-	  |  ApplicationComponent  | Application  |@Singleton|Application#onCreate()|
-	  |  ActivityRetainedComponent  | ViewModel  |@ActivityRetainedScoped|Activity#onCreate()|
+	  |  SingletonComponent  | Application  |@Singleton|Application#onCreate()|
+	  |  ActivityRetainedComponent  | 不适用  |@ActivityRetainedScoped|Activity#onCreate()|
 	  |  ViewModelComponent  | ViewModel  |@ViewModelScoped|ViewModel created| 
 	  |  ActivityComponent  | Activity  |@ActivityScoped|Activity#onCreate()|
 	  |  FragmentComponent  | Fragment  |@FragmentScoped|Fragment#onAttach()|
 	  |  ViewComponent  | View  |@ViewScoped|View#super()|
 	  |  ViewWithFragmentComponent  | View with @WithFragmentBindings  |@ViewScoped|View#super()|
 	  |  ServiceComponent  | Service  |@ServiceScoped|Service#onCreate()|
+-
