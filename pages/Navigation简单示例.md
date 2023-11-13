@@ -109,7 +109,6 @@
 		              app:destination="@id/page2Fragment" />
 		  ```
 - ## 第4步：添加 NavHost 到 Activity 的 XML 文件中
-  collapsed:: true
 	- 使用示例
 		- ```xml
 		  <?xml version="1.0" encoding="utf-8"?>
