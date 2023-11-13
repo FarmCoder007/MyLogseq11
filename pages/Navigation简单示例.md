@@ -25,7 +25,6 @@
 		  ```
 	- 这些是针对不同需求的不同依赖项。根据需求进行选择。
 - ## 第3步：res里新建navigation目录，创建导航图XML
-  collapsed:: true
 	- 要将导航图添加到您的项目：
 		- 右键单击 res 目录并选择 New > Android Resource File，出现 New Resource File 对话框
 		- 输入文件名，例如：nav_graph
