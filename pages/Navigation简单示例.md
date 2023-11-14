@@ -2,7 +2,6 @@
 - ## 第1步：新建Androidx项目
 	- 创建一个基于 AndroidX 的新项目。AndroidX 是 Android 团队用于在 Jetpack 中开发、测试、打包、版本和发布库的开源项目。可以在 AndroidX 概览 中查看更多信息。
 - ## 第2步：添加配置
-  collapsed:: true
 	- 在 build.gradle 中添加依赖
 		- ```xml
 		  dependencies {
