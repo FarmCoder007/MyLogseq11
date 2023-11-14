@@ -1,6 +1,5 @@
 - 在 Fragment 之间共享数据的需求很常见。最简单的方法之一是使用共享的 ViewModel。当我们使用 Navigation 组件时，让我们看看如何使用 safe args 插件在两个 Fragment 之间共享数据。
 - ##  Safe Args
-  collapsed:: true
 	- Safe Args 插件生成的代码允许我们进行类型安全的导航和参数传递。
 	- 首先，要将 Safe Args 添加到项目中，在项目顶层的 build.gradle 文件中添加如下依赖：
 		- ```

@@ -185,7 +185,6 @@
 		  ```
 	- 就是这样 - 我们完成了。
 	- 点击运行按钮并查看 Navigation 组件的神奇之处：
-	  collapsed:: true
 		- ![edb06220-89c6-4492-8698-4fac75b7ba4bnav_demo.gif](../assets/edb06220-89c6-4492-8698-4fac75b7ba4bnav_demo_1684415094860_0.gif)
 	- 通过按钮的点击事件实现 Fragment 的跳转，可以看到没有使用 Fragment transaction：
 		- ```kotlin
