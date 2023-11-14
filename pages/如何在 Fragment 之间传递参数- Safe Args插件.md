@@ -68,14 +68,14 @@
 		  </navigation>
 		  ```
 	- 在 FragmentOne 中调用方法：
-		- ```
+		- ```kotlin
 		  btn_next.setOnClickListener {
 		      val action = FragmentOneDirections.actionFragment1ToFragment2("Android")
 		      view.findNavController().navigate(action)
 		  }
 		  ```
 	- 在 FragmentTwo 中可以接收到参数：
-		- ```
+		- ```kotlin
 		  override fun onActivityCreated(savedInstanceState: Bundle?) {
 		      super.onActivityCreated(savedInstanceState)
 		      val args: FragmentTwoArgs by navArgs()
