@@ -4,7 +4,7 @@
 		  public fun Fragment.findNavController(): NavController =
 		      NavHostFragment.findNavController(this)
 		  ```
-	- 1-2、使用
+	- 1-2、fragment里直接调用findNavController() 获取NavController
 		- ```kotlin
 		  class Register : Fragment() {
 		  
