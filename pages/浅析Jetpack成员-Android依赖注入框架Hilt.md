@@ -79,7 +79,7 @@
 		- ## 使用容器管理依赖项
 			- 如需解决重复使用对象的问题，可以创建自己的依赖项容器，用于获取依赖项。此容器提供的所有实例可以是公共实例。在该示例中，由于您仅需要UserRepository的一个实例，
 			  您可以将其依赖项设为私有，并且可以在将来需要提供依赖项时将其公开
-				- ```
+				- ```java
 				  // Container of objects shared across the whole app
 				     public class AppContainer {
 				  
