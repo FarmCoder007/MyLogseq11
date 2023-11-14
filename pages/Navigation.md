@@ -1,7 +1,7 @@
 - [Navigation.xmind](../assets/Navigation_1691819545241_0.xmind)
 - # 1、[[Navigation简单示例]]
 - # 2、[[如何在 Fragment 之间传递参数- Safe Args插件]]
-- # [[Navigation基本使用]]
+- # [[Navigation日常使用]]
 	-
 -
 - # 相关文章
