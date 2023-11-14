@@ -125,7 +125,7 @@
 				     }
 				  ```
 			- 所有Activity共享AppContainer，并且没有使用单例，如果要在更多位置使用LoginViewModel，可以将LoginViewModel的创建移至容器，并为工厂提供该类型的新对象。LoginViewModelFactory
-				- ```
+				- ```kotlin
 				  // Definition of a Factory interface with a function to create objects of a type
 				     interface Factory {
 				         fun create(): T
@@ -141,7 +141,7 @@
 				     }
 				  ```
 			- 您可以在AppContainer中添加LoginViewModelFactory并让LoginActivity使用它：
-				- ```
+				- ```kotlin
 				  // AppContainer can now provide instances of LoginViewModel with LoginViewModelFactory
 				     class AppContainer {
 				         ...
