@@ -190,7 +190,7 @@
 				     }
 				  ```
 		- 拥有某个流程专用的容器后，必须决定何时创建和删除容器实例。由于登录流程在Activity（LoginActivity）中是独立的，因此该Activity是管理该容器生命周期的Activity。LoginActivity可以在onCreate()中创建实例并在onDestroy()中将其删除。
-			- ```
+			- ```kotlin
 			  class LoginActivity: Activity() {
 			  
 			         private lateinit var loginViewModel: LoginViewModel
