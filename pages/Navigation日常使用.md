@@ -35,4 +35,7 @@ collapsed:: true
 			  </navigation>
 			  
 			  ```
-		- 作用
+		- 作用：==导航行为是全局的==，可以在整个应用的不同部分都有可能调用，并且可能导航到多个不同的目的地
+	- 2、<action放在<fragment
+		-
+		- 作用：Fragment 内触发导航
