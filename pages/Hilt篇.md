@@ -33,6 +33,8 @@
 		  ```
 		- [[#red]]==**Test 类的实例会在 MyActivity 被创建时由 Dagger Hilt 框架自动创建，并且会被注入到 MyActivity 中的 test 字段中**==。这确保了在 `MyActivity` 使用 `test` 对象时，该对象已经被正确地初始化和注入。
 - # 三、[[Hilt为 Android 类生成的组件及生命周期]]
+- # 四、hilt优点
+	- 基于不同作用域
 - [[Hilt]]
 - [[浅析Jetpack成员-Android依赖注入框架Hilt]]
 -
