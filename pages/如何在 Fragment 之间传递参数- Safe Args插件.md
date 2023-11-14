@@ -87,5 +87,4 @@
 	- 我们可以在 build 文件夹中找到生成的代码
 		- ![image.png](../assets/image_1684415519570_0.png)
 - ## 支持的参数类型
-  collapsed:: true
 	- ![image.png](../assets/image_1684415534916_0.png){:height 462, :width 700}
