@@ -35,7 +35,19 @@ collapsed:: true
 			  </navigation>
 			  
 			  ```
-		- 作用：==导航行为是全局的==，可以在整个应用的不同部分都有可能调用，并且可能导航到多个不同的目的地
+		- 作用：==**导航行为是全局的**==，可以在整个应用的不同部分都有可能调用，并且可能导航到多个不同的目的地
 	- 2、<action放在<fragment
-		-
-		- 作用：Fragment 内触发导航
+		- 示例
+		  collapsed:: true
+			- ```xml
+			  <!-- 在 fragment 中定义的局部 action -->
+			  <fragment>
+			      <action
+			          android:id="@+id/localAction"
+			          app:destination="@id/anotherFragment" />
+			      <!-- 其他 fragment 和 navigation... -->
+			  </fragment>
+			  
+			  ```
+		- 作用：==**特定Fragment 内触发导航**==,导航行为仅在特定的 Fragment 内有意义，仅在该 Fragment 内触发导航
+-
