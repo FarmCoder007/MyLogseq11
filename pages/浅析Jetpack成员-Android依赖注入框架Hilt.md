@@ -172,7 +172,7 @@
 			- 1.访问需要共享的同一LoginUserData实例，直至登录流程完成。
 			- 2.当登录流程再次开始，创建一个新的LoginUserData实例。
 			  使用登录流程容器实现这一目标，此容器需要能够在登陆流程开始时创建，在流程结束从内存中移除。
-				- ```
+				- ```kotlin
 				  class LoginContainer(val userRepository: UserRepository) {
 				  
 				         val loginData = LoginUserData()
