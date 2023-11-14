@@ -22,4 +22,17 @@ collapsed:: true
 		  }
 		  ```
 - ### 2、导航图<action 放在 <navigation 下 和 <action放在<fragment区别，及使用
-	- 1、
+	- 1、`<action>` 放在 `<navigation>`
+		- 示例
+		  collapsed:: true
+			- ```xml
+			  <!-- 在 navigation 中定义的全局 action -->
+			  <navigation>
+			      <action
+			          android:id="@+id/globalAction"
+			          app:destination="@id/destinationFragment" />
+			      <!-- 其他 fragment 和 navigation... -->
+			  </navigation>
+			  
+			  ```
+		- 作用
