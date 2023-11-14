@@ -39,7 +39,6 @@
 		                  .commit(); 
 		  ```
 	- ## 1、先从NavHostFragment 的 Create开始,传入导航图xml
-	  collapsed:: true
 		- ```java
 		      @NonNull
 		      public static NavHostFragment create(@NavigationRes int graphResId) {
@@ -72,7 +71,6 @@
 		- 1、将导航图存入 Bundle中
 		- 2、new NavHostFragment 初始化实例，并传入bundle
 	- ## 2、NavHostFragment 初始化后需要解析它xml里的属性，看onInflate
-	  collapsed:: true
 		- app:defaultNavHost="true"
 		- app:navGraph="@navigation/nav_graph_main"
 		- 代码
