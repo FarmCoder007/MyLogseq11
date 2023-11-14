@@ -74,8 +74,7 @@
 	- [[代码覆盖率在buildsrc配置]]
 	- [[gradle升级]]
 	- [[hookGradleTask]]
-- AndroidStudio
-  collapsed:: true
+- [[AndroidStudio]]
 	- AS插件
 	  collapsed:: true
 		- 常用插件- [[AS插件]]
@@ -111,7 +110,6 @@
 	- [[React]]
 	- [[JavaScript]]
 - Mac
-  collapsed:: true
 	- [charles关闭后不能上网](https://blog.csdn.net/minmin_bufucisheng/article/details/89025601)
 	- [[环境变量命令]]
 - adb
