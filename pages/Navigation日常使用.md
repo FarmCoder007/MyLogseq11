@@ -1,4 +1,5 @@
 ### 1、扩展Fragment获取NavController
+collapsed:: true
 	- 1-1、Fragment.kt
 		- ```kotlin
 		  public fun Fragment.findNavController(): NavController =
@@ -20,3 +21,5 @@
 		      }
 		  }
 		  ```
+- ### 2、导航图<action 放在 <navigation 下 和 <action放在<fragment区别，及使用
+	- 1、
