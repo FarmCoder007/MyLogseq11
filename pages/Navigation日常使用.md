@@ -22,6 +22,7 @@ collapsed:: true
 		  }
 		  ```
 - ### 2、导航图<action 放在 <navigation 下 和 <action放在<fragment区别，及使用
+  collapsed:: true
 	- 1、`<action>` 放在 `<navigation>`
 		- 示例
 		  collapsed:: true
