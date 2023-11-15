@@ -13,5 +13,5 @@
 - # 七、[[Gradle插件]]
 - # 八、[[Gradle-Transform]]
 - # 九、[gradle的增量编译](https://www.sunmoonblog.com/2018/09/13/gradle-incremental-compilation/)
--
+- # 十、[groovy迁移kts](https://developer.android.com/studio/build/migrate-to-kts?hl=zh-cn)
 -
