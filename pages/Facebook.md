@@ -1,4 +1,6 @@
 - 账号
-  collapsed:: true
-	- 18333601689@163.com
-	- xuwencard
+	- facebook平台账号
+		- 18333601689@163.com
+		- xuwencard
+	- meta开发者账号
+		-
