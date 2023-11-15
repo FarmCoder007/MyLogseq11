@@ -8,7 +8,6 @@
 	- [[面试]]
 	- [[简历]]
 - ## Android
-  collapsed:: true
 	- [[四大组件]]
 	- [[Android-Framework]]
 	- [[Android虚拟机与类加载]]
@@ -35,6 +34,7 @@
 	- [[Android版本特性]]
 	- [[谷歌学习网址]]
 	- [[在线工具]]
+	- [[三方分享]]
 - ## JAVA
   collapsed:: true
 	- [[整数进制]]
