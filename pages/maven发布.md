@@ -331,7 +331,6 @@
 		  
 		  ```
 	- # 三、源码上传task 路径配置规则
-	  collapsed:: true
 		- ```
 		  task androidSourcesJar(type: Jar) {
 		      classifier = 'sources'

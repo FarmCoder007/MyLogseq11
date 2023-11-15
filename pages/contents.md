@@ -57,6 +57,7 @@
 	- [[算法]]
 - ## [[网络]]
 - ## Kotlin
+  collapsed:: true
 	- [[kotlin语法学习思路]]
 	- [[Kotlin基础]]
 	- [[官方文档]]
@@ -64,7 +65,6 @@
 	- [[高阶函数]]
 	- [[kotlin相关]]
 - ## Gradle
-  collapsed:: true
 	- [[Gradle文档]]
 	- [[buildConfig相关]]
 	- [[gradle/apt调试]]
@@ -74,6 +74,7 @@
 	- [[代码覆盖率在buildsrc配置]]
 	- [[gradle升级]]
 	- [[hookGradleTask]]
+	-
 - [[AndroidStudio]]
 - 开源库整理
   collapsed:: true
