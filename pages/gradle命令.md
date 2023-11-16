@@ -1,5 +1,7 @@
 - 输出依赖树到指定地方
 	- ../gradlew -q dependencies --configuration wubaReleaseRuntimeClasspath > depends.txt
 - 打包
-	- 构建release 的
+	- 构建release 的 aab包
 		- ./gradlew bundleRelease
+	- 构建apk
+		- ./gradlew assembleRelease
