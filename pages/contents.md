@@ -8,7 +8,6 @@
 	- [[面试]]
 	- [[简历]]
 - ## Android
-  collapsed:: true
 	- [[四大组件]]
 	- [[Android-Framework]]
 	- [[Android虚拟机与类加载]]
@@ -67,6 +66,7 @@
 	- [[高阶函数]]
 	- [[kotlin相关]]
 - ## Gradle
+  collapsed:: true
 	- [[Gradle文档]]
 	- [[buildConfig相关]]
 	- [[gradle/apt调试]]
@@ -102,12 +102,15 @@
 	- [[React]]
 	- [[JavaScript]]
 - Mac
+  collapsed:: true
 	- [charles关闭后不能上网](https://blog.csdn.net/minmin_bufucisheng/article/details/89025601)
 	- [[环境变量命令]]
 - adb
+  collapsed:: true
 	- [[adb命令行]]
 	- [[代码获取logcat]]
 - shell
+  collapsed:: true
 	- [[shell命令]]
 - 跨平台
   collapsed:: true
