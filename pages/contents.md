@@ -8,6 +8,7 @@
 	- [[面试]]
 	- [[简历]]
 - ## Android
+  collapsed:: true
 	- [[四大组件]]
 	- [[Android-Framework]]
 	- [[Android虚拟机与类加载]]
@@ -65,8 +66,7 @@
 	- [[协程]]
 	- [[高阶函数]]
 	- [[kotlin相关]]
-- ## Gradle
-  collapsed:: true
+- ## [[Gradle]]
 	- [[Gradle文档]]
 	- [[buildConfig相关]]
 	- [[gradle/apt调试]]
