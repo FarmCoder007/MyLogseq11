@@ -14,7 +14,20 @@
 - # 四、禁用webView的触摸事件
 	- ### 背景
 		- viewPager2 嵌套 webView 需要viewPager2响应点击事件
-	- ##
+	- ### 修改
+		- ```kotlin
+		  class MyWebView: WebView {
+		      constructor(context: Context) : super(context)
+		  
+		      constructor(context: Context, attrs: AttributeSet) : super(context, attrs)
+		  
+		      constructor(context: Context, attrs: AttributeSet, defStyleAttr: Int) : super(context, attrs, defStyleAttr)
+		  
+		      override fun onTouchEvent(event: MotionEvent?): Boolean {
+		          return false
+		      }
+		  }
+		  ```
 - # 四、高阶+优化
 	- [[解决WebView多进程崩溃]]
 	- [[Webview优化]]
