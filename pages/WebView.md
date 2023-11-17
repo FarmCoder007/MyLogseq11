@@ -11,7 +11,10 @@
 - # 三、[[webview放入独立的进程上]]
   collapsed:: true
 	- ![image.png](../assets/image_1690958411781_0.png)
-- # 四、
+- # 四、禁用webView的触摸事件
+	- ### 背景
+		- viewPager2 嵌套 webView 需要viewPager2响应点击事件
+	- ##
 - # 四、高阶+优化
 	- [[解决WebView多进程崩溃]]
 	- [[Webview优化]]
