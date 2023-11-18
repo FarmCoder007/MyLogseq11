@@ -1,4 +1,5 @@
 - 工作
+  collapsed:: true
 	- [[专利]]
 	- [[WBRouter]]
 	- [[职级评审]]
@@ -94,12 +95,14 @@
 	- [charles关闭后不能上网](https://blog.csdn.net/minmin_bufucisheng/article/details/89025601)
 	- [[环境变量命令]]
 - adb
+  collapsed:: true
 	- [[adb命令行]]
 	- [[代码获取logcat]]
 - shell
   collapsed:: true
 	- [[shell命令]]
 - 跨平台
+  collapsed:: true
 	- [[H5-Hybrid]]
 	- [[RN-Modules]]
 	- [[KMM]]
@@ -108,3 +111,4 @@
 - [[Flipper]]
 - [[Repo]]
 - [[git]]
+- [[海外相关]]
