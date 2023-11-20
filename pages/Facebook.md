@@ -14,7 +14,9 @@
 		- ![image.png](../assets/image_1700458667688_0.png)
 		- ![image.png](../assets/image_1700458702822_0.png)
 	- ## 3、添加平台设置基本信息
+	  collapsed:: true
 		- ![image.png](../assets/image_1700458781855_0.png)
-		-
+		- ![image.png](../assets/image_1700458806606_0.png)
+	- ## 4、进入[快速入门引导](https://developers.facebook.com/quickstarts/670458974920716/?platform=android)
 - [官方文档](https://developers.facebook.com/docs/sharing/android)
 -
