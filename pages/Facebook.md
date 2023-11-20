@@ -1,5 +1,4 @@
 - 账号
-  collapsed:: true
 	- facebook平台账号
 		- 18333601689@163.com
 		- xuwencard
