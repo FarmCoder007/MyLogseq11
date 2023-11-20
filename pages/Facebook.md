@@ -21,4 +21,4 @@
 - [官方文档](https://developers.facebook.com/docs/sharing/android)
 - [官方Demo](https://github.com/facebook/facebook-android-sdk)
 - # 注意
-	- 1、测试分享功能时，facebook登录账号需要是开发者平台上的账号
+	- 1、测试分享功能时，facebook登录账号需要是开发者平台上的账号，或者创建测试账号（这个显示禁用了）
