@@ -20,3 +20,5 @@
 	- ## 4、进入[快速入门引导](https://developers.facebook.com/quickstarts/670458974920716/?platform=android)
 - [官方文档](https://developers.facebook.com/docs/sharing/android)
 - [官方Demo](https://github.com/facebook/facebook-android-sdk)
+- # 注意
+	- 1、测试分享功能时，facebook登录账号需要是开发者平台上的账号
