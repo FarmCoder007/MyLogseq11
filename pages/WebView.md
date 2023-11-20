@@ -12,6 +12,7 @@
   collapsed:: true
 	- ![image.png](../assets/image_1690958411781_0.png)
 - # 四、禁用webView的触摸事件
+  collapsed:: true
 	- ### 背景
 		- viewPager2 嵌套 webView 需要viewPager2响应点击事件
 	- ### 修改
@@ -28,6 +29,13 @@
 		      }
 		  }
 		  ```
+- # 五、webView设置背景透明去掉白色
+	- ```java
+	  // 设置背景色 
+	  mWebView.setBackgroundColor(0); 
+	  // 设置填充透明度
+	  mWebView.getBackground().setAlpha(0)
+	  ```
 - # 四、高阶+优化
 	- [[解决WebView多进程崩溃]]
 	- [[Webview优化]]
