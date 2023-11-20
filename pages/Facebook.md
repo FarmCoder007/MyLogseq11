@@ -1,7 +1,7 @@
-- 账号
-  collapsed:: true
+- 账号，非开发者账号
 	- facebook平台账号
 		- 18333601689@163.com
+		- xuwenbin622@gmail.com
 		- xuwencard
 	- meta开发者账号
 		- 18333601689
