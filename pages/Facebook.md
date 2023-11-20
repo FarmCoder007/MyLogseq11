@@ -14,6 +14,7 @@
 		- ![image.png](../assets/image_1700458667688_0.png)
 		- ![image.png](../assets/image_1700458702822_0.png)
 	- ## 3、添加平台设置基本信息
+		- ![image.png](../assets/image_1700458781855_0.png)
 		-
 - [官方文档](https://developers.facebook.com/docs/sharing/android)
 -
