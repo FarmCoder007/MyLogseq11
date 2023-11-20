@@ -7,6 +7,7 @@
 		- 18333601689
 		-
 - ## 1、[登录开发者账号]([https://www.facebook.com/login/device-based/regular/login/?login_attempt=1&next=https%3A%2F%2Fwww.facebook.com%2Findex.php%3Fnext%3Dhttps%253A%252F%252Fdevelopers.facebook.com%252Fasync%252Fregistration%252Fdialog%252F%253Fsrc%253Ddefault&lwv=100](https://www.facebook.com/login/device-based/regular/login/?login_attempt=1&next=https%3A%2F%2Fwww.facebook.com%2Findex.php%3Fnext%3Dhttps%253A%252F%252Fdevelopers.facebook.com%252Fasync%252Fregistration%252Fdialog%252F%253Fsrc%253Ddefault&lwv=100))
-- ## 2、
+- ## 2、创建应用
+	-
 - [官方文档](https://developers.facebook.com/docs/sharing/android)
 -
