@@ -18,6 +18,7 @@
 		- ![image.png](../assets/image_1700458781855_0.png)
 		- ![image.png](../assets/image_1700458806606_0.png)
 	- ## 4、进入[快速入门引导](https://developers.facebook.com/quickstarts/670458974920716/?platform=android)
+- ## 点击facebook分享的连接
 - [官方文档](https://developers.facebook.com/docs/sharing/android)
 - [官方Demo](https://github.com/facebook/facebook-android-sdk)
 - # 注意
