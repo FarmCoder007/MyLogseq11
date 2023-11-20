@@ -1,3 +1,7 @@
 - [[Facebook]]
 - Ins
 	- https://developers.facebook.com/docs/android/sharing-to-reels-instagram?locale=zh_CN
+- Messenger
+	- 平台账号
+		- xuwenbin622@gmail.com
+		- xuwencard
