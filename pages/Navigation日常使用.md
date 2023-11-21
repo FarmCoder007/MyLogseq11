@@ -1,5 +1,4 @@
 ### 1、扩展Fragment获取NavController
-collapsed:: true
 	- 1-1、Fragment.kt
 		- ```kotlin
 		  public fun Fragment.findNavController(): NavController =
