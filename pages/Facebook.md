@@ -23,11 +23,12 @@ collapsed:: true
 - ## 3、点击分享到facebook的连接，唤起自己app
   collapsed:: true
 	- https://developers.facebook.com/docs/applinks/android
-- ## 4、竞品tiktok测试时，需地域语音切换到国外
-- ## 5、设置分享到facebook后的展示样式
+- ## 4、设置分享到facebook后的展示样式
+  collapsed:: true
 	- 1、[官方样式设置](https://developers.facebook.com/docs/sharing/webmasters#markup)  设置几个html标签
 	- 2、html样式设置后，[调试工具测试链接的显示样式](https://developers.facebook.com/tools/debug/)
 - [官方文档](https://developers.facebook.com/docs/sharing/android)
 - [官方Demo](https://github.com/facebook/facebook-android-sdk)
 - # 注意
 	- 1、测试分享功能时，facebook登录账号需要是开发者平台上的账号，或者创建测试账号（这个显示禁用了）
+	- 4、竞品tiktok测试时，需地域语音切换到国外
