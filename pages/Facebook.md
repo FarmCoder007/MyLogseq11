@@ -1,4 +1,5 @@
-- 账号，非开发者账号
+## 账号，非开发者账号
+collapsed:: true
 	- facebook平台账号
 		- 18333601689@163.com
 		- xuwenbin622@gmail.com
