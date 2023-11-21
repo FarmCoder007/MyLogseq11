@@ -8,9 +8,7 @@ collapsed:: true
 		  class ExampleApplication : Application() { ... }
 		  ```
 - # 2、依赖项注入Android类
-  collapsed:: true
 	- ## 支持的类
-	  collapsed:: true
 		- Application（通过使用 `@HiltAndroidApp`）
 		- ViewModel（通过使用 `@HiltViewModel`）
 		- Activity、Fragment、View、Service、BroadcastReceiver (通过使用@AndroidEntryPoint)
@@ -53,6 +51,7 @@ collapsed:: true
 		  }
 		  ```
 - # 4、除构造函数注入方式外-Hilt模块
+  collapsed:: true
 	- ## 无法使用构造函数注入的场景
 		- 1、[[#red]]==**接口**==没有构造函数，不能通过构造函数注入接口
 		- 2、不能使用构造函数注入[[#red]]==**三方库的类**==，不属于你的类
