@@ -51,4 +51,4 @@ collapsed:: true
 			  
 			  ```
 		- 作用：==**特定Fragment 内触发导航**==,导航行为仅在特定的 Fragment 内有意义，仅在该 Fragment 内触发导航
--
+- ### 3、导航图自动生成 xxxDirections,是safeargs
