@@ -1,4 +1,4 @@
-## 账号，非开发者账号
+## 1、账号，非开发者账号
 collapsed:: true
 	- facebook平台账号
 		- 18333601689@163.com
@@ -7,7 +7,8 @@ collapsed:: true
 	- meta开发者账号
 		- 18333601689
 		-
-- ## 创建应用
+- ## 2、创建应用
+  collapsed:: true
 	- ## 1、[登录开发者账号]([https://www.facebook.com/login/device-based/regular/login/?login_attempt=1&next=https%3A%2F%2Fwww.facebook.com%2Findex.php%3Fnext%3Dhttps%253A%252F%252Fdevelopers.facebook.com%252Fasync%252Fregistration%252Fdialog%252F%253Fsrc%253Ddefault&lwv=100](https://www.facebook.com/login/device-based/regular/login/?login_attempt=1&next=https%3A%2F%2Fwww.facebook.com%2Findex.php%3Fnext%3Dhttps%253A%252F%252Fdevelopers.facebook.com%252Fasync%252Fregistration%252Fdialog%252F%253Fsrc%253Ddefault&lwv=100))
 	- ## 2、创建应用
 	  collapsed:: true
@@ -19,8 +20,10 @@ collapsed:: true
 		- ![image.png](../assets/image_1700458781855_0.png)
 		- ![image.png](../assets/image_1700458806606_0.png)
 	- ## 4、进入[快速入门引导](https://developers.facebook.com/quickstarts/670458974920716/?platform=android)
-- ## 点击分享到facebook的连接，唤起app
+- ## 3、点击分享到facebook的连接，唤起自己app
 	- https://developers.facebook.com/docs/applinks/android
+- ## 4、竞品tiktok测试时，需地域语音切换到国外
+- ## 5、
 - [官方文档](https://developers.facebook.com/docs/sharing/android)
 - [官方Demo](https://github.com/facebook/facebook-android-sdk)
 - # 注意
