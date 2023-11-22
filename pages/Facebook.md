@@ -31,3 +31,4 @@ collapsed:: true
 - # 注意
 	- 1、测试分享功能时，facebook登录账号需要是开发者平台上的账号，或者创建测试账号（这个显示禁用了）
 	- 2、竞品tiktok测试时，需地域语音切换到国外
+	- 3、[打开网页的问题](https://windysha.github.io/2018/12/20/Android-App%E6%8E%A5%E5%85%A5Facebook%E5%88%86%E4%BA%ABSDK%EF%BC%8C%E6%A6%82%E7%8E%87%E6%80%A7%E6%97%A0%E6%B3%95%E5%90%AF%E5%8A%A8Facebook%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%9A%84%E9%97%AE%E9%A2%98%E5%88%86%E6%9E%90/)
