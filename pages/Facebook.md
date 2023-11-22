@@ -23,7 +23,7 @@ collapsed:: true
 - ## 3、点击分享到facebook的连接，唤起自己app
   collapsed:: true
 	- https://developers.facebook.com/docs/applinks/android
-- ## 4、设置分享到facebook后的展示样式
+- ## 4、设置分享到facebook后的展示样式-H
 	- 1、[官方样式设置](https://developers.facebook.com/docs/sharing/webmasters#markup)  设置几个html标签
 	- 2、html样式设置后，[调试工具测试链接的显示样式](https://developers.facebook.com/tools/debug/)
 	- 尽管你可以控制标题、描述和图片等信息，但在 Facebook 上的确切样式和布局是由 Facebook 确定的，开发者无法直接修改。通过优化 Open Graph 标签，你可以提供更好的展示效果，但最终的呈现方式仍由 Facebook 决定。
