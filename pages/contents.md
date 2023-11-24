@@ -8,7 +8,6 @@
 	- [[面试]]
 	- [[简历]]
 - ## Android
-  collapsed:: true
 	- [[四大组件]]
 	- [[Android-Framework]]
 	- [[Android虚拟机与类加载]]
@@ -95,6 +94,7 @@
 	- [charles关闭后不能上网](https://blog.csdn.net/minmin_bufucisheng/article/details/89025601)
 	- [[环境变量命令]]
 - adb
+  collapsed:: true
 	- [[adb命令行]]
 	- [[代码获取logcat]]
 - shell
