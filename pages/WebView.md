@@ -30,6 +30,7 @@
 		  }
 		  ```
 - # 五、webView设置背景透明去掉白色
+  collapsed:: true
 	- ```java
 	  // 设置背景色 
 	  mWebView.setBackgroundColor(0); 
@@ -37,6 +38,7 @@
 	  mWebView.getBackground().setAlpha(0)
 	  ```
 - # 四、高阶+优化
+  collapsed:: true
 	- [[解决WebView多进程崩溃]]
 	- [[Webview优化]]
 - # 面试题
