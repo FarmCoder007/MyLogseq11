@@ -7,6 +7,8 @@
 	- ## 打印html的日志到控制台
 	  collapsed:: true
 		- ![image.png](../assets/image_1690959521134_0.png)
+	- ### WebViewClient的方法[shouldOverrideUrlLoading](https://developer.android.com/reference/android/webkit/WebViewClient#shouldOverrideUrlLoading(android.webkit.WebView,%20java.lang.String))
+		-
 - # 二、[[Webview和Native之间的通信]]
 - # 三、[[webview放入独立的进程上]]
   collapsed:: true
