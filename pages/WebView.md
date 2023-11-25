@@ -8,7 +8,8 @@
 	  collapsed:: true
 		- ![image.png](../assets/image_1690959521134_0.png)
 	- ### WebViewClient的方法[shouldOverrideUrlLoading](https://developer.android.com/reference/android/webkit/WebViewClient#shouldOverrideUrlLoading(android.webkit.WebView,%20java.lang.String))
-		-
+		- 返回 `true`会导致当前 WebView 中止加载 URL
+		- 而返回会 `false`导致 WebView 像往常一样继续加载 URL。
 - # 二、[[Webview和Native之间的通信]]
 - # 三、[[webview放入独立的进程上]]
   collapsed:: true
