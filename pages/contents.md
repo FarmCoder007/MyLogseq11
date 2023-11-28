@@ -8,6 +8,7 @@
 	- [[面试]]
 	- [[简历]]
 - ## Android
+  collapsed:: true
 	- [[四大组件]]
 	- [[Android-Framework]]
 	- [[Android虚拟机与类加载]]
@@ -66,6 +67,7 @@
 	- [[高阶函数]]
 	- [[kotlin相关]]
 - ## [[Gradle]]
+- ## [[鸿蒙]]
 - [[AndroidStudio]]
 - 开源库整理
   collapsed:: true
@@ -95,6 +97,7 @@
 	- [charles关闭后不能上网](https://blog.csdn.net/minmin_bufucisheng/article/details/89025601)
 	- [[环境变量命令]]
 - adb
+  collapsed:: true
 	- [[adb命令行]]
 	- [[代码获取logcat]]
 - shell
