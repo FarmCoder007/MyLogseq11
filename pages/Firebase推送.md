@@ -1,9 +1,10 @@
 ## 1、[github官方demo](https://github.com/firebase/quickstart-android)
 - ## 2、[官方文档](https://firebase.google.com/docs/android/setup?hl=zh-cn)  [推送文档](https://firebase.google.com/docs/cloud-messaging/android/client?hl=zh-cn)
 - ## 3、[接入参考](https://firebase.google.com/docs/android/setup?hl=zh-cn)
-  collapsed:: true
 	- [参考文章](https://juejin.cn/post/6992125290688282632#heading-12)
-	- 按文档创建好项目后，得到一个google-services.json 拿到里边的各种id
+	- 配置id的方式
+		- 1、按照文档配置google-services.json，然后配置
+		- \按文档创建好项目后，得到一个google-services.json 拿到里边的各种id
 	- ### SDK初始化配置好项目的id
 	  collapsed:: true
 		- ```kotlin
