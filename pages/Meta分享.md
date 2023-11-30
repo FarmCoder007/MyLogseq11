@@ -1,6 +1,5 @@
 - [[Facebook]]
 - Ins
-  collapsed:: true
 	- https://developers.facebook.com/docs/android/sharing-to-reels-instagram?locale=zh_CN
 - Messenger
   collapsed:: true
