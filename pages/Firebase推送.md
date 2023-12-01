@@ -4,7 +4,9 @@
 	- [参考文章](https://juejin.cn/post/6992125290688282632#heading-12)
 	- 配置id的方式
 		- 1、按照文档配置google-services.json，然后配置Google servers
-			-
+			- 0、将google-services.json放到
+			  collapsed:: true
+				- ![image.png](../assets/image_1701399279438_0.png)
 			- 1、根项目的gradle添加依赖
 			  collapsed:: true
 				- ```xml
@@ -17,6 +19,7 @@
 				      id 'com.google.gms.google-services'
 				  }
 				  ```
+			- 3、服务会自定义匹配解析json文件，注意json里需要包含
 		- 按文档创建好项目后，得到一个google-services.json 拿到里边的各种id
 	- ### SDK初始化配置好项目的id
 	  collapsed:: true
