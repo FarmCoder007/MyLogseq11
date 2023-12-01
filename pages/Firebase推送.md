@@ -3,7 +3,8 @@
 - ## 3、[接入参考](https://firebase.google.com/docs/android/setup?hl=zh-cn)
 	- [参考文章](https://juejin.cn/post/6992125290688282632#heading-12)
 	- ### 配置id的方式
-		- 单项目
+		- ### 1、推送映射单项目
+		  collapsed:: true
 			- 1、按照文档配置google-services.json，然后配置Google servers（适合单项目）
 			  collapsed:: true
 				- 0、将google-services.json放到
@@ -23,6 +24,9 @@
 					  ```
 				- 3、服务会自定义匹配解析json文件，注意json里需要包含和当前项目包名一样的映射，否则报错
 				- 4、编译时可以拿到解析的默认id
+		- ### 2、根据不同地区，建立不同推送项目
+			- 1、自己读取json，配置到String里
+			- 2、👌🏻注册
 	- ### SDK初始化配置好项目的id
 	  collapsed:: true
 		- ```kotlin
