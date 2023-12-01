@@ -2,25 +2,27 @@
 - ## 2、[官方文档](https://firebase.google.com/docs/android/setup?hl=zh-cn)  [推送文档](https://firebase.google.com/docs/cloud-messaging/android/client?hl=zh-cn)
 - ## 3、[接入参考](https://firebase.google.com/docs/android/setup?hl=zh-cn)
 	- [参考文章](https://juejin.cn/post/6992125290688282632#heading-12)
-	- 配置id的方式
-		- 1、按照文档配置google-services.json，然后配置Google servers
-			- 0、将google-services.json放到
+	- ### 配置id的方式
+		- 单项目
+			- 1、按照文档配置google-services.json，然后配置Google servers（适合单项目）
 			  collapsed:: true
-				- ![image.png](../assets/image_1701399279438_0.png)
-			- 1、根项目的gradle添加依赖
-			  collapsed:: true
-				- ```xml
-				  classpath "com.google.gms:google-services:4.3.14"
-				  ```
-			- 2、app的gradle应用插件
-			  collapsed:: true
-				- ```xml
-				  plugins {
-				      id 'com.google.gms.google-services'
-				  }
-				  ```
-			- 3、服务会自定义匹配解析json文件，注意json里需要包含
-		- 按文档创建好项目后，得到一个google-services.json 拿到里边的各种id
+				- 0、将google-services.json放到
+				  collapsed:: true
+					- ![image.png](../assets/image_1701399279438_0.png)
+				- 1、根项目的gradle添加依赖
+				  collapsed:: true
+					- ```xml
+					  classpath "com.google.gms:google-services:4.3.14"
+					  ```
+				- 2、app的gradle应用插件
+				  collapsed:: true
+					- ```xml
+					  plugins {
+					      id 'com.google.gms.google-services'
+					  }
+					  ```
+				- 3、服务会自定义匹配解析json文件，注意json里需要包含和当前项目包名一样的映射，否则报错
+				- 4、编译时可以拿到解析的默认id
 	- ### SDK初始化配置好项目的id
 	  collapsed:: true
 		- ```kotlin
