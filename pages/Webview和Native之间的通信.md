@@ -1,5 +1,5 @@
-- # 背景
-  collapsed:: true
+# 背景
+collapsed:: true
 	- js需要调用native很多功能：showToast,openActivity,openDialog,login
 	- 不能每加一个功能就改一次webview。
 	- 将所有的功能，放入一个接口里（见下方实现 一个接口takeNativeAction）：包括命令 = 名字+操作
@@ -21,4 +21,5 @@
 		-
 - # 参考
 	- # [JSBridge 技术原理分析](https://blog.csdn.net/g6U8W7p06dCO99fQ3/article/details/121433439)
--
+	- [开源库：](https://github.com/lzyzsd/JsBridge)
+		- https://www.jianshu.com/p/910e058a1d63/
