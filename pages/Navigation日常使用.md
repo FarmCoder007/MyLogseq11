@@ -59,9 +59,26 @@ collapsed:: true
 	  ```
 - ### 4、导航到登录页同时清空回退栈
 	- ### 代码方式
+		- API
+		  collapsed:: true
+			- ```kotlin
+			          @JvmOverloads
+			          public fun setPopUpTo(
+			              @IdRes destinationId: Int,
+			              inclusive: Boolean,
+			              saveState: Boolean = false
+			          ): Builder {
+			              popUpToId = destinationId
+			              popUpToRoute = null
+			              popUpToInclusive = inclusive
+			              popUpToSaveState = saveState
+			              return this
+			          }
+			  ```
 		- ```kotlin
 		  navController.navigate(R.id.nav_third_login, null,
 		                          NavOptions.Builder()
 		                              .setPopUpTo(R.id.mobile_navigation, false) // 弹出到目标 Fragment 并包括它
 		                              .build())
 		  ```
+	-
