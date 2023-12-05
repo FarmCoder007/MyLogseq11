@@ -57,3 +57,6 @@ collapsed:: true
 	      id 'androidx.navigation.safeargs.kotlin'
 	  }
 	  ```
+- ### 4、导航到登录页同时清空回退栈
+	- ### 代码方式
+		-
