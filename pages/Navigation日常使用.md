@@ -81,4 +81,8 @@ collapsed:: true
 		                              .setPopUpTo(R.id.mobile_navigation, false) // 弹出到目标 Fragment 并包括它
 		                              .build())
 		  ```
-	-
+	- ### xml
+		- 如果你想在导航到某个目标 Fragment 后，弹出之前的导航栈元素，你可以使用 `popUpTo` 和 `popUpToInclusive` 属性。这会弹出到指定目标之前的所有节点。
+		-
+		- ```xml
+		  ```
