@@ -83,6 +83,14 @@ collapsed:: true
 		  ```
 	- ### xml
 		- 如果你想在导航到某个目标 Fragment 后，弹出之前的导航栈元素，你可以使用 `popUpTo` 和 `popUpToInclusive` 属性。这会弹出到指定目标之前的所有节点。
-		-
+		- 示例
 		- ```xml
+		  <action
+		      android:id="@+id/action_to_destination_fragment"
+		      app:destination="@id/destinationFragment"
+		      app:popUpTo="@+id/startFragment"
+		      app:popUpToInclusive="false"/>
+		  
 		  ```
+		- `popUpTo` 属性指定了要弹出到的目标节点，即 `startFragment`。
+		- `popUpToInclusive` 设置为 `false`，表示在弹出时不包括目标节点 `startFragment` 自身。
