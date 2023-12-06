@@ -97,6 +97,7 @@ collapsed:: true
 		- `popUpTo` 属性指定了要弹出到的目标节点，即 `startFragment`。
 		- `popUpToInclusive` 设置为 `false`，表示在弹出时不包括目标节点 `startFragment` 自身。
 - ### 5、页面销毁时弹出自身
+  collapsed:: true
 	- ```kotlin
 	      override fun onDestroy() {
 	          super.onDestroy()
