@@ -52,12 +52,14 @@ collapsed:: true
 			  ```
 		- 作用：==**特定Fragment 内触发导航**==,导航行为仅在特定的 Fragment 内有意义，仅在该 Fragment 内触发导航
 - ### 3、导航图自动生成 xxxDirections,是safeargs插件生成的
+  collapsed:: true
 	- ```
 	  plugins {
 	      id 'androidx.navigation.safeargs.kotlin'
 	  }
 	  ```
 - ### 4、导航到登录页同时清空回退栈
+  collapsed:: true
 	- ### 代码方式
 		- API
 		  collapsed:: true
@@ -94,3 +96,4 @@ collapsed:: true
 		  ```
 		- `popUpTo` 属性指定了要弹出到的目标节点，即 `startFragment`。
 		- `popUpToInclusive` 设置为 `false`，表示在弹出时不包括目标节点 `startFragment` 自身。
+-
