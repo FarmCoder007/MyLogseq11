@@ -7,7 +7,6 @@
 -
 - 4、
 - # mac zsh下配置adb
-  collapsed:: true
 	- 1、**添加路径到 PATH 环境变量**：
 		- 1、打开shell配置
 			- ```
