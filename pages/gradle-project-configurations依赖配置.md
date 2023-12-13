@@ -1,4 +1,5 @@
-- ## 一、configurations分组
+## 一、configurations分组
+collapsed:: true
 	- api、implementation、testRuntime
 	- [官方依赖分组介绍](https://docs.gradle.org/current/userguide/java_plugin.html#sec:java_plugin_and_dependency_management)
 - ## 二、作用
