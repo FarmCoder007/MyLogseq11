@@ -1,3 +1,4 @@
+## [官方文档](https://developer.android.com/reference/android/content/res/Configuration)
 - `Configuration` 是 Android 中用于存储设备配置信息的类。它包含了一系列与设备、应用程序和系统交互有关的配置信息。通过 `Configuration` 对象，你可以获取和设置设备的各种属性，以便应用程序可以根据不同的配置提供不同的用户体验。
 - `Configuration` 对象包含了以下主要信息：
 - 1、**语言（Language）：** 表示设备当前使用的语言，由 ISO 639 标准定义的语言代码表示。
