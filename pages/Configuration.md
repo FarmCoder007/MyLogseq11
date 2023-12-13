@@ -1,0 +1,13 @@
+- `Configuration` 是 Android 中用于存储设备配置信息的类。它包含了一系列与设备、应用程序和系统交互有关的配置信息。通过 `Configuration` 对象，你可以获取和设置设备的各种属性，以便应用程序可以根据不同的配置提供不同的用户体验。
+- `Configuration` 对象包含了以下主要信息：
+- 1、**语言（Language）：** 表示设备当前使用的语言，由 ISO 639 标准定义的语言代码表示。
+- 2、**国家/地区（Country/Region）：** 表示设备当前所在的国家或地区，由 ISO 3166 标准定义的国家/地区代码表示。
+- 3、**屏幕方向（Orientation）：** 表示设备的屏幕方向，可以是横向（`ORIENTATION_LANDSCAPE`）或纵向（`ORIENTATION_PORTRAIT`）。
+- 4、**屏幕尺寸（Screen Size）：** 表示设备屏幕的尺寸，例如大屏幕（`SCREENLAYOUT_SIZE_LARGE`）或正常屏幕（`SCREENLAYOUT_SIZE_NORMAL`）。
+- 5、**屏幕密度（Screen Density）：** 表示设备屏幕的像素密度，例如低密度（`DENSITY_LOW`）、中密度（`DENSITY_MEDIUM`）、高密度（`DENSITY_HIGH`）等。
+- 6、**字体缩放因子（Font Scale）：** 表示用户设置的字体大小缩放因子。
+- 7、**键盘类型（Keyboard Type）：** 表示设备的键盘类型，例如硬件键盘（`KEYBOARD_QWERTY`）或虚拟键盘（`KEYBOARD_NOKEYS`）。
+- -
+- **触摸屏类型（Touchscreen Type）：** 表示设备的触摸屏类型，例如触摸屏（`TOUCHSCREEN_FINGER`）或没有触摸屏（`TOUCHSCREEN_NOTOUCH`）。
+- 等等。
+- 通过获取 `Configuration` 对象，你可以根据当前设备的配置进行相应的适配，例如选择正确的资源文件、调整布局或提供不同的功能。在 Android 开发中，`Configuration` 的使用与多语言支持、屏幕适配和设备配置相关的开发中非常常见
