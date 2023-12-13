@@ -7,7 +7,5 @@
 - 5、**屏幕密度（Screen Density）：** 表示设备屏幕的像素密度，例如低密度（`DENSITY_LOW`）、中密度（`DENSITY_MEDIUM`）、高密度（`DENSITY_HIGH`）等。
 - 6、**字体缩放因子（Font Scale）：** 表示用户设置的字体大小缩放因子。
 - 7、**键盘类型（Keyboard Type）：** 表示设备的键盘类型，例如硬件键盘（`KEYBOARD_QWERTY`）或虚拟键盘（`KEYBOARD_NOKEYS`）。
-- -
-- **触摸屏类型（Touchscreen Type）：** 表示设备的触摸屏类型，例如触摸屏（`TOUCHSCREEN_FINGER`）或没有触摸屏（`TOUCHSCREEN_NOTOUCH`）。
-- 等等。
+- 8、**触摸屏类型（Touchscreen Type）：** 表示设备的触摸屏类型，例如触摸屏（`TOUCHSCREEN_FINGER`）或没有触摸屏（`TOUCHSCREEN_NOTOUCH`）。
 - 通过获取 `Configuration` 对象，你可以根据当前设备的配置进行相应的适配，例如选择正确的资源文件、调整布局或提供不同的功能。在 Android 开发中，`Configuration` 的使用与多语言支持、屏幕适配和设备配置相关的开发中非常常见
